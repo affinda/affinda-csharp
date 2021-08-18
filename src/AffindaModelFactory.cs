@@ -15,17 +15,17 @@ namespace affinda.Models
     /// <summary> Model factory for read-only models. </summary>
     public static partial class AffindaModelFactory
     {
-        /// <summary> Initializes a new instance of Paths1Vwy7YkResumesGetResponses200ContentApplicationJsonSchema. </summary>
+        /// <summary> Initializes a new instance of GetAllDocumentsResults. </summary>
         /// <param name="count"></param>
         /// <param name="next"></param>
         /// <param name="previous"></param>
         /// <param name="results"></param>
-        /// <returns> A new <see cref="Models.Paths1Vwy7YkResumesGetResponses200ContentApplicationJsonSchema"/> instance for mocking. </returns>
-        public static Paths1Vwy7YkResumesGetResponses200ContentApplicationJsonSchema Paths1Vwy7YkResumesGetResponses200ContentApplicationJsonSchema(int? count = null, Uri next = null, Uri previous = null, IEnumerable<Meta> results = null)
+        /// <returns> A new <see cref="Models.GetAllDocumentsResults"/> instance for mocking. </returns>
+        public static GetAllDocumentsResults GetAllDocumentsResults(int? count = null, Uri next = null, Uri previous = null, IEnumerable<Meta> results = null)
         {
             results ??= new List<Meta>();
 
-            return new Paths1Vwy7YkResumesGetResponses200ContentApplicationJsonSchema(count, next, previous, results?.ToList());
+            return new GetAllDocumentsResults(count, next, previous, results?.ToList());
         }
 
         /// <summary> Initializes a new instance of Meta. </summary>
@@ -34,25 +34,11 @@ namespace affinda.Models
         /// <param name="ready"> If true, the document has finished processing. Particularly useful if an endpoint request specified wait=False, when polling use this variable to determine when to stop polling. </param>
         /// <param name="readyDt"> The datetime when the document was ready. </param>
         /// <param name="failed"> If true, some exception was raised during processing. Check the &apos;error&apos; field of the main return object. </param>
-        /// <param name="user"></param>
         /// <param name="expiryTime"> The date/time in ISO-8601 format when the resume will be automatically deleted.  Defaults to no expiry. </param>
         /// <returns> A new <see cref="Models.Meta"/> instance for mocking. </returns>
-        public static Meta Meta(string identifier = null, string fileName = null, bool ready = default, DateTimeOffset? readyDt = null, bool failed = default, User user = null, string expiryTime = null)
+        public static Meta Meta(string identifier = null, string fileName = null, bool ready = default, DateTimeOffset? readyDt = null, bool failed = default, string expiryTime = null)
         {
-            return new Meta(identifier, fileName, ready, readyDt, failed, user, expiryTime);
-        }
-
-        /// <summary> Initializes a new instance of User. </summary>
-        /// <param name="documentCount"></param>
-        /// <param name="redactedDocumentCount"></param>
-        /// <param name="reformattedResumeCount"></param>
-        /// <param name="parsingCredits"></param>
-        /// <param name="redactionCredits"></param>
-        /// <param name="reformattingCredits"></param>
-        /// <returns> A new <see cref="Models.User"/> instance for mocking. </returns>
-        public static User User(int? documentCount = null, int? redactedDocumentCount = null, int? reformattedResumeCount = null, int? parsingCredits = null, int? redactionCredits = null, int? reformattingCredits = null)
-        {
-            return new User(documentCount, redactedDocumentCount, reformattedResumeCount, parsingCredits, redactionCredits, reformattingCredits);
+            return new Meta(identifier, fileName, ready, readyDt, failed, expiryTime);
         }
 
         /// <summary> Initializes a new instance of ComponentsMzfa75Responses401ErrorContentApplicationJsonSchema. </summary>
@@ -64,40 +50,15 @@ namespace affinda.Models
             return new ComponentsMzfa75Responses401ErrorContentApplicationJsonSchema(detail, statusCode);
         }
 
-        /// <summary> Initializes a new instance of PathsWt95EfResumesPostResponses201ContentApplicationJsonSchema. </summary>
-        /// <param name="identifier"> Unique identifier for the resume. If creating a document and left blank, one will be automatically generated. </param>
-        /// <param name="fileName"> Optional filename of the file. </param>
-        /// <returns> A new <see cref="Models.PathsWt95EfResumesPostResponses201ContentApplicationJsonSchema"/> instance for mocking. </returns>
-        public static PathsWt95EfResumesPostResponses201ContentApplicationJsonSchema PathsWt95EfResumesPostResponses201ContentApplicationJsonSchema(string identifier = null, string fileName = null)
-        {
-            return new PathsWt95EfResumesPostResponses201ContentApplicationJsonSchema(identifier, fileName);
-        }
-
-        /// <summary> Initializes a new instance of Components10Bc157ResponsesConversionerrorContentApplicationJsonSchema. </summary>
-        /// <param name="fileForConversion"></param>
-        /// <returns> A new <see cref="Models.Components10Bc157ResponsesConversionerrorContentApplicationJsonSchema"/> instance for mocking. </returns>
-        public static Components10Bc157ResponsesConversionerrorContentApplicationJsonSchema Components10Bc157ResponsesConversionerrorContentApplicationJsonSchema(string fileForConversion = null)
-        {
-            return new Components10Bc157ResponsesConversionerrorContentApplicationJsonSchema(fileForConversion);
-        }
-
-        /// <summary> Initializes a new instance of ComponentsP4H6CrResponses404ErrorContentApplicationJsonSchema. </summary>
-        /// <param name="detail"></param>
-        /// <param name="statusCode"></param>
-        /// <returns> A new <see cref="Models.ComponentsP4H6CrResponses404ErrorContentApplicationJsonSchema"/> instance for mocking. </returns>
-        public static ComponentsP4H6CrResponses404ErrorContentApplicationJsonSchema ComponentsP4H6CrResponses404ErrorContentApplicationJsonSchema(string detail = null, int? statusCode = null)
-        {
-            return new ComponentsP4H6CrResponses404ErrorContentApplicationJsonSchema(detail, statusCode);
-        }
-
         /// <summary> Initializes a new instance of Resume. </summary>
         /// <param name="data"></param>
         /// <param name="meta"></param>
         /// <param name="error"></param>
+        /// <param name="user"></param>
         /// <returns> A new <see cref="Models.Resume"/> instance for mocking. </returns>
-        public static Resume Resume(ResumeData data = null, Meta meta = null, Error error = null)
+        public static Resume Resume(ResumeData data = null, Meta meta = null, Error error = null, User user = null)
         {
-            return new Resume(data, meta, error);
+            return new Resume(data, meta, error, user);
         }
 
         /// <summary> Initializes a new instance of ResumeData. </summary>
@@ -285,56 +246,58 @@ namespace affinda.Models
         /// <param name="errorCode"></param>
         /// <param name="errorDetail"></param>
         /// <returns> A new <see cref="Models.Error"/> instance for mocking. </returns>
-        public static Error Error(int? errorCode = null, string errorDetail = null)
+        public static Error Error(string errorCode = null, string errorDetail = null)
         {
             return new Error(errorCode, errorDetail);
         }
 
-        /// <summary> Initializes a new instance of Paths1My65ZdRedactedResumesGetResponses200ContentApplicationJsonSchema. </summary>
-        /// <param name="count"></param>
-        /// <param name="next"></param>
-        /// <param name="previous"></param>
-        /// <param name="results"></param>
-        /// <returns> A new <see cref="Models.Paths1My65ZdRedactedResumesGetResponses200ContentApplicationJsonSchema"/> instance for mocking. </returns>
-        public static Paths1My65ZdRedactedResumesGetResponses200ContentApplicationJsonSchema Paths1My65ZdRedactedResumesGetResponses200ContentApplicationJsonSchema(int? count = null, Uri next = null, Uri previous = null, IEnumerable<Meta> results = null)
+        /// <summary> Initializes a new instance of User. </summary>
+        /// <param name="documentCount"></param>
+        /// <param name="redactedDocumentCount"></param>
+        /// <param name="reformattedResumeCount"></param>
+        /// <param name="parsingCredits"></param>
+        /// <param name="redactionCredits"></param>
+        /// <param name="reformattingCredits"></param>
+        /// <returns> A new <see cref="Models.User"/> instance for mocking. </returns>
+        public static User User(int? documentCount = null, int? redactedDocumentCount = null, int? reformattedResumeCount = null, int? parsingCredits = null, int? redactionCredits = null, int? reformattingCredits = null)
         {
-            results ??= new List<Meta>();
-
-            return new Paths1My65ZdRedactedResumesGetResponses200ContentApplicationJsonSchema(count, next, previous, results?.ToList());
+            return new User(documentCount, redactedDocumentCount, reformattedResumeCount, parsingCredits, redactionCredits, reformattingCredits);
         }
 
-        /// <summary> Initializes a new instance of Paths1VouiekRedactedResumesPostResponses201ContentApplicationJsonSchema. </summary>
-        /// <param name="fileName"></param>
-        /// <param name="identifier"></param>
-        /// <param name="redactHeadshot"></param>
-        /// <param name="redactPersonalDetails"></param>
-        /// <param name="redactWorkDetails"></param>
-        /// <param name="redactEducationDetails"></param>
-        /// <param name="redactReferees"></param>
-        /// <param name="redactLocations"></param>
-        /// <param name="redactDates"></param>
-        /// <returns> A new <see cref="Models.Paths1VouiekRedactedResumesPostResponses201ContentApplicationJsonSchema"/> instance for mocking. </returns>
-        public static Paths1VouiekRedactedResumesPostResponses201ContentApplicationJsonSchema Paths1VouiekRedactedResumesPostResponses201ContentApplicationJsonSchema(string fileName = null, string identifier = null, bool? redactHeadshot = null, bool? redactPersonalDetails = null, bool? redactWorkDetails = null, bool? redactEducationDetails = null, bool? redactReferees = null, bool? redactLocations = null, bool? redactDates = null)
+        /// <summary> Initializes a new instance of Components10Bc157ResponsesConversionerrorContentApplicationJsonSchema. </summary>
+        /// <param name="fileForConversion"></param>
+        /// <returns> A new <see cref="Models.Components10Bc157ResponsesConversionerrorContentApplicationJsonSchema"/> instance for mocking. </returns>
+        public static Components10Bc157ResponsesConversionerrorContentApplicationJsonSchema Components10Bc157ResponsesConversionerrorContentApplicationJsonSchema(string fileForConversion = null)
         {
-            return new Paths1VouiekRedactedResumesPostResponses201ContentApplicationJsonSchema(fileName, identifier, redactHeadshot, redactPersonalDetails, redactWorkDetails, redactEducationDetails, redactReferees, redactLocations, redactDates);
+            return new Components10Bc157ResponsesConversionerrorContentApplicationJsonSchema(fileForConversion);
         }
 
-        /// <summary> Initializes a new instance of RedactedDocument. </summary>
+        /// <summary> Initializes a new instance of ComponentsP4H6CrResponses404ErrorContentApplicationJsonSchema. </summary>
+        /// <param name="detail"></param>
+        /// <param name="statusCode"></param>
+        /// <returns> A new <see cref="Models.ComponentsP4H6CrResponses404ErrorContentApplicationJsonSchema"/> instance for mocking. </returns>
+        public static ComponentsP4H6CrResponses404ErrorContentApplicationJsonSchema ComponentsP4H6CrResponses404ErrorContentApplicationJsonSchema(string detail = null, int? statusCode = null)
+        {
+            return new ComponentsP4H6CrResponses404ErrorContentApplicationJsonSchema(detail, statusCode);
+        }
+
+        /// <summary> Initializes a new instance of RedactedResume. </summary>
         /// <param name="data"></param>
         /// <param name="meta"></param>
         /// <param name="error"></param>
-        /// <returns> A new <see cref="Models.RedactedDocument"/> instance for mocking. </returns>
-        public static RedactedDocument RedactedDocument(RedactedDocumentData data = null, Meta meta = null, Error error = null)
+        /// <param name="user"></param>
+        /// <returns> A new <see cref="Models.RedactedResume"/> instance for mocking. </returns>
+        public static RedactedResume RedactedResume(RedactedResumeData data = null, Meta meta = null, Error error = null, User user = null)
         {
-            return new RedactedDocument(data, meta, error);
+            return new RedactedResume(data, meta, error, user);
         }
 
-        /// <summary> Initializes a new instance of RedactedDocumentData. </summary>
+        /// <summary> Initializes a new instance of RedactedResumeData. </summary>
         /// <param name="redactedPdf"></param>
-        /// <returns> A new <see cref="Models.RedactedDocumentData"/> instance for mocking. </returns>
-        public static RedactedDocumentData RedactedDocumentData(Uri redactedPdf = null)
+        /// <returns> A new <see cref="Models.RedactedResumeData"/> instance for mocking. </returns>
+        public static RedactedResumeData RedactedResumeData(Uri redactedPdf = null)
         {
-            return new RedactedDocumentData(redactedPdf);
+            return new RedactedResumeData(redactedPdf);
         }
 
         /// <summary> Initializes a new instance of Paths1UtuacyResumeFormatsGetResponses200ContentApplicationJsonSchema. </summary>
@@ -351,53 +314,31 @@ namespace affinda.Models
         }
 
         /// <summary> Initializes a new instance of Get200ApplicationJsonPropertiesItemsItem. </summary>
-        /// <param name="identifier"></param>
-        /// <param name="formatFile"></param>
+        /// <param name="identifier"> Unique identifier for the resume. If creating a document and left blank, one will be automatically generated. </param>
+        /// <param name="formatFile"> The template to apply. </param>
         /// <returns> A new <see cref="Models.Get200ApplicationJsonPropertiesItemsItem"/> instance for mocking. </returns>
         public static Get200ApplicationJsonPropertiesItemsItem Get200ApplicationJsonPropertiesItemsItem(string identifier = null, Uri formatFile = null)
         {
             return new Get200ApplicationJsonPropertiesItemsItem(identifier, formatFile);
         }
 
-        /// <summary> Initializes a new instance of Paths4Fg3YrReformattedResumesGetResponses200ContentApplicationJsonSchema. </summary>
-        /// <param name="count"></param>
-        /// <param name="next"></param>
-        /// <param name="previous"></param>
-        /// <param name="results"></param>
-        /// <returns> A new <see cref="Models.Paths4Fg3YrReformattedResumesGetResponses200ContentApplicationJsonSchema"/> instance for mocking. </returns>
-        public static Paths4Fg3YrReformattedResumesGetResponses200ContentApplicationJsonSchema Paths4Fg3YrReformattedResumesGetResponses200ContentApplicationJsonSchema(int? count = null, Uri next = null, Uri previous = null, IEnumerable<Meta> results = null)
-        {
-            results ??= new List<Meta>();
-
-            return new Paths4Fg3YrReformattedResumesGetResponses200ContentApplicationJsonSchema(count, next, previous, results?.ToList());
-        }
-
-        /// <summary> Initializes a new instance of Paths1Wyf6PlReformattedResumesPostResponses201ContentApplicationJsonSchema. </summary>
-        /// <param name="fileName"> Optional filename of the file. </param>
-        /// <param name="identifier"> Unique identifier for the resume. If creating a document and left blank, one will be automatically generated. </param>
-        /// <param name="resumeFormat"> Identifier of the format used. </param>
-        /// <returns> A new <see cref="Models.Paths1Wyf6PlReformattedResumesPostResponses201ContentApplicationJsonSchema"/> instance for mocking. </returns>
-        public static Paths1Wyf6PlReformattedResumesPostResponses201ContentApplicationJsonSchema Paths1Wyf6PlReformattedResumesPostResponses201ContentApplicationJsonSchema(string fileName = null, string identifier = null, string resumeFormat = null)
-        {
-            return new Paths1Wyf6PlReformattedResumesPostResponses201ContentApplicationJsonSchema(fileName, identifier, resumeFormat);
-        }
-
-        /// <summary> Initializes a new instance of ReformattedDocument. </summary>
+        /// <summary> Initializes a new instance of ReformattedResume. </summary>
         /// <param name="data"></param>
         /// <param name="meta"></param>
         /// <param name="error"></param>
-        /// <returns> A new <see cref="Models.ReformattedDocument"/> instance for mocking. </returns>
-        public static ReformattedDocument ReformattedDocument(ReformattedDocumentData data = null, Meta meta = null, Error error = null)
+        /// <param name="user"></param>
+        /// <returns> A new <see cref="Models.ReformattedResume"/> instance for mocking. </returns>
+        public static ReformattedResume ReformattedResume(ReformattedResumeData data = null, Meta meta = null, Error error = null, User user = null)
         {
-            return new ReformattedDocument(data, meta, error);
+            return new ReformattedResume(data, meta, error, user);
         }
 
-        /// <summary> Initializes a new instance of ReformattedDocumentData. </summary>
+        /// <summary> Initializes a new instance of ReformattedResumeData. </summary>
         /// <param name="reformattedFile"></param>
-        /// <returns> A new <see cref="Models.ReformattedDocumentData"/> instance for mocking. </returns>
-        public static ReformattedDocumentData ReformattedDocumentData(Uri reformattedFile = null)
+        /// <returns> A new <see cref="Models.ReformattedResumeData"/> instance for mocking. </returns>
+        public static ReformattedResumeData ReformattedResumeData(Uri reformattedFile = null)
         {
-            return new ReformattedDocumentData(reformattedFile);
+            return new ReformattedResumeData(reformattedFile);
         }
     }
 }

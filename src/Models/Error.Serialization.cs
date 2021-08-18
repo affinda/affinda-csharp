@@ -14,8 +14,8 @@ namespace affinda.Models
     {
         internal static Error DeserializeError(JsonElement element)
         {
-            int? errorCode = default;
-            string errorDetail = default;
+            Optional<string> errorCode = default;
+            Optional<string> errorDetail = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("errorCode"))
@@ -25,7 +25,7 @@ namespace affinda.Models
                         errorCode = null;
                         continue;
                     }
-                    errorCode = property.Value.GetInt32();
+                    errorCode = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("errorDetail"))
@@ -39,7 +39,7 @@ namespace affinda.Models
                     continue;
                 }
             }
-            return new Error(errorCode, errorDetail);
+            return new Error(errorCode.Value, errorDetail.Value);
         }
     }
 }

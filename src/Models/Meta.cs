@@ -15,24 +15,12 @@ namespace affinda.Models
         /// <summary> Initializes a new instance of Meta. </summary>
         /// <param name="identifier"> Unique identifier for the resume. If creating a document and left blank, one will be automatically generated. </param>
         /// <param name="ready"> If true, the document has finished processing. Particularly useful if an endpoint request specified wait=False, when polling use this variable to determine when to stop polling. </param>
-        /// <param name="readyDt"> The datetime when the document was ready. </param>
         /// <param name="failed"> If true, some exception was raised during processing. Check the &apos;error&apos; field of the main return object. </param>
-        /// <param name="user"></param>
-        /// <param name="expiryTime"> The date/time in ISO-8601 format when the resume will be automatically deleted.  Defaults to no expiry. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="user"/> is null. </exception>
-        internal Meta(string identifier, bool ready, DateTimeOffset? readyDt, bool failed, User user, string expiryTime)
+        internal Meta(string identifier, bool ready, bool failed)
         {
-            if (user == null)
-            {
-                throw new ArgumentNullException(nameof(user));
-            }
-
             Identifier = identifier;
             Ready = ready;
-            ReadyDt = readyDt;
             Failed = failed;
-            User = user;
-            ExpiryTime = expiryTime;
         }
 
         /// <summary> Initializes a new instance of Meta. </summary>
@@ -41,16 +29,14 @@ namespace affinda.Models
         /// <param name="ready"> If true, the document has finished processing. Particularly useful if an endpoint request specified wait=False, when polling use this variable to determine when to stop polling. </param>
         /// <param name="readyDt"> The datetime when the document was ready. </param>
         /// <param name="failed"> If true, some exception was raised during processing. Check the &apos;error&apos; field of the main return object. </param>
-        /// <param name="user"></param>
         /// <param name="expiryTime"> The date/time in ISO-8601 format when the resume will be automatically deleted.  Defaults to no expiry. </param>
-        internal Meta(string identifier, string fileName, bool ready, DateTimeOffset? readyDt, bool failed, User user, string expiryTime)
+        internal Meta(string identifier, string fileName, bool ready, DateTimeOffset? readyDt, bool failed, string expiryTime)
         {
             Identifier = identifier;
             FileName = fileName;
             Ready = ready;
             ReadyDt = readyDt;
             Failed = failed;
-            User = user;
             ExpiryTime = expiryTime;
         }
 
@@ -64,7 +50,6 @@ namespace affinda.Models
         public DateTimeOffset? ReadyDt { get; }
         /// <summary> If true, some exception was raised during processing. Check the &apos;error&apos; field of the main return object. </summary>
         public bool Failed { get; }
-        public User User { get; }
         /// <summary> The date/time in ISO-8601 format when the resume will be automatically deleted.  Defaults to no expiry. </summary>
         public string ExpiryTime { get; }
     }

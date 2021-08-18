@@ -18,10 +18,9 @@ namespace affinda.Models
             string identifier = default;
             Optional<string> fileName = default;
             bool ready = default;
-            DateTimeOffset? readyDt = default;
+            Optional<DateTimeOffset?> readyDt = default;
             bool failed = default;
-            User user = default;
-            string expiryTime = default;
+            Optional<string> expiryTime = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("identifier"))
@@ -64,11 +63,6 @@ namespace affinda.Models
                     failed = property.Value.GetBoolean();
                     continue;
                 }
-                if (property.NameEquals("user"))
-                {
-                    user = User.DeserializeUser(property.Value);
-                    continue;
-                }
                 if (property.NameEquals("expiryTime"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
@@ -80,7 +74,7 @@ namespace affinda.Models
                     continue;
                 }
             }
-            return new Meta(identifier, fileName.Value, ready, readyDt, failed, user, expiryTime);
+            return new Meta(identifier, fileName.Value, ready, Optional.ToNullable(readyDt), failed, expiryTime.Value);
         }
     }
 }

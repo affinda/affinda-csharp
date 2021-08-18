@@ -9,16 +9,16 @@ using System;
 
 namespace affinda.Models
 {
-    /// <summary> The Resume. </summary>
-    public partial class Resume
+    /// <summary> The RedactedResume. </summary>
+    public partial class RedactedResume
     {
-        /// <summary> Initializes a new instance of Resume. </summary>
+        /// <summary> Initializes a new instance of RedactedResume. </summary>
         /// <param name="data"></param>
         /// <param name="meta"></param>
         /// <param name="error"></param>
         /// <param name="user"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="meta"/>, <paramref name="error"/>, or <paramref name="user"/> is null. </exception>
-        internal Resume(ResumeData data, Meta meta, Error error, User user)
+        internal RedactedResume(RedactedResumeData data, Meta meta, Error error, User user)
         {
             if (meta == null)
             {
@@ -39,7 +39,7 @@ namespace affinda.Models
             User = user;
         }
 
-        public ResumeData Data { get; }
+        public RedactedResumeData Data { get; }
         public Meta Meta { get; }
         public Error Error { get; }
         public User User { get; }

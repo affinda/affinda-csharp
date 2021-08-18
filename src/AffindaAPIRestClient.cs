@@ -71,9 +71,9 @@ namespace affinda
             {
                 case 200:
                     {
-                        Paths1Vwy7YkResumesGetResponses200ContentApplicationJsonSchema value = default;
+                        GetAllDocumentsResults value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = Paths1Vwy7YkResumesGetResponses200ContentApplicationJsonSchema.DeserializePaths1Vwy7YkResumesGetResponses200ContentApplicationJsonSchema(document.RootElement);
+                        value = GetAllDocumentsResults.DeserializeGetAllDocumentsResults(document.RootElement);
                         return Response.FromValue<object>(value, message.Response);
                     }
                 case 401:
@@ -98,9 +98,9 @@ namespace affinda
             {
                 case 200:
                     {
-                        Paths1Vwy7YkResumesGetResponses200ContentApplicationJsonSchema value = default;
+                        GetAllDocumentsResults value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = Paths1Vwy7YkResumesGetResponses200ContentApplicationJsonSchema.DeserializePaths1Vwy7YkResumesGetResponses200ContentApplicationJsonSchema(document.RootElement);
+                        value = GetAllDocumentsResults.DeserializeGetAllDocumentsResults(document.RootElement);
                         return Response.FromValue<object>(value, message.Response);
                     }
                 case 401:
@@ -115,7 +115,7 @@ namespace affinda
             }
         }
 
-        internal HttpMessage CreateCreateResumeRequest(Stream file, string identifier, string fileName, string url, string resumeLanguage, string expiryTime)
+        internal HttpMessage CreateCreateResumeRequest(Stream file, string identifier, string fileName, string url, string wait, string resumeLanguage, string expiryTime)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -143,6 +143,10 @@ namespace affinda
             {
                 content.Add(new StringRequestContent(url), "url", null);
             }
+            if (wait != null)
+            {
+                content.Add(new StringRequestContent(wait), "wait", null);
+            }
             if (resumeLanguage != null)
             {
                 content.Add(new StringRequestContent(resumeLanguage), "resumeLanguage", null);
@@ -159,24 +163,26 @@ namespace affinda
         /// Uploads a resume for parsing.
         /// When successful, returns an `identifier` in the response for subsequent use with the [/resumes/{identifier}](#operation/getResume) endpoint to check processing status and retrieve results.
         /// </summary>
-        /// <param name="file"> File as binary data blob. </param>
+        /// <param name="file"> The binary to use. </param>
         /// <param name="identifier"> The Identifier to use. </param>
         /// <param name="fileName"> The FileName to use. </param>
         /// <param name="url"> The UrlToProcess to use. </param>
+        /// <param name="wait"> The Wait to use. </param>
         /// <param name="resumeLanguage"> The ResumeLanguage to use. </param>
         /// <param name="expiryTime"> The ExpiryTime to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<object>> CreateResumeAsync(Stream file = null, string identifier = null, string fileName = null, string url = null, string resumeLanguage = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public async Task<Response<object>> CreateResumeAsync(Stream file = null, string identifier = null, string fileName = null, string url = null, string wait = null, string resumeLanguage = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateResumeRequest(file, identifier, fileName, url, resumeLanguage, expiryTime);
+            using var message = CreateCreateResumeRequest(file, identifier, fileName, url, wait, resumeLanguage, expiryTime);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
+                case 200:
                 case 201:
                     {
-                        PathsWt95EfResumesPostResponses201ContentApplicationJsonSchema value = default;
+                        Resume value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = PathsWt95EfResumesPostResponses201ContentApplicationJsonSchema.DeserializePathsWt95EfResumesPostResponses201ContentApplicationJsonSchema(document.RootElement);
+                        value = Resume.DeserializeResume(document.RootElement);
                         return Response.FromValue<object>(value, message.Response);
                     }
                 case 400:
@@ -209,24 +215,26 @@ namespace affinda
         /// Uploads a resume for parsing.
         /// When successful, returns an `identifier` in the response for subsequent use with the [/resumes/{identifier}](#operation/getResume) endpoint to check processing status and retrieve results.
         /// </summary>
-        /// <param name="file"> File as binary data blob. </param>
+        /// <param name="file"> The binary to use. </param>
         /// <param name="identifier"> The Identifier to use. </param>
         /// <param name="fileName"> The FileName to use. </param>
         /// <param name="url"> The UrlToProcess to use. </param>
+        /// <param name="wait"> The Wait to use. </param>
         /// <param name="resumeLanguage"> The ResumeLanguage to use. </param>
         /// <param name="expiryTime"> The ExpiryTime to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<object> CreateResume(Stream file = null, string identifier = null, string fileName = null, string url = null, string resumeLanguage = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public Response<object> CreateResume(Stream file = null, string identifier = null, string fileName = null, string url = null, string wait = null, string resumeLanguage = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateResumeRequest(file, identifier, fileName, url, resumeLanguage, expiryTime);
+            using var message = CreateCreateResumeRequest(file, identifier, fileName, url, wait, resumeLanguage, expiryTime);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
+                case 200:
                 case 201:
                     {
-                        PathsWt95EfResumesPostResponses201ContentApplicationJsonSchema value = default;
+                        Resume value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = PathsWt95EfResumesPostResponses201ContentApplicationJsonSchema.DeserializePathsWt95EfResumesPostResponses201ContentApplicationJsonSchema(document.RootElement);
+                        value = Resume.DeserializeResume(document.RootElement);
                         return Response.FromValue<object>(value, message.Response);
                     }
                 case 400:
@@ -474,9 +482,9 @@ namespace affinda
             {
                 case 200:
                     {
-                        Paths1My65ZdRedactedResumesGetResponses200ContentApplicationJsonSchema value = default;
+                        GetAllDocumentsResults value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = Paths1My65ZdRedactedResumesGetResponses200ContentApplicationJsonSchema.DeserializePaths1My65ZdRedactedResumesGetResponses200ContentApplicationJsonSchema(document.RootElement);
+                        value = GetAllDocumentsResults.DeserializeGetAllDocumentsResults(document.RootElement);
                         return Response.FromValue<object>(value, message.Response);
                     }
                 case 401:
@@ -508,9 +516,9 @@ namespace affinda
             {
                 case 200:
                     {
-                        Paths1My65ZdRedactedResumesGetResponses200ContentApplicationJsonSchema value = default;
+                        GetAllDocumentsResults value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = Paths1My65ZdRedactedResumesGetResponses200ContentApplicationJsonSchema.DeserializePaths1My65ZdRedactedResumesGetResponses200ContentApplicationJsonSchema(document.RootElement);
+                        value = GetAllDocumentsResults.DeserializeGetAllDocumentsResults(document.RootElement);
                         return Response.FromValue<object>(value, message.Response);
                     }
                 case 401:
@@ -532,7 +540,7 @@ namespace affinda
             }
         }
 
-        internal HttpMessage CreateCreateRedactedResumeRequest(Stream file, string identifier, string fileName, string url, string resumeLanguage, string expiryTime)
+        internal HttpMessage CreateCreateRedactedResumeRequest(Stream file, string identifier, string fileName, string url, string resumeLanguage, string wait, string expiryTime)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -564,6 +572,10 @@ namespace affinda
             {
                 content.Add(new StringRequestContent(resumeLanguage), "resumeLanguage", null);
             }
+            if (wait != null)
+            {
+                content.Add(new StringRequestContent(wait), "wait", null);
+            }
             if (expiryTime != null)
             {
                 content.Add(new StringRequestContent(expiryTime), "expiryTime", null);
@@ -572,28 +584,27 @@ namespace affinda
             return message;
         }
 
-        /// <summary>
-        /// Uploads a resume for redacting.
-        /// When successful, returns an `identifier` in the response for subsequent use with the [/redacted_resumes/{identifier}](#operation/getRedactedResume) endpoint to check processing status and retrieve results.
-        /// </summary>
-        /// <param name="file"> File as binary data blob. </param>
+        /// <summary> Uploads a resume for redacting. </summary>
+        /// <param name="file"> The binary to use. </param>
         /// <param name="identifier"> The Identifier to use. </param>
         /// <param name="fileName"> The FileName to use. </param>
         /// <param name="url"> The UrlToProcess to use. </param>
         /// <param name="resumeLanguage"> The ResumeLanguage to use. </param>
+        /// <param name="wait"> The Wait to use. </param>
         /// <param name="expiryTime"> The ExpiryTime to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<object>> CreateRedactedResumeAsync(Stream file = null, string identifier = null, string fileName = null, string url = null, string resumeLanguage = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public async Task<Response<object>> CreateRedactedResumeAsync(Stream file = null, string identifier = null, string fileName = null, string url = null, string resumeLanguage = null, string wait = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateRedactedResumeRequest(file, identifier, fileName, url, resumeLanguage, expiryTime);
+            using var message = CreateCreateRedactedResumeRequest(file, identifier, fileName, url, resumeLanguage, wait, expiryTime);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
+                case 200:
                 case 201:
                     {
-                        Paths1VouiekRedactedResumesPostResponses201ContentApplicationJsonSchema value = default;
+                        RedactedResume value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = Paths1VouiekRedactedResumesPostResponses201ContentApplicationJsonSchema.DeserializePaths1VouiekRedactedResumesPostResponses201ContentApplicationJsonSchema(document.RootElement);
+                        value = RedactedResume.DeserializeRedactedResume(document.RootElement);
                         return Response.FromValue<object>(value, message.Response);
                     }
                 case 400:
@@ -622,28 +633,27 @@ namespace affinda
             }
         }
 
-        /// <summary>
-        /// Uploads a resume for redacting.
-        /// When successful, returns an `identifier` in the response for subsequent use with the [/redacted_resumes/{identifier}](#operation/getRedactedResume) endpoint to check processing status and retrieve results.
-        /// </summary>
-        /// <param name="file"> File as binary data blob. </param>
+        /// <summary> Uploads a resume for redacting. </summary>
+        /// <param name="file"> The binary to use. </param>
         /// <param name="identifier"> The Identifier to use. </param>
         /// <param name="fileName"> The FileName to use. </param>
         /// <param name="url"> The UrlToProcess to use. </param>
         /// <param name="resumeLanguage"> The ResumeLanguage to use. </param>
+        /// <param name="wait"> The Wait to use. </param>
         /// <param name="expiryTime"> The ExpiryTime to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<object> CreateRedactedResume(Stream file = null, string identifier = null, string fileName = null, string url = null, string resumeLanguage = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public Response<object> CreateRedactedResume(Stream file = null, string identifier = null, string fileName = null, string url = null, string resumeLanguage = null, string wait = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateRedactedResumeRequest(file, identifier, fileName, url, resumeLanguage, expiryTime);
+            using var message = CreateCreateRedactedResumeRequest(file, identifier, fileName, url, resumeLanguage, wait, expiryTime);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
+                case 200:
                 case 201:
                     {
-                        Paths1VouiekRedactedResumesPostResponses201ContentApplicationJsonSchema value = default;
+                        RedactedResume value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = Paths1VouiekRedactedResumesPostResponses201ContentApplicationJsonSchema.DeserializePaths1VouiekRedactedResumesPostResponses201ContentApplicationJsonSchema(document.RootElement);
+                        value = RedactedResume.DeserializeRedactedResume(document.RootElement);
                         return Response.FromValue<object>(value, message.Response);
                     }
                 case 400:
@@ -706,9 +716,9 @@ namespace affinda
             {
                 case 200:
                     {
-                        RedactedDocument value = default;
+                        RedactedResume value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = RedactedDocument.DeserializeRedactedDocument(document.RootElement);
+                        value = RedactedResume.DeserializeRedactedResume(document.RootElement);
                         return Response.FromValue<object>(value, message.Response);
                     }
                 case 401:
@@ -750,9 +760,9 @@ namespace affinda
             {
                 case 200:
                     {
-                        RedactedDocument value = default;
+                        RedactedResume value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = RedactedDocument.DeserializeRedactedDocument(document.RootElement);
+                        value = RedactedResume.DeserializeRedactedResume(document.RootElement);
                         return Response.FromValue<object>(value, message.Response);
                     }
                 case 401:
@@ -980,9 +990,9 @@ namespace affinda
             {
                 case 200:
                     {
-                        Paths4Fg3YrReformattedResumesGetResponses200ContentApplicationJsonSchema value = default;
+                        GetAllDocumentsResults value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = Paths4Fg3YrReformattedResumesGetResponses200ContentApplicationJsonSchema.DeserializePaths4Fg3YrReformattedResumesGetResponses200ContentApplicationJsonSchema(document.RootElement);
+                        value = GetAllDocumentsResults.DeserializeGetAllDocumentsResults(document.RootElement);
                         return Response.FromValue<object>(value, message.Response);
                     }
                 case 401:
@@ -1014,9 +1024,9 @@ namespace affinda
             {
                 case 200:
                     {
-                        Paths4Fg3YrReformattedResumesGetResponses200ContentApplicationJsonSchema value = default;
+                        GetAllDocumentsResults value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = Paths4Fg3YrReformattedResumesGetResponses200ContentApplicationJsonSchema.DeserializePaths4Fg3YrReformattedResumesGetResponses200ContentApplicationJsonSchema(document.RootElement);
+                        value = GetAllDocumentsResults.DeserializeGetAllDocumentsResults(document.RootElement);
                         return Response.FromValue<object>(value, message.Response);
                     }
                 case 401:
@@ -1038,7 +1048,7 @@ namespace affinda
             }
         }
 
-        internal HttpMessage CreateCreateReformattedResumeRequest(string resumeFormat, Stream file, string identifier, string fileName, string url, string resumeLanguage)
+        internal HttpMessage CreateCreateReformattedResumeRequest(string resumeFormat, Stream file, string identifier, string fileName, string url, string resumeLanguage, string wait)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1071,38 +1081,41 @@ namespace affinda
                 content.Add(new StringRequestContent(resumeLanguage), "resumeLanguage", null);
             }
             content.Add(new StringRequestContent(resumeFormat), "resumeFormat", null);
+            if (wait != null)
+            {
+                content.Add(new StringRequestContent(wait), "wait", null);
+            }
             content.ApplyToRequest(request);
             return message;
         }
 
-        /// <summary>
-        /// Uploads a resume for reformatting.
-        /// When successful, returns an `identifier` in the response for subsequent use with the [/reformatted_resumes/{identifier}](#operation/getReformattedResume) endpoint to check processing status and retrieve results.
-        /// </summary>
+        /// <summary> Uploads a resume for reformatting. </summary>
         /// <param name="resumeFormat"> The ResumeFormat to use. </param>
-        /// <param name="file"> File as binary data blob. </param>
+        /// <param name="file"> The binary to use. </param>
         /// <param name="identifier"> The Identifier to use. </param>
         /// <param name="fileName"> The FileName to use. </param>
-        /// <param name="url"> URL to file to download and process. </param>
+        /// <param name="url"> The UrlToProcess to use. </param>
         /// <param name="resumeLanguage"> The ResumeLanguage to use. </param>
+        /// <param name="wait"> The Wait to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="resumeFormat"/> is null. </exception>
-        public async Task<Response<object>> CreateReformattedResumeAsync(string resumeFormat, Stream file = null, string identifier = null, string fileName = null, string url = null, string resumeLanguage = null, CancellationToken cancellationToken = default)
+        public async Task<Response<object>> CreateReformattedResumeAsync(string resumeFormat, Stream file = null, string identifier = null, string fileName = null, string url = null, string resumeLanguage = null, string wait = null, CancellationToken cancellationToken = default)
         {
             if (resumeFormat == null)
             {
                 throw new ArgumentNullException(nameof(resumeFormat));
             }
 
-            using var message = CreateCreateReformattedResumeRequest(resumeFormat, file, identifier, fileName, url, resumeLanguage);
+            using var message = CreateCreateReformattedResumeRequest(resumeFormat, file, identifier, fileName, url, resumeLanguage, wait);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
+                case 200:
                 case 201:
                     {
-                        Paths1Wyf6PlReformattedResumesPostResponses201ContentApplicationJsonSchema value = default;
+                        ReformattedResume value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = Paths1Wyf6PlReformattedResumesPostResponses201ContentApplicationJsonSchema.DeserializePaths1Wyf6PlReformattedResumesPostResponses201ContentApplicationJsonSchema(document.RootElement);
+                        value = ReformattedResume.DeserializeReformattedResume(document.RootElement);
                         return Response.FromValue<object>(value, message.Response);
                     }
                 case 400:
@@ -1131,34 +1144,33 @@ namespace affinda
             }
         }
 
-        /// <summary>
-        /// Uploads a resume for reformatting.
-        /// When successful, returns an `identifier` in the response for subsequent use with the [/reformatted_resumes/{identifier}](#operation/getReformattedResume) endpoint to check processing status and retrieve results.
-        /// </summary>
+        /// <summary> Uploads a resume for reformatting. </summary>
         /// <param name="resumeFormat"> The ResumeFormat to use. </param>
-        /// <param name="file"> File as binary data blob. </param>
+        /// <param name="file"> The binary to use. </param>
         /// <param name="identifier"> The Identifier to use. </param>
         /// <param name="fileName"> The FileName to use. </param>
-        /// <param name="url"> URL to file to download and process. </param>
+        /// <param name="url"> The UrlToProcess to use. </param>
         /// <param name="resumeLanguage"> The ResumeLanguage to use. </param>
+        /// <param name="wait"> The Wait to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="resumeFormat"/> is null. </exception>
-        public Response<object> CreateReformattedResume(string resumeFormat, Stream file = null, string identifier = null, string fileName = null, string url = null, string resumeLanguage = null, CancellationToken cancellationToken = default)
+        public Response<object> CreateReformattedResume(string resumeFormat, Stream file = null, string identifier = null, string fileName = null, string url = null, string resumeLanguage = null, string wait = null, CancellationToken cancellationToken = default)
         {
             if (resumeFormat == null)
             {
                 throw new ArgumentNullException(nameof(resumeFormat));
             }
 
-            using var message = CreateCreateReformattedResumeRequest(resumeFormat, file, identifier, fileName, url, resumeLanguage);
+            using var message = CreateCreateReformattedResumeRequest(resumeFormat, file, identifier, fileName, url, resumeLanguage, wait);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
+                case 200:
                 case 201:
                     {
-                        Paths1Wyf6PlReformattedResumesPostResponses201ContentApplicationJsonSchema value = default;
+                        ReformattedResume value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = Paths1Wyf6PlReformattedResumesPostResponses201ContentApplicationJsonSchema.DeserializePaths1Wyf6PlReformattedResumesPostResponses201ContentApplicationJsonSchema(document.RootElement);
+                        value = ReformattedResume.DeserializeReformattedResume(document.RootElement);
                         return Response.FromValue<object>(value, message.Response);
                     }
                 case 400:
@@ -1221,9 +1233,9 @@ namespace affinda
             {
                 case 200:
                     {
-                        ReformattedDocument value = default;
+                        ReformattedResume value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = ReformattedDocument.DeserializeReformattedDocument(document.RootElement);
+                        value = ReformattedResume.DeserializeReformattedResume(document.RootElement);
                         return Response.FromValue<object>(value, message.Response);
                     }
                 case 401:
@@ -1265,9 +1277,9 @@ namespace affinda
             {
                 case 200:
                     {
-                        ReformattedDocument value = default;
+                        ReformattedResume value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = ReformattedDocument.DeserializeReformattedDocument(document.RootElement);
+                        value = ReformattedResume.DeserializeReformattedResume(document.RootElement);
                         return Response.FromValue<object>(value, message.Response);
                     }
                 case 401:

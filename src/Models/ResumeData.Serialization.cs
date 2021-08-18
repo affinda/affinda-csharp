@@ -35,7 +35,7 @@ namespace affinda.Models
             Optional<IReadOnlyList<string>> publications = default;
             Optional<IReadOnlyList<ResumeDataRefereesItem>> referees = default;
             Optional<IReadOnlyList<ResumeDataSectionsItem>> sections = default;
-            Optional<int?> isResumeProbability = default;
+            Optional<int> isResumeProbability = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("name"))
@@ -282,7 +282,7 @@ namespace affinda.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        isResumeProbability = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
                     isResumeProbability = property.Value.GetInt32();

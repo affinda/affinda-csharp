@@ -11,15 +11,20 @@ namespace affinda.Models
     public partial class Error
     {
         /// <summary> Initializes a new instance of Error. </summary>
+        internal Error()
+        {
+        }
+
+        /// <summary> Initializes a new instance of Error. </summary>
         /// <param name="errorCode"></param>
         /// <param name="errorDetail"></param>
-        internal Error(int? errorCode, string errorDetail)
+        internal Error(string errorCode, string errorDetail)
         {
             ErrorCode = errorCode;
             ErrorDetail = errorDetail;
         }
 
-        public int? ErrorCode { get; }
+        public string ErrorCode { get; }
         public string ErrorDetail { get; }
     }
 }

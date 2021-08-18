@@ -11,9 +11,9 @@ using Azure.Core;
 
 namespace affinda.Models
 {
-    public partial class ReformattedDocumentData
+    public partial class ReformattedResumeData
     {
-        internal static ReformattedDocumentData DeserializeReformattedDocumentData(JsonElement element)
+        internal static ReformattedResumeData DeserializeReformattedResumeData(JsonElement element)
         {
             Optional<Uri> reformattedFile = default;
             foreach (var property in element.EnumerateObject())
@@ -29,7 +29,7 @@ namespace affinda.Models
                     continue;
                 }
             }
-            return new ReformattedDocumentData(reformattedFile.Value);
+            return new ReformattedResumeData(reformattedFile.Value);
         }
     }
 }

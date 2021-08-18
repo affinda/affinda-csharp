@@ -12,9 +12,9 @@ using Azure.Core;
 
 namespace affinda.Models
 {
-    public partial class Paths1My65ZdRedactedResumesGetResponses200ContentApplicationJsonSchema
+    public partial class GetAllDocumentsResults
     {
-        internal static Paths1My65ZdRedactedResumesGetResponses200ContentApplicationJsonSchema DeserializePaths1My65ZdRedactedResumesGetResponses200ContentApplicationJsonSchema(JsonElement element)
+        internal static GetAllDocumentsResults DeserializeGetAllDocumentsResults(JsonElement element)
         {
             Optional<int> count = default;
             Optional<Uri> next = default;
@@ -68,7 +68,7 @@ namespace affinda.Models
                     continue;
                 }
             }
-            return new Paths1My65ZdRedactedResumesGetResponses200ContentApplicationJsonSchema(Optional.ToNullable(count), next.Value, previous.Value, Optional.ToList(results));
+            return new GetAllDocumentsResults(Optional.ToNullable(count), next.Value, previous.Value, Optional.ToList(results));
         }
     }
 }

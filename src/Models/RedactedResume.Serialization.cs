@@ -10,13 +10,14 @@ using Azure.Core;
 
 namespace affinda.Models
 {
-    public partial class ReformattedDocument
+    public partial class RedactedResume
     {
-        internal static ReformattedDocument DeserializeReformattedDocument(JsonElement element)
+        internal static RedactedResume DeserializeRedactedResume(JsonElement element)
         {
-            Optional<ReformattedDocumentData> data = default;
-            Optional<Meta> meta = default;
-            Optional<Error> error = default;
+            RedactedResumeData data = default;
+            Meta meta = default;
+            Error error = default;
+            User user = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("data"))
@@ -26,31 +27,26 @@ namespace affinda.Models
                         data = null;
                         continue;
                     }
-                    data = ReformattedDocumentData.DeserializeReformattedDocumentData(property.Value);
+                    data = RedactedResumeData.DeserializeRedactedResumeData(property.Value);
                     continue;
                 }
                 if (property.NameEquals("meta"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        property.ThrowNonNullablePropertyIsNull();
-                        continue;
-                    }
                     meta = Meta.DeserializeMeta(property.Value);
                     continue;
                 }
                 if (property.NameEquals("error"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        property.ThrowNonNullablePropertyIsNull();
-                        continue;
-                    }
                     error = Error.DeserializeError(property.Value);
                     continue;
                 }
+                if (property.NameEquals("user"))
+                {
+                    user = User.DeserializeUser(property.Value);
+                    continue;
+                }
             }
-            return new ReformattedDocument(data.Value, meta.Value, error.Value);
+            return new RedactedResume(data, meta, error, user);
         }
     }
 }

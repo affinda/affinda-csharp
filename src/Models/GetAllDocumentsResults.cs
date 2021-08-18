@@ -11,21 +11,21 @@ using Azure.Core;
 
 namespace affinda.Models
 {
-    /// <summary> The Paths4Fg3YrReformattedResumesGetResponses200ContentApplicationJsonSchema. </summary>
-    public partial class Paths4Fg3YrReformattedResumesGetResponses200ContentApplicationJsonSchema
+    /// <summary> The GetAllDocumentsResults. </summary>
+    public partial class GetAllDocumentsResults
     {
-        /// <summary> Initializes a new instance of Paths4Fg3YrReformattedResumesGetResponses200ContentApplicationJsonSchema. </summary>
-        internal Paths4Fg3YrReformattedResumesGetResponses200ContentApplicationJsonSchema()
+        /// <summary> Initializes a new instance of GetAllDocumentsResults. </summary>
+        internal GetAllDocumentsResults()
         {
             Results = new ChangeTrackingList<Meta>();
         }
 
-        /// <summary> Initializes a new instance of Paths4Fg3YrReformattedResumesGetResponses200ContentApplicationJsonSchema. </summary>
+        /// <summary> Initializes a new instance of GetAllDocumentsResults. </summary>
         /// <param name="count"></param>
         /// <param name="next"></param>
         /// <param name="previous"></param>
         /// <param name="results"></param>
-        internal Paths4Fg3YrReformattedResumesGetResponses200ContentApplicationJsonSchema(int? count, Uri next, Uri previous, IReadOnlyList<Meta> results)
+        internal GetAllDocumentsResults(int? count, Uri next, Uri previous, IReadOnlyList<Meta> results)
         {
             Count = count;
             Next = next;

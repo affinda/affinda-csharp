@@ -11,9 +11,9 @@ using Azure.Core;
 
 namespace affinda.Models
 {
-    public partial class RedactedDocumentData
+    public partial class RedactedResumeData
     {
-        internal static RedactedDocumentData DeserializeRedactedDocumentData(JsonElement element)
+        internal static RedactedResumeData DeserializeRedactedResumeData(JsonElement element)
         {
             Optional<Uri> redactedPdf = default;
             foreach (var property in element.EnumerateObject())
@@ -29,7 +29,7 @@ namespace affinda.Models
                     continue;
                 }
             }
-            return new RedactedDocumentData(redactedPdf.Value);
+            return new RedactedResumeData(redactedPdf.Value);
         }
     }
 }

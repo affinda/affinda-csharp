@@ -25,6 +25,8 @@ namespace affinda.Models
         public string FileName { get; }
         /// <summary> URL to file to download and process. </summary>
         public string Url { get; }
+        /// <summary> If true (default), will return a response only after processing has completed. If false, will return an empty data object which can be polled at the GET endpoint until processing is complete. </summary>
+        public string Wait { get; }
         /// <summary> Language code in ISO 639-1 format. Must specify zh-cn or zh-tw for Chinese. </summary>
         public string ResumeLanguage { get; }
         /// <summary> The date/time in ISO-8601 format when the resume will be automatically deleted.  Defaults to no expiry. </summary>
