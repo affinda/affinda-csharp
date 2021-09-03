@@ -17,7 +17,6 @@ namespace affinda.Models
             ReformattedResumeData data = default;
             Meta meta = default;
             Error error = default;
-            User user = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("data"))
@@ -40,13 +39,8 @@ namespace affinda.Models
                     error = Error.DeserializeError(property.Value);
                     continue;
                 }
-                if (property.NameEquals("user"))
-                {
-                    user = User.DeserializeUser(property.Value);
-                    continue;
-                }
             }
-            return new ReformattedResume(data, meta, error, user);
+            return new ReformattedResume(data, meta, error);
         }
     }
 }

@@ -16,9 +16,8 @@ namespace affinda.Models
         /// <param name="data"></param>
         /// <param name="meta"></param>
         /// <param name="error"></param>
-        /// <param name="user"></param>
-        /// <exception cref="ArgumentNullException"> <paramref name="meta"/>, <paramref name="error"/>, or <paramref name="user"/> is null. </exception>
-        internal ReformattedResume(ReformattedResumeData data, Meta meta, Error error, User user)
+        /// <exception cref="ArgumentNullException"> <paramref name="meta"/> or <paramref name="error"/> is null. </exception>
+        internal ReformattedResume(ReformattedResumeData data, Meta meta, Error error)
         {
             if (meta == null)
             {
@@ -28,20 +27,14 @@ namespace affinda.Models
             {
                 throw new ArgumentNullException(nameof(error));
             }
-            if (user == null)
-            {
-                throw new ArgumentNullException(nameof(user));
-            }
 
             Data = data;
             Meta = meta;
             Error = error;
-            User = user;
         }
 
         public ReformattedResumeData Data { get; }
         public Meta Meta { get; }
         public Error Error { get; }
-        public User User { get; }
     }
 }

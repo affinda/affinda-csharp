@@ -11,15 +11,15 @@ using Azure.Core;
 
 namespace affinda.Models
 {
-    public partial class ResumeDataSkillsDetailsItem
+    public partial class ResumeDataSkillsItem
     {
-        internal static ResumeDataSkillsDetailsItem DeserializeResumeDataSkillsDetailsItem(JsonElement element)
+        internal static ResumeDataSkillsItem DeserializeResumeDataSkillsItem(JsonElement element)
         {
             Optional<string> name = default;
             Optional<string> lastUsed = default;
             Optional<int?> numberOfMonths = default;
             Optional<string> type = default;
-            Optional<IReadOnlyList<ResumeDataSkillsDetailsPropertiesItemsItem>> sources = default;
+            Optional<IReadOnlyList<ResumeDataSkillsPropertiesItemsItem>> sources = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("name"))
@@ -59,16 +59,16 @@ namespace affinda.Models
                         property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    List<ResumeDataSkillsDetailsPropertiesItemsItem> array = new List<ResumeDataSkillsDetailsPropertiesItemsItem>();
+                    List<ResumeDataSkillsPropertiesItemsItem> array = new List<ResumeDataSkillsPropertiesItemsItem>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(ResumeDataSkillsDetailsPropertiesItemsItem.DeserializeResumeDataSkillsDetailsPropertiesItemsItem(item));
+                        array.Add(ResumeDataSkillsPropertiesItemsItem.DeserializeResumeDataSkillsPropertiesItemsItem(item));
                     }
                     sources = array;
                     continue;
                 }
             }
-            return new ResumeDataSkillsDetailsItem(name.Value, lastUsed.Value, Optional.ToNullable(numberOfMonths), type.Value, Optional.ToList(sources));
+            return new ResumeDataSkillsItem(name.Value, lastUsed.Value, Optional.ToNullable(numberOfMonths), type.Value, Optional.ToList(sources));
         }
     }
 }

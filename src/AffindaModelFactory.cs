@@ -54,11 +54,10 @@ namespace affinda.Models
         /// <param name="data"></param>
         /// <param name="meta"></param>
         /// <param name="error"></param>
-        /// <param name="user"></param>
         /// <returns> A new <see cref="Models.Resume"/> instance for mocking. </returns>
-        public static Resume Resume(ResumeData data = null, Meta meta = null, Error error = null, User user = null)
+        public static Resume Resume(ResumeData data = null, Meta meta = null, Error error = null)
         {
-            return new Resume(data, meta, error, user);
+            return new Resume(data, meta, error);
         }
 
         /// <summary> Initializes a new instance of ResumeData. </summary>
@@ -76,14 +75,14 @@ namespace affinda.Models
         /// <param name="education"></param>
         /// <param name="workExperience"></param>
         /// <param name="skills"></param>
-        /// <param name="skillsDetails"></param>
         /// <param name="certifications"></param>
         /// <param name="publications"></param>
         /// <param name="referees"></param>
         /// <param name="sections"></param>
         /// <param name="isResumeProbability"> Probability that the given document is a resume. Values below 30 suggest that the resume is not a resume. </param>
+        /// <param name="rawText"> All of the raw text of the parsed resume, example is shortened for readiblity. </param>
         /// <returns> A new <see cref="Models.ResumeData"/> instance for mocking. </returns>
-        public static ResumeData ResumeData(ResumeDataName name = null, IEnumerable<string> phoneNumbers = null, IEnumerable<string> websites = null, IEnumerable<string> emails = null, string dateOfBirth = null, Location location = null, string objective = null, IEnumerable<string> languages = null, string summary = null, int? totalYearsExperience = null, Stream headShot = null, IEnumerable<ResumeDataEducationItem> education = null, IEnumerable<ResumeDataWorkExperienceItem> workExperience = null, IEnumerable<string> skills = null, IEnumerable<ResumeDataSkillsDetailsItem> skillsDetails = null, IEnumerable<string> certifications = null, IEnumerable<string> publications = null, IEnumerable<ResumeDataRefereesItem> referees = null, IEnumerable<ResumeDataSectionsItem> sections = null, int? isResumeProbability = null)
+        public static ResumeData ResumeData(ResumeDataName name = null, IEnumerable<string> phoneNumbers = null, IEnumerable<string> websites = null, IEnumerable<string> emails = null, string dateOfBirth = null, Location location = null, string objective = null, IEnumerable<string> languages = null, string summary = null, int? totalYearsExperience = null, Stream headShot = null, IEnumerable<ResumeDataEducationItem> education = null, IEnumerable<ResumeDataWorkExperienceItem> workExperience = null, IEnumerable<ResumeDataSkillsItem> skills = null, IEnumerable<string> certifications = null, IEnumerable<string> publications = null, IEnumerable<ResumeDataRefereesItem> referees = null, IEnumerable<ResumeDataSectionsItem> sections = null, int? isResumeProbability = null, string rawText = null)
         {
             phoneNumbers ??= new List<string>();
             websites ??= new List<string>();
@@ -91,14 +90,13 @@ namespace affinda.Models
             languages ??= new List<string>();
             education ??= new List<ResumeDataEducationItem>();
             workExperience ??= new List<ResumeDataWorkExperienceItem>();
-            skills ??= new List<string>();
-            skillsDetails ??= new List<ResumeDataSkillsDetailsItem>();
+            skills ??= new List<ResumeDataSkillsItem>();
             certifications ??= new List<string>();
             publications ??= new List<string>();
             referees ??= new List<ResumeDataRefereesItem>();
             sections ??= new List<ResumeDataSectionsItem>();
 
-            return new ResumeData(name, phoneNumbers?.ToList(), websites?.ToList(), emails?.ToList(), dateOfBirth, location, objective, languages?.ToList(), summary, totalYearsExperience, headShot, education?.ToList(), workExperience?.ToList(), skills?.ToList(), skillsDetails?.ToList(), certifications?.ToList(), publications?.ToList(), referees?.ToList(), sections?.ToList(), isResumeProbability);
+            return new ResumeData(name, phoneNumbers?.ToList(), websites?.ToList(), emails?.ToList(), dateOfBirth, location, objective, languages?.ToList(), summary, totalYearsExperience, headShot, education?.ToList(), workExperience?.ToList(), skills?.ToList(), certifications?.ToList(), publications?.ToList(), referees?.ToList(), sections?.ToList(), isResumeProbability, rawText);
         }
 
         /// <summary> Initializes a new instance of ResumeDataName. </summary>
@@ -195,27 +193,27 @@ namespace affinda.Models
             return new ResumeDataWorkExperienceItemDates(startDate, endDate, monthsInPosition, isCurrent);
         }
 
-        /// <summary> Initializes a new instance of ResumeDataSkillsDetailsItem. </summary>
+        /// <summary> Initializes a new instance of ResumeDataSkillsItem. </summary>
         /// <param name="name"></param>
         /// <param name="lastUsed"></param>
         /// <param name="numberOfMonths"></param>
         /// <param name="type"></param>
         /// <param name="sources"></param>
-        /// <returns> A new <see cref="Models.ResumeDataSkillsDetailsItem"/> instance for mocking. </returns>
-        public static ResumeDataSkillsDetailsItem ResumeDataSkillsDetailsItem(string name = null, string lastUsed = null, int? numberOfMonths = null, string type = null, IEnumerable<ResumeDataSkillsDetailsPropertiesItemsItem> sources = null)
+        /// <returns> A new <see cref="Models.ResumeDataSkillsItem"/> instance for mocking. </returns>
+        public static ResumeDataSkillsItem ResumeDataSkillsItem(string name = null, string lastUsed = null, int? numberOfMonths = null, string type = null, IEnumerable<ResumeDataSkillsPropertiesItemsItem> sources = null)
         {
-            sources ??= new List<ResumeDataSkillsDetailsPropertiesItemsItem>();
+            sources ??= new List<ResumeDataSkillsPropertiesItemsItem>();
 
-            return new ResumeDataSkillsDetailsItem(name, lastUsed, numberOfMonths, type, sources?.ToList());
+            return new ResumeDataSkillsItem(name, lastUsed, numberOfMonths, type, sources?.ToList());
         }
 
-        /// <summary> Initializes a new instance of ResumeDataSkillsDetailsPropertiesItemsItem. </summary>
+        /// <summary> Initializes a new instance of ResumeDataSkillsPropertiesItemsItem. </summary>
         /// <param name="section"></param>
         /// <param name="position"></param>
-        /// <returns> A new <see cref="Models.ResumeDataSkillsDetailsPropertiesItemsItem"/> instance for mocking. </returns>
-        public static ResumeDataSkillsDetailsPropertiesItemsItem ResumeDataSkillsDetailsPropertiesItemsItem(string section = null, int? position = null)
+        /// <returns> A new <see cref="Models.ResumeDataSkillsPropertiesItemsItem"/> instance for mocking. </returns>
+        public static ResumeDataSkillsPropertiesItemsItem ResumeDataSkillsPropertiesItemsItem(string section = null, int? position = null)
         {
-            return new ResumeDataSkillsDetailsPropertiesItemsItem(section, position);
+            return new ResumeDataSkillsPropertiesItemsItem(section, position);
         }
 
         /// <summary> Initializes a new instance of ResumeDataRefereesItem. </summary>
@@ -251,25 +249,13 @@ namespace affinda.Models
             return new Error(errorCode, errorDetail);
         }
 
-        /// <summary> Initializes a new instance of User. </summary>
-        /// <param name="documentCount"></param>
-        /// <param name="redactedDocumentCount"></param>
-        /// <param name="reformattedResumeCount"></param>
-        /// <param name="parsingCredits"></param>
-        /// <param name="redactionCredits"></param>
-        /// <param name="reformattingCredits"></param>
-        /// <returns> A new <see cref="Models.User"/> instance for mocking. </returns>
-        public static User User(int? documentCount = null, int? redactedDocumentCount = null, int? reformattedResumeCount = null, int? parsingCredits = null, int? redactionCredits = null, int? reformattingCredits = null)
+        /// <summary> Initializes a new instance of Components8Sxs33Responses400ErrorContentApplicationJsonSchema. </summary>
+        /// <param name="statusCode"></param>
+        /// <param name="detail"></param>
+        /// <returns> A new <see cref="Models.Components8Sxs33Responses400ErrorContentApplicationJsonSchema"/> instance for mocking. </returns>
+        public static Components8Sxs33Responses400ErrorContentApplicationJsonSchema Components8Sxs33Responses400ErrorContentApplicationJsonSchema(int? statusCode = null, string detail = null)
         {
-            return new User(documentCount, redactedDocumentCount, reformattedResumeCount, parsingCredits, redactionCredits, reformattingCredits);
-        }
-
-        /// <summary> Initializes a new instance of Components10Bc157ResponsesConversionerrorContentApplicationJsonSchema. </summary>
-        /// <param name="fileForConversion"></param>
-        /// <returns> A new <see cref="Models.Components10Bc157ResponsesConversionerrorContentApplicationJsonSchema"/> instance for mocking. </returns>
-        public static Components10Bc157ResponsesConversionerrorContentApplicationJsonSchema Components10Bc157ResponsesConversionerrorContentApplicationJsonSchema(string fileForConversion = null)
-        {
-            return new Components10Bc157ResponsesConversionerrorContentApplicationJsonSchema(fileForConversion);
+            return new Components8Sxs33Responses400ErrorContentApplicationJsonSchema(statusCode, detail);
         }
 
         /// <summary> Initializes a new instance of ComponentsP4H6CrResponses404ErrorContentApplicationJsonSchema. </summary>
@@ -285,11 +271,10 @@ namespace affinda.Models
         /// <param name="data"></param>
         /// <param name="meta"></param>
         /// <param name="error"></param>
-        /// <param name="user"></param>
         /// <returns> A new <see cref="Models.RedactedResume"/> instance for mocking. </returns>
-        public static RedactedResume RedactedResume(RedactedResumeData data = null, Meta meta = null, Error error = null, User user = null)
+        public static RedactedResume RedactedResume(RedactedResumeData data = null, Meta meta = null, Error error = null)
         {
-            return new RedactedResume(data, meta, error, user);
+            return new RedactedResume(data, meta, error);
         }
 
         /// <summary> Initializes a new instance of RedactedResumeData. </summary>
@@ -326,11 +311,10 @@ namespace affinda.Models
         /// <param name="data"></param>
         /// <param name="meta"></param>
         /// <param name="error"></param>
-        /// <param name="user"></param>
         /// <returns> A new <see cref="Models.ReformattedResume"/> instance for mocking. </returns>
-        public static ReformattedResume ReformattedResume(ReformattedResumeData data = null, Meta meta = null, Error error = null, User user = null)
+        public static ReformattedResume ReformattedResume(ReformattedResumeData data = null, Meta meta = null, Error error = null)
         {
-            return new ReformattedResume(data, meta, error, user);
+            return new ReformattedResume(data, meta, error);
         }
 
         /// <summary> Initializes a new instance of ReformattedResumeData. </summary>

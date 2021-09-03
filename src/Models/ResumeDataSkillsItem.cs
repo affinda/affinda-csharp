@@ -10,22 +10,22 @@ using Azure.Core;
 
 namespace affinda.Models
 {
-    /// <summary> The ResumeDataSkillsDetailsItem. </summary>
-    public partial class ResumeDataSkillsDetailsItem
+    /// <summary> The ResumeDataSkillsItem. </summary>
+    public partial class ResumeDataSkillsItem
     {
-        /// <summary> Initializes a new instance of ResumeDataSkillsDetailsItem. </summary>
-        internal ResumeDataSkillsDetailsItem()
+        /// <summary> Initializes a new instance of ResumeDataSkillsItem. </summary>
+        internal ResumeDataSkillsItem()
         {
-            Sources = new ChangeTrackingList<ResumeDataSkillsDetailsPropertiesItemsItem>();
+            Sources = new ChangeTrackingList<ResumeDataSkillsPropertiesItemsItem>();
         }
 
-        /// <summary> Initializes a new instance of ResumeDataSkillsDetailsItem. </summary>
+        /// <summary> Initializes a new instance of ResumeDataSkillsItem. </summary>
         /// <param name="name"></param>
         /// <param name="lastUsed"></param>
         /// <param name="numberOfMonths"></param>
         /// <param name="type"></param>
         /// <param name="sources"></param>
-        internal ResumeDataSkillsDetailsItem(string name, string lastUsed, int? numberOfMonths, string type, IReadOnlyList<ResumeDataSkillsDetailsPropertiesItemsItem> sources)
+        internal ResumeDataSkillsItem(string name, string lastUsed, int? numberOfMonths, string type, IReadOnlyList<ResumeDataSkillsPropertiesItemsItem> sources)
         {
             Name = name;
             LastUsed = lastUsed;
@@ -38,6 +38,6 @@ namespace affinda.Models
         public string LastUsed { get; }
         public int? NumberOfMonths { get; }
         public string Type { get; }
-        public IReadOnlyList<ResumeDataSkillsDetailsPropertiesItemsItem> Sources { get; }
+        public IReadOnlyList<ResumeDataSkillsPropertiesItemsItem> Sources { get; }
     }
 }

@@ -10,9 +10,9 @@ using Azure.Core;
 
 namespace affinda.Models
 {
-    public partial class ResumeDataSkillsDetailsPropertiesItemsItem
+    public partial class ResumeDataSkillsPropertiesItemsItem
     {
-        internal static ResumeDataSkillsDetailsPropertiesItemsItem DeserializeResumeDataSkillsDetailsPropertiesItemsItem(JsonElement element)
+        internal static ResumeDataSkillsPropertiesItemsItem DeserializeResumeDataSkillsPropertiesItemsItem(JsonElement element)
         {
             Optional<string> section = default;
             Optional<int?> position = default;
@@ -34,7 +34,7 @@ namespace affinda.Models
                     continue;
                 }
             }
-            return new ResumeDataSkillsDetailsPropertiesItemsItem(section.Value, Optional.ToNullable(position));
+            return new ResumeDataSkillsPropertiesItemsItem(section.Value, Optional.ToNullable(position));
         }
     }
 }

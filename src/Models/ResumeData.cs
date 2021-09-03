@@ -23,8 +23,7 @@ namespace affinda.Models
             Languages = new ChangeTrackingList<string>();
             Education = new ChangeTrackingList<ResumeDataEducationItem>();
             WorkExperience = new ChangeTrackingList<ResumeDataWorkExperienceItem>();
-            Skills = new ChangeTrackingList<string>();
-            SkillsDetails = new ChangeTrackingList<ResumeDataSkillsDetailsItem>();
+            Skills = new ChangeTrackingList<ResumeDataSkillsItem>();
             Certifications = new ChangeTrackingList<string>();
             Publications = new ChangeTrackingList<string>();
             Referees = new ChangeTrackingList<ResumeDataRefereesItem>();
@@ -46,13 +45,13 @@ namespace affinda.Models
         /// <param name="education"></param>
         /// <param name="workExperience"></param>
         /// <param name="skills"></param>
-        /// <param name="skillsDetails"></param>
         /// <param name="certifications"></param>
         /// <param name="publications"></param>
         /// <param name="referees"></param>
         /// <param name="sections"></param>
         /// <param name="isResumeProbability"> Probability that the given document is a resume. Values below 30 suggest that the resume is not a resume. </param>
-        internal ResumeData(ResumeDataName name, IReadOnlyList<string> phoneNumbers, IReadOnlyList<string> websites, IReadOnlyList<string> emails, string dateOfBirth, Location location, string objective, IReadOnlyList<string> languages, string summary, int? totalYearsExperience, Stream headShot, IReadOnlyList<ResumeDataEducationItem> education, IReadOnlyList<ResumeDataWorkExperienceItem> workExperience, IReadOnlyList<string> skills, IReadOnlyList<ResumeDataSkillsDetailsItem> skillsDetails, IReadOnlyList<string> certifications, IReadOnlyList<string> publications, IReadOnlyList<ResumeDataRefereesItem> referees, IReadOnlyList<ResumeDataSectionsItem> sections, int? isResumeProbability)
+        /// <param name="rawText"> All of the raw text of the parsed resume, example is shortened for readiblity. </param>
+        internal ResumeData(ResumeDataName name, IReadOnlyList<string> phoneNumbers, IReadOnlyList<string> websites, IReadOnlyList<string> emails, string dateOfBirth, Location location, string objective, IReadOnlyList<string> languages, string summary, int? totalYearsExperience, Stream headShot, IReadOnlyList<ResumeDataEducationItem> education, IReadOnlyList<ResumeDataWorkExperienceItem> workExperience, IReadOnlyList<ResumeDataSkillsItem> skills, IReadOnlyList<string> certifications, IReadOnlyList<string> publications, IReadOnlyList<ResumeDataRefereesItem> referees, IReadOnlyList<ResumeDataSectionsItem> sections, int? isResumeProbability, string rawText)
         {
             Name = name;
             PhoneNumbers = phoneNumbers;
@@ -68,12 +67,12 @@ namespace affinda.Models
             Education = education;
             WorkExperience = workExperience;
             Skills = skills;
-            SkillsDetails = skillsDetails;
             Certifications = certifications;
             Publications = publications;
             Referees = referees;
             Sections = sections;
             IsResumeProbability = isResumeProbability;
+            RawText = rawText;
         }
 
         public ResumeDataName Name { get; }
@@ -90,13 +89,14 @@ namespace affinda.Models
         public Stream HeadShot { get; }
         public IReadOnlyList<ResumeDataEducationItem> Education { get; }
         public IReadOnlyList<ResumeDataWorkExperienceItem> WorkExperience { get; }
-        public IReadOnlyList<string> Skills { get; }
-        public IReadOnlyList<ResumeDataSkillsDetailsItem> SkillsDetails { get; }
+        public IReadOnlyList<ResumeDataSkillsItem> Skills { get; }
         public IReadOnlyList<string> Certifications { get; }
         public IReadOnlyList<string> Publications { get; }
         public IReadOnlyList<ResumeDataRefereesItem> Referees { get; }
         public IReadOnlyList<ResumeDataSectionsItem> Sections { get; }
         /// <summary> Probability that the given document is a resume. Values below 30 suggest that the resume is not a resume. </summary>
         public int? IsResumeProbability { get; }
+        /// <summary> All of the raw text of the parsed resume, example is shortened for readiblity. </summary>
+        public string RawText { get; }
     }
 }

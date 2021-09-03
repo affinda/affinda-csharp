@@ -1,22 +1,24 @@
-![affinda logo](affinda_logo.png)
+Affinda API - C# Client Library
+===================================
 
-This is the C# client for the **Affinda API**
-
-## Installation
-
-```shell
-git clone git@github.com:affinda/affinda-csharp.git
-```
+![affinda logo](https://raw.githubusercontent.com/affinda/affinda-csharp/main/affinda_logo.png)
+[![license](https://img.shields.io/github/license/affinda/affinda-csharp)](https://choosealicense.com/licenses/mit/)
 
 
-## Quickstart
+[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/affinda/affinda-csharp)
 
-```csharp
+- [Installation](#installation)
+- [Quickstart](#quickstart)
 
-```
 
-## API reference
+Generated using [autorest](https://github.com/Azure/autorest) and [autorest.csharp](https://github.com/Azure/autorest.csharp).
 
-## Parser
-## Redactor
-## Reformatter
+
+Parser
+------
+
+Redactor
+--------
+
+Reformatter
+-----------

@@ -38,7 +38,7 @@ namespace affinda.Models
         public string ResumeLanguage { get; }
         /// <summary> Identifier of the format used. </summary>
         public string ResumeFormat { get; }
-        /// <summary> If true (default), will return a response only after processing has completed. If false, will return an empty data object which can be polled at the GET endpoint until processing is complete. </summary>
+        /// <summary> If &quot;true&quot; (default), will return a response only after processing has completed. If &quot;false&quot;, will return an empty data object which can be polled at the GET endpoint until processing is complete. </summary>
         public string Wait { get; }
     }
 }

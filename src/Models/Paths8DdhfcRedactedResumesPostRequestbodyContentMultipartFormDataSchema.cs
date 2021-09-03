@@ -27,8 +27,22 @@ namespace affinda.Models
         public string Url { get; }
         /// <summary> Language code in ISO 639-1 format. Must specify zh-cn or zh-tw for Chinese. </summary>
         public string ResumeLanguage { get; }
-        /// <summary> If true (default), will return a response only after processing has completed. If false, will return an empty data object which can be polled at the GET endpoint until processing is complete. </summary>
+        /// <summary> If &quot;true&quot; (default), will return a response only after processing has completed. If &quot;false&quot;, will return an empty data object which can be polled at the GET endpoint until processing is complete. </summary>
         public string Wait { get; }
+        /// <summary> Whether to redact headshot. </summary>
+        public string RedactHeadshot { get; }
+        /// <summary> Whether to redact personal details (e.g. name, address). </summary>
+        public string RedactPersonalDetails { get; }
+        /// <summary> Whether to redact work details (e.g. company names). </summary>
+        public string RedactWorkDetails { get; }
+        /// <summary> Whether to redact education details (e.g. university names). </summary>
+        public string RedactEducationDetails { get; }
+        /// <summary> Whether to redact referee details. </summary>
+        public string RedactReferees { get; }
+        /// <summary> Whether to redact location names. </summary>
+        public string RedactLocations { get; }
+        /// <summary> Whether to redact dates. </summary>
+        public string RedactDates { get; }
         /// <summary> The date/time in ISO-8601 format when the resume will be automatically deleted.  Defaults to no expiry. </summary>
         public string ExpiryTime { get; }
     }

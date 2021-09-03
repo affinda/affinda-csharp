@@ -187,9 +187,9 @@ namespace affinda
                     }
                 case 400:
                     {
-                        Components10Bc157ResponsesConversionerrorContentApplicationJsonSchema value = default;
+                        Components8Sxs33Responses400ErrorContentApplicationJsonSchema value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = Components10Bc157ResponsesConversionerrorContentApplicationJsonSchema.DeserializeComponents10Bc157ResponsesConversionerrorContentApplicationJsonSchema(document.RootElement);
+                        value = Components8Sxs33Responses400ErrorContentApplicationJsonSchema.DeserializeComponents8Sxs33Responses400ErrorContentApplicationJsonSchema(document.RootElement);
                         return Response.FromValue<object>(value, message.Response);
                     }
                 case 401:
@@ -239,9 +239,9 @@ namespace affinda
                     }
                 case 400:
                     {
-                        Components10Bc157ResponsesConversionerrorContentApplicationJsonSchema value = default;
+                        Components8Sxs33Responses400ErrorContentApplicationJsonSchema value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = Components10Bc157ResponsesConversionerrorContentApplicationJsonSchema.DeserializeComponents10Bc157ResponsesConversionerrorContentApplicationJsonSchema(document.RootElement);
+                        value = Components8Sxs33Responses400ErrorContentApplicationJsonSchema.DeserializeComponents8Sxs33Responses400ErrorContentApplicationJsonSchema(document.RootElement);
                         return Response.FromValue<object>(value, message.Response);
                     }
                 case 401:
@@ -540,7 +540,7 @@ namespace affinda
             }
         }
 
-        internal HttpMessage CreateCreateRedactedResumeRequest(Stream file, string identifier, string fileName, string url, string resumeLanguage, string wait, string expiryTime)
+        internal HttpMessage CreateCreateRedactedResumeRequest(Stream file, string identifier, string fileName, string url, string resumeLanguage, string wait, string redactHeadshot, string redactPersonalDetails, string redactWorkDetails, string redactEducationDetails, string redactReferees, string redactLocations, string redactDates, string expiryTime)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -576,6 +576,34 @@ namespace affinda
             {
                 content.Add(new StringRequestContent(wait), "wait", null);
             }
+            if (redactHeadshot != null)
+            {
+                content.Add(new StringRequestContent(redactHeadshot), "redactHeadshot", null);
+            }
+            if (redactPersonalDetails != null)
+            {
+                content.Add(new StringRequestContent(redactPersonalDetails), "redactPersonalDetails", null);
+            }
+            if (redactWorkDetails != null)
+            {
+                content.Add(new StringRequestContent(redactWorkDetails), "redactWorkDetails", null);
+            }
+            if (redactEducationDetails != null)
+            {
+                content.Add(new StringRequestContent(redactEducationDetails), "redactEducationDetails", null);
+            }
+            if (redactReferees != null)
+            {
+                content.Add(new StringRequestContent(redactReferees), "redactReferees", null);
+            }
+            if (redactLocations != null)
+            {
+                content.Add(new StringRequestContent(redactLocations), "redactLocations", null);
+            }
+            if (redactDates != null)
+            {
+                content.Add(new StringRequestContent(redactDates), "redactDates", null);
+            }
             if (expiryTime != null)
             {
                 content.Add(new StringRequestContent(expiryTime), "expiryTime", null);
@@ -591,11 +619,18 @@ namespace affinda
         /// <param name="url"> The UrlToProcess to use. </param>
         /// <param name="resumeLanguage"> The ResumeLanguage to use. </param>
         /// <param name="wait"> The Wait to use. </param>
+        /// <param name="redactHeadshot"> Whether to redact headshot. </param>
+        /// <param name="redactPersonalDetails"> Whether to redact personal details (e.g. name, address). </param>
+        /// <param name="redactWorkDetails"> Whether to redact work details (e.g. company names). </param>
+        /// <param name="redactEducationDetails"> Whether to redact education details (e.g. university names). </param>
+        /// <param name="redactReferees"> Whether to redact referee details. </param>
+        /// <param name="redactLocations"> Whether to redact location names. </param>
+        /// <param name="redactDates"> Whether to redact dates. </param>
         /// <param name="expiryTime"> The ExpiryTime to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<object>> CreateRedactedResumeAsync(Stream file = null, string identifier = null, string fileName = null, string url = null, string resumeLanguage = null, string wait = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public async Task<Response<object>> CreateRedactedResumeAsync(Stream file = null, string identifier = null, string fileName = null, string url = null, string resumeLanguage = null, string wait = null, string redactHeadshot = null, string redactPersonalDetails = null, string redactWorkDetails = null, string redactEducationDetails = null, string redactReferees = null, string redactLocations = null, string redactDates = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateRedactedResumeRequest(file, identifier, fileName, url, resumeLanguage, wait, expiryTime);
+            using var message = CreateCreateRedactedResumeRequest(file, identifier, fileName, url, resumeLanguage, wait, redactHeadshot, redactPersonalDetails, redactWorkDetails, redactEducationDetails, redactReferees, redactLocations, redactDates, expiryTime);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -609,9 +644,9 @@ namespace affinda
                     }
                 case 400:
                     {
-                        Components10Bc157ResponsesConversionerrorContentApplicationJsonSchema value = default;
+                        Components8Sxs33Responses400ErrorContentApplicationJsonSchema value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = Components10Bc157ResponsesConversionerrorContentApplicationJsonSchema.DeserializeComponents10Bc157ResponsesConversionerrorContentApplicationJsonSchema(document.RootElement);
+                        value = Components8Sxs33Responses400ErrorContentApplicationJsonSchema.DeserializeComponents8Sxs33Responses400ErrorContentApplicationJsonSchema(document.RootElement);
                         return Response.FromValue<object>(value, message.Response);
                     }
                 case 401:
@@ -640,11 +675,18 @@ namespace affinda
         /// <param name="url"> The UrlToProcess to use. </param>
         /// <param name="resumeLanguage"> The ResumeLanguage to use. </param>
         /// <param name="wait"> The Wait to use. </param>
+        /// <param name="redactHeadshot"> Whether to redact headshot. </param>
+        /// <param name="redactPersonalDetails"> Whether to redact personal details (e.g. name, address). </param>
+        /// <param name="redactWorkDetails"> Whether to redact work details (e.g. company names). </param>
+        /// <param name="redactEducationDetails"> Whether to redact education details (e.g. university names). </param>
+        /// <param name="redactReferees"> Whether to redact referee details. </param>
+        /// <param name="redactLocations"> Whether to redact location names. </param>
+        /// <param name="redactDates"> Whether to redact dates. </param>
         /// <param name="expiryTime"> The ExpiryTime to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<object> CreateRedactedResume(Stream file = null, string identifier = null, string fileName = null, string url = null, string resumeLanguage = null, string wait = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public Response<object> CreateRedactedResume(Stream file = null, string identifier = null, string fileName = null, string url = null, string resumeLanguage = null, string wait = null, string redactHeadshot = null, string redactPersonalDetails = null, string redactWorkDetails = null, string redactEducationDetails = null, string redactReferees = null, string redactLocations = null, string redactDates = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateRedactedResumeRequest(file, identifier, fileName, url, resumeLanguage, wait, expiryTime);
+            using var message = CreateCreateRedactedResumeRequest(file, identifier, fileName, url, resumeLanguage, wait, redactHeadshot, redactPersonalDetails, redactWorkDetails, redactEducationDetails, redactReferees, redactLocations, redactDates, expiryTime);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -658,9 +700,9 @@ namespace affinda
                     }
                 case 400:
                     {
-                        Components10Bc157ResponsesConversionerrorContentApplicationJsonSchema value = default;
+                        Components8Sxs33Responses400ErrorContentApplicationJsonSchema value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = Components10Bc157ResponsesConversionerrorContentApplicationJsonSchema.DeserializeComponents10Bc157ResponsesConversionerrorContentApplicationJsonSchema(document.RootElement);
+                        value = Components8Sxs33Responses400ErrorContentApplicationJsonSchema.DeserializeComponents8Sxs33Responses400ErrorContentApplicationJsonSchema(document.RootElement);
                         return Response.FromValue<object>(value, message.Response);
                     }
                 case 401:
@@ -1120,9 +1162,9 @@ namespace affinda
                     }
                 case 400:
                     {
-                        Components10Bc157ResponsesConversionerrorContentApplicationJsonSchema value = default;
+                        Components8Sxs33Responses400ErrorContentApplicationJsonSchema value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = Components10Bc157ResponsesConversionerrorContentApplicationJsonSchema.DeserializeComponents10Bc157ResponsesConversionerrorContentApplicationJsonSchema(document.RootElement);
+                        value = Components8Sxs33Responses400ErrorContentApplicationJsonSchema.DeserializeComponents8Sxs33Responses400ErrorContentApplicationJsonSchema(document.RootElement);
                         return Response.FromValue<object>(value, message.Response);
                     }
                 case 401:
@@ -1175,9 +1217,9 @@ namespace affinda
                     }
                 case 400:
                     {
-                        Components10Bc157ResponsesConversionerrorContentApplicationJsonSchema value = default;
+                        Components8Sxs33Responses400ErrorContentApplicationJsonSchema value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = Components10Bc157ResponsesConversionerrorContentApplicationJsonSchema.DeserializeComponents10Bc157ResponsesConversionerrorContentApplicationJsonSchema(document.RootElement);
+                        value = Components8Sxs33Responses400ErrorContentApplicationJsonSchema.DeserializeComponents8Sxs33Responses400ErrorContentApplicationJsonSchema(document.RootElement);
                         return Response.FromValue<object>(value, message.Response);
                     }
                 case 401:

@@ -29,13 +29,13 @@ namespace affinda.Models
             Optional<Stream> headShot = default;
             Optional<IReadOnlyList<ResumeDataEducationItem>> education = default;
             Optional<IReadOnlyList<ResumeDataWorkExperienceItem>> workExperience = default;
-            Optional<IReadOnlyList<string>> skills = default;
-            Optional<IReadOnlyList<ResumeDataSkillsDetailsItem>> skillsDetails = default;
+            Optional<IReadOnlyList<ResumeDataSkillsItem>> skills = default;
             Optional<IReadOnlyList<string>> certifications = default;
             Optional<IReadOnlyList<string>> publications = default;
             Optional<IReadOnlyList<ResumeDataRefereesItem>> referees = default;
             Optional<IReadOnlyList<ResumeDataSectionsItem>> sections = default;
             Optional<int> isResumeProbability = default;
+            Optional<string> rawText = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("name"))
@@ -195,27 +195,12 @@ namespace affinda.Models
                         property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    List<string> array = new List<string>();
+                    List<ResumeDataSkillsItem> array = new List<ResumeDataSkillsItem>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(item.GetString());
+                        array.Add(ResumeDataSkillsItem.DeserializeResumeDataSkillsItem(item));
                     }
                     skills = array;
-                    continue;
-                }
-                if (property.NameEquals("skillsDetails"))
-                {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        property.ThrowNonNullablePropertyIsNull();
-                        continue;
-                    }
-                    List<ResumeDataSkillsDetailsItem> array = new List<ResumeDataSkillsDetailsItem>();
-                    foreach (var item in property.Value.EnumerateArray())
-                    {
-                        array.Add(ResumeDataSkillsDetailsItem.DeserializeResumeDataSkillsDetailsItem(item));
-                    }
-                    skillsDetails = array;
                     continue;
                 }
                 if (property.NameEquals("certifications"))
@@ -288,8 +273,13 @@ namespace affinda.Models
                     isResumeProbability = property.Value.GetInt32();
                     continue;
                 }
+                if (property.NameEquals("rawText"))
+                {
+                    rawText = property.Value.GetString();
+                    continue;
+                }
             }
-            return new ResumeData(name.Value, Optional.ToList(phoneNumbers), Optional.ToList(websites), Optional.ToList(emails), dateOfBirth.Value, location.Value, objective.Value, Optional.ToList(languages), summary.Value, Optional.ToNullable(totalYearsExperience), headShot.Value, Optional.ToList(education), Optional.ToList(workExperience), Optional.ToList(skills), Optional.ToList(skillsDetails), Optional.ToList(certifications), Optional.ToList(publications), Optional.ToList(referees), Optional.ToList(sections), Optional.ToNullable(isResumeProbability));
+            return new ResumeData(name.Value, Optional.ToList(phoneNumbers), Optional.ToList(websites), Optional.ToList(emails), dateOfBirth.Value, location.Value, objective.Value, Optional.ToList(languages), summary.Value, Optional.ToNullable(totalYearsExperience), headShot.Value, Optional.ToList(education), Optional.ToList(workExperience), Optional.ToList(skills), Optional.ToList(certifications), Optional.ToList(publications), Optional.ToList(referees), Optional.ToList(sections), Optional.ToNullable(isResumeProbability), rawText.Value);
         }
     }
 }
