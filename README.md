@@ -12,13 +12,3 @@ Affinda API - C# Client Library
 
 
 Generated using [autorest](https://github.com/Azure/autorest) and [autorest.csharp](https://github.com/Azure/autorest.csharp).
-
-
-Parser
-------
-
-Redactor
---------
-
-Reformatter
------------
