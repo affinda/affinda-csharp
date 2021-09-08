@@ -25,7 +25,7 @@ If applicable, add a stacktracke / screenshot to help explain your problem.
 
 **Environment**
  - Client version: [e.g. 1.1.0]
- - Pyhon version [e.g. 3.6.9]
+ - .NET version [e.g. 5.0.0]
 
 **Additional context**
 Add any other context about the problem here.
