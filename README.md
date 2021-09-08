@@ -12,3 +12,38 @@ Affinda API - C# Client Library
 
 
 Generated using [autorest](https://github.com/Azure/autorest) and [autorest.csharp](https://github.com/Azure/autorest.csharp).
+
+Installation
+------------
+
+Install from NuGet via the Visual Studio NuGet GUI or from the terminal:
+
+```shell
+nuget install <packageID> -OutputDirectory packages
+```
+
+
+
+Quickstart
+----------
+
+```C#
+using System;
+using System.IO;
+using Affinda.API;
+using Affinda.API.Models;
+
+...
+
+string resumePath = "PATH_TO_RESUME";
+using (FileStream fs = File.OpenRead(resumePath))
+{
+    var credential = new AffindaTokenCredential("REPLACE_TOKEN");
+    var client = new AffindaAPIClient(credential);
+    var resume = client.CreateResume(file: fs);
+}
+```
+
+An example project is provided [here](./SampleProgram/SampleProgram.csproj)
+
+Further examples can be found [here](./docs/samples_csharp.md)
