@@ -19,7 +19,7 @@ Installation
 Install from NuGet via the Visual Studio NuGet GUI or from the terminal:
 
 ```shell
-nuget install <packageID> -OutputDirectory packages
+nuget install Affinda.API
 ```
 
 

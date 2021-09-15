@@ -4,6 +4,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Nullable>annotations</Nullable>
+    <NuspecFile>./Affinda.API.nuspec</NuspecFile>
+
   </PropertyGroup>
 
   <PropertyGroup>
