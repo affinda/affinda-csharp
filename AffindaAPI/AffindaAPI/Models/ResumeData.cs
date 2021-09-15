@@ -44,6 +44,7 @@ namespace Affinda.API.Models
         /// <param name="headShot"> base64 encoded string. </param>
         /// <param name="education"></param>
         /// <param name="profession"> Prediction of the candidate&apos;s profession based on recent work experience. </param>
+        /// <param name="linkedin"> Linkedin account associated with the candidate. </param>
         /// <param name="workExperience"></param>
         /// <param name="skills"></param>
         /// <param name="certifications"></param>
@@ -52,7 +53,7 @@ namespace Affinda.API.Models
         /// <param name="sections"></param>
         /// <param name="isResumeProbability"> Probability that the given document is a resume. Values below 30 suggest that the resume is not a resume. </param>
         /// <param name="rawText"> All of the raw text of the parsed resume, example is shortened for readiblity. </param>
-        internal ResumeData(ResumeDataName name, IReadOnlyList<string> phoneNumbers, IReadOnlyList<string> websites, IReadOnlyList<string> emails, string dateOfBirth, Location location, string objective, IReadOnlyList<string> languages, string summary, int? totalYearsExperience, byte[] headShot, IReadOnlyList<ResumeDataEducationItem> education, string profession, IReadOnlyList<ResumeDataWorkExperienceItem> workExperience, IReadOnlyList<ResumeDataSkillsItem> skills, IReadOnlyList<string> certifications, IReadOnlyList<string> publications, IReadOnlyList<ResumeDataRefereesItem> referees, IReadOnlyList<ResumeDataSectionsItem> sections, int? isResumeProbability, string rawText)
+        internal ResumeData(ResumeDataName name, IReadOnlyList<string> phoneNumbers, IReadOnlyList<string> websites, IReadOnlyList<string> emails, string dateOfBirth, Location location, string objective, IReadOnlyList<string> languages, string summary, int? totalYearsExperience, byte[] headShot, IReadOnlyList<ResumeDataEducationItem> education, string profession, string linkedin, IReadOnlyList<ResumeDataWorkExperienceItem> workExperience, IReadOnlyList<ResumeDataSkillsItem> skills, IReadOnlyList<string> certifications, IReadOnlyList<string> publications, IReadOnlyList<ResumeDataRefereesItem> referees, IReadOnlyList<ResumeDataSectionsItem> sections, int? isResumeProbability, string rawText)
         {
             Name = name;
             PhoneNumbers = phoneNumbers;
@@ -67,6 +68,7 @@ namespace Affinda.API.Models
             HeadShot = headShot;
             Education = education;
             Profession = profession;
+            Linkedin = linkedin;
             WorkExperience = workExperience;
             Skills = skills;
             Certifications = certifications;
@@ -92,6 +94,8 @@ namespace Affinda.API.Models
         public IReadOnlyList<ResumeDataEducationItem> Education { get; }
         /// <summary> Prediction of the candidate&apos;s profession based on recent work experience. </summary>
         public string Profession { get; }
+        /// <summary> Linkedin account associated with the candidate. </summary>
+        public string Linkedin { get; }
         public IReadOnlyList<ResumeDataWorkExperienceItem> WorkExperience { get; }
         public IReadOnlyList<ResumeDataSkillsItem> Skills { get; }
         public IReadOnlyList<string> Certifications { get; }

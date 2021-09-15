@@ -29,6 +29,7 @@ namespace Affinda.API.Models
             Optional<byte[]> headShot = default;
             Optional<IReadOnlyList<ResumeDataEducationItem>> education = default;
             Optional<string> profession = default;
+            Optional<string> linkedin = default;
             Optional<IReadOnlyList<ResumeDataWorkExperienceItem>> workExperience = default;
             Optional<IReadOnlyList<ResumeDataSkillsItem>> skills = default;
             Optional<IReadOnlyList<string>> certifications = default;
@@ -184,6 +185,16 @@ namespace Affinda.API.Models
                     profession = property.Value.GetString();
                     continue;
                 }
+                if (property.NameEquals("linkedin"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        linkedin = null;
+                        continue;
+                    }
+                    linkedin = property.Value.GetString();
+                    continue;
+                }
                 if (property.NameEquals("workExperience"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
@@ -290,7 +301,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new ResumeData(name.Value, Optional.ToList(phoneNumbers), Optional.ToList(websites), Optional.ToList(emails), dateOfBirth.Value, location.Value, objective.Value, Optional.ToList(languages), summary.Value, Optional.ToNullable(totalYearsExperience), headShot.Value, Optional.ToList(education), profession.Value, Optional.ToList(workExperience), Optional.ToList(skills), Optional.ToList(certifications), Optional.ToList(publications), Optional.ToList(referees), Optional.ToList(sections), Optional.ToNullable(isResumeProbability), rawText.Value);
+            return new ResumeData(name.Value, Optional.ToList(phoneNumbers), Optional.ToList(websites), Optional.ToList(emails), dateOfBirth.Value, location.Value, objective.Value, Optional.ToList(languages), summary.Value, Optional.ToNullable(totalYearsExperience), headShot.Value, Optional.ToList(education), profession.Value, linkedin.Value, Optional.ToList(workExperience), Optional.ToList(skills), Optional.ToList(certifications), Optional.ToList(publications), Optional.ToList(referees), Optional.ToList(sections), Optional.ToNullable(isResumeProbability), rawText.Value);
         }
     }
 }

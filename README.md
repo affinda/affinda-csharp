@@ -1,11 +1,11 @@
-Affinda API - C# Client Library
+Affinda API - .NET Client Library
 ===================================
 
-![affinda logo](https://raw.githubusercontent.com/affinda/affinda-csharp/main/affinda_logo.png)
-[![license](https://img.shields.io/github/license/affinda/affinda-csharp)](https://choosealicense.com/licenses/mit/)
+![affinda logo](https://raw.githubusercontent.com/affinda/affinda-dotnet/main/affinda_logo.png)
+[![license](https://img.shields.io/github/license/affinda/affinda-dotnet)](https://choosealicense.com/licenses/mit/)
 
 
-[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/affinda/affinda-csharp)
+[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/affinda/affinda-dotnet)
 
 - [Installation](#installation)
 - [Quickstart](#quickstart)
