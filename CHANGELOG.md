@@ -3,6 +3,8 @@
 ### Added
 - Adding LinkedIn to ResumeData
 
+### Fixed
+- Fixed dependencies and README install directions
 
 ## 1.0.0 - 2021-09-08
 

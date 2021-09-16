@@ -1,26 +1,57 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <Nullable>annotations</Nullable>
-    <NuspecFile>./Affinda.API.nuspec</NuspecFile>
+    <PropertyGroup>
+        <Version>1.1.0</Version>
+        <!-- Necessary as the underling autorest.CSharp lib is beta, nuget complains :( -->
+        <VersionSuffix>beta</VersionSuffix>
+        <LangVersion>8.0</LangVersion>
+        <IncludeGeneratorSharedCode>true</IncludeGeneratorSharedCode>
+        <RestoreAdditionalProjectSources>
+            https://azuresdkartifacts.blob.core.windows.net/azure-sdk-tools/index.json
+        </RestoreAdditionalProjectSources>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <Nullable>annotations</Nullable>
+        <Company>Affinda</Company>
+        <Description>.NET library for the Affinda API</Description>
+        <PackageTags>affinda;resume;resumes;redaction;reformatting</PackageTags>
+        <Copyright>Copyright © $(Company) $([System.DateTime]::Now.Year)</Copyright>
+        <PackageId>Affinda.API</PackageId>
+        <Authors>Chris Culhane</Authors>
+        <PackageProjectUrl>https://github.com/affinda/affinda-dotnet</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/affinda/affinda-dotnet</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <Description>.NET library for the Affinda API</Description>
+        <Copyright>Copyright © Affinda</Copyright>
+        <PackageTags>affinda;resume;redaction</PackageTags>
+        <Product>Affinda.API</Product>
 
-  </PropertyGroup>
+        <PackageReleaseNotes>Updating depedencies</PackageReleaseNotes>
+    </PropertyGroup>
 
-  <PropertyGroup>
-    <LangVersion>8.0</LangVersion>
-    <IncludeGeneratorSharedCode>true</IncludeGeneratorSharedCode>
-    <RestoreAdditionalProjectSources>https://azuresdkartifacts.blob.core.windows.net/azure-sdk-tools/index.json</RestoreAdditionalProjectSources>
-  </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Azure.AutoRest.CSharp" Version="3.0.0-beta.20210604.3" PrivateAssets="All" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="all" IsImplicitlyDefined="true" />
+        <PackageReference Include="Microsoft.Azure.AutoRest.CSharp" Version="3.0.0-beta.20210604.3" PrivateAssets="All" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Azure.Core" Version="1.18.0" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Azure.Core" Version="1.19.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="$(MSBuildThisFileDirectory)../affinda_logo.png" Pack="true" PackagePath="" />
+        <None Include="$(MSBuildThisFileDirectory)../LICENSE" Pack="true" PackagePath="" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    </PropertyGroup>
 
 </Project>
 
