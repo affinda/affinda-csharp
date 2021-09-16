@@ -19,7 +19,7 @@ Installation
 Install from NuGet via the Visual Studio NuGet GUI or from the terminal:
 
 ```shell
-dotnet add package Affinda.API --version 1.1.0-beta
+dotnet add package Affinda.API --version 1.1.0
 ```
 
 
