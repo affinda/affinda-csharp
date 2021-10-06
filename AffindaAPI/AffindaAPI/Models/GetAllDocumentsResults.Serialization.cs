@@ -5,7 +5,6 @@
 
 #nullable disable
 
-using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
@@ -17,8 +16,8 @@ namespace Affinda.API.Models
         internal static GetAllDocumentsResults DeserializeGetAllDocumentsResults(JsonElement element)
         {
             Optional<int> count = default;
-            Optional<Uri> next = default;
-            Optional<Uri> previous = default;
+            Optional<string> next = default;
+            Optional<string> previous = default;
             Optional<IReadOnlyList<Meta>> results = default;
             foreach (var property in element.EnumerateObject())
             {
@@ -39,7 +38,7 @@ namespace Affinda.API.Models
                         next = null;
                         continue;
                     }
-                    next = new Uri(property.Value.GetString());
+                    next = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("previous"))
@@ -49,7 +48,7 @@ namespace Affinda.API.Models
                         previous = null;
                         continue;
                     }
-                    previous = new Uri(property.Value.GetString());
+                    previous = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("results"))

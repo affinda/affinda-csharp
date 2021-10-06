@@ -13,10 +13,10 @@ namespace Affinda.API.Models
     public partial class Get200ApplicationJsonPropertiesItemsItem
     {
         /// <summary> Initializes a new instance of Get200ApplicationJsonPropertiesItemsItem. </summary>
-        /// <param name="identifier"> Unique identifier for the resume. If creating a document and left blank, one will be automatically generated. </param>
-        /// <param name="formatFile"> The template to apply. </param>
+        /// <param name="identifier"> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </param>
+        /// <param name="formatFile"> URL to a template to apply. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="formatFile"/> is null. </exception>
-        internal Get200ApplicationJsonPropertiesItemsItem(string identifier, Uri formatFile)
+        internal Get200ApplicationJsonPropertiesItemsItem(string identifier, string formatFile)
         {
             if (formatFile == null)
             {
@@ -27,9 +27,9 @@ namespace Affinda.API.Models
             FormatFile = formatFile;
         }
 
-        /// <summary> Unique identifier for the resume. If creating a document and left blank, one will be automatically generated. </summary>
+        /// <summary> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </summary>
         public string Identifier { get; }
-        /// <summary> The template to apply. </summary>
-        public Uri FormatFile { get; }
+        /// <summary> URL to a template to apply. </summary>
+        public string FormatFile { get; }
     }
 }

@@ -11,14 +11,14 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class Paths1UtuacyResumeFormatsGetResponses200ContentApplicationJsonSchema
+    public partial class GetAllInvoicesResults
     {
-        internal static Paths1UtuacyResumeFormatsGetResponses200ContentApplicationJsonSchema DeserializePaths1UtuacyResumeFormatsGetResponses200ContentApplicationJsonSchema(JsonElement element)
+        internal static GetAllInvoicesResults DeserializeGetAllInvoicesResults(JsonElement element)
         {
             Optional<int> count = default;
             Optional<string> next = default;
             Optional<string> previous = default;
-            Optional<IReadOnlyList<Get200ApplicationJsonPropertiesItemsItem>> results = default;
+            Optional<IReadOnlyList<Meta>> results = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("count"))
@@ -58,16 +58,16 @@ namespace Affinda.API.Models
                         property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    List<Get200ApplicationJsonPropertiesItemsItem> array = new List<Get200ApplicationJsonPropertiesItemsItem>();
+                    List<Meta> array = new List<Meta>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(Get200ApplicationJsonPropertiesItemsItem.DeserializeGet200ApplicationJsonPropertiesItemsItem(item));
+                        array.Add(Meta.DeserializeMeta(item));
                     }
                     results = array;
                     continue;
                 }
             }
-            return new Paths1UtuacyResumeFormatsGetResponses200ContentApplicationJsonSchema(Optional.ToNullable(count), next.Value, previous.Value, Optional.ToList(results));
+            return new GetAllInvoicesResults(Optional.ToNullable(count), next.Value, previous.Value, Optional.ToList(results));
         }
     }
 }

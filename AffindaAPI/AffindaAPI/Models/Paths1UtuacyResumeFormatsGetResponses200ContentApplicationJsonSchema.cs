@@ -5,7 +5,6 @@
 
 #nullable disable
 
-using System;
 using System.Collections.Generic;
 using Azure.Core;
 
@@ -21,11 +20,11 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of Paths1UtuacyResumeFormatsGetResponses200ContentApplicationJsonSchema. </summary>
-        /// <param name="count"></param>
-        /// <param name="next"></param>
-        /// <param name="previous"></param>
+        /// <param name="count"> Number of documents in result. </param>
+        /// <param name="next"> URL to request next page of results. </param>
+        /// <param name="previous"> URL to request previous page of results. </param>
         /// <param name="results"></param>
-        internal Paths1UtuacyResumeFormatsGetResponses200ContentApplicationJsonSchema(int? count, Uri next, Uri previous, IReadOnlyList<Get200ApplicationJsonPropertiesItemsItem> results)
+        internal Paths1UtuacyResumeFormatsGetResponses200ContentApplicationJsonSchema(int? count, string next, string previous, IReadOnlyList<Get200ApplicationJsonPropertiesItemsItem> results)
         {
             Count = count;
             Next = next;
@@ -33,9 +32,12 @@ namespace Affinda.API.Models
             Results = results;
         }
 
+        /// <summary> Number of documents in result. </summary>
         public int? Count { get; }
-        public Uri Next { get; }
-        public Uri Previous { get; }
+        /// <summary> URL to request next page of results. </summary>
+        public string Next { get; }
+        /// <summary> URL to request previous page of results. </summary>
+        public string Previous { get; }
         public IReadOnlyList<Get200ApplicationJsonPropertiesItemsItem> Results { get; }
     }
 }

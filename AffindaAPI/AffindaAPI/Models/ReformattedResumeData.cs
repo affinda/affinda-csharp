@@ -5,8 +5,6 @@
 
 #nullable disable
 
-using System;
-
 namespace Affinda.API.Models
 {
     /// <summary> The ReformattedResumeData. </summary>
@@ -19,11 +17,11 @@ namespace Affinda.API.Models
 
         /// <summary> Initializes a new instance of ReformattedResumeData. </summary>
         /// <param name="reformattedFile"></param>
-        internal ReformattedResumeData(Uri reformattedFile)
+        internal ReformattedResumeData(string reformattedFile)
         {
             ReformattedFile = reformattedFile;
         }
 
-        public Uri ReformattedFile { get; }
+        public string ReformattedFile { get; }
     }
 }

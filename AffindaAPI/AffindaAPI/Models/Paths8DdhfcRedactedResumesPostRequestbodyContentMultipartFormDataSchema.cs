@@ -19,14 +19,14 @@ namespace Affinda.API.Models
 
         /// <summary> File as binary data blob. </summary>
         public Stream File { get; }
-        /// <summary> Unique identifier for the resume. If creating a document and left blank, one will be automatically generated. </summary>
+        /// <summary> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </summary>
         public string Identifier { get; }
         /// <summary> Optional filename of the file. </summary>
         public string FileName { get; }
         /// <summary> URL to file to download and process. </summary>
         public string Url { get; }
         /// <summary> Language code in ISO 639-1 format. Must specify zh-cn or zh-tw for Chinese. </summary>
-        public string ResumeLanguage { get; }
+        public string Language { get; }
         /// <summary> If &quot;true&quot; (default), will return a response only after processing has completed. If &quot;false&quot;, will return an empty data object which can be polled at the GET endpoint until processing is complete. </summary>
         public string Wait { get; }
         /// <summary> Whether to redact headshot. </summary>
@@ -43,7 +43,7 @@ namespace Affinda.API.Models
         public string RedactLocations { get; }
         /// <summary> Whether to redact dates. </summary>
         public string RedactDates { get; }
-        /// <summary> The date/time in ISO-8601 format when the resume will be automatically deleted.  Defaults to no expiry. </summary>
+        /// <summary> The date/time in ISO-8601 format when the document will be automatically deleted.  Defaults to no expiry. </summary>
         public string ExpiryTime { get; }
     }
 }

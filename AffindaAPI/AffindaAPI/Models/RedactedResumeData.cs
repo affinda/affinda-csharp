@@ -5,8 +5,6 @@
 
 #nullable disable
 
-using System;
-
 namespace Affinda.API.Models
 {
     /// <summary> The RedactedResumeData. </summary>
@@ -18,12 +16,13 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of RedactedResumeData. </summary>
-        /// <param name="redactedPdf"></param>
-        internal RedactedResumeData(Uri redactedPdf)
+        /// <param name="redactedPdf"> URL to redacted PDF. </param>
+        internal RedactedResumeData(string redactedPdf)
         {
             RedactedPdf = redactedPdf;
         }
 
-        public Uri RedactedPdf { get; }
+        /// <summary> URL to redacted PDF. </summary>
+        public string RedactedPdf { get; }
     }
 }

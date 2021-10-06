@@ -5,7 +5,6 @@
 
 #nullable disable
 
-using System;
 using System.Text.Json;
 using Azure.Core;
 
@@ -16,7 +15,7 @@ namespace Affinda.API.Models
         internal static Get200ApplicationJsonPropertiesItemsItem DeserializeGet200ApplicationJsonPropertiesItemsItem(JsonElement element)
         {
             string identifier = default;
-            Uri formatFile = default;
+            string formatFile = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("identifier"))
@@ -31,7 +30,7 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("formatFile"))
                 {
-                    formatFile = new Uri(property.Value.GetString());
+                    formatFile = property.Value.GetString();
                     continue;
                 }
             }

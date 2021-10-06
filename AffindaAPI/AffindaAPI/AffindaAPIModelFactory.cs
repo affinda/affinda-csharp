@@ -15,12 +15,12 @@ namespace Affinda.API.Models
     public static partial class AffindaAPIModelFactory
     {
         /// <summary> Initializes a new instance of GetAllDocumentsResults. </summary>
-        /// <param name="count"></param>
-        /// <param name="next"></param>
-        /// <param name="previous"></param>
+        /// <param name="count"> Number of documents in result. </param>
+        /// <param name="next"> URL to request next page of results. </param>
+        /// <param name="previous"> URL to request previous page of results. </param>
         /// <param name="results"></param>
         /// <returns> A new <see cref="Models.GetAllDocumentsResults"/> instance for mocking. </returns>
-        public static GetAllDocumentsResults GetAllDocumentsResults(int? count = null, Uri next = null, Uri previous = null, IEnumerable<Meta> results = null)
+        public static GetAllDocumentsResults GetAllDocumentsResults(int? count = null, string next = null, string previous = null, IEnumerable<Meta> results = null)
         {
             results ??= new List<Meta>();
 
@@ -28,12 +28,12 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of Meta. </summary>
-        /// <param name="identifier"> Unique identifier for the resume. If creating a document and left blank, one will be automatically generated. </param>
+        /// <param name="identifier"> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </param>
         /// <param name="fileName"> Optional filename of the file. </param>
         /// <param name="ready"> If true, the document has finished processing. Particularly useful if an endpoint request specified wait=False, when polling use this variable to determine when to stop polling. </param>
         /// <param name="readyDt"> The datetime when the document was ready. </param>
         /// <param name="failed"> If true, some exception was raised during processing. Check the &apos;error&apos; field of the main return object. </param>
-        /// <param name="expiryTime"> The date/time in ISO-8601 format when the resume will be automatically deleted.  Defaults to no expiry. </param>
+        /// <param name="expiryTime"> The date/time in ISO-8601 format when the document will be automatically deleted.  Defaults to no expiry. </param>
         /// <returns> A new <see cref="Models.Meta"/> instance for mocking. </returns>
         public static Meta Meta(string identifier = null, string fileName = null, bool ready = default, DateTimeOffset? readyDt = null, bool failed = default, string expiryTime = null)
         {
@@ -80,7 +80,7 @@ namespace Affinda.API.Models
         /// <param name="publications"></param>
         /// <param name="referees"></param>
         /// <param name="sections"></param>
-        /// <param name="isResumeProbability"> Probability that the given document is a resume. Values below 30 suggest that the resume is not a resume. </param>
+        /// <param name="isResumeProbability"> Probability that the given document is a resume. Values below 30 suggest that the document is not a resume. </param>
         /// <param name="rawText"> All of the raw text of the parsed resume, example is shortened for readiblity. </param>
         /// <returns> A new <see cref="Models.ResumeData"/> instance for mocking. </returns>
         public static ResumeData ResumeData(ResumeDataName name = null, IEnumerable<string> phoneNumbers = null, IEnumerable<string> websites = null, IEnumerable<string> emails = null, string dateOfBirth = null, Location location = null, string objective = null, IEnumerable<string> languages = null, string summary = null, int? totalYearsExperience = null, byte[] headShot = null, IEnumerable<ResumeDataEducationItem> education = null, string profession = null, string linkedin = null, IEnumerable<ResumeDataWorkExperienceItem> workExperience = null, IEnumerable<ResumeDataSkillsItem> skills = null, IEnumerable<string> certifications = null, IEnumerable<string> publications = null, IEnumerable<ResumeDataRefereesItem> referees = null, IEnumerable<ResumeDataSectionsItem> sections = null, int? isResumeProbability = null, string rawText = null)
@@ -261,20 +261,20 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of RedactedResumeData. </summary>
-        /// <param name="redactedPdf"></param>
+        /// <param name="redactedPdf"> URL to redacted PDF. </param>
         /// <returns> A new <see cref="Models.RedactedResumeData"/> instance for mocking. </returns>
-        public static RedactedResumeData RedactedResumeData(Uri redactedPdf = null)
+        public static RedactedResumeData RedactedResumeData(string redactedPdf = null)
         {
             return new RedactedResumeData(redactedPdf);
         }
 
         /// <summary> Initializes a new instance of Paths1UtuacyResumeFormatsGetResponses200ContentApplicationJsonSchema. </summary>
-        /// <param name="count"></param>
-        /// <param name="next"></param>
-        /// <param name="previous"></param>
+        /// <param name="count"> Number of documents in result. </param>
+        /// <param name="next"> URL to request next page of results. </param>
+        /// <param name="previous"> URL to request previous page of results. </param>
         /// <param name="results"></param>
         /// <returns> A new <see cref="Models.Paths1UtuacyResumeFormatsGetResponses200ContentApplicationJsonSchema"/> instance for mocking. </returns>
-        public static Paths1UtuacyResumeFormatsGetResponses200ContentApplicationJsonSchema Paths1UtuacyResumeFormatsGetResponses200ContentApplicationJsonSchema(int? count = null, Uri next = null, Uri previous = null, IEnumerable<Get200ApplicationJsonPropertiesItemsItem> results = null)
+        public static Paths1UtuacyResumeFormatsGetResponses200ContentApplicationJsonSchema Paths1UtuacyResumeFormatsGetResponses200ContentApplicationJsonSchema(int? count = null, string next = null, string previous = null, IEnumerable<Get200ApplicationJsonPropertiesItemsItem> results = null)
         {
             results ??= new List<Get200ApplicationJsonPropertiesItemsItem>();
 
@@ -282,10 +282,10 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of Get200ApplicationJsonPropertiesItemsItem. </summary>
-        /// <param name="identifier"> Unique identifier for the resume. If creating a document and left blank, one will be automatically generated. </param>
-        /// <param name="formatFile"> The template to apply. </param>
+        /// <param name="identifier"> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </param>
+        /// <param name="formatFile"> URL to a template to apply. </param>
         /// <returns> A new <see cref="Models.Get200ApplicationJsonPropertiesItemsItem"/> instance for mocking. </returns>
-        public static Get200ApplicationJsonPropertiesItemsItem Get200ApplicationJsonPropertiesItemsItem(string identifier = null, Uri formatFile = null)
+        public static Get200ApplicationJsonPropertiesItemsItem Get200ApplicationJsonPropertiesItemsItem(string identifier = null, string formatFile = null)
         {
             return new Get200ApplicationJsonPropertiesItemsItem(identifier, formatFile);
         }
@@ -303,9 +303,74 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of ReformattedResumeData. </summary>
         /// <param name="reformattedFile"></param>
         /// <returns> A new <see cref="Models.ReformattedResumeData"/> instance for mocking. </returns>
-        public static ReformattedResumeData ReformattedResumeData(Uri reformattedFile = null)
+        public static ReformattedResumeData ReformattedResumeData(string reformattedFile = null)
         {
             return new ReformattedResumeData(reformattedFile);
+        }
+
+        /// <summary> Initializes a new instance of GetAllInvoicesResults. </summary>
+        /// <param name="count"> Number of documents in result. </param>
+        /// <param name="next"> URL to request next page of results. </param>
+        /// <param name="previous"> URL to request previous page of results. </param>
+        /// <param name="results"></param>
+        /// <returns> A new <see cref="Models.GetAllInvoicesResults"/> instance for mocking. </returns>
+        public static GetAllInvoicesResults GetAllInvoicesResults(int? count = null, string next = null, string previous = null, IEnumerable<Meta> results = null)
+        {
+            results ??= new List<Meta>();
+
+            return new GetAllInvoicesResults(count, next, previous, results?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of Invoice. </summary>
+        /// <param name="data"></param>
+        /// <param name="meta"></param>
+        /// <param name="error"></param>
+        /// <returns> A new <see cref="Models.Invoice"/> instance for mocking. </returns>
+        public static Invoice Invoice(InvoiceData data = null, Meta meta = null, Error error = null)
+        {
+            return new Invoice(data, meta, error);
+        }
+
+        /// <summary> Initializes a new instance of InvoiceData. </summary>
+        /// <param name="invoiceDate"></param>
+        /// <param name="invoiceOrderDate"></param>
+        /// <param name="paymentDateDue"></param>
+        /// <param name="paymentAmountBase"></param>
+        /// <param name="paymentAmountTax"></param>
+        /// <param name="paymentAmountTotal"></param>
+        /// <param name="paymentAmountPaid"></param>
+        /// <param name="paymentAmountDue"></param>
+        /// <param name="invoiceNumber"></param>
+        /// <param name="invoicePurchaseOrderNumber"></param>
+        /// <param name="supplierBusinessNumber"></param>
+        /// <param name="customerNumber"></param>
+        /// <param name="customerBusinessNumber"></param>
+        /// <param name="paymentReference"></param>
+        /// <param name="bankAccountNumber"></param>
+        /// <param name="supplierVAT"></param>
+        /// <param name="customerVAT"></param>
+        /// <param name="bpayBillerCode"></param>
+        /// <param name="bpayReference"></param>
+        /// <param name="bankSortCode"></param>
+        /// <param name="bankIban"></param>
+        /// <param name="bankSwift"></param>
+        /// <param name="bankBSB"></param>
+        /// <param name="customerContactName"></param>
+        /// <param name="customerCompanyName"></param>
+        /// <param name="supplierCompanyName"></param>
+        /// <param name="customerBillingAddress"></param>
+        /// <param name="customerDeliveryAddress"></param>
+        /// <param name="supplierAddress"></param>
+        /// <param name="customerPhoneNumber"></param>
+        /// <param name="supplierPhoneNumber"></param>
+        /// <param name="supplierFax"></param>
+        /// <param name="customerEmail"></param>
+        /// <param name="supplierEmail"></param>
+        /// <param name="supplierWebsite"></param>
+        /// <returns> A new <see cref="Models.InvoiceData"/> instance for mocking. </returns>
+        public static InvoiceData InvoiceData(string invoiceDate = null, string invoiceOrderDate = null, string paymentDateDue = null, string paymentAmountBase = null, string paymentAmountTax = null, string paymentAmountTotal = null, string paymentAmountPaid = null, string paymentAmountDue = null, string invoiceNumber = null, string invoicePurchaseOrderNumber = null, string supplierBusinessNumber = null, string customerNumber = null, string customerBusinessNumber = null, string paymentReference = null, string bankAccountNumber = null, string supplierVAT = null, string customerVAT = null, string bpayBillerCode = null, string bpayReference = null, string bankSortCode = null, string bankIban = null, string bankSwift = null, string bankBSB = null, string customerContactName = null, string customerCompanyName = null, string supplierCompanyName = null, Location customerBillingAddress = null, Location customerDeliveryAddress = null, Location supplierAddress = null, string customerPhoneNumber = null, string supplierPhoneNumber = null, string supplierFax = null, string customerEmail = null, string supplierEmail = null, string supplierWebsite = null)
+        {
+            return new InvoiceData(invoiceDate, invoiceOrderDate, paymentDateDue, paymentAmountBase, paymentAmountTax, paymentAmountTotal, paymentAmountPaid, paymentAmountDue, invoiceNumber, invoicePurchaseOrderNumber, supplierBusinessNumber, customerNumber, customerBusinessNumber, paymentReference, bankAccountNumber, supplierVAT, customerVAT, bpayBillerCode, bpayReference, bankSortCode, bankIban, bankSwift, bankBSB, customerContactName, customerCompanyName, supplierCompanyName, customerBillingAddress, customerDeliveryAddress, supplierAddress, customerPhoneNumber, supplierPhoneNumber, supplierFax, customerEmail, supplierEmail, supplierWebsite);
         }
     }
 }

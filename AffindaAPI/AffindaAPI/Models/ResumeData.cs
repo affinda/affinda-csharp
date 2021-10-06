@@ -51,7 +51,7 @@ namespace Affinda.API.Models
         /// <param name="publications"></param>
         /// <param name="referees"></param>
         /// <param name="sections"></param>
-        /// <param name="isResumeProbability"> Probability that the given document is a resume. Values below 30 suggest that the resume is not a resume. </param>
+        /// <param name="isResumeProbability"> Probability that the given document is a resume. Values below 30 suggest that the document is not a resume. </param>
         /// <param name="rawText"> All of the raw text of the parsed resume, example is shortened for readiblity. </param>
         internal ResumeData(ResumeDataName name, IReadOnlyList<string> phoneNumbers, IReadOnlyList<string> websites, IReadOnlyList<string> emails, string dateOfBirth, Location location, string objective, IReadOnlyList<string> languages, string summary, int? totalYearsExperience, byte[] headShot, IReadOnlyList<ResumeDataEducationItem> education, string profession, string linkedin, IReadOnlyList<ResumeDataWorkExperienceItem> workExperience, IReadOnlyList<ResumeDataSkillsItem> skills, IReadOnlyList<string> certifications, IReadOnlyList<string> publications, IReadOnlyList<ResumeDataRefereesItem> referees, IReadOnlyList<ResumeDataSectionsItem> sections, int? isResumeProbability, string rawText)
         {
@@ -102,7 +102,7 @@ namespace Affinda.API.Models
         public IReadOnlyList<string> Publications { get; }
         public IReadOnlyList<ResumeDataRefereesItem> Referees { get; }
         public IReadOnlyList<ResumeDataSectionsItem> Sections { get; }
-        /// <summary> Probability that the given document is a resume. Values below 30 suggest that the resume is not a resume. </summary>
+        /// <summary> Probability that the given document is a resume. Values below 30 suggest that the document is not a resume. </summary>
         public int? IsResumeProbability { get; }
         /// <summary> All of the raw text of the parsed resume, example is shortened for readiblity. </summary>
         public string RawText { get; }

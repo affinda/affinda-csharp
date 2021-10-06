@@ -9,11 +9,11 @@ using System.IO;
 
 namespace Affinda.API.Models
 {
-    /// <summary> The Paths7EskthResumesPostRequestbodyContentMultipartFormDataSchema. </summary>
-    internal partial class Paths7EskthResumesPostRequestbodyContentMultipartFormDataSchema
+    /// <summary> The Paths1BwrvmkInvoicesPostRequestbodyContentMultipartFormDataSchema. </summary>
+    internal partial class Paths1BwrvmkInvoicesPostRequestbodyContentMultipartFormDataSchema
     {
-        /// <summary> Initializes a new instance of Paths7EskthResumesPostRequestbodyContentMultipartFormDataSchema. </summary>
-        internal Paths7EskthResumesPostRequestbodyContentMultipartFormDataSchema()
+        /// <summary> Initializes a new instance of Paths1BwrvmkInvoicesPostRequestbodyContentMultipartFormDataSchema. </summary>
+        internal Paths1BwrvmkInvoicesPostRequestbodyContentMultipartFormDataSchema()
         {
         }
 

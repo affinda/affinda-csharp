@@ -119,7 +119,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateCreateResumeRequest(Stream file, string identifier, string fileName, string url, string wait, string resumeLanguage, string expiryTime)
+        internal HttpMessage CreateCreateResumeRequest(Stream file, string identifier, string fileName, string url, string wait, string language, string expiryTime)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -151,9 +151,9 @@ namespace Affinda.API
             {
                 content.Add(new StringRequestContent(wait), "wait", null);
             }
-            if (resumeLanguage != null)
+            if (language != null)
             {
-                content.Add(new StringRequestContent(resumeLanguage), "resumeLanguage", null);
+                content.Add(new StringRequestContent(language), "language", null);
             }
             if (expiryTime != null)
             {
@@ -172,12 +172,12 @@ namespace Affinda.API
         /// <param name="fileName"> The FileName to use. </param>
         /// <param name="url"> The UrlToProcess to use. </param>
         /// <param name="wait"> The Wait to use. </param>
-        /// <param name="resumeLanguage"> The ResumeLanguage to use. </param>
+        /// <param name="language"> The Language to use. </param>
         /// <param name="expiryTime"> The ExpiryTime to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<object>> CreateResumeAsync(Stream file = null, string identifier = null, string fileName = null, string url = null, string wait = null, string resumeLanguage = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public async Task<Response<object>> CreateResumeAsync(Stream file = null, string identifier = null, string fileName = null, string url = null, string wait = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateResumeRequest(file, identifier, fileName, url, wait, resumeLanguage, expiryTime);
+            using var message = CreateCreateResumeRequest(file, identifier, fileName, url, wait, language, expiryTime);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -212,12 +212,12 @@ namespace Affinda.API
         /// <param name="fileName"> The FileName to use. </param>
         /// <param name="url"> The UrlToProcess to use. </param>
         /// <param name="wait"> The Wait to use. </param>
-        /// <param name="resumeLanguage"> The ResumeLanguage to use. </param>
+        /// <param name="language"> The Language to use. </param>
         /// <param name="expiryTime"> The ExpiryTime to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<object> CreateResume(Stream file = null, string identifier = null, string fileName = null, string url = null, string wait = null, string resumeLanguage = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public Response<object> CreateResume(Stream file = null, string identifier = null, string fileName = null, string url = null, string wait = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateResumeRequest(file, identifier, fileName, url, wait, resumeLanguage, expiryTime);
+            using var message = CreateCreateResumeRequest(file, identifier, fileName, url, wait, language, expiryTime);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -490,7 +490,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateCreateRedactedResumeRequest(Stream file, string identifier, string fileName, string url, string resumeLanguage, string wait, string redactHeadshot, string redactPersonalDetails, string redactWorkDetails, string redactEducationDetails, string redactReferees, string redactLocations, string redactDates, string expiryTime)
+        internal HttpMessage CreateCreateRedactedResumeRequest(Stream file, string identifier, string fileName, string url, string language, string wait, string redactHeadshot, string redactPersonalDetails, string redactWorkDetails, string redactEducationDetails, string redactReferees, string redactLocations, string redactDates, string expiryTime)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -518,9 +518,9 @@ namespace Affinda.API
             {
                 content.Add(new StringRequestContent(url), "url", null);
             }
-            if (resumeLanguage != null)
+            if (language != null)
             {
-                content.Add(new StringRequestContent(resumeLanguage), "resumeLanguage", null);
+                content.Add(new StringRequestContent(language), "language", null);
             }
             if (wait != null)
             {
@@ -567,7 +567,7 @@ namespace Affinda.API
         /// <param name="identifier"> The Identifier to use. </param>
         /// <param name="fileName"> The FileName to use. </param>
         /// <param name="url"> The UrlToProcess to use. </param>
-        /// <param name="resumeLanguage"> The ResumeLanguage to use. </param>
+        /// <param name="language"> The Language to use. </param>
         /// <param name="wait"> The Wait to use. </param>
         /// <param name="redactHeadshot"> Whether to redact headshot. </param>
         /// <param name="redactPersonalDetails"> Whether to redact personal details (e.g. name, address). </param>
@@ -578,9 +578,9 @@ namespace Affinda.API
         /// <param name="redactDates"> Whether to redact dates. </param>
         /// <param name="expiryTime"> The ExpiryTime to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<object>> CreateRedactedResumeAsync(Stream file = null, string identifier = null, string fileName = null, string url = null, string resumeLanguage = null, string wait = null, string redactHeadshot = null, string redactPersonalDetails = null, string redactWorkDetails = null, string redactEducationDetails = null, string redactReferees = null, string redactLocations = null, string redactDates = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public async Task<Response<object>> CreateRedactedResumeAsync(Stream file = null, string identifier = null, string fileName = null, string url = null, string language = null, string wait = null, string redactHeadshot = null, string redactPersonalDetails = null, string redactWorkDetails = null, string redactEducationDetails = null, string redactReferees = null, string redactLocations = null, string redactDates = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateRedactedResumeRequest(file, identifier, fileName, url, resumeLanguage, wait, redactHeadshot, redactPersonalDetails, redactWorkDetails, redactEducationDetails, redactReferees, redactLocations, redactDates, expiryTime);
+            using var message = CreateCreateRedactedResumeRequest(file, identifier, fileName, url, language, wait, redactHeadshot, redactPersonalDetails, redactWorkDetails, redactEducationDetails, redactReferees, redactLocations, redactDates, expiryTime);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -611,7 +611,7 @@ namespace Affinda.API
         /// <param name="identifier"> The Identifier to use. </param>
         /// <param name="fileName"> The FileName to use. </param>
         /// <param name="url"> The UrlToProcess to use. </param>
-        /// <param name="resumeLanguage"> The ResumeLanguage to use. </param>
+        /// <param name="language"> The Language to use. </param>
         /// <param name="wait"> The Wait to use. </param>
         /// <param name="redactHeadshot"> Whether to redact headshot. </param>
         /// <param name="redactPersonalDetails"> Whether to redact personal details (e.g. name, address). </param>
@@ -622,9 +622,9 @@ namespace Affinda.API
         /// <param name="redactDates"> Whether to redact dates. </param>
         /// <param name="expiryTime"> The ExpiryTime to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<object> CreateRedactedResume(Stream file = null, string identifier = null, string fileName = null, string url = null, string resumeLanguage = null, string wait = null, string redactHeadshot = null, string redactPersonalDetails = null, string redactWorkDetails = null, string redactEducationDetails = null, string redactReferees = null, string redactLocations = null, string redactDates = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public Response<object> CreateRedactedResume(Stream file = null, string identifier = null, string fileName = null, string url = null, string language = null, string wait = null, string redactHeadshot = null, string redactPersonalDetails = null, string redactWorkDetails = null, string redactEducationDetails = null, string redactReferees = null, string redactLocations = null, string redactDates = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateRedactedResumeRequest(file, identifier, fileName, url, resumeLanguage, wait, redactHeadshot, redactPersonalDetails, redactWorkDetails, redactEducationDetails, redactReferees, redactLocations, redactDates, expiryTime);
+            using var message = CreateCreateRedactedResumeRequest(file, identifier, fileName, url, language, wait, redactHeadshot, redactPersonalDetails, redactWorkDetails, redactEducationDetails, redactReferees, redactLocations, redactDates, expiryTime);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -976,7 +976,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateCreateReformattedResumeRequest(string resumeFormat, Stream file, string identifier, string fileName, string url, string resumeLanguage, string wait)
+        internal HttpMessage CreateCreateReformattedResumeRequest(string resumeFormat, Stream file, string identifier, string fileName, string url, string language, string wait)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1004,9 +1004,9 @@ namespace Affinda.API
             {
                 content.Add(new StringRequestContent(url), "url", null);
             }
-            if (resumeLanguage != null)
+            if (language != null)
             {
-                content.Add(new StringRequestContent(resumeLanguage), "resumeLanguage", null);
+                content.Add(new StringRequestContent(language), "language", null);
             }
             content.Add(new StringRequestContent(resumeFormat), "resumeFormat", null);
             if (wait != null)
@@ -1017,24 +1017,24 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary> Uploads a resume for reformatting. </summary>
+        /// <summary> Upload a resume for reformatting. </summary>
         /// <param name="resumeFormat"> The ResumeFormat to use. </param>
         /// <param name="file"> The binary to use. </param>
         /// <param name="identifier"> The Identifier to use. </param>
         /// <param name="fileName"> The FileName to use. </param>
         /// <param name="url"> The UrlToProcess to use. </param>
-        /// <param name="resumeLanguage"> The ResumeLanguage to use. </param>
+        /// <param name="language"> The Language to use. </param>
         /// <param name="wait"> The Wait to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="resumeFormat"/> is null. </exception>
-        public async Task<Response<object>> CreateReformattedResumeAsync(string resumeFormat, Stream file = null, string identifier = null, string fileName = null, string url = null, string resumeLanguage = null, string wait = null, CancellationToken cancellationToken = default)
+        public async Task<Response<object>> CreateReformattedResumeAsync(string resumeFormat, Stream file = null, string identifier = null, string fileName = null, string url = null, string language = null, string wait = null, CancellationToken cancellationToken = default)
         {
             if (resumeFormat == null)
             {
                 throw new ArgumentNullException(nameof(resumeFormat));
             }
 
-            using var message = CreateCreateReformattedResumeRequest(resumeFormat, file, identifier, fileName, url, resumeLanguage, wait);
+            using var message = CreateCreateReformattedResumeRequest(resumeFormat, file, identifier, fileName, url, language, wait);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1060,24 +1060,24 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Uploads a resume for reformatting. </summary>
+        /// <summary> Upload a resume for reformatting. </summary>
         /// <param name="resumeFormat"> The ResumeFormat to use. </param>
         /// <param name="file"> The binary to use. </param>
         /// <param name="identifier"> The Identifier to use. </param>
         /// <param name="fileName"> The FileName to use. </param>
         /// <param name="url"> The UrlToProcess to use. </param>
-        /// <param name="resumeLanguage"> The ResumeLanguage to use. </param>
+        /// <param name="language"> The Language to use. </param>
         /// <param name="wait"> The Wait to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="resumeFormat"/> is null. </exception>
-        public Response<object> CreateReformattedResume(string resumeFormat, Stream file = null, string identifier = null, string fileName = null, string url = null, string resumeLanguage = null, string wait = null, CancellationToken cancellationToken = default)
+        public Response<object> CreateReformattedResume(string resumeFormat, Stream file = null, string identifier = null, string fileName = null, string url = null, string language = null, string wait = null, CancellationToken cancellationToken = default)
         {
             if (resumeFormat == null)
             {
                 throw new ArgumentNullException(nameof(resumeFormat));
             }
 
-            using var message = CreateCreateReformattedResumeRequest(resumeFormat, file, identifier, fileName, url, resumeLanguage, wait);
+            using var message = CreateCreateReformattedResumeRequest(resumeFormat, file, identifier, fileName, url, language, wait);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -1209,7 +1209,7 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary> Deletes the specified resume from the database. </summary>
+        /// <summary> Delete the specified resume from the database. </summary>
         /// <param name="identifier"> Document identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
@@ -1240,7 +1240,7 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Deletes the specified resume from the database. </summary>
+        /// <summary> Delete the specified resume from the database. </summary>
         /// <param name="identifier"> Document identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
@@ -1252,6 +1252,377 @@ namespace Affinda.API
             }
 
             using var message = CreateDeleteReformattedResumeRequest(identifier);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 204:
+                    return Response.FromValue((RequestError)null, message.Response);
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateGetAllInvoicesRequest()
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Get;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(endpoint);
+            uri.AppendPath("/invoices", false);
+            if (limit != null)
+            {
+                uri.AppendQuery("limit", limit.Value, true);
+            }
+            if (offset != null)
+            {
+                uri.AppendQuery("offset", offset.Value, true);
+            }
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Returns all the invoice summaries for that user, limited to 300 per page. </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public async Task<Response<object>> GetAllInvoicesAsync(CancellationToken cancellationToken = default)
+        {
+            using var message = CreateGetAllInvoicesRequest();
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        GetAllInvoicesResults value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = GetAllInvoicesResults.DeserializeGetAllInvoicesResults(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Returns all the invoice summaries for that user, limited to 300 per page. </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public Response<object> GetAllInvoices(CancellationToken cancellationToken = default)
+        {
+            using var message = CreateGetAllInvoicesRequest();
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        GetAllInvoicesResults value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = GetAllInvoicesResults.DeserializeGetAllInvoicesResults(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateCreateInvoiceRequest(Stream file, string identifier, string fileName, string url, string wait, string language, string expiryTime)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(endpoint);
+            uri.AppendPath("/invoices", false);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Content-Type", "multipart/form-data");
+            var content = new MultipartFormDataContent();
+            if (file != null)
+            {
+                content.Add(RequestContent.Create(file), "file", fileName ?? "null.pdf" , null);
+            }
+            if (identifier != null)
+            {
+                content.Add(new StringRequestContent(identifier), "identifier", null);
+            }
+            if (fileName != null)
+            {
+                content.Add(new StringRequestContent(fileName), "fileName", null);
+            }
+            if (url != null)
+            {
+                content.Add(new StringRequestContent(url), "url", null);
+            }
+            if (wait != null)
+            {
+                content.Add(new StringRequestContent(wait), "wait", null);
+            }
+            if (language != null)
+            {
+                content.Add(new StringRequestContent(language), "language", null);
+            }
+            if (expiryTime != null)
+            {
+                content.Add(new StringRequestContent(expiryTime), "expiryTime", null);
+            }
+            content.ApplyToRequest(request);
+            return message;
+        }
+
+        /// <summary>
+        /// Uploads an invoice for parsing.
+        /// When successful, returns an `identifier` in the response for subsequent use with the [/invoices/{identifier}](#operation/getInvoice) endpoint to check processing status and retrieve results.
+        /// </summary>
+        /// <param name="file"> The binary to use. </param>
+        /// <param name="identifier"> The Identifier to use. </param>
+        /// <param name="fileName"> The FileName to use. </param>
+        /// <param name="url"> URL to file to download and process. </param>
+        /// <param name="wait"> The Wait to use. </param>
+        /// <param name="language"> The Language to use. </param>
+        /// <param name="expiryTime"> The ExpiryTime to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public async Task<Response<object>> CreateInvoiceAsync(Stream file = null, string identifier = null, string fileName = null, string url = null, string wait = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateCreateInvoiceRequest(file, identifier, fileName, url, wait, language, expiryTime);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                case 201:
+                    {
+                        Invoice value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = Invoice.DeserializeInvoice(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// Uploads an invoice for parsing.
+        /// When successful, returns an `identifier` in the response for subsequent use with the [/invoices/{identifier}](#operation/getInvoice) endpoint to check processing status and retrieve results.
+        /// </summary>
+        /// <param name="file"> The binary to use. </param>
+        /// <param name="identifier"> The Identifier to use. </param>
+        /// <param name="fileName"> The FileName to use. </param>
+        /// <param name="url"> URL to file to download and process. </param>
+        /// <param name="wait"> The Wait to use. </param>
+        /// <param name="language"> The Language to use. </param>
+        /// <param name="expiryTime"> The ExpiryTime to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public Response<object> CreateInvoice(Stream file = null, string identifier = null, string fileName = null, string url = null, string wait = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateCreateInvoiceRequest(file, identifier, fileName, url, wait, language, expiryTime);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                case 201:
+                    {
+                        Invoice value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = Invoice.DeserializeInvoice(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateGetInvoiceRequest(string identifier)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Get;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(endpoint);
+            uri.AppendPath("/invoices/", false);
+            uri.AppendPath(identifier, true);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary>
+        /// Returns all the parse results for that invoice if processing is completed.
+        /// The `identifier` is the unique ID returned after POST-ing the invoice via the [/invoices](#operation/createInvoice) endpoint.
+        /// </summary>
+        /// <param name="identifier"> Document identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
+        public async Task<Response<object>> GetInvoiceAsync(string identifier, CancellationToken cancellationToken = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            using var message = CreateGetInvoiceRequest(identifier);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        Invoice value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = Invoice.DeserializeInvoice(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// Returns all the parse results for that invoice if processing is completed.
+        /// The `identifier` is the unique ID returned after POST-ing the invoice via the [/invoices](#operation/createInvoice) endpoint.
+        /// </summary>
+        /// <param name="identifier"> Document identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
+        public Response<object> GetInvoice(string identifier, CancellationToken cancellationToken = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            using var message = CreateGetInvoiceRequest(identifier);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        Invoice value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = Invoice.DeserializeInvoice(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateDeleteInvoiceRequest(string identifier)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Delete;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(endpoint);
+            uri.AppendPath("/invoices/", false);
+            uri.AppendPath(identifier, true);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Delete the specified invoice from the database. </summary>
+        /// <param name="identifier"> Invoice identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
+        public async Task<Response<RequestError>> DeleteInvoiceAsync(string identifier, CancellationToken cancellationToken = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            using var message = CreateDeleteInvoiceRequest(identifier);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 204:
+                    return Response.FromValue((RequestError)null, message.Response);
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Delete the specified invoice from the database. </summary>
+        /// <param name="identifier"> Invoice identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
+        public Response<RequestError> DeleteInvoice(string identifier, CancellationToken cancellationToken = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            using var message = CreateDeleteInvoiceRequest(identifier);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {

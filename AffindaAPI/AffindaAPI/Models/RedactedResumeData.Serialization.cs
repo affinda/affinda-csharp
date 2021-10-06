@@ -5,7 +5,6 @@
 
 #nullable disable
 
-using System;
 using System.Text.Json;
 using Azure.Core;
 
@@ -15,17 +14,12 @@ namespace Affinda.API.Models
     {
         internal static RedactedResumeData DeserializeRedactedResumeData(JsonElement element)
         {
-            Optional<Uri> redactedPdf = default;
+            Optional<string> redactedPdf = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("redactedPdf"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        property.ThrowNonNullablePropertyIsNull();
-                        continue;
-                    }
-                    redactedPdf = new Uri(property.Value.GetString());
+                    redactedPdf = property.Value.GetString();
                     continue;
                 }
             }

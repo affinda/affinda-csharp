@@ -10,21 +10,21 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    /// <summary> The GetAllDocumentsResults. </summary>
-    public partial class GetAllDocumentsResults
+    /// <summary> The GetAllInvoicesResults. </summary>
+    public partial class GetAllInvoicesResults
     {
-        /// <summary> Initializes a new instance of GetAllDocumentsResults. </summary>
-        internal GetAllDocumentsResults()
+        /// <summary> Initializes a new instance of GetAllInvoicesResults. </summary>
+        internal GetAllInvoicesResults()
         {
             Results = new ChangeTrackingList<Meta>();
         }
 
-        /// <summary> Initializes a new instance of GetAllDocumentsResults. </summary>
+        /// <summary> Initializes a new instance of GetAllInvoicesResults. </summary>
         /// <param name="count"> Number of documents in result. </param>
         /// <param name="next"> URL to request next page of results. </param>
         /// <param name="previous"> URL to request previous page of results. </param>
         /// <param name="results"></param>
-        internal GetAllDocumentsResults(int? count, string next, string previous, IReadOnlyList<Meta> results)
+        internal GetAllInvoicesResults(int? count, string next, string previous, IReadOnlyList<Meta> results)
         {
             Count = count;
             Next = next;
