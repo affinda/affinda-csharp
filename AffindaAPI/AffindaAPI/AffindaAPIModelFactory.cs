@@ -177,10 +177,11 @@ namespace Affinda.API.Models
         /// <param name="location"></param>
         /// <param name="jobDescription"></param>
         /// <param name="dates"></param>
+        /// <param name="occupation"></param>
         /// <returns> A new <see cref="Models.ResumeDataWorkExperienceItem"/> instance for mocking. </returns>
-        public static ResumeDataWorkExperienceItem ResumeDataWorkExperienceItem(string jobTitle = null, string organization = null, Location location = null, string jobDescription = null, ResumeDataWorkExperienceItemDates dates = null)
+        public static ResumeDataWorkExperienceItem ResumeDataWorkExperienceItem(string jobTitle = null, string organization = null, Location location = null, string jobDescription = null, ResumeDataWorkExperienceItemDates dates = null, ResumeDataWorkExperienceItemOccupation occupation = null)
         {
-            return new ResumeDataWorkExperienceItem(jobTitle, organization, location, jobDescription, dates);
+            return new ResumeDataWorkExperienceItem(jobTitle, organization, location, jobDescription, dates, occupation);
         }
 
         /// <summary> Initializes a new instance of ResumeDataWorkExperienceItemDates. </summary>
@@ -192,6 +193,29 @@ namespace Affinda.API.Models
         public static ResumeDataWorkExperienceItemDates ResumeDataWorkExperienceItemDates(DateTimeOffset? startDate = null, DateTimeOffset? endDate = null, int? monthsInPosition = null, bool? isCurrent = null)
         {
             return new ResumeDataWorkExperienceItemDates(startDate, endDate, monthsInPosition, isCurrent);
+        }
+
+        /// <summary> Initializes a new instance of ResumeDataWorkExperienceItemOccupation. </summary>
+        /// <param name="jobTitle"> The raw (not normalized) job title pulled from the work experience entry. </param>
+        /// <param name="jobTitleNormalized"> Mapped onto the EMSI job title taxonomy if a sufficiently close match exists. </param>
+        /// <param name="managementLevel"></param>
+        /// <param name="classification"></param>
+        /// <returns> A new <see cref="Models.ResumeDataWorkExperienceItemOccupation"/> instance for mocking. </returns>
+        public static ResumeDataWorkExperienceItemOccupation ResumeDataWorkExperienceItemOccupation(string jobTitle = null, string jobTitleNormalized = null, Enum0? managementLevel = null, Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification classification = null)
+        {
+            return new ResumeDataWorkExperienceItemOccupation(jobTitle, jobTitleNormalized, managementLevel, classification);
+        }
+
+        /// <summary> Initializes a new instance of Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification. </summary>
+        /// <param name="title"> SOC2020 classification for this job title. </param>
+        /// <param name="minorGroup"> SOC2020 minor group. </param>
+        /// <param name="subMajorGroup"> SOC2020 sub major group. </param>
+        /// <param name="majorGroup"> SOC2020 major group. </param>
+        /// <param name="socCode"> The 4 digit code representing the SOC2020 classification for this job title. </param>
+        /// <returns> A new <see cref="Models.Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification"/> instance for mocking. </returns>
+        public static Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification(string title = null, string minorGroup = null, string subMajorGroup = null, string majorGroup = null, int? socCode = null)
+        {
+            return new Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification(title, minorGroup, subMajorGroup, majorGroup, socCode);
         }
 
         /// <summary> Initializes a new instance of ResumeDataSkillsItem. </summary>

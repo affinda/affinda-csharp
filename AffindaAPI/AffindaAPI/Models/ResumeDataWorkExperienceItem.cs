@@ -21,13 +21,15 @@ namespace Affinda.API.Models
         /// <param name="location"></param>
         /// <param name="jobDescription"></param>
         /// <param name="dates"></param>
-        internal ResumeDataWorkExperienceItem(string jobTitle, string organization, Location location, string jobDescription, ResumeDataWorkExperienceItemDates dates)
+        /// <param name="occupation"></param>
+        internal ResumeDataWorkExperienceItem(string jobTitle, string organization, Location location, string jobDescription, ResumeDataWorkExperienceItemDates dates, ResumeDataWorkExperienceItemOccupation occupation)
         {
             JobTitle = jobTitle;
             Organization = organization;
             Location = location;
             JobDescription = jobDescription;
             Dates = dates;
+            Occupation = occupation;
         }
 
         public string JobTitle { get; }
@@ -35,5 +37,6 @@ namespace Affinda.API.Models
         public Location Location { get; }
         public string JobDescription { get; }
         public ResumeDataWorkExperienceItemDates Dates { get; }
+        public ResumeDataWorkExperienceItemOccupation Occupation { get; }
     }
 }

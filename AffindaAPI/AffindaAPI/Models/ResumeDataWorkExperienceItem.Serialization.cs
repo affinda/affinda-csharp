@@ -19,6 +19,7 @@ namespace Affinda.API.Models
             Optional<Location> location = default;
             Optional<string> jobDescription = default;
             Optional<ResumeDataWorkExperienceItemDates> dates = default;
+            Optional<ResumeDataWorkExperienceItemOccupation> occupation = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("jobTitle"))
@@ -71,8 +72,18 @@ namespace Affinda.API.Models
                     dates = ResumeDataWorkExperienceItemDates.DeserializeResumeDataWorkExperienceItemDates(property.Value);
                     continue;
                 }
+                if (property.NameEquals("occupation"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    occupation = ResumeDataWorkExperienceItemOccupation.DeserializeResumeDataWorkExperienceItemOccupation(property.Value);
+                    continue;
+                }
             }
-            return new ResumeDataWorkExperienceItem(jobTitle.Value, organization.Value, location.Value, jobDescription.Value, dates.Value);
+            return new ResumeDataWorkExperienceItem(jobTitle.Value, organization.Value, location.Value, jobDescription.Value, dates.Value, occupation.Value);
         }
     }
 }

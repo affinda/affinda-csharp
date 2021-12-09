@@ -17,7 +17,7 @@ namespace Affinda.API.Models
         {
         }
 
-        /// <summary> File as binary data blob. </summary>
+        /// <summary> File as binary data blob. Supported formats: PDF, DOC, DOCX, TXT, RTF, HTML, PNG, JPG. </summary>
         public Stream File { get; }
         /// <summary> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </summary>
         public string Identifier { get; }
@@ -43,6 +43,8 @@ namespace Affinda.API.Models
         public string RedactLocations { get; }
         /// <summary> Whether to redact dates. </summary>
         public string RedactDates { get; }
+        /// <summary> Whether to redact gender. </summary>
+        public string RedactGender { get; }
         /// <summary> The date/time in ISO-8601 format when the document will be automatically deleted.  Defaults to no expiry. </summary>
         public string ExpiryTime { get; }
     }

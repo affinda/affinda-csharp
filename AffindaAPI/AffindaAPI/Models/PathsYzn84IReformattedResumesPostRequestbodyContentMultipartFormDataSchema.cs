@@ -26,7 +26,7 @@ namespace Affinda.API.Models
             ResumeFormat = resumeFormat;
         }
 
-        /// <summary> File as binary data blob. </summary>
+        /// <summary> File as binary data blob. Supported formats: PDF, DOC, DOCX, TXT, RTF, HTML, PNG, JPG. </summary>
         public Stream File { get; }
         /// <summary> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </summary>
         public string Identifier { get; }
