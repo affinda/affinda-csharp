@@ -1,0 +1,10 @@
+{
+  "OutputFolder": ".",
+  "Namespace": "Affinda.API",
+  "LibraryName": "AffindaAPI",
+  "SharedSourceFolders": [
+    "../../../../Generator.Shared",
+    "../../../../Azure.Core.Shared"
+  ],
+  "public-clients": true
+}
