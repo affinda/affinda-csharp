@@ -30,10 +30,15 @@ namespace Affinda.API.Models
             Dates = dates;
         }
 
+        /// <summary> Gets the organization. </summary>
         public string Organization { get; }
+        /// <summary> Gets the accreditation. </summary>
         public ResumeDataEducationItemAccreditation Accreditation { get; }
+        /// <summary> Gets the grade. </summary>
         public ResumeDataEducationItemGrade Grade { get; }
+        /// <summary> Gets the location. </summary>
         public Location Location { get; }
+        /// <summary> Gets the dates. </summary>
         public ResumeDataEducationItemDates Dates { get; }
     }
 }

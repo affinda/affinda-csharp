@@ -388,3 +388,7 @@ FodyWeavers.xsd
 *.sln.iml
 
 build_state.json
+
+# Generated files that should be deleted after generation
+AffindaAPI/AffindaAPI/CodeModel.yaml
+AffindaAPI/AffindaAPI/Configuration.json

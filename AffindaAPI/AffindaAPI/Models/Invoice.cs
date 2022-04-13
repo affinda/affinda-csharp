@@ -33,8 +33,11 @@ namespace Affinda.API.Models
             Error = error;
         }
 
+        /// <summary> Gets the data. </summary>
         public InvoiceData Data { get; }
+        /// <summary> Gets the meta. </summary>
         public Meta Meta { get; }
+        /// <summary> Gets the error. </summary>
         public Error Error { get; }
     }
 }

@@ -30,17 +30,19 @@ namespace Affinda.API.Models
         /// <param name="postalCode"></param>
         /// <param name="state"></param>
         /// <param name="country"></param>
+        /// <param name="countryCode"> Two letter country code (ISO 3166-1 alpha-2). </param>
         /// <param name="rawInput"></param>
         /// <param name="streetNumber"></param>
         /// <param name="street"></param>
         /// <param name="apartmentNumber"></param>
         /// <param name="city"></param>
-        internal Location(string formatted, string postalCode, string state, string country, string rawInput, string streetNumber, string street, string apartmentNumber, string city)
+        internal Location(string formatted, string postalCode, string state, string country, string countryCode, string rawInput, string streetNumber, string street, string apartmentNumber, string city)
         {
             Formatted = formatted;
             PostalCode = postalCode;
             State = state;
             Country = country;
+            CountryCode = countryCode;
             RawInput = rawInput;
             StreetNumber = streetNumber;
             Street = street;
@@ -48,14 +50,25 @@ namespace Affinda.API.Models
             City = city;
         }
 
+        /// <summary> Gets the formatted. </summary>
         public string Formatted { get; }
+        /// <summary> Gets the postal code. </summary>
         public string PostalCode { get; }
+        /// <summary> Gets the state. </summary>
         public string State { get; }
+        /// <summary> Gets the country. </summary>
         public string Country { get; }
+        /// <summary> Two letter country code (ISO 3166-1 alpha-2). </summary>
+        public string CountryCode { get; }
+        /// <summary> Gets the raw input. </summary>
         public string RawInput { get; }
+        /// <summary> Gets the street number. </summary>
         public string StreetNumber { get; }
+        /// <summary> Gets the street. </summary>
         public string Street { get; }
+        /// <summary> Gets the apartment number. </summary>
         public string ApartmentNumber { get; }
+        /// <summary> Gets the city. </summary>
         public string City { get; }
     }
 }

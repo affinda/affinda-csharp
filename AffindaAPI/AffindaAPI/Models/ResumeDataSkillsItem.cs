@@ -34,10 +34,15 @@ namespace Affinda.API.Models
             Sources = sources;
         }
 
+        /// <summary> Gets the name. </summary>
         public string Name { get; }
+        /// <summary> Gets the last used. </summary>
         public string LastUsed { get; }
+        /// <summary> Gets the number of months. </summary>
         public int? NumberOfMonths { get; }
+        /// <summary> Gets the type. </summary>
         public string Type { get; }
+        /// <summary> Gets the sources. </summary>
         public IReadOnlyList<ResumeDataSkillsPropertiesItemsItem> Sources { get; }
     }
 }

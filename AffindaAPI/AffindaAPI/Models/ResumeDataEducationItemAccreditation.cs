@@ -28,9 +28,13 @@ namespace Affinda.API.Models
             EducationLevel = educationLevel;
         }
 
+        /// <summary> Gets the education. </summary>
         public string Education { get; }
+        /// <summary> Gets the input str. </summary>
         public string InputStr { get; }
+        /// <summary> Gets the match str. </summary>
         public string MatchStr { get; }
+        /// <summary> Gets the education level. </summary>
         public string EducationLevel { get; }
     }
 }

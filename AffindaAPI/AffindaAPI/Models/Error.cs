@@ -24,7 +24,9 @@ namespace Affinda.API.Models
             ErrorDetail = errorDetail;
         }
 
+        /// <summary> Gets the error code. </summary>
         public string ErrorCode { get; }
+        /// <summary> Gets the error detail. </summary>
         public string ErrorDetail { get; }
     }
 }

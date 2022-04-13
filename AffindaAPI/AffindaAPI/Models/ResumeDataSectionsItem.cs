@@ -32,9 +32,13 @@ namespace Affinda.API.Models
             Text = text;
         }
 
+        /// <summary> Gets the section type. </summary>
         public string SectionType { get; }
+        /// <summary> Gets the bbox. </summary>
         public IReadOnlyList<float> Bbox { get; }
+        /// <summary> Gets the page index. </summary>
         public int? PageIndex { get; }
+        /// <summary> Gets the text. </summary>
         public string Text { get; }
     }
 }

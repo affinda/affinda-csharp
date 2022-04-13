@@ -24,7 +24,9 @@ namespace Affinda.API.Models
             Position = position;
         }
 
+        /// <summary> Gets the section. </summary>
         public string Section { get; }
+        /// <summary> Gets the position. </summary>
         public int? Position { get; }
     }
 }

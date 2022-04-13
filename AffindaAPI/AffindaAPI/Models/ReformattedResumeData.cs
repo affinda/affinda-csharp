@@ -22,6 +22,7 @@ namespace Affinda.API.Models
             ReformattedFile = reformattedFile;
         }
 
+        /// <summary> Gets the reformatted file. </summary>
         public string ReformattedFile { get; }
     }
 }

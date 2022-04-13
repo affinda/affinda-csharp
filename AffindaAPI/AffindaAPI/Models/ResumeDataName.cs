@@ -30,10 +30,15 @@ namespace Affinda.API.Models
             Title = title;
         }
 
+        /// <summary> Gets the raw. </summary>
         public string Raw { get; }
+        /// <summary> Gets the first. </summary>
         public string First { get; }
+        /// <summary> Gets the last. </summary>
         public string Last { get; }
+        /// <summary> Gets the middle. </summary>
         public string Middle { get; }
+        /// <summary> Gets the title. </summary>
         public string Title { get; }
     }
 }

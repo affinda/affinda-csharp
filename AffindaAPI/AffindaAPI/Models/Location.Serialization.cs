@@ -18,6 +18,7 @@ namespace Affinda.API.Models
             Optional<string> postalCode = default;
             Optional<string> state = default;
             Optional<string> country = default;
+            Optional<string> countryCode = default;
             string rawInput = default;
             Optional<string> streetNumber = default;
             Optional<string> street = default;
@@ -63,6 +64,16 @@ namespace Affinda.API.Models
                         continue;
                     }
                     country = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("countryCode"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        countryCode = null;
+                        continue;
+                    }
+                    countryCode = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("rawInput"))
@@ -111,7 +122,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new Location(formatted.Value, postalCode.Value, state.Value, country.Value, rawInput, streetNumber.Value, street.Value, apartmentNumber.Value, city.Value);
+            return new Location(formatted.Value, postalCode.Value, state.Value, country.Value, countryCode.Value, rawInput, streetNumber.Value, street.Value, apartmentNumber.Value, city.Value);
         }
     }
 }

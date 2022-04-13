@@ -20,7 +20,7 @@ namespace Affinda.API.Models
         /// <param name="jobTitleNormalized"> Mapped onto the EMSI job title taxonomy if a sufficiently close match exists. </param>
         /// <param name="managementLevel"></param>
         /// <param name="classification"></param>
-        internal ResumeDataWorkExperienceItemOccupation(string jobTitle, string jobTitleNormalized, Enum0? managementLevel, Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification classification)
+        internal ResumeDataWorkExperienceItemOccupation(string jobTitle, string jobTitleNormalized, ManagementLevel? managementLevel, Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification classification)
         {
             JobTitle = jobTitle;
             JobTitleNormalized = jobTitleNormalized;
@@ -32,7 +32,9 @@ namespace Affinda.API.Models
         public string JobTitle { get; }
         /// <summary> Mapped onto the EMSI job title taxonomy if a sufficiently close match exists. </summary>
         public string JobTitleNormalized { get; }
-        public Enum0? ManagementLevel { get; }
+        /// <summary> Gets the management level. </summary>
+        public ManagementLevel? ManagementLevel { get; }
+        /// <summary> Gets the classification. </summary>
         public Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification Classification { get; }
     }
 }

@@ -28,9 +28,13 @@ namespace Affinda.API.Models
             Number = number;
         }
 
+        /// <summary> Gets the name. </summary>
         public string Name { get; }
+        /// <summary> Gets the text. </summary>
         public string Text { get; }
+        /// <summary> Gets the email. </summary>
         public string Email { get; }
+        /// <summary> Gets the number. </summary>
         public string Number { get; }
     }
 }

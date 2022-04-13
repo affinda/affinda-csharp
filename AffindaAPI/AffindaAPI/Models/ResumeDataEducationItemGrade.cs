@@ -26,8 +26,11 @@ namespace Affinda.API.Models
             Value = value;
         }
 
+        /// <summary> Gets the raw. </summary>
         public string Raw { get; }
+        /// <summary> Gets the metric. </summary>
         public string Metric { get; }
+        /// <summary> Gets the value. </summary>
         public string Value { get; }
     }
 }

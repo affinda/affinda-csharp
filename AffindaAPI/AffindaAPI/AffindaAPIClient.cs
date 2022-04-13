@@ -31,10 +31,8 @@ namespace Affinda.API
         /// <summary> Initializes a new instance of AffindaAPIClient. </summary>
         /// <param name="credential"> A credential used to authenticate to an Azure Service. </param>
         /// <param name="endpoint"> server parameter. </param>
-        /// <param name="limit"> The numbers of documents to return, defaults to 300. </param>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
         /// <param name="options"> The options for configuring the client. </param>
-        public AffindaAPIClient(TokenCredential credential, Uri endpoint = null, int? limit = null, int? offset = null, AffindaAPIClientOptions options = null)
+        public AffindaAPIClient(TokenCredential credential, Uri endpoint = null, AffindaAPIClientOptions options = null)
         {
             if (credential == null)
             {
@@ -46,31 +44,32 @@ namespace Affinda.API
             _clientDiagnostics = new ClientDiagnostics(options);
             string[] scopes = { "https://management.azure.com/.default" };
             _pipeline = HttpPipelineBuilder.Build(options, new BearerTokenAuthenticationPolicy(credential, scopes));
-            RestClient = new AffindaAPIRestClient(_clientDiagnostics, _pipeline, endpoint, limit, offset);
+            RestClient = new AffindaAPIRestClient(_clientDiagnostics, _pipeline, endpoint);
         }
 
         /// <summary> Initializes a new instance of AffindaAPIClient. </summary>
         /// <param name="clientDiagnostics"> The handler for diagnostic messaging in the client. </param>
         /// <param name="pipeline"> The HTTP pipeline for sending and receiving REST requests and responses. </param>
         /// <param name="endpoint"> server parameter. </param>
-        /// <param name="limit"> The numbers of documents to return, defaults to 300. </param>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        internal AffindaAPIClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, Uri endpoint = null, int? limit = null, int? offset = null)
+        /// <exception cref="ArgumentNullException"> <paramref name="clientDiagnostics"/> or <paramref name="pipeline"/> is null. </exception>
+        internal AffindaAPIClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, Uri endpoint = null)
         {
-            RestClient = new AffindaAPIRestClient(clientDiagnostics, pipeline, endpoint, limit, offset);
+            RestClient = new AffindaAPIRestClient(clientDiagnostics, pipeline, endpoint);
             _clientDiagnostics = clientDiagnostics;
             _pipeline = pipeline;
         }
 
         /// <summary> Returns all the resume summaries for that user, limited to 300 per page. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response<object>> GetAllResumesAsync(CancellationToken cancellationToken = default)
+        public virtual async Task<Response<object>> GetAllResumesAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllResumes");
             scope.Start();
             try
             {
-                return await RestClient.GetAllResumesAsync(cancellationToken).ConfigureAwait(false);
+                return await RestClient.GetAllResumesAsync(offset, limit, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -80,14 +79,16 @@ namespace Affinda.API
         }
 
         /// <summary> Returns all the resume summaries for that user, limited to 300 per page. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response<object> GetAllResumes(CancellationToken cancellationToken = default)
+        public virtual Response<object> GetAllResumes(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllResumes");
             scope.Start();
             try
             {
-                return RestClient.GetAllResumes(cancellationToken);
+                return RestClient.GetAllResumes(offset, limit, cancellationToken);
             }
             catch (Exception e)
             {
@@ -229,14 +230,16 @@ namespace Affinda.API
         }
 
         /// <summary> Returns all the redacted resume information for that resume. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response<object>> GetAllRedactedResumesAsync(CancellationToken cancellationToken = default)
+        public virtual async Task<Response<object>> GetAllRedactedResumesAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllRedactedResumes");
             scope.Start();
             try
             {
-                return await RestClient.GetAllRedactedResumesAsync(cancellationToken).ConfigureAwait(false);
+                return await RestClient.GetAllRedactedResumesAsync(offset, limit, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -246,14 +249,16 @@ namespace Affinda.API
         }
 
         /// <summary> Returns all the redacted resume information for that resume. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response<object> GetAllRedactedResumes(CancellationToken cancellationToken = default)
+        public virtual Response<object> GetAllRedactedResumes(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllRedactedResumes");
             scope.Start();
             try
             {
-                return RestClient.GetAllRedactedResumes(cancellationToken);
+                return RestClient.GetAllRedactedResumes(offset, limit, cancellationToken);
             }
             catch (Exception e)
             {
@@ -405,14 +410,16 @@ namespace Affinda.API
         }
 
         /// <summary> Returns all the resume formats. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response<object>> GetAllResumeFormatsAsync(CancellationToken cancellationToken = default)
+        public virtual async Task<Response<object>> GetAllResumeFormatsAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllResumeFormats");
             scope.Start();
             try
             {
-                return await RestClient.GetAllResumeFormatsAsync(cancellationToken).ConfigureAwait(false);
+                return await RestClient.GetAllResumeFormatsAsync(offset, limit, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -422,14 +429,16 @@ namespace Affinda.API
         }
 
         /// <summary> Returns all the resume formats. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response<object> GetAllResumeFormats(CancellationToken cancellationToken = default)
+        public virtual Response<object> GetAllResumeFormats(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllResumeFormats");
             scope.Start();
             try
             {
-                return RestClient.GetAllResumeFormats(cancellationToken);
+                return RestClient.GetAllResumeFormats(offset, limit, cancellationToken);
             }
             catch (Exception e)
             {
@@ -439,14 +448,16 @@ namespace Affinda.API
         }
 
         /// <summary> Returns all the reformatted resume information for that resume. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response<object>> GetAllReformattedResumesAsync(CancellationToken cancellationToken = default)
+        public virtual async Task<Response<object>> GetAllReformattedResumesAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllReformattedResumes");
             scope.Start();
             try
             {
-                return await RestClient.GetAllReformattedResumesAsync(cancellationToken).ConfigureAwait(false);
+                return await RestClient.GetAllReformattedResumesAsync(offset, limit, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -456,14 +467,16 @@ namespace Affinda.API
         }
 
         /// <summary> Returns all the reformatted resume information for that resume. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response<object> GetAllReformattedResumes(CancellationToken cancellationToken = default)
+        public virtual Response<object> GetAllReformattedResumes(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllReformattedResumes");
             scope.Start();
             try
             {
-                return RestClient.GetAllReformattedResumes(cancellationToken);
+                return RestClient.GetAllReformattedResumes(offset, limit, cancellationToken);
             }
             catch (Exception e)
             {
@@ -598,15 +611,260 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Returns all the invoice summaries for that user, limited to 300 per page. </summary>
+        /// <summary> Searches through parsed resumes. </summary>
+        /// <param name="body"> Search parameters. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response<object>> GetAllInvoicesAsync(CancellationToken cancellationToken = default)
+        public virtual async Task<Response<object>> CreateResumeSearchAsync(ResumeSearchParameters body, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllInvoices");
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateResumeSearch");
             scope.Start();
             try
             {
-                return await RestClient.GetAllInvoicesAsync(cancellationToken).ConfigureAwait(false);
+                return await RestClient.CreateResumeSearchAsync(body, offset, limit, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Searches through parsed resumes. </summary>
+        /// <param name="body"> Search parameters. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<object> CreateResumeSearch(ResumeSearchParameters body, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateResumeSearch");
+            scope.Start();
+            try
+            {
+                return RestClient.CreateResumeSearch(body, offset, limit, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Returns all the indexes. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<object>> GetAllIndexesAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexes");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetAllIndexesAsync(offset, limit, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Returns all the indexes. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<object> GetAllIndexes(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexes");
+            scope.Start();
+            try
+            {
+                return RestClient.GetAllIndexes(offset, limit, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create an index for the search tool. </summary>
+        /// <param name="name"> The PostContentSchemaName to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<object>> CreateIndexAsync(string name = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateIndex");
+            scope.Start();
+            try
+            {
+                return await RestClient.CreateIndexAsync(name, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create an index for the search tool. </summary>
+        /// <param name="name"> The PostContentSchemaName to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<object> CreateIndex(string name = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateIndex");
+            scope.Start();
+            try
+            {
+                return RestClient.CreateIndex(name, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Deletes the specified index from the database. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<RequestError>> DeleteIndexAsync(string name, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteIndex");
+            scope.Start();
+            try
+            {
+                return await RestClient.DeleteIndexAsync(name, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Deletes the specified index from the database. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<RequestError> DeleteIndex(string name, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteIndex");
+            scope.Start();
+            try
+            {
+                return RestClient.DeleteIndex(name, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Returns all the indexed documents for that index. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<object>> GetAllIndexDocumentsAsync(string name, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexDocuments");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetAllIndexDocumentsAsync(name, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Returns all the indexed documents for that index. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<object> GetAllIndexDocuments(string name, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexDocuments");
+            scope.Start();
+            try
+            {
+                return RestClient.GetAllIndexDocuments(name, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create an indexed document for the search tool. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="body"> Document to index. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<object>> CreateIndexDocumentAsync(string name, PathsGpptmIndexNameDocumentsPostRequestbodyContentApplicationJsonSchema body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateIndexDocument");
+            scope.Start();
+            try
+            {
+                return await RestClient.CreateIndexDocumentAsync(name, body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create an indexed document for the search tool. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="body"> Document to index. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<object> CreateIndexDocument(string name, PathsGpptmIndexNameDocumentsPostRequestbodyContentApplicationJsonSchema body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateIndexDocument");
+            scope.Start();
+            try
+            {
+                return RestClient.CreateIndexDocument(name, body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete the specified indexed document from the database. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="identifier"> Document identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<RequestError>> DeleteIndexDocumentAsync(string name, string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteIndexDocument");
+            scope.Start();
+            try
+            {
+                return await RestClient.DeleteIndexDocumentAsync(name, identifier, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete the specified indexed document from the database. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="identifier"> Document identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<RequestError> DeleteIndexDocument(string name, string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteIndexDocument");
+            scope.Start();
+            try
+            {
+                return RestClient.DeleteIndexDocument(name, identifier, cancellationToken);
             }
             catch (Exception e)
             {
@@ -616,14 +874,35 @@ namespace Affinda.API
         }
 
         /// <summary> Returns all the invoice summaries for that user, limited to 300 per page. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response<object> GetAllInvoices(CancellationToken cancellationToken = default)
+        public virtual async Task<Response<object>> GetAllInvoicesAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllInvoices");
             scope.Start();
             try
             {
-                return RestClient.GetAllInvoices(cancellationToken);
+                return await RestClient.GetAllInvoicesAsync(offset, limit, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Returns all the invoice summaries for that user, limited to 300 per page. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<object> GetAllInvoices(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllInvoices");
+            scope.Start();
+            try
+            {
+                return RestClient.GetAllInvoices(offset, limit, cancellationToken);
             }
             catch (Exception e)
             {
@@ -756,6 +1035,40 @@ namespace Affinda.API
             try
             {
                 return RestClient.DeleteInvoice(identifier, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> TODO TODO TODO. </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<object>> ListOccupationGroupsAsync(CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.ListOccupationGroups");
+            scope.Start();
+            try
+            {
+                return await RestClient.ListOccupationGroupsAsync(cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> TODO TODO TODO. </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<object> ListOccupationGroups(CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.ListOccupationGroups");
+            scope.Start();
+            try
+            {
+                return RestClient.ListOccupationGroups(cancellationToken);
             }
             catch (Exception e)
             {

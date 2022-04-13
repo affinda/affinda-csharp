@@ -19,42 +19,39 @@ namespace Affinda.API
 {
     internal partial class AffindaAPIRestClient
     {
-        private Uri endpoint;
-        private int? limit;
-        private int? offset;
-        private ClientDiagnostics _clientDiagnostics;
-        private HttpPipeline _pipeline;
+        private readonly HttpPipeline _pipeline;
+        private readonly Uri _endpoint;
+
+        /// <summary> The ClientDiagnostics is used to provide tracing support for the client library. </summary>
+        internal ClientDiagnostics ClientDiagnostics { get; }
 
         /// <summary> Initializes a new instance of AffindaAPIRestClient. </summary>
         /// <param name="clientDiagnostics"> The handler for diagnostic messaging in the client. </param>
         /// <param name="pipeline"> The HTTP pipeline for sending and receiving REST requests and responses. </param>
         /// <param name="endpoint"> server parameter. </param>
-        /// <param name="limit"> The numbers of documents to return, defaults to 300. </param>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        public AffindaAPIRestClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, Uri endpoint = null, int? limit = null, int? offset = null)
+        /// <exception cref="ArgumentNullException"> <paramref name="clientDiagnostics"/> or <paramref name="pipeline"/> is null. </exception>
+        public AffindaAPIRestClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, Uri endpoint = null)
         {
-            this.endpoint = endpoint ?? new Uri("https://api.affinda.com/v1");
-            this.limit = limit;
-            this.offset = offset;
-            _clientDiagnostics = clientDiagnostics;
-            _pipeline = pipeline;
+            ClientDiagnostics = clientDiagnostics ?? throw new ArgumentNullException(nameof(clientDiagnostics));
+            _pipeline = pipeline ?? throw new ArgumentNullException(nameof(pipeline));
+            _endpoint = endpoint ?? new Uri("https://api.affinda.com/v1");
         }
 
-        internal HttpMessage CreateGetAllResumesRequest()
+        internal HttpMessage CreateGetAllResumesRequest(int? offset, int? limit)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(endpoint);
+            uri.Reset(_endpoint);
             uri.AppendPath("/resumes", false);
-            if (limit != null)
-            {
-                uri.AppendQuery("limit", limit.Value, true);
-            }
             if (offset != null)
             {
                 uri.AppendQuery("offset", offset.Value, true);
+            }
+            if (limit != null)
+            {
+                uri.AppendQuery("limit", limit.Value, true);
             }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -62,10 +59,12 @@ namespace Affinda.API
         }
 
         /// <summary> Returns all the resume summaries for that user, limited to 300 per page. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<object>> GetAllResumesAsync(CancellationToken cancellationToken = default)
+        public async Task<Response<object>> GetAllResumesAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllResumesRequest();
+            using var message = CreateGetAllResumesRequest(offset, limit);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -86,15 +85,17 @@ namespace Affinda.API
                         return Response.FromValue<object>(value, message.Response);
                     }
                 default:
-                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
             }
         }
 
         /// <summary> Returns all the resume summaries for that user, limited to 300 per page. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<object> GetAllResumes(CancellationToken cancellationToken = default)
+        public Response<object> GetAllResumes(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllResumesRequest();
+            using var message = CreateGetAllResumesRequest(offset, limit);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -115,7 +116,7 @@ namespace Affinda.API
                         return Response.FromValue<object>(value, message.Response);
                     }
                 default:
-                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
             }
         }
 
@@ -125,7 +126,7 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(endpoint);
+            uri.Reset(_endpoint);
             uri.AppendPath("/resumes", false);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -199,7 +200,7 @@ namespace Affinda.API
                         return Response.FromValue<object>(value, message.Response);
                     }
                 default:
-                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
             }
         }
 
@@ -239,7 +240,7 @@ namespace Affinda.API
                         return Response.FromValue<object>(value, message.Response);
                     }
                 default:
-                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
             }
         }
 
@@ -249,7 +250,7 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(endpoint);
+            uri.Reset(_endpoint);
             uri.AppendPath("/resumes/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -292,7 +293,7 @@ namespace Affinda.API
                         return Response.FromValue<object>(value, message.Response);
                     }
                 default:
-                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
             }
         }
 
@@ -331,7 +332,7 @@ namespace Affinda.API
                         return Response.FromValue<object>(value, message.Response);
                     }
                 default:
-                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
             }
         }
 
@@ -341,7 +342,7 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Delete;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(endpoint);
+            uri.Reset(_endpoint);
             uri.AppendPath("/resumes/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -376,7 +377,7 @@ namespace Affinda.API
                         return Response.FromValue(value, message.Response);
                     }
                 default:
-                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
             }
         }
 
@@ -407,25 +408,25 @@ namespace Affinda.API
                         return Response.FromValue(value, message.Response);
                     }
                 default:
-                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
             }
         }
 
-        internal HttpMessage CreateGetAllRedactedResumesRequest()
+        internal HttpMessage CreateGetAllRedactedResumesRequest(int? offset, int? limit)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(endpoint);
+            uri.Reset(_endpoint);
             uri.AppendPath("/redacted_resumes", false);
-            if (limit != null)
-            {
-                uri.AppendQuery("limit", limit.Value, true);
-            }
             if (offset != null)
             {
                 uri.AppendQuery("offset", offset.Value, true);
+            }
+            if (limit != null)
+            {
+                uri.AppendQuery("limit", limit.Value, true);
             }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -433,10 +434,12 @@ namespace Affinda.API
         }
 
         /// <summary> Returns all the redacted resume information for that resume. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<object>> GetAllRedactedResumesAsync(CancellationToken cancellationToken = default)
+        public async Task<Response<object>> GetAllRedactedResumesAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllRedactedResumesRequest();
+            using var message = CreateGetAllRedactedResumesRequest(offset, limit);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -457,15 +460,17 @@ namespace Affinda.API
                         return Response.FromValue<object>(value, message.Response);
                     }
                 default:
-                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
             }
         }
 
         /// <summary> Returns all the redacted resume information for that resume. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<object> GetAllRedactedResumes(CancellationToken cancellationToken = default)
+        public Response<object> GetAllRedactedResumes(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllRedactedResumesRequest();
+            using var message = CreateGetAllRedactedResumesRequest(offset, limit);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -486,7 +491,7 @@ namespace Affinda.API
                         return Response.FromValue<object>(value, message.Response);
                     }
                 default:
-                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
             }
         }
 
@@ -496,7 +501,7 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(endpoint);
+            uri.Reset(_endpoint);
             uri.AppendPath("/redacted_resumes", false);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -607,7 +612,7 @@ namespace Affinda.API
                         return Response.FromValue<object>(value, message.Response);
                     }
                 default:
-                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
             }
         }
 
@@ -652,7 +657,7 @@ namespace Affinda.API
                         return Response.FromValue<object>(value, message.Response);
                     }
                 default:
-                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
             }
         }
 
@@ -662,7 +667,7 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(endpoint);
+            uri.Reset(_endpoint);
             uri.AppendPath("/redacted_resumes/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -705,7 +710,7 @@ namespace Affinda.API
                         return Response.FromValue<object>(value, message.Response);
                     }
                 default:
-                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
             }
         }
 
@@ -744,7 +749,7 @@ namespace Affinda.API
                         return Response.FromValue<object>(value, message.Response);
                     }
                 default:
-                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
             }
         }
 
@@ -754,7 +759,7 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Delete;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(endpoint);
+            uri.Reset(_endpoint);
             uri.AppendPath("/redacted_resumes/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -789,7 +794,7 @@ namespace Affinda.API
                         return Response.FromValue(value, message.Response);
                     }
                 default:
-                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
             }
         }
 
@@ -820,25 +825,25 @@ namespace Affinda.API
                         return Response.FromValue(value, message.Response);
                     }
                 default:
-                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
             }
         }
 
-        internal HttpMessage CreateGetAllResumeFormatsRequest()
+        internal HttpMessage CreateGetAllResumeFormatsRequest(int? offset, int? limit)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(endpoint);
+            uri.Reset(_endpoint);
             uri.AppendPath("/resume_formats", false);
-            if (limit != null)
-            {
-                uri.AppendQuery("limit", limit.Value, true);
-            }
             if (offset != null)
             {
                 uri.AppendQuery("offset", offset.Value, true);
+            }
+            if (limit != null)
+            {
+                uri.AppendQuery("limit", limit.Value, true);
             }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -846,10 +851,12 @@ namespace Affinda.API
         }
 
         /// <summary> Returns all the resume formats. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<object>> GetAllResumeFormatsAsync(CancellationToken cancellationToken = default)
+        public async Task<Response<object>> GetAllResumeFormatsAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllResumeFormatsRequest();
+            using var message = CreateGetAllResumeFormatsRequest(offset, limit);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -870,15 +877,17 @@ namespace Affinda.API
                         return Response.FromValue<object>(value, message.Response);
                     }
                 default:
-                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
             }
         }
 
         /// <summary> Returns all the resume formats. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<object> GetAllResumeFormats(CancellationToken cancellationToken = default)
+        public Response<object> GetAllResumeFormats(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllResumeFormatsRequest();
+            using var message = CreateGetAllResumeFormatsRequest(offset, limit);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -899,25 +908,25 @@ namespace Affinda.API
                         return Response.FromValue<object>(value, message.Response);
                     }
                 default:
-                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
             }
         }
 
-        internal HttpMessage CreateGetAllReformattedResumesRequest()
+        internal HttpMessage CreateGetAllReformattedResumesRequest(int? offset, int? limit)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(endpoint);
+            uri.Reset(_endpoint);
             uri.AppendPath("/reformatted_resumes", false);
-            if (limit != null)
-            {
-                uri.AppendQuery("limit", limit.Value, true);
-            }
             if (offset != null)
             {
                 uri.AppendQuery("offset", offset.Value, true);
+            }
+            if (limit != null)
+            {
+                uri.AppendQuery("limit", limit.Value, true);
             }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -925,10 +934,12 @@ namespace Affinda.API
         }
 
         /// <summary> Returns all the reformatted resume information for that resume. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<object>> GetAllReformattedResumesAsync(CancellationToken cancellationToken = default)
+        public async Task<Response<object>> GetAllReformattedResumesAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllReformattedResumesRequest();
+            using var message = CreateGetAllReformattedResumesRequest(offset, limit);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -949,15 +960,17 @@ namespace Affinda.API
                         return Response.FromValue<object>(value, message.Response);
                     }
                 default:
-                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
             }
         }
 
         /// <summary> Returns all the reformatted resume information for that resume. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<object> GetAllReformattedResumes(CancellationToken cancellationToken = default)
+        public Response<object> GetAllReformattedResumes(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllReformattedResumesRequest();
+            using var message = CreateGetAllReformattedResumesRequest(offset, limit);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -978,7 +991,7 @@ namespace Affinda.API
                         return Response.FromValue<object>(value, message.Response);
                     }
                 default:
-                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
             }
         }
 
@@ -988,7 +1001,7 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(endpoint);
+            uri.Reset(_endpoint);
             uri.AppendPath("/reformatted_resumes", false);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -1062,7 +1075,7 @@ namespace Affinda.API
                         return Response.FromValue<object>(value, message.Response);
                     }
                 default:
-                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
             }
         }
 
@@ -1105,7 +1118,7 @@ namespace Affinda.API
                         return Response.FromValue<object>(value, message.Response);
                     }
                 default:
-                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
             }
         }
 
@@ -1115,7 +1128,7 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(endpoint);
+            uri.Reset(_endpoint);
             uri.AppendPath("/reformatted_resumes/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -1158,7 +1171,7 @@ namespace Affinda.API
                         return Response.FromValue<object>(value, message.Response);
                     }
                 default:
-                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
             }
         }
 
@@ -1197,7 +1210,7 @@ namespace Affinda.API
                         return Response.FromValue<object>(value, message.Response);
                     }
                 default:
-                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
             }
         }
 
@@ -1207,7 +1220,7 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Delete;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(endpoint);
+            uri.Reset(_endpoint);
             uri.AppendPath("/reformatted_resumes/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -1242,7 +1255,7 @@ namespace Affinda.API
                         return Response.FromValue(value, message.Response);
                     }
                 default:
-                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
             }
         }
 
@@ -1273,25 +1286,644 @@ namespace Affinda.API
                         return Response.FromValue(value, message.Response);
                     }
                 default:
-                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
             }
         }
 
-        internal HttpMessage CreateGetAllInvoicesRequest()
+        internal HttpMessage CreateCreateResumeSearchRequest(ResumeSearchParameters body, int? offset, int? limit)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(_endpoint);
+            uri.AppendPath("/resume_search", false);
+            if (offset != null)
+            {
+                uri.AppendQuery("offset", offset.Value, true);
+            }
+            if (limit != null)
+            {
+                uri.AppendQuery("limit", limit.Value, true);
+            }
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            if (body != null)
+            {
+                request.Headers.Add("Content-Type", "application/json");
+                var content = new Utf8JsonRequestContent();
+                content.JsonWriter.WriteObjectValue(body);
+                request.Content = content;
+            }
+            return message;
+        }
+
+        /// <summary> Searches through parsed resumes. </summary>
+        /// <param name="body"> Search parameters. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        public async Task<Response<object>> CreateResumeSearchAsync(ResumeSearchParameters body, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateCreateResumeSearchRequest(body, offset, limit);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 201:
+                    {
+                        ResumeSearch value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = ResumeSearch.DeserializeResumeSearch(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Searches through parsed resumes. </summary>
+        /// <param name="body"> Search parameters. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        public Response<object> CreateResumeSearch(ResumeSearchParameters body, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateCreateResumeSearchRequest(body, offset, limit);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 201:
+                    {
+                        ResumeSearch value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = ResumeSearch.DeserializeResumeSearch(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateGetAllIndexesRequest(int? offset, int? limit)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(endpoint);
-            uri.AppendPath("/invoices", false);
+            uri.Reset(_endpoint);
+            uri.AppendPath("/index", false);
+            if (offset != null)
+            {
+                uri.AppendQuery("offset", offset.Value, true);
+            }
             if (limit != null)
             {
                 uri.AppendQuery("limit", limit.Value, true);
             }
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Returns all the indexes. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public async Task<Response<object>> GetAllIndexesAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateGetAllIndexesRequest(offset, limit);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        Paths6Pypg5IndexGetResponses200ContentApplicationJsonSchema value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = Paths6Pypg5IndexGetResponses200ContentApplicationJsonSchema.DeserializePaths6Pypg5IndexGetResponses200ContentApplicationJsonSchema(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Returns all the indexes. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public Response<object> GetAllIndexes(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateGetAllIndexesRequest(offset, limit);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        Paths6Pypg5IndexGetResponses200ContentApplicationJsonSchema value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = Paths6Pypg5IndexGetResponses200ContentApplicationJsonSchema.DeserializePaths6Pypg5IndexGetResponses200ContentApplicationJsonSchema(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateCreateIndexRequest(string name)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(_endpoint);
+            uri.AppendPath("/index", false);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Content-Type", "multipart/form-data");
+            var content = new MultipartFormDataContent();
+            if (name != null)
+            {
+                content.Add(new StringRequestContent(name), "name", null);
+            }
+            content.ApplyToRequest(request);
+            return message;
+        }
+
+        /// <summary> Create an index for the search tool. </summary>
+        /// <param name="name"> The PostContentSchemaName to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public async Task<Response<object>> CreateIndexAsync(string name = null, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateCreateIndexRequest(name);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 201:
+                    {
+                        Paths1Mc0Je6IndexPostResponses201ContentApplicationJsonSchema value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = Paths1Mc0Je6IndexPostResponses201ContentApplicationJsonSchema.DeserializePaths1Mc0Je6IndexPostResponses201ContentApplicationJsonSchema(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Create an index for the search tool. </summary>
+        /// <param name="name"> The PostContentSchemaName to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public Response<object> CreateIndex(string name = null, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateCreateIndexRequest(name);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 201:
+                    {
+                        Paths1Mc0Je6IndexPostResponses201ContentApplicationJsonSchema value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = Paths1Mc0Je6IndexPostResponses201ContentApplicationJsonSchema.DeserializePaths1Mc0Je6IndexPostResponses201ContentApplicationJsonSchema(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateDeleteIndexRequest(string name)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Delete;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(_endpoint);
+            uri.AppendPath("/index/", false);
+            uri.AppendPath(name, true);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Deletes the specified index from the database. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/> is null. </exception>
+        public async Task<Response<RequestError>> DeleteIndexAsync(string name, CancellationToken cancellationToken = default)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            using var message = CreateDeleteIndexRequest(name);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 204:
+                    return Response.FromValue((RequestError)null, message.Response);
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Deletes the specified index from the database. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/> is null. </exception>
+        public Response<RequestError> DeleteIndex(string name, CancellationToken cancellationToken = default)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            using var message = CreateDeleteIndexRequest(name);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 204:
+                    return Response.FromValue((RequestError)null, message.Response);
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateGetAllIndexDocumentsRequest(string name)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Get;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(_endpoint);
+            uri.AppendPath("/index/", false);
+            uri.AppendPath(name, true);
+            uri.AppendPath("/documents", false);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Returns all the indexed documents for that index. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/> is null. </exception>
+        public async Task<Response<object>> GetAllIndexDocumentsAsync(string name, CancellationToken cancellationToken = default)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            using var message = CreateGetAllIndexDocumentsRequest(name);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        PathsRvverlIndexNameDocumentsGetResponses200ContentApplicationJsonSchema value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = PathsRvverlIndexNameDocumentsGetResponses200ContentApplicationJsonSchema.DeserializePathsRvverlIndexNameDocumentsGetResponses200ContentApplicationJsonSchema(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Returns all the indexed documents for that index. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/> is null. </exception>
+        public Response<object> GetAllIndexDocuments(string name, CancellationToken cancellationToken = default)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            using var message = CreateGetAllIndexDocumentsRequest(name);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        PathsRvverlIndexNameDocumentsGetResponses200ContentApplicationJsonSchema value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = PathsRvverlIndexNameDocumentsGetResponses200ContentApplicationJsonSchema.DeserializePathsRvverlIndexNameDocumentsGetResponses200ContentApplicationJsonSchema(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateCreateIndexDocumentRequest(string name, PathsGpptmIndexNameDocumentsPostRequestbodyContentApplicationJsonSchema body)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(_endpoint);
+            uri.AppendPath("/index/", false);
+            uri.AppendPath(name, true);
+            uri.AppendPath("/documents", false);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Content-Type", "application/json");
+            var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(body);
+            request.Content = content;
+            return message;
+        }
+
+        /// <summary> Create an indexed document for the search tool. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="body"> Document to index. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/> or <paramref name="body"/> is null. </exception>
+        public async Task<Response<object>> CreateIndexDocumentAsync(string name, PathsGpptmIndexNameDocumentsPostRequestbodyContentApplicationJsonSchema body, CancellationToken cancellationToken = default)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateCreateIndexDocumentRequest(name, body);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 201:
+                    {
+                        PathsCoo0XpIndexNameDocumentsPostResponses201ContentApplicationJsonSchema value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = PathsCoo0XpIndexNameDocumentsPostResponses201ContentApplicationJsonSchema.DeserializePathsCoo0XpIndexNameDocumentsPostResponses201ContentApplicationJsonSchema(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Create an indexed document for the search tool. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="body"> Document to index. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/> or <paramref name="body"/> is null. </exception>
+        public Response<object> CreateIndexDocument(string name, PathsGpptmIndexNameDocumentsPostRequestbodyContentApplicationJsonSchema body, CancellationToken cancellationToken = default)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateCreateIndexDocumentRequest(name, body);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 201:
+                    {
+                        PathsCoo0XpIndexNameDocumentsPostResponses201ContentApplicationJsonSchema value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = PathsCoo0XpIndexNameDocumentsPostResponses201ContentApplicationJsonSchema.DeserializePathsCoo0XpIndexNameDocumentsPostResponses201ContentApplicationJsonSchema(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateDeleteIndexDocumentRequest(string name, string identifier)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Delete;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(_endpoint);
+            uri.AppendPath("/index/", false);
+            uri.AppendPath(name, true);
+            uri.AppendPath("/documents/", false);
+            uri.AppendPath(identifier, true);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Delete the specified indexed document from the database. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="identifier"> Document identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/> or <paramref name="identifier"/> is null. </exception>
+        public async Task<Response<RequestError>> DeleteIndexDocumentAsync(string name, string identifier, CancellationToken cancellationToken = default)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            using var message = CreateDeleteIndexDocumentRequest(name, identifier);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 204:
+                    return Response.FromValue((RequestError)null, message.Response);
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Delete the specified indexed document from the database. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="identifier"> Document identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/> or <paramref name="identifier"/> is null. </exception>
+        public Response<RequestError> DeleteIndexDocument(string name, string identifier, CancellationToken cancellationToken = default)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            using var message = CreateDeleteIndexDocumentRequest(name, identifier);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 204:
+                    return Response.FromValue((RequestError)null, message.Response);
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateGetAllInvoicesRequest(int? offset, int? limit)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Get;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(_endpoint);
+            uri.AppendPath("/invoices", false);
             if (offset != null)
             {
                 uri.AppendQuery("offset", offset.Value, true);
+            }
+            if (limit != null)
+            {
+                uri.AppendQuery("limit", limit.Value, true);
             }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -1299,10 +1931,12 @@ namespace Affinda.API
         }
 
         /// <summary> Returns all the invoice summaries for that user, limited to 300 per page. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<object>> GetAllInvoicesAsync(CancellationToken cancellationToken = default)
+        public async Task<Response<object>> GetAllInvoicesAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllInvoicesRequest();
+            using var message = CreateGetAllInvoicesRequest(offset, limit);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1323,15 +1957,17 @@ namespace Affinda.API
                         return Response.FromValue<object>(value, message.Response);
                     }
                 default:
-                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
             }
         }
 
         /// <summary> Returns all the invoice summaries for that user, limited to 300 per page. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<object> GetAllInvoices(CancellationToken cancellationToken = default)
+        public Response<object> GetAllInvoices(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllInvoicesRequest();
+            using var message = CreateGetAllInvoicesRequest(offset, limit);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -1352,7 +1988,7 @@ namespace Affinda.API
                         return Response.FromValue<object>(value, message.Response);
                     }
                 default:
-                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
             }
         }
 
@@ -1362,7 +1998,7 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(endpoint);
+            uri.Reset(_endpoint);
             uri.AppendPath("/invoices", false);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -1436,7 +2072,7 @@ namespace Affinda.API
                         return Response.FromValue<object>(value, message.Response);
                     }
                 default:
-                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
             }
         }
 
@@ -1476,7 +2112,7 @@ namespace Affinda.API
                         return Response.FromValue<object>(value, message.Response);
                     }
                 default:
-                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
             }
         }
 
@@ -1486,7 +2122,7 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(endpoint);
+            uri.Reset(_endpoint);
             uri.AppendPath("/invoices/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -1529,7 +2165,7 @@ namespace Affinda.API
                         return Response.FromValue<object>(value, message.Response);
                     }
                 default:
-                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
             }
         }
 
@@ -1568,7 +2204,7 @@ namespace Affinda.API
                         return Response.FromValue<object>(value, message.Response);
                     }
                 default:
-                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
             }
         }
 
@@ -1578,7 +2214,7 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Delete;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(endpoint);
+            uri.Reset(_endpoint);
             uri.AppendPath("/invoices/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -1613,7 +2249,7 @@ namespace Affinda.API
                         return Response.FromValue(value, message.Response);
                     }
                 default:
-                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
             }
         }
 
@@ -1644,7 +2280,78 @@ namespace Affinda.API
                         return Response.FromValue(value, message.Response);
                     }
                 default:
-                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateListOccupationGroupsRequest()
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Get;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(_endpoint);
+            uri.AppendPath("/occupation_groups", false);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> TODO TODO TODO. </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public async Task<Response<object>> ListOccupationGroupsAsync(CancellationToken cancellationToken = default)
+        {
+            using var message = CreateListOccupationGroupsRequest();
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 201:
+                    {
+                        OccupationGroup value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = OccupationGroup.DeserializeOccupationGroup(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> TODO TODO TODO. </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public Response<object> ListOccupationGroups(CancellationToken cancellationToken = default)
+        {
+            using var message = CreateListOccupationGroupsRequest();
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 201:
+                    {
+                        OccupationGroup value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = OccupationGroup.DeserializeOccupationGroup(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
             }
         }
     }

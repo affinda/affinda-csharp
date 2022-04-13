@@ -79,28 +79,45 @@ namespace Affinda.API.Models
             RawText = rawText;
         }
 
+        /// <summary> Gets the name. </summary>
         public ResumeDataName Name { get; }
+        /// <summary> Gets the phone numbers. </summary>
         public IReadOnlyList<string> PhoneNumbers { get; }
+        /// <summary> Gets the websites. </summary>
         public IReadOnlyList<string> Websites { get; }
+        /// <summary> Gets the emails. </summary>
         public IReadOnlyList<string> Emails { get; }
+        /// <summary> Gets the date of birth. </summary>
         public string DateOfBirth { get; }
+        /// <summary> Gets the location. </summary>
         public Location Location { get; }
+        /// <summary> Gets the objective. </summary>
         public string Objective { get; }
+        /// <summary> Gets the languages. </summary>
         public IReadOnlyList<string> Languages { get; }
+        /// <summary> Gets the summary. </summary>
         public string Summary { get; }
+        /// <summary> Gets the total years experience. </summary>
         public int? TotalYearsExperience { get; }
         /// <summary> base64 encoded string. </summary>
         public byte[] HeadShot { get; }
+        /// <summary> Gets the education. </summary>
         public IReadOnlyList<ResumeDataEducationItem> Education { get; }
         /// <summary> Prediction of the candidate&apos;s profession based on recent work experience. </summary>
         public string Profession { get; }
         /// <summary> Linkedin account associated with the candidate. </summary>
         public string Linkedin { get; }
+        /// <summary> Gets the work experience. </summary>
         public IReadOnlyList<ResumeDataWorkExperienceItem> WorkExperience { get; }
+        /// <summary> Gets the skills. </summary>
         public IReadOnlyList<ResumeDataSkillsItem> Skills { get; }
+        /// <summary> Gets the certifications. </summary>
         public IReadOnlyList<string> Certifications { get; }
+        /// <summary> Gets the publications. </summary>
         public IReadOnlyList<string> Publications { get; }
+        /// <summary> Gets the referees. </summary>
         public IReadOnlyList<ResumeDataRefereesItem> Referees { get; }
+        /// <summary> Gets the sections. </summary>
         public IReadOnlyList<ResumeDataSectionsItem> Sections { get; }
         /// <summary> Probability that the given document is a resume. Values below 30 suggest that the document is not a resume. </summary>
         public int? IsResumeProbability { get; }

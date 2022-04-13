@@ -16,7 +16,7 @@ namespace Affinda.API.Models
         {
             Optional<string> jobTitle = default;
             Optional<string> jobTitleNormalized = default;
-            Optional<Enum0?> managementLevel = default;
+            Optional<ManagementLevel?> managementLevel = default;
             Optional<Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification> classification = default;
             foreach (var property in element.EnumerateObject())
             {
@@ -47,7 +47,7 @@ namespace Affinda.API.Models
                         managementLevel = null;
                         continue;
                     }
-                    managementLevel = new Enum0(property.Value.GetString());
+                    managementLevel = property.Value.GetString().ToManagementLevel();
                     continue;
                 }
                 if (property.NameEquals("classification"))

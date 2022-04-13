@@ -28,8 +28,11 @@ namespace Affinda.API.Models
             StartDate = startDate;
         }
 
+        /// <summary> Gets the completion date. </summary>
         public DateTimeOffset? CompletionDate { get; }
+        /// <summary> Gets the is current. </summary>
         public bool? IsCurrent { get; }
+        /// <summary> Gets the start date. </summary>
         public DateTimeOffset? StartDate { get; }
     }
 }

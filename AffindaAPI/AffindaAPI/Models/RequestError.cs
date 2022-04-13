@@ -27,7 +27,9 @@ namespace Affinda.API.Models
             StatusCode = statusCode;
         }
 
+        /// <summary> Gets the detail. </summary>
         public string Detail { get; }
+        /// <summary> Gets the status code. </summary>
         public int StatusCode { get; }
     }
 }

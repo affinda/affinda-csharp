@@ -117,15 +117,16 @@ namespace Affinda.API.Models
         /// <param name="postalCode"></param>
         /// <param name="state"></param>
         /// <param name="country"></param>
+        /// <param name="countryCode"> Two letter country code (ISO 3166-1 alpha-2). </param>
         /// <param name="rawInput"></param>
         /// <param name="streetNumber"></param>
         /// <param name="street"></param>
         /// <param name="apartmentNumber"></param>
         /// <param name="city"></param>
         /// <returns> A new <see cref="Models.Location"/> instance for mocking. </returns>
-        public static Location Location(string formatted = null, string postalCode = null, string state = null, string country = null, string rawInput = null, string streetNumber = null, string street = null, string apartmentNumber = null, string city = null)
+        public static Location Location(string formatted = null, string postalCode = null, string state = null, string country = null, string countryCode = null, string rawInput = null, string streetNumber = null, string street = null, string apartmentNumber = null, string city = null)
         {
-            return new Location(formatted, postalCode, state, country, rawInput, streetNumber, street, apartmentNumber, city);
+            return new Location(formatted, postalCode, state, country, countryCode, rawInput, streetNumber, street, apartmentNumber, city);
         }
 
         /// <summary> Initializes a new instance of ResumeDataEducationItem. </summary>
@@ -201,7 +202,7 @@ namespace Affinda.API.Models
         /// <param name="managementLevel"></param>
         /// <param name="classification"></param>
         /// <returns> A new <see cref="Models.ResumeDataWorkExperienceItemOccupation"/> instance for mocking. </returns>
-        public static ResumeDataWorkExperienceItemOccupation ResumeDataWorkExperienceItemOccupation(string jobTitle = null, string jobTitleNormalized = null, Enum0? managementLevel = null, Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification classification = null)
+        public static ResumeDataWorkExperienceItemOccupation ResumeDataWorkExperienceItemOccupation(string jobTitle = null, string jobTitleNormalized = null, ManagementLevel? managementLevel = null, Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification classification = null)
         {
             return new ResumeDataWorkExperienceItemOccupation(jobTitle, jobTitleNormalized, managementLevel, classification);
         }
@@ -332,6 +333,107 @@ namespace Affinda.API.Models
             return new ReformattedResumeData(reformattedFile);
         }
 
+        /// <summary> Initializes a new instance of ResumeSearch. </summary>
+        /// <param name="count"> Total number of results. </param>
+        /// <param name="next"> URL to request next page of results. </param>
+        /// <param name="previous"> URL to request previous page of results. </param>
+        /// <param name="parameters"></param>
+        /// <param name="results"></param>
+        /// <returns> A new <see cref="Models.ResumeSearch"/> instance for mocking. </returns>
+        public static ResumeSearch ResumeSearch(int? count = null, string next = null, string previous = null, ResumeSearchParameters parameters = null, IEnumerable<ResumeSearchResult> results = null)
+        {
+            results ??= new List<ResumeSearchResult>();
+
+            return new ResumeSearch(count, next, previous, parameters, results?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of ResumeSearchResult. </summary>
+        /// <param name="identifier"> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </param>
+        /// <param name="score"></param>
+        /// <param name="pdf"></param>
+        /// <param name="name"></param>
+        /// <param name="jobTitle"></param>
+        /// <param name="managementLevel"></param>
+        /// <param name="experience"></param>
+        /// <param name="skills"></param>
+        /// <param name="languages"></param>
+        /// <param name="location"></param>
+        /// <param name="education"></param>
+        /// <param name="occupationGroup"></param>
+        /// <returns> A new <see cref="Models.ResumeSearchResult"/> instance for mocking. </returns>
+        public static ResumeSearchResult ResumeSearchResult(string identifier = null, float score = default, string pdf = null, string name = null, ResumeSearchScoreComponent jobTitle = null, ResumeSearchScoreComponent managementLevel = null, ResumeSearchScoreComponent experience = null, ResumeSearchScoreComponent skills = null, ResumeSearchScoreComponent languages = null, ResumeSearchScoreComponent location = null, ResumeSearchScoreComponent education = null, ResumeSearchScoreComponent occupationGroup = null)
+        {
+            return new ResumeSearchResult(identifier, score, pdf, name, jobTitle, managementLevel, experience, skills, languages, location, education, occupationGroup);
+        }
+
+        /// <summary> Initializes a new instance of ResumeSearchScoreComponent. </summary>
+        /// <param name="label"></param>
+        /// <param name="value"></param>
+        /// <param name="score"></param>
+        /// <returns> A new <see cref="Models.ResumeSearchScoreComponent"/> instance for mocking. </returns>
+        public static ResumeSearchScoreComponent ResumeSearchScoreComponent(string label = null, string value = null, float? score = null)
+        {
+            return new ResumeSearchScoreComponent(label, value, score);
+        }
+
+        /// <summary> Initializes a new instance of Paths6Pypg5IndexGetResponses200ContentApplicationJsonSchema. </summary>
+        /// <param name="count"> Number of indexes in result. </param>
+        /// <param name="next"> URL to request next page of results. </param>
+        /// <param name="previous"> URL to request previous page of results. </param>
+        /// <param name="results"></param>
+        /// <returns> A new <see cref="Models.Paths6Pypg5IndexGetResponses200ContentApplicationJsonSchema"/> instance for mocking. </returns>
+        public static Paths6Pypg5IndexGetResponses200ContentApplicationJsonSchema Paths6Pypg5IndexGetResponses200ContentApplicationJsonSchema(int? count = null, string next = null, string previous = null, IEnumerable<Paths108CfgmIndexGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems> results = null)
+        {
+            results ??= new List<Paths108CfgmIndexGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems>();
+
+            return new Paths6Pypg5IndexGetResponses200ContentApplicationJsonSchema(count, next, previous, results?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of Paths108CfgmIndexGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems. </summary>
+        /// <param name="name"></param>
+        /// <returns> A new <see cref="Models.Paths108CfgmIndexGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems"/> instance for mocking. </returns>
+        public static Paths108CfgmIndexGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems Paths108CfgmIndexGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems(string name = null)
+        {
+            return new Paths108CfgmIndexGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems(name);
+        }
+
+        /// <summary> Initializes a new instance of Paths1Mc0Je6IndexPostResponses201ContentApplicationJsonSchema. </summary>
+        /// <param name="name"></param>
+        /// <returns> A new <see cref="Models.Paths1Mc0Je6IndexPostResponses201ContentApplicationJsonSchema"/> instance for mocking. </returns>
+        public static Paths1Mc0Je6IndexPostResponses201ContentApplicationJsonSchema Paths1Mc0Je6IndexPostResponses201ContentApplicationJsonSchema(string name = null)
+        {
+            return new Paths1Mc0Je6IndexPostResponses201ContentApplicationJsonSchema(name);
+        }
+
+        /// <summary> Initializes a new instance of PathsRvverlIndexNameDocumentsGetResponses200ContentApplicationJsonSchema. </summary>
+        /// <param name="count"> Number of indexed documents in result. </param>
+        /// <param name="next"> URL to request next page of results. </param>
+        /// <param name="previous"> URL to request previous page of results. </param>
+        /// <param name="results"></param>
+        /// <returns> A new <see cref="Models.PathsRvverlIndexNameDocumentsGetResponses200ContentApplicationJsonSchema"/> instance for mocking. </returns>
+        public static PathsRvverlIndexNameDocumentsGetResponses200ContentApplicationJsonSchema PathsRvverlIndexNameDocumentsGetResponses200ContentApplicationJsonSchema(int? count = null, string next = null, string previous = null, IEnumerable<PathsHryo8IndexNameDocumentsGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems> results = null)
+        {
+            results ??= new List<PathsHryo8IndexNameDocumentsGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems>();
+
+            return new PathsRvverlIndexNameDocumentsGetResponses200ContentApplicationJsonSchema(count, next, previous, results?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of PathsHryo8IndexNameDocumentsGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems. </summary>
+        /// <param name="document"></param>
+        /// <returns> A new <see cref="Models.PathsHryo8IndexNameDocumentsGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems"/> instance for mocking. </returns>
+        public static PathsHryo8IndexNameDocumentsGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems PathsHryo8IndexNameDocumentsGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems(string document = null)
+        {
+            return new PathsHryo8IndexNameDocumentsGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems(document);
+        }
+
+        /// <summary> Initializes a new instance of PathsCoo0XpIndexNameDocumentsPostResponses201ContentApplicationJsonSchema. </summary>
+        /// <param name="document"> Unique identifier for the document. </param>
+        /// <returns> A new <see cref="Models.PathsCoo0XpIndexNameDocumentsPostResponses201ContentApplicationJsonSchema"/> instance for mocking. </returns>
+        public static PathsCoo0XpIndexNameDocumentsPostResponses201ContentApplicationJsonSchema PathsCoo0XpIndexNameDocumentsPostResponses201ContentApplicationJsonSchema(string document = null)
+        {
+            return new PathsCoo0XpIndexNameDocumentsPostResponses201ContentApplicationJsonSchema(document);
+        }
+
         /// <summary> Initializes a new instance of GetAllInvoicesResults. </summary>
         /// <param name="count"> Number of documents in result. </param>
         /// <param name="next"> URL to request next page of results. </param>
@@ -395,6 +497,18 @@ namespace Affinda.API.Models
         public static InvoiceData InvoiceData(string invoiceDate = null, string invoiceOrderDate = null, string paymentDateDue = null, string paymentAmountBase = null, string paymentAmountTax = null, string paymentAmountTotal = null, string paymentAmountPaid = null, string paymentAmountDue = null, string invoiceNumber = null, string invoicePurchaseOrderNumber = null, string supplierBusinessNumber = null, string customerNumber = null, string customerBusinessNumber = null, string paymentReference = null, string bankAccountNumber = null, string supplierVAT = null, string customerVAT = null, string bpayBillerCode = null, string bpayReference = null, string bankSortCode = null, string bankIban = null, string bankSwift = null, string bankBSB = null, string customerContactName = null, string customerCompanyName = null, string supplierCompanyName = null, Location customerBillingAddress = null, Location customerDeliveryAddress = null, Location supplierAddress = null, string customerPhoneNumber = null, string supplierPhoneNumber = null, string supplierFax = null, string customerEmail = null, string supplierEmail = null, string supplierWebsite = null)
         {
             return new InvoiceData(invoiceDate, invoiceOrderDate, paymentDateDue, paymentAmountBase, paymentAmountTax, paymentAmountTotal, paymentAmountPaid, paymentAmountDue, invoiceNumber, invoicePurchaseOrderNumber, supplierBusinessNumber, customerNumber, customerBusinessNumber, paymentReference, bankAccountNumber, supplierVAT, customerVAT, bpayBillerCode, bpayReference, bankSortCode, bankIban, bankSwift, bankBSB, customerContactName, customerCompanyName, supplierCompanyName, customerBillingAddress, customerDeliveryAddress, supplierAddress, customerPhoneNumber, supplierPhoneNumber, supplierFax, customerEmail, supplierEmail, supplierWebsite);
+        }
+
+        /// <summary> Initializes a new instance of OccupationGroup. </summary>
+        /// <param name="code"></param>
+        /// <param name="name"></param>
+        /// <param name="children"></param>
+        /// <returns> A new <see cref="Models.OccupationGroup"/> instance for mocking. </returns>
+        public static OccupationGroup OccupationGroup(int code = default, string name = null, IEnumerable<OccupationGroup> children = null)
+        {
+            children ??= new List<OccupationGroup>();
+
+            return new OccupationGroup(code, name, children?.ToList());
         }
     }
 }

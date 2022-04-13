@@ -38,6 +38,7 @@ namespace Affinda.API.Models
         public string Next { get; }
         /// <summary> URL to request previous page of results. </summary>
         public string Previous { get; }
+        /// <summary> Gets the results. </summary>
         public IReadOnlyList<Meta> Results { get; }
     }
 }

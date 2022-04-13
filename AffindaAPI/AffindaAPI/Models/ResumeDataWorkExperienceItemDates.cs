@@ -30,9 +30,13 @@ namespace Affinda.API.Models
             IsCurrent = isCurrent;
         }
 
+        /// <summary> Gets the start date. </summary>
         public DateTimeOffset? StartDate { get; }
+        /// <summary> Gets the end date. </summary>
         public DateTimeOffset? EndDate { get; }
+        /// <summary> Gets the months in position. </summary>
         public int? MonthsInPosition { get; }
+        /// <summary> Gets the is current. </summary>
         public bool? IsCurrent { get; }
     }
 }

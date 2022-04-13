@@ -32,11 +32,17 @@ namespace Affinda.API.Models
             Occupation = occupation;
         }
 
+        /// <summary> Gets the job title. </summary>
         public string JobTitle { get; }
+        /// <summary> Gets the organization. </summary>
         public string Organization { get; }
+        /// <summary> Gets the location. </summary>
         public Location Location { get; }
+        /// <summary> Gets the job description. </summary>
         public string JobDescription { get; }
+        /// <summary> Gets the dates. </summary>
         public ResumeDataWorkExperienceItemDates Dates { get; }
+        /// <summary> Gets the occupation. </summary>
         public ResumeDataWorkExperienceItemOccupation Occupation { get; }
     }
 }
