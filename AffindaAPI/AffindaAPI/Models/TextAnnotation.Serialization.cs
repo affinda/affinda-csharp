@@ -11,9 +11,9 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class InvoiceDataSupplierBusinessNumber
+    public partial class TextAnnotation
     {
-        internal static InvoiceDataSupplierBusinessNumber DeserializeInvoiceDataSupplierBusinessNumber(JsonElement element)
+        internal static TextAnnotation DeserializeTextAnnotation(JsonElement element)
         {
             Optional<string> parsed = default;
             Rectangle rectangle = default;
@@ -79,7 +79,7 @@ namespace Affinda.API.Models
                 additionalPropertiesDictionary.Add(property.Name, property.Value.GetObject());
             }
             additionalProperties = additionalPropertiesDictionary;
-            return new InvoiceDataSupplierBusinessNumber(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed.Value);
+            return new TextAnnotation(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed.Value);
         }
     }
 }

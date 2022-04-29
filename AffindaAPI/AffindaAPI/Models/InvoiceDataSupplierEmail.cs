@@ -11,7 +11,7 @@ using System.Collections.Generic;
 namespace Affinda.API.Models
 {
     /// <summary> The InvoiceDataSupplierEmail. </summary>
-    public partial class InvoiceDataSupplierEmail : Annotation
+    public partial class InvoiceDataSupplierEmail : TextAnnotation
     {
         /// <summary> Initializes a new instance of InvoiceDataSupplierEmail. </summary>
         /// <param name="rectangle"></param>
@@ -42,12 +42,8 @@ namespace Affinda.API.Models
         /// <param name="classification"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
-        internal InvoiceDataSupplierEmail(Rectangle rectangle, int? pageIndex, string raw, float confidence, bool isVerified, string classification, IReadOnlyDictionary<string, object> additionalProperties, string parsed) : base(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties)
+        internal InvoiceDataSupplierEmail(Rectangle rectangle, int? pageIndex, string raw, float confidence, bool isVerified, string classification, IReadOnlyDictionary<string, object> additionalProperties, string parsed) : base(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed)
         {
-            Parsed = parsed;
         }
-
-        /// <summary> Gets the parsed. </summary>
-        public string Parsed { get; }
     }
 }

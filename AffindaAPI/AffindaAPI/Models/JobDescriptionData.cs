@@ -18,7 +18,7 @@ namespace Affinda.API.Models
         {
             Languages = new ChangeTrackingList<LanguageAnnotation>();
             Skills = new ChangeTrackingList<SkillAnnotation>();
-            Certifications = new ChangeTrackingList<Annotation>();
+            Certifications = new ChangeTrackingList<TextAnnotation>();
         }
 
         /// <summary> Initializes a new instance of JobDescriptionData. </summary>
@@ -37,7 +37,7 @@ namespace Affinda.API.Models
         /// <param name="expectedRemuneration"></param>
         /// <param name="location"></param>
         /// <param name="certifications"></param>
-        internal JobDescriptionData(Annotation contactEmail, Annotation contactName, Annotation contactPhone, DateAnnotation startDate, DateAnnotation endDate, Annotation jobType, IReadOnlyList<LanguageAnnotation> languages, IReadOnlyList<SkillAnnotation> skills, Annotation organizationName, Annotation organizationWebsite, Annotation educationLevel, Annotation educationAccreditation, ExpectedRemunerationAnnotation expectedRemuneration, LocationAnnotation location, IReadOnlyList<Annotation> certifications)
+        internal JobDescriptionData(TextAnnotation contactEmail, TextAnnotation contactName, TextAnnotation contactPhone, DateAnnotation startDate, DateAnnotation endDate, TextAnnotation jobType, IReadOnlyList<LanguageAnnotation> languages, IReadOnlyList<SkillAnnotation> skills, TextAnnotation organizationName, TextAnnotation organizationWebsite, TextAnnotation educationLevel, TextAnnotation educationAccreditation, ExpectedRemunerationAnnotation expectedRemuneration, LocationAnnotation location, IReadOnlyList<TextAnnotation> certifications)
         {
             ContactEmail = contactEmail;
             ContactName = contactName;
@@ -57,34 +57,34 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Gets the contact email. </summary>
-        public Annotation ContactEmail { get; }
+        public TextAnnotation ContactEmail { get; }
         /// <summary> Gets the contact name. </summary>
-        public Annotation ContactName { get; }
+        public TextAnnotation ContactName { get; }
         /// <summary> Gets the contact phone. </summary>
-        public Annotation ContactPhone { get; }
+        public TextAnnotation ContactPhone { get; }
         /// <summary> Gets the start date. </summary>
         public DateAnnotation StartDate { get; }
         /// <summary> Gets the end date. </summary>
         public DateAnnotation EndDate { get; }
         /// <summary> Gets the job type. </summary>
-        public Annotation JobType { get; }
+        public TextAnnotation JobType { get; }
         /// <summary> Gets the languages. </summary>
         public IReadOnlyList<LanguageAnnotation> Languages { get; }
         /// <summary> Gets the skills. </summary>
         public IReadOnlyList<SkillAnnotation> Skills { get; }
         /// <summary> Gets the organization name. </summary>
-        public Annotation OrganizationName { get; }
+        public TextAnnotation OrganizationName { get; }
         /// <summary> Gets the organization website. </summary>
-        public Annotation OrganizationWebsite { get; }
+        public TextAnnotation OrganizationWebsite { get; }
         /// <summary> Gets the education level. </summary>
-        public Annotation EducationLevel { get; }
+        public TextAnnotation EducationLevel { get; }
         /// <summary> Gets the education accreditation. </summary>
-        public Annotation EducationAccreditation { get; }
+        public TextAnnotation EducationAccreditation { get; }
         /// <summary> Gets the expected remuneration. </summary>
         public ExpectedRemunerationAnnotation ExpectedRemuneration { get; }
         /// <summary> Gets the location. </summary>
         public LocationAnnotation Location { get; }
         /// <summary> Gets the certifications. </summary>
-        public IReadOnlyList<Annotation> Certifications { get; }
+        public IReadOnlyList<TextAnnotation> Certifications { get; }
     }
 }

@@ -11,7 +11,7 @@ using System.Collections.Generic;
 namespace Affinda.API.Models
 {
     /// <summary> The InvoiceDataCustomerPhoneNumber. </summary>
-    public partial class InvoiceDataCustomerPhoneNumber : Annotation
+    public partial class InvoiceDataCustomerPhoneNumber : TextAnnotation
     {
         /// <summary> Initializes a new instance of InvoiceDataCustomerPhoneNumber. </summary>
         /// <param name="rectangle"></param>
@@ -42,12 +42,8 @@ namespace Affinda.API.Models
         /// <param name="classification"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
-        internal InvoiceDataCustomerPhoneNumber(Rectangle rectangle, int? pageIndex, string raw, float confidence, bool isVerified, string classification, IReadOnlyDictionary<string, object> additionalProperties, string parsed) : base(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties)
+        internal InvoiceDataCustomerPhoneNumber(Rectangle rectangle, int? pageIndex, string raw, float confidence, bool isVerified, string classification, IReadOnlyDictionary<string, object> additionalProperties, string parsed) : base(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed)
         {
-            Parsed = parsed;
         }
-
-        /// <summary> Gets the parsed. </summary>
-        public string Parsed { get; }
     }
 }

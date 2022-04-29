@@ -66,7 +66,7 @@ namespace Affinda.API.Models
                     confidence = property.Value.GetSingle();
                     continue;
                 }
-                if (property.NameEquals("is_verified"))
+                if (property.NameEquals("isVerified"))
                 {
                     isVerified = property.Value.GetBoolean();
                     continue;

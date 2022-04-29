@@ -10,10 +10,10 @@ using System.Collections.Generic;
 
 namespace Affinda.API.Models
 {
-    /// <summary> The InvoiceDataSupplierBusinessNumber. </summary>
-    public partial class InvoiceDataSupplierBusinessNumber : TextAnnotation
+    /// <summary> The TextAnnotation. </summary>
+    public partial class TextAnnotation : Annotation
     {
-        /// <summary> Initializes a new instance of InvoiceDataSupplierBusinessNumber. </summary>
+        /// <summary> Initializes a new instance of TextAnnotation. </summary>
         /// <param name="rectangle"></param>
         /// <param name="pageIndex"></param>
         /// <param name="raw"></param>
@@ -21,7 +21,7 @@ namespace Affinda.API.Models
         /// <param name="isVerified"></param>
         /// <param name="classification"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="rectangle"/> or <paramref name="classification"/> is null. </exception>
-        internal InvoiceDataSupplierBusinessNumber(Rectangle rectangle, int? pageIndex, string raw, float confidence, bool isVerified, string classification) : base(rectangle, pageIndex, raw, confidence, isVerified, classification)
+        internal TextAnnotation(Rectangle rectangle, int? pageIndex, string raw, float confidence, bool isVerified, string classification) : base(rectangle, pageIndex, raw, confidence, isVerified, classification)
         {
             if (rectangle == null)
             {
@@ -33,7 +33,7 @@ namespace Affinda.API.Models
             }
         }
 
-        /// <summary> Initializes a new instance of InvoiceDataSupplierBusinessNumber. </summary>
+        /// <summary> Initializes a new instance of TextAnnotation. </summary>
         /// <param name="rectangle"></param>
         /// <param name="pageIndex"></param>
         /// <param name="raw"></param>
@@ -42,8 +42,12 @@ namespace Affinda.API.Models
         /// <param name="classification"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
-        internal InvoiceDataSupplierBusinessNumber(Rectangle rectangle, int? pageIndex, string raw, float confidence, bool isVerified, string classification, IReadOnlyDictionary<string, object> additionalProperties, string parsed) : base(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed)
+        internal TextAnnotation(Rectangle rectangle, int? pageIndex, string raw, float confidence, bool isVerified, string classification, IReadOnlyDictionary<string, object> additionalProperties, string parsed) : base(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties)
         {
+            Parsed = parsed;
         }
+
+        /// <summary> Gets the parsed. </summary>
+        public string Parsed { get; }
     }
 }
