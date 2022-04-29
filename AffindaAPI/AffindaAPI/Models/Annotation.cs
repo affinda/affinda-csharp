@@ -46,17 +46,15 @@ namespace Affinda.API.Models
         /// <param name="rectangle"></param>
         /// <param name="pageIndex"></param>
         /// <param name="raw"></param>
-        /// <param name="parsed"></param>
         /// <param name="confidence"></param>
         /// <param name="isVerified"></param>
         /// <param name="classification"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
-        internal Annotation(Rectangle rectangle, int? pageIndex, string raw, string parsed, float confidence, bool isVerified, string classification, IReadOnlyDictionary<string, object> additionalProperties)
+        internal Annotation(Rectangle rectangle, int? pageIndex, string raw, float confidence, bool isVerified, string classification, IReadOnlyDictionary<string, object> additionalProperties)
         {
             Rectangle = rectangle;
             PageIndex = pageIndex;
             Raw = raw;
-            Parsed = parsed;
             Confidence = confidence;
             IsVerified = isVerified;
             Classification = classification;
@@ -69,8 +67,6 @@ namespace Affinda.API.Models
         public int? PageIndex { get; }
         /// <summary> Gets the raw. </summary>
         public string Raw { get; }
-        /// <summary> Gets the parsed. </summary>
-        public string Parsed { get; }
         /// <summary> Gets the confidence. </summary>
         public float Confidence { get; }
         /// <summary> Gets the is verified. </summary>

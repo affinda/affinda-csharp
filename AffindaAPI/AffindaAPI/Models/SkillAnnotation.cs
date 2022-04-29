@@ -37,13 +37,17 @@ namespace Affinda.API.Models
         /// <param name="rectangle"></param>
         /// <param name="pageIndex"></param>
         /// <param name="raw"></param>
-        /// <param name="parsed"></param>
         /// <param name="confidence"></param>
         /// <param name="isVerified"></param>
         /// <param name="classification"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
-        internal SkillAnnotation(Rectangle rectangle, int? pageIndex, string raw, string parsed, float confidence, bool isVerified, string classification, IReadOnlyDictionary<string, object> additionalProperties) : base(rectangle, pageIndex, raw, parsed, confidence, isVerified, classification, additionalProperties)
+        /// <param name="parsed"></param>
+        internal SkillAnnotation(Rectangle rectangle, int? pageIndex, string raw, float confidence, bool isVerified, string classification, IReadOnlyDictionary<string, object> additionalProperties, string parsed) : base(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties)
         {
+            Parsed = parsed;
         }
+
+        /// <summary> Gets the parsed. </summary>
+        public string Parsed { get; }
     }
 }

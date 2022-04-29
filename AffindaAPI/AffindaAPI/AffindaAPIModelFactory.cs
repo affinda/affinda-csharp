@@ -429,17 +429,16 @@ namespace Affinda.API.Models
         /// <param name="rectangle"></param>
         /// <param name="pageIndex"></param>
         /// <param name="raw"></param>
-        /// <param name="parsed"></param>
         /// <param name="confidence"></param>
         /// <param name="isVerified"></param>
         /// <param name="classification"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <returns> A new <see cref="Models.Annotation"/> instance for mocking. </returns>
-        public static Annotation Annotation(Rectangle rectangle = null, int? pageIndex = null, string raw = null, string parsed = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null)
+        public static Annotation Annotation(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null)
         {
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new Annotation(rectangle, pageIndex, raw, parsed, confidence, isVerified, classification, additionalProperties);
+            return new Annotation(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties);
         }
 
         /// <summary> Initializes a new instance of Rectangle. </summary>
@@ -453,6 +452,74 @@ namespace Affinda.API.Models
             return new Rectangle(x0, y0, x1, y1);
         }
 
+        /// <summary> Initializes a new instance of DateAnnotation. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.DateAnnotation"/> instance for mocking. </returns>
+        public static DateAnnotation DateAnnotation(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, DateTimeOffset? parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new DateAnnotation(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
+        }
+
+        /// <summary> Initializes a new instance of LanguageAnnotation. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.LanguageAnnotation"/> instance for mocking. </returns>
+        public static LanguageAnnotation LanguageAnnotation(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new LanguageAnnotation(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
+        }
+
+        /// <summary> Initializes a new instance of SkillAnnotation. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.SkillAnnotation"/> instance for mocking. </returns>
+        public static SkillAnnotation SkillAnnotation(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new SkillAnnotation(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
+        }
+
+        /// <summary> Initializes a new instance of ExpectedRemunerationAnnotation. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.ExpectedRemunerationAnnotation"/> instance for mocking. </returns>
+        public static ExpectedRemunerationAnnotation ExpectedRemunerationAnnotation(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, ExpectedRemunerationAnnotationParsed parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new ExpectedRemunerationAnnotation(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
+        }
+
         /// <summary> Initializes a new instance of ExpectedRemunerationAnnotationParsed. </summary>
         /// <param name="minimum"></param>
         /// <param name="maximum"></param>
@@ -462,6 +529,23 @@ namespace Affinda.API.Models
         public static ExpectedRemunerationAnnotationParsed ExpectedRemunerationAnnotationParsed(float? minimum = null, float? maximum = null, string currency = null, string unit = null)
         {
             return new ExpectedRemunerationAnnotationParsed(minimum, maximum, currency, unit);
+        }
+
+        /// <summary> Initializes a new instance of LocationAnnotation. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.LocationAnnotation"/> instance for mocking. </returns>
+        public static LocationAnnotation LocationAnnotation(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, Location parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new LocationAnnotation(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of Paths6Pypg5IndexGetResponses200ContentApplicationJsonSchema. </summary>
@@ -587,6 +671,23 @@ namespace Affinda.API.Models
             return new InvoiceData(invoiceDate, invoiceOrderDate, paymentDateDue, paymentAmountBase, paymentAmountTax, paymentAmountTotal, paymentAmountPaid, paymentAmountDue, invoiceNumber, invoicePurchaseOrderNumber, supplierBusinessNumber, customerNumber, customerBusinessNumber, paymentReference, bankAccountNumber, supplierVAT, customerVAT, bpayBillerCode, bpayReference, bankSortCode, bankIban, bankSwift, bankBSB, customerContactName, customerCompanyName, supplierCompanyName, customerBillingAddress, customerDeliveryAddress, supplierAddress, customerPhoneNumber, supplierPhoneNumber, supplierFax, customerEmail, supplierEmail, supplierWebsite);
         }
 
+        /// <summary> Initializes a new instance of InvoiceDataPaymentAmountBase. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.InvoiceDataPaymentAmountBase"/> instance for mocking. </returns>
+        public static InvoiceDataPaymentAmountBase InvoiceDataPaymentAmountBase(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new InvoiceDataPaymentAmountBase(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
+        }
+
         /// <summary> Initializes a new instance of ComponentsTz04ToSchemasInvoicedataPropertiesPaymentamountbaseAllof2. </summary>
         /// <param name="raw"></param>
         /// <param name="parsed"></param>
@@ -594,6 +695,23 @@ namespace Affinda.API.Models
         public static ComponentsTz04ToSchemasInvoicedataPropertiesPaymentamountbaseAllof2 ComponentsTz04ToSchemasInvoicedataPropertiesPaymentamountbaseAllof2(string raw = null, string parsed = null)
         {
             return new ComponentsTz04ToSchemasInvoicedataPropertiesPaymentamountbaseAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of InvoiceDataPaymentAmountTax. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.InvoiceDataPaymentAmountTax"/> instance for mocking. </returns>
+        public static InvoiceDataPaymentAmountTax InvoiceDataPaymentAmountTax(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new InvoiceDataPaymentAmountTax(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of ComponentsY49P83SchemasInvoicedataPropertiesPaymentamounttaxAllof2. </summary>
@@ -605,6 +723,23 @@ namespace Affinda.API.Models
             return new ComponentsY49P83SchemasInvoicedataPropertiesPaymentamounttaxAllof2(raw, parsed);
         }
 
+        /// <summary> Initializes a new instance of InvoiceDataPaymentAmountTotal. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.InvoiceDataPaymentAmountTotal"/> instance for mocking. </returns>
+        public static InvoiceDataPaymentAmountTotal InvoiceDataPaymentAmountTotal(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new InvoiceDataPaymentAmountTotal(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
+        }
+
         /// <summary> Initializes a new instance of Components15Ayv0YSchemasInvoicedataPropertiesPaymentamounttotalAllof2. </summary>
         /// <param name="raw"></param>
         /// <param name="parsed"></param>
@@ -612,6 +747,23 @@ namespace Affinda.API.Models
         public static Components15Ayv0YSchemasInvoicedataPropertiesPaymentamounttotalAllof2 Components15Ayv0YSchemasInvoicedataPropertiesPaymentamounttotalAllof2(string raw = null, string parsed = null)
         {
             return new Components15Ayv0YSchemasInvoicedataPropertiesPaymentamounttotalAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of InvoiceDataPaymentAmountPaid. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.InvoiceDataPaymentAmountPaid"/> instance for mocking. </returns>
+        public static InvoiceDataPaymentAmountPaid InvoiceDataPaymentAmountPaid(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new InvoiceDataPaymentAmountPaid(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of Components1LdfgdeSchemasInvoicedataPropertiesPaymentamountpaidAllof2. </summary>
@@ -623,6 +775,23 @@ namespace Affinda.API.Models
             return new Components1LdfgdeSchemasInvoicedataPropertiesPaymentamountpaidAllof2(raw, parsed);
         }
 
+        /// <summary> Initializes a new instance of InvoiceDataPaymentAmountDue. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.InvoiceDataPaymentAmountDue"/> instance for mocking. </returns>
+        public static InvoiceDataPaymentAmountDue InvoiceDataPaymentAmountDue(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new InvoiceDataPaymentAmountDue(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
+        }
+
         /// <summary> Initializes a new instance of Components14V23KqSchemasInvoicedataPropertiesPaymentamountdueAllof2. </summary>
         /// <param name="raw"></param>
         /// <param name="parsed"></param>
@@ -630,6 +799,23 @@ namespace Affinda.API.Models
         public static Components14V23KqSchemasInvoicedataPropertiesPaymentamountdueAllof2 Components14V23KqSchemasInvoicedataPropertiesPaymentamountdueAllof2(string raw = null, string parsed = null)
         {
             return new Components14V23KqSchemasInvoicedataPropertiesPaymentamountdueAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of InvoiceDataInvoiceNumber. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.InvoiceDataInvoiceNumber"/> instance for mocking. </returns>
+        public static InvoiceDataInvoiceNumber InvoiceDataInvoiceNumber(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new InvoiceDataInvoiceNumber(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of Components7CqvqpSchemasInvoicedataPropertiesInvoicenumberAllof2. </summary>
@@ -641,6 +827,23 @@ namespace Affinda.API.Models
             return new Components7CqvqpSchemasInvoicedataPropertiesInvoicenumberAllof2(raw, parsed);
         }
 
+        /// <summary> Initializes a new instance of InvoiceDataInvoicePurchaseOrderNumber. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.InvoiceDataInvoicePurchaseOrderNumber"/> instance for mocking. </returns>
+        public static InvoiceDataInvoicePurchaseOrderNumber InvoiceDataInvoicePurchaseOrderNumber(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new InvoiceDataInvoicePurchaseOrderNumber(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
+        }
+
         /// <summary> Initializes a new instance of Components55Nj82SchemasInvoicedataPropertiesInvoicepurchaseordernumberAllof2. </summary>
         /// <param name="raw"></param>
         /// <param name="parsed"></param>
@@ -648,6 +851,23 @@ namespace Affinda.API.Models
         public static Components55Nj82SchemasInvoicedataPropertiesInvoicepurchaseordernumberAllof2 Components55Nj82SchemasInvoicedataPropertiesInvoicepurchaseordernumberAllof2(string raw = null, string parsed = null)
         {
             return new Components55Nj82SchemasInvoicedataPropertiesInvoicepurchaseordernumberAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of InvoiceDataSupplierBusinessNumber. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.InvoiceDataSupplierBusinessNumber"/> instance for mocking. </returns>
+        public static InvoiceDataSupplierBusinessNumber InvoiceDataSupplierBusinessNumber(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new InvoiceDataSupplierBusinessNumber(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of ComponentsYe0TzySchemasInvoicedataPropertiesSupplierbusinessnumberAllof2. </summary>
@@ -659,6 +879,23 @@ namespace Affinda.API.Models
             return new ComponentsYe0TzySchemasInvoicedataPropertiesSupplierbusinessnumberAllof2(raw, parsed);
         }
 
+        /// <summary> Initializes a new instance of InvoiceDataCustomerNumber. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.InvoiceDataCustomerNumber"/> instance for mocking. </returns>
+        public static InvoiceDataCustomerNumber InvoiceDataCustomerNumber(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new InvoiceDataCustomerNumber(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
+        }
+
         /// <summary> Initializes a new instance of Components2Hu973SchemasInvoicedataPropertiesCustomernumberAllof2. </summary>
         /// <param name="raw"></param>
         /// <param name="parsed"></param>
@@ -666,6 +903,23 @@ namespace Affinda.API.Models
         public static Components2Hu973SchemasInvoicedataPropertiesCustomernumberAllof2 Components2Hu973SchemasInvoicedataPropertiesCustomernumberAllof2(string raw = null, string parsed = null)
         {
             return new Components2Hu973SchemasInvoicedataPropertiesCustomernumberAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of InvoiceDataCustomerBusinessNumber. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.InvoiceDataCustomerBusinessNumber"/> instance for mocking. </returns>
+        public static InvoiceDataCustomerBusinessNumber InvoiceDataCustomerBusinessNumber(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new InvoiceDataCustomerBusinessNumber(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of ComponentsRft7JdSchemasInvoicedataPropertiesCustomerbusinessnumberAllof2. </summary>
@@ -677,6 +931,23 @@ namespace Affinda.API.Models
             return new ComponentsRft7JdSchemasInvoicedataPropertiesCustomerbusinessnumberAllof2(raw, parsed);
         }
 
+        /// <summary> Initializes a new instance of InvoiceDataPaymentReference. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.InvoiceDataPaymentReference"/> instance for mocking. </returns>
+        public static InvoiceDataPaymentReference InvoiceDataPaymentReference(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new InvoiceDataPaymentReference(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
+        }
+
         /// <summary> Initializes a new instance of Components1Wx56HlSchemasInvoicedataPropertiesPaymentreferenceAllof2. </summary>
         /// <param name="raw"></param>
         /// <param name="parsed"></param>
@@ -684,6 +955,23 @@ namespace Affinda.API.Models
         public static Components1Wx56HlSchemasInvoicedataPropertiesPaymentreferenceAllof2 Components1Wx56HlSchemasInvoicedataPropertiesPaymentreferenceAllof2(string raw = null, string parsed = null)
         {
             return new Components1Wx56HlSchemasInvoicedataPropertiesPaymentreferenceAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of InvoiceDataBankAccountNumber. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.InvoiceDataBankAccountNumber"/> instance for mocking. </returns>
+        public static InvoiceDataBankAccountNumber InvoiceDataBankAccountNumber(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new InvoiceDataBankAccountNumber(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of Components14Dm0XSchemasInvoicedataPropertiesBankaccountnumberAllof2. </summary>
@@ -695,6 +983,23 @@ namespace Affinda.API.Models
             return new Components14Dm0XSchemasInvoicedataPropertiesBankaccountnumberAllof2(raw, parsed);
         }
 
+        /// <summary> Initializes a new instance of InvoiceDataSupplierVAT. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.InvoiceDataSupplierVAT"/> instance for mocking. </returns>
+        public static InvoiceDataSupplierVAT InvoiceDataSupplierVAT(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new InvoiceDataSupplierVAT(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
+        }
+
         /// <summary> Initializes a new instance of Components1Fdmi0OSchemasInvoicedataPropertiesSuppliervatAllof2. </summary>
         /// <param name="raw"></param>
         /// <param name="parsed"></param>
@@ -702,6 +1007,23 @@ namespace Affinda.API.Models
         public static Components1Fdmi0OSchemasInvoicedataPropertiesSuppliervatAllof2 Components1Fdmi0OSchemasInvoicedataPropertiesSuppliervatAllof2(string raw = null, string parsed = null)
         {
             return new Components1Fdmi0OSchemasInvoicedataPropertiesSuppliervatAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of InvoiceDataCustomerVAT. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.InvoiceDataCustomerVAT"/> instance for mocking. </returns>
+        public static InvoiceDataCustomerVAT InvoiceDataCustomerVAT(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new InvoiceDataCustomerVAT(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of ComponentsRsi73USchemasInvoicedataPropertiesCustomervatAllof2. </summary>
@@ -713,6 +1035,23 @@ namespace Affinda.API.Models
             return new ComponentsRsi73USchemasInvoicedataPropertiesCustomervatAllof2(raw, parsed);
         }
 
+        /// <summary> Initializes a new instance of InvoiceDataBpayBillerCode. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.InvoiceDataBpayBillerCode"/> instance for mocking. </returns>
+        public static InvoiceDataBpayBillerCode InvoiceDataBpayBillerCode(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new InvoiceDataBpayBillerCode(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
+        }
+
         /// <summary> Initializes a new instance of Components1Bh8NlbSchemasInvoicedataPropertiesBpaybillercodeAllof2. </summary>
         /// <param name="raw"></param>
         /// <param name="parsed"></param>
@@ -720,6 +1059,23 @@ namespace Affinda.API.Models
         public static Components1Bh8NlbSchemasInvoicedataPropertiesBpaybillercodeAllof2 Components1Bh8NlbSchemasInvoicedataPropertiesBpaybillercodeAllof2(string raw = null, string parsed = null)
         {
             return new Components1Bh8NlbSchemasInvoicedataPropertiesBpaybillercodeAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of InvoiceDataBpayReference. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.InvoiceDataBpayReference"/> instance for mocking. </returns>
+        public static InvoiceDataBpayReference InvoiceDataBpayReference(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new InvoiceDataBpayReference(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of Components1OmsnpSchemasInvoicedataPropertiesBpayreferenceAllof2. </summary>
@@ -731,6 +1087,23 @@ namespace Affinda.API.Models
             return new Components1OmsnpSchemasInvoicedataPropertiesBpayreferenceAllof2(raw, parsed);
         }
 
+        /// <summary> Initializes a new instance of InvoiceDataBankSortCode. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.InvoiceDataBankSortCode"/> instance for mocking. </returns>
+        public static InvoiceDataBankSortCode InvoiceDataBankSortCode(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new InvoiceDataBankSortCode(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
+        }
+
         /// <summary> Initializes a new instance of Components1Rbm6P1SchemasInvoicedataPropertiesBanksortcodeAllof2. </summary>
         /// <param name="raw"></param>
         /// <param name="parsed"></param>
@@ -738,6 +1111,23 @@ namespace Affinda.API.Models
         public static Components1Rbm6P1SchemasInvoicedataPropertiesBanksortcodeAllof2 Components1Rbm6P1SchemasInvoicedataPropertiesBanksortcodeAllof2(string raw = null, string parsed = null)
         {
             return new Components1Rbm6P1SchemasInvoicedataPropertiesBanksortcodeAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of InvoiceDataBankIban. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.InvoiceDataBankIban"/> instance for mocking. </returns>
+        public static InvoiceDataBankIban InvoiceDataBankIban(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new InvoiceDataBankIban(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of ComponentsE6Bjv3SchemasInvoicedataPropertiesBankibanAllof2. </summary>
@@ -749,6 +1139,23 @@ namespace Affinda.API.Models
             return new ComponentsE6Bjv3SchemasInvoicedataPropertiesBankibanAllof2(raw, parsed);
         }
 
+        /// <summary> Initializes a new instance of InvoiceDataBankSwift. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.InvoiceDataBankSwift"/> instance for mocking. </returns>
+        public static InvoiceDataBankSwift InvoiceDataBankSwift(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new InvoiceDataBankSwift(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
+        }
+
         /// <summary> Initializes a new instance of Components11Zi81FSchemasInvoicedataPropertiesBankswiftAllof2. </summary>
         /// <param name="raw"></param>
         /// <param name="parsed"></param>
@@ -756,6 +1163,23 @@ namespace Affinda.API.Models
         public static Components11Zi81FSchemasInvoicedataPropertiesBankswiftAllof2 Components11Zi81FSchemasInvoicedataPropertiesBankswiftAllof2(string raw = null, string parsed = null)
         {
             return new Components11Zi81FSchemasInvoicedataPropertiesBankswiftAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of InvoiceDataBankBSB. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.InvoiceDataBankBSB"/> instance for mocking. </returns>
+        public static InvoiceDataBankBSB InvoiceDataBankBSB(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new InvoiceDataBankBSB(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of ComponentsUilt2MSchemasInvoicedataPropertiesBankbsbAllof2. </summary>
@@ -767,6 +1191,23 @@ namespace Affinda.API.Models
             return new ComponentsUilt2MSchemasInvoicedataPropertiesBankbsbAllof2(raw, parsed);
         }
 
+        /// <summary> Initializes a new instance of InvoiceDataCustomerContactName. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.InvoiceDataCustomerContactName"/> instance for mocking. </returns>
+        public static InvoiceDataCustomerContactName InvoiceDataCustomerContactName(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new InvoiceDataCustomerContactName(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
+        }
+
         /// <summary> Initializes a new instance of ComponentsWywi9WSchemasInvoicedataPropertiesCustomercontactnameAllof2. </summary>
         /// <param name="raw"></param>
         /// <param name="parsed"></param>
@@ -774,6 +1215,23 @@ namespace Affinda.API.Models
         public static ComponentsWywi9WSchemasInvoicedataPropertiesCustomercontactnameAllof2 ComponentsWywi9WSchemasInvoicedataPropertiesCustomercontactnameAllof2(string raw = null, string parsed = null)
         {
             return new ComponentsWywi9WSchemasInvoicedataPropertiesCustomercontactnameAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of InvoiceDataCustomerCompanyName. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.InvoiceDataCustomerCompanyName"/> instance for mocking. </returns>
+        public static InvoiceDataCustomerCompanyName InvoiceDataCustomerCompanyName(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new InvoiceDataCustomerCompanyName(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of Components6DhvidSchemasInvoicedataPropertiesCustomercompanynameAllof2. </summary>
@@ -785,6 +1243,23 @@ namespace Affinda.API.Models
             return new Components6DhvidSchemasInvoicedataPropertiesCustomercompanynameAllof2(raw, parsed);
         }
 
+        /// <summary> Initializes a new instance of InvoiceDataSupplierCompanyName. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.InvoiceDataSupplierCompanyName"/> instance for mocking. </returns>
+        public static InvoiceDataSupplierCompanyName InvoiceDataSupplierCompanyName(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new InvoiceDataSupplierCompanyName(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
+        }
+
         /// <summary> Initializes a new instance of Components1O4BmpySchemasInvoicedataPropertiesSuppliercompanynameAllof2. </summary>
         /// <param name="raw"></param>
         /// <param name="parsed"></param>
@@ -792,6 +1267,23 @@ namespace Affinda.API.Models
         public static Components1O4BmpySchemasInvoicedataPropertiesSuppliercompanynameAllof2 Components1O4BmpySchemasInvoicedataPropertiesSuppliercompanynameAllof2(string raw = null, string parsed = null)
         {
             return new Components1O4BmpySchemasInvoicedataPropertiesSuppliercompanynameAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of InvoiceDataCustomerPhoneNumber. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.InvoiceDataCustomerPhoneNumber"/> instance for mocking. </returns>
+        public static InvoiceDataCustomerPhoneNumber InvoiceDataCustomerPhoneNumber(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new InvoiceDataCustomerPhoneNumber(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of ComponentsPs8Uo7SchemasInvoicedataPropertiesCustomerphonenumberAllof2. </summary>
@@ -803,6 +1295,23 @@ namespace Affinda.API.Models
             return new ComponentsPs8Uo7SchemasInvoicedataPropertiesCustomerphonenumberAllof2(raw, parsed);
         }
 
+        /// <summary> Initializes a new instance of InvoiceDataSupplierPhoneNumber. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.InvoiceDataSupplierPhoneNumber"/> instance for mocking. </returns>
+        public static InvoiceDataSupplierPhoneNumber InvoiceDataSupplierPhoneNumber(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new InvoiceDataSupplierPhoneNumber(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
+        }
+
         /// <summary> Initializes a new instance of ComponentsBvthtoSchemasInvoicedataPropertiesSupplierphonenumberAllof2. </summary>
         /// <param name="raw"></param>
         /// <param name="parsed"></param>
@@ -810,6 +1319,23 @@ namespace Affinda.API.Models
         public static ComponentsBvthtoSchemasInvoicedataPropertiesSupplierphonenumberAllof2 ComponentsBvthtoSchemasInvoicedataPropertiesSupplierphonenumberAllof2(string raw = null, string parsed = null)
         {
             return new ComponentsBvthtoSchemasInvoicedataPropertiesSupplierphonenumberAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of InvoiceDataSupplierFax. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.InvoiceDataSupplierFax"/> instance for mocking. </returns>
+        public static InvoiceDataSupplierFax InvoiceDataSupplierFax(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new InvoiceDataSupplierFax(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of Components1ByjheSchemasInvoicedataPropertiesSupplierfaxAllof2. </summary>
@@ -821,6 +1347,23 @@ namespace Affinda.API.Models
             return new Components1ByjheSchemasInvoicedataPropertiesSupplierfaxAllof2(raw, parsed);
         }
 
+        /// <summary> Initializes a new instance of InvoiceDataCustomerEmail. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.InvoiceDataCustomerEmail"/> instance for mocking. </returns>
+        public static InvoiceDataCustomerEmail InvoiceDataCustomerEmail(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new InvoiceDataCustomerEmail(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
+        }
+
         /// <summary> Initializes a new instance of Components5PwavySchemasInvoicedataPropertiesCustomeremailAllof2. </summary>
         /// <param name="raw"></param>
         /// <param name="parsed"></param>
@@ -830,6 +1373,23 @@ namespace Affinda.API.Models
             return new Components5PwavySchemasInvoicedataPropertiesCustomeremailAllof2(raw, parsed);
         }
 
+        /// <summary> Initializes a new instance of InvoiceDataSupplierEmail. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.InvoiceDataSupplierEmail"/> instance for mocking. </returns>
+        public static InvoiceDataSupplierEmail InvoiceDataSupplierEmail(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new InvoiceDataSupplierEmail(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
+        }
+
         /// <summary> Initializes a new instance of ComponentsVyrnzuSchemasInvoicedataPropertiesSupplieremailAllof2. </summary>
         /// <param name="raw"></param>
         /// <param name="parsed"></param>
@@ -837,6 +1397,23 @@ namespace Affinda.API.Models
         public static ComponentsVyrnzuSchemasInvoicedataPropertiesSupplieremailAllof2 ComponentsVyrnzuSchemasInvoicedataPropertiesSupplieremailAllof2(string raw = null, string parsed = null)
         {
             return new ComponentsVyrnzuSchemasInvoicedataPropertiesSupplieremailAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of InvoiceDataSupplierWebsite. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.InvoiceDataSupplierWebsite"/> instance for mocking. </returns>
+        public static InvoiceDataSupplierWebsite InvoiceDataSupplierWebsite(Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new InvoiceDataSupplierWebsite(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of Components179Pdz6SchemasInvoicedataPropertiesSupplierwebsiteAllof2. </summary>

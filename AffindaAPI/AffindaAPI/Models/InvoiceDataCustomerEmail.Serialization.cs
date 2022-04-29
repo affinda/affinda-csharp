@@ -15,10 +15,10 @@ namespace Affinda.API.Models
     {
         internal static InvoiceDataCustomerEmail DeserializeInvoiceDataCustomerEmail(JsonElement element)
         {
+            Optional<string> parsed = default;
             Rectangle rectangle = default;
             int? pageIndex = default;
             string raw = default;
-            Optional<string> parsed = default;
             float confidence = default;
             bool isVerified = default;
             string classification = default;
@@ -26,6 +26,16 @@ namespace Affinda.API.Models
             Dictionary<string, object> additionalPropertiesDictionary = new Dictionary<string, object>();
             foreach (var property in element.EnumerateObject())
             {
+                if (property.NameEquals("parsed"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        parsed = null;
+                        continue;
+                    }
+                    parsed = property.Value.GetString();
+                    continue;
+                }
                 if (property.NameEquals("rectangle"))
                 {
                     rectangle = Rectangle.DeserializeRectangle(property.Value);
@@ -51,16 +61,6 @@ namespace Affinda.API.Models
                     raw = property.Value.GetString();
                     continue;
                 }
-                if (property.NameEquals("parsed"))
-                {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        parsed = null;
-                        continue;
-                    }
-                    parsed = property.Value.GetString();
-                    continue;
-                }
                 if (property.NameEquals("confidence"))
                 {
                     confidence = property.Value.GetSingle();
@@ -79,7 +79,7 @@ namespace Affinda.API.Models
                 additionalPropertiesDictionary.Add(property.Name, property.Value.GetObject());
             }
             additionalProperties = additionalPropertiesDictionary;
-            return new InvoiceDataCustomerEmail(rectangle, pageIndex, raw, parsed.Value, confidence, isVerified, classification, additionalProperties);
+            return new InvoiceDataCustomerEmail(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed.Value);
         }
     }
 }
