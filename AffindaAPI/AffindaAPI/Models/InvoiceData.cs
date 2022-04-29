@@ -51,7 +51,7 @@ namespace Affinda.API.Models
         /// <param name="customerEmail"></param>
         /// <param name="supplierEmail"></param>
         /// <param name="supplierWebsite"></param>
-        internal InvoiceData(string invoiceDate, string invoiceOrderDate, string paymentDateDue, string paymentAmountBase, string paymentAmountTax, string paymentAmountTotal, string paymentAmountPaid, string paymentAmountDue, string invoiceNumber, string invoicePurchaseOrderNumber, string supplierBusinessNumber, string customerNumber, string customerBusinessNumber, string paymentReference, string bankAccountNumber, string supplierVAT, string customerVAT, string bpayBillerCode, string bpayReference, string bankSortCode, string bankIban, string bankSwift, string bankBSB, string customerContactName, string customerCompanyName, string supplierCompanyName, Location customerBillingAddress, Location customerDeliveryAddress, Location supplierAddress, string customerPhoneNumber, string supplierPhoneNumber, string supplierFax, string customerEmail, string supplierEmail, string supplierWebsite)
+        internal InvoiceData(DateAnnotation invoiceDate, DateAnnotation invoiceOrderDate, DateAnnotation paymentDateDue, InvoiceDataPaymentAmountBase paymentAmountBase, InvoiceDataPaymentAmountTax paymentAmountTax, InvoiceDataPaymentAmountTotal paymentAmountTotal, InvoiceDataPaymentAmountPaid paymentAmountPaid, InvoiceDataPaymentAmountDue paymentAmountDue, InvoiceDataInvoiceNumber invoiceNumber, InvoiceDataInvoicePurchaseOrderNumber invoicePurchaseOrderNumber, InvoiceDataSupplierBusinessNumber supplierBusinessNumber, InvoiceDataCustomerNumber customerNumber, InvoiceDataCustomerBusinessNumber customerBusinessNumber, InvoiceDataPaymentReference paymentReference, InvoiceDataBankAccountNumber bankAccountNumber, InvoiceDataSupplierVAT supplierVAT, InvoiceDataCustomerVAT customerVAT, InvoiceDataBpayBillerCode bpayBillerCode, InvoiceDataBpayReference bpayReference, InvoiceDataBankSortCode bankSortCode, InvoiceDataBankIban bankIban, InvoiceDataBankSwift bankSwift, InvoiceDataBankBSB bankBSB, InvoiceDataCustomerContactName customerContactName, InvoiceDataCustomerCompanyName customerCompanyName, InvoiceDataSupplierCompanyName supplierCompanyName, LocationAnnotation customerBillingAddress, LocationAnnotation customerDeliveryAddress, LocationAnnotation supplierAddress, InvoiceDataCustomerPhoneNumber customerPhoneNumber, InvoiceDataSupplierPhoneNumber supplierPhoneNumber, InvoiceDataSupplierFax supplierFax, InvoiceDataCustomerEmail customerEmail, InvoiceDataSupplierEmail supplierEmail, InvoiceDataSupplierWebsite supplierWebsite)
         {
             InvoiceDate = invoiceDate;
             InvoiceOrderDate = invoiceOrderDate;
@@ -91,74 +91,74 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Gets the invoice date. </summary>
-        public string InvoiceDate { get; }
+        public DateAnnotation InvoiceDate { get; }
         /// <summary> Gets the invoice order date. </summary>
-        public string InvoiceOrderDate { get; }
+        public DateAnnotation InvoiceOrderDate { get; }
         /// <summary> Gets the payment date due. </summary>
-        public string PaymentDateDue { get; }
+        public DateAnnotation PaymentDateDue { get; }
         /// <summary> Gets the payment amount base. </summary>
-        public string PaymentAmountBase { get; }
+        public InvoiceDataPaymentAmountBase PaymentAmountBase { get; }
         /// <summary> Gets the payment amount tax. </summary>
-        public string PaymentAmountTax { get; }
+        public InvoiceDataPaymentAmountTax PaymentAmountTax { get; }
         /// <summary> Gets the payment amount total. </summary>
-        public string PaymentAmountTotal { get; }
+        public InvoiceDataPaymentAmountTotal PaymentAmountTotal { get; }
         /// <summary> Gets the payment amount paid. </summary>
-        public string PaymentAmountPaid { get; }
+        public InvoiceDataPaymentAmountPaid PaymentAmountPaid { get; }
         /// <summary> Gets the payment amount due. </summary>
-        public string PaymentAmountDue { get; }
+        public InvoiceDataPaymentAmountDue PaymentAmountDue { get; }
         /// <summary> Gets the invoice number. </summary>
-        public string InvoiceNumber { get; }
+        public InvoiceDataInvoiceNumber InvoiceNumber { get; }
         /// <summary> Gets the invoice purchase order number. </summary>
-        public string InvoicePurchaseOrderNumber { get; }
+        public InvoiceDataInvoicePurchaseOrderNumber InvoicePurchaseOrderNumber { get; }
         /// <summary> Gets the supplier business number. </summary>
-        public string SupplierBusinessNumber { get; }
+        public InvoiceDataSupplierBusinessNumber SupplierBusinessNumber { get; }
         /// <summary> Gets the customer number. </summary>
-        public string CustomerNumber { get; }
+        public InvoiceDataCustomerNumber CustomerNumber { get; }
         /// <summary> Gets the customer business number. </summary>
-        public string CustomerBusinessNumber { get; }
+        public InvoiceDataCustomerBusinessNumber CustomerBusinessNumber { get; }
         /// <summary> Gets the payment reference. </summary>
-        public string PaymentReference { get; }
+        public InvoiceDataPaymentReference PaymentReference { get; }
         /// <summary> Gets the bank account number. </summary>
-        public string BankAccountNumber { get; }
+        public InvoiceDataBankAccountNumber BankAccountNumber { get; }
         /// <summary> Gets the supplier vat. </summary>
-        public string SupplierVAT { get; }
+        public InvoiceDataSupplierVAT SupplierVAT { get; }
         /// <summary> Gets the customer vat. </summary>
-        public string CustomerVAT { get; }
+        public InvoiceDataCustomerVAT CustomerVAT { get; }
         /// <summary> Gets the bpay biller code. </summary>
-        public string BpayBillerCode { get; }
+        public InvoiceDataBpayBillerCode BpayBillerCode { get; }
         /// <summary> Gets the bpay reference. </summary>
-        public string BpayReference { get; }
+        public InvoiceDataBpayReference BpayReference { get; }
         /// <summary> Gets the bank sort code. </summary>
-        public string BankSortCode { get; }
+        public InvoiceDataBankSortCode BankSortCode { get; }
         /// <summary> Gets the bank iban. </summary>
-        public string BankIban { get; }
+        public InvoiceDataBankIban BankIban { get; }
         /// <summary> Gets the bank swift. </summary>
-        public string BankSwift { get; }
+        public InvoiceDataBankSwift BankSwift { get; }
         /// <summary> Gets the bank bsb. </summary>
-        public string BankBSB { get; }
+        public InvoiceDataBankBSB BankBSB { get; }
         /// <summary> Gets the customer contact name. </summary>
-        public string CustomerContactName { get; }
+        public InvoiceDataCustomerContactName CustomerContactName { get; }
         /// <summary> Gets the customer company name. </summary>
-        public string CustomerCompanyName { get; }
+        public InvoiceDataCustomerCompanyName CustomerCompanyName { get; }
         /// <summary> Gets the supplier company name. </summary>
-        public string SupplierCompanyName { get; }
+        public InvoiceDataSupplierCompanyName SupplierCompanyName { get; }
         /// <summary> Gets the customer billing address. </summary>
-        public Location CustomerBillingAddress { get; }
+        public LocationAnnotation CustomerBillingAddress { get; }
         /// <summary> Gets the customer delivery address. </summary>
-        public Location CustomerDeliveryAddress { get; }
+        public LocationAnnotation CustomerDeliveryAddress { get; }
         /// <summary> Gets the supplier address. </summary>
-        public Location SupplierAddress { get; }
+        public LocationAnnotation SupplierAddress { get; }
         /// <summary> Gets the customer phone number. </summary>
-        public string CustomerPhoneNumber { get; }
+        public InvoiceDataCustomerPhoneNumber CustomerPhoneNumber { get; }
         /// <summary> Gets the supplier phone number. </summary>
-        public string SupplierPhoneNumber { get; }
+        public InvoiceDataSupplierPhoneNumber SupplierPhoneNumber { get; }
         /// <summary> Gets the supplier fax. </summary>
-        public string SupplierFax { get; }
+        public InvoiceDataSupplierFax SupplierFax { get; }
         /// <summary> Gets the customer email. </summary>
-        public string CustomerEmail { get; }
+        public InvoiceDataCustomerEmail CustomerEmail { get; }
         /// <summary> Gets the supplier email. </summary>
-        public string SupplierEmail { get; }
+        public InvoiceDataSupplierEmail SupplierEmail { get; }
         /// <summary> Gets the supplier website. </summary>
-        public string SupplierWebsite { get; }
+        public InvoiceDataSupplierWebsite SupplierWebsite { get; }
     }
 }

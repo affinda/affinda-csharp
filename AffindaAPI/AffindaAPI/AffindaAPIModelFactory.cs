@@ -376,6 +376,94 @@ namespace Affinda.API.Models
             return new ResumeSearchScoreComponent(label, value, score);
         }
 
+        /// <summary> Initializes a new instance of GetAllJobDescriptionsResults. </summary>
+        /// <param name="count"> Number of documents in result. </param>
+        /// <param name="next"> URL to request next page of results. </param>
+        /// <param name="previous"> URL to request previous page of results. </param>
+        /// <param name="results"></param>
+        /// <returns> A new <see cref="Models.GetAllJobDescriptionsResults"/> instance for mocking. </returns>
+        public static GetAllJobDescriptionsResults GetAllJobDescriptionsResults(int? count = null, string next = null, string previous = null, IEnumerable<Meta> results = null)
+        {
+            results ??= new List<Meta>();
+
+            return new GetAllJobDescriptionsResults(count, next, previous, results?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of JobDescription. </summary>
+        /// <param name="data"></param>
+        /// <param name="meta"></param>
+        /// <param name="error"></param>
+        /// <returns> A new <see cref="Models.JobDescription"/> instance for mocking. </returns>
+        public static JobDescription JobDescription(JobDescriptionData data = null, Meta meta = null, Error error = null)
+        {
+            return new JobDescription(data, meta, error);
+        }
+
+        /// <summary> Initializes a new instance of JobDescriptionData. </summary>
+        /// <param name="contactEmail"></param>
+        /// <param name="contactName"></param>
+        /// <param name="contactPhone"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <param name="jobType"></param>
+        /// <param name="languages"></param>
+        /// <param name="skills"></param>
+        /// <param name="organizationName"></param>
+        /// <param name="organizationWebsite"></param>
+        /// <param name="educationLevel"></param>
+        /// <param name="educationAccreditation"></param>
+        /// <param name="expectedRemuneration"></param>
+        /// <param name="location"></param>
+        /// <param name="certifications"></param>
+        /// <returns> A new <see cref="Models.JobDescriptionData"/> instance for mocking. </returns>
+        public static JobDescriptionData JobDescriptionData(Annotation contactEmail = null, Annotation contactName = null, Annotation contactPhone = null, DateAnnotation startDate = null, DateAnnotation endDate = null, Annotation jobType = null, IEnumerable<LanguageAnnotation> languages = null, IEnumerable<SkillAnnotation> skills = null, Annotation organizationName = null, Annotation organizationWebsite = null, Annotation educationLevel = null, Annotation educationAccreditation = null, ExpectedRemunerationAnnotation expectedRemuneration = null, LocationAnnotation location = null, IEnumerable<Annotation> certifications = null)
+        {
+            languages ??= new List<LanguageAnnotation>();
+            skills ??= new List<SkillAnnotation>();
+            certifications ??= new List<Annotation>();
+
+            return new JobDescriptionData(contactEmail, contactName, contactPhone, startDate, endDate, jobType, languages?.ToList(), skills?.ToList(), organizationName, organizationWebsite, educationLevel, educationAccreditation, expectedRemuneration, location, certifications?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of Annotation. </summary>
+        /// <param name="rectangle"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="parsed"></param>
+        /// <param name="confidence"></param>
+        /// <param name="isVerified"></param>
+        /// <param name="classification"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <returns> A new <see cref="Models.Annotation"/> instance for mocking. </returns>
+        public static Annotation Annotation(Rectangle rectangle = null, int? pageIndex = null, string raw = null, string parsed = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null)
+        {
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new Annotation(rectangle, pageIndex, raw, parsed, confidence, isVerified, classification, additionalProperties);
+        }
+
+        /// <summary> Initializes a new instance of Rectangle. </summary>
+        /// <param name="x0"></param>
+        /// <param name="y0"></param>
+        /// <param name="x1"></param>
+        /// <param name="y1"></param>
+        /// <returns> A new <see cref="Models.Rectangle"/> instance for mocking. </returns>
+        public static Rectangle Rectangle(float x0 = default, float y0 = default, float x1 = default, float y1 = default)
+        {
+            return new Rectangle(x0, y0, x1, y1);
+        }
+
+        /// <summary> Initializes a new instance of ExpectedRemunerationAnnotationParsed. </summary>
+        /// <param name="minimum"></param>
+        /// <param name="maximum"></param>
+        /// <param name="currency"></param>
+        /// <param name="unit"></param>
+        /// <returns> A new <see cref="Models.ExpectedRemunerationAnnotationParsed"/> instance for mocking. </returns>
+        public static ExpectedRemunerationAnnotationParsed ExpectedRemunerationAnnotationParsed(float? minimum = null, float? maximum = null, string currency = null, string unit = null)
+        {
+            return new ExpectedRemunerationAnnotationParsed(minimum, maximum, currency, unit);
+        }
+
         /// <summary> Initializes a new instance of Paths6Pypg5IndexGetResponses200ContentApplicationJsonSchema. </summary>
         /// <param name="count"> Number of indexes in result. </param>
         /// <param name="next"> URL to request next page of results. </param>
@@ -494,9 +582,270 @@ namespace Affinda.API.Models
         /// <param name="supplierEmail"></param>
         /// <param name="supplierWebsite"></param>
         /// <returns> A new <see cref="Models.InvoiceData"/> instance for mocking. </returns>
-        public static InvoiceData InvoiceData(string invoiceDate = null, string invoiceOrderDate = null, string paymentDateDue = null, string paymentAmountBase = null, string paymentAmountTax = null, string paymentAmountTotal = null, string paymentAmountPaid = null, string paymentAmountDue = null, string invoiceNumber = null, string invoicePurchaseOrderNumber = null, string supplierBusinessNumber = null, string customerNumber = null, string customerBusinessNumber = null, string paymentReference = null, string bankAccountNumber = null, string supplierVAT = null, string customerVAT = null, string bpayBillerCode = null, string bpayReference = null, string bankSortCode = null, string bankIban = null, string bankSwift = null, string bankBSB = null, string customerContactName = null, string customerCompanyName = null, string supplierCompanyName = null, Location customerBillingAddress = null, Location customerDeliveryAddress = null, Location supplierAddress = null, string customerPhoneNumber = null, string supplierPhoneNumber = null, string supplierFax = null, string customerEmail = null, string supplierEmail = null, string supplierWebsite = null)
+        public static InvoiceData InvoiceData(DateAnnotation invoiceDate = null, DateAnnotation invoiceOrderDate = null, DateAnnotation paymentDateDue = null, InvoiceDataPaymentAmountBase paymentAmountBase = null, InvoiceDataPaymentAmountTax paymentAmountTax = null, InvoiceDataPaymentAmountTotal paymentAmountTotal = null, InvoiceDataPaymentAmountPaid paymentAmountPaid = null, InvoiceDataPaymentAmountDue paymentAmountDue = null, InvoiceDataInvoiceNumber invoiceNumber = null, InvoiceDataInvoicePurchaseOrderNumber invoicePurchaseOrderNumber = null, InvoiceDataSupplierBusinessNumber supplierBusinessNumber = null, InvoiceDataCustomerNumber customerNumber = null, InvoiceDataCustomerBusinessNumber customerBusinessNumber = null, InvoiceDataPaymentReference paymentReference = null, InvoiceDataBankAccountNumber bankAccountNumber = null, InvoiceDataSupplierVAT supplierVAT = null, InvoiceDataCustomerVAT customerVAT = null, InvoiceDataBpayBillerCode bpayBillerCode = null, InvoiceDataBpayReference bpayReference = null, InvoiceDataBankSortCode bankSortCode = null, InvoiceDataBankIban bankIban = null, InvoiceDataBankSwift bankSwift = null, InvoiceDataBankBSB bankBSB = null, InvoiceDataCustomerContactName customerContactName = null, InvoiceDataCustomerCompanyName customerCompanyName = null, InvoiceDataSupplierCompanyName supplierCompanyName = null, LocationAnnotation customerBillingAddress = null, LocationAnnotation customerDeliveryAddress = null, LocationAnnotation supplierAddress = null, InvoiceDataCustomerPhoneNumber customerPhoneNumber = null, InvoiceDataSupplierPhoneNumber supplierPhoneNumber = null, InvoiceDataSupplierFax supplierFax = null, InvoiceDataCustomerEmail customerEmail = null, InvoiceDataSupplierEmail supplierEmail = null, InvoiceDataSupplierWebsite supplierWebsite = null)
         {
             return new InvoiceData(invoiceDate, invoiceOrderDate, paymentDateDue, paymentAmountBase, paymentAmountTax, paymentAmountTotal, paymentAmountPaid, paymentAmountDue, invoiceNumber, invoicePurchaseOrderNumber, supplierBusinessNumber, customerNumber, customerBusinessNumber, paymentReference, bankAccountNumber, supplierVAT, customerVAT, bpayBillerCode, bpayReference, bankSortCode, bankIban, bankSwift, bankBSB, customerContactName, customerCompanyName, supplierCompanyName, customerBillingAddress, customerDeliveryAddress, supplierAddress, customerPhoneNumber, supplierPhoneNumber, supplierFax, customerEmail, supplierEmail, supplierWebsite);
+        }
+
+        /// <summary> Initializes a new instance of ComponentsTz04ToSchemasInvoicedataPropertiesPaymentamountbaseAllof2. </summary>
+        /// <param name="raw"></param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.ComponentsTz04ToSchemasInvoicedataPropertiesPaymentamountbaseAllof2"/> instance for mocking. </returns>
+        public static ComponentsTz04ToSchemasInvoicedataPropertiesPaymentamountbaseAllof2 ComponentsTz04ToSchemasInvoicedataPropertiesPaymentamountbaseAllof2(string raw = null, string parsed = null)
+        {
+            return new ComponentsTz04ToSchemasInvoicedataPropertiesPaymentamountbaseAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of ComponentsY49P83SchemasInvoicedataPropertiesPaymentamounttaxAllof2. </summary>
+        /// <param name="raw"></param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.ComponentsY49P83SchemasInvoicedataPropertiesPaymentamounttaxAllof2"/> instance for mocking. </returns>
+        public static ComponentsY49P83SchemasInvoicedataPropertiesPaymentamounttaxAllof2 ComponentsY49P83SchemasInvoicedataPropertiesPaymentamounttaxAllof2(string raw = null, string parsed = null)
+        {
+            return new ComponentsY49P83SchemasInvoicedataPropertiesPaymentamounttaxAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of Components15Ayv0YSchemasInvoicedataPropertiesPaymentamounttotalAllof2. </summary>
+        /// <param name="raw"></param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.Components15Ayv0YSchemasInvoicedataPropertiesPaymentamounttotalAllof2"/> instance for mocking. </returns>
+        public static Components15Ayv0YSchemasInvoicedataPropertiesPaymentamounttotalAllof2 Components15Ayv0YSchemasInvoicedataPropertiesPaymentamounttotalAllof2(string raw = null, string parsed = null)
+        {
+            return new Components15Ayv0YSchemasInvoicedataPropertiesPaymentamounttotalAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of Components1LdfgdeSchemasInvoicedataPropertiesPaymentamountpaidAllof2. </summary>
+        /// <param name="raw"></param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.Components1LdfgdeSchemasInvoicedataPropertiesPaymentamountpaidAllof2"/> instance for mocking. </returns>
+        public static Components1LdfgdeSchemasInvoicedataPropertiesPaymentamountpaidAllof2 Components1LdfgdeSchemasInvoicedataPropertiesPaymentamountpaidAllof2(string raw = null, string parsed = null)
+        {
+            return new Components1LdfgdeSchemasInvoicedataPropertiesPaymentamountpaidAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of Components14V23KqSchemasInvoicedataPropertiesPaymentamountdueAllof2. </summary>
+        /// <param name="raw"></param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.Components14V23KqSchemasInvoicedataPropertiesPaymentamountdueAllof2"/> instance for mocking. </returns>
+        public static Components14V23KqSchemasInvoicedataPropertiesPaymentamountdueAllof2 Components14V23KqSchemasInvoicedataPropertiesPaymentamountdueAllof2(string raw = null, string parsed = null)
+        {
+            return new Components14V23KqSchemasInvoicedataPropertiesPaymentamountdueAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of Components7CqvqpSchemasInvoicedataPropertiesInvoicenumberAllof2. </summary>
+        /// <param name="raw"></param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.Components7CqvqpSchemasInvoicedataPropertiesInvoicenumberAllof2"/> instance for mocking. </returns>
+        public static Components7CqvqpSchemasInvoicedataPropertiesInvoicenumberAllof2 Components7CqvqpSchemasInvoicedataPropertiesInvoicenumberAllof2(string raw = null, string parsed = null)
+        {
+            return new Components7CqvqpSchemasInvoicedataPropertiesInvoicenumberAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of Components55Nj82SchemasInvoicedataPropertiesInvoicepurchaseordernumberAllof2. </summary>
+        /// <param name="raw"></param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.Components55Nj82SchemasInvoicedataPropertiesInvoicepurchaseordernumberAllof2"/> instance for mocking. </returns>
+        public static Components55Nj82SchemasInvoicedataPropertiesInvoicepurchaseordernumberAllof2 Components55Nj82SchemasInvoicedataPropertiesInvoicepurchaseordernumberAllof2(string raw = null, string parsed = null)
+        {
+            return new Components55Nj82SchemasInvoicedataPropertiesInvoicepurchaseordernumberAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of ComponentsYe0TzySchemasInvoicedataPropertiesSupplierbusinessnumberAllof2. </summary>
+        /// <param name="raw"></param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.ComponentsYe0TzySchemasInvoicedataPropertiesSupplierbusinessnumberAllof2"/> instance for mocking. </returns>
+        public static ComponentsYe0TzySchemasInvoicedataPropertiesSupplierbusinessnumberAllof2 ComponentsYe0TzySchemasInvoicedataPropertiesSupplierbusinessnumberAllof2(string raw = null, string parsed = null)
+        {
+            return new ComponentsYe0TzySchemasInvoicedataPropertiesSupplierbusinessnumberAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of Components2Hu973SchemasInvoicedataPropertiesCustomernumberAllof2. </summary>
+        /// <param name="raw"></param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.Components2Hu973SchemasInvoicedataPropertiesCustomernumberAllof2"/> instance for mocking. </returns>
+        public static Components2Hu973SchemasInvoicedataPropertiesCustomernumberAllof2 Components2Hu973SchemasInvoicedataPropertiesCustomernumberAllof2(string raw = null, string parsed = null)
+        {
+            return new Components2Hu973SchemasInvoicedataPropertiesCustomernumberAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of ComponentsRft7JdSchemasInvoicedataPropertiesCustomerbusinessnumberAllof2. </summary>
+        /// <param name="raw"></param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.ComponentsRft7JdSchemasInvoicedataPropertiesCustomerbusinessnumberAllof2"/> instance for mocking. </returns>
+        public static ComponentsRft7JdSchemasInvoicedataPropertiesCustomerbusinessnumberAllof2 ComponentsRft7JdSchemasInvoicedataPropertiesCustomerbusinessnumberAllof2(string raw = null, string parsed = null)
+        {
+            return new ComponentsRft7JdSchemasInvoicedataPropertiesCustomerbusinessnumberAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of Components1Wx56HlSchemasInvoicedataPropertiesPaymentreferenceAllof2. </summary>
+        /// <param name="raw"></param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.Components1Wx56HlSchemasInvoicedataPropertiesPaymentreferenceAllof2"/> instance for mocking. </returns>
+        public static Components1Wx56HlSchemasInvoicedataPropertiesPaymentreferenceAllof2 Components1Wx56HlSchemasInvoicedataPropertiesPaymentreferenceAllof2(string raw = null, string parsed = null)
+        {
+            return new Components1Wx56HlSchemasInvoicedataPropertiesPaymentreferenceAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of Components14Dm0XSchemasInvoicedataPropertiesBankaccountnumberAllof2. </summary>
+        /// <param name="raw"></param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.Components14Dm0XSchemasInvoicedataPropertiesBankaccountnumberAllof2"/> instance for mocking. </returns>
+        public static Components14Dm0XSchemasInvoicedataPropertiesBankaccountnumberAllof2 Components14Dm0XSchemasInvoicedataPropertiesBankaccountnumberAllof2(string raw = null, string parsed = null)
+        {
+            return new Components14Dm0XSchemasInvoicedataPropertiesBankaccountnumberAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of Components1Fdmi0OSchemasInvoicedataPropertiesSuppliervatAllof2. </summary>
+        /// <param name="raw"></param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.Components1Fdmi0OSchemasInvoicedataPropertiesSuppliervatAllof2"/> instance for mocking. </returns>
+        public static Components1Fdmi0OSchemasInvoicedataPropertiesSuppliervatAllof2 Components1Fdmi0OSchemasInvoicedataPropertiesSuppliervatAllof2(string raw = null, string parsed = null)
+        {
+            return new Components1Fdmi0OSchemasInvoicedataPropertiesSuppliervatAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of ComponentsRsi73USchemasInvoicedataPropertiesCustomervatAllof2. </summary>
+        /// <param name="raw"></param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.ComponentsRsi73USchemasInvoicedataPropertiesCustomervatAllof2"/> instance for mocking. </returns>
+        public static ComponentsRsi73USchemasInvoicedataPropertiesCustomervatAllof2 ComponentsRsi73USchemasInvoicedataPropertiesCustomervatAllof2(string raw = null, string parsed = null)
+        {
+            return new ComponentsRsi73USchemasInvoicedataPropertiesCustomervatAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of Components1Bh8NlbSchemasInvoicedataPropertiesBpaybillercodeAllof2. </summary>
+        /// <param name="raw"></param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.Components1Bh8NlbSchemasInvoicedataPropertiesBpaybillercodeAllof2"/> instance for mocking. </returns>
+        public static Components1Bh8NlbSchemasInvoicedataPropertiesBpaybillercodeAllof2 Components1Bh8NlbSchemasInvoicedataPropertiesBpaybillercodeAllof2(string raw = null, string parsed = null)
+        {
+            return new Components1Bh8NlbSchemasInvoicedataPropertiesBpaybillercodeAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of Components1OmsnpSchemasInvoicedataPropertiesBpayreferenceAllof2. </summary>
+        /// <param name="raw"></param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.Components1OmsnpSchemasInvoicedataPropertiesBpayreferenceAllof2"/> instance for mocking. </returns>
+        public static Components1OmsnpSchemasInvoicedataPropertiesBpayreferenceAllof2 Components1OmsnpSchemasInvoicedataPropertiesBpayreferenceAllof2(string raw = null, string parsed = null)
+        {
+            return new Components1OmsnpSchemasInvoicedataPropertiesBpayreferenceAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of Components1Rbm6P1SchemasInvoicedataPropertiesBanksortcodeAllof2. </summary>
+        /// <param name="raw"></param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.Components1Rbm6P1SchemasInvoicedataPropertiesBanksortcodeAllof2"/> instance for mocking. </returns>
+        public static Components1Rbm6P1SchemasInvoicedataPropertiesBanksortcodeAllof2 Components1Rbm6P1SchemasInvoicedataPropertiesBanksortcodeAllof2(string raw = null, string parsed = null)
+        {
+            return new Components1Rbm6P1SchemasInvoicedataPropertiesBanksortcodeAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of ComponentsE6Bjv3SchemasInvoicedataPropertiesBankibanAllof2. </summary>
+        /// <param name="raw"></param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.ComponentsE6Bjv3SchemasInvoicedataPropertiesBankibanAllof2"/> instance for mocking. </returns>
+        public static ComponentsE6Bjv3SchemasInvoicedataPropertiesBankibanAllof2 ComponentsE6Bjv3SchemasInvoicedataPropertiesBankibanAllof2(string raw = null, string parsed = null)
+        {
+            return new ComponentsE6Bjv3SchemasInvoicedataPropertiesBankibanAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of Components11Zi81FSchemasInvoicedataPropertiesBankswiftAllof2. </summary>
+        /// <param name="raw"></param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.Components11Zi81FSchemasInvoicedataPropertiesBankswiftAllof2"/> instance for mocking. </returns>
+        public static Components11Zi81FSchemasInvoicedataPropertiesBankswiftAllof2 Components11Zi81FSchemasInvoicedataPropertiesBankswiftAllof2(string raw = null, string parsed = null)
+        {
+            return new Components11Zi81FSchemasInvoicedataPropertiesBankswiftAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of ComponentsUilt2MSchemasInvoicedataPropertiesBankbsbAllof2. </summary>
+        /// <param name="raw"></param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.ComponentsUilt2MSchemasInvoicedataPropertiesBankbsbAllof2"/> instance for mocking. </returns>
+        public static ComponentsUilt2MSchemasInvoicedataPropertiesBankbsbAllof2 ComponentsUilt2MSchemasInvoicedataPropertiesBankbsbAllof2(string raw = null, string parsed = null)
+        {
+            return new ComponentsUilt2MSchemasInvoicedataPropertiesBankbsbAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of ComponentsWywi9WSchemasInvoicedataPropertiesCustomercontactnameAllof2. </summary>
+        /// <param name="raw"></param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.ComponentsWywi9WSchemasInvoicedataPropertiesCustomercontactnameAllof2"/> instance for mocking. </returns>
+        public static ComponentsWywi9WSchemasInvoicedataPropertiesCustomercontactnameAllof2 ComponentsWywi9WSchemasInvoicedataPropertiesCustomercontactnameAllof2(string raw = null, string parsed = null)
+        {
+            return new ComponentsWywi9WSchemasInvoicedataPropertiesCustomercontactnameAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of Components6DhvidSchemasInvoicedataPropertiesCustomercompanynameAllof2. </summary>
+        /// <param name="raw"></param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.Components6DhvidSchemasInvoicedataPropertiesCustomercompanynameAllof2"/> instance for mocking. </returns>
+        public static Components6DhvidSchemasInvoicedataPropertiesCustomercompanynameAllof2 Components6DhvidSchemasInvoicedataPropertiesCustomercompanynameAllof2(string raw = null, string parsed = null)
+        {
+            return new Components6DhvidSchemasInvoicedataPropertiesCustomercompanynameAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of Components1O4BmpySchemasInvoicedataPropertiesSuppliercompanynameAllof2. </summary>
+        /// <param name="raw"></param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.Components1O4BmpySchemasInvoicedataPropertiesSuppliercompanynameAllof2"/> instance for mocking. </returns>
+        public static Components1O4BmpySchemasInvoicedataPropertiesSuppliercompanynameAllof2 Components1O4BmpySchemasInvoicedataPropertiesSuppliercompanynameAllof2(string raw = null, string parsed = null)
+        {
+            return new Components1O4BmpySchemasInvoicedataPropertiesSuppliercompanynameAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of ComponentsPs8Uo7SchemasInvoicedataPropertiesCustomerphonenumberAllof2. </summary>
+        /// <param name="raw"></param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.ComponentsPs8Uo7SchemasInvoicedataPropertiesCustomerphonenumberAllof2"/> instance for mocking. </returns>
+        public static ComponentsPs8Uo7SchemasInvoicedataPropertiesCustomerphonenumberAllof2 ComponentsPs8Uo7SchemasInvoicedataPropertiesCustomerphonenumberAllof2(string raw = null, string parsed = null)
+        {
+            return new ComponentsPs8Uo7SchemasInvoicedataPropertiesCustomerphonenumberAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of ComponentsBvthtoSchemasInvoicedataPropertiesSupplierphonenumberAllof2. </summary>
+        /// <param name="raw"></param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.ComponentsBvthtoSchemasInvoicedataPropertiesSupplierphonenumberAllof2"/> instance for mocking. </returns>
+        public static ComponentsBvthtoSchemasInvoicedataPropertiesSupplierphonenumberAllof2 ComponentsBvthtoSchemasInvoicedataPropertiesSupplierphonenumberAllof2(string raw = null, string parsed = null)
+        {
+            return new ComponentsBvthtoSchemasInvoicedataPropertiesSupplierphonenumberAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of Components1ByjheSchemasInvoicedataPropertiesSupplierfaxAllof2. </summary>
+        /// <param name="raw"></param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.Components1ByjheSchemasInvoicedataPropertiesSupplierfaxAllof2"/> instance for mocking. </returns>
+        public static Components1ByjheSchemasInvoicedataPropertiesSupplierfaxAllof2 Components1ByjheSchemasInvoicedataPropertiesSupplierfaxAllof2(string raw = null, string parsed = null)
+        {
+            return new Components1ByjheSchemasInvoicedataPropertiesSupplierfaxAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of Components5PwavySchemasInvoicedataPropertiesCustomeremailAllof2. </summary>
+        /// <param name="raw"></param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.Components5PwavySchemasInvoicedataPropertiesCustomeremailAllof2"/> instance for mocking. </returns>
+        public static Components5PwavySchemasInvoicedataPropertiesCustomeremailAllof2 Components5PwavySchemasInvoicedataPropertiesCustomeremailAllof2(string raw = null, string parsed = null)
+        {
+            return new Components5PwavySchemasInvoicedataPropertiesCustomeremailAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of ComponentsVyrnzuSchemasInvoicedataPropertiesSupplieremailAllof2. </summary>
+        /// <param name="raw"></param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.ComponentsVyrnzuSchemasInvoicedataPropertiesSupplieremailAllof2"/> instance for mocking. </returns>
+        public static ComponentsVyrnzuSchemasInvoicedataPropertiesSupplieremailAllof2 ComponentsVyrnzuSchemasInvoicedataPropertiesSupplieremailAllof2(string raw = null, string parsed = null)
+        {
+            return new ComponentsVyrnzuSchemasInvoicedataPropertiesSupplieremailAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of Components179Pdz6SchemasInvoicedataPropertiesSupplierwebsiteAllof2. </summary>
+        /// <param name="raw"></param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.Components179Pdz6SchemasInvoicedataPropertiesSupplierwebsiteAllof2"/> instance for mocking. </returns>
+        public static Components179Pdz6SchemasInvoicedataPropertiesSupplierwebsiteAllof2 Components179Pdz6SchemasInvoicedataPropertiesSupplierwebsiteAllof2(string raw = null, string parsed = null)
+        {
+            return new Components179Pdz6SchemasInvoicedataPropertiesSupplierwebsiteAllof2(raw, parsed);
         }
 
         /// <summary> Initializes a new instance of OccupationGroup. </summary>

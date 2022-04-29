@@ -14,361 +14,391 @@ namespace Affinda.API.Models
     {
         internal static InvoiceData DeserializeInvoiceData(JsonElement element)
         {
-            Optional<string> invoiceDate = default;
-            Optional<string> invoiceOrderDate = default;
-            Optional<string> paymentDateDue = default;
-            Optional<string> paymentAmountBase = default;
-            Optional<string> paymentAmountTax = default;
-            Optional<string> paymentAmountTotal = default;
-            Optional<string> paymentAmountPaid = default;
-            Optional<string> paymentAmountDue = default;
-            Optional<string> invoiceNumber = default;
-            Optional<string> invoicePurchaseOrderNumber = default;
-            Optional<string> supplierBusinessNumber = default;
-            Optional<string> customerNumber = default;
-            Optional<string> customerBusinessNumber = default;
-            Optional<string> paymentReference = default;
-            Optional<string> bankAccountNumber = default;
-            Optional<string> supplierVAT = default;
-            Optional<string> customerVAT = default;
-            Optional<string> bpayBillerCode = default;
-            Optional<string> bpayReference = default;
-            Optional<string> bankSortCode = default;
-            Optional<string> bankIBAN = default;
-            Optional<string> bankSwift = default;
-            Optional<string> bankBSB = default;
-            Optional<string> customerContactName = default;
-            Optional<string> customerCompanyName = default;
-            Optional<string> supplierCompanyName = default;
-            Optional<Location> customerBillingAddress = default;
-            Optional<Location> customerDeliveryAddress = default;
-            Optional<Location> supplierAddress = default;
-            Optional<string> customerPhoneNumber = default;
-            Optional<string> supplierPhoneNumber = default;
-            Optional<string> supplierFax = default;
-            Optional<string> customerEmail = default;
-            Optional<string> supplierEmail = default;
-            Optional<string> supplierWebsite = default;
+            Optional<DateAnnotation> invoiceDate = default;
+            Optional<DateAnnotation> invoiceOrderDate = default;
+            Optional<DateAnnotation> paymentDateDue = default;
+            Optional<InvoiceDataPaymentAmountBase> paymentAmountBase = default;
+            Optional<InvoiceDataPaymentAmountTax> paymentAmountTax = default;
+            Optional<InvoiceDataPaymentAmountTotal> paymentAmountTotal = default;
+            Optional<InvoiceDataPaymentAmountPaid> paymentAmountPaid = default;
+            Optional<InvoiceDataPaymentAmountDue> paymentAmountDue = default;
+            Optional<InvoiceDataInvoiceNumber> invoiceNumber = default;
+            Optional<InvoiceDataInvoicePurchaseOrderNumber> invoicePurchaseOrderNumber = default;
+            Optional<InvoiceDataSupplierBusinessNumber> supplierBusinessNumber = default;
+            Optional<InvoiceDataCustomerNumber> customerNumber = default;
+            Optional<InvoiceDataCustomerBusinessNumber> customerBusinessNumber = default;
+            Optional<InvoiceDataPaymentReference> paymentReference = default;
+            Optional<InvoiceDataBankAccountNumber> bankAccountNumber = default;
+            Optional<InvoiceDataSupplierVAT> supplierVAT = default;
+            Optional<InvoiceDataCustomerVAT> customerVAT = default;
+            Optional<InvoiceDataBpayBillerCode> bpayBillerCode = default;
+            Optional<InvoiceDataBpayReference> bpayReference = default;
+            Optional<InvoiceDataBankSortCode> bankSortCode = default;
+            Optional<InvoiceDataBankIban> bankIBAN = default;
+            Optional<InvoiceDataBankSwift> bankSwift = default;
+            Optional<InvoiceDataBankBSB> bankBSB = default;
+            Optional<InvoiceDataCustomerContactName> customerContactName = default;
+            Optional<InvoiceDataCustomerCompanyName> customerCompanyName = default;
+            Optional<InvoiceDataSupplierCompanyName> supplierCompanyName = default;
+            Optional<LocationAnnotation> customerBillingAddress = default;
+            Optional<LocationAnnotation> customerDeliveryAddress = default;
+            Optional<LocationAnnotation> supplierAddress = default;
+            Optional<InvoiceDataCustomerPhoneNumber> customerPhoneNumber = default;
+            Optional<InvoiceDataSupplierPhoneNumber> supplierPhoneNumber = default;
+            Optional<InvoiceDataSupplierFax> supplierFax = default;
+            Optional<InvoiceDataCustomerEmail> customerEmail = default;
+            Optional<InvoiceDataSupplierEmail> supplierEmail = default;
+            Optional<InvoiceDataSupplierWebsite> supplierWebsite = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("invoiceDate"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        invoiceDate = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    invoiceDate = property.Value.GetString();
+                    invoiceDate = DateAnnotation.DeserializeDateAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("invoiceOrderDate"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        invoiceOrderDate = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    invoiceOrderDate = property.Value.GetString();
+                    invoiceOrderDate = DateAnnotation.DeserializeDateAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("paymentDateDue"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        paymentDateDue = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    paymentDateDue = property.Value.GetString();
+                    paymentDateDue = DateAnnotation.DeserializeDateAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("paymentAmountBase"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        paymentAmountBase = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    paymentAmountBase = property.Value.GetString();
+                    paymentAmountBase = InvoiceDataPaymentAmountBase.DeserializeInvoiceDataPaymentAmountBase(property.Value);
                     continue;
                 }
                 if (property.NameEquals("paymentAmountTax"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        paymentAmountTax = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    paymentAmountTax = property.Value.GetString();
+                    paymentAmountTax = InvoiceDataPaymentAmountTax.DeserializeInvoiceDataPaymentAmountTax(property.Value);
                     continue;
                 }
                 if (property.NameEquals("paymentAmountTotal"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        paymentAmountTotal = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    paymentAmountTotal = property.Value.GetString();
+                    paymentAmountTotal = InvoiceDataPaymentAmountTotal.DeserializeInvoiceDataPaymentAmountTotal(property.Value);
                     continue;
                 }
                 if (property.NameEquals("paymentAmountPaid"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        paymentAmountPaid = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    paymentAmountPaid = property.Value.GetString();
+                    paymentAmountPaid = InvoiceDataPaymentAmountPaid.DeserializeInvoiceDataPaymentAmountPaid(property.Value);
                     continue;
                 }
                 if (property.NameEquals("paymentAmountDue"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        paymentAmountDue = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    paymentAmountDue = property.Value.GetString();
+                    paymentAmountDue = InvoiceDataPaymentAmountDue.DeserializeInvoiceDataPaymentAmountDue(property.Value);
                     continue;
                 }
                 if (property.NameEquals("invoiceNumber"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        invoiceNumber = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    invoiceNumber = property.Value.GetString();
+                    invoiceNumber = InvoiceDataInvoiceNumber.DeserializeInvoiceDataInvoiceNumber(property.Value);
                     continue;
                 }
                 if (property.NameEquals("invoicePurchaseOrderNumber"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        invoicePurchaseOrderNumber = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    invoicePurchaseOrderNumber = property.Value.GetString();
+                    invoicePurchaseOrderNumber = InvoiceDataInvoicePurchaseOrderNumber.DeserializeInvoiceDataInvoicePurchaseOrderNumber(property.Value);
                     continue;
                 }
                 if (property.NameEquals("supplierBusinessNumber"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        supplierBusinessNumber = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    supplierBusinessNumber = property.Value.GetString();
+                    supplierBusinessNumber = InvoiceDataSupplierBusinessNumber.DeserializeInvoiceDataSupplierBusinessNumber(property.Value);
                     continue;
                 }
                 if (property.NameEquals("customerNumber"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        customerNumber = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    customerNumber = property.Value.GetString();
+                    customerNumber = InvoiceDataCustomerNumber.DeserializeInvoiceDataCustomerNumber(property.Value);
                     continue;
                 }
                 if (property.NameEquals("customerBusinessNumber"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        customerBusinessNumber = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    customerBusinessNumber = property.Value.GetString();
+                    customerBusinessNumber = InvoiceDataCustomerBusinessNumber.DeserializeInvoiceDataCustomerBusinessNumber(property.Value);
                     continue;
                 }
                 if (property.NameEquals("paymentReference"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        paymentReference = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    paymentReference = property.Value.GetString();
+                    paymentReference = InvoiceDataPaymentReference.DeserializeInvoiceDataPaymentReference(property.Value);
                     continue;
                 }
                 if (property.NameEquals("bankAccountNumber"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        bankAccountNumber = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    bankAccountNumber = property.Value.GetString();
+                    bankAccountNumber = InvoiceDataBankAccountNumber.DeserializeInvoiceDataBankAccountNumber(property.Value);
                     continue;
                 }
                 if (property.NameEquals("supplierVAT"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        supplierVAT = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    supplierVAT = property.Value.GetString();
+                    supplierVAT = InvoiceDataSupplierVAT.DeserializeInvoiceDataSupplierVAT(property.Value);
                     continue;
                 }
                 if (property.NameEquals("customerVAT"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        customerVAT = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    customerVAT = property.Value.GetString();
+                    customerVAT = InvoiceDataCustomerVAT.DeserializeInvoiceDataCustomerVAT(property.Value);
                     continue;
                 }
                 if (property.NameEquals("bpayBillerCode"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        bpayBillerCode = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    bpayBillerCode = property.Value.GetString();
+                    bpayBillerCode = InvoiceDataBpayBillerCode.DeserializeInvoiceDataBpayBillerCode(property.Value);
                     continue;
                 }
                 if (property.NameEquals("bpayReference"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        bpayReference = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    bpayReference = property.Value.GetString();
+                    bpayReference = InvoiceDataBpayReference.DeserializeInvoiceDataBpayReference(property.Value);
                     continue;
                 }
                 if (property.NameEquals("bankSortCode"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        bankSortCode = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    bankSortCode = property.Value.GetString();
+                    bankSortCode = InvoiceDataBankSortCode.DeserializeInvoiceDataBankSortCode(property.Value);
                     continue;
                 }
                 if (property.NameEquals("bankIBAN"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        bankIBAN = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    bankIBAN = property.Value.GetString();
+                    bankIBAN = InvoiceDataBankIban.DeserializeInvoiceDataBankIban(property.Value);
                     continue;
                 }
                 if (property.NameEquals("bankSwift"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        bankSwift = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    bankSwift = property.Value.GetString();
+                    bankSwift = InvoiceDataBankSwift.DeserializeInvoiceDataBankSwift(property.Value);
                     continue;
                 }
                 if (property.NameEquals("bankBSB"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        bankBSB = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    bankBSB = property.Value.GetString();
+                    bankBSB = InvoiceDataBankBSB.DeserializeInvoiceDataBankBSB(property.Value);
                     continue;
                 }
                 if (property.NameEquals("customerContactName"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        customerContactName = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    customerContactName = property.Value.GetString();
+                    customerContactName = InvoiceDataCustomerContactName.DeserializeInvoiceDataCustomerContactName(property.Value);
                     continue;
                 }
                 if (property.NameEquals("customerCompanyName"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        customerCompanyName = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    customerCompanyName = property.Value.GetString();
+                    customerCompanyName = InvoiceDataCustomerCompanyName.DeserializeInvoiceDataCustomerCompanyName(property.Value);
                     continue;
                 }
                 if (property.NameEquals("supplierCompanyName"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        supplierCompanyName = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    supplierCompanyName = property.Value.GetString();
+                    supplierCompanyName = InvoiceDataSupplierCompanyName.DeserializeInvoiceDataSupplierCompanyName(property.Value);
                     continue;
                 }
                 if (property.NameEquals("customerBillingAddress"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        customerBillingAddress = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    customerBillingAddress = Location.DeserializeLocation(property.Value);
+                    customerBillingAddress = LocationAnnotation.DeserializeLocationAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("customerDeliveryAddress"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        customerDeliveryAddress = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    customerDeliveryAddress = Location.DeserializeLocation(property.Value);
+                    customerDeliveryAddress = LocationAnnotation.DeserializeLocationAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("supplierAddress"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        supplierAddress = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    supplierAddress = Location.DeserializeLocation(property.Value);
+                    supplierAddress = LocationAnnotation.DeserializeLocationAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("customerPhoneNumber"))
                 {
-                    customerPhoneNumber = property.Value.GetString();
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    customerPhoneNumber = InvoiceDataCustomerPhoneNumber.DeserializeInvoiceDataCustomerPhoneNumber(property.Value);
                     continue;
                 }
                 if (property.NameEquals("supplierPhoneNumber"))
                 {
-                    supplierPhoneNumber = property.Value.GetString();
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    supplierPhoneNumber = InvoiceDataSupplierPhoneNumber.DeserializeInvoiceDataSupplierPhoneNumber(property.Value);
                     continue;
                 }
                 if (property.NameEquals("supplierFax"))
                 {
-                    supplierFax = property.Value.GetString();
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    supplierFax = InvoiceDataSupplierFax.DeserializeInvoiceDataSupplierFax(property.Value);
                     continue;
                 }
                 if (property.NameEquals("customerEmail"))
                 {
-                    customerEmail = property.Value.GetString();
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    customerEmail = InvoiceDataCustomerEmail.DeserializeInvoiceDataCustomerEmail(property.Value);
                     continue;
                 }
                 if (property.NameEquals("supplierEmail"))
                 {
-                    supplierEmail = property.Value.GetString();
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    supplierEmail = InvoiceDataSupplierEmail.DeserializeInvoiceDataSupplierEmail(property.Value);
                     continue;
                 }
                 if (property.NameEquals("supplierWebsite"))
                 {
-                    supplierWebsite = property.Value.GetString();
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    supplierWebsite = InvoiceDataSupplierWebsite.DeserializeInvoiceDataSupplierWebsite(property.Value);
                     continue;
                 }
             }

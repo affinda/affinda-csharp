@@ -34,7 +34,7 @@ namespace Affinda.API
         {
             ClientDiagnostics = clientDiagnostics ?? throw new ArgumentNullException(nameof(clientDiagnostics));
             _pipeline = pipeline ?? throw new ArgumentNullException(nameof(pipeline));
-            _endpoint = endpoint ?? new Uri("https://api.affinda.com/v1");
+            _endpoint = endpoint ?? new Uri("https://api.affinda.com/v2");
         }
 
         internal HttpMessage CreateGetAllResumesRequest(int? offset, int? limit)
@@ -1394,6 +1394,381 @@ namespace Affinda.API
             }
         }
 
+        internal HttpMessage CreateGetAllJobDescriptionsRequest(int? offset, int? limit)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Get;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(_endpoint);
+            uri.AppendPath("/job_descriptions", false);
+            if (offset != null)
+            {
+                uri.AppendQuery("offset", offset.Value, true);
+            }
+            if (limit != null)
+            {
+                uri.AppendQuery("limit", limit.Value, true);
+            }
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Returns all the job descriptions for that user, limited to 300 per page. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public async Task<Response<object>> GetAllJobDescriptionsAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateGetAllJobDescriptionsRequest(offset, limit);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        GetAllJobDescriptionsResults value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = GetAllJobDescriptionsResults.DeserializeGetAllJobDescriptionsResults(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Returns all the job descriptions for that user, limited to 300 per page. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public Response<object> GetAllJobDescriptions(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateGetAllJobDescriptionsRequest(offset, limit);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        GetAllJobDescriptionsResults value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = GetAllJobDescriptionsResults.DeserializeGetAllJobDescriptionsResults(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateCreateJobDescriptionRequest(Stream file, string identifier, string fileName, string url, string wait, string language, string expiryTime)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(_endpoint);
+            uri.AppendPath("/job_descriptions", false);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Content-Type", "multipart/form-data");
+            var content = new MultipartFormDataContent();
+            if (file != null)
+            {
+                content.Add(RequestContent.Create(file), "file", fileName ?? "null.pdf" , null);
+            }
+            if (identifier != null)
+            {
+                content.Add(new StringRequestContent(identifier), "identifier", null);
+            }
+            if (fileName != null)
+            {
+                content.Add(new StringRequestContent(fileName), "fileName", null);
+            }
+            if (url != null)
+            {
+                content.Add(new StringRequestContent(url), "url", null);
+            }
+            if (wait != null)
+            {
+                content.Add(new StringRequestContent(wait), "wait", null);
+            }
+            if (language != null)
+            {
+                content.Add(new StringRequestContent(language), "language", null);
+            }
+            if (expiryTime != null)
+            {
+                content.Add(new StringRequestContent(expiryTime), "expiryTime", null);
+            }
+            content.ApplyToRequest(request);
+            return message;
+        }
+
+        /// <summary>
+        /// Uploads a job description for parsing.
+        /// When successful, returns an `identifier` in the response for subsequent use with the [/job_descriptions/{identifier}](#operation/getResume) endpoint to check processing status and retrieve results.
+        /// </summary>
+        /// <param name="file"> The binary to use. </param>
+        /// <param name="identifier"> The Identifier to use. </param>
+        /// <param name="fileName"> The FileName to use. </param>
+        /// <param name="url"> The UrlToProcess to use. </param>
+        /// <param name="wait"> The Wait to use. </param>
+        /// <param name="language"> The Language to use. </param>
+        /// <param name="expiryTime"> The ExpiryTime to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public async Task<Response<object>> CreateJobDescriptionAsync(Stream file = null, string identifier = null, string fileName = null, string url = null, string wait = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateCreateJobDescriptionRequest(file, identifier, fileName, url, wait, language, expiryTime);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                case 201:
+                    {
+                        JobDescription value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = JobDescription.DeserializeJobDescription(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// Uploads a job description for parsing.
+        /// When successful, returns an `identifier` in the response for subsequent use with the [/job_descriptions/{identifier}](#operation/getResume) endpoint to check processing status and retrieve results.
+        /// </summary>
+        /// <param name="file"> The binary to use. </param>
+        /// <param name="identifier"> The Identifier to use. </param>
+        /// <param name="fileName"> The FileName to use. </param>
+        /// <param name="url"> The UrlToProcess to use. </param>
+        /// <param name="wait"> The Wait to use. </param>
+        /// <param name="language"> The Language to use. </param>
+        /// <param name="expiryTime"> The ExpiryTime to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public Response<object> CreateJobDescription(Stream file = null, string identifier = null, string fileName = null, string url = null, string wait = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateCreateJobDescriptionRequest(file, identifier, fileName, url, wait, language, expiryTime);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                case 201:
+                    {
+                        JobDescription value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = JobDescription.DeserializeJobDescription(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateGetJobDescriptionRequest(string identifier)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Get;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(_endpoint);
+            uri.AppendPath("/job_descriptions/", false);
+            uri.AppendPath(identifier, true);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary>
+        /// Returns all the results for that job description if processing is completed.
+        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/job_descriptions](#operation/createJobDescription) endpoint.
+        /// </summary>
+        /// <param name="identifier"> Document identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
+        public async Task<Response<object>> GetJobDescriptionAsync(string identifier, CancellationToken cancellationToken = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            using var message = CreateGetJobDescriptionRequest(identifier);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        JobDescription value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = JobDescription.DeserializeJobDescription(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// Returns all the results for that job description if processing is completed.
+        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/job_descriptions](#operation/createJobDescription) endpoint.
+        /// </summary>
+        /// <param name="identifier"> Document identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
+        public Response<object> GetJobDescription(string identifier, CancellationToken cancellationToken = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            using var message = CreateGetJobDescriptionRequest(identifier);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        JobDescription value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = JobDescription.DeserializeJobDescription(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateDeleteJobDescriptionRequest(string identifier)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Delete;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(_endpoint);
+            uri.AppendPath("/job_descriptions/", false);
+            uri.AppendPath(identifier, true);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Deletes the specified job description from the database. </summary>
+        /// <param name="identifier"> Document identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
+        public async Task<Response<RequestError>> DeleteJobDescriptionAsync(string identifier, CancellationToken cancellationToken = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            using var message = CreateDeleteJobDescriptionRequest(identifier);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 204:
+                    return Response.FromValue((RequestError)null, message.Response);
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Deletes the specified job description from the database. </summary>
+        /// <param name="identifier"> Document identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
+        public Response<RequestError> DeleteJobDescription(string identifier, CancellationToken cancellationToken = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            using var message = CreateDeleteJobDescriptionRequest(identifier);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 204:
+                    return Response.FromValue((RequestError)null, message.Response);
+                case 400:
+                case 401:
+                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
         internal HttpMessage CreateGetAllIndexesRequest(int? offset, int? limit)
         {
             var message = _pipeline.CreateMessage();
@@ -2043,7 +2418,7 @@ namespace Affinda.API
         /// <param name="file"> The binary to use. </param>
         /// <param name="identifier"> The Identifier to use. </param>
         /// <param name="fileName"> The FileName to use. </param>
-        /// <param name="url"> URL to file to download and process. </param>
+        /// <param name="url"> The UrlToProcess to use. </param>
         /// <param name="wait"> The Wait to use. </param>
         /// <param name="language"> The Language to use. </param>
         /// <param name="expiryTime"> The ExpiryTime to use. </param>
@@ -2083,7 +2458,7 @@ namespace Affinda.API
         /// <param name="file"> The binary to use. </param>
         /// <param name="identifier"> The Identifier to use. </param>
         /// <param name="fileName"> The FileName to use. </param>
-        /// <param name="url"> URL to file to download and process. </param>
+        /// <param name="url"> The UrlToProcess to use. </param>
         /// <param name="wait"> The Wait to use. </param>
         /// <param name="language"> The Language to use. </param>
         /// <param name="expiryTime"> The ExpiryTime to use. </param>

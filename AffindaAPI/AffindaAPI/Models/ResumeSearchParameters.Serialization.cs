@@ -23,6 +23,18 @@ namespace Affinda.API.Models
                 writer.WriteStringValue(item);
             }
             writer.WriteEndArray();
+            if (Optional.IsDefined(JobDescription))
+            {
+                if (JobDescription != null)
+                {
+                    writer.WritePropertyName("jobDescription");
+                    writer.WriteStringValue(JobDescription);
+                }
+                else
+                {
+                    writer.WriteNull("jobDescription");
+                }
+            }
             if (Optional.IsCollectionDefined(JobTitles))
             {
                 writer.WritePropertyName("jobTitles");
@@ -251,6 +263,7 @@ namespace Affinda.API.Models
         internal static ResumeSearchParameters DeserializeResumeSearchParameters(JsonElement element)
         {
             IList<string> indices = default;
+            Optional<string> jobDescription = default;
             Optional<IList<string>> jobTitles = default;
             Optional<bool> jobTitlesCurrentOnly = default;
             Optional<bool> jobTitlesRequired = default;
@@ -296,6 +309,16 @@ namespace Affinda.API.Models
                         array.Add(item.GetString());
                     }
                     indices = array;
+                    continue;
+                }
+                if (property.NameEquals("jobDescription"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        jobDescription = null;
+                        continue;
+                    }
+                    jobDescription = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("jobTitles"))
@@ -691,7 +714,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new ResumeSearchParameters(indices, Optional.ToList(jobTitles), Optional.ToNullable(jobTitlesCurrentOnly), Optional.ToNullable(jobTitlesRequired), Optional.ToNullable(jobTitlesWeight), Optional.ToNullable(yearsExperienceMin), Optional.ToNullable(yearsExperienceMax), Optional.ToNullable(yearsExperienceRequired), Optional.ToNullable(yearsExperienceWeight), Optional.ToList(locations), Optional.ToNullable(locationsWeight), Optional.ToNullable(locationsRequired), Optional.ToList(skills), Optional.ToNullable(skillsWeight), Optional.ToList(languages), Optional.ToNullable(languagesWeight), Optional.ToList(institutions), Optional.ToNullable(institutionsRequired), Optional.ToList(degrees), Optional.ToNullable(degreesRequired), Optional.ToList(highestDegreeTypes), Optional.ToNullable(highestDegreeTypesRequired), Optional.ToNullable(isCurrentStudent), Optional.ToNullable(isCurrentStudentRequired), Optional.ToNullable(isRecentGraduate), Optional.ToNullable(isRecentGraduateRequired), Optional.ToNullable(educationWeight), searchExpression.Value, Optional.ToNullable(searchExpressionRequired), Optional.ToNullable(searchExpressionWeight), Optional.ToList(socCodes), Optional.ToNullable(socCodesWeight), Optional.ToNullable(socCodesRequired), Optional.ToNullable(managementLevel), Optional.ToNullable(managementLevelRequired), Optional.ToNullable(managementLevelWeight));
+            return new ResumeSearchParameters(indices, jobDescription.Value, Optional.ToList(jobTitles), Optional.ToNullable(jobTitlesCurrentOnly), Optional.ToNullable(jobTitlesRequired), Optional.ToNullable(jobTitlesWeight), Optional.ToNullable(yearsExperienceMin), Optional.ToNullable(yearsExperienceMax), Optional.ToNullable(yearsExperienceRequired), Optional.ToNullable(yearsExperienceWeight), Optional.ToList(locations), Optional.ToNullable(locationsWeight), Optional.ToNullable(locationsRequired), Optional.ToList(skills), Optional.ToNullable(skillsWeight), Optional.ToList(languages), Optional.ToNullable(languagesWeight), Optional.ToList(institutions), Optional.ToNullable(institutionsRequired), Optional.ToList(degrees), Optional.ToNullable(degreesRequired), Optional.ToList(highestDegreeTypes), Optional.ToNullable(highestDegreeTypesRequired), Optional.ToNullable(isCurrentStudent), Optional.ToNullable(isCurrentStudentRequired), Optional.ToNullable(isRecentGraduate), Optional.ToNullable(isRecentGraduateRequired), Optional.ToNullable(educationWeight), searchExpression.Value, Optional.ToNullable(searchExpressionRequired), Optional.ToNullable(searchExpressionWeight), Optional.ToList(socCodes), Optional.ToNullable(socCodesWeight), Optional.ToNullable(socCodesRequired), Optional.ToNullable(managementLevel), Optional.ToNullable(managementLevelRequired), Optional.ToNullable(managementLevelWeight));
         }
     }
 }

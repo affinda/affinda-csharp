@@ -38,7 +38,7 @@ namespace Affinda.API
             {
                 throw new ArgumentNullException(nameof(credential));
             }
-            endpoint ??= new Uri("https://api.affinda.com/v1");
+            endpoint ??= new Uri("https://api.affinda.com/v2");
 
             options ??= new AffindaAPIClientOptions();
             _clientDiagnostics = new ClientDiagnostics(options);
@@ -651,6 +651,176 @@ namespace Affinda.API
             }
         }
 
+        /// <summary> Returns all the job descriptions for that user, limited to 300 per page. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<object>> GetAllJobDescriptionsAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllJobDescriptions");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetAllJobDescriptionsAsync(offset, limit, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Returns all the job descriptions for that user, limited to 300 per page. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<object> GetAllJobDescriptions(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllJobDescriptions");
+            scope.Start();
+            try
+            {
+                return RestClient.GetAllJobDescriptions(offset, limit, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Uploads a job description for parsing.
+        /// When successful, returns an `identifier` in the response for subsequent use with the [/job_descriptions/{identifier}](#operation/getResume) endpoint to check processing status and retrieve results.
+        /// </summary>
+        /// <param name="file"> The binary to use. </param>
+        /// <param name="identifier"> The Identifier to use. </param>
+        /// <param name="fileName"> The FileName to use. </param>
+        /// <param name="url"> The UrlToProcess to use. </param>
+        /// <param name="wait"> The Wait to use. </param>
+        /// <param name="language"> The Language to use. </param>
+        /// <param name="expiryTime"> The ExpiryTime to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<object>> CreateJobDescriptionAsync(Stream file = null, string identifier = null, string fileName = null, string url = null, string wait = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateJobDescription");
+            scope.Start();
+            try
+            {
+                return await RestClient.CreateJobDescriptionAsync(file, identifier, fileName, url, wait, language, expiryTime, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Uploads a job description for parsing.
+        /// When successful, returns an `identifier` in the response for subsequent use with the [/job_descriptions/{identifier}](#operation/getResume) endpoint to check processing status and retrieve results.
+        /// </summary>
+        /// <param name="file"> The binary to use. </param>
+        /// <param name="identifier"> The Identifier to use. </param>
+        /// <param name="fileName"> The FileName to use. </param>
+        /// <param name="url"> The UrlToProcess to use. </param>
+        /// <param name="wait"> The Wait to use. </param>
+        /// <param name="language"> The Language to use. </param>
+        /// <param name="expiryTime"> The ExpiryTime to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<object> CreateJobDescription(Stream file = null, string identifier = null, string fileName = null, string url = null, string wait = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateJobDescription");
+            scope.Start();
+            try
+            {
+                return RestClient.CreateJobDescription(file, identifier, fileName, url, wait, language, expiryTime, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Returns all the results for that job description if processing is completed.
+        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/job_descriptions](#operation/createJobDescription) endpoint.
+        /// </summary>
+        /// <param name="identifier"> Document identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<object>> GetJobDescriptionAsync(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetJobDescription");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetJobDescriptionAsync(identifier, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Returns all the results for that job description if processing is completed.
+        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/job_descriptions](#operation/createJobDescription) endpoint.
+        /// </summary>
+        /// <param name="identifier"> Document identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<object> GetJobDescription(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetJobDescription");
+            scope.Start();
+            try
+            {
+                return RestClient.GetJobDescription(identifier, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Deletes the specified job description from the database. </summary>
+        /// <param name="identifier"> Document identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<RequestError>> DeleteJobDescriptionAsync(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteJobDescription");
+            scope.Start();
+            try
+            {
+                return await RestClient.DeleteJobDescriptionAsync(identifier, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Deletes the specified job description from the database. </summary>
+        /// <param name="identifier"> Document identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<RequestError> DeleteJobDescription(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteJobDescription");
+            scope.Start();
+            try
+            {
+                return RestClient.DeleteJobDescription(identifier, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
         /// <summary> Returns all the indexes. </summary>
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
         /// <param name="limit"> The numbers of results to return. </param>
@@ -918,7 +1088,7 @@ namespace Affinda.API
         /// <param name="file"> The binary to use. </param>
         /// <param name="identifier"> The Identifier to use. </param>
         /// <param name="fileName"> The FileName to use. </param>
-        /// <param name="url"> URL to file to download and process. </param>
+        /// <param name="url"> The UrlToProcess to use. </param>
         /// <param name="wait"> The Wait to use. </param>
         /// <param name="language"> The Language to use. </param>
         /// <param name="expiryTime"> The ExpiryTime to use. </param>
@@ -945,7 +1115,7 @@ namespace Affinda.API
         /// <param name="file"> The binary to use. </param>
         /// <param name="identifier"> The Identifier to use. </param>
         /// <param name="fileName"> The FileName to use. </param>
-        /// <param name="url"> URL to file to download and process. </param>
+        /// <param name="url"> The UrlToProcess to use. </param>
         /// <param name="wait"> The Wait to use. </param>
         /// <param name="language"> The Language to use. </param>
         /// <param name="expiryTime"> The ExpiryTime to use. </param>

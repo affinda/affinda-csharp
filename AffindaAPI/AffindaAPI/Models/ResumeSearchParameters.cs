@@ -38,6 +38,7 @@ namespace Affinda.API.Models
 
         /// <summary> Initializes a new instance of ResumeSearchParameters. </summary>
         /// <param name="indices"></param>
+        /// <param name="jobDescription"> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </param>
         /// <param name="jobTitles"></param>
         /// <param name="jobTitlesCurrentOnly"></param>
         /// <param name="jobTitlesRequired"></param>
@@ -73,9 +74,10 @@ namespace Affinda.API.Models
         /// <param name="managementLevel"></param>
         /// <param name="managementLevelRequired"></param>
         /// <param name="managementLevelWeight"></param>
-        internal ResumeSearchParameters(IList<string> indices, IList<string> jobTitles, bool? jobTitlesCurrentOnly, bool? jobTitlesRequired, float? jobTitlesWeight, int? yearsExperienceMin, int? yearsExperienceMax, bool? yearsExperienceRequired, float? yearsExperienceWeight, IList<ResumeSearchParametersLocationsItem> locations, float? locationsWeight, bool? locationsRequired, IList<ResumeSearchParametersSkillsItem> skills, float? skillsWeight, IList<ResumeSearchParametersLanguagesItem> languages, float? languagesWeight, IList<string> institutions, bool? institutionsRequired, IList<string> degrees, bool? degreesRequired, IList<EducationLevel?> highestDegreeTypes, bool? highestDegreeTypesRequired, bool? isCurrentStudent, bool? isCurrentStudentRequired, bool? isRecentGraduate, bool? isRecentGraduateRequired, float? educationWeight, string searchExpression, bool? searchExpressionRequired, float? searchExpressionWeight, IList<int> socCodes, float? socCodesWeight, bool? socCodesRequired, ManagementLevel? managementLevel, bool? managementLevelRequired, float? managementLevelWeight)
+        internal ResumeSearchParameters(IList<string> indices, string jobDescription, IList<string> jobTitles, bool? jobTitlesCurrentOnly, bool? jobTitlesRequired, float? jobTitlesWeight, int? yearsExperienceMin, int? yearsExperienceMax, bool? yearsExperienceRequired, float? yearsExperienceWeight, IList<ResumeSearchParametersLocationsItem> locations, float? locationsWeight, bool? locationsRequired, IList<ResumeSearchParametersSkillsItem> skills, float? skillsWeight, IList<ResumeSearchParametersLanguagesItem> languages, float? languagesWeight, IList<string> institutions, bool? institutionsRequired, IList<string> degrees, bool? degreesRequired, IList<EducationLevel?> highestDegreeTypes, bool? highestDegreeTypesRequired, bool? isCurrentStudent, bool? isCurrentStudentRequired, bool? isRecentGraduate, bool? isRecentGraduateRequired, float? educationWeight, string searchExpression, bool? searchExpressionRequired, float? searchExpressionWeight, IList<int> socCodes, float? socCodesWeight, bool? socCodesRequired, ManagementLevel? managementLevel, bool? managementLevelRequired, float? managementLevelWeight)
         {
             Indices = indices;
+            JobDescription = jobDescription;
             JobTitles = jobTitles;
             JobTitlesCurrentOnly = jobTitlesCurrentOnly;
             JobTitlesRequired = jobTitlesRequired;
@@ -115,6 +117,8 @@ namespace Affinda.API.Models
 
         /// <summary> Gets the indices. </summary>
         public IList<string> Indices { get; }
+        /// <summary> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </summary>
+        public string JobDescription { get; set; }
         /// <summary> Gets the job titles. </summary>
         public IList<string> JobTitles { get; }
         /// <summary> Gets or sets the job titles current only. </summary>
