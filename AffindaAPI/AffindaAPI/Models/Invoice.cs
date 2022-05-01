@@ -17,7 +17,7 @@ namespace Affinda.API.Models
         /// <param name="meta"></param>
         /// <param name="error"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="meta"/> or <paramref name="error"/> is null. </exception>
-        internal Invoice(InvoiceData data, Meta meta, Error error)
+        internal Invoice(InvoiceData data, InvoiceMeta meta, Error error)
         {
             if (meta == null)
             {
@@ -36,7 +36,7 @@ namespace Affinda.API.Models
         /// <summary> Gets the data. </summary>
         public InvoiceData Data { get; }
         /// <summary> Gets the meta. </summary>
-        public Meta Meta { get; }
+        public InvoiceMeta Meta { get; }
         /// <summary> Gets the error. </summary>
         public Error Error { get; }
     }

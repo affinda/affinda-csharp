@@ -15,7 +15,7 @@ namespace Affinda.API.Models
         internal static Invoice DeserializeInvoice(JsonElement element)
         {
             InvoiceData data = default;
-            Meta meta = default;
+            InvoiceMeta meta = default;
             Error error = default;
             foreach (var property in element.EnumerateObject())
             {
@@ -31,7 +31,7 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("meta"))
                 {
-                    meta = Meta.DeserializeMeta(property.Value);
+                    meta = InvoiceMeta.DeserializeInvoiceMeta(property.Value);
                     continue;
                 }
                 if (property.NameEquals("error"))

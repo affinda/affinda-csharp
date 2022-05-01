@@ -641,7 +641,7 @@ namespace Affinda.API.Models
         /// <param name="meta"></param>
         /// <param name="error"></param>
         /// <returns> A new <see cref="Models.Invoice"/> instance for mocking. </returns>
-        public static Invoice Invoice(InvoiceData data = null, Meta meta = null, Error error = null)
+        public static Invoice Invoice(InvoiceData data = null, InvoiceMeta meta = null, Error error = null)
         {
             return new Invoice(data, meta, error);
         }
@@ -947,6 +947,28 @@ namespace Affinda.API.Models
         public static Components179Pdz6SchemasInvoicedataPropertiesSupplierwebsiteAllof2 Components179Pdz6SchemasInvoicedataPropertiesSupplierwebsiteAllof2(string raw = null, string parsed = null)
         {
             return new Components179Pdz6SchemasInvoicedataPropertiesSupplierwebsiteAllof2(raw, parsed);
+        }
+
+        /// <summary> Initializes a new instance of InvoiceMeta. </summary>
+        /// <param name="identifier"> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </param>
+        /// <param name="fileName"> Optional filename of the file. </param>
+        /// <param name="ready"> If true, the document has finished processing. Particularly useful if an endpoint request specified wait=False, when polling use this variable to determine when to stop polling. </param>
+        /// <param name="readyDt"> The datetime when the document was ready. </param>
+        /// <param name="failed"> If true, some exception was raised during processing. Check the &apos;error&apos; field of the main return object. </param>
+        /// <param name="expiryTime"> The date/time in ISO-8601 format when the document will be automatically deleted.  Defaults to no expiry. </param>
+        /// <param name="reviewUrl"> Signed URL (valid for 60 minutes) to access the invoice review tool. </param>
+        /// <returns> A new <see cref="Models.InvoiceMeta"/> instance for mocking. </returns>
+        public static InvoiceMeta InvoiceMeta(string identifier = null, string fileName = null, bool ready = default, DateTimeOffset? readyDt = null, bool failed = default, string expiryTime = null, string reviewUrl = null)
+        {
+            return new InvoiceMeta(identifier, fileName, ready, readyDt, failed, expiryTime, reviewUrl);
+        }
+
+        /// <summary> Initializes a new instance of Components17Ashz6SchemasInvoicePropertiesMetaAllof1. </summary>
+        /// <param name="reviewUrl"> Signed URL (valid for 60 minutes) to access the invoice review tool. </param>
+        /// <returns> A new <see cref="Models.Components17Ashz6SchemasInvoicePropertiesMetaAllof1"/> instance for mocking. </returns>
+        public static Components17Ashz6SchemasInvoicePropertiesMetaAllof1 Components17Ashz6SchemasInvoicePropertiesMetaAllof1(string reviewUrl = null)
+        {
+            return new Components17Ashz6SchemasInvoicePropertiesMetaAllof1(reviewUrl);
         }
 
         /// <summary> Initializes a new instance of OccupationGroup. </summary>
