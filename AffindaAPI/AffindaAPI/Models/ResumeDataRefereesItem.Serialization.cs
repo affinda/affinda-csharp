@@ -10,8 +10,55 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class ResumeDataRefereesItem
+    public partial class ResumeDataRefereesItem : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            if (Optional.IsDefined(Name))
+            {
+                if (Name != null)
+                {
+                    writer.WritePropertyName("name");
+                    writer.WriteStringValue(Name);
+                }
+                else
+                {
+                    writer.WriteNull("name");
+                }
+            }
+            if (Optional.IsDefined(Text))
+            {
+                writer.WritePropertyName("text");
+                writer.WriteStringValue(Text);
+            }
+            if (Optional.IsDefined(Email))
+            {
+                if (Email != null)
+                {
+                    writer.WritePropertyName("email");
+                    writer.WriteStringValue(Email);
+                }
+                else
+                {
+                    writer.WriteNull("email");
+                }
+            }
+            if (Optional.IsDefined(Number))
+            {
+                if (Number != null)
+                {
+                    writer.WritePropertyName("number");
+                    writer.WriteStringValue(Number);
+                }
+                else
+                {
+                    writer.WriteNull("number");
+                }
+            }
+            writer.WriteEndObject();
+        }
+
         internal static ResumeDataRefereesItem DeserializeResumeDataRefereesItem(JsonElement element)
         {
             Optional<string> name = default;

@@ -24,8 +24,9 @@ namespace Affinda.API.Models
         /// <param name="location"></param>
         /// <param name="education"></param>
         /// <param name="occupationGroup"></param>
-        /// <exception cref="ArgumentNullException"> <paramref name="pdf"/>, <paramref name="jobTitle"/>, <paramref name="managementLevel"/>, <paramref name="experience"/>, <paramref name="skills"/>, <paramref name="languages"/>, <paramref name="location"/>, <paramref name="education"/> or <paramref name="occupationGroup"/> is null. </exception>
-        internal ResumeSearchResult(string identifier, float score, string pdf, ResumeSearchScoreComponent jobTitle, ResumeSearchScoreComponent managementLevel, ResumeSearchScoreComponent experience, ResumeSearchScoreComponent skills, ResumeSearchScoreComponent languages, ResumeSearchScoreComponent location, ResumeSearchScoreComponent education, ResumeSearchScoreComponent occupationGroup)
+        /// <param name="searchExpression"></param>
+        /// <exception cref="ArgumentNullException"> <paramref name="pdf"/>, <paramref name="jobTitle"/>, <paramref name="managementLevel"/>, <paramref name="experience"/>, <paramref name="skills"/>, <paramref name="languages"/>, <paramref name="location"/>, <paramref name="education"/>, <paramref name="occupationGroup"/> or <paramref name="searchExpression"/> is null. </exception>
+        internal ResumeSearchResult(string identifier, float score, string pdf, ResumeSearchScoreComponent jobTitle, ResumeSearchScoreComponent managementLevel, ResumeSearchScoreComponent experience, ResumeSearchScoreComponent skills, ResumeSearchScoreComponent languages, ResumeSearchScoreComponent location, ResumeSearchScoreComponent education, ResumeSearchScoreComponent occupationGroup, ResumeSearchScoreComponent searchExpression)
         {
             if (pdf == null)
             {
@@ -63,6 +64,10 @@ namespace Affinda.API.Models
             {
                 throw new ArgumentNullException(nameof(occupationGroup));
             }
+            if (searchExpression == null)
+            {
+                throw new ArgumentNullException(nameof(searchExpression));
+            }
 
             Identifier = identifier;
             Score = score;
@@ -75,6 +80,7 @@ namespace Affinda.API.Models
             Location = location;
             Education = education;
             OccupationGroup = occupationGroup;
+            SearchExpression = searchExpression;
         }
 
         /// <summary> Initializes a new instance of ResumeSearchResult. </summary>
@@ -90,7 +96,8 @@ namespace Affinda.API.Models
         /// <param name="location"></param>
         /// <param name="education"></param>
         /// <param name="occupationGroup"></param>
-        internal ResumeSearchResult(string identifier, float score, string pdf, string name, ResumeSearchScoreComponent jobTitle, ResumeSearchScoreComponent managementLevel, ResumeSearchScoreComponent experience, ResumeSearchScoreComponent skills, ResumeSearchScoreComponent languages, ResumeSearchScoreComponent location, ResumeSearchScoreComponent education, ResumeSearchScoreComponent occupationGroup)
+        /// <param name="searchExpression"></param>
+        internal ResumeSearchResult(string identifier, float score, string pdf, string name, ResumeSearchScoreComponent jobTitle, ResumeSearchScoreComponent managementLevel, ResumeSearchScoreComponent experience, ResumeSearchScoreComponent skills, ResumeSearchScoreComponent languages, ResumeSearchScoreComponent location, ResumeSearchScoreComponent education, ResumeSearchScoreComponent occupationGroup, ResumeSearchScoreComponent searchExpression)
         {
             Identifier = identifier;
             Score = score;
@@ -104,6 +111,7 @@ namespace Affinda.API.Models
             Location = location;
             Education = education;
             OccupationGroup = occupationGroup;
+            SearchExpression = searchExpression;
         }
 
         /// <summary> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </summary>
@@ -130,5 +138,7 @@ namespace Affinda.API.Models
         public ResumeSearchScoreComponent Education { get; }
         /// <summary> Gets the occupation group. </summary>
         public ResumeSearchScoreComponent OccupationGroup { get; }
+        /// <summary> Gets the search expression. </summary>
+        public ResumeSearchScoreComponent SearchExpression { get; }
     }
 }

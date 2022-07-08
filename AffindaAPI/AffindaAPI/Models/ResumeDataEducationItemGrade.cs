@@ -11,7 +11,7 @@ namespace Affinda.API.Models
     public partial class ResumeDataEducationItemGrade
     {
         /// <summary> Initializes a new instance of ResumeDataEducationItemGrade. </summary>
-        internal ResumeDataEducationItemGrade()
+        public ResumeDataEducationItemGrade()
         {
         }
 
@@ -26,11 +26,11 @@ namespace Affinda.API.Models
             Value = value;
         }
 
-        /// <summary> Gets the raw. </summary>
-        public string Raw { get; }
-        /// <summary> Gets the metric. </summary>
-        public string Metric { get; }
-        /// <summary> Gets the value. </summary>
-        public string Value { get; }
+        /// <summary> Gets or sets the raw. </summary>
+        public string Raw { get; set; }
+        /// <summary> Gets or sets the metric. </summary>
+        public string Metric { get; set; }
+        /// <summary> Gets or sets the value. </summary>
+        public string Value { get; set; }
     }
 }

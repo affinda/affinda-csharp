@@ -41,12 +41,24 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of RequestError. </summary>
-        /// <param name="detail"></param>
-        /// <param name="statusCode"></param>
+        /// <param name="type"></param>
+        /// <param name="errors"></param>
         /// <returns> A new <see cref="Models.RequestError"/> instance for mocking. </returns>
-        public static RequestError RequestError(string detail = null, int statusCode = default)
+        public static RequestError RequestError(string type = null, IEnumerable<RequestErrorErrorsItem> errors = null)
         {
-            return new RequestError(detail, statusCode);
+            errors ??= new List<RequestErrorErrorsItem>();
+
+            return new RequestError(type, errors?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of RequestErrorErrorsItem. </summary>
+        /// <param name="attr"></param>
+        /// <param name="code"></param>
+        /// <param name="detail"></param>
+        /// <returns> A new <see cref="Models.RequestErrorErrorsItem"/> instance for mocking. </returns>
+        public static RequestErrorErrorsItem RequestErrorErrorsItem(string attr = null, string code = null, string detail = null)
+        {
+            return new RequestErrorErrorsItem(attr, code, detail);
         }
 
         /// <summary> Initializes a new instance of Resume. </summary>
@@ -100,18 +112,6 @@ namespace Affinda.API.Models
             return new ResumeData(name, phoneNumbers?.ToList(), websites?.ToList(), emails?.ToList(), dateOfBirth, location, objective, languages?.ToList(), summary, totalYearsExperience, headShot, education?.ToList(), profession, linkedin, workExperience?.ToList(), skills?.ToList(), certifications?.ToList(), publications?.ToList(), referees?.ToList(), sections?.ToList(), isResumeProbability, rawText);
         }
 
-        /// <summary> Initializes a new instance of ResumeDataName. </summary>
-        /// <param name="raw"></param>
-        /// <param name="first"></param>
-        /// <param name="last"></param>
-        /// <param name="middle"></param>
-        /// <param name="title"></param>
-        /// <returns> A new <see cref="Models.ResumeDataName"/> instance for mocking. </returns>
-        public static ResumeDataName ResumeDataName(string raw = null, string first = null, string last = null, string middle = null, string title = null)
-        {
-            return new ResumeDataName(raw, first, last, middle, title);
-        }
-
         /// <summary> Initializes a new instance of Location. </summary>
         /// <param name="formatted"></param>
         /// <param name="postalCode"></param>
@@ -129,18 +129,6 @@ namespace Affinda.API.Models
             return new Location(formatted, postalCode, state, country, countryCode, rawInput, streetNumber, street, apartmentNumber, city);
         }
 
-        /// <summary> Initializes a new instance of ResumeDataEducationItem. </summary>
-        /// <param name="organization"></param>
-        /// <param name="accreditation"></param>
-        /// <param name="grade"></param>
-        /// <param name="location"></param>
-        /// <param name="dates"></param>
-        /// <returns> A new <see cref="Models.ResumeDataEducationItem"/> instance for mocking. </returns>
-        public static ResumeDataEducationItem ResumeDataEducationItem(string organization = null, ResumeDataEducationItemAccreditation accreditation = null, ResumeDataEducationItemGrade grade = null, Location location = null, ResumeDataEducationItemDates dates = null)
-        {
-            return new ResumeDataEducationItem(organization, accreditation, grade, location, dates);
-        }
-
         /// <summary> Initializes a new instance of ResumeDataEducationItemAccreditation. </summary>
         /// <param name="education"></param>
         /// <param name="inputStr"></param>
@@ -152,27 +140,8 @@ namespace Affinda.API.Models
             return new ResumeDataEducationItemAccreditation(education, inputStr, matchStr, educationLevel);
         }
 
-        /// <summary> Initializes a new instance of ResumeDataEducationItemGrade. </summary>
-        /// <param name="raw"></param>
-        /// <param name="metric"></param>
-        /// <param name="value"></param>
-        /// <returns> A new <see cref="Models.ResumeDataEducationItemGrade"/> instance for mocking. </returns>
-        public static ResumeDataEducationItemGrade ResumeDataEducationItemGrade(string raw = null, string metric = null, string value = null)
-        {
-            return new ResumeDataEducationItemGrade(raw, metric, value);
-        }
-
-        /// <summary> Initializes a new instance of ResumeDataEducationItemDates. </summary>
-        /// <param name="completionDate"></param>
-        /// <param name="isCurrent"></param>
-        /// <param name="startDate"></param>
-        /// <returns> A new <see cref="Models.ResumeDataEducationItemDates"/> instance for mocking. </returns>
-        public static ResumeDataEducationItemDates ResumeDataEducationItemDates(DateTimeOffset? completionDate = null, bool? isCurrent = null, DateTimeOffset? startDate = null)
-        {
-            return new ResumeDataEducationItemDates(completionDate, isCurrent, startDate);
-        }
-
         /// <summary> Initializes a new instance of ResumeDataWorkExperienceItem. </summary>
+        /// <param name="id"></param>
         /// <param name="jobTitle"></param>
         /// <param name="organization"></param>
         /// <param name="location"></param>
@@ -180,20 +149,9 @@ namespace Affinda.API.Models
         /// <param name="dates"></param>
         /// <param name="occupation"></param>
         /// <returns> A new <see cref="Models.ResumeDataWorkExperienceItem"/> instance for mocking. </returns>
-        public static ResumeDataWorkExperienceItem ResumeDataWorkExperienceItem(string jobTitle = null, string organization = null, Location location = null, string jobDescription = null, ResumeDataWorkExperienceItemDates dates = null, ResumeDataWorkExperienceItemOccupation occupation = null)
+        public static ResumeDataWorkExperienceItem ResumeDataWorkExperienceItem(int? id = null, string jobTitle = null, string organization = null, Location location = null, string jobDescription = null, ResumeDataWorkExperienceItemDates dates = null, ResumeDataWorkExperienceItemOccupation occupation = null)
         {
-            return new ResumeDataWorkExperienceItem(jobTitle, organization, location, jobDescription, dates, occupation);
-        }
-
-        /// <summary> Initializes a new instance of ResumeDataWorkExperienceItemDates. </summary>
-        /// <param name="startDate"></param>
-        /// <param name="endDate"></param>
-        /// <param name="monthsInPosition"></param>
-        /// <param name="isCurrent"></param>
-        /// <returns> A new <see cref="Models.ResumeDataWorkExperienceItemDates"/> instance for mocking. </returns>
-        public static ResumeDataWorkExperienceItemDates ResumeDataWorkExperienceItemDates(DateTimeOffset? startDate = null, DateTimeOffset? endDate = null, int? monthsInPosition = null, bool? isCurrent = null)
-        {
-            return new ResumeDataWorkExperienceItemDates(startDate, endDate, monthsInPosition, isCurrent);
+            return new ResumeDataWorkExperienceItem(id, jobTitle, organization, location, jobDescription, dates, occupation);
         }
 
         /// <summary> Initializes a new instance of ResumeDataWorkExperienceItemOccupation. </summary>
@@ -220,17 +178,18 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of ResumeDataSkillsItem. </summary>
+        /// <param name="id"></param>
         /// <param name="name"></param>
         /// <param name="lastUsed"></param>
         /// <param name="numberOfMonths"></param>
         /// <param name="type"></param>
         /// <param name="sources"></param>
         /// <returns> A new <see cref="Models.ResumeDataSkillsItem"/> instance for mocking. </returns>
-        public static ResumeDataSkillsItem ResumeDataSkillsItem(string name = null, string lastUsed = null, int? numberOfMonths = null, string type = null, IEnumerable<ResumeDataSkillsPropertiesItemsItem> sources = null)
+        public static ResumeDataSkillsItem ResumeDataSkillsItem(int? id = null, string name = null, string lastUsed = null, int? numberOfMonths = null, string type = null, IEnumerable<ResumeDataSkillsPropertiesItemsItem> sources = null)
         {
             sources ??= new List<ResumeDataSkillsPropertiesItemsItem>();
 
-            return new ResumeDataSkillsItem(name, lastUsed, numberOfMonths, type, sources?.ToList());
+            return new ResumeDataSkillsItem(id, name, lastUsed, numberOfMonths, type, sources?.ToList());
         }
 
         /// <summary> Initializes a new instance of ResumeDataSkillsPropertiesItemsItem. </summary>
@@ -240,17 +199,6 @@ namespace Affinda.API.Models
         public static ResumeDataSkillsPropertiesItemsItem ResumeDataSkillsPropertiesItemsItem(string section = null, int? position = null)
         {
             return new ResumeDataSkillsPropertiesItemsItem(section, position);
-        }
-
-        /// <summary> Initializes a new instance of ResumeDataRefereesItem. </summary>
-        /// <param name="name"></param>
-        /// <param name="text"></param>
-        /// <param name="email"></param>
-        /// <param name="number"></param>
-        /// <returns> A new <see cref="Models.ResumeDataRefereesItem"/> instance for mocking. </returns>
-        public static ResumeDataRefereesItem ResumeDataRefereesItem(string name = null, string text = null, string email = null, string number = null)
-        {
-            return new ResumeDataRefereesItem(name, text, email, number);
         }
 
         /// <summary> Initializes a new instance of ResumeDataSectionsItem. </summary>
@@ -360,10 +308,11 @@ namespace Affinda.API.Models
         /// <param name="location"></param>
         /// <param name="education"></param>
         /// <param name="occupationGroup"></param>
+        /// <param name="searchExpression"></param>
         /// <returns> A new <see cref="Models.ResumeSearchResult"/> instance for mocking. </returns>
-        public static ResumeSearchResult ResumeSearchResult(string identifier = null, float score = default, string pdf = null, string name = null, ResumeSearchScoreComponent jobTitle = null, ResumeSearchScoreComponent managementLevel = null, ResumeSearchScoreComponent experience = null, ResumeSearchScoreComponent skills = null, ResumeSearchScoreComponent languages = null, ResumeSearchScoreComponent location = null, ResumeSearchScoreComponent education = null, ResumeSearchScoreComponent occupationGroup = null)
+        public static ResumeSearchResult ResumeSearchResult(string identifier = null, float score = default, string pdf = null, string name = null, ResumeSearchScoreComponent jobTitle = null, ResumeSearchScoreComponent managementLevel = null, ResumeSearchScoreComponent experience = null, ResumeSearchScoreComponent skills = null, ResumeSearchScoreComponent languages = null, ResumeSearchScoreComponent location = null, ResumeSearchScoreComponent education = null, ResumeSearchScoreComponent occupationGroup = null, ResumeSearchScoreComponent searchExpression = null)
         {
-            return new ResumeSearchResult(identifier, score, pdf, name, jobTitle, managementLevel, experience, skills, languages, location, education, occupationGroup);
+            return new ResumeSearchResult(identifier, score, pdf, name, jobTitle, managementLevel, experience, skills, languages, location, education, occupationGroup, searchExpression);
         }
 
         /// <summary> Initializes a new instance of ResumeSearchScoreComponent. </summary>
@@ -374,6 +323,314 @@ namespace Affinda.API.Models
         public static ResumeSearchScoreComponent ResumeSearchScoreComponent(string label = null, string value = null, float? score = null)
         {
             return new ResumeSearchScoreComponent(label, value, score);
+        }
+
+        /// <summary> Initializes a new instance of ResumeSearchDetail. </summary>
+        /// <param name="jobTitle"></param>
+        /// <param name="location"></param>
+        /// <param name="education"></param>
+        /// <param name="skills"></param>
+        /// <param name="experience"></param>
+        /// <param name="occupationGroup"></param>
+        /// <param name="languages"></param>
+        /// <param name="managementLevel"></param>
+        /// <param name="searchExpression"></param>
+        /// <returns> A new <see cref="Models.ResumeSearchDetail"/> instance for mocking. </returns>
+        public static ResumeSearchDetail ResumeSearchDetail(ResumeSearchDetailJobTitle jobTitle = null, ResumeSearchDetailLocation location = null, ResumeSearchDetailEducation education = null, ResumeSearchDetailSkills skills = null, ResumeSearchDetailExperience experience = null, ResumeSearchDetailOccupationGroup occupationGroup = null, ResumeSearchDetailLanguages languages = null, ResumeSearchDetailManagementLevel managementLevel = null, ResumeSearchDetailSearchExpression searchExpression = null)
+        {
+            return new ResumeSearchDetail(jobTitle, location, education, skills, experience, occupationGroup, languages, managementLevel, searchExpression);
+        }
+
+        /// <summary> Initializes a new instance of ResumeSearchDetailJobTitle. </summary>
+        /// <param name="missing"></param>
+        /// <param name="value"></param>
+        /// <returns> A new <see cref="Models.ResumeSearchDetailJobTitle"/> instance for mocking. </returns>
+        public static ResumeSearchDetailJobTitle ResumeSearchDetailJobTitle(IEnumerable<string> missing = null, IEnumerable<ResumeSearchDetailJobTitleValueItem> value = null)
+        {
+            missing ??= new List<string>();
+            value ??= new List<ResumeSearchDetailJobTitleValueItem>();
+
+            return new ResumeSearchDetailJobTitle(missing?.ToList(), value?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of ResumeSearchDetailJobTitleValueItem. </summary>
+        /// <param name="name"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <param name="companyName"></param>
+        /// <param name="match"></param>
+        /// <returns> A new <see cref="Models.ResumeSearchDetailJobTitleValueItem"/> instance for mocking. </returns>
+        public static ResumeSearchDetailJobTitleValueItem ResumeSearchDetailJobTitleValueItem(string name = null, string startDate = null, string endDate = null, string companyName = null, bool? match = null)
+        {
+            return new ResumeSearchDetailJobTitleValueItem(name, startDate, endDate, companyName, match);
+        }
+
+        /// <summary> Initializes a new instance of ResumeSearchDetailLocation. </summary>
+        /// <param name="missing"></param>
+        /// <param name="value"></param>
+        /// <returns> A new <see cref="Models.ResumeSearchDetailLocation"/> instance for mocking. </returns>
+        public static ResumeSearchDetailLocation ResumeSearchDetailLocation(IEnumerable<ResumeSearchParametersLocation> missing = null, ResumeSearchDetailLocationValue value = null)
+        {
+            missing ??= new List<ResumeSearchParametersLocation>();
+
+            return new ResumeSearchDetailLocation(missing?.ToList(), value);
+        }
+
+        /// <summary> Initializes a new instance of ResumeSearchDetailEducation. </summary>
+        /// <param name="missing"></param>
+        /// <param name="value"></param>
+        /// <returns> A new <see cref="Models.ResumeSearchDetailEducation"/> instance for mocking. </returns>
+        public static ResumeSearchDetailEducation ResumeSearchDetailEducation(ResumeSearchDetailEducationMissing missing = null, IEnumerable<ResumeSearchDetailEducationValueItem> value = null)
+        {
+            value ??= new List<ResumeSearchDetailEducationValueItem>();
+
+            return new ResumeSearchDetailEducation(missing, value?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of ResumeSearchDetailEducationMissing. </summary>
+        /// <param name="degrees"></param>
+        /// <param name="highestDegreeTypes"></param>
+        /// <param name="institutions"></param>
+        /// <param name="currentStudent"></param>
+        /// <param name="recentGraduate"></param>
+        /// <returns> A new <see cref="Models.ResumeSearchDetailEducationMissing"/> instance for mocking. </returns>
+        public static ResumeSearchDetailEducationMissing ResumeSearchDetailEducationMissing(IEnumerable<string> degrees = null, IEnumerable<string> highestDegreeTypes = null, IEnumerable<string> institutions = null, bool? currentStudent = null, bool? recentGraduate = null)
+        {
+            degrees ??= new List<string>();
+            highestDegreeTypes ??= new List<string>();
+            institutions ??= new List<string>();
+
+            return new ResumeSearchDetailEducationMissing(degrees?.ToList(), highestDegreeTypes?.ToList(), institutions?.ToList(), currentStudent, recentGraduate);
+        }
+
+        /// <summary> Initializes a new instance of ResumeSearchDetailEducationValueItem. </summary>
+        /// <param name="organization"></param>
+        /// <param name="accreditation"></param>
+        /// <param name="grade"></param>
+        /// <param name="location"></param>
+        /// <param name="dates"></param>
+        /// <param name="match"></param>
+        /// <returns> A new <see cref="Models.ResumeSearchDetailEducationValueItem"/> instance for mocking. </returns>
+        public static ResumeSearchDetailEducationValueItem ResumeSearchDetailEducationValueItem(string organization = null, Accreditation accreditation = null, string grade = null, Location location = null, EducationDates dates = null, bool? match = null)
+        {
+            return new ResumeSearchDetailEducationValueItem(organization, accreditation, grade, location, dates, match);
+        }
+
+        /// <summary> Initializes a new instance of Education. </summary>
+        /// <param name="organization"></param>
+        /// <param name="accreditation"></param>
+        /// <param name="grade"></param>
+        /// <param name="location"></param>
+        /// <param name="dates"></param>
+        /// <returns> A new <see cref="Models.Education"/> instance for mocking. </returns>
+        public static Education Education(string organization = null, Accreditation accreditation = null, string grade = null, Location location = null, EducationDates dates = null)
+        {
+            return new Education(organization, accreditation, grade, location, dates);
+        }
+
+        /// <summary> Initializes a new instance of Accreditation. </summary>
+        /// <param name="education"></param>
+        /// <param name="educationLevel"></param>
+        /// <param name="inputStr"></param>
+        /// <param name="matchStr"></param>
+        /// <returns> A new <see cref="Models.Accreditation"/> instance for mocking. </returns>
+        public static Accreditation Accreditation(string education = null, string educationLevel = null, string inputStr = null, string matchStr = null)
+        {
+            return new Accreditation(education, educationLevel, inputStr, matchStr);
+        }
+
+        /// <summary> Initializes a new instance of EducationDates. </summary>
+        /// <param name="startDate"></param>
+        /// <param name="completionDate"></param>
+        /// <param name="isCurrent"></param>
+        /// <returns> A new <see cref="Models.EducationDates"/> instance for mocking. </returns>
+        public static EducationDates EducationDates(string startDate = null, string completionDate = null, bool? isCurrent = null)
+        {
+            return new EducationDates(startDate, completionDate, isCurrent);
+        }
+
+        /// <summary> Initializes a new instance of ComponentsSxu0N3SchemasResumesearchdetailPropertiesEducationPropertiesValueItemsAllof1. </summary>
+        /// <param name="match"></param>
+        /// <returns> A new <see cref="Models.ComponentsSxu0N3SchemasResumesearchdetailPropertiesEducationPropertiesValueItemsAllof1"/> instance for mocking. </returns>
+        public static ComponentsSxu0N3SchemasResumesearchdetailPropertiesEducationPropertiesValueItemsAllof1 ComponentsSxu0N3SchemasResumesearchdetailPropertiesEducationPropertiesValueItemsAllof1(bool? match = null)
+        {
+            return new ComponentsSxu0N3SchemasResumesearchdetailPropertiesEducationPropertiesValueItemsAllof1(match);
+        }
+
+        /// <summary> Initializes a new instance of ResumeSearchDetailSkills. </summary>
+        /// <param name="missing"></param>
+        /// <param name="value"></param>
+        /// <returns> A new <see cref="Models.ResumeSearchDetailSkills"/> instance for mocking. </returns>
+        public static ResumeSearchDetailSkills ResumeSearchDetailSkills(IEnumerable<ResumeSearchParametersSkill> missing = null, IEnumerable<ResumeSearchDetailSkillsValueItem> value = null)
+        {
+            missing ??= new List<ResumeSearchParametersSkill>();
+            value ??= new List<ResumeSearchDetailSkillsValueItem>();
+
+            return new ResumeSearchDetailSkills(missing?.ToList(), value?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of ResumeSearchDetailSkillsValueItem. </summary>
+        /// <param name="name"></param>
+        /// <param name="lastUsed"></param>
+        /// <param name="numberOfMonths"></param>
+        /// <param name="type"></param>
+        /// <param name="sources"></param>
+        /// <param name="match"></param>
+        /// <returns> A new <see cref="Models.ResumeSearchDetailSkillsValueItem"/> instance for mocking. </returns>
+        public static ResumeSearchDetailSkillsValueItem ResumeSearchDetailSkillsValueItem(string name = null, string lastUsed = null, int? numberOfMonths = null, string type = null, IEnumerable<ResumeSkillSourcesItem> sources = null, bool? match = null)
+        {
+            sources ??= new List<ResumeSkillSourcesItem>();
+
+            return new ResumeSearchDetailSkillsValueItem(name, lastUsed, numberOfMonths, type, sources?.ToList(), match);
+        }
+
+        /// <summary> Initializes a new instance of ResumeSkill. </summary>
+        /// <param name="name"></param>
+        /// <param name="lastUsed"></param>
+        /// <param name="numberOfMonths"></param>
+        /// <param name="type"></param>
+        /// <param name="sources"></param>
+        /// <returns> A new <see cref="Models.ResumeSkill"/> instance for mocking. </returns>
+        public static ResumeSkill ResumeSkill(string name = null, string lastUsed = null, int? numberOfMonths = null, string type = null, IEnumerable<ResumeSkillSourcesItem> sources = null)
+        {
+            sources ??= new List<ResumeSkillSourcesItem>();
+
+            return new ResumeSkill(name, lastUsed, numberOfMonths, type, sources?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of ResumeSkillSourcesItem. </summary>
+        /// <param name="section"></param>
+        /// <param name="position"></param>
+        /// <returns> A new <see cref="Models.ResumeSkillSourcesItem"/> instance for mocking. </returns>
+        public static ResumeSkillSourcesItem ResumeSkillSourcesItem(ResumeSkillSourcesItemSection? section = null, int? position = null)
+        {
+            return new ResumeSkillSourcesItem(section, position);
+        }
+
+        /// <summary> Initializes a new instance of ComponentsH65QjbSchemasResumesearchdetailPropertiesSkillsPropertiesValueItemsAllof1. </summary>
+        /// <param name="match"></param>
+        /// <returns> A new <see cref="Models.ComponentsH65QjbSchemasResumesearchdetailPropertiesSkillsPropertiesValueItemsAllof1"/> instance for mocking. </returns>
+        public static ComponentsH65QjbSchemasResumesearchdetailPropertiesSkillsPropertiesValueItemsAllof1 ComponentsH65QjbSchemasResumesearchdetailPropertiesSkillsPropertiesValueItemsAllof1(bool? match = null)
+        {
+            return new ComponentsH65QjbSchemasResumesearchdetailPropertiesSkillsPropertiesValueItemsAllof1(match);
+        }
+
+        /// <summary> Initializes a new instance of ResumeSearchDetailExperience. </summary>
+        /// <param name="years"></param>
+        /// <param name="match"></param>
+        /// <returns> A new <see cref="Models.ResumeSearchDetailExperience"/> instance for mocking. </returns>
+        public static ResumeSearchDetailExperience ResumeSearchDetailExperience(int? years = null, bool? match = null)
+        {
+            return new ResumeSearchDetailExperience(years, match);
+        }
+
+        /// <summary> Initializes a new instance of ResumeSearchDetailOccupationGroup. </summary>
+        /// <param name="missing"></param>
+        /// <param name="value"></param>
+        /// <returns> A new <see cref="Models.ResumeSearchDetailOccupationGroup"/> instance for mocking. </returns>
+        public static ResumeSearchDetailOccupationGroup ResumeSearchDetailOccupationGroup(IEnumerable<int> missing = null, IEnumerable<ResumeSearchDetailOccupationGroupValueItem> value = null)
+        {
+            missing ??= new List<int>();
+            value ??= new List<ResumeSearchDetailOccupationGroupValueItem>();
+
+            return new ResumeSearchDetailOccupationGroup(missing?.ToList(), value?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of ResumeSearchDetailOccupationGroupValueItem. </summary>
+        /// <param name="code"></param>
+        /// <param name="name"></param>
+        /// <param name="children"></param>
+        /// <param name="match"></param>
+        /// <returns> A new <see cref="Models.ResumeSearchDetailOccupationGroupValueItem"/> instance for mocking. </returns>
+        public static ResumeSearchDetailOccupationGroupValueItem ResumeSearchDetailOccupationGroupValueItem(int code = default, string name = null, IEnumerable<OccupationGroup> children = null, bool? match = null)
+        {
+            children ??= new List<OccupationGroup>();
+
+            return new ResumeSearchDetailOccupationGroupValueItem(code, name, children?.ToList(), match);
+        }
+
+        /// <summary> Initializes a new instance of OccupationGroup. </summary>
+        /// <param name="code"></param>
+        /// <param name="name"></param>
+        /// <param name="children"></param>
+        /// <returns> A new <see cref="Models.OccupationGroup"/> instance for mocking. </returns>
+        public static OccupationGroup OccupationGroup(int code = default, string name = null, IEnumerable<OccupationGroup> children = null)
+        {
+            children ??= new List<OccupationGroup>();
+
+            return new OccupationGroup(code, name, children?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of ComponentsK7P1F5SchemasResumesearchdetailPropertiesOccupationgroupPropertiesValueItemsAllof1. </summary>
+        /// <param name="match"></param>
+        /// <returns> A new <see cref="Models.ComponentsK7P1F5SchemasResumesearchdetailPropertiesOccupationgroupPropertiesValueItemsAllof1"/> instance for mocking. </returns>
+        public static ComponentsK7P1F5SchemasResumesearchdetailPropertiesOccupationgroupPropertiesValueItemsAllof1 ComponentsK7P1F5SchemasResumesearchdetailPropertiesOccupationgroupPropertiesValueItemsAllof1(bool? match = null)
+        {
+            return new ComponentsK7P1F5SchemasResumesearchdetailPropertiesOccupationgroupPropertiesValueItemsAllof1(match);
+        }
+
+        /// <summary> Initializes a new instance of ResumeSearchDetailLanguages. </summary>
+        /// <param name="missing"></param>
+        /// <param name="value"></param>
+        /// <returns> A new <see cref="Models.ResumeSearchDetailLanguages"/> instance for mocking. </returns>
+        public static ResumeSearchDetailLanguages ResumeSearchDetailLanguages(IEnumerable<ResumeSearchParametersSkill> missing = null, IEnumerable<ResumeSearchDetailLanguagesValueItem> value = null)
+        {
+            missing ??= new List<ResumeSearchParametersSkill>();
+            value ??= new List<ResumeSearchDetailLanguagesValueItem>();
+
+            return new ResumeSearchDetailLanguages(missing?.ToList(), value?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of ResumeSearchDetailLanguagesValueItem. </summary>
+        /// <param name="name"></param>
+        /// <param name="lastUsed"></param>
+        /// <param name="numberOfMonths"></param>
+        /// <param name="type"></param>
+        /// <param name="sources"></param>
+        /// <param name="match"></param>
+        /// <returns> A new <see cref="Models.ResumeSearchDetailLanguagesValueItem"/> instance for mocking. </returns>
+        public static ResumeSearchDetailLanguagesValueItem ResumeSearchDetailLanguagesValueItem(string name = null, string lastUsed = null, int? numberOfMonths = null, string type = null, IEnumerable<ResumeSkillSourcesItem> sources = null, bool? match = null)
+        {
+            sources ??= new List<ResumeSkillSourcesItem>();
+
+            return new ResumeSearchDetailLanguagesValueItem(name, lastUsed, numberOfMonths, type, sources?.ToList(), match);
+        }
+
+        /// <summary> Initializes a new instance of Components159Ji55SchemasResumesearchdetailPropertiesLanguagesPropertiesValueItemsAllof1. </summary>
+        /// <param name="match"></param>
+        /// <returns> A new <see cref="Models.Components159Ji55SchemasResumesearchdetailPropertiesLanguagesPropertiesValueItemsAllof1"/> instance for mocking. </returns>
+        public static Components159Ji55SchemasResumesearchdetailPropertiesLanguagesPropertiesValueItemsAllof1 Components159Ji55SchemasResumesearchdetailPropertiesLanguagesPropertiesValueItemsAllof1(bool? match = null)
+        {
+            return new Components159Ji55SchemasResumesearchdetailPropertiesLanguagesPropertiesValueItemsAllof1(match);
+        }
+
+        /// <summary> Initializes a new instance of ResumeSearchDetailManagementLevel. </summary>
+        /// <param name="level"></param>
+        /// <param name="match"></param>
+        /// <returns> A new <see cref="Models.ResumeSearchDetailManagementLevel"/> instance for mocking. </returns>
+        public static ResumeSearchDetailManagementLevel ResumeSearchDetailManagementLevel(ManagementLevel? level = null, bool? match = null)
+        {
+            return new ResumeSearchDetailManagementLevel(level, match);
+        }
+
+        /// <summary> Initializes a new instance of ResumeSearchDetailSearchExpression. </summary>
+        /// <param name="missing"></param>
+        /// <param name="value"></param>
+        /// <returns> A new <see cref="Models.ResumeSearchDetailSearchExpression"/> instance for mocking. </returns>
+        public static ResumeSearchDetailSearchExpression ResumeSearchDetailSearchExpression(IEnumerable<string> missing = null, IEnumerable<string> value = null)
+        {
+            missing ??= new List<string>();
+            value ??= new List<string>();
+
+            return new ResumeSearchDetailSearchExpression(missing?.ToList(), value?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of ResumeSearchMatch. </summary>
+        /// <param name="score"> The matching score between the provided resume and job description. </param>
+        /// <returns> A new <see cref="Models.ResumeSearchMatch"/> instance for mocking. </returns>
+        public static ResumeSearchMatch ResumeSearchMatch(float? score = null)
+        {
+            return new ResumeSearchMatch(score);
         }
 
         /// <summary> Initializes a new instance of GetAllJobDescriptionsResults. </summary>
@@ -647,6 +904,7 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of InvoiceData. </summary>
+        /// <param name="tables"></param>
         /// <param name="invoiceDate"></param>
         /// <param name="invoiceOrderDate"></param>
         /// <param name="paymentDateDue"></param>
@@ -683,9 +941,40 @@ namespace Affinda.API.Models
         /// <param name="supplierEmail"></param>
         /// <param name="supplierWebsite"></param>
         /// <returns> A new <see cref="Models.InvoiceData"/> instance for mocking. </returns>
-        public static InvoiceData InvoiceData(DateAnnotation invoiceDate = null, DateAnnotation invoiceOrderDate = null, DateAnnotation paymentDateDue = null, InvoiceDataPaymentAmountBase paymentAmountBase = null, InvoiceDataPaymentAmountTax paymentAmountTax = null, InvoiceDataPaymentAmountTotal paymentAmountTotal = null, InvoiceDataPaymentAmountPaid paymentAmountPaid = null, InvoiceDataPaymentAmountDue paymentAmountDue = null, InvoiceDataInvoiceNumber invoiceNumber = null, InvoiceDataInvoicePurchaseOrderNumber invoicePurchaseOrderNumber = null, InvoiceDataSupplierBusinessNumber supplierBusinessNumber = null, InvoiceDataCustomerNumber customerNumber = null, InvoiceDataCustomerBusinessNumber customerBusinessNumber = null, InvoiceDataPaymentReference paymentReference = null, InvoiceDataBankAccountNumber bankAccountNumber = null, InvoiceDataSupplierVAT supplierVAT = null, InvoiceDataCustomerVAT customerVAT = null, InvoiceDataBpayBillerCode bpayBillerCode = null, InvoiceDataBpayReference bpayReference = null, InvoiceDataBankSortCode bankSortCode = null, InvoiceDataBankIban bankIban = null, InvoiceDataBankSwift bankSwift = null, InvoiceDataBankBSB bankBSB = null, InvoiceDataCustomerContactName customerContactName = null, InvoiceDataCustomerCompanyName customerCompanyName = null, InvoiceDataSupplierCompanyName supplierCompanyName = null, LocationAnnotation customerBillingAddress = null, LocationAnnotation customerDeliveryAddress = null, LocationAnnotation supplierAddress = null, InvoiceDataCustomerPhoneNumber customerPhoneNumber = null, InvoiceDataSupplierPhoneNumber supplierPhoneNumber = null, InvoiceDataSupplierFax supplierFax = null, InvoiceDataCustomerEmail customerEmail = null, InvoiceDataSupplierEmail supplierEmail = null, InvoiceDataSupplierWebsite supplierWebsite = null)
+        public static InvoiceData InvoiceData(IEnumerable<InvoiceDataTablesItem> tables = null, DateAnnotation invoiceDate = null, DateAnnotation invoiceOrderDate = null, DateAnnotation paymentDateDue = null, InvoiceDataPaymentAmountBase paymentAmountBase = null, InvoiceDataPaymentAmountTax paymentAmountTax = null, InvoiceDataPaymentAmountTotal paymentAmountTotal = null, InvoiceDataPaymentAmountPaid paymentAmountPaid = null, InvoiceDataPaymentAmountDue paymentAmountDue = null, InvoiceDataInvoiceNumber invoiceNumber = null, InvoiceDataInvoicePurchaseOrderNumber invoicePurchaseOrderNumber = null, InvoiceDataSupplierBusinessNumber supplierBusinessNumber = null, InvoiceDataCustomerNumber customerNumber = null, InvoiceDataCustomerBusinessNumber customerBusinessNumber = null, InvoiceDataPaymentReference paymentReference = null, InvoiceDataBankAccountNumber bankAccountNumber = null, InvoiceDataSupplierVAT supplierVAT = null, InvoiceDataCustomerVAT customerVAT = null, InvoiceDataBpayBillerCode bpayBillerCode = null, InvoiceDataBpayReference bpayReference = null, InvoiceDataBankSortCode bankSortCode = null, InvoiceDataBankIban bankIban = null, InvoiceDataBankSwift bankSwift = null, InvoiceDataBankBSB bankBSB = null, InvoiceDataCustomerContactName customerContactName = null, InvoiceDataCustomerCompanyName customerCompanyName = null, InvoiceDataSupplierCompanyName supplierCompanyName = null, LocationAnnotation customerBillingAddress = null, LocationAnnotation customerDeliveryAddress = null, LocationAnnotation supplierAddress = null, InvoiceDataCustomerPhoneNumber customerPhoneNumber = null, InvoiceDataSupplierPhoneNumber supplierPhoneNumber = null, InvoiceDataSupplierFax supplierFax = null, InvoiceDataCustomerEmail customerEmail = null, InvoiceDataSupplierEmail supplierEmail = null, InvoiceDataSupplierWebsite supplierWebsite = null)
         {
-            return new InvoiceData(invoiceDate, invoiceOrderDate, paymentDateDue, paymentAmountBase, paymentAmountTax, paymentAmountTotal, paymentAmountPaid, paymentAmountDue, invoiceNumber, invoicePurchaseOrderNumber, supplierBusinessNumber, customerNumber, customerBusinessNumber, paymentReference, bankAccountNumber, supplierVAT, customerVAT, bpayBillerCode, bpayReference, bankSortCode, bankIban, bankSwift, bankBSB, customerContactName, customerCompanyName, supplierCompanyName, customerBillingAddress, customerDeliveryAddress, supplierAddress, customerPhoneNumber, supplierPhoneNumber, supplierFax, customerEmail, supplierEmail, supplierWebsite);
+            tables ??= new List<InvoiceDataTablesItem>();
+
+            return new InvoiceData(tables?.ToList(), invoiceDate, invoiceOrderDate, paymentDateDue, paymentAmountBase, paymentAmountTax, paymentAmountTotal, paymentAmountPaid, paymentAmountDue, invoiceNumber, invoicePurchaseOrderNumber, supplierBusinessNumber, customerNumber, customerBusinessNumber, paymentReference, bankAccountNumber, supplierVAT, customerVAT, bpayBillerCode, bpayReference, bankSortCode, bankIban, bankSwift, bankBSB, customerContactName, customerCompanyName, supplierCompanyName, customerBillingAddress, customerDeliveryAddress, supplierAddress, customerPhoneNumber, supplierPhoneNumber, supplierFax, customerEmail, supplierEmail, supplierWebsite);
+        }
+
+        /// <summary> Initializes a new instance of InvoiceDataTablesItem. </summary>
+        /// <param name="rows"></param>
+        /// <returns> A new <see cref="Models.InvoiceDataTablesItem"/> instance for mocking. </returns>
+        public static InvoiceDataTablesItem InvoiceDataTablesItem(IEnumerable<RowAnnotation> rows = null)
+        {
+            rows ??= new List<RowAnnotation>();
+
+            return new InvoiceDataTablesItem(rows?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of RowAnnotation. </summary>
+        /// <param name="code"></param>
+        /// <param name="date"></param>
+        /// <param name="description"></param>
+        /// <param name="unit"></param>
+        /// <param name="unitPrice"></param>
+        /// <param name="quantity"></param>
+        /// <param name="discount"></param>
+        /// <param name="baseTotal"></param>
+        /// <param name="taxRate"></param>
+        /// <param name="taxTotal"></param>
+        /// <param name="total"></param>
+        /// <param name="other"></param>
+        /// <returns> A new <see cref="Models.RowAnnotation"/> instance for mocking. </returns>
+        public static RowAnnotation RowAnnotation(string code = null, string date = null, string description = null, string unit = null, float? unitPrice = null, float? quantity = null, string discount = null, float? baseTotal = null, string taxRate = null, float? taxTotal = null, float? total = null, string other = null)
+        {
+            return new RowAnnotation(code, date, description, unit, unitPrice, quantity, discount, baseTotal, taxRate, taxTotal, total, other);
         }
 
         /// <summary> Initializes a new instance of ComponentsTz04ToSchemasInvoicedataPropertiesPaymentamountbaseAllof2. </summary>
@@ -971,16 +1260,48 @@ namespace Affinda.API.Models
             return new Components17Ashz6SchemasInvoicePropertiesMetaAllof1(reviewUrl);
         }
 
-        /// <summary> Initializes a new instance of OccupationGroup. </summary>
-        /// <param name="code"></param>
-        /// <param name="name"></param>
-        /// <param name="children"></param>
-        /// <returns> A new <see cref="Models.OccupationGroup"/> instance for mocking. </returns>
-        public static OccupationGroup OccupationGroup(int code = default, string name = null, IEnumerable<OccupationGroup> children = null)
+        /// <summary> Initializes a new instance of PathsWjaaeuUsersGetResponses200ContentApplicationJsonSchema. </summary>
+        /// <param name="count"> Number of indexes in result. </param>
+        /// <param name="next"> URL to request next page of results. </param>
+        /// <param name="previous"> URL to request previous page of results. </param>
+        /// <param name="results"></param>
+        /// <returns> A new <see cref="Models.PathsWjaaeuUsersGetResponses200ContentApplicationJsonSchema"/> instance for mocking. </returns>
+        public static PathsWjaaeuUsersGetResponses200ContentApplicationJsonSchema PathsWjaaeuUsersGetResponses200ContentApplicationJsonSchema(int? count = null, string next = null, string previous = null, IEnumerable<User> results = null)
         {
-            children ??= new List<OccupationGroup>();
+            results ??= new List<User>();
 
-            return new OccupationGroup(code, name, children?.ToList());
+            return new PathsWjaaeuUsersGetResponses200ContentApplicationJsonSchema(count, next, previous, results?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of User. </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="username"></param>
+        /// <param name="email"></param>
+        /// <returns> A new <see cref="Models.User"/> instance for mocking. </returns>
+        public static User User(string id = null, string name = null, string username = null, string email = null)
+        {
+            return new User(id, name, username, email);
+        }
+
+        /// <summary> Initializes a new instance of PathsTop5ZkUsersPostResponses201ContentApplicationJsonSchema. </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="username"></param>
+        /// <param name="email"></param>
+        /// <param name="apiKey"> API key used to authenticate for future requests.  This key is only retrievable at the initial creation of the user. </param>
+        /// <returns> A new <see cref="Models.PathsTop5ZkUsersPostResponses201ContentApplicationJsonSchema"/> instance for mocking. </returns>
+        public static PathsTop5ZkUsersPostResponses201ContentApplicationJsonSchema PathsTop5ZkUsersPostResponses201ContentApplicationJsonSchema(string id = null, string name = null, string username = null, string email = null, string apiKey = null)
+        {
+            return new PathsTop5ZkUsersPostResponses201ContentApplicationJsonSchema(id, name, username, email, apiKey);
+        }
+
+        /// <summary> Initializes a new instance of Paths1Y6A2MfUsersPostResponses201ContentApplicationJsonSchemaAllof1. </summary>
+        /// <param name="apiKey"> API key used to authenticate for future requests.  This key is only retrievable at the initial creation of the user. </param>
+        /// <returns> A new <see cref="Models.Paths1Y6A2MfUsersPostResponses201ContentApplicationJsonSchemaAllof1"/> instance for mocking. </returns>
+        public static Paths1Y6A2MfUsersPostResponses201ContentApplicationJsonSchemaAllof1 Paths1Y6A2MfUsersPostResponses201ContentApplicationJsonSchemaAllof1(string apiKey = null)
+        {
+            return new Paths1Y6A2MfUsersPostResponses201ContentApplicationJsonSchemaAllof1(apiKey);
         }
     }
 }

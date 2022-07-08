@@ -68,3 +68,6 @@ using (FileStream fs = File.OpenRead(resumePath))
     var resume = client.CreateResume(file: fs);
 }
 ```
+
+Users
+-----

@@ -6,6 +6,7 @@
 #nullable disable
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Threading;
@@ -21,6 +22,8 @@ namespace Affinda.API
     {
         private readonly HttpPipeline _pipeline;
         private readonly Uri _endpoint;
+        private readonly int? _offset;
+        private readonly int? _limit;
 
         /// <summary> The ClientDiagnostics is used to provide tracing support for the client library. </summary>
         internal ClientDiagnostics ClientDiagnostics { get; }
@@ -29,15 +32,19 @@ namespace Affinda.API
         /// <param name="clientDiagnostics"> The handler for diagnostic messaging in the client. </param>
         /// <param name="pipeline"> The HTTP pipeline for sending and receiving REST requests and responses. </param>
         /// <param name="endpoint"> server parameter. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="clientDiagnostics"/> or <paramref name="pipeline"/> is null. </exception>
-        public AffindaAPIRestClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, Uri endpoint = null)
+        public AffindaAPIRestClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, Uri endpoint = null, int? offset = null, int? limit = null)
         {
             ClientDiagnostics = clientDiagnostics ?? throw new ArgumentNullException(nameof(clientDiagnostics));
             _pipeline = pipeline ?? throw new ArgumentNullException(nameof(pipeline));
             _endpoint = endpoint ?? new Uri("https://api.affinda.com/v2");
+            _offset = offset;
+            _limit = limit;
         }
 
-        internal HttpMessage CreateGetAllResumesRequest(int? offset, int? limit)
+        internal HttpMessage CreateGetAllResumesRequest()
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -45,13 +52,13 @@ namespace Affinda.API
             var uri = new RawRequestUriBuilder();
             uri.Reset(_endpoint);
             uri.AppendPath("/resumes", false);
-            if (offset != null)
+            if (_offset != null)
             {
-                uri.AppendQuery("offset", offset.Value, true);
+                uri.AppendQuery("offset", _offset.Value, true);
             }
-            if (limit != null)
+            if (_limit != null)
             {
-                uri.AppendQuery("limit", limit.Value, true);
+                uri.AppendQuery("limit", _limit.Value, true);
             }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -59,12 +66,10 @@ namespace Affinda.API
         }
 
         /// <summary> Returns all the resume summaries for that user, limited to 300 per page. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<object>> GetAllResumesAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public async Task<Response<object>> GetAllResumesAsync(CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllResumesRequest(offset, limit);
+            using var message = CreateGetAllResumesRequest();
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -77,7 +82,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -90,12 +94,10 @@ namespace Affinda.API
         }
 
         /// <summary> Returns all the resume summaries for that user, limited to 300 per page. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<object> GetAllResumes(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public Response<object> GetAllResumes(CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllResumesRequest(offset, limit);
+            using var message = CreateGetAllResumesRequest();
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -108,7 +110,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
@@ -120,7 +121,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateCreateResumeRequest(Stream file, string identifier, string fileName, string url, string wait, string language, string expiryTime)
+        internal HttpMessage CreateCreateResumeRequest(Stream file, string url, string data, string identifier, string fileName, string wait, string language, string expiryTime)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -136,6 +137,14 @@ namespace Affinda.API
             {
                 content.Add(RequestContent.Create(file), "file", fileName ?? "null.pdf" , null);
             }
+            if (url != null)
+            {
+                content.Add(new StringRequestContent(url), "url", null);
+            }
+            if (data != null)
+            {
+                content.Add(new StringRequestContent(data), "data", null);
+            }
             if (identifier != null)
             {
                 content.Add(new StringRequestContent(identifier), "identifier", null);
@@ -143,10 +152,6 @@ namespace Affinda.API
             if (fileName != null)
             {
                 content.Add(new StringRequestContent(fileName), "fileName", null);
-            }
-            if (url != null)
-            {
-                content.Add(new StringRequestContent(url), "url", null);
             }
             if (wait != null)
             {
@@ -166,19 +171,22 @@ namespace Affinda.API
 
         /// <summary>
         /// Uploads a resume for parsing.
+        /// Provide `file` for uploading a resume file, or `url` for getting resume file from an url, or `data` if you want to upload resume data directly without parsing any resume file.
+        /// For uploading resume data, the `data` argument provided must be a JSON-encoded string.
         /// When successful, returns an `identifier` in the response for subsequent use with the [/resumes/{identifier}](#operation/getResume) endpoint to check processing status and retrieve results.
         /// </summary>
         /// <param name="file"> The binary to use. </param>
+        /// <param name="url"> The UrlToProcess to use. </param>
+        /// <param name="data"> A JSON-encoded string of the `ResumeData` object. </param>
         /// <param name="identifier"> The Identifier to use. </param>
         /// <param name="fileName"> The FileName to use. </param>
-        /// <param name="url"> The UrlToProcess to use. </param>
         /// <param name="wait"> The Wait to use. </param>
         /// <param name="language"> The Language to use. </param>
         /// <param name="expiryTime"> The ExpiryTime to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<object>> CreateResumeAsync(Stream file = null, string identifier = null, string fileName = null, string url = null, string wait = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public async Task<Response<object>> CreateResumeAsync(Stream file = null, string url = null, string data = null, string identifier = null, string fileName = null, string wait = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateResumeRequest(file, identifier, fileName, url, wait, language, expiryTime);
+            using var message = CreateCreateResumeRequest(file, url, data, identifier, fileName, wait, language, expiryTime);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -192,7 +200,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -206,19 +213,22 @@ namespace Affinda.API
 
         /// <summary>
         /// Uploads a resume for parsing.
+        /// Provide `file` for uploading a resume file, or `url` for getting resume file from an url, or `data` if you want to upload resume data directly without parsing any resume file.
+        /// For uploading resume data, the `data` argument provided must be a JSON-encoded string.
         /// When successful, returns an `identifier` in the response for subsequent use with the [/resumes/{identifier}](#operation/getResume) endpoint to check processing status and retrieve results.
         /// </summary>
         /// <param name="file"> The binary to use. </param>
+        /// <param name="url"> The UrlToProcess to use. </param>
+        /// <param name="data"> A JSON-encoded string of the `ResumeData` object. </param>
         /// <param name="identifier"> The Identifier to use. </param>
         /// <param name="fileName"> The FileName to use. </param>
-        /// <param name="url"> The UrlToProcess to use. </param>
         /// <param name="wait"> The Wait to use. </param>
         /// <param name="language"> The Language to use. </param>
         /// <param name="expiryTime"> The ExpiryTime to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<object> CreateResume(Stream file = null, string identifier = null, string fileName = null, string url = null, string wait = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public Response<object> CreateResume(Stream file = null, string url = null, string data = null, string identifier = null, string fileName = null, string wait = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateResumeRequest(file, identifier, fileName, url, wait, language, expiryTime);
+            using var message = CreateCreateResumeRequest(file, url, data, identifier, fileName, wait, language, expiryTime);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -232,7 +242,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
@@ -285,7 +294,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -324,7 +332,127 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateUpdateResumeDataRequest(string identifier, ResumeData body)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Patch;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(_endpoint);
+            uri.AppendPath("/resumes/", false);
+            uri.AppendPath(identifier, true);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            if (body != null)
+            {
+                request.Headers.Add("Content-Type", "application/json");
+                var content = new Utf8JsonRequestContent();
+                content.JsonWriter.WriteObjectValue(body);
+                request.Content = content;
+            }
+            return message;
+        }
+
+        /// <summary>
+        /// Update data of a parsed resume.
+        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/resumes](#operation/createResume) endpoint.
+        /// </summary>
+        /// <param name="identifier"> Resume identifier. </param>
+        /// <param name="body"> Resume data to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
+        public async Task<Response<object>> UpdateResumeDataAsync(string identifier, ResumeData body, CancellationToken cancellationToken = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateUpdateResumeDataRequest(identifier, body);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ResumeData value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = ResumeData.DeserializeResumeData(document.RootElement);
+                        }
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                    {
+                        RequestError value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// Update data of a parsed resume.
+        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/resumes](#operation/createResume) endpoint.
+        /// </summary>
+        /// <param name="identifier"> Resume identifier. </param>
+        /// <param name="body"> Resume data to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
+        public Response<object> UpdateResumeData(string identifier, ResumeData body, CancellationToken cancellationToken = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateUpdateResumeDataRequest(identifier, body);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ResumeData value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = ResumeData.DeserializeResumeData(document.RootElement);
+                        }
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
                     {
                         RequestError value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
@@ -369,7 +497,6 @@ namespace Affinda.API
                     return Response.FromValue((RequestError)null, message.Response);
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -400,7 +527,6 @@ namespace Affinda.API
                     return Response.FromValue((RequestError)null, message.Response);
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
@@ -412,7 +538,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllRedactedResumesRequest(int? offset, int? limit)
+        internal HttpMessage CreateGetAllRedactedResumesRequest()
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -420,13 +546,13 @@ namespace Affinda.API
             var uri = new RawRequestUriBuilder();
             uri.Reset(_endpoint);
             uri.AppendPath("/redacted_resumes", false);
-            if (offset != null)
+            if (_offset != null)
             {
-                uri.AppendQuery("offset", offset.Value, true);
+                uri.AppendQuery("offset", _offset.Value, true);
             }
-            if (limit != null)
+            if (_limit != null)
             {
-                uri.AppendQuery("limit", limit.Value, true);
+                uri.AppendQuery("limit", _limit.Value, true);
             }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -434,12 +560,10 @@ namespace Affinda.API
         }
 
         /// <summary> Returns all the redacted resume information for that resume. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<object>> GetAllRedactedResumesAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public async Task<Response<object>> GetAllRedactedResumesAsync(CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllRedactedResumesRequest(offset, limit);
+            using var message = CreateGetAllRedactedResumesRequest();
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -452,7 +576,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -465,12 +588,10 @@ namespace Affinda.API
         }
 
         /// <summary> Returns all the redacted resume information for that resume. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<object> GetAllRedactedResumes(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public Response<object> GetAllRedactedResumes(CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllRedactedResumesRequest(offset, limit);
+            using var message = CreateGetAllRedactedResumesRequest();
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -483,7 +604,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
@@ -604,7 +724,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -649,7 +768,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
@@ -702,7 +820,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -741,7 +858,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
@@ -786,7 +902,6 @@ namespace Affinda.API
                     return Response.FromValue((RequestError)null, message.Response);
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -817,7 +932,6 @@ namespace Affinda.API
                     return Response.FromValue((RequestError)null, message.Response);
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
@@ -829,7 +943,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllResumeFormatsRequest(int? offset, int? limit)
+        internal HttpMessage CreateGetAllResumeFormatsRequest()
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -837,13 +951,13 @@ namespace Affinda.API
             var uri = new RawRequestUriBuilder();
             uri.Reset(_endpoint);
             uri.AppendPath("/resume_formats", false);
-            if (offset != null)
+            if (_offset != null)
             {
-                uri.AppendQuery("offset", offset.Value, true);
+                uri.AppendQuery("offset", _offset.Value, true);
             }
-            if (limit != null)
+            if (_limit != null)
             {
-                uri.AppendQuery("limit", limit.Value, true);
+                uri.AppendQuery("limit", _limit.Value, true);
             }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -851,12 +965,10 @@ namespace Affinda.API
         }
 
         /// <summary> Returns all the resume formats. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<object>> GetAllResumeFormatsAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public async Task<Response<object>> GetAllResumeFormatsAsync(CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllResumeFormatsRequest(offset, limit);
+            using var message = CreateGetAllResumeFormatsRequest();
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -869,7 +981,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -882,12 +993,10 @@ namespace Affinda.API
         }
 
         /// <summary> Returns all the resume formats. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<object> GetAllResumeFormats(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public Response<object> GetAllResumeFormats(CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllResumeFormatsRequest(offset, limit);
+            using var message = CreateGetAllResumeFormatsRequest();
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -900,7 +1009,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
@@ -912,7 +1020,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllReformattedResumesRequest(int? offset, int? limit)
+        internal HttpMessage CreateGetAllReformattedResumesRequest()
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -920,13 +1028,13 @@ namespace Affinda.API
             var uri = new RawRequestUriBuilder();
             uri.Reset(_endpoint);
             uri.AppendPath("/reformatted_resumes", false);
-            if (offset != null)
+            if (_offset != null)
             {
-                uri.AppendQuery("offset", offset.Value, true);
+                uri.AppendQuery("offset", _offset.Value, true);
             }
-            if (limit != null)
+            if (_limit != null)
             {
-                uri.AppendQuery("limit", limit.Value, true);
+                uri.AppendQuery("limit", _limit.Value, true);
             }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -934,12 +1042,10 @@ namespace Affinda.API
         }
 
         /// <summary> Returns all the reformatted resume information for that resume. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<object>> GetAllReformattedResumesAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public async Task<Response<object>> GetAllReformattedResumesAsync(CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllReformattedResumesRequest(offset, limit);
+            using var message = CreateGetAllReformattedResumesRequest();
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -952,7 +1058,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -965,12 +1070,10 @@ namespace Affinda.API
         }
 
         /// <summary> Returns all the reformatted resume information for that resume. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<object> GetAllReformattedResumes(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public Response<object> GetAllReformattedResumes(CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllReformattedResumesRequest(offset, limit);
+            using var message = CreateGetAllReformattedResumesRequest();
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -983,7 +1086,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
@@ -1067,7 +1169,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -1110,7 +1211,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
@@ -1163,7 +1263,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -1202,7 +1301,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
@@ -1247,7 +1345,6 @@ namespace Affinda.API
                     return Response.FromValue((RequestError)null, message.Response);
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -1278,7 +1375,6 @@ namespace Affinda.API
                     return Response.FromValue((RequestError)null, message.Response);
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
@@ -1290,7 +1386,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateCreateResumeSearchRequest(ResumeSearchParameters body, int? offset, int? limit)
+        internal HttpMessage CreateCreateResumeSearchRequest(ResumeSearchParameters body)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1298,13 +1394,13 @@ namespace Affinda.API
             var uri = new RawRequestUriBuilder();
             uri.Reset(_endpoint);
             uri.AppendPath("/resume_search", false);
-            if (offset != null)
+            if (_offset != null)
             {
-                uri.AppendQuery("offset", offset.Value, true);
+                uri.AppendQuery("offset", _offset.Value, true);
             }
-            if (limit != null)
+            if (_limit != null)
             {
-                uri.AppendQuery("limit", limit.Value, true);
+                uri.AppendQuery("limit", _limit.Value, true);
             }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -1318,20 +1414,22 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary> Searches through parsed resumes. </summary>
+        /// <summary>
+        /// Searches through parsed resumes. You can search with custom criterias, a job description, or a resume.
+        /// When searching with a job description, a parsed job description is used to find candidates that suit it.
+        /// When searching with a resume, a parsed resume is used to find other candidates that have similar attributes.
+        /// </summary>
         /// <param name="body"> Search parameters. </param>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
-        public async Task<Response<object>> CreateResumeSearchAsync(ResumeSearchParameters body, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public async Task<Response<object>> CreateResumeSearchAsync(ResumeSearchParameters body, CancellationToken cancellationToken = default)
         {
             if (body == null)
             {
                 throw new ArgumentNullException(nameof(body));
             }
 
-            using var message = CreateCreateResumeSearchRequest(body, offset, limit);
+            using var message = CreateCreateResumeSearchRequest(body);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1344,7 +1442,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -1356,20 +1453,22 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Searches through parsed resumes. </summary>
+        /// <summary>
+        /// Searches through parsed resumes. You can search with custom criterias, a job description, or a resume.
+        /// When searching with a job description, a parsed job description is used to find candidates that suit it.
+        /// When searching with a resume, a parsed resume is used to find other candidates that have similar attributes.
+        /// </summary>
         /// <param name="body"> Search parameters. </param>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
-        public Response<object> CreateResumeSearch(ResumeSearchParameters body, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public Response<object> CreateResumeSearch(ResumeSearchParameters body, CancellationToken cancellationToken = default)
         {
             if (body == null)
             {
                 throw new ArgumentNullException(nameof(body));
             }
 
-            using var message = CreateCreateResumeSearchRequest(body, offset, limit);
+            using var message = CreateCreateResumeSearchRequest(body);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -1382,7 +1481,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
@@ -1394,7 +1492,215 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllJobDescriptionsRequest(int? offset, int? limit)
+        internal HttpMessage CreateGetResumeSearchDetailRequest(string identifier, ResumeSearchParameters body)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(_endpoint);
+            uri.AppendPath("/resume_search/details/", false);
+            uri.AppendPath(identifier, true);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            if (body != null)
+            {
+                request.Headers.Add("Content-Type", "application/json");
+                var content = new Utf8JsonRequestContent();
+                content.JsonWriter.WriteObjectValue(body);
+                request.Content = content;
+            }
+            return message;
+        }
+
+        /// <summary>
+        /// This contains more detailed information about the matching score of the search criteria, or which search criteria is missing in this resume.
+        /// The `identifier` is the unique ID returned via the [/resume_search](#operation/createResumeSearch) endpoint.
+        /// </summary>
+        /// <param name="identifier"> Resume identifier. </param>
+        /// <param name="body"> Search parameters. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
+        public async Task<Response<object>> GetResumeSearchDetailAsync(string identifier, ResumeSearchParameters body, CancellationToken cancellationToken = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateGetResumeSearchDetailRequest(identifier, body);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ResumeSearchDetail value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = ResumeSearchDetail.DeserializeResumeSearchDetail(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                    {
+                        RequestError value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// This contains more detailed information about the matching score of the search criteria, or which search criteria is missing in this resume.
+        /// The `identifier` is the unique ID returned via the [/resume_search](#operation/createResumeSearch) endpoint.
+        /// </summary>
+        /// <param name="identifier"> Resume identifier. </param>
+        /// <param name="body"> Search parameters. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
+        public Response<object> GetResumeSearchDetail(string identifier, ResumeSearchParameters body, CancellationToken cancellationToken = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateGetResumeSearchDetailRequest(identifier, body);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ResumeSearchDetail value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = ResumeSearchDetail.DeserializeResumeSearchDetail(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                    {
+                        RequestError value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateGetResumeSearchMatchRequest(string resumeIdentifier, string jobDescriptionIdentifier, string indexName)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Get;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(_endpoint);
+            uri.AppendPath("/resume_search/match", false);
+            uri.AppendQuery("resume_identifier", resumeIdentifier, true);
+            uri.AppendQuery("job_description_identifier", jobDescriptionIdentifier, true);
+            if (indexName != null)
+            {
+                uri.AppendQuery("index_name", indexName, true);
+            }
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Get the matching score between a resume and a job description. The score ranges between 0 and 1, with 0 being not a match at all, and 1 being perfect match. </summary>
+        /// <param name="resumeIdentifier"> Identify the resume to match. </param>
+        /// <param name="jobDescriptionIdentifier"> Identify the job description to match. </param>
+        /// <param name="indexName"> Optionally, specify an index to search in. If not specified, will search in all indexes. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="resumeIdentifier"/> or <paramref name="jobDescriptionIdentifier"/> is null. </exception>
+        public async Task<Response<object>> GetResumeSearchMatchAsync(string resumeIdentifier, string jobDescriptionIdentifier, string indexName = null, CancellationToken cancellationToken = default)
+        {
+            if (resumeIdentifier == null)
+            {
+                throw new ArgumentNullException(nameof(resumeIdentifier));
+            }
+            if (jobDescriptionIdentifier == null)
+            {
+                throw new ArgumentNullException(nameof(jobDescriptionIdentifier));
+            }
+
+            using var message = CreateGetResumeSearchMatchRequest(resumeIdentifier, jobDescriptionIdentifier, indexName);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ResumeSearchMatch value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = ResumeSearchMatch.DeserializeResumeSearchMatch(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                    {
+                        RequestError value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Get the matching score between a resume and a job description. The score ranges between 0 and 1, with 0 being not a match at all, and 1 being perfect match. </summary>
+        /// <param name="resumeIdentifier"> Identify the resume to match. </param>
+        /// <param name="jobDescriptionIdentifier"> Identify the job description to match. </param>
+        /// <param name="indexName"> Optionally, specify an index to search in. If not specified, will search in all indexes. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="resumeIdentifier"/> or <paramref name="jobDescriptionIdentifier"/> is null. </exception>
+        public Response<object> GetResumeSearchMatch(string resumeIdentifier, string jobDescriptionIdentifier, string indexName = null, CancellationToken cancellationToken = default)
+        {
+            if (resumeIdentifier == null)
+            {
+                throw new ArgumentNullException(nameof(resumeIdentifier));
+            }
+            if (jobDescriptionIdentifier == null)
+            {
+                throw new ArgumentNullException(nameof(jobDescriptionIdentifier));
+            }
+
+            using var message = CreateGetResumeSearchMatchRequest(resumeIdentifier, jobDescriptionIdentifier, indexName);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ResumeSearchMatch value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = ResumeSearchMatch.DeserializeResumeSearchMatch(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                    {
+                        RequestError value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateGetAllJobDescriptionsRequest()
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1402,13 +1708,13 @@ namespace Affinda.API
             var uri = new RawRequestUriBuilder();
             uri.Reset(_endpoint);
             uri.AppendPath("/job_descriptions", false);
-            if (offset != null)
+            if (_offset != null)
             {
-                uri.AppendQuery("offset", offset.Value, true);
+                uri.AppendQuery("offset", _offset.Value, true);
             }
-            if (limit != null)
+            if (_limit != null)
             {
-                uri.AppendQuery("limit", limit.Value, true);
+                uri.AppendQuery("limit", _limit.Value, true);
             }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -1416,12 +1722,10 @@ namespace Affinda.API
         }
 
         /// <summary> Returns all the job descriptions for that user, limited to 300 per page. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<object>> GetAllJobDescriptionsAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public async Task<Response<object>> GetAllJobDescriptionsAsync(CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllJobDescriptionsRequest(offset, limit);
+            using var message = CreateGetAllJobDescriptionsRequest();
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1434,7 +1738,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -1447,12 +1750,10 @@ namespace Affinda.API
         }
 
         /// <summary> Returns all the job descriptions for that user, limited to 300 per page. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<object> GetAllJobDescriptions(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public Response<object> GetAllJobDescriptions(CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllJobDescriptionsRequest(offset, limit);
+            using var message = CreateGetAllJobDescriptionsRequest();
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -1465,7 +1766,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
@@ -1549,7 +1849,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -1589,7 +1888,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
@@ -1642,7 +1940,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -1681,7 +1978,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
@@ -1726,7 +2022,6 @@ namespace Affinda.API
                     return Response.FromValue((RequestError)null, message.Response);
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -1757,7 +2052,6 @@ namespace Affinda.API
                     return Response.FromValue((RequestError)null, message.Response);
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
@@ -1769,7 +2063,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllIndexesRequest(int? offset, int? limit)
+        internal HttpMessage CreateGetAllIndexesRequest()
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1777,13 +2071,13 @@ namespace Affinda.API
             var uri = new RawRequestUriBuilder();
             uri.Reset(_endpoint);
             uri.AppendPath("/index", false);
-            if (offset != null)
+            if (_offset != null)
             {
-                uri.AppendQuery("offset", offset.Value, true);
+                uri.AppendQuery("offset", _offset.Value, true);
             }
-            if (limit != null)
+            if (_limit != null)
             {
-                uri.AppendQuery("limit", limit.Value, true);
+                uri.AppendQuery("limit", _limit.Value, true);
             }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -1791,12 +2085,10 @@ namespace Affinda.API
         }
 
         /// <summary> Returns all the indexes. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<object>> GetAllIndexesAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public async Task<Response<object>> GetAllIndexesAsync(CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllIndexesRequest(offset, limit);
+            using var message = CreateGetAllIndexesRequest();
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1809,7 +2101,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -1822,12 +2113,10 @@ namespace Affinda.API
         }
 
         /// <summary> Returns all the indexes. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<object> GetAllIndexes(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public Response<object> GetAllIndexes(CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllIndexesRequest(offset, limit);
+            using var message = CreateGetAllIndexesRequest();
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -1840,7 +2129,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
@@ -1890,7 +2178,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -1920,7 +2207,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
@@ -1965,7 +2251,6 @@ namespace Affinda.API
                     return Response.FromValue((RequestError)null, message.Response);
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -1996,7 +2281,6 @@ namespace Affinda.API
                     return Response.FromValue((RequestError)null, message.Response);
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
@@ -2047,7 +2331,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -2083,7 +2366,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
@@ -2143,7 +2425,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -2184,7 +2465,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
@@ -2236,7 +2516,6 @@ namespace Affinda.API
                     return Response.FromValue((RequestError)null, message.Response);
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -2272,7 +2551,6 @@ namespace Affinda.API
                     return Response.FromValue((RequestError)null, message.Response);
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
@@ -2284,7 +2562,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllInvoicesRequest(int? offset, int? limit)
+        internal HttpMessage CreateGetAllInvoicesRequest()
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -2292,13 +2570,13 @@ namespace Affinda.API
             var uri = new RawRequestUriBuilder();
             uri.Reset(_endpoint);
             uri.AppendPath("/invoices", false);
-            if (offset != null)
+            if (_offset != null)
             {
-                uri.AppendQuery("offset", offset.Value, true);
+                uri.AppendQuery("offset", _offset.Value, true);
             }
-            if (limit != null)
+            if (_limit != null)
             {
-                uri.AppendQuery("limit", limit.Value, true);
+                uri.AppendQuery("limit", _limit.Value, true);
             }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -2306,12 +2584,10 @@ namespace Affinda.API
         }
 
         /// <summary> Returns all the invoice summaries for that user, limited to 300 per page. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<object>> GetAllInvoicesAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public async Task<Response<object>> GetAllInvoicesAsync(CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllInvoicesRequest(offset, limit);
+            using var message = CreateGetAllInvoicesRequest();
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -2324,7 +2600,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -2337,12 +2612,10 @@ namespace Affinda.API
         }
 
         /// <summary> Returns all the invoice summaries for that user, limited to 300 per page. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<object> GetAllInvoices(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public Response<object> GetAllInvoices(CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllInvoicesRequest(offset, limit);
+            using var message = CreateGetAllInvoicesRequest();
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -2355,7 +2628,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
@@ -2439,7 +2711,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -2479,7 +2750,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
@@ -2532,7 +2802,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -2571,7 +2840,6 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
@@ -2616,7 +2884,6 @@ namespace Affinda.API
                     return Response.FromValue((RequestError)null, message.Response);
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -2647,7 +2914,6 @@ namespace Affinda.API
                     return Response.FromValue((RequestError)null, message.Response);
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
@@ -2680,16 +2946,20 @@ namespace Affinda.API
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
-                case 201:
+                case 200:
                     {
-                        OccupationGroup value = default;
+                        IReadOnlyList<OccupationGroup> value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = OccupationGroup.DeserializeOccupationGroup(document.RootElement);
+                        List<OccupationGroup> array = new List<OccupationGroup>();
+                        foreach (var item in document.RootElement.EnumerateArray())
+                        {
+                            array.Add(OccupationGroup.DeserializeOccupationGroup(item));
+                        }
+                        value = array;
                         return Response.FromValue<object>(value, message.Response);
                     }
                 case 400:
                 case 401:
-                case 404:
                     {
                         RequestError value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -2709,16 +2979,202 @@ namespace Affinda.API
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
-                case 201:
+                case 200:
                     {
-                        OccupationGroup value = default;
+                        IReadOnlyList<OccupationGroup> value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = OccupationGroup.DeserializeOccupationGroup(document.RootElement);
+                        List<OccupationGroup> array = new List<OccupationGroup>();
+                        foreach (var item in document.RootElement.EnumerateArray())
+                        {
+                            array.Add(OccupationGroup.DeserializeOccupationGroup(item));
+                        }
+                        value = array;
                         return Response.FromValue<object>(value, message.Response);
                     }
                 case 400:
                 case 401:
-                case 404:
+                    {
+                        RequestError value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateGetAllUsersRequest()
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Get;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(_endpoint);
+            uri.AppendPath("/users", false);
+            if (_offset != null)
+            {
+                uri.AppendQuery("offset", _offset.Value, true);
+            }
+            if (_limit != null)
+            {
+                uri.AppendQuery("limit", _limit.Value, true);
+            }
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Returns all the users. </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public async Task<Response<object>> GetAllUsersAsync(CancellationToken cancellationToken = default)
+        {
+            using var message = CreateGetAllUsersRequest();
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        PathsWjaaeuUsersGetResponses200ContentApplicationJsonSchema value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = PathsWjaaeuUsersGetResponses200ContentApplicationJsonSchema.DeserializePathsWjaaeuUsersGetResponses200ContentApplicationJsonSchema(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                    {
+                        RequestError value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Returns all the users. </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public Response<object> GetAllUsers(CancellationToken cancellationToken = default)
+        {
+            using var message = CreateGetAllUsersRequest();
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        PathsWjaaeuUsersGetResponses200ContentApplicationJsonSchema value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = PathsWjaaeuUsersGetResponses200ContentApplicationJsonSchema.DeserializePathsWjaaeuUsersGetResponses200ContentApplicationJsonSchema(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                    {
+                        RequestError value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateCreateUserRequest(string username, string id, string name, string email)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(_endpoint);
+            uri.AppendPath("/users", false);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Content-Type", "multipart/form-data");
+            var content = new MultipartFormDataContent();
+            if (id != null)
+            {
+                content.Add(new StringRequestContent(id), "id", null);
+            }
+            if (name != null)
+            {
+                content.Add(new StringRequestContent(name), "name", null);
+            }
+            content.Add(new StringRequestContent(username), "username", null);
+            if (email != null)
+            {
+                content.Add(new StringRequestContent(email), "email", null);
+            }
+            content.ApplyToRequest(request);
+            return message;
+        }
+
+        /// <summary> Create an user as part of your account. </summary>
+        /// <param name="username"> The UserUsername to use. </param>
+        /// <param name="id"> The UserId to use. </param>
+        /// <param name="name"> The UserName to use. </param>
+        /// <param name="email"> The UserEmail to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="username"/> is null. </exception>
+        public async Task<Response<object>> CreateUserAsync(string username, string id = null, string name = null, string email = null, CancellationToken cancellationToken = default)
+        {
+            if (username == null)
+            {
+                throw new ArgumentNullException(nameof(username));
+            }
+
+            using var message = CreateCreateUserRequest(username, id, name, email);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 201:
+                    {
+                        PathsTop5ZkUsersPostResponses201ContentApplicationJsonSchema value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = PathsTop5ZkUsersPostResponses201ContentApplicationJsonSchema.DeserializePathsTop5ZkUsersPostResponses201ContentApplicationJsonSchema(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                    {
+                        RequestError value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Create an user as part of your account. </summary>
+        /// <param name="username"> The UserUsername to use. </param>
+        /// <param name="id"> The UserId to use. </param>
+        /// <param name="name"> The UserName to use. </param>
+        /// <param name="email"> The UserEmail to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="username"/> is null. </exception>
+        public Response<object> CreateUser(string username, string id = null, string name = null, string email = null, CancellationToken cancellationToken = default)
+        {
+            if (username == null)
+            {
+                throw new ArgumentNullException(nameof(username));
+            }
+
+            using var message = CreateCreateUserRequest(username, id, name, email);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 201:
+                    {
+                        PathsTop5ZkUsersPostResponses201ContentApplicationJsonSchema value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = PathsTop5ZkUsersPostResponses201ContentApplicationJsonSchema.DeserializePathsTop5ZkUsersPostResponses201ContentApplicationJsonSchema(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
                     {
                         RequestError value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);

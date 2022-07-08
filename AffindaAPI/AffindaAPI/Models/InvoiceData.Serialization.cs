@@ -5,6 +5,7 @@
 
 #nullable disable
 
+using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
 
@@ -14,6 +15,7 @@ namespace Affinda.API.Models
     {
         internal static InvoiceData DeserializeInvoiceData(JsonElement element)
         {
+            Optional<IReadOnlyList<InvoiceDataTablesItem>> tables = default;
             Optional<DateAnnotation> invoiceDate = default;
             Optional<DateAnnotation> invoiceOrderDate = default;
             Optional<DateAnnotation> paymentDateDue = default;
@@ -51,6 +53,21 @@ namespace Affinda.API.Models
             Optional<InvoiceDataSupplierWebsite> supplierWebsite = default;
             foreach (var property in element.EnumerateObject())
             {
+                if (property.NameEquals("tables"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    List<InvoiceDataTablesItem> array = new List<InvoiceDataTablesItem>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(InvoiceDataTablesItem.DeserializeInvoiceDataTablesItem(item));
+                    }
+                    tables = array;
+                    continue;
+                }
                 if (property.NameEquals("invoiceDate"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
@@ -402,7 +419,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new InvoiceData(invoiceDate.Value, invoiceOrderDate.Value, paymentDateDue.Value, paymentAmountBase.Value, paymentAmountTax.Value, paymentAmountTotal.Value, paymentAmountPaid.Value, paymentAmountDue.Value, invoiceNumber.Value, invoicePurchaseOrderNumber.Value, supplierBusinessNumber.Value, customerNumber.Value, customerBusinessNumber.Value, paymentReference.Value, bankAccountNumber.Value, supplierVAT.Value, customerVAT.Value, bpayBillerCode.Value, bpayReference.Value, bankSortCode.Value, bankIBAN.Value, bankSwift.Value, bankBSB.Value, customerContactName.Value, customerCompanyName.Value, supplierCompanyName.Value, customerBillingAddress.Value, customerDeliveryAddress.Value, supplierAddress.Value, customerPhoneNumber.Value, supplierPhoneNumber.Value, supplierFax.Value, customerEmail.Value, supplierEmail.Value, supplierWebsite.Value);
+            return new InvoiceData(Optional.ToList(tables), invoiceDate.Value, invoiceOrderDate.Value, paymentDateDue.Value, paymentAmountBase.Value, paymentAmountTax.Value, paymentAmountTotal.Value, paymentAmountPaid.Value, paymentAmountDue.Value, invoiceNumber.Value, invoicePurchaseOrderNumber.Value, supplierBusinessNumber.Value, customerNumber.Value, customerBusinessNumber.Value, paymentReference.Value, bankAccountNumber.Value, supplierVAT.Value, customerVAT.Value, bpayBillerCode.Value, bpayReference.Value, bankSortCode.Value, bankIBAN.Value, bankSwift.Value, bankBSB.Value, customerContactName.Value, customerCompanyName.Value, supplierCompanyName.Value, customerBillingAddress.Value, customerDeliveryAddress.Value, supplierAddress.Value, customerPhoneNumber.Value, supplierPhoneNumber.Value, supplierFax.Value, customerEmail.Value, supplierEmail.Value, supplierWebsite.Value);
         }
     }
 }

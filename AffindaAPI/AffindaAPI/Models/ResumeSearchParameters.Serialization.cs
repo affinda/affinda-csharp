@@ -35,6 +35,18 @@ namespace Affinda.API.Models
                     writer.WriteNull("jobDescription");
                 }
             }
+            if (Optional.IsDefined(Resume))
+            {
+                if (Resume != null)
+                {
+                    writer.WritePropertyName("resume");
+                    writer.WriteStringValue(Resume);
+                }
+                else
+                {
+                    writer.WriteNull("resume");
+                }
+            }
             if (Optional.IsCollectionDefined(JobTitles))
             {
                 writer.WritePropertyName("jobTitles");
@@ -62,13 +74,27 @@ namespace Affinda.API.Models
             }
             if (Optional.IsDefined(YearsExperienceMin))
             {
-                writer.WritePropertyName("yearsExperienceMin");
-                writer.WriteNumberValue(YearsExperienceMin.Value);
+                if (YearsExperienceMin != null)
+                {
+                    writer.WritePropertyName("yearsExperienceMin");
+                    writer.WriteNumberValue(YearsExperienceMin.Value);
+                }
+                else
+                {
+                    writer.WriteNull("yearsExperienceMin");
+                }
             }
             if (Optional.IsDefined(YearsExperienceMax))
             {
-                writer.WritePropertyName("yearsExperienceMax");
-                writer.WriteNumberValue(YearsExperienceMax.Value);
+                if (YearsExperienceMax != null)
+                {
+                    writer.WritePropertyName("yearsExperienceMax");
+                    writer.WriteNumberValue(YearsExperienceMax.Value);
+                }
+                else
+                {
+                    writer.WriteNull("yearsExperienceMax");
+                }
             }
             if (Optional.IsDefined(YearsExperienceRequired))
             {
@@ -195,6 +221,16 @@ namespace Affinda.API.Models
                 writer.WritePropertyName("isRecentGraduateRequired");
                 writer.WriteBooleanValue(IsRecentGraduateRequired.Value);
             }
+            if (Optional.IsDefined(IsTopStudent))
+            {
+                writer.WritePropertyName("isTopStudent");
+                writer.WriteBooleanValue(IsTopStudent.Value);
+            }
+            if (Optional.IsDefined(IsTopStudentRequired))
+            {
+                writer.WritePropertyName("isTopStudentRequired");
+                writer.WriteBooleanValue(IsTopStudentRequired.Value);
+            }
             if (Optional.IsDefined(EducationWeight))
             {
                 writer.WritePropertyName("educationWeight");
@@ -202,8 +238,15 @@ namespace Affinda.API.Models
             }
             if (Optional.IsDefined(SearchExpression))
             {
-                writer.WritePropertyName("searchExpression");
-                writer.WriteStringValue(SearchExpression);
+                if (SearchExpression != null)
+                {
+                    writer.WritePropertyName("searchExpression");
+                    writer.WriteStringValue(SearchExpression);
+                }
+                else
+                {
+                    writer.WriteNull("searchExpression");
+                }
             }
             if (Optional.IsDefined(SearchExpressionRequired))
             {
@@ -264,20 +307,21 @@ namespace Affinda.API.Models
         {
             IList<string> indices = default;
             Optional<string> jobDescription = default;
+            Optional<string> resume = default;
             Optional<IList<string>> jobTitles = default;
             Optional<bool> jobTitlesCurrentOnly = default;
             Optional<bool> jobTitlesRequired = default;
             Optional<float> jobTitlesWeight = default;
-            Optional<int> yearsExperienceMin = default;
-            Optional<int> yearsExperienceMax = default;
+            Optional<int?> yearsExperienceMin = default;
+            Optional<int?> yearsExperienceMax = default;
             Optional<bool> yearsExperienceRequired = default;
             Optional<float> yearsExperienceWeight = default;
-            Optional<IList<ResumeSearchParametersLocationsItem>> locations = default;
+            Optional<IList<ResumeSearchParametersLocation>> locations = default;
             Optional<float> locationsWeight = default;
             Optional<bool> locationsRequired = default;
-            Optional<IList<ResumeSearchParametersSkillsItem>> skills = default;
+            Optional<IList<ResumeSearchParametersSkill>> skills = default;
             Optional<float> skillsWeight = default;
-            Optional<IList<ResumeSearchParametersLanguagesItem>> languages = default;
+            Optional<IList<ResumeSearchParametersSkill>> languages = default;
             Optional<float> languagesWeight = default;
             Optional<IList<string>> institutions = default;
             Optional<bool> institutionsRequired = default;
@@ -289,6 +333,8 @@ namespace Affinda.API.Models
             Optional<bool> isCurrentStudentRequired = default;
             Optional<bool> isRecentGraduate = default;
             Optional<bool> isRecentGraduateRequired = default;
+            Optional<bool> isTopStudent = default;
+            Optional<bool> isTopStudentRequired = default;
             Optional<float> educationWeight = default;
             Optional<string> searchExpression = default;
             Optional<bool> searchExpressionRequired = default;
@@ -319,6 +365,16 @@ namespace Affinda.API.Models
                         continue;
                     }
                     jobDescription = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("resume"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        resume = null;
+                        continue;
+                    }
+                    resume = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("jobTitles"))
@@ -370,7 +426,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        yearsExperienceMin = null;
                         continue;
                     }
                     yearsExperienceMin = property.Value.GetInt32();
@@ -380,7 +436,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        yearsExperienceMax = null;
                         continue;
                     }
                     yearsExperienceMax = property.Value.GetInt32();
@@ -413,10 +469,10 @@ namespace Affinda.API.Models
                         property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    List<ResumeSearchParametersLocationsItem> array = new List<ResumeSearchParametersLocationsItem>();
+                    List<ResumeSearchParametersLocation> array = new List<ResumeSearchParametersLocation>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(ResumeSearchParametersLocationsItem.DeserializeResumeSearchParametersLocationsItem(item));
+                        array.Add(ResumeSearchParametersLocation.DeserializeResumeSearchParametersLocation(item));
                     }
                     locations = array;
                     continue;
@@ -448,10 +504,10 @@ namespace Affinda.API.Models
                         property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    List<ResumeSearchParametersSkillsItem> array = new List<ResumeSearchParametersSkillsItem>();
+                    List<ResumeSearchParametersSkill> array = new List<ResumeSearchParametersSkill>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(ResumeSearchParametersSkillsItem.DeserializeResumeSearchParametersSkillsItem(item));
+                        array.Add(ResumeSearchParametersSkill.DeserializeResumeSearchParametersSkill(item));
                     }
                     skills = array;
                     continue;
@@ -473,10 +529,10 @@ namespace Affinda.API.Models
                         property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    List<ResumeSearchParametersLanguagesItem> array = new List<ResumeSearchParametersLanguagesItem>();
+                    List<ResumeSearchParametersSkill> array = new List<ResumeSearchParametersSkill>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(ResumeSearchParametersLanguagesItem.DeserializeResumeSearchParametersLanguagesItem(item));
+                        array.Add(ResumeSearchParametersSkill.DeserializeResumeSearchParametersSkill(item));
                     }
                     languages = array;
                     continue;
@@ -613,6 +669,26 @@ namespace Affinda.API.Models
                     isRecentGraduateRequired = property.Value.GetBoolean();
                     continue;
                 }
+                if (property.NameEquals("isTopStudent"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    isTopStudent = property.Value.GetBoolean();
+                    continue;
+                }
+                if (property.NameEquals("isTopStudentRequired"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    isTopStudentRequired = property.Value.GetBoolean();
+                    continue;
+                }
                 if (property.NameEquals("educationWeight"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
@@ -625,6 +701,11 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("searchExpression"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        searchExpression = null;
+                        continue;
+                    }
                     searchExpression = property.Value.GetString();
                     continue;
                 }
@@ -714,7 +795,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new ResumeSearchParameters(indices, jobDescription.Value, Optional.ToList(jobTitles), Optional.ToNullable(jobTitlesCurrentOnly), Optional.ToNullable(jobTitlesRequired), Optional.ToNullable(jobTitlesWeight), Optional.ToNullable(yearsExperienceMin), Optional.ToNullable(yearsExperienceMax), Optional.ToNullable(yearsExperienceRequired), Optional.ToNullable(yearsExperienceWeight), Optional.ToList(locations), Optional.ToNullable(locationsWeight), Optional.ToNullable(locationsRequired), Optional.ToList(skills), Optional.ToNullable(skillsWeight), Optional.ToList(languages), Optional.ToNullable(languagesWeight), Optional.ToList(institutions), Optional.ToNullable(institutionsRequired), Optional.ToList(degrees), Optional.ToNullable(degreesRequired), Optional.ToList(highestDegreeTypes), Optional.ToNullable(highestDegreeTypesRequired), Optional.ToNullable(isCurrentStudent), Optional.ToNullable(isCurrentStudentRequired), Optional.ToNullable(isRecentGraduate), Optional.ToNullable(isRecentGraduateRequired), Optional.ToNullable(educationWeight), searchExpression.Value, Optional.ToNullable(searchExpressionRequired), Optional.ToNullable(searchExpressionWeight), Optional.ToList(socCodes), Optional.ToNullable(socCodesWeight), Optional.ToNullable(socCodesRequired), Optional.ToNullable(managementLevel), Optional.ToNullable(managementLevelRequired), Optional.ToNullable(managementLevelWeight));
+            return new ResumeSearchParameters(indices, jobDescription.Value, resume.Value, Optional.ToList(jobTitles), Optional.ToNullable(jobTitlesCurrentOnly), Optional.ToNullable(jobTitlesRequired), Optional.ToNullable(jobTitlesWeight), Optional.ToNullable(yearsExperienceMin), Optional.ToNullable(yearsExperienceMax), Optional.ToNullable(yearsExperienceRequired), Optional.ToNullable(yearsExperienceWeight), Optional.ToList(locations), Optional.ToNullable(locationsWeight), Optional.ToNullable(locationsRequired), Optional.ToList(skills), Optional.ToNullable(skillsWeight), Optional.ToList(languages), Optional.ToNullable(languagesWeight), Optional.ToList(institutions), Optional.ToNullable(institutionsRequired), Optional.ToList(degrees), Optional.ToNullable(degreesRequired), Optional.ToList(highestDegreeTypes), Optional.ToNullable(highestDegreeTypesRequired), Optional.ToNullable(isCurrentStudent), Optional.ToNullable(isCurrentStudentRequired), Optional.ToNullable(isRecentGraduate), Optional.ToNullable(isRecentGraduateRequired), Optional.ToNullable(isTopStudent), Optional.ToNullable(isTopStudentRequired), Optional.ToNullable(educationWeight), searchExpression.Value, Optional.ToNullable(searchExpressionRequired), Optional.ToNullable(searchExpressionWeight), Optional.ToList(socCodes), Optional.ToNullable(socCodesWeight), Optional.ToNullable(socCodesRequired), Optional.ToNullable(managementLevel), Optional.ToNullable(managementLevelRequired), Optional.ToNullable(managementLevelWeight));
         }
     }
 }

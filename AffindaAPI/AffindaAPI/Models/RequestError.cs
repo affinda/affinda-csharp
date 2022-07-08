@@ -6,6 +6,8 @@
 #nullable disable
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Affinda.API.Models
 {
@@ -13,23 +15,36 @@ namespace Affinda.API.Models
     public partial class RequestError
     {
         /// <summary> Initializes a new instance of RequestError. </summary>
-        /// <param name="detail"></param>
-        /// <param name="statusCode"></param>
-        /// <exception cref="ArgumentNullException"> <paramref name="detail"/> is null. </exception>
-        internal RequestError(string detail, int statusCode)
+        /// <param name="type"></param>
+        /// <param name="errors"></param>
+        /// <exception cref="ArgumentNullException"> <paramref name="type"/> or <paramref name="errors"/> is null. </exception>
+        internal RequestError(string type, IEnumerable<RequestErrorErrorsItem> errors)
         {
-            if (detail == null)
+            if (type == null)
             {
-                throw new ArgumentNullException(nameof(detail));
+                throw new ArgumentNullException(nameof(type));
+            }
+            if (errors == null)
+            {
+                throw new ArgumentNullException(nameof(errors));
             }
 
-            Detail = detail;
-            StatusCode = statusCode;
+            Type = type;
+            Errors = errors.ToList();
         }
 
-        /// <summary> Gets the detail. </summary>
-        public string Detail { get; }
-        /// <summary> Gets the status code. </summary>
-        public int StatusCode { get; }
+        /// <summary> Initializes a new instance of RequestError. </summary>
+        /// <param name="type"></param>
+        /// <param name="errors"></param>
+        internal RequestError(string type, IReadOnlyList<RequestErrorErrorsItem> errors)
+        {
+            Type = type;
+            Errors = errors;
+        }
+
+        /// <summary> Gets the type. </summary>
+        public string Type { get; }
+        /// <summary> Gets the errors. </summary>
+        public IReadOnlyList<RequestErrorErrorsItem> Errors { get; }
     }
 }

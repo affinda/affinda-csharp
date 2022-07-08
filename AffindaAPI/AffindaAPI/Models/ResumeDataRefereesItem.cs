@@ -11,7 +11,7 @@ namespace Affinda.API.Models
     public partial class ResumeDataRefereesItem
     {
         /// <summary> Initializes a new instance of ResumeDataRefereesItem. </summary>
-        internal ResumeDataRefereesItem()
+        public ResumeDataRefereesItem()
         {
         }
 
@@ -28,13 +28,13 @@ namespace Affinda.API.Models
             Number = number;
         }
 
-        /// <summary> Gets the name. </summary>
-        public string Name { get; }
-        /// <summary> Gets the text. </summary>
-        public string Text { get; }
-        /// <summary> Gets the email. </summary>
-        public string Email { get; }
-        /// <summary> Gets the number. </summary>
-        public string Number { get; }
+        /// <summary> Gets or sets the name. </summary>
+        public string Name { get; set; }
+        /// <summary> Gets or sets the text. </summary>
+        public string Text { get; set; }
+        /// <summary> Gets or sets the email. </summary>
+        public string Email { get; set; }
+        /// <summary> Gets or sets the number. </summary>
+        public string Number { get; set; }
     }
 }

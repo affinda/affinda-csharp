@@ -19,12 +19,14 @@ namespace Affinda.API.Models
 
         /// <summary> File as binary data blob. Supported formats: PDF, DOC, DOCX, TXT, RTF, HTML, PNG, JPG. </summary>
         public Stream File { get; }
+        /// <summary> URL to file to download and process. </summary>
+        public string Url { get; }
+        /// <summary> A JSON-encoded string of the `ResumeData` object. </summary>
+        public string Data { get; }
         /// <summary> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </summary>
         public string Identifier { get; }
         /// <summary> Optional filename of the file. </summary>
         public string FileName { get; }
-        /// <summary> URL to file to download and process. </summary>
-        public string Url { get; }
         /// <summary> If &quot;true&quot; (default), will return a response only after processing has completed. If &quot;false&quot;, will return an empty data object which can be polled at the GET endpoint until processing is complete. </summary>
         public string Wait { get; }
         /// <summary> Language code in ISO 639-1 format. Must specify zh-cn or zh-tw for Chinese. </summary>

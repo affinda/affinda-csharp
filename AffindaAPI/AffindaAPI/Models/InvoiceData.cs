@@ -5,6 +5,9 @@
 
 #nullable disable
 
+using System.Collections.Generic;
+using Azure.Core;
+
 namespace Affinda.API.Models
 {
     /// <summary> The InvoiceData. </summary>
@@ -13,9 +16,11 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of InvoiceData. </summary>
         internal InvoiceData()
         {
+            Tables = new ChangeTrackingList<InvoiceDataTablesItem>();
         }
 
         /// <summary> Initializes a new instance of InvoiceData. </summary>
+        /// <param name="tables"></param>
         /// <param name="invoiceDate"></param>
         /// <param name="invoiceOrderDate"></param>
         /// <param name="paymentDateDue"></param>
@@ -51,8 +56,9 @@ namespace Affinda.API.Models
         /// <param name="customerEmail"></param>
         /// <param name="supplierEmail"></param>
         /// <param name="supplierWebsite"></param>
-        internal InvoiceData(DateAnnotation invoiceDate, DateAnnotation invoiceOrderDate, DateAnnotation paymentDateDue, InvoiceDataPaymentAmountBase paymentAmountBase, InvoiceDataPaymentAmountTax paymentAmountTax, InvoiceDataPaymentAmountTotal paymentAmountTotal, InvoiceDataPaymentAmountPaid paymentAmountPaid, InvoiceDataPaymentAmountDue paymentAmountDue, InvoiceDataInvoiceNumber invoiceNumber, InvoiceDataInvoicePurchaseOrderNumber invoicePurchaseOrderNumber, InvoiceDataSupplierBusinessNumber supplierBusinessNumber, InvoiceDataCustomerNumber customerNumber, InvoiceDataCustomerBusinessNumber customerBusinessNumber, InvoiceDataPaymentReference paymentReference, InvoiceDataBankAccountNumber bankAccountNumber, InvoiceDataSupplierVAT supplierVAT, InvoiceDataCustomerVAT customerVAT, InvoiceDataBpayBillerCode bpayBillerCode, InvoiceDataBpayReference bpayReference, InvoiceDataBankSortCode bankSortCode, InvoiceDataBankIban bankIban, InvoiceDataBankSwift bankSwift, InvoiceDataBankBSB bankBSB, InvoiceDataCustomerContactName customerContactName, InvoiceDataCustomerCompanyName customerCompanyName, InvoiceDataSupplierCompanyName supplierCompanyName, LocationAnnotation customerBillingAddress, LocationAnnotation customerDeliveryAddress, LocationAnnotation supplierAddress, InvoiceDataCustomerPhoneNumber customerPhoneNumber, InvoiceDataSupplierPhoneNumber supplierPhoneNumber, InvoiceDataSupplierFax supplierFax, InvoiceDataCustomerEmail customerEmail, InvoiceDataSupplierEmail supplierEmail, InvoiceDataSupplierWebsite supplierWebsite)
+        internal InvoiceData(IReadOnlyList<InvoiceDataTablesItem> tables, DateAnnotation invoiceDate, DateAnnotation invoiceOrderDate, DateAnnotation paymentDateDue, InvoiceDataPaymentAmountBase paymentAmountBase, InvoiceDataPaymentAmountTax paymentAmountTax, InvoiceDataPaymentAmountTotal paymentAmountTotal, InvoiceDataPaymentAmountPaid paymentAmountPaid, InvoiceDataPaymentAmountDue paymentAmountDue, InvoiceDataInvoiceNumber invoiceNumber, InvoiceDataInvoicePurchaseOrderNumber invoicePurchaseOrderNumber, InvoiceDataSupplierBusinessNumber supplierBusinessNumber, InvoiceDataCustomerNumber customerNumber, InvoiceDataCustomerBusinessNumber customerBusinessNumber, InvoiceDataPaymentReference paymentReference, InvoiceDataBankAccountNumber bankAccountNumber, InvoiceDataSupplierVAT supplierVAT, InvoiceDataCustomerVAT customerVAT, InvoiceDataBpayBillerCode bpayBillerCode, InvoiceDataBpayReference bpayReference, InvoiceDataBankSortCode bankSortCode, InvoiceDataBankIban bankIban, InvoiceDataBankSwift bankSwift, InvoiceDataBankBSB bankBSB, InvoiceDataCustomerContactName customerContactName, InvoiceDataCustomerCompanyName customerCompanyName, InvoiceDataSupplierCompanyName supplierCompanyName, LocationAnnotation customerBillingAddress, LocationAnnotation customerDeliveryAddress, LocationAnnotation supplierAddress, InvoiceDataCustomerPhoneNumber customerPhoneNumber, InvoiceDataSupplierPhoneNumber supplierPhoneNumber, InvoiceDataSupplierFax supplierFax, InvoiceDataCustomerEmail customerEmail, InvoiceDataSupplierEmail supplierEmail, InvoiceDataSupplierWebsite supplierWebsite)
         {
+            Tables = tables;
             InvoiceDate = invoiceDate;
             InvoiceOrderDate = invoiceOrderDate;
             PaymentDateDue = paymentDateDue;
@@ -90,6 +96,8 @@ namespace Affinda.API.Models
             SupplierWebsite = supplierWebsite;
         }
 
+        /// <summary> Gets the tables. </summary>
+        public IReadOnlyList<InvoiceDataTablesItem> Tables { get; }
         /// <summary> Gets the invoice date. </summary>
         public DateAnnotation InvoiceDate { get; }
         /// <summary> Gets the invoice order date. </summary>

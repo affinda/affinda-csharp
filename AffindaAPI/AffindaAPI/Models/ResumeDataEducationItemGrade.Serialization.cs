@@ -10,8 +10,29 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class ResumeDataEducationItemGrade
+    public partial class ResumeDataEducationItemGrade : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            if (Optional.IsDefined(Raw))
+            {
+                writer.WritePropertyName("raw");
+                writer.WriteStringValue(Raw);
+            }
+            if (Optional.IsDefined(Metric))
+            {
+                writer.WritePropertyName("metric");
+                writer.WriteStringValue(Metric);
+            }
+            if (Optional.IsDefined(Value))
+            {
+                writer.WritePropertyName("value");
+                writer.WriteStringValue(Value);
+            }
+            writer.WriteEndObject();
+        }
+
         internal static ResumeDataEducationItemGrade DeserializeResumeDataEducationItemGrade(JsonElement element)
         {
             Optional<string> raw = default;

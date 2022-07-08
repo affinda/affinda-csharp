@@ -11,18 +11,20 @@ namespace Affinda.API.Models
     public partial class ResumeDataEducationItem
     {
         /// <summary> Initializes a new instance of ResumeDataEducationItem. </summary>
-        internal ResumeDataEducationItem()
+        public ResumeDataEducationItem()
         {
         }
 
         /// <summary> Initializes a new instance of ResumeDataEducationItem. </summary>
+        /// <param name="id"></param>
         /// <param name="organization"></param>
         /// <param name="accreditation"></param>
         /// <param name="grade"></param>
         /// <param name="location"></param>
         /// <param name="dates"></param>
-        internal ResumeDataEducationItem(string organization, ResumeDataEducationItemAccreditation accreditation, ResumeDataEducationItemGrade grade, Location location, ResumeDataEducationItemDates dates)
+        internal ResumeDataEducationItem(int? id, string organization, ResumeDataEducationItemAccreditation accreditation, ResumeDataEducationItemGrade grade, Location location, ResumeDataEducationItemDates dates)
         {
+            Id = id;
             Organization = organization;
             Accreditation = accreditation;
             Grade = grade;
@@ -30,15 +32,17 @@ namespace Affinda.API.Models
             Dates = dates;
         }
 
-        /// <summary> Gets the organization. </summary>
-        public string Organization { get; }
-        /// <summary> Gets the accreditation. </summary>
-        public ResumeDataEducationItemAccreditation Accreditation { get; }
-        /// <summary> Gets the grade. </summary>
-        public ResumeDataEducationItemGrade Grade { get; }
-        /// <summary> Gets the location. </summary>
-        public Location Location { get; }
-        /// <summary> Gets the dates. </summary>
-        public ResumeDataEducationItemDates Dates { get; }
+        /// <summary> Gets or sets the id. </summary>
+        public int? Id { get; set; }
+        /// <summary> Gets or sets the organization. </summary>
+        public string Organization { get; set; }
+        /// <summary> Gets or sets the accreditation. </summary>
+        public ResumeDataEducationItemAccreditation Accreditation { get; set; }
+        /// <summary> Gets or sets the grade. </summary>
+        public ResumeDataEducationItemGrade Grade { get; set; }
+        /// <summary> Gets or sets the location. </summary>
+        public Location Location { get; set; }
+        /// <summary> Gets or sets the dates. </summary>
+        public ResumeDataEducationItemDates Dates { get; set; }
     }
 }

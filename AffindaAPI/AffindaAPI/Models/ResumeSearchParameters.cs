@@ -27,9 +27,9 @@ namespace Affinda.API.Models
 
             Indices = indices.ToList();
             JobTitles = new ChangeTrackingList<string>();
-            Locations = new ChangeTrackingList<ResumeSearchParametersLocationsItem>();
-            Skills = new ChangeTrackingList<ResumeSearchParametersSkillsItem>();
-            Languages = new ChangeTrackingList<ResumeSearchParametersLanguagesItem>();
+            Locations = new ChangeTrackingList<ResumeSearchParametersLocation>();
+            Skills = new ChangeTrackingList<ResumeSearchParametersSkill>();
+            Languages = new ChangeTrackingList<ResumeSearchParametersSkill>();
             Institutions = new ChangeTrackingList<string>();
             Degrees = new ChangeTrackingList<string>();
             HighestDegreeTypes = new ChangeTrackingList<EducationLevel?>();
@@ -39,6 +39,7 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of ResumeSearchParameters. </summary>
         /// <param name="indices"></param>
         /// <param name="jobDescription"> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </param>
+        /// <param name="resume"> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </param>
         /// <param name="jobTitles"></param>
         /// <param name="jobTitlesCurrentOnly"></param>
         /// <param name="jobTitlesRequired"></param>
@@ -64,6 +65,8 @@ namespace Affinda.API.Models
         /// <param name="isCurrentStudentRequired"></param>
         /// <param name="isRecentGraduate"></param>
         /// <param name="isRecentGraduateRequired"></param>
+        /// <param name="isTopStudent"></param>
+        /// <param name="isTopStudentRequired"></param>
         /// <param name="educationWeight"></param>
         /// <param name="searchExpression"></param>
         /// <param name="searchExpressionRequired"></param>
@@ -74,10 +77,11 @@ namespace Affinda.API.Models
         /// <param name="managementLevel"></param>
         /// <param name="managementLevelRequired"></param>
         /// <param name="managementLevelWeight"></param>
-        internal ResumeSearchParameters(IList<string> indices, string jobDescription, IList<string> jobTitles, bool? jobTitlesCurrentOnly, bool? jobTitlesRequired, float? jobTitlesWeight, int? yearsExperienceMin, int? yearsExperienceMax, bool? yearsExperienceRequired, float? yearsExperienceWeight, IList<ResumeSearchParametersLocationsItem> locations, float? locationsWeight, bool? locationsRequired, IList<ResumeSearchParametersSkillsItem> skills, float? skillsWeight, IList<ResumeSearchParametersLanguagesItem> languages, float? languagesWeight, IList<string> institutions, bool? institutionsRequired, IList<string> degrees, bool? degreesRequired, IList<EducationLevel?> highestDegreeTypes, bool? highestDegreeTypesRequired, bool? isCurrentStudent, bool? isCurrentStudentRequired, bool? isRecentGraduate, bool? isRecentGraduateRequired, float? educationWeight, string searchExpression, bool? searchExpressionRequired, float? searchExpressionWeight, IList<int> socCodes, float? socCodesWeight, bool? socCodesRequired, ManagementLevel? managementLevel, bool? managementLevelRequired, float? managementLevelWeight)
+        internal ResumeSearchParameters(IList<string> indices, string jobDescription, string resume, IList<string> jobTitles, bool? jobTitlesCurrentOnly, bool? jobTitlesRequired, float? jobTitlesWeight, int? yearsExperienceMin, int? yearsExperienceMax, bool? yearsExperienceRequired, float? yearsExperienceWeight, IList<ResumeSearchParametersLocation> locations, float? locationsWeight, bool? locationsRequired, IList<ResumeSearchParametersSkill> skills, float? skillsWeight, IList<ResumeSearchParametersSkill> languages, float? languagesWeight, IList<string> institutions, bool? institutionsRequired, IList<string> degrees, bool? degreesRequired, IList<EducationLevel?> highestDegreeTypes, bool? highestDegreeTypesRequired, bool? isCurrentStudent, bool? isCurrentStudentRequired, bool? isRecentGraduate, bool? isRecentGraduateRequired, bool? isTopStudent, bool? isTopStudentRequired, float? educationWeight, string searchExpression, bool? searchExpressionRequired, float? searchExpressionWeight, IList<int> socCodes, float? socCodesWeight, bool? socCodesRequired, ManagementLevel? managementLevel, bool? managementLevelRequired, float? managementLevelWeight)
         {
             Indices = indices;
             JobDescription = jobDescription;
+            Resume = resume;
             JobTitles = jobTitles;
             JobTitlesCurrentOnly = jobTitlesCurrentOnly;
             JobTitlesRequired = jobTitlesRequired;
@@ -103,6 +107,8 @@ namespace Affinda.API.Models
             IsCurrentStudentRequired = isCurrentStudentRequired;
             IsRecentGraduate = isRecentGraduate;
             IsRecentGraduateRequired = isRecentGraduateRequired;
+            IsTopStudent = isTopStudent;
+            IsTopStudentRequired = isTopStudentRequired;
             EducationWeight = educationWeight;
             SearchExpression = searchExpression;
             SearchExpressionRequired = searchExpressionRequired;
@@ -119,6 +125,8 @@ namespace Affinda.API.Models
         public IList<string> Indices { get; }
         /// <summary> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </summary>
         public string JobDescription { get; set; }
+        /// <summary> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </summary>
+        public string Resume { get; set; }
         /// <summary> Gets the job titles. </summary>
         public IList<string> JobTitles { get; }
         /// <summary> Gets or sets the job titles current only. </summary>
@@ -136,17 +144,17 @@ namespace Affinda.API.Models
         /// <summary> Gets or sets the years experience weight. </summary>
         public float? YearsExperienceWeight { get; set; }
         /// <summary> Gets the locations. </summary>
-        public IList<ResumeSearchParametersLocationsItem> Locations { get; }
+        public IList<ResumeSearchParametersLocation> Locations { get; }
         /// <summary> Gets or sets the locations weight. </summary>
         public float? LocationsWeight { get; set; }
         /// <summary> Gets or sets the locations required. </summary>
         public bool? LocationsRequired { get; set; }
         /// <summary> Gets the skills. </summary>
-        public IList<ResumeSearchParametersSkillsItem> Skills { get; }
+        public IList<ResumeSearchParametersSkill> Skills { get; }
         /// <summary> Gets or sets the skills weight. </summary>
         public float? SkillsWeight { get; set; }
         /// <summary> Gets the languages. </summary>
-        public IList<ResumeSearchParametersLanguagesItem> Languages { get; }
+        public IList<ResumeSearchParametersSkill> Languages { get; }
         /// <summary> Gets or sets the languages weight. </summary>
         public float? LanguagesWeight { get; set; }
         /// <summary> Gets the institutions. </summary>
@@ -169,6 +177,10 @@ namespace Affinda.API.Models
         public bool? IsRecentGraduate { get; set; }
         /// <summary> Gets or sets the is recent graduate required. </summary>
         public bool? IsRecentGraduateRequired { get; set; }
+        /// <summary> Gets or sets the is top student. </summary>
+        public bool? IsTopStudent { get; set; }
+        /// <summary> Gets or sets the is top student required. </summary>
+        public bool? IsTopStudentRequired { get; set; }
         /// <summary> Gets or sets the education weight. </summary>
         public float? EducationWeight { get; set; }
         /// <summary> Gets or sets the search expression. </summary>

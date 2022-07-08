@@ -15,7 +15,7 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of Location. </summary>
         /// <param name="rawInput"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="rawInput"/> is null. </exception>
-        internal Location(string rawInput)
+        public Location(string rawInput)
         {
             if (rawInput == null)
             {
@@ -60,8 +60,8 @@ namespace Affinda.API.Models
         public string Country { get; }
         /// <summary> Two letter country code (ISO 3166-1 alpha-2). </summary>
         public string CountryCode { get; }
-        /// <summary> Gets the raw input. </summary>
-        public string RawInput { get; }
+        /// <summary> Gets or sets the raw input. </summary>
+        public string RawInput { get; set; }
         /// <summary> Gets the street number. </summary>
         public string StreetNumber { get; }
         /// <summary> Gets the street. </summary>

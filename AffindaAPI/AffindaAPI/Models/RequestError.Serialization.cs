@@ -5,6 +5,7 @@
 
 #nullable disable
 
+using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
 
@@ -14,22 +15,27 @@ namespace Affinda.API.Models
     {
         internal static RequestError DeserializeRequestError(JsonElement element)
         {
-            string detail = default;
-            int statusCode = default;
+            string type = default;
+            IReadOnlyList<RequestErrorErrorsItem> errors = default;
             foreach (var property in element.EnumerateObject())
             {
-                if (property.NameEquals("detail"))
+                if (property.NameEquals("type"))
                 {
-                    detail = property.Value.GetString();
+                    type = property.Value.GetString();
                     continue;
                 }
-                if (property.NameEquals("statusCode"))
+                if (property.NameEquals("errors"))
                 {
-                    statusCode = property.Value.GetInt32();
+                    List<RequestErrorErrorsItem> array = new List<RequestErrorErrorsItem>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(RequestErrorErrorsItem.DeserializeRequestErrorErrorsItem(item));
+                    }
+                    errors = array;
                     continue;
                 }
             }
-            return new RequestError(detail, statusCode);
+            return new RequestError(type, errors);
         }
     }
 }

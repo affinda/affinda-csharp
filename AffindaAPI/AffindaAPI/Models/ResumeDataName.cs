@@ -11,7 +11,7 @@ namespace Affinda.API.Models
     public partial class ResumeDataName
     {
         /// <summary> Initializes a new instance of ResumeDataName. </summary>
-        internal ResumeDataName()
+        public ResumeDataName()
         {
         }
 
@@ -30,15 +30,15 @@ namespace Affinda.API.Models
             Title = title;
         }
 
-        /// <summary> Gets the raw. </summary>
-        public string Raw { get; }
-        /// <summary> Gets the first. </summary>
-        public string First { get; }
-        /// <summary> Gets the last. </summary>
-        public string Last { get; }
-        /// <summary> Gets the middle. </summary>
-        public string Middle { get; }
-        /// <summary> Gets the title. </summary>
-        public string Title { get; }
+        /// <summary> Gets or sets the raw. </summary>
+        public string Raw { get; set; }
+        /// <summary> Gets or sets the first. </summary>
+        public string First { get; set; }
+        /// <summary> Gets or sets the last. </summary>
+        public string Last { get; set; }
+        /// <summary> Gets or sets the middle. </summary>
+        public string Middle { get; set; }
+        /// <summary> Gets or sets the title. </summary>
+        public string Title { get; set; }
     }
 }

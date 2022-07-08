@@ -10,10 +10,82 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class ResumeDataEducationItem
+    public partial class ResumeDataEducationItem : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            if (Optional.IsDefined(Id))
+            {
+                writer.WritePropertyName("id");
+                writer.WriteNumberValue(Id.Value);
+            }
+            if (Optional.IsDefined(Organization))
+            {
+                if (Organization != null)
+                {
+                    writer.WritePropertyName("organization");
+                    writer.WriteStringValue(Organization);
+                }
+                else
+                {
+                    writer.WriteNull("organization");
+                }
+            }
+            if (Optional.IsDefined(Accreditation))
+            {
+                if (Accreditation != null)
+                {
+                    writer.WritePropertyName("accreditation");
+                    writer.WriteObjectValue(Accreditation);
+                }
+                else
+                {
+                    writer.WriteNull("accreditation");
+                }
+            }
+            if (Optional.IsDefined(Grade))
+            {
+                if (Grade != null)
+                {
+                    writer.WritePropertyName("grade");
+                    writer.WriteObjectValue(Grade);
+                }
+                else
+                {
+                    writer.WriteNull("grade");
+                }
+            }
+            if (Optional.IsDefined(Location))
+            {
+                if (Location != null)
+                {
+                    writer.WritePropertyName("location");
+                    writer.WriteObjectValue(Location);
+                }
+                else
+                {
+                    writer.WriteNull("location");
+                }
+            }
+            if (Optional.IsDefined(Dates))
+            {
+                if (Dates != null)
+                {
+                    writer.WritePropertyName("dates");
+                    writer.WriteObjectValue(Dates);
+                }
+                else
+                {
+                    writer.WriteNull("dates");
+                }
+            }
+            writer.WriteEndObject();
+        }
+
         internal static ResumeDataEducationItem DeserializeResumeDataEducationItem(JsonElement element)
         {
+            Optional<int> id = default;
             Optional<string> organization = default;
             Optional<ResumeDataEducationItemAccreditation> accreditation = default;
             Optional<ResumeDataEducationItemGrade> grade = default;
@@ -21,6 +93,16 @@ namespace Affinda.API.Models
             Optional<ResumeDataEducationItemDates> dates = default;
             foreach (var property in element.EnumerateObject())
             {
+                if (property.NameEquals("id"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    id = property.Value.GetInt32();
+                    continue;
+                }
                 if (property.NameEquals("organization"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
@@ -72,7 +154,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new ResumeDataEducationItem(organization.Value, accreditation.Value, grade.Value, location.Value, dates.Value);
+            return new ResumeDataEducationItem(Optional.ToNullable(id), organization.Value, accreditation.Value, grade.Value, location.Value, dates.Value);
         }
     }
 }

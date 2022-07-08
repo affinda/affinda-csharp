@@ -26,6 +26,7 @@ namespace Affinda.API.Models
             ResumeSearchScoreComponent location = default;
             ResumeSearchScoreComponent education = default;
             ResumeSearchScoreComponent occupationGroup = default;
+            ResumeSearchScoreComponent searchExpression = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("identifier"))
@@ -93,8 +94,13 @@ namespace Affinda.API.Models
                     occupationGroup = ResumeSearchScoreComponent.DeserializeResumeSearchScoreComponent(property.Value);
                     continue;
                 }
+                if (property.NameEquals("searchExpression"))
+                {
+                    searchExpression = ResumeSearchScoreComponent.DeserializeResumeSearchScoreComponent(property.Value);
+                    continue;
+                }
             }
-            return new ResumeSearchResult(identifier, score, pdf, name.Value, jobTitle, managementLevel, experience, skills, languages, location, education, occupationGroup);
+            return new ResumeSearchResult(identifier, score, pdf, name.Value, jobTitle, managementLevel, experience, skills, languages, location, education, occupationGroup, searchExpression);
         }
     }
 }
