@@ -34,6 +34,7 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of InvoiceDataPaymentAmountBase. </summary>
+        /// <param name="id"></param>
         /// <param name="rectangle"></param>
         /// <param name="pageIndex"></param>
         /// <param name="raw"></param>
@@ -42,7 +43,7 @@ namespace Affinda.API.Models
         /// <param name="classification"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
-        internal InvoiceDataPaymentAmountBase(Rectangle rectangle, int? pageIndex, string raw, float confidence, bool isVerified, string classification, IReadOnlyDictionary<string, object> additionalProperties, string parsed) : base(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed)
+        internal InvoiceDataPaymentAmountBase(int? id, Rectangle rectangle, int? pageIndex, string raw, float confidence, bool isVerified, string classification, IReadOnlyDictionary<string, object> additionalProperties, string parsed) : base(id, rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed)
         {
         }
     }

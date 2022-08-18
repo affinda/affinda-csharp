@@ -16,6 +16,7 @@ namespace Affinda.API.Models
         {
             Optional<string> section = default;
             Optional<int?> position = default;
+            Optional<int?> workExperienceId = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("section"))
@@ -33,8 +34,18 @@ namespace Affinda.API.Models
                     position = property.Value.GetInt32();
                     continue;
                 }
+                if (property.NameEquals("workExperienceId"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        workExperienceId = null;
+                        continue;
+                    }
+                    workExperienceId = property.Value.GetInt32();
+                    continue;
+                }
             }
-            return new ResumeDataSkillsPropertiesItemsItem(section.Value, Optional.ToNullable(position));
+            return new ResumeDataSkillsPropertiesItemsItem(section.Value, Optional.ToNullable(position), Optional.ToNullable(workExperienceId));
         }
     }
 }

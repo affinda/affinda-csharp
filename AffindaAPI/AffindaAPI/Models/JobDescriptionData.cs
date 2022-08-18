@@ -22,6 +22,7 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of JobDescriptionData. </summary>
+        /// <param name="jobTitle"></param>
         /// <param name="contactEmail"></param>
         /// <param name="contactName"></param>
         /// <param name="contactPhone"></param>
@@ -37,8 +38,10 @@ namespace Affinda.API.Models
         /// <param name="expectedRemuneration"></param>
         /// <param name="location"></param>
         /// <param name="certifications"></param>
-        internal JobDescriptionData(TextAnnotation contactEmail, TextAnnotation contactName, TextAnnotation contactPhone, DateAnnotation startDate, DateAnnotation endDate, TextAnnotation jobType, IReadOnlyList<LanguageAnnotation> languages, IReadOnlyList<SkillAnnotation> skills, TextAnnotation organizationName, TextAnnotation organizationWebsite, TextAnnotation educationLevel, TextAnnotation educationAccreditation, ExpectedRemunerationAnnotation expectedRemuneration, LocationAnnotation location, IReadOnlyList<TextAnnotation> certifications)
+        /// <param name="yearsExperience"></param>
+        internal JobDescriptionData(JobTitleAnnotation jobTitle, TextAnnotation contactEmail, TextAnnotation contactName, TextAnnotation contactPhone, DateAnnotation startDate, DateAnnotation endDate, TextAnnotation jobType, IReadOnlyList<LanguageAnnotation> languages, IReadOnlyList<SkillAnnotation> skills, TextAnnotation organizationName, TextAnnotation organizationWebsite, TextAnnotation educationLevel, TextAnnotation educationAccreditation, ExpectedRemunerationAnnotation expectedRemuneration, LocationAnnotation location, IReadOnlyList<TextAnnotation> certifications, YearsExperienceAnnotation yearsExperience)
         {
+            JobTitle = jobTitle;
             ContactEmail = contactEmail;
             ContactName = contactName;
             ContactPhone = contactPhone;
@@ -54,8 +57,11 @@ namespace Affinda.API.Models
             ExpectedRemuneration = expectedRemuneration;
             Location = location;
             Certifications = certifications;
+            YearsExperience = yearsExperience;
         }
 
+        /// <summary> Gets the job title. </summary>
+        public JobTitleAnnotation JobTitle { get; }
         /// <summary> Gets the contact email. </summary>
         public TextAnnotation ContactEmail { get; }
         /// <summary> Gets the contact name. </summary>
@@ -86,5 +92,7 @@ namespace Affinda.API.Models
         public LocationAnnotation Location { get; }
         /// <summary> Gets the certifications. </summary>
         public IReadOnlyList<TextAnnotation> Certifications { get; }
+        /// <summary> Gets the years experience. </summary>
+        public YearsExperienceAnnotation YearsExperience { get; }
     }
 }

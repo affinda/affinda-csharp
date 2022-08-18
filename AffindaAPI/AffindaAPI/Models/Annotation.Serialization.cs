@@ -15,6 +15,7 @@ namespace Affinda.API.Models
     {
         internal static Annotation DeserializeAnnotation(JsonElement element)
         {
+            Optional<int?> id = default;
             Rectangle rectangle = default;
             int? pageIndex = default;
             string raw = default;
@@ -25,6 +26,16 @@ namespace Affinda.API.Models
             Dictionary<string, object> additionalPropertiesDictionary = new Dictionary<string, object>();
             foreach (var property in element.EnumerateObject())
             {
+                if (property.NameEquals("id"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        id = null;
+                        continue;
+                    }
+                    id = property.Value.GetInt32();
+                    continue;
+                }
                 if (property.NameEquals("rectangle"))
                 {
                     rectangle = Rectangle.DeserializeRectangle(property.Value);
@@ -68,7 +79,7 @@ namespace Affinda.API.Models
                 additionalPropertiesDictionary.Add(property.Name, property.Value.GetObject());
             }
             additionalProperties = additionalPropertiesDictionary;
-            return new Annotation(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties);
+            return new Annotation(Optional.ToNullable(id), rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties);
         }
     }
 }

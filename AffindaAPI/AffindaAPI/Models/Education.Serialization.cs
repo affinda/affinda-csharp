@@ -16,7 +16,7 @@ namespace Affinda.API.Models
         {
             Optional<string> organization = default;
             Optional<Accreditation> accreditation = default;
-            Optional<string> grade = default;
+            Optional<EducationGrade> grade = default;
             Optional<Location> location = default;
             Optional<EducationDates> dates = default;
             foreach (var property in element.EnumerateObject())
@@ -48,7 +48,7 @@ namespace Affinda.API.Models
                         grade = null;
                         continue;
                     }
-                    grade = property.Value.GetString();
+                    grade = EducationGrade.DeserializeEducationGrade(property.Value);
                     continue;
                 }
                 if (property.NameEquals("location"))

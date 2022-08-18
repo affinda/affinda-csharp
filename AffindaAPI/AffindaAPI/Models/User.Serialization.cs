@@ -18,6 +18,7 @@ namespace Affinda.API.Models
             Optional<string> name = default;
             string username = default;
             Optional<string> email = default;
+            Optional<string> apiKey = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("id"))
@@ -40,8 +41,13 @@ namespace Affinda.API.Models
                     email = property.Value.GetString();
                     continue;
                 }
+                if (property.NameEquals("apiKey"))
+                {
+                    apiKey = property.Value.GetString();
+                    continue;
+                }
             }
-            return new User(id.Value, name.Value, username, email.Value);
+            return new User(id.Value, name.Value, username, email.Value, apiKey.Value);
         }
     }
 }

@@ -43,6 +43,7 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of Annotation. </summary>
+        /// <param name="id"></param>
         /// <param name="rectangle"></param>
         /// <param name="pageIndex"></param>
         /// <param name="raw"></param>
@@ -50,8 +51,9 @@ namespace Affinda.API.Models
         /// <param name="isVerified"></param>
         /// <param name="classification"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
-        internal Annotation(Rectangle rectangle, int? pageIndex, string raw, float confidence, bool isVerified, string classification, IReadOnlyDictionary<string, object> additionalProperties)
+        internal Annotation(int? id, Rectangle rectangle, int? pageIndex, string raw, float confidence, bool isVerified, string classification, IReadOnlyDictionary<string, object> additionalProperties)
         {
+            Id = id;
             Rectangle = rectangle;
             PageIndex = pageIndex;
             Raw = raw;
@@ -61,6 +63,8 @@ namespace Affinda.API.Models
             AdditionalProperties = additionalProperties;
         }
 
+        /// <summary> Gets the id. </summary>
+        public int? Id { get; }
         /// <summary> Gets the rectangle. </summary>
         public Rectangle Rectangle { get; }
         /// <summary> Gets the page index. </summary>

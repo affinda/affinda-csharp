@@ -14,11 +14,22 @@ namespace Affinda.API.Models
     {
         internal static Invoice DeserializeInvoice(JsonElement element)
         {
+            string clientVerifiedDt = default;
             InvoiceData data = default;
             InvoiceMeta meta = default;
             Error error = default;
             foreach (var property in element.EnumerateObject())
             {
+                if (property.NameEquals("clientVerifiedDt"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        clientVerifiedDt = null;
+                        continue;
+                    }
+                    clientVerifiedDt = property.Value.GetString();
+                    continue;
+                }
                 if (property.NameEquals("data"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
@@ -40,7 +51,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new Invoice(data, meta, error);
+            return new Invoice(clientVerifiedDt, data, meta, error);
         }
     }
 }

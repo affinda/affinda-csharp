@@ -190,6 +190,7 @@ namespace Affinda.API.Models
             Optional<Location> location = default;
             Optional<string> objective = default;
             Optional<IReadOnlyList<string>> languages = default;
+            Optional<IReadOnlyList<string>> languageCodes = default;
             Optional<string> summary = default;
             Optional<int> totalYearsExperience = default;
             Optional<byte[]> headShot = default;
@@ -304,6 +305,21 @@ namespace Affinda.API.Models
                         array.Add(item.GetString());
                     }
                     languages = array;
+                    continue;
+                }
+                if (property.NameEquals("languageCodes"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    List<string> array = new List<string>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(item.GetString());
+                    }
+                    languageCodes = array;
                     continue;
                 }
                 if (property.NameEquals("summary"))
@@ -477,7 +493,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new ResumeData(name.Value, Optional.ToList(phoneNumbers), Optional.ToList(websites), Optional.ToList(emails), dateOfBirth.Value, location.Value, objective.Value, Optional.ToList(languages), summary.Value, Optional.ToNullable(totalYearsExperience), headShot.Value, Optional.ToList(education), profession.Value, linkedin.Value, Optional.ToList(workExperience), Optional.ToList(skills), Optional.ToList(certifications), Optional.ToList(publications), Optional.ToList(referees), Optional.ToList(sections), Optional.ToNullable(isResumeProbability), rawText.Value);
+            return new ResumeData(name.Value, Optional.ToList(phoneNumbers), Optional.ToList(websites), Optional.ToList(emails), dateOfBirth.Value, location.Value, objective.Value, Optional.ToList(languages), Optional.ToList(languageCodes), summary.Value, Optional.ToNullable(totalYearsExperience), headShot.Value, Optional.ToList(education), profession.Value, linkedin.Value, Optional.ToList(workExperience), Optional.ToList(skills), Optional.ToList(certifications), Optional.ToList(publications), Optional.ToList(referees), Optional.ToList(sections), Optional.ToNullable(isResumeProbability), rawText.Value);
         }
     }
 }

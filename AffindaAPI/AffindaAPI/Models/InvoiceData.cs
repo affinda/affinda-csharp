@@ -17,6 +17,7 @@ namespace Affinda.API.Models
         internal InvoiceData()
         {
             Tables = new ChangeTrackingList<InvoiceDataTablesItem>();
+            CustomFields = new ChangeTrackingDictionary<string, object>();
         }
 
         /// <summary> Initializes a new instance of InvoiceData. </summary>
@@ -56,7 +57,9 @@ namespace Affinda.API.Models
         /// <param name="customerEmail"></param>
         /// <param name="supplierEmail"></param>
         /// <param name="supplierWebsite"></param>
-        internal InvoiceData(IReadOnlyList<InvoiceDataTablesItem> tables, DateAnnotation invoiceDate, DateAnnotation invoiceOrderDate, DateAnnotation paymentDateDue, InvoiceDataPaymentAmountBase paymentAmountBase, InvoiceDataPaymentAmountTax paymentAmountTax, InvoiceDataPaymentAmountTotal paymentAmountTotal, InvoiceDataPaymentAmountPaid paymentAmountPaid, InvoiceDataPaymentAmountDue paymentAmountDue, InvoiceDataInvoiceNumber invoiceNumber, InvoiceDataInvoicePurchaseOrderNumber invoicePurchaseOrderNumber, InvoiceDataSupplierBusinessNumber supplierBusinessNumber, InvoiceDataCustomerNumber customerNumber, InvoiceDataCustomerBusinessNumber customerBusinessNumber, InvoiceDataPaymentReference paymentReference, InvoiceDataBankAccountNumber bankAccountNumber, InvoiceDataSupplierVAT supplierVAT, InvoiceDataCustomerVAT customerVAT, InvoiceDataBpayBillerCode bpayBillerCode, InvoiceDataBpayReference bpayReference, InvoiceDataBankSortCode bankSortCode, InvoiceDataBankIban bankIban, InvoiceDataBankSwift bankSwift, InvoiceDataBankBSB bankBSB, InvoiceDataCustomerContactName customerContactName, InvoiceDataCustomerCompanyName customerCompanyName, InvoiceDataSupplierCompanyName supplierCompanyName, LocationAnnotation customerBillingAddress, LocationAnnotation customerDeliveryAddress, LocationAnnotation supplierAddress, InvoiceDataCustomerPhoneNumber customerPhoneNumber, InvoiceDataSupplierPhoneNumber supplierPhoneNumber, InvoiceDataSupplierFax supplierFax, InvoiceDataCustomerEmail customerEmail, InvoiceDataSupplierEmail supplierEmail, InvoiceDataSupplierWebsite supplierWebsite)
+        /// <param name="currencyCode"></param>
+        /// <param name="customFields"> Dictionary of &lt;any&gt;. </param>
+        internal InvoiceData(IReadOnlyList<InvoiceDataTablesItem> tables, DateAnnotation invoiceDate, DateAnnotation invoiceOrderDate, DateAnnotation paymentDateDue, InvoiceDataPaymentAmountBase paymentAmountBase, InvoiceDataPaymentAmountTax paymentAmountTax, InvoiceDataPaymentAmountTotal paymentAmountTotal, InvoiceDataPaymentAmountPaid paymentAmountPaid, InvoiceDataPaymentAmountDue paymentAmountDue, InvoiceDataInvoiceNumber invoiceNumber, InvoiceDataInvoicePurchaseOrderNumber invoicePurchaseOrderNumber, InvoiceDataSupplierBusinessNumber supplierBusinessNumber, InvoiceDataCustomerNumber customerNumber, InvoiceDataCustomerBusinessNumber customerBusinessNumber, InvoiceDataPaymentReference paymentReference, InvoiceDataBankAccountNumber bankAccountNumber, InvoiceDataSupplierVAT supplierVAT, InvoiceDataCustomerVAT customerVAT, InvoiceDataBpayBillerCode bpayBillerCode, InvoiceDataBpayReference bpayReference, InvoiceDataBankSortCode bankSortCode, InvoiceDataBankIban bankIban, InvoiceDataBankSwift bankSwift, InvoiceDataBankBSB bankBSB, InvoiceDataCustomerContactName customerContactName, InvoiceDataCustomerCompanyName customerCompanyName, InvoiceDataSupplierCompanyName supplierCompanyName, LocationAnnotation customerBillingAddress, LocationAnnotation customerDeliveryAddress, LocationAnnotation supplierAddress, InvoiceDataCustomerPhoneNumber customerPhoneNumber, InvoiceDataSupplierPhoneNumber supplierPhoneNumber, InvoiceDataSupplierFax supplierFax, InvoiceDataCustomerEmail customerEmail, InvoiceDataSupplierEmail supplierEmail, InvoiceDataSupplierWebsite supplierWebsite, EnumAnnotationSerializer currencyCode, IReadOnlyDictionary<string, object> customFields)
         {
             Tables = tables;
             InvoiceDate = invoiceDate;
@@ -94,6 +97,8 @@ namespace Affinda.API.Models
             CustomerEmail = customerEmail;
             SupplierEmail = supplierEmail;
             SupplierWebsite = supplierWebsite;
+            CurrencyCode = currencyCode;
+            CustomFields = customFields;
         }
 
         /// <summary> Gets the tables. </summary>
@@ -168,5 +173,9 @@ namespace Affinda.API.Models
         public InvoiceDataSupplierEmail SupplierEmail { get; }
         /// <summary> Gets the supplier website. </summary>
         public InvoiceDataSupplierWebsite SupplierWebsite { get; }
+        /// <summary> Gets the currency code. </summary>
+        public EnumAnnotationSerializer CurrencyCode { get; }
+        /// <summary> Dictionary of &lt;any&gt;. </summary>
+        public IReadOnlyDictionary<string, object> CustomFields { get; }
     }
 }

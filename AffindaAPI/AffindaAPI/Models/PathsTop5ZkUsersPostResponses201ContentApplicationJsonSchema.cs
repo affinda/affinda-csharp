@@ -28,13 +28,9 @@ namespace Affinda.API.Models
         /// <param name="name"></param>
         /// <param name="username"></param>
         /// <param name="email"></param>
-        /// <param name="apiKey"> API key used to authenticate for future requests.  This key is only retrievable at the initial creation of the user. </param>
-        internal PathsTop5ZkUsersPostResponses201ContentApplicationJsonSchema(string id, string name, string username, string email, string apiKey) : base(id, name, username, email)
+        /// <param name="apiKey"></param>
+        internal PathsTop5ZkUsersPostResponses201ContentApplicationJsonSchema(string id, string name, string username, string email, string apiKey) : base(id, name, username, email, apiKey)
         {
-            ApiKey = apiKey;
         }
-
-        /// <summary> API key used to authenticate for future requests.  This key is only retrievable at the initial creation of the user. </summary>
-        public string ApiKey { get; }
     }
 }

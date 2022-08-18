@@ -56,10 +56,13 @@ namespace Affinda.API.Models
         internal static ResumeDataSkillsItem DeserializeResumeDataSkillsItem(JsonElement element)
         {
             Optional<int> id = default;
+            Optional<string> emsiId = default;
             Optional<string> name = default;
             Optional<string> lastUsed = default;
             Optional<int?> numberOfMonths = default;
             Optional<string> type = default;
+            Optional<int?> count = default;
+            Optional<float?> weighting = default;
             Optional<IReadOnlyList<ResumeDataSkillsPropertiesItemsItem>> sources = default;
             foreach (var property in element.EnumerateObject())
             {
@@ -71,6 +74,16 @@ namespace Affinda.API.Models
                         continue;
                     }
                     id = property.Value.GetInt32();
+                    continue;
+                }
+                if (property.NameEquals("emsiId"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        emsiId = null;
+                        continue;
+                    }
+                    emsiId = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("name"))
@@ -103,6 +116,26 @@ namespace Affinda.API.Models
                     type = property.Value.GetString();
                     continue;
                 }
+                if (property.NameEquals("count"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        count = null;
+                        continue;
+                    }
+                    count = property.Value.GetInt32();
+                    continue;
+                }
+                if (property.NameEquals("weighting"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        weighting = null;
+                        continue;
+                    }
+                    weighting = property.Value.GetSingle();
+                    continue;
+                }
                 if (property.NameEquals("sources"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
@@ -119,7 +152,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new ResumeDataSkillsItem(Optional.ToNullable(id), name.Value, lastUsed.Value, Optional.ToNullable(numberOfMonths), type.Value, Optional.ToList(sources));
+            return new ResumeDataSkillsItem(Optional.ToNullable(id), emsiId.Value, name.Value, lastUsed.Value, Optional.ToNullable(numberOfMonths), type.Value, Optional.ToNullable(count), Optional.ToNullable(weighting), Optional.ToList(sources));
         }
     }
 }

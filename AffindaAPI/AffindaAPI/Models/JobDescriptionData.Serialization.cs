@@ -15,6 +15,7 @@ namespace Affinda.API.Models
     {
         internal static JobDescriptionData DeserializeJobDescriptionData(JsonElement element)
         {
+            Optional<JobTitleAnnotation> jobTitle = default;
             Optional<TextAnnotation> contactEmail = default;
             Optional<TextAnnotation> contactName = default;
             Optional<TextAnnotation> contactPhone = default;
@@ -30,8 +31,19 @@ namespace Affinda.API.Models
             Optional<ExpectedRemunerationAnnotation> expectedRemuneration = default;
             Optional<LocationAnnotation> location = default;
             Optional<IReadOnlyList<TextAnnotation>> certifications = default;
+            Optional<YearsExperienceAnnotation> yearsExperience = default;
             foreach (var property in element.EnumerateObject())
             {
+                if (property.NameEquals("jobTitle"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    jobTitle = JobTitleAnnotation.DeserializeJobTitleAnnotation(property.Value);
+                    continue;
+                }
                 if (property.NameEquals("contactEmail"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
@@ -197,8 +209,18 @@ namespace Affinda.API.Models
                     certifications = array;
                     continue;
                 }
+                if (property.NameEquals("yearsExperience"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    yearsExperience = YearsExperienceAnnotation.DeserializeYearsExperienceAnnotation(property.Value);
+                    continue;
+                }
             }
-            return new JobDescriptionData(contactEmail.Value, contactName.Value, contactPhone.Value, startDate.Value, endDate.Value, jobType.Value, Optional.ToList(languages), Optional.ToList(skills), organizationName.Value, organizationWebsite.Value, educationLevel.Value, educationAccreditation.Value, expectedRemuneration.Value, location.Value, Optional.ToList(certifications));
+            return new JobDescriptionData(jobTitle.Value, contactEmail.Value, contactName.Value, contactPhone.Value, startDate.Value, endDate.Value, jobType.Value, Optional.ToList(languages), Optional.ToList(skills), organizationName.Value, organizationWebsite.Value, educationLevel.Value, educationAccreditation.Value, expectedRemuneration.Value, location.Value, Optional.ToList(certifications), yearsExperience.Value);
         }
     }
 }

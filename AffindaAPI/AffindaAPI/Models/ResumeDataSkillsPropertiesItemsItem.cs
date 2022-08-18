@@ -17,16 +17,20 @@ namespace Affinda.API.Models
 
         /// <summary> Initializes a new instance of ResumeDataSkillsPropertiesItemsItem. </summary>
         /// <param name="section"></param>
-        /// <param name="position"></param>
-        internal ResumeDataSkillsPropertiesItemsItem(string section, int? position)
+        /// <param name="position"> If this skill is extracted from a &quot;workExperience&quot; section, the &quot;position&quot; is the index of the work experience where this skill is found, with 0 being the first work experience, 1 being the second work experience, and so on. </param>
+        /// <param name="workExperienceId"> If this skill is extracted from a &quot;workExperience&quot; section, the &quot;workExperienceId&quot; is the id of the work experience where this skill is found. </param>
+        internal ResumeDataSkillsPropertiesItemsItem(string section, int? position, int? workExperienceId)
         {
             Section = section;
             Position = position;
+            WorkExperienceId = workExperienceId;
         }
 
         /// <summary> Gets the section. </summary>
         public string Section { get; }
-        /// <summary> Gets the position. </summary>
+        /// <summary> If this skill is extracted from a &quot;workExperience&quot; section, the &quot;position&quot; is the index of the work experience where this skill is found, with 0 being the first work experience, 1 being the second work experience, and so on. </summary>
         public int? Position { get; }
+        /// <summary> If this skill is extracted from a &quot;workExperience&quot; section, the &quot;workExperienceId&quot; is the id of the work experience where this skill is found. </summary>
+        public int? WorkExperienceId { get; }
     }
 }

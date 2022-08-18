@@ -5,6 +5,9 @@
 
 #nullable disable
 
+using System.Collections.Generic;
+using Azure.Core;
+
 namespace Affinda.API.Models
 {
     /// <summary> The RowAnnotation. </summary>
@@ -13,6 +16,7 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of RowAnnotation. </summary>
         internal RowAnnotation()
         {
+            CustomFields = new ChangeTrackingDictionary<string, object>();
         }
 
         /// <summary> Initializes a new instance of RowAnnotation. </summary>
@@ -28,7 +32,8 @@ namespace Affinda.API.Models
         /// <param name="taxTotal"></param>
         /// <param name="total"></param>
         /// <param name="other"></param>
-        internal RowAnnotation(string code, string date, string description, string unit, float? unitPrice, float? quantity, string discount, float? baseTotal, string taxRate, float? taxTotal, float? total, string other)
+        /// <param name="customFields"> Dictionary of &lt;any&gt;. </param>
+        internal RowAnnotation(string code, string date, string description, string unit, float? unitPrice, float? quantity, string discount, float? baseTotal, string taxRate, float? taxTotal, float? total, string other, IReadOnlyDictionary<string, object> customFields)
         {
             Code = code;
             Date = date;
@@ -42,6 +47,7 @@ namespace Affinda.API.Models
             TaxTotal = taxTotal;
             Total = total;
             Other = other;
+            CustomFields = customFields;
         }
 
         /// <summary> Gets the code. </summary>
@@ -68,5 +74,7 @@ namespace Affinda.API.Models
         public float? Total { get; }
         /// <summary> Gets the other. </summary>
         public string Other { get; }
+        /// <summary> Dictionary of &lt;any&gt;. </summary>
+        public IReadOnlyDictionary<string, object> CustomFields { get; }
     }
 }

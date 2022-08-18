@@ -10,6 +10,8 @@ namespace Affinda.API.Models
     /// <summary> The ManagementLevel. </summary>
     public enum ManagementLevel
     {
+        /// <summary> None. </summary>
+        None,
         /// <summary> Low. </summary>
         Low,
         /// <summary> Mid. </summary>

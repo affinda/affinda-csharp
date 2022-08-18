@@ -26,7 +26,7 @@ namespace Affinda.API.Models
         /// <param name="occupationGroup"></param>
         /// <param name="searchExpression"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="pdf"/>, <paramref name="jobTitle"/>, <paramref name="managementLevel"/>, <paramref name="experience"/>, <paramref name="skills"/>, <paramref name="languages"/>, <paramref name="location"/>, <paramref name="education"/>, <paramref name="occupationGroup"/> or <paramref name="searchExpression"/> is null. </exception>
-        internal ResumeSearchResult(string identifier, float score, string pdf, ResumeSearchScoreComponent jobTitle, ResumeSearchScoreComponent managementLevel, ResumeSearchScoreComponent experience, ResumeSearchScoreComponent skills, ResumeSearchScoreComponent languages, ResumeSearchScoreComponent location, ResumeSearchScoreComponent education, ResumeSearchScoreComponent occupationGroup, ResumeSearchScoreComponent searchExpression)
+        internal ResumeSearchResult(string identifier, float score, string pdf, JobTitleSearchScoreComponent jobTitle, ManagementLevelSearchScoreComponent managementLevel, ExperienceSearchScoreComponent experience, SkillsSearchScoreComponent skills, LanguagesSearchScoreComponent languages, LocationSearchScoreComponent location, EducationSearchScoreComponent education, OccupationGroupSearchScoreComponent occupationGroup, SearchExpressionSearchScoreComponent searchExpression)
         {
             if (pdf == null)
             {
@@ -97,7 +97,7 @@ namespace Affinda.API.Models
         /// <param name="education"></param>
         /// <param name="occupationGroup"></param>
         /// <param name="searchExpression"></param>
-        internal ResumeSearchResult(string identifier, float score, string pdf, string name, ResumeSearchScoreComponent jobTitle, ResumeSearchScoreComponent managementLevel, ResumeSearchScoreComponent experience, ResumeSearchScoreComponent skills, ResumeSearchScoreComponent languages, ResumeSearchScoreComponent location, ResumeSearchScoreComponent education, ResumeSearchScoreComponent occupationGroup, ResumeSearchScoreComponent searchExpression)
+        internal ResumeSearchResult(string identifier, float score, string pdf, string name, JobTitleSearchScoreComponent jobTitle, ManagementLevelSearchScoreComponent managementLevel, ExperienceSearchScoreComponent experience, SkillsSearchScoreComponent skills, LanguagesSearchScoreComponent languages, LocationSearchScoreComponent location, EducationSearchScoreComponent education, OccupationGroupSearchScoreComponent occupationGroup, SearchExpressionSearchScoreComponent searchExpression)
         {
             Identifier = identifier;
             Score = score;
@@ -123,22 +123,22 @@ namespace Affinda.API.Models
         /// <summary> Gets the name. </summary>
         public string Name { get; }
         /// <summary> Gets the job title. </summary>
-        public ResumeSearchScoreComponent JobTitle { get; }
+        public JobTitleSearchScoreComponent JobTitle { get; }
         /// <summary> Gets the management level. </summary>
-        public ResumeSearchScoreComponent ManagementLevel { get; }
+        public ManagementLevelSearchScoreComponent ManagementLevel { get; }
         /// <summary> Gets the experience. </summary>
-        public ResumeSearchScoreComponent Experience { get; }
+        public ExperienceSearchScoreComponent Experience { get; }
         /// <summary> Gets the skills. </summary>
-        public ResumeSearchScoreComponent Skills { get; }
+        public SkillsSearchScoreComponent Skills { get; }
         /// <summary> Gets the languages. </summary>
-        public ResumeSearchScoreComponent Languages { get; }
+        public LanguagesSearchScoreComponent Languages { get; }
         /// <summary> Gets the location. </summary>
-        public ResumeSearchScoreComponent Location { get; }
+        public LocationSearchScoreComponent Location { get; }
         /// <summary> Gets the education. </summary>
-        public ResumeSearchScoreComponent Education { get; }
+        public EducationSearchScoreComponent Education { get; }
         /// <summary> Gets the occupation group. </summary>
-        public ResumeSearchScoreComponent OccupationGroup { get; }
+        public OccupationGroupSearchScoreComponent OccupationGroup { get; }
         /// <summary> Gets the search expression. </summary>
-        public ResumeSearchScoreComponent SearchExpression { get; }
+        public SearchExpressionSearchScoreComponent SearchExpression { get; }
     }
 }

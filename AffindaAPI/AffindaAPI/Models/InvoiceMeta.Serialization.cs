@@ -6,6 +6,7 @@
 #nullable disable
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
 
@@ -15,6 +16,7 @@ namespace Affinda.API.Models
     {
         internal static InvoiceMeta DeserializeInvoiceMeta(JsonElement element)
         {
+            Optional<string> clientVerifiedDt = default;
             Optional<string> reviewUrl = default;
             string identifier = default;
             Optional<string> fileName = default;
@@ -22,8 +24,21 @@ namespace Affinda.API.Models
             Optional<DateTimeOffset?> readyDt = default;
             bool failed = default;
             Optional<string> expiryTime = default;
+            Optional<string> language = default;
+            IReadOnlyDictionary<string, object> additionalProperties = default;
+            Dictionary<string, object> additionalPropertiesDictionary = new Dictionary<string, object>();
             foreach (var property in element.EnumerateObject())
             {
+                if (property.NameEquals("clientVerifiedDt"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        clientVerifiedDt = null;
+                        continue;
+                    }
+                    clientVerifiedDt = property.Value.GetString();
+                    continue;
+                }
                 if (property.NameEquals("reviewUrl"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
@@ -84,8 +99,15 @@ namespace Affinda.API.Models
                     expiryTime = property.Value.GetString();
                     continue;
                 }
+                if (property.NameEquals("language"))
+                {
+                    language = property.Value.GetString();
+                    continue;
+                }
+                additionalPropertiesDictionary.Add(property.Name, property.Value.GetObject());
             }
-            return new InvoiceMeta(identifier, fileName.Value, ready, Optional.ToNullable(readyDt), failed, expiryTime.Value, reviewUrl.Value);
+            additionalProperties = additionalPropertiesDictionary;
+            return new InvoiceMeta(identifier, fileName.Value, ready, Optional.ToNullable(readyDt), failed, expiryTime.Value, language.Value, additionalProperties, clientVerifiedDt.Value, reviewUrl.Value);
         }
     }
 }

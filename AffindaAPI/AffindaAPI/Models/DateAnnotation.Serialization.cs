@@ -17,6 +17,7 @@ namespace Affinda.API.Models
         internal static DateAnnotation DeserializeDateAnnotation(JsonElement element)
         {
             Optional<DateTimeOffset?> parsed = default;
+            Optional<int?> id = default;
             Rectangle rectangle = default;
             int? pageIndex = default;
             string raw = default;
@@ -35,6 +36,16 @@ namespace Affinda.API.Models
                         continue;
                     }
                     parsed = property.Value.GetDateTimeOffset("D");
+                    continue;
+                }
+                if (property.NameEquals("id"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        id = null;
+                        continue;
+                    }
+                    id = property.Value.GetInt32();
                     continue;
                 }
                 if (property.NameEquals("rectangle"))
@@ -80,7 +91,7 @@ namespace Affinda.API.Models
                 additionalPropertiesDictionary.Add(property.Name, property.Value.GetObject());
             }
             additionalProperties = additionalPropertiesDictionary;
-            return new DateAnnotation(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, Optional.ToNullable(parsed));
+            return new DateAnnotation(Optional.ToNullable(id), rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, Optional.ToNullable(parsed));
         }
     }
 }

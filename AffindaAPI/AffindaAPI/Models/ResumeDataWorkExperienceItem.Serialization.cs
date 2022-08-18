@@ -87,7 +87,10 @@ namespace Affinda.API.Models
         {
             Optional<int> id = default;
             Optional<string> jobTitle = default;
+            Optional<string> socCode = default;
+            Optional<string> socName = default;
             Optional<string> organization = default;
+            Optional<string> industry = default;
             Optional<Location> location = default;
             Optional<string> jobDescription = default;
             Optional<ResumeDataWorkExperienceItemDates> dates = default;
@@ -114,6 +117,26 @@ namespace Affinda.API.Models
                     jobTitle = property.Value.GetString();
                     continue;
                 }
+                if (property.NameEquals("socCode"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        socCode = null;
+                        continue;
+                    }
+                    socCode = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("socName"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        socName = null;
+                        continue;
+                    }
+                    socName = property.Value.GetString();
+                    continue;
+                }
                 if (property.NameEquals("organization"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
@@ -122,6 +145,16 @@ namespace Affinda.API.Models
                         continue;
                     }
                     organization = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("industry"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        industry = null;
+                        continue;
+                    }
+                    industry = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("location"))
@@ -165,7 +198,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new ResumeDataWorkExperienceItem(Optional.ToNullable(id), jobTitle.Value, organization.Value, location.Value, jobDescription.Value, dates.Value, occupation.Value);
+            return new ResumeDataWorkExperienceItem(Optional.ToNullable(id), jobTitle.Value, socCode.Value, socName.Value, organization.Value, industry.Value, location.Value, jobDescription.Value, dates.Value, occupation.Value);
         }
     }
 }

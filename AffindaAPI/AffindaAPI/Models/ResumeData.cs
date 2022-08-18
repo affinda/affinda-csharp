@@ -11,7 +11,7 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    /// <summary> The ResumeData. </summary>
+    /// <summary> A JSON-encoded string of the `ResumeData` object. </summary>
     public partial class ResumeData
     {
         /// <summary> Initializes a new instance of ResumeData. </summary>
@@ -21,6 +21,7 @@ namespace Affinda.API.Models
             Websites = new ChangeTrackingList<string>();
             Emails = new ChangeTrackingList<string>();
             Languages = new ChangeTrackingList<string>();
+            LanguageCodes = new ChangeTrackingList<string>();
             Education = new ChangeTrackingList<ResumeDataEducationItem>();
             WorkExperience = new ChangeTrackingList<ResumeDataWorkExperienceItem>();
             Skills = new ChangeTrackingList<ResumeDataSkillsItem>();
@@ -39,6 +40,7 @@ namespace Affinda.API.Models
         /// <param name="location"></param>
         /// <param name="objective"></param>
         /// <param name="languages"></param>
+        /// <param name="languageCodes"></param>
         /// <param name="summary"></param>
         /// <param name="totalYearsExperience"></param>
         /// <param name="headShot"> base64 encoded string. </param>
@@ -53,7 +55,7 @@ namespace Affinda.API.Models
         /// <param name="sections"></param>
         /// <param name="isResumeProbability"> Probability that the given document is a resume. Values below 30 suggest that the document is not a resume. </param>
         /// <param name="rawText"> All of the raw text of the parsed resume, example is shortened for readiblity. </param>
-        internal ResumeData(ResumeDataName name, IList<string> phoneNumbers, IList<string> websites, IList<string> emails, string dateOfBirth, Location location, string objective, IReadOnlyList<string> languages, string summary, int? totalYearsExperience, byte[] headShot, IList<ResumeDataEducationItem> education, string profession, string linkedin, IList<ResumeDataWorkExperienceItem> workExperience, IList<ResumeDataSkillsItem> skills, IList<string> certifications, IList<string> publications, IList<ResumeDataRefereesItem> referees, IReadOnlyList<ResumeDataSectionsItem> sections, int? isResumeProbability, string rawText)
+        internal ResumeData(ResumeDataName name, IList<string> phoneNumbers, IList<string> websites, IList<string> emails, string dateOfBirth, Location location, string objective, IReadOnlyList<string> languages, IReadOnlyList<string> languageCodes, string summary, int? totalYearsExperience, byte[] headShot, IList<ResumeDataEducationItem> education, string profession, string linkedin, IList<ResumeDataWorkExperienceItem> workExperience, IList<ResumeDataSkillsItem> skills, IList<string> certifications, IList<string> publications, IList<ResumeDataRefereesItem> referees, IReadOnlyList<ResumeDataSectionsItem> sections, int? isResumeProbability, string rawText)
         {
             Name = name;
             PhoneNumbers = phoneNumbers;
@@ -63,6 +65,7 @@ namespace Affinda.API.Models
             Location = location;
             Objective = objective;
             Languages = languages;
+            LanguageCodes = languageCodes;
             Summary = summary;
             TotalYearsExperience = totalYearsExperience;
             HeadShot = headShot;
@@ -95,6 +98,8 @@ namespace Affinda.API.Models
         public string Objective { get; set; }
         /// <summary> Gets the languages. </summary>
         public IReadOnlyList<string> Languages { get; }
+        /// <summary> Gets the language codes. </summary>
+        public IReadOnlyList<string> LanguageCodes { get; }
         /// <summary> Gets or sets the summary. </summary>
         public string Summary { get; set; }
         /// <summary> Gets or sets the total years experience. </summary>

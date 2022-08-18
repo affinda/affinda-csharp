@@ -14,27 +14,16 @@ namespace Affinda.API.Models
     {
         internal static Get200ApplicationJsonPropertiesItemsItem DeserializeGet200ApplicationJsonPropertiesItemsItem(JsonElement element)
         {
-            string identifier = default;
-            string formatFile = default;
+            string name = default;
             foreach (var property in element.EnumerateObject())
             {
-                if (property.NameEquals("identifier"))
+                if (property.NameEquals("name"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        identifier = null;
-                        continue;
-                    }
-                    identifier = property.Value.GetString();
-                    continue;
-                }
-                if (property.NameEquals("formatFile"))
-                {
-                    formatFile = property.Value.GetString();
+                    name = property.Value.GetString();
                     continue;
                 }
             }
-            return new Get200ApplicationJsonPropertiesItemsItem(identifier, formatFile);
+            return new Get200ApplicationJsonPropertiesItemsItem(name);
         }
     }
 }

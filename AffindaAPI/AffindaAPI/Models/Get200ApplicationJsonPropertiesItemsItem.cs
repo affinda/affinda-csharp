@@ -13,23 +13,19 @@ namespace Affinda.API.Models
     public partial class Get200ApplicationJsonPropertiesItemsItem
     {
         /// <summary> Initializes a new instance of Get200ApplicationJsonPropertiesItemsItem. </summary>
-        /// <param name="identifier"> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </param>
-        /// <param name="formatFile"> URL to a template to apply. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="formatFile"/> is null. </exception>
-        internal Get200ApplicationJsonPropertiesItemsItem(string identifier, string formatFile)
+        /// <param name="name"></param>
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/> is null. </exception>
+        internal Get200ApplicationJsonPropertiesItemsItem(string name)
         {
-            if (formatFile == null)
+            if (name == null)
             {
-                throw new ArgumentNullException(nameof(formatFile));
+                throw new ArgumentNullException(nameof(name));
             }
 
-            Identifier = identifier;
-            FormatFile = formatFile;
+            Name = name;
         }
 
-        /// <summary> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </summary>
-        public string Identifier { get; }
-        /// <summary> URL to a template to apply. </summary>
-        public string FormatFile { get; }
+        /// <summary> Gets the name. </summary>
+        public string Name { get; }
     }
 }

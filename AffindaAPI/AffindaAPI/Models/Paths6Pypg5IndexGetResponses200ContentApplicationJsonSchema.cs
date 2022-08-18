@@ -16,7 +16,7 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of Paths6Pypg5IndexGetResponses200ContentApplicationJsonSchema. </summary>
         internal Paths6Pypg5IndexGetResponses200ContentApplicationJsonSchema()
         {
-            Results = new ChangeTrackingList<Paths108CfgmIndexGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems>();
+            Results = new ChangeTrackingList<Get200ApplicationJsonPropertiesItemsItem>();
         }
 
         /// <summary> Initializes a new instance of Paths6Pypg5IndexGetResponses200ContentApplicationJsonSchema. </summary>
@@ -24,7 +24,7 @@ namespace Affinda.API.Models
         /// <param name="next"> URL to request next page of results. </param>
         /// <param name="previous"> URL to request previous page of results. </param>
         /// <param name="results"></param>
-        internal Paths6Pypg5IndexGetResponses200ContentApplicationJsonSchema(int? count, string next, string previous, IReadOnlyList<Paths108CfgmIndexGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems> results)
+        internal Paths6Pypg5IndexGetResponses200ContentApplicationJsonSchema(int? count, string next, string previous, IReadOnlyList<Get200ApplicationJsonPropertiesItemsItem> results)
         {
             Count = count;
             Next = next;
@@ -39,6 +39,6 @@ namespace Affinda.API.Models
         /// <summary> URL to request previous page of results. </summary>
         public string Previous { get; }
         /// <summary> Gets the results. </summary>
-        public IReadOnlyList<Paths108CfgmIndexGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems> Results { get; }
+        public IReadOnlyList<Get200ApplicationJsonPropertiesItemsItem> Results { get; }
     }
 }

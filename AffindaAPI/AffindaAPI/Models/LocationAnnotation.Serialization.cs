@@ -16,6 +16,7 @@ namespace Affinda.API.Models
         internal static LocationAnnotation DeserializeLocationAnnotation(JsonElement element)
         {
             Optional<Location> parsed = default;
+            Optional<int?> id = default;
             Rectangle rectangle = default;
             int? pageIndex = default;
             string raw = default;
@@ -34,6 +35,16 @@ namespace Affinda.API.Models
                         continue;
                     }
                     parsed = Location.DeserializeLocation(property.Value);
+                    continue;
+                }
+                if (property.NameEquals("id"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        id = null;
+                        continue;
+                    }
+                    id = property.Value.GetInt32();
                     continue;
                 }
                 if (property.NameEquals("rectangle"))
@@ -79,7 +90,7 @@ namespace Affinda.API.Models
                 additionalPropertiesDictionary.Add(property.Name, property.Value.GetObject());
             }
             additionalProperties = additionalPropertiesDictionary;
-            return new LocationAnnotation(rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed.Value);
+            return new LocationAnnotation(Optional.ToNullable(id), rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed.Value);
         }
     }
 }

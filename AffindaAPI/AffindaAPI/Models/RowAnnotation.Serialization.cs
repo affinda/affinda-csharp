@@ -5,6 +5,7 @@
 
 #nullable disable
 
+using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
 
@@ -26,6 +27,7 @@ namespace Affinda.API.Models
             Optional<float?> taxTotal = default;
             Optional<float?> total = default;
             Optional<string> other = default;
+            Optional<IReadOnlyDictionary<string, object>> customFields = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("code"))
@@ -148,8 +150,23 @@ namespace Affinda.API.Models
                     other = property.Value.GetString();
                     continue;
                 }
+                if (property.NameEquals("customFields"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    Dictionary<string, object> dictionary = new Dictionary<string, object>();
+                    foreach (var property0 in property.Value.EnumerateObject())
+                    {
+                        dictionary.Add(property0.Name, property0.Value.GetObject());
+                    }
+                    customFields = dictionary;
+                    continue;
+                }
             }
-            return new RowAnnotation(code.Value, date.Value, description.Value, unit.Value, Optional.ToNullable(unitPrice), Optional.ToNullable(quantity), discount.Value, Optional.ToNullable(baseTotal), taxRate.Value, Optional.ToNullable(taxTotal), Optional.ToNullable(total), other.Value);
+            return new RowAnnotation(code.Value, date.Value, description.Value, unit.Value, Optional.ToNullable(unitPrice), Optional.ToNullable(quantity), discount.Value, Optional.ToNullable(baseTotal), taxRate.Value, Optional.ToNullable(taxTotal), Optional.ToNullable(total), other.Value, Optional.ToDictionary(customFields));
         }
     }
 }

@@ -13,11 +13,12 @@ namespace Affinda.API.Models
     public partial class Invoice
     {
         /// <summary> Initializes a new instance of Invoice. </summary>
+        /// <param name="clientVerifiedDt"></param>
         /// <param name="data"></param>
         /// <param name="meta"></param>
         /// <param name="error"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="meta"/> or <paramref name="error"/> is null. </exception>
-        internal Invoice(InvoiceData data, InvoiceMeta meta, Error error)
+        internal Invoice(string clientVerifiedDt, InvoiceData data, InvoiceMeta meta, Error error)
         {
             if (meta == null)
             {
@@ -28,11 +29,14 @@ namespace Affinda.API.Models
                 throw new ArgumentNullException(nameof(error));
             }
 
+            ClientVerifiedDt = clientVerifiedDt;
             Data = data;
             Meta = meta;
             Error = error;
         }
 
+        /// <summary> Gets the client verified dt. </summary>
+        public string ClientVerifiedDt { get; }
         /// <summary> Gets the data. </summary>
         public InvoiceData Data { get; }
         /// <summary> Gets the meta. </summary>

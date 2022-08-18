@@ -21,23 +21,31 @@ namespace Affinda.API.Models
 
         /// <summary> Initializes a new instance of ResumeDataSkillsItem. </summary>
         /// <param name="id"></param>
+        /// <param name="emsiId"> EMSI id of this skill. </param>
         /// <param name="name"></param>
         /// <param name="lastUsed"></param>
         /// <param name="numberOfMonths"></param>
         /// <param name="type"></param>
+        /// <param name="count"></param>
+        /// <param name="weighting"></param>
         /// <param name="sources"></param>
-        internal ResumeDataSkillsItem(int? id, string name, string lastUsed, int? numberOfMonths, string type, IReadOnlyList<ResumeDataSkillsPropertiesItemsItem> sources)
+        internal ResumeDataSkillsItem(int? id, string emsiId, string name, string lastUsed, int? numberOfMonths, string type, int? count, float? weighting, IReadOnlyList<ResumeDataSkillsPropertiesItemsItem> sources)
         {
             Id = id;
+            EmsiId = emsiId;
             Name = name;
             LastUsed = lastUsed;
             NumberOfMonths = numberOfMonths;
             Type = type;
+            Count = count;
+            Weighting = weighting;
             Sources = sources;
         }
 
         /// <summary> Gets or sets the id. </summary>
         public int? Id { get; set; }
+        /// <summary> EMSI id of this skill. </summary>
+        public string EmsiId { get; }
         /// <summary> Gets or sets the name. </summary>
         public string Name { get; set; }
         /// <summary> Gets or sets the last used. </summary>
@@ -46,6 +54,10 @@ namespace Affinda.API.Models
         public int? NumberOfMonths { get; set; }
         /// <summary> Gets the type. </summary>
         public string Type { get; }
+        /// <summary> Gets the count. </summary>
+        public int? Count { get; }
+        /// <summary> Gets the weighting. </summary>
+        public float? Weighting { get; }
         /// <summary> Gets the sources. </summary>
         public IReadOnlyList<ResumeDataSkillsPropertiesItemsItem> Sources { get; }
     }

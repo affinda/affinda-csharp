@@ -18,7 +18,7 @@ namespace Affinda.API.Models
             Optional<int> count = default;
             Optional<string> next = default;
             Optional<string> previous = default;
-            Optional<IReadOnlyList<Paths108CfgmIndexGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems>> results = default;
+            Optional<IReadOnlyList<Get200ApplicationJsonPropertiesItemsItem>> results = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("count"))
@@ -58,10 +58,10 @@ namespace Affinda.API.Models
                         property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    List<Paths108CfgmIndexGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems> array = new List<Paths108CfgmIndexGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems>();
+                    List<Get200ApplicationJsonPropertiesItemsItem> array = new List<Get200ApplicationJsonPropertiesItemsItem>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(Paths108CfgmIndexGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems.DeserializePaths108CfgmIndexGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems(item));
+                        array.Add(Get200ApplicationJsonPropertiesItemsItem.DeserializeGet200ApplicationJsonPropertiesItemsItem(item));
                     }
                     results = array;
                     continue;

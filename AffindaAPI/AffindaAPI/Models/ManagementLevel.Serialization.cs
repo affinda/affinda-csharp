@@ -13,6 +13,7 @@ namespace Affinda.API.Models
     {
         public static string ToSerialString(this ManagementLevel value) => value switch
         {
+            ManagementLevel.None => "None",
             ManagementLevel.Low => "Low",
             ManagementLevel.Mid => "Mid",
             ManagementLevel.Upper => "Upper",
@@ -21,6 +22,7 @@ namespace Affinda.API.Models
 
         public static ManagementLevel ToManagementLevel(this string value)
         {
+            if (string.Equals(value, "None", StringComparison.InvariantCultureIgnoreCase)) return ManagementLevel.None;
             if (string.Equals(value, "Low", StringComparison.InvariantCultureIgnoreCase)) return ManagementLevel.Low;
             if (string.Equals(value, "Mid", StringComparison.InvariantCultureIgnoreCase)) return ManagementLevel.Mid;
             if (string.Equals(value, "Upper", StringComparison.InvariantCultureIgnoreCase)) return ManagementLevel.Upper;

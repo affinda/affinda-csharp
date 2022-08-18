@@ -22,7 +22,7 @@ namespace Affinda.API.Models
         /// <param name="location"></param>
         /// <param name="dates"></param>
         /// <param name="match"></param>
-        internal ResumeSearchDetailEducationValueItem(string organization, Accreditation accreditation, string grade, Location location, EducationDates dates, bool? match) : base(organization, accreditation, grade, location, dates)
+        internal ResumeSearchDetailEducationValueItem(string organization, Accreditation accreditation, EducationGrade grade, Location location, EducationDates dates, bool? match) : base(organization, accreditation, grade, location, dates)
         {
             Match = match;
         }

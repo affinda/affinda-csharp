@@ -6,6 +6,8 @@
 #nullable disable
 
 using System;
+using System.Collections.Generic;
+using Azure.Core;
 
 namespace Affinda.API.Models
 {
@@ -21,6 +23,7 @@ namespace Affinda.API.Models
             Identifier = identifier;
             Ready = ready;
             Failed = failed;
+            AdditionalProperties = new ChangeTrackingDictionary<string, object>();
         }
 
         /// <summary> Initializes a new instance of Meta. </summary>
@@ -30,7 +33,9 @@ namespace Affinda.API.Models
         /// <param name="readyDt"> The datetime when the document was ready. </param>
         /// <param name="failed"> If true, some exception was raised during processing. Check the &apos;error&apos; field of the main return object. </param>
         /// <param name="expiryTime"> The date/time in ISO-8601 format when the document will be automatically deleted.  Defaults to no expiry. </param>
-        internal Meta(string identifier, string fileName, bool ready, DateTimeOffset? readyDt, bool failed, string expiryTime)
+        /// <param name="language"> The resume&apos;s language. </param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        internal Meta(string identifier, string fileName, bool ready, DateTimeOffset? readyDt, bool failed, string expiryTime, string language, IReadOnlyDictionary<string, object> additionalProperties)
         {
             Identifier = identifier;
             FileName = fileName;
@@ -38,6 +43,8 @@ namespace Affinda.API.Models
             ReadyDt = readyDt;
             Failed = failed;
             ExpiryTime = expiryTime;
+            Language = language;
+            AdditionalProperties = additionalProperties;
         }
 
         /// <summary> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </summary>
@@ -52,5 +59,9 @@ namespace Affinda.API.Models
         public bool Failed { get; }
         /// <summary> The date/time in ISO-8601 format when the document will be automatically deleted.  Defaults to no expiry. </summary>
         public string ExpiryTime { get; }
+        /// <summary> The resume&apos;s language. </summary>
+        public string Language { get; }
+        /// <summary> Additional Properties. </summary>
+        public IReadOnlyDictionary<string, object> AdditionalProperties { get; }
     }
 }

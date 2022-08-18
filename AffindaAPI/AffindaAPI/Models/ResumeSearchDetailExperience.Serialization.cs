@@ -14,7 +14,7 @@ namespace Affinda.API.Models
     {
         internal static ResumeSearchDetailExperience DeserializeResumeSearchDetailExperience(JsonElement element)
         {
-            Optional<int> years = default;
+            Optional<int?> years = default;
             Optional<bool> match = default;
             foreach (var property in element.EnumerateObject())
             {
@@ -22,7 +22,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        years = null;
                         continue;
                     }
                     years = property.Value.GetInt32();

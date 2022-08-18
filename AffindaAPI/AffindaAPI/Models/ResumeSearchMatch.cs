@@ -17,12 +17,16 @@ namespace Affinda.API.Models
 
         /// <summary> Initializes a new instance of ResumeSearchMatch. </summary>
         /// <param name="score"> The matching score between the provided resume and job description. </param>
-        internal ResumeSearchMatch(float? score)
+        /// <param name="details"></param>
+        internal ResumeSearchMatch(float? score, ResumeSearchMatchDetails details)
         {
             Score = score;
+            Details = details;
         }
 
         /// <summary> The matching score between the provided resume and job description. </summary>
         public float? Score { get; }
+        /// <summary> Gets the details. </summary>
+        public ResumeSearchMatchDetails Details { get; }
     }
 }

@@ -23,21 +23,41 @@ namespace Affinda.API.Models
             {
                 if (property.NameEquals("name"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        name = null;
+                        continue;
+                    }
                     name = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("startDate"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        startDate = null;
+                        continue;
+                    }
                     startDate = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("endDate"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        endDate = null;
+                        continue;
+                    }
                     endDate = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("companyName"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        companyName = null;
+                        continue;
+                    }
                     companyName = property.Value.GetString();
                     continue;
                 }

@@ -22,8 +22,6 @@ namespace Affinda.API
     {
         private readonly HttpPipeline _pipeline;
         private readonly Uri _endpoint;
-        private readonly int? _offset;
-        private readonly int? _limit;
 
         /// <summary> The ClientDiagnostics is used to provide tracing support for the client library. </summary>
         internal ClientDiagnostics ClientDiagnostics { get; }
@@ -32,19 +30,15 @@ namespace Affinda.API
         /// <param name="clientDiagnostics"> The handler for diagnostic messaging in the client. </param>
         /// <param name="pipeline"> The HTTP pipeline for sending and receiving REST requests and responses. </param>
         /// <param name="endpoint"> server parameter. </param>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="clientDiagnostics"/> or <paramref name="pipeline"/> is null. </exception>
-        public AffindaAPIRestClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, Uri endpoint = null, int? offset = null, int? limit = null)
+        public AffindaAPIRestClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, Uri endpoint = null)
         {
             ClientDiagnostics = clientDiagnostics ?? throw new ArgumentNullException(nameof(clientDiagnostics));
             _pipeline = pipeline ?? throw new ArgumentNullException(nameof(pipeline));
             _endpoint = endpoint ?? new Uri("https://api.affinda.com/v2");
-            _offset = offset;
-            _limit = limit;
         }
 
-        internal HttpMessage CreateGetAllResumesRequest()
+        internal HttpMessage CreateGetAllResumesRequest(int? offset, int? limit)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -52,24 +46,27 @@ namespace Affinda.API
             var uri = new RawRequestUriBuilder();
             uri.Reset(_endpoint);
             uri.AppendPath("/resumes", false);
-            if (_offset != null)
+            if (offset != null)
             {
-                uri.AppendQuery("offset", _offset.Value, true);
+                uri.AppendQuery("offset", offset.Value, true);
             }
-            if (_limit != null)
+            if (limit != null)
             {
-                uri.AppendQuery("limit", _limit.Value, true);
+                uri.AppendQuery("limit", limit.Value, true);
             }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
         }
 
-        /// <summary> Returns all the resume summaries for that user, limited to 300 per page. </summary>
+        /// <summary> Get list of all resumes. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<object>> GetAllResumesAsync(CancellationToken cancellationToken = default)
+        /// <remarks> Returns all the resume summaries for that user, limited to 300 per page. </remarks>
+        public async Task<Response<object>> GetAllResumesAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllResumesRequest();
+            using var message = CreateGetAllResumesRequest(offset, limit);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -93,11 +90,14 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Returns all the resume summaries for that user, limited to 300 per page. </summary>
+        /// <summary> Get list of all resumes. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<object> GetAllResumes(CancellationToken cancellationToken = default)
+        /// <remarks> Returns all the resume summaries for that user, limited to 300 per page. </remarks>
+        public Response<object> GetAllResumes(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllResumesRequest();
+            using var message = CreateGetAllResumesRequest(offset, limit);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -169,21 +169,20 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary>
-        /// Uploads a resume for parsing.
-        /// Provide `file` for uploading a resume file, or `url` for getting resume file from an url, or `data` if you want to upload resume data directly without parsing any resume file.
-        /// For uploading resume data, the `data` argument provided must be a JSON-encoded string.
-        /// When successful, returns an `identifier` in the response for subsequent use with the [/resumes/{identifier}](#operation/getResume) endpoint to check processing status and retrieve results.
-        /// </summary>
-        /// <param name="file"> The binary to use. </param>
-        /// <param name="url"> The UrlToProcess to use. </param>
-        /// <param name="data"> A JSON-encoded string of the `ResumeData` object. </param>
-        /// <param name="identifier"> The Identifier to use. </param>
-        /// <param name="fileName"> The FileName to use. </param>
-        /// <param name="wait"> The Wait to use. </param>
-        /// <param name="language"> The Language to use. </param>
-        /// <param name="expiryTime"> The ExpiryTime to use. </param>
+        /// <summary> Upload a resume for parsing. </summary>
+        /// <param name="file"> The Stream to use. </param>
+        /// <param name="url"> The String to use. </param>
+        /// <param name="data"> The String to use. </param>
+        /// <param name="identifier"> The String to use. </param>
+        /// <param name="fileName"> The String to use. </param>
+        /// <param name="wait"> The String to use. </param>
+        /// <param name="language"> The String to use. </param>
+        /// <param name="expiryTime"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks>
+        /// Uploads a resume for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/resumes/{identifier}](#get-/resumes/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
+        /// Resumes can be uploaded as a file or a URL. In addition, data can be added directly if users want to upload directly without parsing any resume file. For uploading resume data, the `data` argument provided must be a JSON-encoded string. Data uploads will not impact upon parsing credits.
+        /// </remarks>
         public async Task<Response<object>> CreateResumeAsync(Stream file = null, string url = null, string data = null, string identifier = null, string fileName = null, string wait = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
             using var message = CreateCreateResumeRequest(file, url, data, identifier, fileName, wait, language, expiryTime);
@@ -211,21 +210,20 @@ namespace Affinda.API
             }
         }
 
-        /// <summary>
-        /// Uploads a resume for parsing.
-        /// Provide `file` for uploading a resume file, or `url` for getting resume file from an url, or `data` if you want to upload resume data directly without parsing any resume file.
-        /// For uploading resume data, the `data` argument provided must be a JSON-encoded string.
-        /// When successful, returns an `identifier` in the response for subsequent use with the [/resumes/{identifier}](#operation/getResume) endpoint to check processing status and retrieve results.
-        /// </summary>
-        /// <param name="file"> The binary to use. </param>
-        /// <param name="url"> The UrlToProcess to use. </param>
-        /// <param name="data"> A JSON-encoded string of the `ResumeData` object. </param>
-        /// <param name="identifier"> The Identifier to use. </param>
-        /// <param name="fileName"> The FileName to use. </param>
-        /// <param name="wait"> The Wait to use. </param>
-        /// <param name="language"> The Language to use. </param>
-        /// <param name="expiryTime"> The ExpiryTime to use. </param>
+        /// <summary> Upload a resume for parsing. </summary>
+        /// <param name="file"> The Stream to use. </param>
+        /// <param name="url"> The String to use. </param>
+        /// <param name="data"> The String to use. </param>
+        /// <param name="identifier"> The String to use. </param>
+        /// <param name="fileName"> The String to use. </param>
+        /// <param name="wait"> The String to use. </param>
+        /// <param name="language"> The String to use. </param>
+        /// <param name="expiryTime"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks>
+        /// Uploads a resume for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/resumes/{identifier}](#get-/resumes/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
+        /// Resumes can be uploaded as a file or a URL. In addition, data can be added directly if users want to upload directly without parsing any resume file. For uploading resume data, the `data` argument provided must be a JSON-encoded string. Data uploads will not impact upon parsing credits.
+        /// </remarks>
         public Response<object> CreateResume(Stream file = null, string url = null, string data = null, string identifier = null, string fileName = null, string wait = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
             using var message = CreateCreateResumeRequest(file, url, data, identifier, fileName, wait, language, expiryTime);
@@ -253,7 +251,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetResumeRequest(string identifier)
+        internal HttpMessage CreateGetResumeRequest(string identifier, string format)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -262,26 +260,32 @@ namespace Affinda.API
             uri.Reset(_endpoint);
             uri.AppendPath("/resumes/", false);
             uri.AppendPath(identifier, true);
+            if (format != null)
+            {
+                uri.AppendQuery("format", format, true);
+            }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
         }
 
-        /// <summary>
-        /// Returns all the parse results for that resume if processing is completed.
-        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/resumes](#operation/createResume) endpoint.
-        /// </summary>
+        /// <summary> Get parse results for a specific resume. </summary>
         /// <param name="identifier"> Document identifier. </param>
+        /// <param name="format"> Set this to &quot;hr-xml&quot; to get the response in HR-XML format. Currently the only supported value for this parameter is &quot;hr-xml&quot;. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
-        public async Task<Response<object>> GetResumeAsync(string identifier, CancellationToken cancellationToken = default)
+        /// <remarks>
+        /// Returns all the parse results for that resume if processing is completed.
+        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/resumes](#post-/resumes) endpoint.
+        /// </remarks>
+        public async Task<Response<object>> GetResumeAsync(string identifier, string format = null, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
             {
                 throw new ArgumentNullException(nameof(identifier));
             }
 
-            using var message = CreateGetResumeRequest(identifier);
+            using var message = CreateGetResumeRequest(identifier, format);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -305,21 +309,23 @@ namespace Affinda.API
             }
         }
 
-        /// <summary>
-        /// Returns all the parse results for that resume if processing is completed.
-        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/resumes](#operation/createResume) endpoint.
-        /// </summary>
+        /// <summary> Get parse results for a specific resume. </summary>
         /// <param name="identifier"> Document identifier. </param>
+        /// <param name="format"> Set this to &quot;hr-xml&quot; to get the response in HR-XML format. Currently the only supported value for this parameter is &quot;hr-xml&quot;. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
-        public Response<object> GetResume(string identifier, CancellationToken cancellationToken = default)
+        /// <remarks>
+        /// Returns all the parse results for that resume if processing is completed.
+        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/resumes](#post-/resumes) endpoint.
+        /// </remarks>
+        public Response<object> GetResume(string identifier, string format = null, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
             {
                 throw new ArgumentNullException(nameof(identifier));
             }
 
-            using var message = CreateGetResumeRequest(identifier);
+            using var message = CreateGetResumeRequest(identifier, format);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -364,14 +370,15 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary>
-        /// Update data of a parsed resume.
-        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/resumes](#operation/createResume) endpoint.
-        /// </summary>
+        /// <summary> Update a resume&apos;s data. </summary>
         /// <param name="identifier"> Resume identifier. </param>
         /// <param name="body"> Resume data to update. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
+        /// <remarks>
+        /// Update data of a parsed resume.
+        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/resumes](#post-/resumes) endpoint.
+        /// </remarks>
         public async Task<Response<object>> UpdateResumeDataAsync(string identifier, ResumeData body, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
@@ -414,14 +421,15 @@ namespace Affinda.API
             }
         }
 
-        /// <summary>
-        /// Update data of a parsed resume.
-        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/resumes](#operation/createResume) endpoint.
-        /// </summary>
+        /// <summary> Update a resume&apos;s data. </summary>
         /// <param name="identifier"> Resume identifier. </param>
         /// <param name="body"> Resume data to update. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
+        /// <remarks>
+        /// Update data of a parsed resume.
+        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/resumes](#post-/resumes) endpoint.
+        /// </remarks>
         public Response<object> UpdateResumeData(string identifier, ResumeData body, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
@@ -478,10 +486,11 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary> Deletes the specified resume from the database. </summary>
+        /// <summary> Delete a resume. </summary>
         /// <param name="identifier"> Resume identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
+        /// <remarks> Deletes the specified resume from the database. </remarks>
         public async Task<Response<RequestError>> DeleteResumeAsync(string identifier, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
@@ -508,10 +517,11 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Deletes the specified resume from the database. </summary>
+        /// <summary> Delete a resume. </summary>
         /// <param name="identifier"> Resume identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
+        /// <remarks> Deletes the specified resume from the database. </remarks>
         public Response<RequestError> DeleteResume(string identifier, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
@@ -538,7 +548,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllRedactedResumesRequest()
+        internal HttpMessage CreateGetAllRedactedResumesRequest(int? offset, int? limit)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -546,24 +556,27 @@ namespace Affinda.API
             var uri = new RawRequestUriBuilder();
             uri.Reset(_endpoint);
             uri.AppendPath("/redacted_resumes", false);
-            if (_offset != null)
+            if (offset != null)
             {
-                uri.AppendQuery("offset", _offset.Value, true);
+                uri.AppendQuery("offset", offset.Value, true);
             }
-            if (_limit != null)
+            if (limit != null)
             {
-                uri.AppendQuery("limit", _limit.Value, true);
+                uri.AppendQuery("limit", limit.Value, true);
             }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
         }
 
-        /// <summary> Returns all the redacted resume information for that resume. </summary>
+        /// <summary> Get list of all redacted resumes. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<object>> GetAllRedactedResumesAsync(CancellationToken cancellationToken = default)
+        /// <remarks> Returns all the redacted resume information for that resume. </remarks>
+        public async Task<Response<object>> GetAllRedactedResumesAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllRedactedResumesRequest();
+            using var message = CreateGetAllRedactedResumesRequest(offset, limit);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -587,11 +600,14 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Returns all the redacted resume information for that resume. </summary>
+        /// <summary> Get list of all redacted resumes. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<object> GetAllRedactedResumes(CancellationToken cancellationToken = default)
+        /// <remarks> Returns all the redacted resume information for that resume. </remarks>
+        public Response<object> GetAllRedactedResumes(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllRedactedResumesRequest();
+            using var message = CreateGetAllRedactedResumesRequest(offset, limit);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -691,13 +707,13 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary> Uploads a resume for redacting. </summary>
-        /// <param name="file"> The binary to use. </param>
-        /// <param name="identifier"> The Identifier to use. </param>
-        /// <param name="fileName"> The FileName to use. </param>
-        /// <param name="url"> The UrlToProcess to use. </param>
-        /// <param name="language"> The Language to use. </param>
-        /// <param name="wait"> The Wait to use. </param>
+        /// <summary> Upload a resume for redacting. </summary>
+        /// <param name="file"> The Stream to use. </param>
+        /// <param name="identifier"> The String to use. </param>
+        /// <param name="fileName"> The String to use. </param>
+        /// <param name="url"> The String to use. </param>
+        /// <param name="language"> The String to use. </param>
+        /// <param name="wait"> The String to use. </param>
         /// <param name="redactHeadshot"> Whether to redact headshot. </param>
         /// <param name="redactPersonalDetails"> Whether to redact personal details (e.g. name, address). </param>
         /// <param name="redactWorkDetails"> Whether to redact work details (e.g. company names). </param>
@@ -706,8 +722,9 @@ namespace Affinda.API
         /// <param name="redactLocations"> Whether to redact location names. </param>
         /// <param name="redactDates"> Whether to redact dates. </param>
         /// <param name="redactGender"> Whether to redact gender. </param>
-        /// <param name="expiryTime"> The ExpiryTime to use. </param>
+        /// <param name="expiryTime"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Uploads a resume for redacting. </remarks>
         public async Task<Response<object>> CreateRedactedResumeAsync(Stream file = null, string identifier = null, string fileName = null, string url = null, string language = null, string wait = null, string redactHeadshot = null, string redactPersonalDetails = null, string redactWorkDetails = null, string redactEducationDetails = null, string redactReferees = null, string redactLocations = null, string redactDates = null, string redactGender = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
             using var message = CreateCreateRedactedResumeRequest(file, identifier, fileName, url, language, wait, redactHeadshot, redactPersonalDetails, redactWorkDetails, redactEducationDetails, redactReferees, redactLocations, redactDates, redactGender, expiryTime);
@@ -735,13 +752,13 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Uploads a resume for redacting. </summary>
-        /// <param name="file"> The binary to use. </param>
-        /// <param name="identifier"> The Identifier to use. </param>
-        /// <param name="fileName"> The FileName to use. </param>
-        /// <param name="url"> The UrlToProcess to use. </param>
-        /// <param name="language"> The Language to use. </param>
-        /// <param name="wait"> The Wait to use. </param>
+        /// <summary> Upload a resume for redacting. </summary>
+        /// <param name="file"> The Stream to use. </param>
+        /// <param name="identifier"> The String to use. </param>
+        /// <param name="fileName"> The String to use. </param>
+        /// <param name="url"> The String to use. </param>
+        /// <param name="language"> The String to use. </param>
+        /// <param name="wait"> The String to use. </param>
         /// <param name="redactHeadshot"> Whether to redact headshot. </param>
         /// <param name="redactPersonalDetails"> Whether to redact personal details (e.g. name, address). </param>
         /// <param name="redactWorkDetails"> Whether to redact work details (e.g. company names). </param>
@@ -750,8 +767,9 @@ namespace Affinda.API
         /// <param name="redactLocations"> Whether to redact location names. </param>
         /// <param name="redactDates"> Whether to redact dates. </param>
         /// <param name="redactGender"> Whether to redact gender. </param>
-        /// <param name="expiryTime"> The ExpiryTime to use. </param>
+        /// <param name="expiryTime"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Uploads a resume for redacting. </remarks>
         public Response<object> CreateRedactedResume(Stream file = null, string identifier = null, string fileName = null, string url = null, string language = null, string wait = null, string redactHeadshot = null, string redactPersonalDetails = null, string redactWorkDetails = null, string redactEducationDetails = null, string redactReferees = null, string redactLocations = null, string redactDates = null, string redactGender = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
             using var message = CreateCreateRedactedResumeRequest(file, identifier, fileName, url, language, wait, redactHeadshot, redactPersonalDetails, redactWorkDetails, redactEducationDetails, redactReferees, redactLocations, redactDates, redactGender, expiryTime);
@@ -793,13 +811,14 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary>
-        /// Returns all the redaction results for that resume if processing is completed.
-        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/redacted_resumes](#operation/createRedactedResume) endpoint.
-        /// </summary>
+        /// <summary> Get redaction results for a specific resume. </summary>
         /// <param name="identifier"> Document identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
+        /// <remarks>
+        /// Returns all the redaction results for that resume if processing is completed.
+        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/redacted_resumes](#post-/redacted_resumes) endpoint.
+        /// </remarks>
         public async Task<Response<object>> GetRedactedResumeAsync(string identifier, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
@@ -831,13 +850,14 @@ namespace Affinda.API
             }
         }
 
-        /// <summary>
-        /// Returns all the redaction results for that resume if processing is completed.
-        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/redacted_resumes](#operation/createRedactedResume) endpoint.
-        /// </summary>
+        /// <summary> Get redaction results for a specific resume. </summary>
         /// <param name="identifier"> Document identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
+        /// <remarks>
+        /// Returns all the redaction results for that resume if processing is completed.
+        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/redacted_resumes](#post-/redacted_resumes) endpoint.
+        /// </remarks>
         public Response<object> GetRedactedResume(string identifier, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
@@ -883,10 +903,11 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary> Deletes the specified resume from the database. </summary>
+        /// <summary> Delete a redacted resume. </summary>
         /// <param name="identifier"> Document identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
+        /// <remarks> Deletes the specified resume from the database. </remarks>
         public async Task<Response<RequestError>> DeleteRedactedResumeAsync(string identifier, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
@@ -913,10 +934,11 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Deletes the specified resume from the database. </summary>
+        /// <summary> Delete a redacted resume. </summary>
         /// <param name="identifier"> Document identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
+        /// <remarks> Deletes the specified resume from the database. </remarks>
         public Response<RequestError> DeleteRedactedResume(string identifier, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
@@ -943,450 +965,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllResumeFormatsRequest()
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Get;
-            var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
-            uri.AppendPath("/resume_formats", false);
-            if (_offset != null)
-            {
-                uri.AppendQuery("offset", _offset.Value, true);
-            }
-            if (_limit != null)
-            {
-                uri.AppendQuery("limit", _limit.Value, true);
-            }
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            return message;
-        }
-
-        /// <summary> Returns all the resume formats. </summary>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<object>> GetAllResumeFormatsAsync(CancellationToken cancellationToken = default)
-        {
-            using var message = CreateGetAllResumeFormatsRequest();
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        Paths1UtuacyResumeFormatsGetResponses200ContentApplicationJsonSchema value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = Paths1UtuacyResumeFormatsGetResponses200ContentApplicationJsonSchema.DeserializePaths1UtuacyResumeFormatsGetResponses200ContentApplicationJsonSchema(document.RootElement);
-                        return Response.FromValue<object>(value, message.Response);
-                    }
-                case 400:
-                case 401:
-                    {
-                        RequestError value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = RequestError.DeserializeRequestError(document.RootElement);
-                        return Response.FromValue<object>(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Returns all the resume formats. </summary>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<object> GetAllResumeFormats(CancellationToken cancellationToken = default)
-        {
-            using var message = CreateGetAllResumeFormatsRequest();
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        Paths1UtuacyResumeFormatsGetResponses200ContentApplicationJsonSchema value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = Paths1UtuacyResumeFormatsGetResponses200ContentApplicationJsonSchema.DeserializePaths1UtuacyResumeFormatsGetResponses200ContentApplicationJsonSchema(document.RootElement);
-                        return Response.FromValue<object>(value, message.Response);
-                    }
-                case 400:
-                case 401:
-                    {
-                        RequestError value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = RequestError.DeserializeRequestError(document.RootElement);
-                        return Response.FromValue<object>(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateGetAllReformattedResumesRequest()
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Get;
-            var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
-            uri.AppendPath("/reformatted_resumes", false);
-            if (_offset != null)
-            {
-                uri.AppendQuery("offset", _offset.Value, true);
-            }
-            if (_limit != null)
-            {
-                uri.AppendQuery("limit", _limit.Value, true);
-            }
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            return message;
-        }
-
-        /// <summary> Returns all the reformatted resume information for that resume. </summary>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<object>> GetAllReformattedResumesAsync(CancellationToken cancellationToken = default)
-        {
-            using var message = CreateGetAllReformattedResumesRequest();
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        GetAllDocumentsResults value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = GetAllDocumentsResults.DeserializeGetAllDocumentsResults(document.RootElement);
-                        return Response.FromValue<object>(value, message.Response);
-                    }
-                case 400:
-                case 401:
-                    {
-                        RequestError value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = RequestError.DeserializeRequestError(document.RootElement);
-                        return Response.FromValue<object>(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Returns all the reformatted resume information for that resume. </summary>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<object> GetAllReformattedResumes(CancellationToken cancellationToken = default)
-        {
-            using var message = CreateGetAllReformattedResumesRequest();
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        GetAllDocumentsResults value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = GetAllDocumentsResults.DeserializeGetAllDocumentsResults(document.RootElement);
-                        return Response.FromValue<object>(value, message.Response);
-                    }
-                case 400:
-                case 401:
-                    {
-                        RequestError value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = RequestError.DeserializeRequestError(document.RootElement);
-                        return Response.FromValue<object>(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateCreateReformattedResumeRequest(string resumeFormat, Stream file, string identifier, string fileName, string url, string language, string wait)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Post;
-            var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
-            uri.AppendPath("/reformatted_resumes", false);
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            request.Headers.Add("Content-Type", "multipart/form-data");
-            var content = new MultipartFormDataContent();
-            if (file != null)
-            {
-                content.Add(RequestContent.Create(file), "file", fileName ?? "null.pdf" , null);
-            }
-            if (identifier != null)
-            {
-                content.Add(new StringRequestContent(identifier), "identifier", null);
-            }
-            if (fileName != null)
-            {
-                content.Add(new StringRequestContent(fileName), "fileName", null);
-            }
-            if (url != null)
-            {
-                content.Add(new StringRequestContent(url), "url", null);
-            }
-            if (language != null)
-            {
-                content.Add(new StringRequestContent(language), "language", null);
-            }
-            content.Add(new StringRequestContent(resumeFormat), "resumeFormat", null);
-            if (wait != null)
-            {
-                content.Add(new StringRequestContent(wait), "wait", null);
-            }
-            content.ApplyToRequest(request);
-            return message;
-        }
-
-        /// <summary> Upload a resume for reformatting. </summary>
-        /// <param name="resumeFormat"> The ResumeFormat to use. </param>
-        /// <param name="file"> The binary to use. </param>
-        /// <param name="identifier"> The Identifier to use. </param>
-        /// <param name="fileName"> The FileName to use. </param>
-        /// <param name="url"> The UrlToProcess to use. </param>
-        /// <param name="language"> The Language to use. </param>
-        /// <param name="wait"> The Wait to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="resumeFormat"/> is null. </exception>
-        public async Task<Response<object>> CreateReformattedResumeAsync(string resumeFormat, Stream file = null, string identifier = null, string fileName = null, string url = null, string language = null, string wait = null, CancellationToken cancellationToken = default)
-        {
-            if (resumeFormat == null)
-            {
-                throw new ArgumentNullException(nameof(resumeFormat));
-            }
-
-            using var message = CreateCreateReformattedResumeRequest(resumeFormat, file, identifier, fileName, url, language, wait);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 200:
-                case 201:
-                    {
-                        ReformattedResume value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = ReformattedResume.DeserializeReformattedResume(document.RootElement);
-                        return Response.FromValue<object>(value, message.Response);
-                    }
-                case 400:
-                case 401:
-                    {
-                        RequestError value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = RequestError.DeserializeRequestError(document.RootElement);
-                        return Response.FromValue<object>(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Upload a resume for reformatting. </summary>
-        /// <param name="resumeFormat"> The ResumeFormat to use. </param>
-        /// <param name="file"> The binary to use. </param>
-        /// <param name="identifier"> The Identifier to use. </param>
-        /// <param name="fileName"> The FileName to use. </param>
-        /// <param name="url"> The UrlToProcess to use. </param>
-        /// <param name="language"> The Language to use. </param>
-        /// <param name="wait"> The Wait to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="resumeFormat"/> is null. </exception>
-        public Response<object> CreateReformattedResume(string resumeFormat, Stream file = null, string identifier = null, string fileName = null, string url = null, string language = null, string wait = null, CancellationToken cancellationToken = default)
-        {
-            if (resumeFormat == null)
-            {
-                throw new ArgumentNullException(nameof(resumeFormat));
-            }
-
-            using var message = CreateCreateReformattedResumeRequest(resumeFormat, file, identifier, fileName, url, language, wait);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 200:
-                case 201:
-                    {
-                        ReformattedResume value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = ReformattedResume.DeserializeReformattedResume(document.RootElement);
-                        return Response.FromValue<object>(value, message.Response);
-                    }
-                case 400:
-                case 401:
-                    {
-                        RequestError value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = RequestError.DeserializeRequestError(document.RootElement);
-                        return Response.FromValue<object>(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateGetReformattedResumeRequest(string identifier)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Get;
-            var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
-            uri.AppendPath("/reformatted_resumes/", false);
-            uri.AppendPath(identifier, true);
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            return message;
-        }
-
-        /// <summary>
-        /// Returns all the reformatting results for that resume if processing is completed.
-        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/reformatted_resumes](#operation/createReformattedResume) endpoint.
-        /// </summary>
-        /// <param name="identifier"> Document identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
-        public async Task<Response<object>> GetReformattedResumeAsync(string identifier, CancellationToken cancellationToken = default)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
-            using var message = CreateGetReformattedResumeRequest(identifier);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        ReformattedResume value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = ReformattedResume.DeserializeReformattedResume(document.RootElement);
-                        return Response.FromValue<object>(value, message.Response);
-                    }
-                case 400:
-                case 401:
-                    {
-                        RequestError value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = RequestError.DeserializeRequestError(document.RootElement);
-                        return Response.FromValue<object>(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary>
-        /// Returns all the reformatting results for that resume if processing is completed.
-        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/reformatted_resumes](#operation/createReformattedResume) endpoint.
-        /// </summary>
-        /// <param name="identifier"> Document identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
-        public Response<object> GetReformattedResume(string identifier, CancellationToken cancellationToken = default)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
-            using var message = CreateGetReformattedResumeRequest(identifier);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        ReformattedResume value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = ReformattedResume.DeserializeReformattedResume(document.RootElement);
-                        return Response.FromValue<object>(value, message.Response);
-                    }
-                case 400:
-                case 401:
-                    {
-                        RequestError value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = RequestError.DeserializeRequestError(document.RootElement);
-                        return Response.FromValue<object>(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateDeleteReformattedResumeRequest(string identifier)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Delete;
-            var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
-            uri.AppendPath("/reformatted_resumes/", false);
-            uri.AppendPath(identifier, true);
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            return message;
-        }
-
-        /// <summary> Delete the specified resume from the database. </summary>
-        /// <param name="identifier"> Document identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
-        public async Task<Response<RequestError>> DeleteReformattedResumeAsync(string identifier, CancellationToken cancellationToken = default)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
-            using var message = CreateDeleteReformattedResumeRequest(identifier);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 204:
-                    return Response.FromValue((RequestError)null, message.Response);
-                case 400:
-                case 401:
-                    {
-                        RequestError value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = RequestError.DeserializeRequestError(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Delete the specified resume from the database. </summary>
-        /// <param name="identifier"> Document identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
-        public Response<RequestError> DeleteReformattedResume(string identifier, CancellationToken cancellationToken = default)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
-            using var message = CreateDeleteReformattedResumeRequest(identifier);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 204:
-                    return Response.FromValue((RequestError)null, message.Response);
-                case 400:
-                case 401:
-                    {
-                        RequestError value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = RequestError.DeserializeRequestError(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateCreateResumeSearchRequest(ResumeSearchParameters body)
+        internal HttpMessage CreateCreateResumeSearchRequest(ResumeSearchParameters body, int? offset, int? limit)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1394,13 +973,13 @@ namespace Affinda.API
             var uri = new RawRequestUriBuilder();
             uri.Reset(_endpoint);
             uri.AppendPath("/resume_search", false);
-            if (_offset != null)
+            if (offset != null)
             {
-                uri.AppendQuery("offset", _offset.Value, true);
+                uri.AppendQuery("offset", offset.Value, true);
             }
-            if (_limit != null)
+            if (limit != null)
             {
-                uri.AppendQuery("limit", _limit.Value, true);
+                uri.AppendQuery("limit", limit.Value, true);
             }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -1414,22 +993,21 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary>
-        /// Searches through parsed resumes. You can search with custom criterias, a job description, or a resume.
-        /// When searching with a job description, a parsed job description is used to find candidates that suit it.
-        /// When searching with a resume, a parsed resume is used to find other candidates that have similar attributes.
-        /// </summary>
+        /// <summary> Search through parsed resumes. </summary>
         /// <param name="body"> Search parameters. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
-        public async Task<Response<object>> CreateResumeSearchAsync(ResumeSearchParameters body, CancellationToken cancellationToken = default)
+        /// <remarks> Searches through parsed resumes. Users have 3 options to create a search:&lt;br /&gt;&lt;br /&gt; 1.	Match to a job description - a parsed job description is used to find candidates that suit it&lt;br /&gt; 2.	Match to a resume - a parsed resume is used to find other candidates that have similar attributes&lt;br /&gt; 3.	Search using custom criteria&lt;br /&gt;&lt;br /&gt; Users should only populate 1 of jobDescription, resume or the custom criteria. </remarks>
+        public async Task<Response<object>> CreateResumeSearchAsync(ResumeSearchParameters body, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
             if (body == null)
             {
                 throw new ArgumentNullException(nameof(body));
             }
 
-            using var message = CreateCreateResumeSearchRequest(body);
+            using var message = CreateCreateResumeSearchRequest(body, offset, limit);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1453,22 +1031,21 @@ namespace Affinda.API
             }
         }
 
-        /// <summary>
-        /// Searches through parsed resumes. You can search with custom criterias, a job description, or a resume.
-        /// When searching with a job description, a parsed job description is used to find candidates that suit it.
-        /// When searching with a resume, a parsed resume is used to find other candidates that have similar attributes.
-        /// </summary>
+        /// <summary> Search through parsed resumes. </summary>
         /// <param name="body"> Search parameters. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
-        public Response<object> CreateResumeSearch(ResumeSearchParameters body, CancellationToken cancellationToken = default)
+        /// <remarks> Searches through parsed resumes. Users have 3 options to create a search:&lt;br /&gt;&lt;br /&gt; 1.	Match to a job description - a parsed job description is used to find candidates that suit it&lt;br /&gt; 2.	Match to a resume - a parsed resume is used to find other candidates that have similar attributes&lt;br /&gt; 3.	Search using custom criteria&lt;br /&gt;&lt;br /&gt; Users should only populate 1 of jobDescription, resume or the custom criteria. </remarks>
+        public Response<object> CreateResumeSearch(ResumeSearchParameters body, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
             if (body == null)
             {
                 throw new ArgumentNullException(nameof(body));
             }
 
-            using var message = CreateCreateResumeSearchRequest(body);
+            using var message = CreateCreateResumeSearchRequest(body, offset, limit);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -1513,14 +1090,15 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary>
-        /// This contains more detailed information about the matching score of the search criteria, or which search criteria is missing in this resume.
-        /// The `identifier` is the unique ID returned via the [/resume_search](#operation/createResumeSearch) endpoint.
-        /// </summary>
+        /// <summary> Get search result of specific resume. </summary>
         /// <param name="identifier"> Resume identifier. </param>
         /// <param name="body"> Search parameters. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
+        /// <remarks>
+        /// This contains more detailed information about the matching score of the search criteria, or which search criteria is missing in this resume.
+        /// The `identifier` is the unique ID returned via the [/resume_search](#post-/resume_search) endpoint.
+        /// </remarks>
         public async Task<Response<object>> GetResumeSearchDetailAsync(string identifier, ResumeSearchParameters body, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
@@ -1556,14 +1134,15 @@ namespace Affinda.API
             }
         }
 
-        /// <summary>
-        /// This contains more detailed information about the matching score of the search criteria, or which search criteria is missing in this resume.
-        /// The `identifier` is the unique ID returned via the [/resume_search](#operation/createResumeSearch) endpoint.
-        /// </summary>
+        /// <summary> Get search result of specific resume. </summary>
         /// <param name="identifier"> Resume identifier. </param>
         /// <param name="body"> Search parameters. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
+        /// <remarks>
+        /// This contains more detailed information about the matching score of the search criteria, or which search criteria is missing in this resume.
+        /// The `identifier` is the unique ID returned via the [/resume_search](#post-/resume_search) endpoint.
+        /// </remarks>
         public Response<object> GetResumeSearchDetail(string identifier, ResumeSearchParameters body, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
@@ -1599,7 +1178,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetResumeSearchMatchRequest(string resumeIdentifier, string jobDescriptionIdentifier, string indexName)
+        internal HttpMessage CreateGetResumeSearchMatchRequest(string resume, string jobDescription, string index, string searchExpression, float? jobTitlesWeight, float? yearsExperienceWeight, float? locationsWeight, float? languagesWeight, float? skillsWeight, float? educationWeight, float? searchExpressionWeight, float? socCodesWeight, float? managementLevelWeight)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1607,35 +1186,86 @@ namespace Affinda.API
             var uri = new RawRequestUriBuilder();
             uri.Reset(_endpoint);
             uri.AppendPath("/resume_search/match", false);
-            uri.AppendQuery("resume_identifier", resumeIdentifier, true);
-            uri.AppendQuery("job_description_identifier", jobDescriptionIdentifier, true);
-            if (indexName != null)
+            uri.AppendQuery("resume", resume, true);
+            uri.AppendQuery("job_description", jobDescription, true);
+            if (index != null)
             {
-                uri.AppendQuery("index_name", indexName, true);
+                uri.AppendQuery("index", index, true);
+            }
+            if (searchExpression != null)
+            {
+                uri.AppendQuery("search_expression", searchExpression, true);
+            }
+            if (jobTitlesWeight != null)
+            {
+                uri.AppendQuery("job_titles_weight", jobTitlesWeight.Value, true);
+            }
+            if (yearsExperienceWeight != null)
+            {
+                uri.AppendQuery("years_experience_weight", yearsExperienceWeight.Value, true);
+            }
+            if (locationsWeight != null)
+            {
+                uri.AppendQuery("locations_weight", locationsWeight.Value, true);
+            }
+            if (languagesWeight != null)
+            {
+                uri.AppendQuery("languages_weight", languagesWeight.Value, true);
+            }
+            if (skillsWeight != null)
+            {
+                uri.AppendQuery("skills_weight", skillsWeight.Value, true);
+            }
+            if (educationWeight != null)
+            {
+                uri.AppendQuery("education_weight", educationWeight.Value, true);
+            }
+            if (searchExpressionWeight != null)
+            {
+                uri.AppendQuery("search_expression_weight", searchExpressionWeight.Value, true);
+            }
+            if (socCodesWeight != null)
+            {
+                uri.AppendQuery("soc_codes_weight", socCodesWeight.Value, true);
+            }
+            if (managementLevelWeight != null)
+            {
+                uri.AppendQuery("management_level_weight", managementLevelWeight.Value, true);
             }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
         }
 
-        /// <summary> Get the matching score between a resume and a job description. The score ranges between 0 and 1, with 0 being not a match at all, and 1 being perfect match. </summary>
-        /// <param name="resumeIdentifier"> Identify the resume to match. </param>
-        /// <param name="jobDescriptionIdentifier"> Identify the job description to match. </param>
-        /// <param name="indexName"> Optionally, specify an index to search in. If not specified, will search in all indexes. </param>
+        /// <summary> Match a single resume and job description. </summary>
+        /// <param name="resume"> Identify the resume to match. </param>
+        /// <param name="jobDescription"> Identify the job description to match. </param>
+        /// <param name="index"> Optionally, specify an index to search in. If not specified, will search in all indexes. </param>
+        /// <param name="searchExpression"> Add keywords to the search criteria. </param>
+        /// <param name="jobTitlesWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="yearsExperienceWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="locationsWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="languagesWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="skillsWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="educationWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="searchExpressionWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="socCodesWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="managementLevelWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="resumeIdentifier"/> or <paramref name="jobDescriptionIdentifier"/> is null. </exception>
-        public async Task<Response<object>> GetResumeSearchMatchAsync(string resumeIdentifier, string jobDescriptionIdentifier, string indexName = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="resume"/> or <paramref name="jobDescription"/> is null. </exception>
+        /// <remarks> Get the matching score between a resume and a job description. The score ranges between 0 and 1, with 0 being not a match at all, and 1 being perfect match.&lt;br/&gt; Note, this score will not directly match the score returned from POST [/resume_search/details/{identifier}](#post-/resume_search/details/-identifier-). </remarks>
+        public async Task<Response<object>> GetResumeSearchMatchAsync(string resume, string jobDescription, string index = null, string searchExpression = null, float? jobTitlesWeight = null, float? yearsExperienceWeight = null, float? locationsWeight = null, float? languagesWeight = null, float? skillsWeight = null, float? educationWeight = null, float? searchExpressionWeight = null, float? socCodesWeight = null, float? managementLevelWeight = null, CancellationToken cancellationToken = default)
         {
-            if (resumeIdentifier == null)
+            if (resume == null)
             {
-                throw new ArgumentNullException(nameof(resumeIdentifier));
+                throw new ArgumentNullException(nameof(resume));
             }
-            if (jobDescriptionIdentifier == null)
+            if (jobDescription == null)
             {
-                throw new ArgumentNullException(nameof(jobDescriptionIdentifier));
+                throw new ArgumentNullException(nameof(jobDescription));
             }
 
-            using var message = CreateGetResumeSearchMatchRequest(resumeIdentifier, jobDescriptionIdentifier, indexName);
+            using var message = CreateGetResumeSearchMatchRequest(resume, jobDescription, index, searchExpression, jobTitlesWeight, yearsExperienceWeight, locationsWeight, languagesWeight, skillsWeight, educationWeight, searchExpressionWeight, socCodesWeight, managementLevelWeight);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1659,24 +1289,35 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Get the matching score between a resume and a job description. The score ranges between 0 and 1, with 0 being not a match at all, and 1 being perfect match. </summary>
-        /// <param name="resumeIdentifier"> Identify the resume to match. </param>
-        /// <param name="jobDescriptionIdentifier"> Identify the job description to match. </param>
-        /// <param name="indexName"> Optionally, specify an index to search in. If not specified, will search in all indexes. </param>
+        /// <summary> Match a single resume and job description. </summary>
+        /// <param name="resume"> Identify the resume to match. </param>
+        /// <param name="jobDescription"> Identify the job description to match. </param>
+        /// <param name="index"> Optionally, specify an index to search in. If not specified, will search in all indexes. </param>
+        /// <param name="searchExpression"> Add keywords to the search criteria. </param>
+        /// <param name="jobTitlesWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="yearsExperienceWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="locationsWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="languagesWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="skillsWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="educationWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="searchExpressionWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="socCodesWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="managementLevelWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="resumeIdentifier"/> or <paramref name="jobDescriptionIdentifier"/> is null. </exception>
-        public Response<object> GetResumeSearchMatch(string resumeIdentifier, string jobDescriptionIdentifier, string indexName = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="resume"/> or <paramref name="jobDescription"/> is null. </exception>
+        /// <remarks> Get the matching score between a resume and a job description. The score ranges between 0 and 1, with 0 being not a match at all, and 1 being perfect match.&lt;br/&gt; Note, this score will not directly match the score returned from POST [/resume_search/details/{identifier}](#post-/resume_search/details/-identifier-). </remarks>
+        public Response<object> GetResumeSearchMatch(string resume, string jobDescription, string index = null, string searchExpression = null, float? jobTitlesWeight = null, float? yearsExperienceWeight = null, float? locationsWeight = null, float? languagesWeight = null, float? skillsWeight = null, float? educationWeight = null, float? searchExpressionWeight = null, float? socCodesWeight = null, float? managementLevelWeight = null, CancellationToken cancellationToken = default)
         {
-            if (resumeIdentifier == null)
+            if (resume == null)
             {
-                throw new ArgumentNullException(nameof(resumeIdentifier));
+                throw new ArgumentNullException(nameof(resume));
             }
-            if (jobDescriptionIdentifier == null)
+            if (jobDescription == null)
             {
-                throw new ArgumentNullException(nameof(jobDescriptionIdentifier));
+                throw new ArgumentNullException(nameof(jobDescription));
             }
 
-            using var message = CreateGetResumeSearchMatchRequest(resumeIdentifier, jobDescriptionIdentifier, indexName);
+            using var message = CreateGetResumeSearchMatchRequest(resume, jobDescription, index, searchExpression, jobTitlesWeight, yearsExperienceWeight, locationsWeight, languagesWeight, skillsWeight, educationWeight, searchExpressionWeight, socCodesWeight, managementLevelWeight);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -1700,7 +1341,243 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllJobDescriptionsRequest()
+        internal HttpMessage CreateGetResumeSearchConfigRequest()
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Get;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(_endpoint);
+            uri.AppendPath("/resume_search/config", false);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Get the config for the logged in user&apos;s embedable search tool. </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return configurations such as which fields can be displayed in the logged in user&apos;s embedable search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
+        public async Task<Response<object>> GetResumeSearchConfigAsync(CancellationToken cancellationToken = default)
+        {
+            using var message = CreateGetResumeSearchConfigRequest();
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ResumeSearchConfig value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = ResumeSearchConfig.DeserializeResumeSearchConfig(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 401:
+                    {
+                        RequestError value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Get the config for the logged in user&apos;s embedable search tool. </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return configurations such as which fields can be displayed in the logged in user&apos;s embedable search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
+        public Response<object> GetResumeSearchConfig(CancellationToken cancellationToken = default)
+        {
+            using var message = CreateGetResumeSearchConfigRequest();
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ResumeSearchConfig value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = ResumeSearchConfig.DeserializeResumeSearchConfig(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 401:
+                    {
+                        RequestError value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateUpdateResumeSearchConfigRequest(ResumeSearchConfig body)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Patch;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(_endpoint);
+            uri.AppendPath("/resume_search/config", false);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Content-Type", "application/json");
+            var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(body);
+            request.Content = content;
+            return message;
+        }
+
+        /// <summary> Update the config for the logged in user&apos;s embedable search tool. </summary>
+        /// <param name="body"> The ResumeSearchConfig to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        /// <remarks> Update configurations such as which fields can be displayed in the logged in user&apos;s embedable search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
+        public async Task<Response<object>> UpdateResumeSearchConfigAsync(ResumeSearchConfig body, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateUpdateResumeSearchConfigRequest(body);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ResumeSearchConfig value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = ResumeSearchConfig.DeserializeResumeSearchConfig(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                    {
+                        RequestError value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Update the config for the logged in user&apos;s embedable search tool. </summary>
+        /// <param name="body"> The ResumeSearchConfig to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        /// <remarks> Update configurations such as which fields can be displayed in the logged in user&apos;s embedable search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
+        public Response<object> UpdateResumeSearchConfig(ResumeSearchConfig body, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateUpdateResumeSearchConfigRequest(body);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ResumeSearchConfig value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = ResumeSearchConfig.DeserializeResumeSearchConfig(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                    {
+                        RequestError value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateCreateResumeSearchEmbedUrlRequest(Paths2T1Oc0ResumeSearchEmbedPostRequestbodyContentApplicationJsonSchema body)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(_endpoint);
+            uri.AppendPath("/resume_search/embed", false);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            if (body != null)
+            {
+                request.Headers.Add("Content-Type", "application/json");
+                var content = new Utf8JsonRequestContent();
+                content.JsonWriter.WriteObjectValue(body);
+                request.Content = content;
+            }
+            return message;
+        }
+
+        /// <summary> Create a signed URL for the embedable search tool. </summary>
+        /// <param name="body"> The Paths2T1Oc0ResumeSearchEmbedPostRequestbodyContentApplicationJsonSchema to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create and return a signed URL of the resume search tool which then can be embedded on a web page. An optional parameter `config_override` can be passed to override the user-level configurations of the embedable search tool. </remarks>
+        public async Task<Response<object>> CreateResumeSearchEmbedUrlAsync(Paths2T1Oc0ResumeSearchEmbedPostRequestbodyContentApplicationJsonSchema body = null, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateCreateResumeSearchEmbedUrlRequest(body);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ResumeSearchEmbed value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = ResumeSearchEmbed.DeserializeResumeSearchEmbed(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 401:
+                    {
+                        RequestError value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Create a signed URL for the embedable search tool. </summary>
+        /// <param name="body"> The Paths2T1Oc0ResumeSearchEmbedPostRequestbodyContentApplicationJsonSchema to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create and return a signed URL of the resume search tool which then can be embedded on a web page. An optional parameter `config_override` can be passed to override the user-level configurations of the embedable search tool. </remarks>
+        public Response<object> CreateResumeSearchEmbedUrl(Paths2T1Oc0ResumeSearchEmbedPostRequestbodyContentApplicationJsonSchema body = null, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateCreateResumeSearchEmbedUrlRequest(body);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ResumeSearchEmbed value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = ResumeSearchEmbed.DeserializeResumeSearchEmbed(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 401:
+                    {
+                        RequestError value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateGetAllJobDescriptionsRequest(int? offset, int? limit)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1708,24 +1585,27 @@ namespace Affinda.API
             var uri = new RawRequestUriBuilder();
             uri.Reset(_endpoint);
             uri.AppendPath("/job_descriptions", false);
-            if (_offset != null)
+            if (offset != null)
             {
-                uri.AppendQuery("offset", _offset.Value, true);
+                uri.AppendQuery("offset", offset.Value, true);
             }
-            if (_limit != null)
+            if (limit != null)
             {
-                uri.AppendQuery("limit", _limit.Value, true);
+                uri.AppendQuery("limit", limit.Value, true);
             }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
         }
 
-        /// <summary> Returns all the job descriptions for that user, limited to 300 per page. </summary>
+        /// <summary> Get list of all job descriptions. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<object>> GetAllJobDescriptionsAsync(CancellationToken cancellationToken = default)
+        /// <remarks> Returns all the job descriptions for that user, limited to 300 per page. </remarks>
+        public async Task<Response<object>> GetAllJobDescriptionsAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllJobDescriptionsRequest();
+            using var message = CreateGetAllJobDescriptionsRequest(offset, limit);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1749,11 +1629,14 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Returns all the job descriptions for that user, limited to 300 per page. </summary>
+        /// <summary> Get list of all job descriptions. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<object> GetAllJobDescriptions(CancellationToken cancellationToken = default)
+        /// <remarks> Returns all the job descriptions for that user, limited to 300 per page. </remarks>
+        public Response<object> GetAllJobDescriptions(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllJobDescriptionsRequest();
+            using var message = CreateGetAllJobDescriptionsRequest(offset, limit);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -1777,7 +1660,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateCreateJobDescriptionRequest(Stream file, string identifier, string fileName, string url, string wait, string language, string expiryTime)
+        internal HttpMessage CreateCreateJobDescriptionRequest(Stream file, string url, string identifier, string fileName, string wait, string language, string expiryTime)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1793,6 +1676,10 @@ namespace Affinda.API
             {
                 content.Add(RequestContent.Create(file), "file", fileName ?? "null.pdf" , null);
             }
+            if (url != null)
+            {
+                content.Add(new StringRequestContent(url), "url", null);
+            }
             if (identifier != null)
             {
                 content.Add(new StringRequestContent(identifier), "identifier", null);
@@ -1800,10 +1687,6 @@ namespace Affinda.API
             if (fileName != null)
             {
                 content.Add(new StringRequestContent(fileName), "fileName", null);
-            }
-            if (url != null)
-            {
-                content.Add(new StringRequestContent(url), "url", null);
             }
             if (wait != null)
             {
@@ -1821,21 +1704,23 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary>
-        /// Uploads a job description for parsing.
-        /// When successful, returns an `identifier` in the response for subsequent use with the [/job_descriptions/{identifier}](#operation/getResume) endpoint to check processing status and retrieve results.
-        /// </summary>
-        /// <param name="file"> The binary to use. </param>
-        /// <param name="identifier"> The Identifier to use. </param>
-        /// <param name="fileName"> The FileName to use. </param>
-        /// <param name="url"> The UrlToProcess to use. </param>
-        /// <param name="wait"> The Wait to use. </param>
-        /// <param name="language"> The Language to use. </param>
-        /// <param name="expiryTime"> The ExpiryTime to use. </param>
+        /// <summary> Upload a job description for parsing. </summary>
+        /// <param name="file"> The Stream to use. </param>
+        /// <param name="url"> The String to use. </param>
+        /// <param name="identifier"> The String to use. </param>
+        /// <param name="fileName"> The String to use. </param>
+        /// <param name="wait"> The String to use. </param>
+        /// <param name="language"> The String to use. </param>
+        /// <param name="expiryTime"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<object>> CreateJobDescriptionAsync(Stream file = null, string identifier = null, string fileName = null, string url = null, string wait = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        /// <remarks>
+        /// Uploads a job description for parsing.
+        /// When successful, returns an `identifier` in the response for subsequent use with the [/job_descriptions/{identifier}](#get-/job_descriptions/-identifier-) endpoint to check processing status and retrieve results.
+        /// Job Descriptions can be uploaded as a file or a URL.
+        /// </remarks>
+        public async Task<Response<object>> CreateJobDescriptionAsync(Stream file = null, string url = null, string identifier = null, string fileName = null, string wait = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateJobDescriptionRequest(file, identifier, fileName, url, wait, language, expiryTime);
+            using var message = CreateCreateJobDescriptionRequest(file, url, identifier, fileName, wait, language, expiryTime);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1860,21 +1745,23 @@ namespace Affinda.API
             }
         }
 
-        /// <summary>
-        /// Uploads a job description for parsing.
-        /// When successful, returns an `identifier` in the response for subsequent use with the [/job_descriptions/{identifier}](#operation/getResume) endpoint to check processing status and retrieve results.
-        /// </summary>
-        /// <param name="file"> The binary to use. </param>
-        /// <param name="identifier"> The Identifier to use. </param>
-        /// <param name="fileName"> The FileName to use. </param>
-        /// <param name="url"> The UrlToProcess to use. </param>
-        /// <param name="wait"> The Wait to use. </param>
-        /// <param name="language"> The Language to use. </param>
-        /// <param name="expiryTime"> The ExpiryTime to use. </param>
+        /// <summary> Upload a job description for parsing. </summary>
+        /// <param name="file"> The Stream to use. </param>
+        /// <param name="url"> The String to use. </param>
+        /// <param name="identifier"> The String to use. </param>
+        /// <param name="fileName"> The String to use. </param>
+        /// <param name="wait"> The String to use. </param>
+        /// <param name="language"> The String to use. </param>
+        /// <param name="expiryTime"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<object> CreateJobDescription(Stream file = null, string identifier = null, string fileName = null, string url = null, string wait = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        /// <remarks>
+        /// Uploads a job description for parsing.
+        /// When successful, returns an `identifier` in the response for subsequent use with the [/job_descriptions/{identifier}](#get-/job_descriptions/-identifier-) endpoint to check processing status and retrieve results.
+        /// Job Descriptions can be uploaded as a file or a URL.
+        /// </remarks>
+        public Response<object> CreateJobDescription(Stream file = null, string url = null, string identifier = null, string fileName = null, string wait = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateJobDescriptionRequest(file, identifier, fileName, url, wait, language, expiryTime);
+            using var message = CreateCreateJobDescriptionRequest(file, url, identifier, fileName, wait, language, expiryTime);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -1913,13 +1800,14 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary>
-        /// Returns all the results for that job description if processing is completed.
-        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/job_descriptions](#operation/createJobDescription) endpoint.
-        /// </summary>
+        /// <summary> Get job description results for a specific job description file. </summary>
         /// <param name="identifier"> Document identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
+        /// <remarks>
+        /// Returns all the results for that job description if processing is completed.
+        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/job_descriptions](#post-/job_descriptions) endpoint.
+        /// </remarks>
         public async Task<Response<object>> GetJobDescriptionAsync(string identifier, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
@@ -1951,13 +1839,14 @@ namespace Affinda.API
             }
         }
 
-        /// <summary>
-        /// Returns all the results for that job description if processing is completed.
-        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/job_descriptions](#operation/createJobDescription) endpoint.
-        /// </summary>
+        /// <summary> Get job description results for a specific job description file. </summary>
         /// <param name="identifier"> Document identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
+        /// <remarks>
+        /// Returns all the results for that job description if processing is completed.
+        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/job_descriptions](#post-/job_descriptions) endpoint.
+        /// </remarks>
         public Response<object> GetJobDescription(string identifier, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
@@ -2003,10 +1892,11 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary> Deletes the specified job description from the database. </summary>
+        /// <summary> Delete a job description. </summary>
         /// <param name="identifier"> Document identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
+        /// <remarks> Deletes the specified job description from the database. </remarks>
         public async Task<Response<RequestError>> DeleteJobDescriptionAsync(string identifier, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
@@ -2033,10 +1923,11 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Deletes the specified job description from the database. </summary>
+        /// <summary> Delete a job description. </summary>
         /// <param name="identifier"> Document identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
+        /// <remarks> Deletes the specified job description from the database. </remarks>
         public Response<RequestError> DeleteJobDescription(string identifier, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
@@ -2063,7 +1954,111 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllIndexesRequest()
+        internal HttpMessage CreateCreateJobDescriptionSearchRequest(JobDescriptionSearchParameters body, int? offset, int? limit)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(_endpoint);
+            uri.AppendPath("/job_description_search", false);
+            if (offset != null)
+            {
+                uri.AppendQuery("offset", offset.Value, true);
+            }
+            if (limit != null)
+            {
+                uri.AppendQuery("limit", limit.Value, true);
+            }
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            if (body != null)
+            {
+                request.Headers.Add("Content-Type", "application/json");
+                var content = new Utf8JsonRequestContent();
+                content.JsonWriter.WriteObjectValue(body);
+                request.Content = content;
+            }
+            return message;
+        }
+
+        /// <summary> Search through parsed job descriptions. </summary>
+        /// <param name="body"> Search parameters. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        /// <remarks> Searches through parsed job descriptions. You can search with custom criterias or a resume. </remarks>
+        public async Task<Response<object>> CreateJobDescriptionSearchAsync(JobDescriptionSearchParameters body, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateCreateJobDescriptionSearchRequest(body, offset, limit);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 201:
+                    {
+                        JobDescriptionSearch value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = JobDescriptionSearch.DeserializeJobDescriptionSearch(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                    {
+                        RequestError value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Search through parsed job descriptions. </summary>
+        /// <param name="body"> Search parameters. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        /// <remarks> Searches through parsed job descriptions. You can search with custom criterias or a resume. </remarks>
+        public Response<object> CreateJobDescriptionSearch(JobDescriptionSearchParameters body, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateCreateJobDescriptionSearchRequest(body, offset, limit);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 201:
+                    {
+                        JobDescriptionSearch value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = JobDescriptionSearch.DeserializeJobDescriptionSearch(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                    {
+                        RequestError value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateGetAllIndexesRequest(int? offset, int? limit)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -2071,24 +2066,27 @@ namespace Affinda.API
             var uri = new RawRequestUriBuilder();
             uri.Reset(_endpoint);
             uri.AppendPath("/index", false);
-            if (_offset != null)
+            if (offset != null)
             {
-                uri.AppendQuery("offset", _offset.Value, true);
+                uri.AppendQuery("offset", offset.Value, true);
             }
-            if (_limit != null)
+            if (limit != null)
             {
-                uri.AppendQuery("limit", _limit.Value, true);
+                uri.AppendQuery("limit", limit.Value, true);
             }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
         }
 
-        /// <summary> Returns all the indexes. </summary>
+        /// <summary> Get list of all indexes. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<object>> GetAllIndexesAsync(CancellationToken cancellationToken = default)
+        /// <remarks> Returns all the indexes. </remarks>
+        public async Task<Response<object>> GetAllIndexesAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllIndexesRequest();
+            using var message = CreateGetAllIndexesRequest(offset, limit);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -2112,11 +2110,14 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Returns all the indexes. </summary>
+        /// <summary> Get list of all indexes. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<object> GetAllIndexes(CancellationToken cancellationToken = default)
+        /// <remarks> Returns all the indexes. </remarks>
+        public Response<object> GetAllIndexes(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllIndexesRequest();
+            using var message = CreateGetAllIndexesRequest(offset, limit);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -2160,9 +2161,10 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary> Create an index for the search tool. </summary>
-        /// <param name="name"> The PostContentSchemaName to use. </param>
+        /// <summary> Create a new index. </summary>
+        /// <param name="name"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create an index for the search tool. </remarks>
         public async Task<Response<object>> CreateIndexAsync(string name = null, CancellationToken cancellationToken = default)
         {
             using var message = CreateCreateIndexRequest(name);
@@ -2189,9 +2191,10 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Create an index for the search tool. </summary>
-        /// <param name="name"> The PostContentSchemaName to use. </param>
+        /// <summary> Create a new index. </summary>
+        /// <param name="name"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create an index for the search tool. </remarks>
         public Response<object> CreateIndex(string name = null, CancellationToken cancellationToken = default)
         {
             using var message = CreateCreateIndexRequest(name);
@@ -2232,10 +2235,11 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary> Deletes the specified index from the database. </summary>
+        /// <summary> Delete an index. </summary>
         /// <param name="name"> Index name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="name"/> is null. </exception>
+        /// <remarks> Deletes the specified index from the database. </remarks>
         public async Task<Response<RequestError>> DeleteIndexAsync(string name, CancellationToken cancellationToken = default)
         {
             if (name == null)
@@ -2262,10 +2266,11 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Deletes the specified index from the database. </summary>
+        /// <summary> Delete an index. </summary>
         /// <param name="name"> Index name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="name"/> is null. </exception>
+        /// <remarks> Deletes the specified index from the database. </remarks>
         public Response<RequestError> DeleteIndex(string name, CancellationToken cancellationToken = default)
         {
             if (name == null)
@@ -2307,10 +2312,11 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary> Returns all the indexed documents for that index. </summary>
+        /// <summary> Get indexed documents for a specific index. </summary>
         /// <param name="name"> Index name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="name"/> is null. </exception>
+        /// <remarks> Returns all the indexed documents for that index. </remarks>
         public async Task<Response<object>> GetAllIndexDocumentsAsync(string name, CancellationToken cancellationToken = default)
         {
             if (name == null)
@@ -2342,10 +2348,11 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Returns all the indexed documents for that index. </summary>
+        /// <summary> Get indexed documents for a specific index. </summary>
         /// <param name="name"> Index name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="name"/> is null. </exception>
+        /// <remarks> Returns all the indexed documents for that index. </remarks>
         public Response<object> GetAllIndexDocuments(string name, CancellationToken cancellationToken = default)
         {
             if (name == null)
@@ -2396,11 +2403,12 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary> Create an indexed document for the search tool. </summary>
+        /// <summary> Index a new document. </summary>
         /// <param name="name"> Index name. </param>
         /// <param name="body"> Document to index. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="name"/> or <paramref name="body"/> is null. </exception>
+        /// <remarks> Create an indexed document for the search tool. </remarks>
         public async Task<Response<object>> CreateIndexDocumentAsync(string name, PathsGpptmIndexNameDocumentsPostRequestbodyContentApplicationJsonSchema body, CancellationToken cancellationToken = default)
         {
             if (name == null)
@@ -2436,11 +2444,12 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Create an indexed document for the search tool. </summary>
+        /// <summary> Index a new document. </summary>
         /// <param name="name"> Index name. </param>
         /// <param name="body"> Document to index. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="name"/> or <paramref name="body"/> is null. </exception>
+        /// <remarks> Create an indexed document for the search tool. </remarks>
         public Response<object> CreateIndexDocument(string name, PathsGpptmIndexNameDocumentsPostRequestbodyContentApplicationJsonSchema body, CancellationToken cancellationToken = default)
         {
             if (name == null)
@@ -2492,11 +2501,12 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary> Delete the specified indexed document from the database. </summary>
+        /// <summary> Delete an indexed document. </summary>
         /// <param name="name"> Index name. </param>
         /// <param name="identifier"> Document identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="name"/> or <paramref name="identifier"/> is null. </exception>
+        /// <remarks> Delete the specified indexed document from the database. </remarks>
         public async Task<Response<RequestError>> DeleteIndexDocumentAsync(string name, string identifier, CancellationToken cancellationToken = default)
         {
             if (name == null)
@@ -2527,11 +2537,12 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Delete the specified indexed document from the database. </summary>
+        /// <summary> Delete an indexed document. </summary>
         /// <param name="name"> Index name. </param>
         /// <param name="identifier"> Document identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="name"/> or <paramref name="identifier"/> is null. </exception>
+        /// <remarks> Delete the specified indexed document from the database. </remarks>
         public Response<RequestError> DeleteIndexDocument(string name, string identifier, CancellationToken cancellationToken = default)
         {
             if (name == null)
@@ -2562,7 +2573,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllInvoicesRequest()
+        internal HttpMessage CreateGetAllInvoicesRequest(int? offset, int? limit)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -2570,24 +2581,27 @@ namespace Affinda.API
             var uri = new RawRequestUriBuilder();
             uri.Reset(_endpoint);
             uri.AppendPath("/invoices", false);
-            if (_offset != null)
+            if (offset != null)
             {
-                uri.AppendQuery("offset", _offset.Value, true);
+                uri.AppendQuery("offset", offset.Value, true);
             }
-            if (_limit != null)
+            if (limit != null)
             {
-                uri.AppendQuery("limit", _limit.Value, true);
+                uri.AppendQuery("limit", limit.Value, true);
             }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
         }
 
-        /// <summary> Returns all the invoice summaries for that user, limited to 300 per page. </summary>
+        /// <summary> Get list of all invoices. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<object>> GetAllInvoicesAsync(CancellationToken cancellationToken = default)
+        /// <remarks> Returns all the invoice summaries for that user, limited to 300 per page. </remarks>
+        public async Task<Response<object>> GetAllInvoicesAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllInvoicesRequest();
+            using var message = CreateGetAllInvoicesRequest(offset, limit);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -2611,11 +2625,14 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Returns all the invoice summaries for that user, limited to 300 per page. </summary>
+        /// <summary> Get list of all invoices. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<object> GetAllInvoices(CancellationToken cancellationToken = default)
+        /// <remarks> Returns all the invoice summaries for that user, limited to 300 per page. </remarks>
+        public Response<object> GetAllInvoices(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllInvoicesRequest();
+            using var message = CreateGetAllInvoicesRequest(offset, limit);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -2639,7 +2656,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateCreateInvoiceRequest(Stream file, string identifier, string fileName, string url, string wait, string language, string expiryTime)
+        internal HttpMessage CreateCreateInvoiceRequest(Stream file, string url, string identifier, string fileName, string wait, string language, string expiryTime)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -2655,6 +2672,10 @@ namespace Affinda.API
             {
                 content.Add(RequestContent.Create(file), "file", fileName ?? "null.pdf" , null);
             }
+            if (url != null)
+            {
+                content.Add(new StringRequestContent(url), "url", null);
+            }
             if (identifier != null)
             {
                 content.Add(new StringRequestContent(identifier), "identifier", null);
@@ -2662,10 +2683,6 @@ namespace Affinda.API
             if (fileName != null)
             {
                 content.Add(new StringRequestContent(fileName), "fileName", null);
-            }
-            if (url != null)
-            {
-                content.Add(new StringRequestContent(url), "url", null);
             }
             if (wait != null)
             {
@@ -2683,21 +2700,22 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary>
-        /// Uploads an invoice for parsing.
-        /// When successful, returns an `identifier` in the response for subsequent use with the [/invoices/{identifier}](#operation/getInvoice) endpoint to check processing status and retrieve results.
-        /// </summary>
-        /// <param name="file"> The binary to use. </param>
-        /// <param name="identifier"> The Identifier to use. </param>
-        /// <param name="fileName"> The FileName to use. </param>
-        /// <param name="url"> The UrlToProcess to use. </param>
-        /// <param name="wait"> The Wait to use. </param>
-        /// <param name="language"> The Language to use. </param>
-        /// <param name="expiryTime"> The ExpiryTime to use. </param>
+        /// <summary> Upload an invoice for parsing. </summary>
+        /// <param name="file"> The Stream to use. </param>
+        /// <param name="url"> The String to use. </param>
+        /// <param name="identifier"> The String to use. </param>
+        /// <param name="fileName"> The String to use. </param>
+        /// <param name="wait"> The String to use. </param>
+        /// <param name="language"> The String to use. </param>
+        /// <param name="expiryTime"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<object>> CreateInvoiceAsync(Stream file = null, string identifier = null, string fileName = null, string url = null, string wait = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        /// <remarks>
+        /// Uploads an invoice for parsing.
+        /// When successful, returns an `identifier` in the response for subsequent use with the [/invoices/{identifier}](#get-/invoices/-identifier-) endpoint to check processing status and retrieve results.
+        /// </remarks>
+        public async Task<Response<object>> CreateInvoiceAsync(Stream file = null, string url = null, string identifier = null, string fileName = null, string wait = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateInvoiceRequest(file, identifier, fileName, url, wait, language, expiryTime);
+            using var message = CreateCreateInvoiceRequest(file, url, identifier, fileName, wait, language, expiryTime);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -2722,21 +2740,22 @@ namespace Affinda.API
             }
         }
 
-        /// <summary>
-        /// Uploads an invoice for parsing.
-        /// When successful, returns an `identifier` in the response for subsequent use with the [/invoices/{identifier}](#operation/getInvoice) endpoint to check processing status and retrieve results.
-        /// </summary>
-        /// <param name="file"> The binary to use. </param>
-        /// <param name="identifier"> The Identifier to use. </param>
-        /// <param name="fileName"> The FileName to use. </param>
-        /// <param name="url"> The UrlToProcess to use. </param>
-        /// <param name="wait"> The Wait to use. </param>
-        /// <param name="language"> The Language to use. </param>
-        /// <param name="expiryTime"> The ExpiryTime to use. </param>
+        /// <summary> Upload an invoice for parsing. </summary>
+        /// <param name="file"> The Stream to use. </param>
+        /// <param name="url"> The String to use. </param>
+        /// <param name="identifier"> The String to use. </param>
+        /// <param name="fileName"> The String to use. </param>
+        /// <param name="wait"> The String to use. </param>
+        /// <param name="language"> The String to use. </param>
+        /// <param name="expiryTime"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<object> CreateInvoice(Stream file = null, string identifier = null, string fileName = null, string url = null, string wait = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        /// <remarks>
+        /// Uploads an invoice for parsing.
+        /// When successful, returns an `identifier` in the response for subsequent use with the [/invoices/{identifier}](#get-/invoices/-identifier-) endpoint to check processing status and retrieve results.
+        /// </remarks>
+        public Response<object> CreateInvoice(Stream file = null, string url = null, string identifier = null, string fileName = null, string wait = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateInvoiceRequest(file, identifier, fileName, url, wait, language, expiryTime);
+            using var message = CreateCreateInvoiceRequest(file, url, identifier, fileName, wait, language, expiryTime);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -2775,13 +2794,14 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary>
-        /// Returns all the parse results for that invoice if processing is completed.
-        /// The `identifier` is the unique ID returned after POST-ing the invoice via the [/invoices](#operation/createInvoice) endpoint.
-        /// </summary>
+        /// <summary> Get parse results for a specific invoice. </summary>
         /// <param name="identifier"> Document identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
+        /// <remarks>
+        /// Returns all the parse results for that invoice if processing is completed.
+        /// The `identifier` is the unique ID returned after POST-ing the invoice via the [/invoices](#post-/invoices) endpoint.
+        /// </remarks>
         public async Task<Response<object>> GetInvoiceAsync(string identifier, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
@@ -2813,13 +2833,14 @@ namespace Affinda.API
             }
         }
 
-        /// <summary>
-        /// Returns all the parse results for that invoice if processing is completed.
-        /// The `identifier` is the unique ID returned after POST-ing the invoice via the [/invoices](#operation/createInvoice) endpoint.
-        /// </summary>
+        /// <summary> Get parse results for a specific invoice. </summary>
         /// <param name="identifier"> Document identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
+        /// <remarks>
+        /// Returns all the parse results for that invoice if processing is completed.
+        /// The `identifier` is the unique ID returned after POST-ing the invoice via the [/invoices](#post-/invoices) endpoint.
+        /// </remarks>
         public Response<object> GetInvoice(string identifier, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
@@ -2865,10 +2886,11 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary> Delete the specified invoice from the database. </summary>
+        /// <summary> Delete an invoice. </summary>
         /// <param name="identifier"> Invoice identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
+        /// <remarks> Delete the specified invoice from the database. Note, any invoices deleted from the database will no longer be used in any tailored customer models. </remarks>
         public async Task<Response<RequestError>> DeleteInvoiceAsync(string identifier, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
@@ -2895,10 +2917,11 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Delete the specified invoice from the database. </summary>
+        /// <summary> Delete an invoice. </summary>
         /// <param name="identifier"> Invoice identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
+        /// <remarks> Delete the specified invoice from the database. Note, any invoices deleted from the database will no longer be used in any tailored customer models. </remarks>
         public Response<RequestError> DeleteInvoice(string identifier, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
@@ -2938,8 +2961,9 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary> TODO TODO TODO. </summary>
+        /// <summary> List occupation groups. </summary>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns the list of searchable occupation groups. </remarks>
         public async Task<Response<object>> ListOccupationGroupsAsync(CancellationToken cancellationToken = default)
         {
             using var message = CreateListOccupationGroupsRequest();
@@ -2971,8 +2995,9 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> TODO TODO TODO. </summary>
+        /// <summary> List occupation groups. </summary>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns the list of searchable occupation groups. </remarks>
         public Response<object> ListOccupationGroups(CancellationToken cancellationToken = default)
         {
             using var message = CreateListOccupationGroupsRequest();
@@ -3004,7 +3029,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllUsersRequest()
+        internal HttpMessage CreateGetAllUsersRequest(int? offset, int? limit)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -3012,24 +3037,27 @@ namespace Affinda.API
             var uri = new RawRequestUriBuilder();
             uri.Reset(_endpoint);
             uri.AppendPath("/users", false);
-            if (_offset != null)
+            if (offset != null)
             {
-                uri.AppendQuery("offset", _offset.Value, true);
+                uri.AppendQuery("offset", offset.Value, true);
             }
-            if (_limit != null)
+            if (limit != null)
             {
-                uri.AppendQuery("limit", _limit.Value, true);
+                uri.AppendQuery("limit", limit.Value, true);
             }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
         }
 
-        /// <summary> Returns all the users. </summary>
+        /// <summary> Get list of all users. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response<object>> GetAllUsersAsync(CancellationToken cancellationToken = default)
+        /// <remarks> Returns all the users. </remarks>
+        public async Task<Response<object>> GetAllUsersAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllUsersRequest();
+            using var message = CreateGetAllUsersRequest(offset, limit);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -3053,11 +3081,14 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Returns all the users. </summary>
+        /// <summary> Get list of all users. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response<object> GetAllUsers(CancellationToken cancellationToken = default)
+        /// <remarks> Returns all the users. </remarks>
+        public Response<object> GetAllUsers(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllUsersRequest();
+            using var message = CreateGetAllUsersRequest(offset, limit);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -3081,7 +3112,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateCreateUserRequest(string username, string id, string name, string email)
+        internal HttpMessage CreateCreateUserRequest(string username, string id, string name, string email, string apiKey)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -3106,25 +3137,31 @@ namespace Affinda.API
             {
                 content.Add(new StringRequestContent(email), "email", null);
             }
+            if (apiKey != null)
+            {
+                content.Add(new StringRequestContent(apiKey), "apiKey", null);
+            }
             content.ApplyToRequest(request);
             return message;
         }
 
-        /// <summary> Create an user as part of your account. </summary>
-        /// <param name="username"> The UserUsername to use. </param>
-        /// <param name="id"> The UserId to use. </param>
-        /// <param name="name"> The UserName to use. </param>
-        /// <param name="email"> The UserEmail to use. </param>
+        /// <summary> Create a new user. </summary>
+        /// <param name="username"> The String to use. </param>
+        /// <param name="id"> The String to use. </param>
+        /// <param name="name"> The String to use. </param>
+        /// <param name="email"> The String to use. </param>
+        /// <param name="apiKey"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="username"/> is null. </exception>
-        public async Task<Response<object>> CreateUserAsync(string username, string id = null, string name = null, string email = null, CancellationToken cancellationToken = default)
+        /// <remarks> Create an user as part of your account. </remarks>
+        public async Task<Response<object>> CreateUserAsync(string username, string id = null, string name = null, string email = null, string apiKey = null, CancellationToken cancellationToken = default)
         {
             if (username == null)
             {
                 throw new ArgumentNullException(nameof(username));
             }
 
-            using var message = CreateCreateUserRequest(username, id, name, email);
+            using var message = CreateCreateUserRequest(username, id, name, email, apiKey);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -3148,21 +3185,23 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Create an user as part of your account. </summary>
-        /// <param name="username"> The UserUsername to use. </param>
-        /// <param name="id"> The UserId to use. </param>
-        /// <param name="name"> The UserName to use. </param>
-        /// <param name="email"> The UserEmail to use. </param>
+        /// <summary> Create a new user. </summary>
+        /// <param name="username"> The String to use. </param>
+        /// <param name="id"> The String to use. </param>
+        /// <param name="name"> The String to use. </param>
+        /// <param name="email"> The String to use. </param>
+        /// <param name="apiKey"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="username"/> is null. </exception>
-        public Response<object> CreateUser(string username, string id = null, string name = null, string email = null, CancellationToken cancellationToken = default)
+        /// <remarks> Create an user as part of your account. </remarks>
+        public Response<object> CreateUser(string username, string id = null, string name = null, string email = null, string apiKey = null, CancellationToken cancellationToken = default)
         {
             if (username == null)
             {
                 throw new ArgumentNullException(nameof(username));
             }
 
-            using var message = CreateCreateUserRequest(username, id, name, email);
+            using var message = CreateCreateUserRequest(username, id, name, email, apiKey);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {

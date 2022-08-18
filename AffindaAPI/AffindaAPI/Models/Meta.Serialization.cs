@@ -6,6 +6,7 @@
 #nullable disable
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
 
@@ -21,6 +22,9 @@ namespace Affinda.API.Models
             Optional<DateTimeOffset?> readyDt = default;
             bool failed = default;
             Optional<string> expiryTime = default;
+            Optional<string> language = default;
+            IReadOnlyDictionary<string, object> additionalProperties = default;
+            Dictionary<string, object> additionalPropertiesDictionary = new Dictionary<string, object>();
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("identifier"))
@@ -73,8 +77,15 @@ namespace Affinda.API.Models
                     expiryTime = property.Value.GetString();
                     continue;
                 }
+                if (property.NameEquals("language"))
+                {
+                    language = property.Value.GetString();
+                    continue;
+                }
+                additionalPropertiesDictionary.Add(property.Name, property.Value.GetObject());
             }
-            return new Meta(identifier, fileName.Value, ready, Optional.ToNullable(readyDt), failed, expiryTime.Value);
+            additionalProperties = additionalPropertiesDictionary;
+            return new Meta(identifier, fileName.Value, ready, Optional.ToNullable(readyDt), failed, expiryTime.Value, language.Value, additionalProperties);
         }
     }
 }

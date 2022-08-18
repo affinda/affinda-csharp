@@ -18,15 +18,15 @@ namespace Affinda.API.Models
             float score = default;
             string pdf = default;
             Optional<string> name = default;
-            ResumeSearchScoreComponent jobTitle = default;
-            ResumeSearchScoreComponent managementLevel = default;
-            ResumeSearchScoreComponent experience = default;
-            ResumeSearchScoreComponent skills = default;
-            ResumeSearchScoreComponent languages = default;
-            ResumeSearchScoreComponent location = default;
-            ResumeSearchScoreComponent education = default;
-            ResumeSearchScoreComponent occupationGroup = default;
-            ResumeSearchScoreComponent searchExpression = default;
+            JobTitleSearchScoreComponent jobTitle = default;
+            ManagementLevelSearchScoreComponent managementLevel = default;
+            ExperienceSearchScoreComponent experience = default;
+            SkillsSearchScoreComponent skills = default;
+            LanguagesSearchScoreComponent languages = default;
+            LocationSearchScoreComponent location = default;
+            EducationSearchScoreComponent education = default;
+            OccupationGroupSearchScoreComponent occupationGroup = default;
+            SearchExpressionSearchScoreComponent searchExpression = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("identifier"))
@@ -56,47 +56,47 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("jobTitle"))
                 {
-                    jobTitle = ResumeSearchScoreComponent.DeserializeResumeSearchScoreComponent(property.Value);
+                    jobTitle = JobTitleSearchScoreComponent.DeserializeJobTitleSearchScoreComponent(property.Value);
                     continue;
                 }
                 if (property.NameEquals("managementLevel"))
                 {
-                    managementLevel = ResumeSearchScoreComponent.DeserializeResumeSearchScoreComponent(property.Value);
+                    managementLevel = ManagementLevelSearchScoreComponent.DeserializeManagementLevelSearchScoreComponent(property.Value);
                     continue;
                 }
                 if (property.NameEquals("experience"))
                 {
-                    experience = ResumeSearchScoreComponent.DeserializeResumeSearchScoreComponent(property.Value);
+                    experience = ExperienceSearchScoreComponent.DeserializeExperienceSearchScoreComponent(property.Value);
                     continue;
                 }
                 if (property.NameEquals("skills"))
                 {
-                    skills = ResumeSearchScoreComponent.DeserializeResumeSearchScoreComponent(property.Value);
+                    skills = SkillsSearchScoreComponent.DeserializeSkillsSearchScoreComponent(property.Value);
                     continue;
                 }
                 if (property.NameEquals("languages"))
                 {
-                    languages = ResumeSearchScoreComponent.DeserializeResumeSearchScoreComponent(property.Value);
+                    languages = LanguagesSearchScoreComponent.DeserializeLanguagesSearchScoreComponent(property.Value);
                     continue;
                 }
                 if (property.NameEquals("location"))
                 {
-                    location = ResumeSearchScoreComponent.DeserializeResumeSearchScoreComponent(property.Value);
+                    location = LocationSearchScoreComponent.DeserializeLocationSearchScoreComponent(property.Value);
                     continue;
                 }
                 if (property.NameEquals("education"))
                 {
-                    education = ResumeSearchScoreComponent.DeserializeResumeSearchScoreComponent(property.Value);
+                    education = EducationSearchScoreComponent.DeserializeEducationSearchScoreComponent(property.Value);
                     continue;
                 }
                 if (property.NameEquals("occupationGroup"))
                 {
-                    occupationGroup = ResumeSearchScoreComponent.DeserializeResumeSearchScoreComponent(property.Value);
+                    occupationGroup = OccupationGroupSearchScoreComponent.DeserializeOccupationGroupSearchScoreComponent(property.Value);
                     continue;
                 }
                 if (property.NameEquals("searchExpression"))
                 {
-                    searchExpression = ResumeSearchScoreComponent.DeserializeResumeSearchScoreComponent(property.Value);
+                    searchExpression = SearchExpressionSearchScoreComponent.DeserializeSearchExpressionSearchScoreComponent(property.Value);
                     continue;
                 }
             }

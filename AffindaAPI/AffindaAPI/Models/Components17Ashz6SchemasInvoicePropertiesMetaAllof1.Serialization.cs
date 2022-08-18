@@ -14,9 +14,20 @@ namespace Affinda.API.Models
     {
         internal static Components17Ashz6SchemasInvoicePropertiesMetaAllof1 DeserializeComponents17Ashz6SchemasInvoicePropertiesMetaAllof1(JsonElement element)
         {
+            Optional<string> clientVerifiedDt = default;
             Optional<string> reviewUrl = default;
             foreach (var property in element.EnumerateObject())
             {
+                if (property.NameEquals("clientVerifiedDt"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        clientVerifiedDt = null;
+                        continue;
+                    }
+                    clientVerifiedDt = property.Value.GetString();
+                    continue;
+                }
                 if (property.NameEquals("reviewUrl"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
@@ -28,7 +39,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new Components17Ashz6SchemasInvoicePropertiesMetaAllof1(reviewUrl.Value);
+            return new Components17Ashz6SchemasInvoicePropertiesMetaAllof1(clientVerifiedDt.Value, reviewUrl.Value);
         }
     }
 }

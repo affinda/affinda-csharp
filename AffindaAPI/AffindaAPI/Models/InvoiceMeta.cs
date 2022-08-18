@@ -6,6 +6,7 @@
 #nullable disable
 
 using System;
+using System.Collections.Generic;
 
 namespace Affinda.API.Models
 {
@@ -27,12 +28,18 @@ namespace Affinda.API.Models
         /// <param name="readyDt"> The datetime when the document was ready. </param>
         /// <param name="failed"> If true, some exception was raised during processing. Check the &apos;error&apos; field of the main return object. </param>
         /// <param name="expiryTime"> The date/time in ISO-8601 format when the document will be automatically deleted.  Defaults to no expiry. </param>
+        /// <param name="language"> The resume&apos;s language. </param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="clientVerifiedDt"></param>
         /// <param name="reviewUrl"> Signed URL (valid for 60 minutes) to access the invoice review tool. </param>
-        internal InvoiceMeta(string identifier, string fileName, bool ready, DateTimeOffset? readyDt, bool failed, string expiryTime, string reviewUrl) : base(identifier, fileName, ready, readyDt, failed, expiryTime)
+        internal InvoiceMeta(string identifier, string fileName, bool ready, DateTimeOffset? readyDt, bool failed, string expiryTime, string language, IReadOnlyDictionary<string, object> additionalProperties, string clientVerifiedDt, string reviewUrl) : base(identifier, fileName, ready, readyDt, failed, expiryTime, language, additionalProperties)
         {
+            ClientVerifiedDt = clientVerifiedDt;
             ReviewUrl = reviewUrl;
         }
 
+        /// <summary> Gets the client verified dt. </summary>
+        public string ClientVerifiedDt { get; }
         /// <summary> Signed URL (valid for 60 minutes) to access the invoice review tool. </summary>
         public string ReviewUrl { get; }
     }

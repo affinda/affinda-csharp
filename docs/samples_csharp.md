@@ -23,14 +23,14 @@ using (FileStream fs = File.OpenRead(resumePath))
 Resume Redactor
 ---------------
 
-Resume Reformatter
-------------------
+Search & Match - Searching
+--------------------------
 
-Resume Search
--------------
+Search & Match - Embedding
+--------------------------
 
-Job Descriptions
-----------------
+Job Description Parser
+----------------------
 
 ### createJobDescription - Upload a job description for parsing
 
@@ -49,8 +49,11 @@ using (FileStream fs = File.OpenRead(resumePath))
 }
 ```
 
-Invoice Parser
---------------
+Search & Match - Indexing
+-------------------------
+
+Invoice Extractor
+-----------------
 
 ### createInvoice - Upload an invoice for parsing
 

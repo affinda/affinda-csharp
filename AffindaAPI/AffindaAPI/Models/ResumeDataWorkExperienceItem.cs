@@ -18,16 +18,22 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of ResumeDataWorkExperienceItem. </summary>
         /// <param name="id"></param>
         /// <param name="jobTitle"></param>
+        /// <param name="socCode"></param>
+        /// <param name="socName"></param>
         /// <param name="organization"></param>
+        /// <param name="industry"></param>
         /// <param name="location"></param>
         /// <param name="jobDescription"></param>
         /// <param name="dates"></param>
         /// <param name="occupation"></param>
-        internal ResumeDataWorkExperienceItem(int? id, string jobTitle, string organization, Location location, string jobDescription, ResumeDataWorkExperienceItemDates dates, ResumeDataWorkExperienceItemOccupation occupation)
+        internal ResumeDataWorkExperienceItem(int? id, string jobTitle, string socCode, string socName, string organization, string industry, Location location, string jobDescription, ResumeDataWorkExperienceItemDates dates, ResumeDataWorkExperienceItemOccupation occupation)
         {
             Id = id;
             JobTitle = jobTitle;
+            SocCode = socCode;
+            SocName = socName;
             Organization = organization;
+            Industry = industry;
             Location = location;
             JobDescription = jobDescription;
             Dates = dates;
@@ -38,8 +44,14 @@ namespace Affinda.API.Models
         public int? Id { get; set; }
         /// <summary> Gets or sets the job title. </summary>
         public string JobTitle { get; set; }
+        /// <summary> Gets the soc code. </summary>
+        public string SocCode { get; }
+        /// <summary> Gets the soc name. </summary>
+        public string SocName { get; }
         /// <summary> Gets or sets the organization. </summary>
         public string Organization { get; set; }
+        /// <summary> Gets the industry. </summary>
+        public string Industry { get; }
         /// <summary> Gets or sets the location. </summary>
         public Location Location { get; set; }
         /// <summary> Gets or sets the job description. </summary>

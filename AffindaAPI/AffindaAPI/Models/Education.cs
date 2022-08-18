@@ -21,7 +21,7 @@ namespace Affinda.API.Models
         /// <param name="grade"></param>
         /// <param name="location"></param>
         /// <param name="dates"></param>
-        internal Education(string organization, Accreditation accreditation, string grade, Location location, EducationDates dates)
+        internal Education(string organization, Accreditation accreditation, EducationGrade grade, Location location, EducationDates dates)
         {
             Organization = organization;
             Accreditation = accreditation;
@@ -35,7 +35,7 @@ namespace Affinda.API.Models
         /// <summary> Gets the accreditation. </summary>
         public Accreditation Accreditation { get; }
         /// <summary> Gets the grade. </summary>
-        public string Grade { get; }
+        public EducationGrade Grade { get; }
         /// <summary> Gets the location. </summary>
         public Location Location { get; }
         /// <summary> Gets the dates. </summary>

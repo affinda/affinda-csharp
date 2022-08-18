@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using Affinda.API;
-using Affinda.API.Models;
 using Newtonsoft.Json;
 
 namespace AffindaAPISample

@@ -30,12 +30,14 @@ namespace Affinda.API.Models
         /// <param name="name"></param>
         /// <param name="username"></param>
         /// <param name="email"></param>
-        internal User(string id, string name, string username, string email)
+        /// <param name="apiKey"></param>
+        internal User(string id, string name, string username, string email, string apiKey)
         {
             Id = id;
             Name = name;
             Username = username;
             Email = email;
+            ApiKey = apiKey;
         }
 
         /// <summary> Gets the id. </summary>
@@ -46,5 +48,7 @@ namespace Affinda.API.Models
         public string Username { get; }
         /// <summary> Gets the email. </summary>
         public string Email { get; }
+        /// <summary> Gets the api key. </summary>
+        public string ApiKey { get; }
     }
 }
