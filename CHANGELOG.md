@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated azure core libary to 1.25.0
 - fixed typing of some endpoint objects
 
+### Deprecated
+- Depreciated resume_formats and reformatted_resumes endpoints
+
 ## [2.1.0] - 2022-07-08
 ### Added
 - Add line item tables and an ability to update resume data in the search system, and endpoint for managing user accounts
