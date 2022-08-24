@@ -1093,6 +1093,194 @@ namespace Affinda.API.Models
             return new JobDescriptionSearchResult(identifier, score, pdf, jobTitle, managementLevel, experience, skills, languages, location, education, occupationGroup, searchExpression);
         }
 
+        /// <summary> Initializes a new instance of JobDescriptionSearchDetail. </summary>
+        /// <param name="jobTitle"></param>
+        /// <param name="location"></param>
+        /// <param name="education"></param>
+        /// <param name="skills"></param>
+        /// <param name="experience"></param>
+        /// <param name="occupationGroup"></param>
+        /// <param name="languages"></param>
+        /// <param name="managementLevel"></param>
+        /// <param name="searchExpression"></param>
+        /// <returns> A new <see cref="Models.JobDescriptionSearchDetail"/> instance for mocking. </returns>
+        public static JobDescriptionSearchDetail JobDescriptionSearchDetail(JobDescriptionSearchDetailJobTitle jobTitle = null, JobDescriptionSearchDetailLocation location = null, JobDescriptionSearchDetailEducation education = null, JobDescriptionSearchDetailSkills skills = null, JobDescriptionSearchDetailExperience experience = null, JobDescriptionSearchDetailOccupationGroup occupationGroup = null, JobDescriptionSearchDetailLanguages languages = null, JobDescriptionSearchDetailManagementLevel managementLevel = null, JobDescriptionSearchDetailSearchExpression searchExpression = null)
+        {
+            return new JobDescriptionSearchDetail(jobTitle, location, education, skills, experience, occupationGroup, languages, managementLevel, searchExpression);
+        }
+
+        /// <summary> Initializes a new instance of JobDescriptionSearchDetailJobTitle. </summary>
+        /// <param name="missing"></param>
+        /// <param name="value"></param>
+        /// <returns> A new <see cref="Models.JobDescriptionSearchDetailJobTitle"/> instance for mocking. </returns>
+        public static JobDescriptionSearchDetailJobTitle JobDescriptionSearchDetailJobTitle(IEnumerable<string> missing = null, JobDescriptionSearchDetailJobTitleValue value = null)
+        {
+            missing ??= new List<string>();
+
+            return new JobDescriptionSearchDetailJobTitle(missing?.ToList(), value);
+        }
+
+        /// <summary> Initializes a new instance of JobDescriptionSearchDetailJobTitleValue. </summary>
+        /// <param name="name"></param>
+        /// <param name="companyName"></param>
+        /// <param name="match"></param>
+        /// <returns> A new <see cref="Models.JobDescriptionSearchDetailJobTitleValue"/> instance for mocking. </returns>
+        public static JobDescriptionSearchDetailJobTitleValue JobDescriptionSearchDetailJobTitleValue(string name = null, string companyName = null, bool? match = null)
+        {
+            return new JobDescriptionSearchDetailJobTitleValue(name, companyName, match);
+        }
+
+        /// <summary> Initializes a new instance of JobDescriptionSearchDetailLocation. </summary>
+        /// <param name="missing"></param>
+        /// <param name="value"></param>
+        /// <returns> A new <see cref="Models.JobDescriptionSearchDetailLocation"/> instance for mocking. </returns>
+        public static JobDescriptionSearchDetailLocation JobDescriptionSearchDetailLocation(IEnumerable<ResumeSearchParametersLocation> missing = null, JobDescriptionSearchDetailLocationValue value = null)
+        {
+            missing ??= new List<ResumeSearchParametersLocation>();
+
+            return new JobDescriptionSearchDetailLocation(missing?.ToList(), value);
+        }
+
+        /// <summary> Initializes a new instance of JobDescriptionSearchDetailEducation. </summary>
+        /// <param name="missing"></param>
+        /// <param name="value"></param>
+        /// <returns> A new <see cref="Models.JobDescriptionSearchDetailEducation"/> instance for mocking. </returns>
+        public static JobDescriptionSearchDetailEducation JobDescriptionSearchDetailEducation(JobDescriptionSearchDetailEducationMissing missing = null, JobDescriptionSearchDetailEducationValue value = null)
+        {
+            return new JobDescriptionSearchDetailEducation(missing, value);
+        }
+
+        /// <summary> Initializes a new instance of JobDescriptionSearchDetailEducationMissing. </summary>
+        /// <param name="degrees"></param>
+        /// <param name="degreeTypes"></param>
+        /// <returns> A new <see cref="Models.JobDescriptionSearchDetailEducationMissing"/> instance for mocking. </returns>
+        public static JobDescriptionSearchDetailEducationMissing JobDescriptionSearchDetailEducationMissing(IEnumerable<string> degrees = null, IEnumerable<string> degreeTypes = null)
+        {
+            degrees ??= new List<string>();
+            degreeTypes ??= new List<string>();
+
+            return new JobDescriptionSearchDetailEducationMissing(degrees?.ToList(), degreeTypes?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of JobDescriptionSearchDetailEducationValue. </summary>
+        /// <param name="degrees"></param>
+        /// <param name="degreeTypes"></param>
+        /// <param name="match"></param>
+        /// <returns> A new <see cref="Models.JobDescriptionSearchDetailEducationValue"/> instance for mocking. </returns>
+        public static JobDescriptionSearchDetailEducationValue JobDescriptionSearchDetailEducationValue(IEnumerable<string> degrees = null, IEnumerable<string> degreeTypes = null, bool? match = null)
+        {
+            degrees ??= new List<string>();
+            degreeTypes ??= new List<string>();
+
+            return new JobDescriptionSearchDetailEducationValue(degrees?.ToList(), degreeTypes?.ToList(), match);
+        }
+
+        /// <summary> Initializes a new instance of JobDescriptionSearchDetailSkills. </summary>
+        /// <param name="missing"></param>
+        /// <param name="value"></param>
+        /// <returns> A new <see cref="Models.JobDescriptionSearchDetailSkills"/> instance for mocking. </returns>
+        public static JobDescriptionSearchDetailSkills JobDescriptionSearchDetailSkills(IEnumerable<ResumeSearchParametersSkill> missing = null, IEnumerable<JobDescriptionSearchDetailSkillsValueItem> value = null)
+        {
+            missing ??= new List<ResumeSearchParametersSkill>();
+            value ??= new List<JobDescriptionSearchDetailSkillsValueItem>();
+
+            return new JobDescriptionSearchDetailSkills(missing?.ToList(), value?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of JobDescriptionSearchDetailSkillsValueItem. </summary>
+        /// <param name="name"></param>
+        /// <param name="match"></param>
+        /// <returns> A new <see cref="Models.JobDescriptionSearchDetailSkillsValueItem"/> instance for mocking. </returns>
+        public static JobDescriptionSearchDetailSkillsValueItem JobDescriptionSearchDetailSkillsValueItem(string name = null, bool? match = null)
+        {
+            return new JobDescriptionSearchDetailSkillsValueItem(name, match);
+        }
+
+        /// <summary> Initializes a new instance of JobDescriptionSearchDetailExperience. </summary>
+        /// <param name="minimumExperience"></param>
+        /// <param name="maximumExperience"></param>
+        /// <param name="match"></param>
+        /// <returns> A new <see cref="Models.JobDescriptionSearchDetailExperience"/> instance for mocking. </returns>
+        public static JobDescriptionSearchDetailExperience JobDescriptionSearchDetailExperience(int? minimumExperience = null, int? maximumExperience = null, bool? match = null)
+        {
+            return new JobDescriptionSearchDetailExperience(minimumExperience, maximumExperience, match);
+        }
+
+        /// <summary> Initializes a new instance of JobDescriptionSearchDetailOccupationGroup. </summary>
+        /// <param name="missing"></param>
+        /// <param name="value"></param>
+        /// <returns> A new <see cref="Models.JobDescriptionSearchDetailOccupationGroup"/> instance for mocking. </returns>
+        public static JobDescriptionSearchDetailOccupationGroup JobDescriptionSearchDetailOccupationGroup(IEnumerable<int> missing = null, IEnumerable<JobDescriptionSearchDetailOccupationGroupValueItem> value = null)
+        {
+            missing ??= new List<int>();
+            value ??= new List<JobDescriptionSearchDetailOccupationGroupValueItem>();
+
+            return new JobDescriptionSearchDetailOccupationGroup(missing?.ToList(), value?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of JobDescriptionSearchDetailOccupationGroupValueItem. </summary>
+        /// <param name="code"></param>
+        /// <param name="name"></param>
+        /// <param name="children"></param>
+        /// <param name="match"></param>
+        /// <returns> A new <see cref="Models.JobDescriptionSearchDetailOccupationGroupValueItem"/> instance for mocking. </returns>
+        public static JobDescriptionSearchDetailOccupationGroupValueItem JobDescriptionSearchDetailOccupationGroupValueItem(int code = default, string name = null, IEnumerable<OccupationGroup> children = null, bool? match = null)
+        {
+            children ??= new List<OccupationGroup>();
+
+            return new JobDescriptionSearchDetailOccupationGroupValueItem(code, name, children?.ToList(), match);
+        }
+
+        /// <summary> Initializes a new instance of Components1Bq3Q31SchemasJobdescriptionsearchdetailPropertiesOccupationgroupPropertiesValueItemsAllof1. </summary>
+        /// <param name="match"></param>
+        /// <returns> A new <see cref="Models.Components1Bq3Q31SchemasJobdescriptionsearchdetailPropertiesOccupationgroupPropertiesValueItemsAllof1"/> instance for mocking. </returns>
+        public static Components1Bq3Q31SchemasJobdescriptionsearchdetailPropertiesOccupationgroupPropertiesValueItemsAllof1 Components1Bq3Q31SchemasJobdescriptionsearchdetailPropertiesOccupationgroupPropertiesValueItemsAllof1(bool? match = null)
+        {
+            return new Components1Bq3Q31SchemasJobdescriptionsearchdetailPropertiesOccupationgroupPropertiesValueItemsAllof1(match);
+        }
+
+        /// <summary> Initializes a new instance of JobDescriptionSearchDetailLanguages. </summary>
+        /// <param name="missing"></param>
+        /// <param name="value"></param>
+        /// <returns> A new <see cref="Models.JobDescriptionSearchDetailLanguages"/> instance for mocking. </returns>
+        public static JobDescriptionSearchDetailLanguages JobDescriptionSearchDetailLanguages(IEnumerable<ResumeSearchParametersSkill> missing = null, IEnumerable<JobDescriptionSearchDetailLanguagesValueItem> value = null)
+        {
+            missing ??= new List<ResumeSearchParametersSkill>();
+            value ??= new List<JobDescriptionSearchDetailLanguagesValueItem>();
+
+            return new JobDescriptionSearchDetailLanguages(missing?.ToList(), value?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of JobDescriptionSearchDetailLanguagesValueItem. </summary>
+        /// <param name="name"></param>
+        /// <param name="match"></param>
+        /// <returns> A new <see cref="Models.JobDescriptionSearchDetailLanguagesValueItem"/> instance for mocking. </returns>
+        public static JobDescriptionSearchDetailLanguagesValueItem JobDescriptionSearchDetailLanguagesValueItem(string name = null, bool? match = null)
+        {
+            return new JobDescriptionSearchDetailLanguagesValueItem(name, match);
+        }
+
+        /// <summary> Initializes a new instance of JobDescriptionSearchDetailManagementLevel. </summary>
+        /// <param name="level"></param>
+        /// <param name="match"></param>
+        /// <returns> A new <see cref="Models.JobDescriptionSearchDetailManagementLevel"/> instance for mocking. </returns>
+        public static JobDescriptionSearchDetailManagementLevel JobDescriptionSearchDetailManagementLevel(ManagementLevel? level = null, bool? match = null)
+        {
+            return new JobDescriptionSearchDetailManagementLevel(level, match);
+        }
+
+        /// <summary> Initializes a new instance of JobDescriptionSearchDetailSearchExpression. </summary>
+        /// <param name="missing"></param>
+        /// <param name="value"></param>
+        /// <returns> A new <see cref="Models.JobDescriptionSearchDetailSearchExpression"/> instance for mocking. </returns>
+        public static JobDescriptionSearchDetailSearchExpression JobDescriptionSearchDetailSearchExpression(IEnumerable<string> missing = null, IEnumerable<string> value = null)
+        {
+            missing ??= new List<string>();
+            value ??= new List<string>();
+
+            return new JobDescriptionSearchDetailSearchExpression(missing?.ToList(), value?.ToList());
+        }
+
         /// <summary> Initializes a new instance of Paths6Pypg5IndexGetResponses200ContentApplicationJsonSchema. </summary>
         /// <param name="count"> Number of indexes in result. </param>
         /// <param name="next"> URL to request next page of results. </param>

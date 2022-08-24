@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Deprecated
 - Depreciated resume_formats and reformatted_resumes endpoints
 
+### Added
+- Reverse match functionality - search job descriptions with a resume, or with a set of parameters.
+
 ## [2.1.0] - 2022-07-08
 ### Added
 - Add line item tables and an ability to update resume data in the search system, and endpoint for managing user accounts
