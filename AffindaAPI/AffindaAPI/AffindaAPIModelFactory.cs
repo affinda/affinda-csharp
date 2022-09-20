@@ -34,14 +34,41 @@ namespace Affinda.API.Models
         /// <param name="readyDt"> The datetime when the document was ready. </param>
         /// <param name="failed"> If true, some exception was raised during processing. Check the &apos;error&apos; field of the main return object. </param>
         /// <param name="expiryTime"> The date/time in ISO-8601 format when the document will be automatically deleted.  Defaults to no expiry. </param>
-        /// <param name="language"> The resume&apos;s language. </param>
+        /// <param name="language"> The document&apos;s language. </param>
+        /// <param name="pdf"> The URL to the document&apos;s pdf (if the uploaded document is not already pdf, it&apos;s converted to pdf as part of the parsing process). </param>
+        /// <param name="parentDocument"> If this document is part of a splitted document, this attribute points to the original document that this document is splitted from. </param>
+        /// <param name="childDocuments"> If this document has been splitted into a number of child documents, this attribute points to those child documents. </param>
+        /// <param name="pages"> The document&apos;s pages. </param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <returns> A new <see cref="Models.Meta"/> instance for mocking. </returns>
-        public static Meta Meta(string identifier = null, string fileName = null, bool ready = default, DateTimeOffset? readyDt = null, bool failed = default, string expiryTime = null, string language = null, IReadOnlyDictionary<string, object> additionalProperties = null)
+        public static Meta Meta(string identifier = null, string fileName = null, bool ready = default, DateTimeOffset? readyDt = null, bool failed = default, string expiryTime = null, string language = null, string pdf = null, SplitRelation parentDocument = null, IEnumerable<SplitRelation> childDocuments = null, IEnumerable<PageMeta> pages = null, IReadOnlyDictionary<string, object> additionalProperties = null)
         {
+            childDocuments ??= new List<SplitRelation>();
+            pages ??= new List<PageMeta>();
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new Meta(identifier, fileName, ready, readyDt, failed, expiryTime, language, additionalProperties);
+            return new Meta(identifier, fileName, ready, readyDt, failed, expiryTime, language, pdf, parentDocument, childDocuments?.ToList(), pages?.ToList(), additionalProperties);
+        }
+
+        /// <summary> Initializes a new instance of SplitRelation. </summary>
+        /// <param name="identifier"> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </param>
+        /// <returns> A new <see cref="Models.SplitRelation"/> instance for mocking. </returns>
+        public static SplitRelation SplitRelation(string identifier = null)
+        {
+            return new SplitRelation(identifier);
+        }
+
+        /// <summary> Initializes a new instance of PageMeta. </summary>
+        /// <param name="id"></param>
+        /// <param name="pageIndex"> Page number within the document, starts from 0. </param>
+        /// <param name="image"> The URL to the image of the page. </param>
+        /// <param name="height"> Height of the page&apos;s image in px. </param>
+        /// <param name="width"> Width of the page&apos;s image in px. </param>
+        /// <param name="rotation"> The degree of rotation applied to the page. Greater than 0 indicates clockwise rotation. Less than 0 indicates counter-clockwise rotation. </param>
+        /// <returns> A new <see cref="Models.PageMeta"/> instance for mocking. </returns>
+        public static PageMeta PageMeta(int? id = null, int? pageIndex = null, string image = null, float? height = null, float? width = null, int? rotation = null)
+        {
+            return new PageMeta(id, pageIndex, image, height, width, rotation);
         }
 
         /// <summary> Initializes a new instance of RequestError. </summary>
@@ -1281,6 +1308,48 @@ namespace Affinda.API.Models
             return new JobDescriptionSearchDetailSearchExpression(missing?.ToList(), value?.ToList());
         }
 
+        /// <summary> Initializes a new instance of JobDescriptionSearchConfig. </summary>
+        /// <param name="allowPdfDownload"></param>
+        /// <param name="maxResults"> Maximum number of results that can be returned. Setting to &quot;null&quot; means no limitation. </param>
+        /// <param name="displayJobTitle"></param>
+        /// <param name="displayLocation"></param>
+        /// <param name="displayYearsExperience"></param>
+        /// <param name="displayOccupationGroup"></param>
+        /// <param name="displayEducation"></param>
+        /// <param name="displaySkills"></param>
+        /// <param name="displayLanguages"></param>
+        /// <param name="displayManagementLevel"></param>
+        /// <param name="displayKeywords"></param>
+        /// <param name="weightJobTitle"></param>
+        /// <param name="weightLocation"></param>
+        /// <param name="weightYearsExperience"></param>
+        /// <param name="weightOccupationGroup"></param>
+        /// <param name="weightEducation"></param>
+        /// <param name="weightSkills"></param>
+        /// <param name="weightLanguages"></param>
+        /// <param name="weightManagementLevel"></param>
+        /// <param name="weightKeywords"></param>
+        /// <param name="indices"> List of index names. </param>
+        /// <param name="searchToolTheme"> Customize the theme of the embeded search tool. </param>
+        /// <param name="userId"> ID of the logged in user. </param>
+        /// <param name="username"> Username of the logged in user. </param>
+        /// <returns> A new <see cref="Models.JobDescriptionSearchConfig"/> instance for mocking. </returns>
+        public static JobDescriptionSearchConfig JobDescriptionSearchConfig(bool? allowPdfDownload = null, int? maxResults = null, bool? displayJobTitle = null, bool? displayLocation = null, bool? displayYearsExperience = null, bool? displayOccupationGroup = null, bool? displayEducation = null, bool? displaySkills = null, bool? displayLanguages = null, bool? displayManagementLevel = null, bool? displayKeywords = null, float? weightJobTitle = null, float? weightLocation = null, float? weightYearsExperience = null, float? weightOccupationGroup = null, float? weightEducation = null, float? weightSkills = null, float? weightLanguages = null, float? weightManagementLevel = null, float? weightKeywords = null, IEnumerable<string> indices = null, IDictionary<string, object> searchToolTheme = null, int? userId = null, string username = null)
+        {
+            indices ??= new List<string>();
+            searchToolTheme ??= new Dictionary<string, object>();
+
+            return new JobDescriptionSearchConfig(allowPdfDownload, maxResults, displayJobTitle, displayLocation, displayYearsExperience, displayOccupationGroup, displayEducation, displaySkills, displayLanguages, displayManagementLevel, displayKeywords, weightJobTitle, weightLocation, weightYearsExperience, weightOccupationGroup, weightEducation, weightSkills, weightLanguages, weightManagementLevel, weightKeywords, indices?.ToList(), searchToolTheme, userId, username);
+        }
+
+        /// <summary> Initializes a new instance of JobDescriptionSearchEmbed. </summary>
+        /// <param name="url"> The signed URL for the embedable search tool. </param>
+        /// <returns> A new <see cref="Models.JobDescriptionSearchEmbed"/> instance for mocking. </returns>
+        public static JobDescriptionSearchEmbed JobDescriptionSearchEmbed(string url = null)
+        {
+            return new JobDescriptionSearchEmbed(url);
+        }
+
         /// <summary> Initializes a new instance of Paths6Pypg5IndexGetResponses200ContentApplicationJsonSchema. </summary>
         /// <param name="count"> Number of indexes in result. </param>
         /// <param name="next"> URL to request next page of results. </param>
@@ -1296,24 +1365,20 @@ namespace Affinda.API.Models
 
         /// <summary> Initializes a new instance of Get200ApplicationJsonPropertiesItemsItem. </summary>
         /// <param name="name"></param>
-        /// <exception cref="ArgumentNullException"> <paramref name="name"/> is null. </exception>
+        /// <param name="documentType"></param>
         /// <returns> A new <see cref="Models.Get200ApplicationJsonPropertiesItemsItem"/> instance for mocking. </returns>
-        public static Get200ApplicationJsonPropertiesItemsItem Get200ApplicationJsonPropertiesItemsItem(string name = null)
+        public static Get200ApplicationJsonPropertiesItemsItem Get200ApplicationJsonPropertiesItemsItem(string name = null, GetResponses200ContentApplicationJsonSchemaResultsItemDocumentType? documentType = null)
         {
-            if (name == null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-
-            return new Get200ApplicationJsonPropertiesItemsItem(name);
+            return new Get200ApplicationJsonPropertiesItemsItem(name, documentType);
         }
 
         /// <summary> Initializes a new instance of Paths1Mc0Je6IndexPostResponses201ContentApplicationJsonSchema. </summary>
         /// <param name="name"></param>
+        /// <param name="documentType"></param>
         /// <returns> A new <see cref="Models.Paths1Mc0Je6IndexPostResponses201ContentApplicationJsonSchema"/> instance for mocking. </returns>
-        public static Paths1Mc0Je6IndexPostResponses201ContentApplicationJsonSchema Paths1Mc0Je6IndexPostResponses201ContentApplicationJsonSchema(string name = null)
+        public static Paths1Mc0Je6IndexPostResponses201ContentApplicationJsonSchema Paths1Mc0Je6IndexPostResponses201ContentApplicationJsonSchema(string name = null, Enum3? documentType = null)
         {
-            return new Paths1Mc0Je6IndexPostResponses201ContentApplicationJsonSchema(name);
+            return new Paths1Mc0Je6IndexPostResponses201ContentApplicationJsonSchema(name, documentType);
         }
 
         /// <summary> Initializes a new instance of PathsRvverlIndexNameDocumentsGetResponses200ContentApplicationJsonSchema. </summary>
@@ -1745,16 +1810,22 @@ namespace Affinda.API.Models
         /// <param name="readyDt"> The datetime when the document was ready. </param>
         /// <param name="failed"> If true, some exception was raised during processing. Check the &apos;error&apos; field of the main return object. </param>
         /// <param name="expiryTime"> The date/time in ISO-8601 format when the document will be automatically deleted.  Defaults to no expiry. </param>
-        /// <param name="language"> The resume&apos;s language. </param>
+        /// <param name="language"> The document&apos;s language. </param>
+        /// <param name="pdf"> The URL to the document&apos;s pdf (if the uploaded document is not already pdf, it&apos;s converted to pdf as part of the parsing process). </param>
+        /// <param name="parentDocument"> If this document is part of a splitted document, this attribute points to the original document that this document is splitted from. </param>
+        /// <param name="childDocuments"> If this document has been splitted into a number of child documents, this attribute points to those child documents. </param>
+        /// <param name="pages"> The document&apos;s pages. </param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="clientVerifiedDt"></param>
         /// <param name="reviewUrl"> Signed URL (valid for 60 minutes) to access the invoice review tool. </param>
         /// <returns> A new <see cref="Models.InvoiceMeta"/> instance for mocking. </returns>
-        public static InvoiceMeta InvoiceMeta(string identifier = null, string fileName = null, bool ready = default, DateTimeOffset? readyDt = null, bool failed = default, string expiryTime = null, string language = null, IReadOnlyDictionary<string, object> additionalProperties = null, string clientVerifiedDt = null, string reviewUrl = null)
+        public static InvoiceMeta InvoiceMeta(string identifier = null, string fileName = null, bool ready = default, DateTimeOffset? readyDt = null, bool failed = default, string expiryTime = null, string language = null, string pdf = null, SplitRelation parentDocument = null, IEnumerable<SplitRelation> childDocuments = null, IEnumerable<PageMeta> pages = null, IReadOnlyDictionary<string, object> additionalProperties = null, string clientVerifiedDt = null, string reviewUrl = null)
         {
+            childDocuments ??= new List<SplitRelation>();
+            pages ??= new List<PageMeta>();
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new InvoiceMeta(identifier, fileName, ready, readyDt, failed, expiryTime, language, additionalProperties, clientVerifiedDt, reviewUrl);
+            return new InvoiceMeta(identifier, fileName, ready, readyDt, failed, expiryTime, language, pdf, parentDocument, childDocuments?.ToList(), pages?.ToList(), additionalProperties, clientVerifiedDt, reviewUrl);
         }
 
         /// <summary> Initializes a new instance of Components17Ashz6SchemasInvoicePropertiesMetaAllof1. </summary>

@@ -23,6 +23,8 @@ namespace Affinda.API.Models
             Identifier = identifier;
             Ready = ready;
             Failed = failed;
+            ChildDocuments = new ChangeTrackingList<SplitRelation>();
+            Pages = new ChangeTrackingList<PageMeta>();
             AdditionalProperties = new ChangeTrackingDictionary<string, object>();
         }
 
@@ -33,9 +35,13 @@ namespace Affinda.API.Models
         /// <param name="readyDt"> The datetime when the document was ready. </param>
         /// <param name="failed"> If true, some exception was raised during processing. Check the &apos;error&apos; field of the main return object. </param>
         /// <param name="expiryTime"> The date/time in ISO-8601 format when the document will be automatically deleted.  Defaults to no expiry. </param>
-        /// <param name="language"> The resume&apos;s language. </param>
+        /// <param name="language"> The document&apos;s language. </param>
+        /// <param name="pdf"> The URL to the document&apos;s pdf (if the uploaded document is not already pdf, it&apos;s converted to pdf as part of the parsing process). </param>
+        /// <param name="parentDocument"> If this document is part of a splitted document, this attribute points to the original document that this document is splitted from. </param>
+        /// <param name="childDocuments"> If this document has been splitted into a number of child documents, this attribute points to those child documents. </param>
+        /// <param name="pages"> The document&apos;s pages. </param>
         /// <param name="additionalProperties"> Additional Properties. </param>
-        internal Meta(string identifier, string fileName, bool ready, DateTimeOffset? readyDt, bool failed, string expiryTime, string language, IReadOnlyDictionary<string, object> additionalProperties)
+        internal Meta(string identifier, string fileName, bool ready, DateTimeOffset? readyDt, bool failed, string expiryTime, string language, string pdf, SplitRelation parentDocument, IReadOnlyList<SplitRelation> childDocuments, IReadOnlyList<PageMeta> pages, IReadOnlyDictionary<string, object> additionalProperties)
         {
             Identifier = identifier;
             FileName = fileName;
@@ -44,6 +50,10 @@ namespace Affinda.API.Models
             Failed = failed;
             ExpiryTime = expiryTime;
             Language = language;
+            Pdf = pdf;
+            ParentDocument = parentDocument;
+            ChildDocuments = childDocuments;
+            Pages = pages;
             AdditionalProperties = additionalProperties;
         }
 
@@ -59,8 +69,16 @@ namespace Affinda.API.Models
         public bool Failed { get; }
         /// <summary> The date/time in ISO-8601 format when the document will be automatically deleted.  Defaults to no expiry. </summary>
         public string ExpiryTime { get; }
-        /// <summary> The resume&apos;s language. </summary>
+        /// <summary> The document&apos;s language. </summary>
         public string Language { get; }
+        /// <summary> The URL to the document&apos;s pdf (if the uploaded document is not already pdf, it&apos;s converted to pdf as part of the parsing process). </summary>
+        public string Pdf { get; }
+        /// <summary> If this document is part of a splitted document, this attribute points to the original document that this document is splitted from. </summary>
+        public SplitRelation ParentDocument { get; }
+        /// <summary> If this document has been splitted into a number of child documents, this attribute points to those child documents. </summary>
+        public IReadOnlyList<SplitRelation> ChildDocuments { get; }
+        /// <summary> The document&apos;s pages. </summary>
+        public IReadOnlyList<PageMeta> Pages { get; }
         /// <summary> Additional Properties. </summary>
         public IReadOnlyDictionary<string, object> AdditionalProperties { get; }
     }

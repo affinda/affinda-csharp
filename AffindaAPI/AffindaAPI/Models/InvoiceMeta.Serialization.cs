@@ -25,6 +25,10 @@ namespace Affinda.API.Models
             bool failed = default;
             Optional<string> expiryTime = default;
             Optional<string> language = default;
+            Optional<string> pdf = default;
+            Optional<SplitRelation> parentDocument = default;
+            Optional<IReadOnlyList<SplitRelation>> childDocuments = default;
+            Optional<IReadOnlyList<PageMeta>> pages = default;
             IReadOnlyDictionary<string, object> additionalProperties = default;
             Dictionary<string, object> additionalPropertiesDictionary = new Dictionary<string, object>();
             foreach (var property in element.EnumerateObject())
@@ -104,10 +108,60 @@ namespace Affinda.API.Models
                     language = property.Value.GetString();
                     continue;
                 }
+                if (property.NameEquals("pdf"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        pdf = null;
+                        continue;
+                    }
+                    pdf = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("parentDocument"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        parentDocument = null;
+                        continue;
+                    }
+                    parentDocument = SplitRelation.DeserializeSplitRelation(property.Value);
+                    continue;
+                }
+                if (property.NameEquals("childDocuments"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    List<SplitRelation> array = new List<SplitRelation>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(SplitRelation.DeserializeSplitRelation(item));
+                    }
+                    childDocuments = array;
+                    continue;
+                }
+                if (property.NameEquals("pages"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    List<PageMeta> array = new List<PageMeta>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(PageMeta.DeserializePageMeta(item));
+                    }
+                    pages = array;
+                    continue;
+                }
                 additionalPropertiesDictionary.Add(property.Name, property.Value.GetObject());
             }
             additionalProperties = additionalPropertiesDictionary;
-            return new InvoiceMeta(identifier, fileName.Value, ready, Optional.ToNullable(readyDt), failed, expiryTime.Value, language.Value, additionalProperties, clientVerifiedDt.Value, reviewUrl.Value);
+            return new InvoiceMeta(identifier, fileName.Value, ready, Optional.ToNullable(readyDt), failed, expiryTime.Value, language.Value, pdf.Value, parentDocument.Value, Optional.ToList(childDocuments), Optional.ToList(pages), additionalProperties, clientVerifiedDt.Value, reviewUrl.Value);
         }
     }
 }

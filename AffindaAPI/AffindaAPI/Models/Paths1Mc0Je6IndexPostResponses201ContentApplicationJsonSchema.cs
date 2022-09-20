@@ -17,12 +17,16 @@ namespace Affinda.API.Models
 
         /// <summary> Initializes a new instance of Paths1Mc0Je6IndexPostResponses201ContentApplicationJsonSchema. </summary>
         /// <param name="name"></param>
-        internal Paths1Mc0Je6IndexPostResponses201ContentApplicationJsonSchema(string name)
+        /// <param name="documentType"></param>
+        internal Paths1Mc0Je6IndexPostResponses201ContentApplicationJsonSchema(string name, Enum3? documentType)
         {
             Name = name;
+            DocumentType = documentType;
         }
 
         /// <summary> Gets the name. </summary>
         public string Name { get; }
+        /// <summary> Gets the document type. </summary>
+        public Enum3? DocumentType { get; }
     }
 }

@@ -25,7 +25,18 @@ namespace Affinda.API.Models
             Name = name;
         }
 
+        /// <summary> Initializes a new instance of Get200ApplicationJsonPropertiesItemsItem. </summary>
+        /// <param name="name"></param>
+        /// <param name="documentType"></param>
+        internal Get200ApplicationJsonPropertiesItemsItem(string name, GetResponses200ContentApplicationJsonSchemaResultsItemDocumentType? documentType)
+        {
+            Name = name;
+            DocumentType = documentType;
+        }
+
         /// <summary> Gets the name. </summary>
         public string Name { get; }
+        /// <summary> Gets the document type. </summary>
+        public GetResponses200ContentApplicationJsonSchemaResultsItemDocumentType? DocumentType { get; }
     }
 }

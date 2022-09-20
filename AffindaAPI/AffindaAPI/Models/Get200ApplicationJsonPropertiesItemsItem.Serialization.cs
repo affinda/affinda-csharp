@@ -15,6 +15,7 @@ namespace Affinda.API.Models
         internal static Get200ApplicationJsonPropertiesItemsItem DeserializeGet200ApplicationJsonPropertiesItemsItem(JsonElement element)
         {
             string name = default;
+            Optional<GetResponses200ContentApplicationJsonSchemaResultsItemDocumentType> documentType = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("name"))
@@ -22,8 +23,18 @@ namespace Affinda.API.Models
                     name = property.Value.GetString();
                     continue;
                 }
+                if (property.NameEquals("documentType"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    documentType = new GetResponses200ContentApplicationJsonSchemaResultsItemDocumentType(property.Value.GetString());
+                    continue;
+                }
             }
-            return new Get200ApplicationJsonPropertiesItemsItem(name);
+            return new Get200ApplicationJsonPropertiesItemsItem(name, Optional.ToNullable(documentType));
         }
     }
 }

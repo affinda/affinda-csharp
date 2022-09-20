@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.3.0] - 2022-09-20
+### Added
+- Add job description search config and embed endpoints
+- Update index endpoint with document type parameter
+
 ## [2.2.0] - 2022-08-25
 ### Changed
 - Update modelerfour version to latest

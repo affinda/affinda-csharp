@@ -625,9 +625,9 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Get the config for the logged in user&apos;s embedable search tool. </summary>
+        /// <summary> Get the config for the logged in user&apos;s embeddable resume search tool. </summary>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Return configurations such as which fields can be displayed in the logged in user&apos;s embedable search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
+        /// <remarks> Return configurations such as which fields can be displayed in the logged in user&apos;s embeddable resume search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
         public virtual async Task<Response<object>> GetResumeSearchConfigAsync(CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResumeSearchConfig");
@@ -643,9 +643,9 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Get the config for the logged in user&apos;s embedable search tool. </summary>
+        /// <summary> Get the config for the logged in user&apos;s embeddable resume search tool. </summary>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Return configurations such as which fields can be displayed in the logged in user&apos;s embedable search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
+        /// <remarks> Return configurations such as which fields can be displayed in the logged in user&apos;s embeddable resume search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
         public virtual Response<object> GetResumeSearchConfig(CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResumeSearchConfig");
@@ -661,10 +661,10 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Update the config for the logged in user&apos;s embedable search tool. </summary>
+        /// <summary> Update the config for the logged in user&apos;s embeddable resume search tool. </summary>
         /// <param name="body"> The ResumeSearchConfig to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Update configurations such as which fields can be displayed in the logged in user&apos;s embedable search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
+        /// <remarks> Update configurations such as which fields can be displayed in the logged in user&apos;s embeddable resume search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
         public virtual async Task<Response<object>> UpdateResumeSearchConfigAsync(ResumeSearchConfig body, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateResumeSearchConfig");
@@ -680,10 +680,10 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Update the config for the logged in user&apos;s embedable search tool. </summary>
+        /// <summary> Update the config for the logged in user&apos;s embeddable resume search tool. </summary>
         /// <param name="body"> The ResumeSearchConfig to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Update configurations such as which fields can be displayed in the logged in user&apos;s embedable search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
+        /// <remarks> Update configurations such as which fields can be displayed in the logged in user&apos;s embeddable resume search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
         public virtual Response<object> UpdateResumeSearchConfig(ResumeSearchConfig body, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateResumeSearchConfig");
@@ -699,10 +699,10 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Create a signed URL for the embedable search tool. </summary>
+        /// <summary> Create a signed URL for the embeddable resume search tool. </summary>
         /// <param name="body"> The Paths2T1Oc0ResumeSearchEmbedPostRequestbodyContentApplicationJsonSchema to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Create and return a signed URL of the resume search tool which then can be embedded on a web page. An optional parameter `config_override` can be passed to override the user-level configurations of the embedable search tool. </remarks>
+        /// <remarks> Create and return a signed URL of the resume search tool which then can be embedded on a web page. An optional parameter `config_override` can be passed to override the user-level configurations of the embeddable resume search tool. </remarks>
         public virtual async Task<Response<object>> CreateResumeSearchEmbedUrlAsync(Paths2T1Oc0ResumeSearchEmbedPostRequestbodyContentApplicationJsonSchema body = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateResumeSearchEmbedUrl");
@@ -718,10 +718,10 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Create a signed URL for the embedable search tool. </summary>
+        /// <summary> Create a signed URL for the embeddable resume search tool. </summary>
         /// <param name="body"> The Paths2T1Oc0ResumeSearchEmbedPostRequestbodyContentApplicationJsonSchema to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Create and return a signed URL of the resume search tool which then can be embedded on a web page. An optional parameter `config_override` can be passed to override the user-level configurations of the embedable search tool. </remarks>
+        /// <remarks> Create and return a signed URL of the resume search tool which then can be embedded on a web page. An optional parameter `config_override` can be passed to override the user-level configurations of the embeddable resume search tool. </remarks>
         public virtual Response<object> CreateResumeSearchEmbedUrl(Paths2T1Oc0ResumeSearchEmbedPostRequestbodyContentApplicationJsonSchema body = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateResumeSearchEmbedUrl");
@@ -1005,18 +1005,110 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Get list of all indexes. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
+        /// <summary> Get the config for the logged in user&apos;s embeddable job description search tool. </summary>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns all the indexes. </remarks>
-        public virtual async Task<Response<object>> GetAllIndexesAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        /// <remarks> Return configurations such as which fields can be displayed in the logged in user&apos;s embeddable job description search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
+        public virtual async Task<Response<object>> GetJobDescriptionSearchConfigAsync(CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexes");
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetJobDescriptionSearchConfig");
             scope.Start();
             try
             {
-                return await RestClient.GetAllIndexesAsync(offset, limit, cancellationToken).ConfigureAwait(false);
+                return await RestClient.GetJobDescriptionSearchConfigAsync(cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get the config for the logged in user&apos;s embeddable job description search tool. </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return configurations such as which fields can be displayed in the logged in user&apos;s embeddable job description search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
+        public virtual Response<object> GetJobDescriptionSearchConfig(CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetJobDescriptionSearchConfig");
+            scope.Start();
+            try
+            {
+                return RestClient.GetJobDescriptionSearchConfig(cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update the config for the logged in user&apos;s embeddable job description search tool. </summary>
+        /// <param name="body"> The JobDescriptionSearchConfig to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Update configurations such as which fields can be displayed in the logged in user&apos;s embeddable job description search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
+        public virtual async Task<Response<object>> UpdateJobDescriptionSearchConfigAsync(JobDescriptionSearchConfig body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateJobDescriptionSearchConfig");
+            scope.Start();
+            try
+            {
+                return await RestClient.UpdateJobDescriptionSearchConfigAsync(body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update the config for the logged in user&apos;s embeddable job description search tool. </summary>
+        /// <param name="body"> The JobDescriptionSearchConfig to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Update configurations such as which fields can be displayed in the logged in user&apos;s embeddable job description search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
+        public virtual Response<object> UpdateJobDescriptionSearchConfig(JobDescriptionSearchConfig body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateJobDescriptionSearchConfig");
+            scope.Start();
+            try
+            {
+                return RestClient.UpdateJobDescriptionSearchConfig(body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create a signed URL for the embeddable job description search tool. </summary>
+        /// <param name="body"> The PathsFqn8P8JobDescriptionSearchEmbedPostRequestbodyContentApplicationJsonSchema to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create and return a signed URL of the job description search tool which then can be embedded on a web page. An optional parameter `config_override` can be passed to override the user-level configurations of the embeddable search tool. </remarks>
+        public virtual async Task<Response<object>> CreateJobDescriptionSearchEmbedUrlAsync(PathsFqn8P8JobDescriptionSearchEmbedPostRequestbodyContentApplicationJsonSchema body = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateJobDescriptionSearchEmbedUrl");
+            scope.Start();
+            try
+            {
+                return await RestClient.CreateJobDescriptionSearchEmbedUrlAsync(body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create a signed URL for the embeddable job description search tool. </summary>
+        /// <param name="body"> The PathsFqn8P8JobDescriptionSearchEmbedPostRequestbodyContentApplicationJsonSchema to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create and return a signed URL of the job description search tool which then can be embedded on a web page. An optional parameter `config_override` can be passed to override the user-level configurations of the embeddable search tool. </remarks>
+        public virtual Response<object> CreateJobDescriptionSearchEmbedUrl(PathsFqn8P8JobDescriptionSearchEmbedPostRequestbodyContentApplicationJsonSchema body = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateJobDescriptionSearchEmbedUrl");
+            scope.Start();
+            try
+            {
+                return RestClient.CreateJobDescriptionSearchEmbedUrl(body, cancellationToken);
             }
             catch (Exception e)
             {
@@ -1028,15 +1120,37 @@ namespace Affinda.API
         /// <summary> Get list of all indexes. </summary>
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
         /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="documentType"> Filter indices by a document type. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public virtual Response<object> GetAllIndexes(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<object>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum1? documentType = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexes");
             scope.Start();
             try
             {
-                return RestClient.GetAllIndexes(offset, limit, cancellationToken);
+                return await RestClient.GetAllIndexesAsync(offset, limit, documentType, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get list of all indexes. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="documentType"> Filter indices by a document type. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns all the indexes. </remarks>
+        public virtual Response<object> GetAllIndexes(int? offset = null, int? limit = null, Enum1? documentType = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexes");
+            scope.Start();
+            try
+            {
+                return RestClient.GetAllIndexes(offset, limit, documentType, cancellationToken);
             }
             catch (Exception e)
             {
@@ -1047,15 +1161,16 @@ namespace Affinda.API
 
         /// <summary> Create a new index. </summary>
         /// <param name="name"> The String to use. </param>
+        /// <param name="documentType"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Create an index for the search tool. </remarks>
-        public virtual async Task<Response<object>> CreateIndexAsync(string name = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<object>> CreateIndexAsync(string name = null, string documentType = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateIndex");
             scope.Start();
             try
             {
-                return await RestClient.CreateIndexAsync(name, cancellationToken).ConfigureAwait(false);
+                return await RestClient.CreateIndexAsync(name, documentType, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -1066,15 +1181,16 @@ namespace Affinda.API
 
         /// <summary> Create a new index. </summary>
         /// <param name="name"> The String to use. </param>
+        /// <param name="documentType"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Create an index for the search tool. </remarks>
-        public virtual Response<object> CreateIndex(string name = null, CancellationToken cancellationToken = default)
+        public virtual Response<object> CreateIndex(string name = null, string documentType = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateIndex");
             scope.Start();
             try
             {
-                return RestClient.CreateIndex(name, cancellationToken);
+                return RestClient.CreateIndex(name, documentType, cancellationToken);
             }
             catch (Exception e)
             {
