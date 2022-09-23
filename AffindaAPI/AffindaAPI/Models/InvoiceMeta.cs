@@ -36,14 +36,14 @@ namespace Affinda.API.Models
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="clientVerifiedDt"></param>
         /// <param name="reviewUrl"> Signed URL (valid for 60 minutes) to access the invoice review tool. </param>
-        internal InvoiceMeta(string identifier, string fileName, bool ready, DateTimeOffset? readyDt, bool failed, string expiryTime, string language, string pdf, SplitRelation parentDocument, IReadOnlyList<SplitRelation> childDocuments, IReadOnlyList<PageMeta> pages, IReadOnlyDictionary<string, object> additionalProperties, string clientVerifiedDt, string reviewUrl) : base(identifier, fileName, ready, readyDt, failed, expiryTime, language, pdf, parentDocument, childDocuments, pages, additionalProperties)
+        internal InvoiceMeta(string identifier, string fileName, bool ready, DateTimeOffset? readyDt, bool failed, string expiryTime, string language, string pdf, SplitRelation parentDocument, IReadOnlyList<SplitRelation> childDocuments, IReadOnlyList<PageMeta> pages, IReadOnlyDictionary<string, object> additionalProperties, bool? clientVerifiedDt, string reviewUrl) : base(identifier, fileName, ready, readyDt, failed, expiryTime, language, pdf, parentDocument, childDocuments, pages, additionalProperties)
         {
             ClientVerifiedDt = clientVerifiedDt;
             ReviewUrl = reviewUrl;
         }
 
         /// <summary> Gets the client verified dt. </summary>
-        public string ClientVerifiedDt { get; }
+        public bool? ClientVerifiedDt { get; }
         /// <summary> Signed URL (valid for 60 minutes) to access the invoice review tool. </summary>
         public string ReviewUrl { get; }
     }

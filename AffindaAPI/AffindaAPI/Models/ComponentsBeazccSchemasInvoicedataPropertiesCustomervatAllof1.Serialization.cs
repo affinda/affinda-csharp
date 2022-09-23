@@ -10,9 +10,9 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class Components1Stp713SchemasInvoicedataPropertiesBankbsbAllof1
+    public partial class ComponentsBeazccSchemasInvoicedataPropertiesCustomervatAllof1
     {
-        internal static Components1Stp713SchemasInvoicedataPropertiesBankbsbAllof1 DeserializeComponents1Stp713SchemasInvoicedataPropertiesBankbsbAllof1(JsonElement element)
+        internal static ComponentsBeazccSchemasInvoicedataPropertiesCustomervatAllof1 DeserializeComponentsBeazccSchemasInvoicedataPropertiesCustomervatAllof1(JsonElement element)
         {
             Optional<string> raw = default;
             Optional<string> parsed = default;
@@ -39,7 +39,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new Components1Stp713SchemasInvoicedataPropertiesBankbsbAllof1(raw.Value, parsed.Value);
+            return new ComponentsBeazccSchemasInvoicedataPropertiesCustomervatAllof1(raw.Value, parsed.Value);
         }
     }
 }

@@ -21,13 +21,9 @@ namespace Affinda.API.Models
         /// <param name="confidence"></param>
         /// <param name="isVerified"></param>
         /// <param name="classification"></param>
-        /// <exception cref="ArgumentNullException"> <paramref name="rectangle"/> or <paramref name="classification"/> is null. </exception>
-        internal Annotation(Rectangle rectangle, int? pageIndex, string raw, float confidence, bool isVerified, string classification)
+        /// <exception cref="ArgumentNullException"> <paramref name="classification"/> is null. </exception>
+        internal Annotation(Rectangle rectangle, int? pageIndex, string raw, float? confidence, bool isVerified, string classification)
         {
-            if (rectangle == null)
-            {
-                throw new ArgumentNullException(nameof(rectangle));
-            }
             if (classification == null)
             {
                 throw new ArgumentNullException(nameof(classification));
@@ -51,7 +47,7 @@ namespace Affinda.API.Models
         /// <param name="isVerified"></param>
         /// <param name="classification"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
-        internal Annotation(int? id, Rectangle rectangle, int? pageIndex, string raw, float confidence, bool isVerified, string classification, IReadOnlyDictionary<string, object> additionalProperties)
+        internal Annotation(int? id, Rectangle rectangle, int? pageIndex, string raw, float? confidence, bool isVerified, string classification, IReadOnlyDictionary<string, object> additionalProperties)
         {
             Id = id;
             Rectangle = rectangle;
@@ -72,7 +68,7 @@ namespace Affinda.API.Models
         /// <summary> Gets the raw. </summary>
         public string Raw { get; }
         /// <summary> Gets the confidence. </summary>
-        public float Confidence { get; }
+        public float? Confidence { get; }
         /// <summary> Gets the is verified. </summary>
         public bool IsVerified { get; }
         /// <summary> Gets the classification. </summary>

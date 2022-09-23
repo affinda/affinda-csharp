@@ -37,14 +37,14 @@ namespace Affinda.API.Models
         /// <param name="customerBusinessNumber"></param>
         /// <param name="paymentReference"></param>
         /// <param name="bankAccountNumber"></param>
-        /// <param name="supplierVAT"></param>
-        /// <param name="customerVAT"></param>
+        /// <param name="supplierVat"></param>
+        /// <param name="customerVat"></param>
         /// <param name="bpayBillerCode"></param>
         /// <param name="bpayReference"></param>
         /// <param name="bankSortCode"></param>
         /// <param name="bankIban"></param>
         /// <param name="bankSwift"></param>
-        /// <param name="bankBSB"></param>
+        /// <param name="bankBsb"></param>
         /// <param name="customerContactName"></param>
         /// <param name="customerCompanyName"></param>
         /// <param name="supplierCompanyName"></param>
@@ -59,7 +59,7 @@ namespace Affinda.API.Models
         /// <param name="supplierWebsite"></param>
         /// <param name="currencyCode"></param>
         /// <param name="customFields"> Dictionary of &lt;any&gt;. </param>
-        internal InvoiceData(IReadOnlyList<InvoiceDataTablesItem> tables, DateAnnotation invoiceDate, DateAnnotation invoiceOrderDate, DateAnnotation paymentDateDue, InvoiceDataPaymentAmountBase paymentAmountBase, InvoiceDataPaymentAmountTax paymentAmountTax, InvoiceDataPaymentAmountTotal paymentAmountTotal, InvoiceDataPaymentAmountPaid paymentAmountPaid, InvoiceDataPaymentAmountDue paymentAmountDue, InvoiceDataInvoiceNumber invoiceNumber, InvoiceDataInvoicePurchaseOrderNumber invoicePurchaseOrderNumber, InvoiceDataSupplierBusinessNumber supplierBusinessNumber, InvoiceDataCustomerNumber customerNumber, InvoiceDataCustomerBusinessNumber customerBusinessNumber, InvoiceDataPaymentReference paymentReference, InvoiceDataBankAccountNumber bankAccountNumber, InvoiceDataSupplierVAT supplierVAT, InvoiceDataCustomerVAT customerVAT, InvoiceDataBpayBillerCode bpayBillerCode, InvoiceDataBpayReference bpayReference, InvoiceDataBankSortCode bankSortCode, InvoiceDataBankIban bankIban, InvoiceDataBankSwift bankSwift, InvoiceDataBankBSB bankBSB, InvoiceDataCustomerContactName customerContactName, InvoiceDataCustomerCompanyName customerCompanyName, InvoiceDataSupplierCompanyName supplierCompanyName, LocationAnnotation customerBillingAddress, LocationAnnotation customerDeliveryAddress, LocationAnnotation supplierAddress, InvoiceDataCustomerPhoneNumber customerPhoneNumber, InvoiceDataSupplierPhoneNumber supplierPhoneNumber, InvoiceDataSupplierFax supplierFax, InvoiceDataCustomerEmail customerEmail, InvoiceDataSupplierEmail supplierEmail, InvoiceDataSupplierWebsite supplierWebsite, EnumAnnotationSerializer currencyCode, IReadOnlyDictionary<string, object> customFields)
+        internal InvoiceData(IReadOnlyList<InvoiceDataTablesItem> tables, DateAnnotation invoiceDate, DateAnnotation invoiceOrderDate, DateAnnotation paymentDateDue, InvoiceDataPaymentAmountBase paymentAmountBase, InvoiceDataPaymentAmountTax paymentAmountTax, InvoiceDataPaymentAmountTotal paymentAmountTotal, InvoiceDataPaymentAmountPaid paymentAmountPaid, InvoiceDataPaymentAmountDue paymentAmountDue, InvoiceDataInvoiceNumber invoiceNumber, InvoiceDataInvoicePurchaseOrderNumber invoicePurchaseOrderNumber, InvoiceDataSupplierBusinessNumber supplierBusinessNumber, InvoiceDataCustomerNumber customerNumber, InvoiceDataCustomerBusinessNumber customerBusinessNumber, InvoiceDataPaymentReference paymentReference, InvoiceDataBankAccountNumber bankAccountNumber, InvoiceDataSupplierVat supplierVat, InvoiceDataCustomerVat customerVat, InvoiceDataBpayBillerCode bpayBillerCode, InvoiceDataBpayReference bpayReference, InvoiceDataBankSortCode bankSortCode, InvoiceDataBankIban bankIban, InvoiceDataBankSwift bankSwift, InvoiceDataBankBsb bankBsb, InvoiceDataCustomerContactName customerContactName, InvoiceDataCustomerCompanyName customerCompanyName, InvoiceDataSupplierCompanyName supplierCompanyName, LocationAnnotation customerBillingAddress, LocationAnnotation customerDeliveryAddress, LocationAnnotation supplierAddress, InvoiceDataCustomerPhoneNumber customerPhoneNumber, InvoiceDataSupplierPhoneNumber supplierPhoneNumber, InvoiceDataSupplierFax supplierFax, InvoiceDataCustomerEmail customerEmail, InvoiceDataSupplierEmail supplierEmail, InvoiceDataSupplierWebsite supplierWebsite, EnumAnnotationSerializer currencyCode, IReadOnlyDictionary<string, object> customFields)
         {
             Tables = tables;
             InvoiceDate = invoiceDate;
@@ -77,14 +77,14 @@ namespace Affinda.API.Models
             CustomerBusinessNumber = customerBusinessNumber;
             PaymentReference = paymentReference;
             BankAccountNumber = bankAccountNumber;
-            SupplierVAT = supplierVAT;
-            CustomerVAT = customerVAT;
+            SupplierVat = supplierVat;
+            CustomerVat = customerVat;
             BpayBillerCode = bpayBillerCode;
             BpayReference = bpayReference;
             BankSortCode = bankSortCode;
             BankIban = bankIban;
             BankSwift = bankSwift;
-            BankBSB = bankBSB;
+            BankBsb = bankBsb;
             CustomerContactName = customerContactName;
             CustomerCompanyName = customerCompanyName;
             SupplierCompanyName = supplierCompanyName;
@@ -134,9 +134,9 @@ namespace Affinda.API.Models
         /// <summary> Gets the bank account number. </summary>
         public InvoiceDataBankAccountNumber BankAccountNumber { get; }
         /// <summary> Gets the supplier vat. </summary>
-        public InvoiceDataSupplierVAT SupplierVAT { get; }
+        public InvoiceDataSupplierVat SupplierVat { get; }
         /// <summary> Gets the customer vat. </summary>
-        public InvoiceDataCustomerVAT CustomerVAT { get; }
+        public InvoiceDataCustomerVat CustomerVat { get; }
         /// <summary> Gets the bpay biller code. </summary>
         public InvoiceDataBpayBillerCode BpayBillerCode { get; }
         /// <summary> Gets the bpay reference. </summary>
@@ -148,7 +148,7 @@ namespace Affinda.API.Models
         /// <summary> Gets the bank swift. </summary>
         public InvoiceDataBankSwift BankSwift { get; }
         /// <summary> Gets the bank bsb. </summary>
-        public InvoiceDataBankBSB BankBSB { get; }
+        public InvoiceDataBankBsb BankBsb { get; }
         /// <summary> Gets the customer contact name. </summary>
         public InvoiceDataCustomerContactName CustomerContactName { get; }
         /// <summary> Gets the customer company name. </summary>

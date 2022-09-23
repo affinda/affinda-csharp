@@ -31,14 +31,14 @@ namespace Affinda.API.Models
             Optional<InvoiceDataCustomerBusinessNumber> customerBusinessNumber = default;
             Optional<InvoiceDataPaymentReference> paymentReference = default;
             Optional<InvoiceDataBankAccountNumber> bankAccountNumber = default;
-            Optional<InvoiceDataSupplierVAT> supplierVAT = default;
-            Optional<InvoiceDataCustomerVAT> customerVAT = default;
+            Optional<InvoiceDataSupplierVat> supplierVat = default;
+            Optional<InvoiceDataCustomerVat> customerVat = default;
             Optional<InvoiceDataBpayBillerCode> bpayBillerCode = default;
             Optional<InvoiceDataBpayReference> bpayReference = default;
             Optional<InvoiceDataBankSortCode> bankSortCode = default;
-            Optional<InvoiceDataBankIban> bankIBAN = default;
+            Optional<InvoiceDataBankIban> bankIban = default;
             Optional<InvoiceDataBankSwift> bankSwift = default;
-            Optional<InvoiceDataBankBSB> bankBSB = default;
+            Optional<InvoiceDataBankBsb> bankBsb = default;
             Optional<InvoiceDataCustomerContactName> customerContactName = default;
             Optional<InvoiceDataCustomerCompanyName> customerCompanyName = default;
             Optional<InvoiceDataSupplierCompanyName> supplierCompanyName = default;
@@ -74,7 +74,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        invoiceDate = null;
                         continue;
                     }
                     invoiceDate = DateAnnotation.DeserializeDateAnnotation(property.Value);
@@ -84,7 +84,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        invoiceOrderDate = null;
                         continue;
                     }
                     invoiceOrderDate = DateAnnotation.DeserializeDateAnnotation(property.Value);
@@ -94,7 +94,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        paymentDateDue = null;
                         continue;
                     }
                     paymentDateDue = DateAnnotation.DeserializeDateAnnotation(property.Value);
@@ -104,7 +104,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        paymentAmountBase = null;
                         continue;
                     }
                     paymentAmountBase = InvoiceDataPaymentAmountBase.DeserializeInvoiceDataPaymentAmountBase(property.Value);
@@ -114,7 +114,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        paymentAmountTax = null;
                         continue;
                     }
                     paymentAmountTax = InvoiceDataPaymentAmountTax.DeserializeInvoiceDataPaymentAmountTax(property.Value);
@@ -124,7 +124,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        paymentAmountTotal = null;
                         continue;
                     }
                     paymentAmountTotal = InvoiceDataPaymentAmountTotal.DeserializeInvoiceDataPaymentAmountTotal(property.Value);
@@ -134,7 +134,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        paymentAmountPaid = null;
                         continue;
                     }
                     paymentAmountPaid = InvoiceDataPaymentAmountPaid.DeserializeInvoiceDataPaymentAmountPaid(property.Value);
@@ -144,7 +144,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        paymentAmountDue = null;
                         continue;
                     }
                     paymentAmountDue = InvoiceDataPaymentAmountDue.DeserializeInvoiceDataPaymentAmountDue(property.Value);
@@ -154,7 +154,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        invoiceNumber = null;
                         continue;
                     }
                     invoiceNumber = InvoiceDataInvoiceNumber.DeserializeInvoiceDataInvoiceNumber(property.Value);
@@ -164,7 +164,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        invoicePurchaseOrderNumber = null;
                         continue;
                     }
                     invoicePurchaseOrderNumber = InvoiceDataInvoicePurchaseOrderNumber.DeserializeInvoiceDataInvoicePurchaseOrderNumber(property.Value);
@@ -174,7 +174,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        supplierBusinessNumber = null;
                         continue;
                     }
                     supplierBusinessNumber = InvoiceDataSupplierBusinessNumber.DeserializeInvoiceDataSupplierBusinessNumber(property.Value);
@@ -184,7 +184,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        customerNumber = null;
                         continue;
                     }
                     customerNumber = InvoiceDataCustomerNumber.DeserializeInvoiceDataCustomerNumber(property.Value);
@@ -194,7 +194,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        customerBusinessNumber = null;
                         continue;
                     }
                     customerBusinessNumber = InvoiceDataCustomerBusinessNumber.DeserializeInvoiceDataCustomerBusinessNumber(property.Value);
@@ -204,7 +204,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        paymentReference = null;
                         continue;
                     }
                     paymentReference = InvoiceDataPaymentReference.DeserializeInvoiceDataPaymentReference(property.Value);
@@ -214,37 +214,37 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        bankAccountNumber = null;
                         continue;
                     }
                     bankAccountNumber = InvoiceDataBankAccountNumber.DeserializeInvoiceDataBankAccountNumber(property.Value);
                     continue;
                 }
-                if (property.NameEquals("supplierVAT"))
+                if (property.NameEquals("supplierVat"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        supplierVat = null;
                         continue;
                     }
-                    supplierVAT = InvoiceDataSupplierVAT.DeserializeInvoiceDataSupplierVAT(property.Value);
+                    supplierVat = InvoiceDataSupplierVat.DeserializeInvoiceDataSupplierVat(property.Value);
                     continue;
                 }
-                if (property.NameEquals("customerVAT"))
+                if (property.NameEquals("customerVat"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        customerVat = null;
                         continue;
                     }
-                    customerVAT = InvoiceDataCustomerVAT.DeserializeInvoiceDataCustomerVAT(property.Value);
+                    customerVat = InvoiceDataCustomerVat.DeserializeInvoiceDataCustomerVat(property.Value);
                     continue;
                 }
                 if (property.NameEquals("bpayBillerCode"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        bpayBillerCode = null;
                         continue;
                     }
                     bpayBillerCode = InvoiceDataBpayBillerCode.DeserializeInvoiceDataBpayBillerCode(property.Value);
@@ -254,7 +254,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        bpayReference = null;
                         continue;
                     }
                     bpayReference = InvoiceDataBpayReference.DeserializeInvoiceDataBpayReference(property.Value);
@@ -264,47 +264,47 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        bankSortCode = null;
                         continue;
                     }
                     bankSortCode = InvoiceDataBankSortCode.DeserializeInvoiceDataBankSortCode(property.Value);
                     continue;
                 }
-                if (property.NameEquals("bankIBAN"))
+                if (property.NameEquals("bankIban"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        bankIban = null;
                         continue;
                     }
-                    bankIBAN = InvoiceDataBankIban.DeserializeInvoiceDataBankIban(property.Value);
+                    bankIban = InvoiceDataBankIban.DeserializeInvoiceDataBankIban(property.Value);
                     continue;
                 }
                 if (property.NameEquals("bankSwift"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        bankSwift = null;
                         continue;
                     }
                     bankSwift = InvoiceDataBankSwift.DeserializeInvoiceDataBankSwift(property.Value);
                     continue;
                 }
-                if (property.NameEquals("bankBSB"))
+                if (property.NameEquals("bankBsb"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        bankBsb = null;
                         continue;
                     }
-                    bankBSB = InvoiceDataBankBSB.DeserializeInvoiceDataBankBSB(property.Value);
+                    bankBsb = InvoiceDataBankBsb.DeserializeInvoiceDataBankBsb(property.Value);
                     continue;
                 }
                 if (property.NameEquals("customerContactName"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        customerContactName = null;
                         continue;
                     }
                     customerContactName = InvoiceDataCustomerContactName.DeserializeInvoiceDataCustomerContactName(property.Value);
@@ -314,7 +314,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        customerCompanyName = null;
                         continue;
                     }
                     customerCompanyName = InvoiceDataCustomerCompanyName.DeserializeInvoiceDataCustomerCompanyName(property.Value);
@@ -324,7 +324,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        supplierCompanyName = null;
                         continue;
                     }
                     supplierCompanyName = InvoiceDataSupplierCompanyName.DeserializeInvoiceDataSupplierCompanyName(property.Value);
@@ -334,7 +334,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        customerBillingAddress = null;
                         continue;
                     }
                     customerBillingAddress = LocationAnnotation.DeserializeLocationAnnotation(property.Value);
@@ -344,7 +344,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        customerDeliveryAddress = null;
                         continue;
                     }
                     customerDeliveryAddress = LocationAnnotation.DeserializeLocationAnnotation(property.Value);
@@ -354,7 +354,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        supplierAddress = null;
                         continue;
                     }
                     supplierAddress = LocationAnnotation.DeserializeLocationAnnotation(property.Value);
@@ -364,7 +364,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        customerPhoneNumber = null;
                         continue;
                     }
                     customerPhoneNumber = InvoiceDataCustomerPhoneNumber.DeserializeInvoiceDataCustomerPhoneNumber(property.Value);
@@ -374,7 +374,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        supplierPhoneNumber = null;
                         continue;
                     }
                     supplierPhoneNumber = InvoiceDataSupplierPhoneNumber.DeserializeInvoiceDataSupplierPhoneNumber(property.Value);
@@ -384,7 +384,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        supplierFax = null;
                         continue;
                     }
                     supplierFax = InvoiceDataSupplierFax.DeserializeInvoiceDataSupplierFax(property.Value);
@@ -394,7 +394,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        customerEmail = null;
                         continue;
                     }
                     customerEmail = InvoiceDataCustomerEmail.DeserializeInvoiceDataCustomerEmail(property.Value);
@@ -404,7 +404,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        supplierEmail = null;
                         continue;
                     }
                     supplierEmail = InvoiceDataSupplierEmail.DeserializeInvoiceDataSupplierEmail(property.Value);
@@ -414,7 +414,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        supplierWebsite = null;
                         continue;
                     }
                     supplierWebsite = InvoiceDataSupplierWebsite.DeserializeInvoiceDataSupplierWebsite(property.Value);
@@ -424,7 +424,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        currencyCode = null;
                         continue;
                     }
                     currencyCode = EnumAnnotationSerializer.DeserializeEnumAnnotationSerializer(property.Value);
@@ -434,7 +434,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        customFields = null;
                         continue;
                     }
                     Dictionary<string, object> dictionary = new Dictionary<string, object>();
@@ -446,7 +446,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new InvoiceData(Optional.ToList(tables), invoiceDate.Value, invoiceOrderDate.Value, paymentDateDue.Value, paymentAmountBase.Value, paymentAmountTax.Value, paymentAmountTotal.Value, paymentAmountPaid.Value, paymentAmountDue.Value, invoiceNumber.Value, invoicePurchaseOrderNumber.Value, supplierBusinessNumber.Value, customerNumber.Value, customerBusinessNumber.Value, paymentReference.Value, bankAccountNumber.Value, supplierVAT.Value, customerVAT.Value, bpayBillerCode.Value, bpayReference.Value, bankSortCode.Value, bankIBAN.Value, bankSwift.Value, bankBSB.Value, customerContactName.Value, customerCompanyName.Value, supplierCompanyName.Value, customerBillingAddress.Value, customerDeliveryAddress.Value, supplierAddress.Value, customerPhoneNumber.Value, supplierPhoneNumber.Value, supplierFax.Value, customerEmail.Value, supplierEmail.Value, supplierWebsite.Value, currencyCode.Value, Optional.ToDictionary(customFields));
+            return new InvoiceData(Optional.ToList(tables), invoiceDate.Value, invoiceOrderDate.Value, paymentDateDue.Value, paymentAmountBase.Value, paymentAmountTax.Value, paymentAmountTotal.Value, paymentAmountPaid.Value, paymentAmountDue.Value, invoiceNumber.Value, invoicePurchaseOrderNumber.Value, supplierBusinessNumber.Value, customerNumber.Value, customerBusinessNumber.Value, paymentReference.Value, bankAccountNumber.Value, supplierVat.Value, customerVat.Value, bpayBillerCode.Value, bpayReference.Value, bankSortCode.Value, bankIban.Value, bankSwift.Value, bankBsb.Value, customerContactName.Value, customerCompanyName.Value, supplierCompanyName.Value, customerBillingAddress.Value, customerDeliveryAddress.Value, supplierAddress.Value, customerPhoneNumber.Value, supplierPhoneNumber.Value, supplierFax.Value, customerEmail.Value, supplierEmail.Value, supplierWebsite.Value, currencyCode.Value, Optional.ToDictionary(customFields));
         }
     }
 }

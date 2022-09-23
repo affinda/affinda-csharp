@@ -18,14 +18,14 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of Components17Ashz6SchemasInvoicePropertiesMetaAllof1. </summary>
         /// <param name="clientVerifiedDt"></param>
         /// <param name="reviewUrl"> Signed URL (valid for 60 minutes) to access the invoice review tool. </param>
-        internal Components17Ashz6SchemasInvoicePropertiesMetaAllof1(string clientVerifiedDt, string reviewUrl)
+        internal Components17Ashz6SchemasInvoicePropertiesMetaAllof1(bool? clientVerifiedDt, string reviewUrl)
         {
             ClientVerifiedDt = clientVerifiedDt;
             ReviewUrl = reviewUrl;
         }
 
         /// <summary> Gets the client verified dt. </summary>
-        public string ClientVerifiedDt { get; }
+        public bool? ClientVerifiedDt { get; }
         /// <summary> Signed URL (valid for 60 minutes) to access the invoice review tool. </summary>
         public string ReviewUrl { get; }
     }

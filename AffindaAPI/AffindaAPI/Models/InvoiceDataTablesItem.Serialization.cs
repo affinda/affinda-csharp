@@ -28,7 +28,14 @@ namespace Affinda.API.Models
                     List<RowAnnotation> array = new List<RowAnnotation>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(RowAnnotation.DeserializeRowAnnotation(item));
+                        if (item.ValueKind == JsonValueKind.Null)
+                        {
+                            array.Add(null);
+                        }
+                        else
+                        {
+                            array.Add(RowAnnotation.DeserializeRowAnnotation(item));
+                        }
                     }
                     rows = array;
                     continue;

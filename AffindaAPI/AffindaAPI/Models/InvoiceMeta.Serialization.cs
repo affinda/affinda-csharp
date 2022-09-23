@@ -16,7 +16,7 @@ namespace Affinda.API.Models
     {
         internal static InvoiceMeta DeserializeInvoiceMeta(JsonElement element)
         {
-            Optional<string> clientVerifiedDt = default;
+            Optional<bool?> clientVerifiedDt = default;
             Optional<string> reviewUrl = default;
             string identifier = default;
             Optional<string> fileName = default;
@@ -40,7 +40,7 @@ namespace Affinda.API.Models
                         clientVerifiedDt = null;
                         continue;
                     }
-                    clientVerifiedDt = property.Value.GetString();
+                    clientVerifiedDt = property.Value.GetBoolean();
                     continue;
                 }
                 if (property.NameEquals("reviewUrl"))
@@ -161,7 +161,7 @@ namespace Affinda.API.Models
                 additionalPropertiesDictionary.Add(property.Name, property.Value.GetObject());
             }
             additionalProperties = additionalPropertiesDictionary;
-            return new InvoiceMeta(identifier, fileName.Value, ready, Optional.ToNullable(readyDt), failed, expiryTime.Value, language.Value, pdf.Value, parentDocument.Value, Optional.ToList(childDocuments), Optional.ToList(pages), additionalProperties, clientVerifiedDt.Value, reviewUrl.Value);
+            return new InvoiceMeta(identifier, fileName.Value, ready, Optional.ToNullable(readyDt), failed, expiryTime.Value, language.Value, pdf.Value, parentDocument.Value, Optional.ToList(childDocuments), Optional.ToList(pages), additionalProperties, Optional.ToNullable(clientVerifiedDt), reviewUrl.Value);
         }
     }
 }

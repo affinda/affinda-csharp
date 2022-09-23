@@ -38,7 +38,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        jobTitle = null;
                         continue;
                     }
                     jobTitle = JobTitleAnnotation.DeserializeJobTitleAnnotation(property.Value);
@@ -48,7 +48,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        contactEmail = null;
                         continue;
                     }
                     contactEmail = TextAnnotation.DeserializeTextAnnotation(property.Value);
@@ -58,7 +58,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        contactName = null;
                         continue;
                     }
                     contactName = TextAnnotation.DeserializeTextAnnotation(property.Value);
@@ -68,7 +68,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        contactPhone = null;
                         continue;
                     }
                     contactPhone = TextAnnotation.DeserializeTextAnnotation(property.Value);
@@ -78,7 +78,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        startDate = null;
                         continue;
                     }
                     startDate = DateAnnotation.DeserializeDateAnnotation(property.Value);
@@ -88,7 +88,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        endDate = null;
                         continue;
                     }
                     endDate = DateAnnotation.DeserializeDateAnnotation(property.Value);
@@ -98,7 +98,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        jobType = null;
                         continue;
                     }
                     jobType = TextAnnotation.DeserializeTextAnnotation(property.Value);
@@ -114,7 +114,14 @@ namespace Affinda.API.Models
                     List<LanguageAnnotation> array = new List<LanguageAnnotation>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(LanguageAnnotation.DeserializeLanguageAnnotation(item));
+                        if (item.ValueKind == JsonValueKind.Null)
+                        {
+                            array.Add(null);
+                        }
+                        else
+                        {
+                            array.Add(LanguageAnnotation.DeserializeLanguageAnnotation(item));
+                        }
                     }
                     languages = array;
                     continue;
@@ -129,7 +136,14 @@ namespace Affinda.API.Models
                     List<SkillAnnotation> array = new List<SkillAnnotation>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(SkillAnnotation.DeserializeSkillAnnotation(item));
+                        if (item.ValueKind == JsonValueKind.Null)
+                        {
+                            array.Add(null);
+                        }
+                        else
+                        {
+                            array.Add(SkillAnnotation.DeserializeSkillAnnotation(item));
+                        }
                     }
                     skills = array;
                     continue;
@@ -138,7 +152,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        organizationName = null;
                         continue;
                     }
                     organizationName = TextAnnotation.DeserializeTextAnnotation(property.Value);
@@ -148,7 +162,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        organizationWebsite = null;
                         continue;
                     }
                     organizationWebsite = TextAnnotation.DeserializeTextAnnotation(property.Value);
@@ -158,7 +172,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        educationLevel = null;
                         continue;
                     }
                     educationLevel = TextAnnotation.DeserializeTextAnnotation(property.Value);
@@ -168,7 +182,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        educationAccreditation = null;
                         continue;
                     }
                     educationAccreditation = TextAnnotation.DeserializeTextAnnotation(property.Value);
@@ -178,7 +192,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        expectedRemuneration = null;
                         continue;
                     }
                     expectedRemuneration = ExpectedRemunerationAnnotation.DeserializeExpectedRemunerationAnnotation(property.Value);
@@ -188,7 +202,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        location = null;
                         continue;
                     }
                     location = LocationAnnotation.DeserializeLocationAnnotation(property.Value);
@@ -204,7 +218,14 @@ namespace Affinda.API.Models
                     List<TextAnnotation> array = new List<TextAnnotation>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(TextAnnotation.DeserializeTextAnnotation(item));
+                        if (item.ValueKind == JsonValueKind.Null)
+                        {
+                            array.Add(null);
+                        }
+                        else
+                        {
+                            array.Add(TextAnnotation.DeserializeTextAnnotation(item));
+                        }
                     }
                     certifications = array;
                     continue;
@@ -213,7 +234,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        yearsExperience = null;
                         continue;
                     }
                     yearsExperience = YearsExperienceAnnotation.DeserializeYearsExperienceAnnotation(property.Value);

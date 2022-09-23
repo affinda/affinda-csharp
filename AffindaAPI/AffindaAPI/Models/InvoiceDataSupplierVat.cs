@@ -10,10 +10,10 @@ using System.Collections.Generic;
 
 namespace Affinda.API.Models
 {
-    /// <summary> The LanguageAnnotation. </summary>
-    public partial class LanguageAnnotation : Annotation
+    /// <summary> The InvoiceDataSupplierVat. </summary>
+    public partial class InvoiceDataSupplierVat : TextAnnotation
     {
-        /// <summary> Initializes a new instance of LanguageAnnotation. </summary>
+        /// <summary> Initializes a new instance of InvoiceDataSupplierVat. </summary>
         /// <param name="rectangle"></param>
         /// <param name="pageIndex"></param>
         /// <param name="raw"></param>
@@ -21,7 +21,7 @@ namespace Affinda.API.Models
         /// <param name="isVerified"></param>
         /// <param name="classification"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="classification"/> is null. </exception>
-        internal LanguageAnnotation(Rectangle rectangle, int? pageIndex, string raw, float? confidence, bool isVerified, string classification) : base(rectangle, pageIndex, raw, confidence, isVerified, classification)
+        internal InvoiceDataSupplierVat(Rectangle rectangle, int? pageIndex, string raw, float? confidence, bool isVerified, string classification) : base(rectangle, pageIndex, raw, confidence, isVerified, classification)
         {
             if (classification == null)
             {
@@ -29,7 +29,7 @@ namespace Affinda.API.Models
             }
         }
 
-        /// <summary> Initializes a new instance of LanguageAnnotation. </summary>
+        /// <summary> Initializes a new instance of InvoiceDataSupplierVat. </summary>
         /// <param name="id"></param>
         /// <param name="rectangle"></param>
         /// <param name="pageIndex"></param>
@@ -39,12 +39,8 @@ namespace Affinda.API.Models
         /// <param name="classification"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
-        internal LanguageAnnotation(int? id, Rectangle rectangle, int? pageIndex, string raw, float? confidence, bool isVerified, string classification, IReadOnlyDictionary<string, object> additionalProperties, string parsed) : base(id, rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties)
+        internal InvoiceDataSupplierVat(int? id, Rectangle rectangle, int? pageIndex, string raw, float? confidence, bool isVerified, string classification, IReadOnlyDictionary<string, object> additionalProperties, string parsed) : base(id, rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed)
         {
-            Parsed = parsed;
         }
-
-        /// <summary> Gets the parsed. </summary>
-        public string Parsed { get; }
     }
 }

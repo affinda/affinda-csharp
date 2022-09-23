@@ -19,7 +19,7 @@ namespace Affinda.API.Models
             Rectangle rectangle = default;
             int? pageIndex = default;
             string raw = default;
-            float confidence = default;
+            float? confidence = default;
             bool isVerified = default;
             string classification = default;
             IReadOnlyDictionary<string, object> additionalProperties = default;
@@ -38,6 +38,11 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("rectangle"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        rectangle = null;
+                        continue;
+                    }
                     rectangle = Rectangle.DeserializeRectangle(property.Value);
                     continue;
                 }
@@ -63,6 +68,11 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("confidence"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        confidence = null;
+                        continue;
+                    }
                     confidence = property.Value.GetSingle();
                     continue;
                 }

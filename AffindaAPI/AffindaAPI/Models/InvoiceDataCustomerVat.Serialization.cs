@@ -11,16 +11,16 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class InvoiceDataCustomerVAT
+    public partial class InvoiceDataCustomerVat
     {
-        internal static InvoiceDataCustomerVAT DeserializeInvoiceDataCustomerVAT(JsonElement element)
+        internal static InvoiceDataCustomerVat DeserializeInvoiceDataCustomerVat(JsonElement element)
         {
             Optional<string> parsed = default;
             Optional<int?> id = default;
             Rectangle rectangle = default;
             int? pageIndex = default;
             string raw = default;
-            float confidence = default;
+            float? confidence = default;
             bool isVerified = default;
             string classification = default;
             IReadOnlyDictionary<string, object> additionalProperties = default;
@@ -49,6 +49,11 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("rectangle"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        rectangle = null;
+                        continue;
+                    }
                     rectangle = Rectangle.DeserializeRectangle(property.Value);
                     continue;
                 }
@@ -74,6 +79,11 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("confidence"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        confidence = null;
+                        continue;
+                    }
                     confidence = property.Value.GetSingle();
                     continue;
                 }
@@ -90,7 +100,7 @@ namespace Affinda.API.Models
                 additionalPropertiesDictionary.Add(property.Name, property.Value.GetObject());
             }
             additionalProperties = additionalPropertiesDictionary;
-            return new InvoiceDataCustomerVAT(Optional.ToNullable(id), rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed.Value);
+            return new InvoiceDataCustomerVat(Optional.ToNullable(id), rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed.Value);
         }
     }
 }

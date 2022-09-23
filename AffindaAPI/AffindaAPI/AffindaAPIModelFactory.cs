@@ -884,7 +884,7 @@ namespace Affinda.API.Models
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"> Years of experience range. </param>
         /// <returns> A new <see cref="Models.JobTitleAnnotation"/> instance for mocking. </returns>
-        public static JobTitleAnnotation JobTitleAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, JobTitleAnnotationParsed parsed = null)
+        public static JobTitleAnnotation JobTitleAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, JobTitleAnnotationParsed parsed = null)
         {
             additionalProperties ??= new Dictionary<string, object>();
 
@@ -923,7 +923,7 @@ namespace Affinda.API.Models
         /// <param name="classification"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <returns> A new <see cref="Models.Annotation"/> instance for mocking. </returns>
-        public static Annotation Annotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null)
+        public static Annotation Annotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null)
         {
             additionalProperties ??= new Dictionary<string, object>();
 
@@ -952,7 +952,7 @@ namespace Affinda.API.Models
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.TextAnnotation"/> instance for mocking. </returns>
-        public static TextAnnotation TextAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        public static TextAnnotation TextAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
         {
             additionalProperties ??= new Dictionary<string, object>();
 
@@ -970,7 +970,7 @@ namespace Affinda.API.Models
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.DateAnnotation"/> instance for mocking. </returns>
-        public static DateAnnotation DateAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, DateTimeOffset? parsed = null)
+        public static DateAnnotation DateAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, DateTimeOffset? parsed = null)
         {
             additionalProperties ??= new Dictionary<string, object>();
 
@@ -988,7 +988,7 @@ namespace Affinda.API.Models
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.LanguageAnnotation"/> instance for mocking. </returns>
-        public static LanguageAnnotation LanguageAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        public static LanguageAnnotation LanguageAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
         {
             additionalProperties ??= new Dictionary<string, object>();
 
@@ -1006,7 +1006,7 @@ namespace Affinda.API.Models
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.SkillAnnotation"/> instance for mocking. </returns>
-        public static SkillAnnotation SkillAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        public static SkillAnnotation SkillAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
         {
             additionalProperties ??= new Dictionary<string, object>();
 
@@ -1024,7 +1024,7 @@ namespace Affinda.API.Models
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.ExpectedRemunerationAnnotation"/> instance for mocking. </returns>
-        public static ExpectedRemunerationAnnotation ExpectedRemunerationAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, ExpectedRemunerationAnnotationParsed parsed = null)
+        public static ExpectedRemunerationAnnotation ExpectedRemunerationAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, ExpectedRemunerationAnnotationParsed parsed = null)
         {
             additionalProperties ??= new Dictionary<string, object>();
 
@@ -1053,7 +1053,7 @@ namespace Affinda.API.Models
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.LocationAnnotation"/> instance for mocking. </returns>
-        public static LocationAnnotation LocationAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, Location parsed = null)
+        public static LocationAnnotation LocationAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, Location parsed = null)
         {
             additionalProperties ??= new Dictionary<string, object>();
 
@@ -1071,7 +1071,7 @@ namespace Affinda.API.Models
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"> Years of experience range. </param>
         /// <returns> A new <see cref="Models.YearsExperienceAnnotation"/> instance for mocking. </returns>
-        public static YearsExperienceAnnotation YearsExperienceAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, YearsExperienceAnnotationParsed parsed = null)
+        public static YearsExperienceAnnotation YearsExperienceAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, YearsExperienceAnnotationParsed parsed = null)
         {
             additionalProperties ??= new Dictionary<string, object>();
 
@@ -1461,14 +1461,14 @@ namespace Affinda.API.Models
         /// <param name="customerBusinessNumber"></param>
         /// <param name="paymentReference"></param>
         /// <param name="bankAccountNumber"></param>
-        /// <param name="supplierVAT"></param>
-        /// <param name="customerVAT"></param>
+        /// <param name="supplierVat"></param>
+        /// <param name="customerVat"></param>
         /// <param name="bpayBillerCode"></param>
         /// <param name="bpayReference"></param>
         /// <param name="bankSortCode"></param>
         /// <param name="bankIban"></param>
         /// <param name="bankSwift"></param>
-        /// <param name="bankBSB"></param>
+        /// <param name="bankBsb"></param>
         /// <param name="customerContactName"></param>
         /// <param name="customerCompanyName"></param>
         /// <param name="supplierCompanyName"></param>
@@ -1484,12 +1484,12 @@ namespace Affinda.API.Models
         /// <param name="currencyCode"></param>
         /// <param name="customFields"> Dictionary of &lt;any&gt;. </param>
         /// <returns> A new <see cref="Models.InvoiceData"/> instance for mocking. </returns>
-        public static InvoiceData InvoiceData(IEnumerable<InvoiceDataTablesItem> tables = null, DateAnnotation invoiceDate = null, DateAnnotation invoiceOrderDate = null, DateAnnotation paymentDateDue = null, InvoiceDataPaymentAmountBase paymentAmountBase = null, InvoiceDataPaymentAmountTax paymentAmountTax = null, InvoiceDataPaymentAmountTotal paymentAmountTotal = null, InvoiceDataPaymentAmountPaid paymentAmountPaid = null, InvoiceDataPaymentAmountDue paymentAmountDue = null, InvoiceDataInvoiceNumber invoiceNumber = null, InvoiceDataInvoicePurchaseOrderNumber invoicePurchaseOrderNumber = null, InvoiceDataSupplierBusinessNumber supplierBusinessNumber = null, InvoiceDataCustomerNumber customerNumber = null, InvoiceDataCustomerBusinessNumber customerBusinessNumber = null, InvoiceDataPaymentReference paymentReference = null, InvoiceDataBankAccountNumber bankAccountNumber = null, InvoiceDataSupplierVAT supplierVAT = null, InvoiceDataCustomerVAT customerVAT = null, InvoiceDataBpayBillerCode bpayBillerCode = null, InvoiceDataBpayReference bpayReference = null, InvoiceDataBankSortCode bankSortCode = null, InvoiceDataBankIban bankIban = null, InvoiceDataBankSwift bankSwift = null, InvoiceDataBankBSB bankBSB = null, InvoiceDataCustomerContactName customerContactName = null, InvoiceDataCustomerCompanyName customerCompanyName = null, InvoiceDataSupplierCompanyName supplierCompanyName = null, LocationAnnotation customerBillingAddress = null, LocationAnnotation customerDeliveryAddress = null, LocationAnnotation supplierAddress = null, InvoiceDataCustomerPhoneNumber customerPhoneNumber = null, InvoiceDataSupplierPhoneNumber supplierPhoneNumber = null, InvoiceDataSupplierFax supplierFax = null, InvoiceDataCustomerEmail customerEmail = null, InvoiceDataSupplierEmail supplierEmail = null, InvoiceDataSupplierWebsite supplierWebsite = null, EnumAnnotationSerializer currencyCode = null, IReadOnlyDictionary<string, object> customFields = null)
+        public static InvoiceData InvoiceData(IEnumerable<InvoiceDataTablesItem> tables = null, DateAnnotation invoiceDate = null, DateAnnotation invoiceOrderDate = null, DateAnnotation paymentDateDue = null, InvoiceDataPaymentAmountBase paymentAmountBase = null, InvoiceDataPaymentAmountTax paymentAmountTax = null, InvoiceDataPaymentAmountTotal paymentAmountTotal = null, InvoiceDataPaymentAmountPaid paymentAmountPaid = null, InvoiceDataPaymentAmountDue paymentAmountDue = null, InvoiceDataInvoiceNumber invoiceNumber = null, InvoiceDataInvoicePurchaseOrderNumber invoicePurchaseOrderNumber = null, InvoiceDataSupplierBusinessNumber supplierBusinessNumber = null, InvoiceDataCustomerNumber customerNumber = null, InvoiceDataCustomerBusinessNumber customerBusinessNumber = null, InvoiceDataPaymentReference paymentReference = null, InvoiceDataBankAccountNumber bankAccountNumber = null, InvoiceDataSupplierVat supplierVat = null, InvoiceDataCustomerVat customerVat = null, InvoiceDataBpayBillerCode bpayBillerCode = null, InvoiceDataBpayReference bpayReference = null, InvoiceDataBankSortCode bankSortCode = null, InvoiceDataBankIban bankIban = null, InvoiceDataBankSwift bankSwift = null, InvoiceDataBankBsb bankBsb = null, InvoiceDataCustomerContactName customerContactName = null, InvoiceDataCustomerCompanyName customerCompanyName = null, InvoiceDataSupplierCompanyName supplierCompanyName = null, LocationAnnotation customerBillingAddress = null, LocationAnnotation customerDeliveryAddress = null, LocationAnnotation supplierAddress = null, InvoiceDataCustomerPhoneNumber customerPhoneNumber = null, InvoiceDataSupplierPhoneNumber supplierPhoneNumber = null, InvoiceDataSupplierFax supplierFax = null, InvoiceDataCustomerEmail customerEmail = null, InvoiceDataSupplierEmail supplierEmail = null, InvoiceDataSupplierWebsite supplierWebsite = null, EnumAnnotationSerializer currencyCode = null, IReadOnlyDictionary<string, object> customFields = null)
         {
             tables ??= new List<InvoiceDataTablesItem>();
             customFields ??= new Dictionary<string, object>();
 
-            return new InvoiceData(tables?.ToList(), invoiceDate, invoiceOrderDate, paymentDateDue, paymentAmountBase, paymentAmountTax, paymentAmountTotal, paymentAmountPaid, paymentAmountDue, invoiceNumber, invoicePurchaseOrderNumber, supplierBusinessNumber, customerNumber, customerBusinessNumber, paymentReference, bankAccountNumber, supplierVAT, customerVAT, bpayBillerCode, bpayReference, bankSortCode, bankIban, bankSwift, bankBSB, customerContactName, customerCompanyName, supplierCompanyName, customerBillingAddress, customerDeliveryAddress, supplierAddress, customerPhoneNumber, supplierPhoneNumber, supplierFax, customerEmail, supplierEmail, supplierWebsite, currencyCode, customFields);
+            return new InvoiceData(tables?.ToList(), invoiceDate, invoiceOrderDate, paymentDateDue, paymentAmountBase, paymentAmountTax, paymentAmountTotal, paymentAmountPaid, paymentAmountDue, invoiceNumber, invoicePurchaseOrderNumber, supplierBusinessNumber, customerNumber, customerBusinessNumber, paymentReference, bankAccountNumber, supplierVat, customerVat, bpayBillerCode, bpayReference, bankSortCode, bankIban, bankSwift, bankBsb, customerContactName, customerCompanyName, supplierCompanyName, customerBillingAddress, customerDeliveryAddress, supplierAddress, customerPhoneNumber, supplierPhoneNumber, supplierFax, customerEmail, supplierEmail, supplierWebsite, currencyCode, customFields);
         }
 
         /// <summary> Initializes a new instance of InvoiceDataTablesItem. </summary>
@@ -1632,22 +1632,22 @@ namespace Affinda.API.Models
             return new Components74A7C1SchemasInvoicedataPropertiesBankaccountnumberAllof1(raw, parsed);
         }
 
-        /// <summary> Initializes a new instance of ComponentsCbu2XdSchemasInvoicedataPropertiesSuppliervatAllof1. </summary>
+        /// <summary> Initializes a new instance of ComponentsB3U7OaSchemasInvoicedataPropertiesSuppliervatAllof1. </summary>
         /// <param name="raw"></param>
         /// <param name="parsed"></param>
-        /// <returns> A new <see cref="Models.ComponentsCbu2XdSchemasInvoicedataPropertiesSuppliervatAllof1"/> instance for mocking. </returns>
-        public static ComponentsCbu2XdSchemasInvoicedataPropertiesSuppliervatAllof1 ComponentsCbu2XdSchemasInvoicedataPropertiesSuppliervatAllof1(string raw = null, string parsed = null)
+        /// <returns> A new <see cref="Models.ComponentsB3U7OaSchemasInvoicedataPropertiesSuppliervatAllof1"/> instance for mocking. </returns>
+        public static ComponentsB3U7OaSchemasInvoicedataPropertiesSuppliervatAllof1 ComponentsB3U7OaSchemasInvoicedataPropertiesSuppliervatAllof1(string raw = null, string parsed = null)
         {
-            return new ComponentsCbu2XdSchemasInvoicedataPropertiesSuppliervatAllof1(raw, parsed);
+            return new ComponentsB3U7OaSchemasInvoicedataPropertiesSuppliervatAllof1(raw, parsed);
         }
 
-        /// <summary> Initializes a new instance of ComponentsBap9YwSchemasInvoicedataPropertiesCustomervatAllof1. </summary>
+        /// <summary> Initializes a new instance of ComponentsBeazccSchemasInvoicedataPropertiesCustomervatAllof1. </summary>
         /// <param name="raw"></param>
         /// <param name="parsed"></param>
-        /// <returns> A new <see cref="Models.ComponentsBap9YwSchemasInvoicedataPropertiesCustomervatAllof1"/> instance for mocking. </returns>
-        public static ComponentsBap9YwSchemasInvoicedataPropertiesCustomervatAllof1 ComponentsBap9YwSchemasInvoicedataPropertiesCustomervatAllof1(string raw = null, string parsed = null)
+        /// <returns> A new <see cref="Models.ComponentsBeazccSchemasInvoicedataPropertiesCustomervatAllof1"/> instance for mocking. </returns>
+        public static ComponentsBeazccSchemasInvoicedataPropertiesCustomervatAllof1 ComponentsBeazccSchemasInvoicedataPropertiesCustomervatAllof1(string raw = null, string parsed = null)
         {
-            return new ComponentsBap9YwSchemasInvoicedataPropertiesCustomervatAllof1(raw, parsed);
+            return new ComponentsBeazccSchemasInvoicedataPropertiesCustomervatAllof1(raw, parsed);
         }
 
         /// <summary> Initializes a new instance of ComponentsA69Bd0SchemasInvoicedataPropertiesBpaybillercodeAllof1. </summary>
@@ -1677,13 +1677,13 @@ namespace Affinda.API.Models
             return new Components1QdassaSchemasInvoicedataPropertiesBanksortcodeAllof1(raw, parsed);
         }
 
-        /// <summary> Initializes a new instance of ComponentsUlui83SchemasInvoicedataPropertiesBankibanAllof1. </summary>
+        /// <summary> Initializes a new instance of Components1127QwqSchemasInvoicedataPropertiesBankibanAllof1. </summary>
         /// <param name="raw"></param>
         /// <param name="parsed"></param>
-        /// <returns> A new <see cref="Models.ComponentsUlui83SchemasInvoicedataPropertiesBankibanAllof1"/> instance for mocking. </returns>
-        public static ComponentsUlui83SchemasInvoicedataPropertiesBankibanAllof1 ComponentsUlui83SchemasInvoicedataPropertiesBankibanAllof1(string raw = null, string parsed = null)
+        /// <returns> A new <see cref="Models.Components1127QwqSchemasInvoicedataPropertiesBankibanAllof1"/> instance for mocking. </returns>
+        public static Components1127QwqSchemasInvoicedataPropertiesBankibanAllof1 Components1127QwqSchemasInvoicedataPropertiesBankibanAllof1(string raw = null, string parsed = null)
         {
-            return new ComponentsUlui83SchemasInvoicedataPropertiesBankibanAllof1(raw, parsed);
+            return new Components1127QwqSchemasInvoicedataPropertiesBankibanAllof1(raw, parsed);
         }
 
         /// <summary> Initializes a new instance of Components1Roa72HSchemasInvoicedataPropertiesBankswiftAllof1. </summary>
@@ -1695,13 +1695,13 @@ namespace Affinda.API.Models
             return new Components1Roa72HSchemasInvoicedataPropertiesBankswiftAllof1(raw, parsed);
         }
 
-        /// <summary> Initializes a new instance of Components1Stp713SchemasInvoicedataPropertiesBankbsbAllof1. </summary>
+        /// <summary> Initializes a new instance of Components1RrxgkvSchemasInvoicedataPropertiesBankbsbAllof1. </summary>
         /// <param name="raw"></param>
         /// <param name="parsed"></param>
-        /// <returns> A new <see cref="Models.Components1Stp713SchemasInvoicedataPropertiesBankbsbAllof1"/> instance for mocking. </returns>
-        public static Components1Stp713SchemasInvoicedataPropertiesBankbsbAllof1 Components1Stp713SchemasInvoicedataPropertiesBankbsbAllof1(string raw = null, string parsed = null)
+        /// <returns> A new <see cref="Models.Components1RrxgkvSchemasInvoicedataPropertiesBankbsbAllof1"/> instance for mocking. </returns>
+        public static Components1RrxgkvSchemasInvoicedataPropertiesBankbsbAllof1 Components1RrxgkvSchemasInvoicedataPropertiesBankbsbAllof1(string raw = null, string parsed = null)
         {
-            return new Components1Stp713SchemasInvoicedataPropertiesBankbsbAllof1(raw, parsed);
+            return new Components1RrxgkvSchemasInvoicedataPropertiesBankbsbAllof1(raw, parsed);
         }
 
         /// <summary> Initializes a new instance of ComponentsWv2QrxSchemasInvoicedataPropertiesCustomercontactnameAllof1. </summary>
@@ -1796,7 +1796,7 @@ namespace Affinda.API.Models
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.EnumAnnotationSerializer"/> instance for mocking. </returns>
-        public static EnumAnnotationSerializer EnumAnnotationSerializer(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float confidence = default, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        public static EnumAnnotationSerializer EnumAnnotationSerializer(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
         {
             additionalProperties ??= new Dictionary<string, object>();
 
@@ -1819,7 +1819,7 @@ namespace Affinda.API.Models
         /// <param name="clientVerifiedDt"></param>
         /// <param name="reviewUrl"> Signed URL (valid for 60 minutes) to access the invoice review tool. </param>
         /// <returns> A new <see cref="Models.InvoiceMeta"/> instance for mocking. </returns>
-        public static InvoiceMeta InvoiceMeta(string identifier = null, string fileName = null, bool ready = default, DateTimeOffset? readyDt = null, bool failed = default, string expiryTime = null, string language = null, string pdf = null, SplitRelation parentDocument = null, IEnumerable<SplitRelation> childDocuments = null, IEnumerable<PageMeta> pages = null, IReadOnlyDictionary<string, object> additionalProperties = null, string clientVerifiedDt = null, string reviewUrl = null)
+        public static InvoiceMeta InvoiceMeta(string identifier = null, string fileName = null, bool ready = default, DateTimeOffset? readyDt = null, bool failed = default, string expiryTime = null, string language = null, string pdf = null, SplitRelation parentDocument = null, IEnumerable<SplitRelation> childDocuments = null, IEnumerable<PageMeta> pages = null, IReadOnlyDictionary<string, object> additionalProperties = null, bool? clientVerifiedDt = null, string reviewUrl = null)
         {
             childDocuments ??= new List<SplitRelation>();
             pages ??= new List<PageMeta>();
@@ -1832,7 +1832,7 @@ namespace Affinda.API.Models
         /// <param name="clientVerifiedDt"></param>
         /// <param name="reviewUrl"> Signed URL (valid for 60 minutes) to access the invoice review tool. </param>
         /// <returns> A new <see cref="Models.Components17Ashz6SchemasInvoicePropertiesMetaAllof1"/> instance for mocking. </returns>
-        public static Components17Ashz6SchemasInvoicePropertiesMetaAllof1 Components17Ashz6SchemasInvoicePropertiesMetaAllof1(string clientVerifiedDt = null, string reviewUrl = null)
+        public static Components17Ashz6SchemasInvoicePropertiesMetaAllof1 Components17Ashz6SchemasInvoicePropertiesMetaAllof1(bool? clientVerifiedDt = null, string reviewUrl = null)
         {
             return new Components17Ashz6SchemasInvoicePropertiesMetaAllof1(clientVerifiedDt, reviewUrl);
         }
