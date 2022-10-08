@@ -22,6 +22,8 @@ namespace Affinda.API.Models
             string raw = default;
             float? confidence = default;
             bool isVerified = default;
+            Optional<bool> isClientVerified = default;
+            Optional<bool> isAutoVerified = default;
             string classification = default;
             IReadOnlyDictionary<string, object> additionalProperties = default;
             Dictionary<string, object> additionalPropertiesDictionary = new Dictionary<string, object>();
@@ -92,6 +94,26 @@ namespace Affinda.API.Models
                     isVerified = property.Value.GetBoolean();
                     continue;
                 }
+                if (property.NameEquals("isClientVerified"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    isClientVerified = property.Value.GetBoolean();
+                    continue;
+                }
+                if (property.NameEquals("isAutoVerified"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    isAutoVerified = property.Value.GetBoolean();
+                    continue;
+                }
                 if (property.NameEquals("classification"))
                 {
                     classification = property.Value.GetString();
@@ -100,7 +122,7 @@ namespace Affinda.API.Models
                 additionalPropertiesDictionary.Add(property.Name, property.Value.GetObject());
             }
             additionalProperties = additionalPropertiesDictionary;
-            return new InvoiceDataCustomerVat(Optional.ToNullable(id), rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed.Value);
+            return new InvoiceDataCustomerVat(Optional.ToNullable(id), rectangle, pageIndex, raw, confidence, isVerified, Optional.ToNullable(isClientVerified), Optional.ToNullable(isAutoVerified), classification, additionalProperties, parsed.Value);
         }
     }
 }

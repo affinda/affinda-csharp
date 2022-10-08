@@ -36,10 +36,12 @@ namespace Affinda.API.Models
         /// <param name="raw"></param>
         /// <param name="confidence"></param>
         /// <param name="isVerified"></param>
+        /// <param name="isClientVerified"></param>
+        /// <param name="isAutoVerified"></param>
         /// <param name="classification"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
-        internal InvoiceDataPaymentAmountTax(int? id, Rectangle rectangle, int? pageIndex, string raw, float? confidence, bool isVerified, string classification, IReadOnlyDictionary<string, object> additionalProperties, string parsed) : base(id, rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed)
+        internal InvoiceDataPaymentAmountTax(int? id, Rectangle rectangle, int? pageIndex, string raw, float? confidence, bool isVerified, bool? isClientVerified, bool? isAutoVerified, string classification, IReadOnlyDictionary<string, object> additionalProperties, string parsed) : base(id, rectangle, pageIndex, raw, confidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed)
         {
         }
     }

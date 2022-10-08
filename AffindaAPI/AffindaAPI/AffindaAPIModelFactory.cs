@@ -880,15 +880,17 @@ namespace Affinda.API.Models
         /// <param name="raw"></param>
         /// <param name="confidence"></param>
         /// <param name="isVerified"></param>
+        /// <param name="isClientVerified"></param>
+        /// <param name="isAutoVerified"></param>
         /// <param name="classification"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"> Years of experience range. </param>
         /// <returns> A new <see cref="Models.JobTitleAnnotation"/> instance for mocking. </returns>
-        public static JobTitleAnnotation JobTitleAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, JobTitleAnnotationParsed parsed = null)
+        public static JobTitleAnnotation JobTitleAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, JobTitleAnnotationParsed parsed = null)
         {
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new JobTitleAnnotation(id, rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
+            return new JobTitleAnnotation(id, rectangle, pageIndex, raw, confidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of JobTitleAnnotationParsed. </summary>
@@ -920,14 +922,16 @@ namespace Affinda.API.Models
         /// <param name="raw"></param>
         /// <param name="confidence"></param>
         /// <param name="isVerified"></param>
+        /// <param name="isClientVerified"></param>
+        /// <param name="isAutoVerified"></param>
         /// <param name="classification"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <returns> A new <see cref="Models.Annotation"/> instance for mocking. </returns>
-        public static Annotation Annotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null)
+        public static Annotation Annotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null)
         {
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new Annotation(id, rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties);
+            return new Annotation(id, rectangle, pageIndex, raw, confidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties);
         }
 
         /// <summary> Initializes a new instance of Rectangle. </summary>
@@ -948,15 +952,17 @@ namespace Affinda.API.Models
         /// <param name="raw"></param>
         /// <param name="confidence"></param>
         /// <param name="isVerified"></param>
+        /// <param name="isClientVerified"></param>
+        /// <param name="isAutoVerified"></param>
         /// <param name="classification"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.TextAnnotation"/> instance for mocking. </returns>
-        public static TextAnnotation TextAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        public static TextAnnotation TextAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
         {
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new TextAnnotation(id, rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
+            return new TextAnnotation(id, rectangle, pageIndex, raw, confidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of DateAnnotation. </summary>
@@ -966,15 +972,17 @@ namespace Affinda.API.Models
         /// <param name="raw"></param>
         /// <param name="confidence"></param>
         /// <param name="isVerified"></param>
+        /// <param name="isClientVerified"></param>
+        /// <param name="isAutoVerified"></param>
         /// <param name="classification"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.DateAnnotation"/> instance for mocking. </returns>
-        public static DateAnnotation DateAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, DateTimeOffset? parsed = null)
+        public static DateAnnotation DateAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, DateTimeOffset? parsed = null)
         {
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new DateAnnotation(id, rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
+            return new DateAnnotation(id, rectangle, pageIndex, raw, confidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of LanguageAnnotation. </summary>
@@ -984,15 +992,17 @@ namespace Affinda.API.Models
         /// <param name="raw"></param>
         /// <param name="confidence"></param>
         /// <param name="isVerified"></param>
+        /// <param name="isClientVerified"></param>
+        /// <param name="isAutoVerified"></param>
         /// <param name="classification"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.LanguageAnnotation"/> instance for mocking. </returns>
-        public static LanguageAnnotation LanguageAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        public static LanguageAnnotation LanguageAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
         {
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new LanguageAnnotation(id, rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
+            return new LanguageAnnotation(id, rectangle, pageIndex, raw, confidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of SkillAnnotation. </summary>
@@ -1002,15 +1012,17 @@ namespace Affinda.API.Models
         /// <param name="raw"></param>
         /// <param name="confidence"></param>
         /// <param name="isVerified"></param>
+        /// <param name="isClientVerified"></param>
+        /// <param name="isAutoVerified"></param>
         /// <param name="classification"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.SkillAnnotation"/> instance for mocking. </returns>
-        public static SkillAnnotation SkillAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        public static SkillAnnotation SkillAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
         {
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new SkillAnnotation(id, rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
+            return new SkillAnnotation(id, rectangle, pageIndex, raw, confidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of ExpectedRemunerationAnnotation. </summary>
@@ -1020,15 +1032,17 @@ namespace Affinda.API.Models
         /// <param name="raw"></param>
         /// <param name="confidence"></param>
         /// <param name="isVerified"></param>
+        /// <param name="isClientVerified"></param>
+        /// <param name="isAutoVerified"></param>
         /// <param name="classification"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.ExpectedRemunerationAnnotation"/> instance for mocking. </returns>
-        public static ExpectedRemunerationAnnotation ExpectedRemunerationAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, ExpectedRemunerationAnnotationParsed parsed = null)
+        public static ExpectedRemunerationAnnotation ExpectedRemunerationAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, ExpectedRemunerationAnnotationParsed parsed = null)
         {
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new ExpectedRemunerationAnnotation(id, rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
+            return new ExpectedRemunerationAnnotation(id, rectangle, pageIndex, raw, confidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of ExpectedRemunerationAnnotationParsed. </summary>
@@ -1049,15 +1063,17 @@ namespace Affinda.API.Models
         /// <param name="raw"></param>
         /// <param name="confidence"></param>
         /// <param name="isVerified"></param>
+        /// <param name="isClientVerified"></param>
+        /// <param name="isAutoVerified"></param>
         /// <param name="classification"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.LocationAnnotation"/> instance for mocking. </returns>
-        public static LocationAnnotation LocationAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, Location parsed = null)
+        public static LocationAnnotation LocationAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, Location parsed = null)
         {
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new LocationAnnotation(id, rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
+            return new LocationAnnotation(id, rectangle, pageIndex, raw, confidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of YearsExperienceAnnotation. </summary>
@@ -1067,15 +1083,17 @@ namespace Affinda.API.Models
         /// <param name="raw"></param>
         /// <param name="confidence"></param>
         /// <param name="isVerified"></param>
+        /// <param name="isClientVerified"></param>
+        /// <param name="isAutoVerified"></param>
         /// <param name="classification"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"> Years of experience range. </param>
         /// <returns> A new <see cref="Models.YearsExperienceAnnotation"/> instance for mocking. </returns>
-        public static YearsExperienceAnnotation YearsExperienceAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, YearsExperienceAnnotationParsed parsed = null)
+        public static YearsExperienceAnnotation YearsExperienceAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, YearsExperienceAnnotationParsed parsed = null)
         {
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new YearsExperienceAnnotation(id, rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
+            return new YearsExperienceAnnotation(id, rectangle, pageIndex, raw, confidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of YearsExperienceAnnotationParsed. </summary>
@@ -1792,15 +1810,17 @@ namespace Affinda.API.Models
         /// <param name="raw"></param>
         /// <param name="confidence"></param>
         /// <param name="isVerified"></param>
+        /// <param name="isClientVerified"></param>
+        /// <param name="isAutoVerified"></param>
         /// <param name="classification"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.EnumAnnotationSerializer"/> instance for mocking. </returns>
-        public static EnumAnnotationSerializer EnumAnnotationSerializer(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, bool isVerified = default, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        public static EnumAnnotationSerializer EnumAnnotationSerializer(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
         {
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new EnumAnnotationSerializer(id, rectangle, pageIndex, raw, confidence, isVerified, classification, additionalProperties, parsed);
+            return new EnumAnnotationSerializer(id, rectangle, pageIndex, raw, confidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of InvoiceMeta. </summary>

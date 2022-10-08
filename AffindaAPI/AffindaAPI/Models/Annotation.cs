@@ -45,9 +45,11 @@ namespace Affinda.API.Models
         /// <param name="raw"></param>
         /// <param name="confidence"></param>
         /// <param name="isVerified"></param>
+        /// <param name="isClientVerified"></param>
+        /// <param name="isAutoVerified"></param>
         /// <param name="classification"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
-        internal Annotation(int? id, Rectangle rectangle, int? pageIndex, string raw, float? confidence, bool isVerified, string classification, IReadOnlyDictionary<string, object> additionalProperties)
+        internal Annotation(int? id, Rectangle rectangle, int? pageIndex, string raw, float? confidence, bool isVerified, bool? isClientVerified, bool? isAutoVerified, string classification, IReadOnlyDictionary<string, object> additionalProperties)
         {
             Id = id;
             Rectangle = rectangle;
@@ -55,6 +57,8 @@ namespace Affinda.API.Models
             Raw = raw;
             Confidence = confidence;
             IsVerified = isVerified;
+            IsClientVerified = isClientVerified;
+            IsAutoVerified = isAutoVerified;
             Classification = classification;
             AdditionalProperties = additionalProperties;
         }
@@ -71,6 +75,10 @@ namespace Affinda.API.Models
         public float? Confidence { get; }
         /// <summary> Gets the is verified. </summary>
         public bool IsVerified { get; }
+        /// <summary> Gets the is client verified. </summary>
+        public bool? IsClientVerified { get; }
+        /// <summary> Gets the is auto verified. </summary>
+        public bool? IsAutoVerified { get; }
         /// <summary> Gets the classification. </summary>
         public string Classification { get; }
         /// <summary> Additional Properties. </summary>
