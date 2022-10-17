@@ -44,11 +44,6 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("image"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        image = null;
-                        continue;
-                    }
                     image = property.Value.GetString();
                     continue;
                 }
