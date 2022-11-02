@@ -5,38 +5,57 @@
 
 #nullable disable
 
+using System;
 using System.Text.Json;
 using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class EducationDates
+    public partial class EducationDates : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            if (Optional.IsDefined(CompletionDate))
+            {
+                writer.WritePropertyName("completionDate");
+                writer.WriteStringValue(CompletionDate.Value, "D");
+            }
+            if (Optional.IsDefined(IsCurrent))
+            {
+                writer.WritePropertyName("isCurrent");
+                writer.WriteBooleanValue(IsCurrent.Value);
+            }
+            if (Optional.IsDefined(StartDate))
+            {
+                if (StartDate != null)
+                {
+                    writer.WritePropertyName("startDate");
+                    writer.WriteStringValue(StartDate.Value, "D");
+                }
+                else
+                {
+                    writer.WriteNull("startDate");
+                }
+            }
+            writer.WriteEndObject();
+        }
+
         internal static EducationDates DeserializeEducationDates(JsonElement element)
         {
-            Optional<string> startDate = default;
-            Optional<string> completionDate = default;
+            Optional<DateTimeOffset> completionDate = default;
             Optional<bool> isCurrent = default;
+            Optional<DateTimeOffset?> startDate = default;
             foreach (var property in element.EnumerateObject())
             {
-                if (property.NameEquals("startDate"))
-                {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        startDate = null;
-                        continue;
-                    }
-                    startDate = property.Value.GetString();
-                    continue;
-                }
                 if (property.NameEquals("completionDate"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        completionDate = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    completionDate = property.Value.GetString();
+                    completionDate = property.Value.GetDateTimeOffset("D");
                     continue;
                 }
                 if (property.NameEquals("isCurrent"))
@@ -49,8 +68,18 @@ namespace Affinda.API.Models
                     isCurrent = property.Value.GetBoolean();
                     continue;
                 }
+                if (property.NameEquals("startDate"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        startDate = null;
+                        continue;
+                    }
+                    startDate = property.Value.GetDateTimeOffset("D");
+                    continue;
+                }
             }
-            return new EducationDates(startDate.Value, completionDate.Value, Optional.ToNullable(isCurrent));
+            return new EducationDates(Optional.ToNullable(completionDate), Optional.ToNullable(isCurrent), Optional.ToNullable(startDate));
         }
     }
 }

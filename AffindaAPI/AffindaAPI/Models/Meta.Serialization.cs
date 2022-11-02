@@ -27,6 +27,9 @@ namespace Affinda.API.Models
             Optional<SplitRelation> parentDocument = default;
             Optional<IReadOnlyList<SplitRelation>> childDocuments = default;
             Optional<IReadOnlyList<PageMeta>> pages = default;
+            Optional<bool> isVerified = default;
+            Optional<string> reviewUrl = default;
+            Optional<float?> ocrConfidence = default;
             IReadOnlyDictionary<string, object> additionalProperties = default;
             Dictionary<string, object> additionalPropertiesDictionary = new Dictionary<string, object>();
             foreach (var property in element.EnumerateObject())
@@ -136,10 +139,40 @@ namespace Affinda.API.Models
                     pages = array;
                     continue;
                 }
+                if (property.NameEquals("isVerified"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    isVerified = property.Value.GetBoolean();
+                    continue;
+                }
+                if (property.NameEquals("reviewUrl"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        reviewUrl = null;
+                        continue;
+                    }
+                    reviewUrl = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("ocrConfidence"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        ocrConfidence = null;
+                        continue;
+                    }
+                    ocrConfidence = property.Value.GetSingle();
+                    continue;
+                }
                 additionalPropertiesDictionary.Add(property.Name, property.Value.GetObject());
             }
             additionalProperties = additionalPropertiesDictionary;
-            return new Meta(identifier, fileName.Value, ready, Optional.ToNullable(readyDt), failed, expiryTime.Value, language.Value, pdf.Value, parentDocument.Value, Optional.ToList(childDocuments), Optional.ToList(pages), additionalProperties);
+            return new Meta(identifier, fileName.Value, ready, Optional.ToNullable(readyDt), failed, expiryTime.Value, language.Value, pdf.Value, parentDocument.Value, Optional.ToList(childDocuments), Optional.ToList(pages), Optional.ToNullable(isVerified), reviewUrl.Value, Optional.ToNullable(ocrConfidence), additionalProperties);
         }
     }
 }

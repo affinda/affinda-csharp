@@ -57,8 +57,15 @@ namespace Affinda.API.Models
             }
             if (Optional.IsDefined(TotalYearsExperience))
             {
-                writer.WritePropertyName("totalYearsExperience");
-                writer.WriteNumberValue(TotalYearsExperience.Value);
+                if (TotalYearsExperience != null)
+                {
+                    writer.WritePropertyName("totalYearsExperience");
+                    writer.WriteNumberValue(TotalYearsExperience.Value);
+                }
+                else
+                {
+                    writer.WriteNull("totalYearsExperience");
+                }
             }
             if (Optional.IsDefined(YearsExperienceRequired))
             {
@@ -229,7 +236,7 @@ namespace Affinda.API.Models
             Optional<IList<string>> jobTitles = default;
             Optional<bool> jobTitlesRequired = default;
             Optional<float> jobTitlesWeight = default;
-            Optional<float> totalYearsExperience = default;
+            Optional<float?> totalYearsExperience = default;
             Optional<bool> yearsExperienceRequired = default;
             Optional<float> yearsExperienceWeight = default;
             Optional<IList<ResumeSearchParametersLocation>> locations = default;
@@ -314,7 +321,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        totalYearsExperience = null;
                         continue;
                     }
                     totalYearsExperience = property.Value.GetSingle();

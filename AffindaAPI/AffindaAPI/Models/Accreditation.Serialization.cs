@@ -10,24 +10,30 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class Accreditation
+    public partial class Accreditation : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            if (Optional.IsDefined(Education))
+            {
+                writer.WritePropertyName("education");
+                writer.WriteStringValue(Education);
+            }
+            writer.WriteEndObject();
+        }
+
         internal static Accreditation DeserializeAccreditation(JsonElement element)
         {
             Optional<string> education = default;
-            Optional<string> educationLevel = default;
             Optional<string> inputStr = default;
             Optional<string> matchStr = default;
+            Optional<string> educationLevel = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("education"))
                 {
                     education = property.Value.GetString();
-                    continue;
-                }
-                if (property.NameEquals("educationLevel"))
-                {
-                    educationLevel = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("inputStr"))
@@ -37,11 +43,26 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("matchStr"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        matchStr = null;
+                        continue;
+                    }
                     matchStr = property.Value.GetString();
                     continue;
                 }
+                if (property.NameEquals("educationLevel"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        educationLevel = null;
+                        continue;
+                    }
+                    educationLevel = property.Value.GetString();
+                    continue;
+                }
             }
-            return new Accreditation(education.Value, educationLevel.Value, inputStr.Value, matchStr.Value);
+            return new Accreditation(education.Value, inputStr.Value, matchStr.Value, educationLevel.Value);
         }
     }
 }

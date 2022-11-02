@@ -5,32 +5,34 @@
 
 #nullable disable
 
+using System;
+
 namespace Affinda.API.Models
 {
     /// <summary> The EducationDates. </summary>
     public partial class EducationDates
     {
         /// <summary> Initializes a new instance of EducationDates. </summary>
-        internal EducationDates()
+        public EducationDates()
         {
         }
 
         /// <summary> Initializes a new instance of EducationDates. </summary>
-        /// <param name="startDate"></param>
         /// <param name="completionDate"></param>
         /// <param name="isCurrent"></param>
-        internal EducationDates(string startDate, string completionDate, bool? isCurrent)
+        /// <param name="startDate"></param>
+        internal EducationDates(DateTimeOffset? completionDate, bool? isCurrent, DateTimeOffset? startDate)
         {
-            StartDate = startDate;
             CompletionDate = completionDate;
             IsCurrent = isCurrent;
+            StartDate = startDate;
         }
 
-        /// <summary> Gets the start date. </summary>
-        public string StartDate { get; }
-        /// <summary> Gets the completion date. </summary>
-        public string CompletionDate { get; }
-        /// <summary> Gets the is current. </summary>
-        public bool? IsCurrent { get; }
+        /// <summary> Gets or sets the completion date. </summary>
+        public DateTimeOffset? CompletionDate { get; set; }
+        /// <summary> Gets or sets the is current. </summary>
+        public bool? IsCurrent { get; set; }
+        /// <summary> Gets or sets the start date. </summary>
+        public DateTimeOffset? StartDate { get; set; }
     }
 }

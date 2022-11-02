@@ -40,8 +40,11 @@ namespace Affinda.API.Models
         /// <param name="parentDocument"> If this document is part of a splitted document, this attribute points to the original document that this document is splitted from. </param>
         /// <param name="childDocuments"> If this document has been splitted into a number of child documents, this attribute points to those child documents. </param>
         /// <param name="pages"> The document&apos;s pages. </param>
+        /// <param name="isVerified"> This is true if the &quot;confirm&quot; button has been clicked in the Affinda validation tool. </param>
+        /// <param name="reviewUrl"> Signed URL (valid for 60 minutes) to access the validation tool.  Not applicable for documents types such a resumes. </param>
+        /// <param name="ocrConfidence"> The overall confidence in the conversion of image to text.  (only applicable for images or PDF documents without a text layer). </param>
         /// <param name="additionalProperties"> Additional Properties. </param>
-        internal Meta(string identifier, string fileName, bool ready, DateTimeOffset? readyDt, bool failed, string expiryTime, string language, string pdf, SplitRelation parentDocument, IReadOnlyList<SplitRelation> childDocuments, IReadOnlyList<PageMeta> pages, IReadOnlyDictionary<string, object> additionalProperties)
+        internal Meta(string identifier, string fileName, bool ready, DateTimeOffset? readyDt, bool failed, string expiryTime, string language, string pdf, SplitRelation parentDocument, IReadOnlyList<SplitRelation> childDocuments, IReadOnlyList<PageMeta> pages, bool? isVerified, string reviewUrl, float? ocrConfidence, IReadOnlyDictionary<string, object> additionalProperties)
         {
             Identifier = identifier;
             FileName = fileName;
@@ -54,6 +57,9 @@ namespace Affinda.API.Models
             ParentDocument = parentDocument;
             ChildDocuments = childDocuments;
             Pages = pages;
+            IsVerified = isVerified;
+            ReviewUrl = reviewUrl;
+            OcrConfidence = ocrConfidence;
             AdditionalProperties = additionalProperties;
         }
 
@@ -79,6 +85,12 @@ namespace Affinda.API.Models
         public IReadOnlyList<SplitRelation> ChildDocuments { get; }
         /// <summary> The document&apos;s pages. </summary>
         public IReadOnlyList<PageMeta> Pages { get; }
+        /// <summary> This is true if the &quot;confirm&quot; button has been clicked in the Affinda validation tool. </summary>
+        public bool? IsVerified { get; }
+        /// <summary> Signed URL (valid for 60 minutes) to access the validation tool.  Not applicable for documents types such a resumes. </summary>
+        public string ReviewUrl { get; }
+        /// <summary> The overall confidence in the conversion of image to text.  (only applicable for images or PDF documents without a text layer). </summary>
+        public float? OcrConfidence { get; }
         /// <summary> Additional Properties. </summary>
         public IReadOnlyDictionary<string, object> AdditionalProperties { get; }
     }

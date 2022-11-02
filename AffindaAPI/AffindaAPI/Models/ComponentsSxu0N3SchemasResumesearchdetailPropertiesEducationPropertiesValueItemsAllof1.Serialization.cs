@@ -10,8 +10,19 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class ComponentsSxu0N3SchemasResumesearchdetailPropertiesEducationPropertiesValueItemsAllof1
+    public partial class ComponentsSxu0N3SchemasResumesearchdetailPropertiesEducationPropertiesValueItemsAllof1 : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            if (Optional.IsDefined(Match))
+            {
+                writer.WritePropertyName("match");
+                writer.WriteBooleanValue(Match.Value);
+            }
+            writer.WriteEndObject();
+        }
+
         internal static ComponentsSxu0N3SchemasResumesearchdetailPropertiesEducationPropertiesValueItemsAllof1 DeserializeComponentsSxu0N3SchemasResumesearchdetailPropertiesEducationPropertiesValueItemsAllof1(JsonElement element)
         {
             Optional<bool> match = default;

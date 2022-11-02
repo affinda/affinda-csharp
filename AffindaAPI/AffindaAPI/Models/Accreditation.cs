@@ -11,30 +11,30 @@ namespace Affinda.API.Models
     public partial class Accreditation
     {
         /// <summary> Initializes a new instance of Accreditation. </summary>
-        internal Accreditation()
+        public Accreditation()
         {
         }
 
         /// <summary> Initializes a new instance of Accreditation. </summary>
         /// <param name="education"></param>
-        /// <param name="educationLevel"></param>
         /// <param name="inputStr"></param>
         /// <param name="matchStr"></param>
-        internal Accreditation(string education, string educationLevel, string inputStr, string matchStr)
+        /// <param name="educationLevel"></param>
+        internal Accreditation(string education, string inputStr, string matchStr, string educationLevel)
         {
             Education = education;
-            EducationLevel = educationLevel;
             InputStr = inputStr;
             MatchStr = matchStr;
+            EducationLevel = educationLevel;
         }
 
-        /// <summary> Gets the education. </summary>
-        public string Education { get; }
-        /// <summary> Gets the education level. </summary>
-        public string EducationLevel { get; }
+        /// <summary> Gets or sets the education. </summary>
+        public string Education { get; set; }
         /// <summary> Gets the input str. </summary>
         public string InputStr { get; }
         /// <summary> Gets the match str. </summary>
         public string MatchStr { get; }
+        /// <summary> Gets the education level. </summary>
+        public string EducationLevel { get; }
     }
 }

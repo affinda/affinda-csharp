@@ -16,7 +16,7 @@ namespace Affinda.API.Models
         {
             string clientVerifiedDt = default;
             InvoiceData data = default;
-            InvoiceMeta meta = default;
+            Meta meta = default;
             Error error = default;
             foreach (var property in element.EnumerateObject())
             {
@@ -42,7 +42,7 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("meta"))
                 {
-                    meta = InvoiceMeta.DeserializeInvoiceMeta(property.Value);
+                    meta = Meta.DeserializeMeta(property.Value);
                     continue;
                 }
                 if (property.NameEquals("error"))

@@ -10,28 +10,46 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class EducationGrade
+    public partial class EducationGrade : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            if (Optional.IsDefined(Raw))
+            {
+                writer.WritePropertyName("raw");
+                writer.WriteStringValue(Raw);
+            }
+            if (Optional.IsDefined(Metric))
+            {
+                if (Metric != null)
+                {
+                    writer.WritePropertyName("metric");
+                    writer.WriteStringValue(Metric);
+                }
+                else
+                {
+                    writer.WriteNull("metric");
+                }
+            }
+            if (Optional.IsDefined(Value))
+            {
+                writer.WritePropertyName("value");
+                writer.WriteStringValue(Value);
+            }
+            writer.WriteEndObject();
+        }
+
         internal static EducationGrade DeserializeEducationGrade(JsonElement element)
         {
             Optional<string> raw = default;
-            Optional<string> value = default;
             Optional<string> metric = default;
+            Optional<string> value = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("raw"))
                 {
                     raw = property.Value.GetString();
-                    continue;
-                }
-                if (property.NameEquals("value"))
-                {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        value = null;
-                        continue;
-                    }
-                    value = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("metric"))
@@ -44,8 +62,13 @@ namespace Affinda.API.Models
                     metric = property.Value.GetString();
                     continue;
                 }
+                if (property.NameEquals("value"))
+                {
+                    value = property.Value.GetString();
+                    continue;
+                }
             }
-            return new EducationGrade(raw.Value, value.Value, metric.Value);
+            return new EducationGrade(raw.Value, metric.Value, value.Value);
         }
     }
 }

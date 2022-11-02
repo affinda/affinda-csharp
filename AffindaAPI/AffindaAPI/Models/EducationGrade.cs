@@ -11,26 +11,26 @@ namespace Affinda.API.Models
     public partial class EducationGrade
     {
         /// <summary> Initializes a new instance of EducationGrade. </summary>
-        internal EducationGrade()
+        public EducationGrade()
         {
         }
 
         /// <summary> Initializes a new instance of EducationGrade. </summary>
         /// <param name="raw"></param>
-        /// <param name="value"></param>
         /// <param name="metric"></param>
-        internal EducationGrade(string raw, string value, string metric)
+        /// <param name="value"></param>
+        internal EducationGrade(string raw, string metric, string value)
         {
             Raw = raw;
-            Value = value;
             Metric = metric;
+            Value = value;
         }
 
-        /// <summary> Gets the raw. </summary>
-        public string Raw { get; }
-        /// <summary> Gets the value. </summary>
-        public string Value { get; }
-        /// <summary> Gets the metric. </summary>
-        public string Metric { get; }
+        /// <summary> Gets or sets the raw. </summary>
+        public string Raw { get; set; }
+        /// <summary> Gets or sets the metric. </summary>
+        public string Metric { get; set; }
+        /// <summary> Gets or sets the value. </summary>
+        public string Value { get; set; }
     }
 }

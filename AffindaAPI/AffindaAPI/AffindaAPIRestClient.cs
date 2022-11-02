@@ -304,6 +304,7 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
+                case 404:
                     {
                         RequestError value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -344,6 +345,7 @@ namespace Affinda.API
                     }
                 case 400:
                 case 401:
+                case 404:
                     {
                         RequestError value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);

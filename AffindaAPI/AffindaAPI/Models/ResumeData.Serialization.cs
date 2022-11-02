@@ -109,8 +109,15 @@ namespace Affinda.API.Models
             }
             if (Optional.IsDefined(TotalYearsExperience))
             {
-                writer.WritePropertyName("totalYearsExperience");
-                writer.WriteNumberValue(TotalYearsExperience.Value);
+                if (TotalYearsExperience != null)
+                {
+                    writer.WritePropertyName("totalYearsExperience");
+                    writer.WriteNumberValue(TotalYearsExperience.Value);
+                }
+                else
+                {
+                    writer.WriteNull("totalYearsExperience");
+                }
             }
             if (Optional.IsCollectionDefined(Education))
             {
@@ -192,9 +199,9 @@ namespace Affinda.API.Models
             Optional<IReadOnlyList<string>> languages = default;
             Optional<IReadOnlyList<string>> languageCodes = default;
             Optional<string> summary = default;
-            Optional<int> totalYearsExperience = default;
+            Optional<int?> totalYearsExperience = default;
             Optional<byte[]> headShot = default;
-            Optional<IList<ResumeDataEducationItem>> education = default;
+            Optional<IList<Education>> education = default;
             Optional<string> profession = default;
             Optional<string> linkedin = default;
             Optional<IList<ResumeDataWorkExperienceItem>> workExperience = default;
@@ -336,7 +343,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        totalYearsExperience = null;
                         continue;
                     }
                     totalYearsExperience = property.Value.GetInt32();
@@ -359,10 +366,10 @@ namespace Affinda.API.Models
                         property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    List<ResumeDataEducationItem> array = new List<ResumeDataEducationItem>();
+                    List<Education> array = new List<Education>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(ResumeDataEducationItem.DeserializeResumeDataEducationItem(item));
+                        array.Add(Models.Education.DeserializeEducation(item));
                     }
                     education = array;
                     continue;

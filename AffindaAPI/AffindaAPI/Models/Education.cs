@@ -11,18 +11,20 @@ namespace Affinda.API.Models
     public partial class Education
     {
         /// <summary> Initializes a new instance of Education. </summary>
-        internal Education()
+        public Education()
         {
         }
 
         /// <summary> Initializes a new instance of Education. </summary>
+        /// <param name="id"></param>
         /// <param name="organization"></param>
         /// <param name="accreditation"></param>
         /// <param name="grade"></param>
         /// <param name="location"></param>
         /// <param name="dates"></param>
-        internal Education(string organization, Accreditation accreditation, EducationGrade grade, Location location, EducationDates dates)
+        internal Education(int? id, string organization, Accreditation accreditation, EducationGrade grade, Location location, EducationDates dates)
         {
+            Id = id;
             Organization = organization;
             Accreditation = accreditation;
             Grade = grade;
@@ -30,15 +32,17 @@ namespace Affinda.API.Models
             Dates = dates;
         }
 
-        /// <summary> Gets the organization. </summary>
-        public string Organization { get; }
-        /// <summary> Gets the accreditation. </summary>
-        public Accreditation Accreditation { get; }
-        /// <summary> Gets the grade. </summary>
-        public EducationGrade Grade { get; }
-        /// <summary> Gets the location. </summary>
-        public Location Location { get; }
-        /// <summary> Gets the dates. </summary>
-        public EducationDates Dates { get; }
+        /// <summary> Gets or sets the id. </summary>
+        public int? Id { get; set; }
+        /// <summary> Gets or sets the organization. </summary>
+        public string Organization { get; set; }
+        /// <summary> Gets or sets the accreditation. </summary>
+        public Accreditation Accreditation { get; set; }
+        /// <summary> Gets or sets the grade. </summary>
+        public EducationGrade Grade { get; set; }
+        /// <summary> Gets or sets the location. </summary>
+        public Location Location { get; set; }
+        /// <summary> Gets or sets the dates. </summary>
+        public EducationDates Dates { get; set; }
     }
 }

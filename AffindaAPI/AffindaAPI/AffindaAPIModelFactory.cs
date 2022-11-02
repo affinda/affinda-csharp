@@ -39,15 +39,18 @@ namespace Affinda.API.Models
         /// <param name="parentDocument"> If this document is part of a splitted document, this attribute points to the original document that this document is splitted from. </param>
         /// <param name="childDocuments"> If this document has been splitted into a number of child documents, this attribute points to those child documents. </param>
         /// <param name="pages"> The document&apos;s pages. </param>
+        /// <param name="isVerified"> This is true if the &quot;confirm&quot; button has been clicked in the Affinda validation tool. </param>
+        /// <param name="reviewUrl"> Signed URL (valid for 60 minutes) to access the validation tool.  Not applicable for documents types such a resumes. </param>
+        /// <param name="ocrConfidence"> The overall confidence in the conversion of image to text.  (only applicable for images or PDF documents without a text layer). </param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <returns> A new <see cref="Models.Meta"/> instance for mocking. </returns>
-        public static Meta Meta(string identifier = null, string fileName = null, bool ready = default, DateTimeOffset? readyDt = null, bool failed = default, string expiryTime = null, string language = null, string pdf = null, SplitRelation parentDocument = null, IEnumerable<SplitRelation> childDocuments = null, IEnumerable<PageMeta> pages = null, IReadOnlyDictionary<string, object> additionalProperties = null)
+        public static Meta Meta(string identifier = null, string fileName = null, bool ready = default, DateTimeOffset? readyDt = null, bool failed = default, string expiryTime = null, string language = null, string pdf = null, SplitRelation parentDocument = null, IEnumerable<SplitRelation> childDocuments = null, IEnumerable<PageMeta> pages = null, bool? isVerified = null, string reviewUrl = null, float? ocrConfidence = null, IReadOnlyDictionary<string, object> additionalProperties = null)
         {
             childDocuments ??= new List<SplitRelation>();
             pages ??= new List<PageMeta>();
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new Meta(identifier, fileName, ready, readyDt, failed, expiryTime, language, pdf, parentDocument, childDocuments?.ToList(), pages?.ToList(), additionalProperties);
+            return new Meta(identifier, fileName, ready, readyDt, failed, expiryTime, language, pdf, parentDocument, childDocuments?.ToList(), pages?.ToList(), isVerified, reviewUrl, ocrConfidence, additionalProperties);
         }
 
         /// <summary> Initializes a new instance of SplitRelation. </summary>
@@ -147,14 +150,14 @@ namespace Affinda.API.Models
         /// <param name="isResumeProbability"> Probability that the given document is a resume. Values below 30 suggest that the document is not a resume. </param>
         /// <param name="rawText"> All of the raw text of the parsed resume, example is shortened for readiblity. </param>
         /// <returns> A new <see cref="Models.ResumeData"/> instance for mocking. </returns>
-        public static ResumeData ResumeData(ResumeDataName name = null, IEnumerable<string> phoneNumbers = null, IEnumerable<string> websites = null, IEnumerable<string> emails = null, string dateOfBirth = null, Location location = null, string objective = null, IEnumerable<string> languages = null, IEnumerable<string> languageCodes = null, string summary = null, int? totalYearsExperience = null, byte[] headShot = null, IEnumerable<ResumeDataEducationItem> education = null, string profession = null, string linkedin = null, IEnumerable<ResumeDataWorkExperienceItem> workExperience = null, IEnumerable<ResumeDataSkillsItem> skills = null, IEnumerable<string> certifications = null, IEnumerable<string> publications = null, IEnumerable<ResumeDataRefereesItem> referees = null, IEnumerable<ResumeDataSectionsItem> sections = null, int? isResumeProbability = null, string rawText = null)
+        public static ResumeData ResumeData(ResumeDataName name = null, IEnumerable<string> phoneNumbers = null, IEnumerable<string> websites = null, IEnumerable<string> emails = null, string dateOfBirth = null, Location location = null, string objective = null, IEnumerable<string> languages = null, IEnumerable<string> languageCodes = null, string summary = null, int? totalYearsExperience = null, byte[] headShot = null, IEnumerable<Education> education = null, string profession = null, string linkedin = null, IEnumerable<ResumeDataWorkExperienceItem> workExperience = null, IEnumerable<ResumeDataSkillsItem> skills = null, IEnumerable<string> certifications = null, IEnumerable<string> publications = null, IEnumerable<ResumeDataRefereesItem> referees = null, IEnumerable<ResumeDataSectionsItem> sections = null, int? isResumeProbability = null, string rawText = null)
         {
             phoneNumbers ??= new List<string>();
             websites ??= new List<string>();
             emails ??= new List<string>();
             languages ??= new List<string>();
             languageCodes ??= new List<string>();
-            education ??= new List<ResumeDataEducationItem>();
+            education ??= new List<Education>();
             workExperience ??= new List<ResumeDataWorkExperienceItem>();
             skills ??= new List<ResumeDataSkillsItem>();
             certifications ??= new List<string>();
@@ -182,15 +185,15 @@ namespace Affinda.API.Models
             return new Location(formatted, postalCode, state, country, countryCode, rawInput, streetNumber, street, apartmentNumber, city);
         }
 
-        /// <summary> Initializes a new instance of ResumeDataEducationItemAccreditation. </summary>
+        /// <summary> Initializes a new instance of Accreditation. </summary>
         /// <param name="education"></param>
         /// <param name="inputStr"></param>
         /// <param name="matchStr"></param>
         /// <param name="educationLevel"></param>
-        /// <returns> A new <see cref="Models.ResumeDataEducationItemAccreditation"/> instance for mocking. </returns>
-        public static ResumeDataEducationItemAccreditation ResumeDataEducationItemAccreditation(string education = null, string inputStr = null, string matchStr = null, string educationLevel = null)
+        /// <returns> A new <see cref="Models.Accreditation"/> instance for mocking. </returns>
+        public static Accreditation Accreditation(string education = null, string inputStr = null, string matchStr = null, string educationLevel = null)
         {
-            return new ResumeDataEducationItemAccreditation(education, inputStr, matchStr, educationLevel);
+            return new Accreditation(education, inputStr, matchStr, educationLevel);
         }
 
         /// <summary> Initializes a new instance of ResumeDataWorkExperienceItem. </summary>
@@ -511,70 +514,6 @@ namespace Affinda.API.Models
             institutions ??= new List<string>();
 
             return new ResumeSearchDetailEducationMissing(degrees?.ToList(), highestDegreeTypes?.ToList(), institutions?.ToList(), currentStudent, recentGraduate);
-        }
-
-        /// <summary> Initializes a new instance of ResumeSearchDetailEducationValueItem. </summary>
-        /// <param name="organization"></param>
-        /// <param name="accreditation"></param>
-        /// <param name="grade"></param>
-        /// <param name="location"></param>
-        /// <param name="dates"></param>
-        /// <param name="match"></param>
-        /// <returns> A new <see cref="Models.ResumeSearchDetailEducationValueItem"/> instance for mocking. </returns>
-        public static ResumeSearchDetailEducationValueItem ResumeSearchDetailEducationValueItem(string organization = null, Accreditation accreditation = null, EducationGrade grade = null, Location location = null, EducationDates dates = null, bool? match = null)
-        {
-            return new ResumeSearchDetailEducationValueItem(organization, accreditation, grade, location, dates, match);
-        }
-
-        /// <summary> Initializes a new instance of Education. </summary>
-        /// <param name="organization"></param>
-        /// <param name="accreditation"></param>
-        /// <param name="grade"></param>
-        /// <param name="location"></param>
-        /// <param name="dates"></param>
-        /// <returns> A new <see cref="Models.Education"/> instance for mocking. </returns>
-        public static Education Education(string organization = null, Accreditation accreditation = null, EducationGrade grade = null, Location location = null, EducationDates dates = null)
-        {
-            return new Education(organization, accreditation, grade, location, dates);
-        }
-
-        /// <summary> Initializes a new instance of Accreditation. </summary>
-        /// <param name="education"></param>
-        /// <param name="educationLevel"></param>
-        /// <param name="inputStr"></param>
-        /// <param name="matchStr"></param>
-        /// <returns> A new <see cref="Models.Accreditation"/> instance for mocking. </returns>
-        public static Accreditation Accreditation(string education = null, string educationLevel = null, string inputStr = null, string matchStr = null)
-        {
-            return new Accreditation(education, educationLevel, inputStr, matchStr);
-        }
-
-        /// <summary> Initializes a new instance of EducationGrade. </summary>
-        /// <param name="raw"></param>
-        /// <param name="value"></param>
-        /// <param name="metric"></param>
-        /// <returns> A new <see cref="Models.EducationGrade"/> instance for mocking. </returns>
-        public static EducationGrade EducationGrade(string raw = null, string value = null, string metric = null)
-        {
-            return new EducationGrade(raw, value, metric);
-        }
-
-        /// <summary> Initializes a new instance of EducationDates. </summary>
-        /// <param name="startDate"></param>
-        /// <param name="completionDate"></param>
-        /// <param name="isCurrent"></param>
-        /// <returns> A new <see cref="Models.EducationDates"/> instance for mocking. </returns>
-        public static EducationDates EducationDates(string startDate = null, string completionDate = null, bool? isCurrent = null)
-        {
-            return new EducationDates(startDate, completionDate, isCurrent);
-        }
-
-        /// <summary> Initializes a new instance of ComponentsSxu0N3SchemasResumesearchdetailPropertiesEducationPropertiesValueItemsAllof1. </summary>
-        /// <param name="match"></param>
-        /// <returns> A new <see cref="Models.ComponentsSxu0N3SchemasResumesearchdetailPropertiesEducationPropertiesValueItemsAllof1"/> instance for mocking. </returns>
-        public static ComponentsSxu0N3SchemasResumesearchdetailPropertiesEducationPropertiesValueItemsAllof1 ComponentsSxu0N3SchemasResumesearchdetailPropertiesEducationPropertiesValueItemsAllof1(bool? match = null)
-        {
-            return new ComponentsSxu0N3SchemasResumesearchdetailPropertiesEducationPropertiesValueItemsAllof1(match);
         }
 
         /// <summary> Initializes a new instance of ResumeSearchDetailSkills. </summary>
@@ -1448,7 +1387,7 @@ namespace Affinda.API.Models
         /// <param name="error"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="meta"/> or <paramref name="error"/> is null. </exception>
         /// <returns> A new <see cref="Models.Invoice"/> instance for mocking. </returns>
-        public static Invoice Invoice(string clientVerifiedDt = null, InvoiceData data = null, InvoiceMeta meta = null, Error error = null)
+        public static Invoice Invoice(string clientVerifiedDt = null, InvoiceData data = null, Meta meta = null, Error error = null)
         {
             if (meta == null)
             {
@@ -1821,40 +1760,6 @@ namespace Affinda.API.Models
             additionalProperties ??= new Dictionary<string, object>();
 
             return new EnumAnnotationSerializer(id, rectangle, pageIndex, raw, confidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
-        }
-
-        /// <summary> Initializes a new instance of InvoiceMeta. </summary>
-        /// <param name="identifier"> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </param>
-        /// <param name="fileName"> Optional filename of the file. </param>
-        /// <param name="ready"> If true, the document has finished processing. Particularly useful if an endpoint request specified wait=False, when polling use this variable to determine when to stop polling. </param>
-        /// <param name="readyDt"> The datetime when the document was ready. </param>
-        /// <param name="failed"> If true, some exception was raised during processing. Check the &apos;error&apos; field of the main return object. </param>
-        /// <param name="expiryTime"> The date/time in ISO-8601 format when the document will be automatically deleted.  Defaults to no expiry. </param>
-        /// <param name="language"> The document&apos;s language. </param>
-        /// <param name="pdf"> The URL to the document&apos;s pdf (if the uploaded document is not already pdf, it&apos;s converted to pdf as part of the parsing process). </param>
-        /// <param name="parentDocument"> If this document is part of a splitted document, this attribute points to the original document that this document is splitted from. </param>
-        /// <param name="childDocuments"> If this document has been splitted into a number of child documents, this attribute points to those child documents. </param>
-        /// <param name="pages"> The document&apos;s pages. </param>
-        /// <param name="additionalProperties"> Additional Properties. </param>
-        /// <param name="clientVerifiedDt"></param>
-        /// <param name="reviewUrl"> Signed URL (valid for 60 minutes) to access the invoice review tool. </param>
-        /// <returns> A new <see cref="Models.InvoiceMeta"/> instance for mocking. </returns>
-        public static InvoiceMeta InvoiceMeta(string identifier = null, string fileName = null, bool ready = default, DateTimeOffset? readyDt = null, bool failed = default, string expiryTime = null, string language = null, string pdf = null, SplitRelation parentDocument = null, IEnumerable<SplitRelation> childDocuments = null, IEnumerable<PageMeta> pages = null, IReadOnlyDictionary<string, object> additionalProperties = null, bool? clientVerifiedDt = null, string reviewUrl = null)
-        {
-            childDocuments ??= new List<SplitRelation>();
-            pages ??= new List<PageMeta>();
-            additionalProperties ??= new Dictionary<string, object>();
-
-            return new InvoiceMeta(identifier, fileName, ready, readyDt, failed, expiryTime, language, pdf, parentDocument, childDocuments?.ToList(), pages?.ToList(), additionalProperties, clientVerifiedDt, reviewUrl);
-        }
-
-        /// <summary> Initializes a new instance of Components17Ashz6SchemasInvoicePropertiesMetaAllof1. </summary>
-        /// <param name="clientVerifiedDt"></param>
-        /// <param name="reviewUrl"> Signed URL (valid for 60 minutes) to access the invoice review tool. </param>
-        /// <returns> A new <see cref="Models.Components17Ashz6SchemasInvoicePropertiesMetaAllof1"/> instance for mocking. </returns>
-        public static Components17Ashz6SchemasInvoicePropertiesMetaAllof1 Components17Ashz6SchemasInvoicePropertiesMetaAllof1(bool? clientVerifiedDt = null, string reviewUrl = null)
-        {
-            return new Components17Ashz6SchemasInvoicePropertiesMetaAllof1(clientVerifiedDt, reviewUrl);
         }
 
         /// <summary> Initializes a new instance of PathsWjaaeuUsersGetResponses200ContentApplicationJsonSchema. </summary>

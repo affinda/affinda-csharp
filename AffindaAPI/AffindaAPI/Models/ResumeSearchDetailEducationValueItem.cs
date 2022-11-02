@@ -11,23 +11,24 @@ namespace Affinda.API.Models
     public partial class ResumeSearchDetailEducationValueItem : Education
     {
         /// <summary> Initializes a new instance of ResumeSearchDetailEducationValueItem. </summary>
-        internal ResumeSearchDetailEducationValueItem()
+        public ResumeSearchDetailEducationValueItem()
         {
         }
 
         /// <summary> Initializes a new instance of ResumeSearchDetailEducationValueItem. </summary>
+        /// <param name="id"></param>
         /// <param name="organization"></param>
         /// <param name="accreditation"></param>
         /// <param name="grade"></param>
         /// <param name="location"></param>
         /// <param name="dates"></param>
         /// <param name="match"></param>
-        internal ResumeSearchDetailEducationValueItem(string organization, Accreditation accreditation, EducationGrade grade, Location location, EducationDates dates, bool? match) : base(organization, accreditation, grade, location, dates)
+        internal ResumeSearchDetailEducationValueItem(int? id, string organization, Accreditation accreditation, EducationGrade grade, Location location, EducationDates dates, bool? match) : base(id, organization, accreditation, grade, location, dates)
         {
             Match = match;
         }
 
-        /// <summary> Gets the match. </summary>
-        public bool? Match { get; }
+        /// <summary> Gets or sets the match. </summary>
+        public bool? Match { get; set; }
     }
 }
