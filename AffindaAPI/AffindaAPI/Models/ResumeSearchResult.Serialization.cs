@@ -5,6 +5,7 @@
 
 #nullable disable
 
+using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
 
@@ -27,6 +28,7 @@ namespace Affinda.API.Models
             EducationSearchScoreComponent education = default;
             OccupationGroupSearchScoreComponent occupationGroup = default;
             SearchExpressionSearchScoreComponent searchExpression = default;
+            IReadOnlyDictionary<string, ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties> customData = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("identifier"))
@@ -99,8 +101,18 @@ namespace Affinda.API.Models
                     searchExpression = SearchExpressionSearchScoreComponent.DeserializeSearchExpressionSearchScoreComponent(property.Value);
                     continue;
                 }
+                if (property.NameEquals("customData"))
+                {
+                    Dictionary<string, ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties> dictionary = new Dictionary<string, ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties>();
+                    foreach (var property0 in property.Value.EnumerateObject())
+                    {
+                        dictionary.Add(property0.Name, ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties.DeserializeComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties(property0.Value));
+                    }
+                    customData = dictionary;
+                    continue;
+                }
             }
-            return new ResumeSearchResult(identifier, score, pdf, name.Value, jobTitle, managementLevel, experience, skills, languages, location, education, occupationGroup, searchExpression);
+            return new ResumeSearchResult(identifier, score, pdf, name.Value, jobTitle, managementLevel, experience, skills, languages, location, education, occupationGroup, searchExpression, customData);
         }
     }
 }

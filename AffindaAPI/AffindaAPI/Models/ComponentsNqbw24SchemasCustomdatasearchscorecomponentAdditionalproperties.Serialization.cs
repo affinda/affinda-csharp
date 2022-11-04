@@ -10,9 +10,9 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class LocationSearchScoreComponent
+    public partial class ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties
     {
-        internal static LocationSearchScoreComponent DeserializeLocationSearchScoreComponent(JsonElement element)
+        internal static ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties DeserializeComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties(JsonElement element)
         {
             Optional<string> value = default;
             string label = default;
@@ -21,11 +21,6 @@ namespace Affinda.API.Models
             {
                 if (property.NameEquals("value"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        value = null;
-                        continue;
-                    }
                     value = property.Value.GetString();
                     continue;
                 }
@@ -45,7 +40,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new LocationSearchScoreComponent(value.Value, label, Optional.ToNullable(score));
+            return new ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties(value.Value, label, Optional.ToNullable(score));
         }
     }
 }

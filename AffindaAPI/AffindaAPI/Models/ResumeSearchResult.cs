@@ -6,6 +6,7 @@
 #nullable disable
 
 using System;
+using System.Collections.Generic;
 
 namespace Affinda.API.Models
 {
@@ -25,8 +26,9 @@ namespace Affinda.API.Models
         /// <param name="education"></param>
         /// <param name="occupationGroup"></param>
         /// <param name="searchExpression"></param>
-        /// <exception cref="ArgumentNullException"> <paramref name="pdf"/>, <paramref name="jobTitle"/>, <paramref name="managementLevel"/>, <paramref name="experience"/>, <paramref name="skills"/>, <paramref name="languages"/>, <paramref name="location"/>, <paramref name="education"/>, <paramref name="occupationGroup"/> or <paramref name="searchExpression"/> is null. </exception>
-        internal ResumeSearchResult(string identifier, float score, string pdf, JobTitleSearchScoreComponent jobTitle, ManagementLevelSearchScoreComponent managementLevel, ExperienceSearchScoreComponent experience, SkillsSearchScoreComponent skills, LanguagesSearchScoreComponent languages, LocationSearchScoreComponent location, EducationSearchScoreComponent education, OccupationGroupSearchScoreComponent occupationGroup, SearchExpressionSearchScoreComponent searchExpression)
+        /// <param name="customData"> Dictionary of &lt;components·nqbw24·schemas·customdatasearchscorecomponent·additionalproperties&gt;. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="pdf"/>, <paramref name="jobTitle"/>, <paramref name="managementLevel"/>, <paramref name="experience"/>, <paramref name="skills"/>, <paramref name="languages"/>, <paramref name="location"/>, <paramref name="education"/>, <paramref name="occupationGroup"/>, <paramref name="searchExpression"/> or <paramref name="customData"/> is null. </exception>
+        internal ResumeSearchResult(string identifier, float score, string pdf, JobTitleSearchScoreComponent jobTitle, ManagementLevelSearchScoreComponent managementLevel, ExperienceSearchScoreComponent experience, SkillsSearchScoreComponent skills, LanguagesSearchScoreComponent languages, LocationSearchScoreComponent location, EducationSearchScoreComponent education, OccupationGroupSearchScoreComponent occupationGroup, SearchExpressionSearchScoreComponent searchExpression, IReadOnlyDictionary<string, ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties> customData)
         {
             if (pdf == null)
             {
@@ -68,6 +70,10 @@ namespace Affinda.API.Models
             {
                 throw new ArgumentNullException(nameof(searchExpression));
             }
+            if (customData == null)
+            {
+                throw new ArgumentNullException(nameof(customData));
+            }
 
             Identifier = identifier;
             Score = score;
@@ -81,6 +87,7 @@ namespace Affinda.API.Models
             Education = education;
             OccupationGroup = occupationGroup;
             SearchExpression = searchExpression;
+            CustomData = customData;
         }
 
         /// <summary> Initializes a new instance of ResumeSearchResult. </summary>
@@ -97,7 +104,8 @@ namespace Affinda.API.Models
         /// <param name="education"></param>
         /// <param name="occupationGroup"></param>
         /// <param name="searchExpression"></param>
-        internal ResumeSearchResult(string identifier, float score, string pdf, string name, JobTitleSearchScoreComponent jobTitle, ManagementLevelSearchScoreComponent managementLevel, ExperienceSearchScoreComponent experience, SkillsSearchScoreComponent skills, LanguagesSearchScoreComponent languages, LocationSearchScoreComponent location, EducationSearchScoreComponent education, OccupationGroupSearchScoreComponent occupationGroup, SearchExpressionSearchScoreComponent searchExpression)
+        /// <param name="customData"> Dictionary of &lt;components·nqbw24·schemas·customdatasearchscorecomponent·additionalproperties&gt;. </param>
+        internal ResumeSearchResult(string identifier, float score, string pdf, string name, JobTitleSearchScoreComponent jobTitle, ManagementLevelSearchScoreComponent managementLevel, ExperienceSearchScoreComponent experience, SkillsSearchScoreComponent skills, LanguagesSearchScoreComponent languages, LocationSearchScoreComponent location, EducationSearchScoreComponent education, OccupationGroupSearchScoreComponent occupationGroup, SearchExpressionSearchScoreComponent searchExpression, IReadOnlyDictionary<string, ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties> customData)
         {
             Identifier = identifier;
             Score = score;
@@ -112,6 +120,7 @@ namespace Affinda.API.Models
             Education = education;
             OccupationGroup = occupationGroup;
             SearchExpression = searchExpression;
+            CustomData = customData;
         }
 
         /// <summary> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </summary>
@@ -140,5 +149,7 @@ namespace Affinda.API.Models
         public OccupationGroupSearchScoreComponent OccupationGroup { get; }
         /// <summary> Gets the search expression. </summary>
         public SearchExpressionSearchScoreComponent SearchExpression { get; }
+        /// <summary> Dictionary of &lt;components·nqbw24·schemas·customdatasearchscorecomponent·additionalproperties&gt;. </summary>
+        public IReadOnlyDictionary<string, ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties> CustomData { get; }
     }
 }

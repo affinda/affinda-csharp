@@ -99,7 +99,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        managementLevel = null;
                         continue;
                     }
                     managementLevel = JobDescriptionSearchDetailManagementLevel.DeserializeJobDescriptionSearchDetailManagementLevel(property.Value);

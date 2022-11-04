@@ -33,7 +33,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        parsed = null;
                         continue;
                     }
                     parsed = JobTitleAnnotationParsed.DeserializeJobTitleAnnotationParsed(property.Value);

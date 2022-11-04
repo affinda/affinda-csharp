@@ -300,6 +300,16 @@ namespace Affinda.API.Models
                 writer.WritePropertyName("managementLevelWeight");
                 writer.WriteNumberValue(ManagementLevelWeight.Value);
             }
+            if (Optional.IsCollectionDefined(CustomData))
+            {
+                writer.WritePropertyName("customData");
+                writer.WriteStartArray();
+                foreach (var item in CustomData)
+                {
+                    writer.WriteObjectValue(item);
+                }
+                writer.WriteEndArray();
+            }
             writer.WriteEndObject();
         }
 
@@ -345,6 +355,7 @@ namespace Affinda.API.Models
             Optional<ManagementLevel?> managementLevel = default;
             Optional<bool> managementLevelRequired = default;
             Optional<float> managementLevelWeight = default;
+            Optional<IList<ResumeSearchParametersCustomData>> customData = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("indices"))
@@ -794,8 +805,23 @@ namespace Affinda.API.Models
                     managementLevelWeight = property.Value.GetSingle();
                     continue;
                 }
+                if (property.NameEquals("customData"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    List<ResumeSearchParametersCustomData> array = new List<ResumeSearchParametersCustomData>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(ResumeSearchParametersCustomData.DeserializeResumeSearchParametersCustomData(item));
+                    }
+                    customData = array;
+                    continue;
+                }
             }
-            return new ResumeSearchParameters(indices, jobDescription.Value, resume.Value, Optional.ToList(jobTitles), Optional.ToNullable(jobTitlesCurrentOnly), Optional.ToNullable(jobTitlesRequired), Optional.ToNullable(jobTitlesWeight), Optional.ToNullable(yearsExperienceMin), Optional.ToNullable(yearsExperienceMax), Optional.ToNullable(yearsExperienceRequired), Optional.ToNullable(yearsExperienceWeight), Optional.ToList(locations), Optional.ToNullable(locationsWeight), Optional.ToNullable(locationsRequired), Optional.ToList(skills), Optional.ToNullable(skillsWeight), Optional.ToList(languages), Optional.ToNullable(languagesWeight), Optional.ToList(institutions), Optional.ToNullable(institutionsRequired), Optional.ToList(degrees), Optional.ToNullable(degreesRequired), Optional.ToList(highestDegreeTypes), Optional.ToNullable(highestDegreeTypesRequired), Optional.ToNullable(isCurrentStudent), Optional.ToNullable(isCurrentStudentRequired), Optional.ToNullable(isRecentGraduate), Optional.ToNullable(isRecentGraduateRequired), Optional.ToNullable(isTopStudent), Optional.ToNullable(isTopStudentRequired), Optional.ToNullable(educationWeight), searchExpression.Value, Optional.ToNullable(searchExpressionRequired), Optional.ToNullable(searchExpressionWeight), Optional.ToList(socCodes), Optional.ToNullable(socCodesWeight), Optional.ToNullable(socCodesRequired), Optional.ToNullable(managementLevel), Optional.ToNullable(managementLevelRequired), Optional.ToNullable(managementLevelWeight));
+            return new ResumeSearchParameters(indices, jobDescription.Value, resume.Value, Optional.ToList(jobTitles), Optional.ToNullable(jobTitlesCurrentOnly), Optional.ToNullable(jobTitlesRequired), Optional.ToNullable(jobTitlesWeight), Optional.ToNullable(yearsExperienceMin), Optional.ToNullable(yearsExperienceMax), Optional.ToNullable(yearsExperienceRequired), Optional.ToNullable(yearsExperienceWeight), Optional.ToList(locations), Optional.ToNullable(locationsWeight), Optional.ToNullable(locationsRequired), Optional.ToList(skills), Optional.ToNullable(skillsWeight), Optional.ToList(languages), Optional.ToNullable(languagesWeight), Optional.ToList(institutions), Optional.ToNullable(institutionsRequired), Optional.ToList(degrees), Optional.ToNullable(degreesRequired), Optional.ToList(highestDegreeTypes), Optional.ToNullable(highestDegreeTypesRequired), Optional.ToNullable(isCurrentStudent), Optional.ToNullable(isCurrentStudentRequired), Optional.ToNullable(isRecentGraduate), Optional.ToNullable(isRecentGraduateRequired), Optional.ToNullable(isTopStudent), Optional.ToNullable(isTopStudentRequired), Optional.ToNullable(educationWeight), searchExpression.Value, Optional.ToNullable(searchExpressionRequired), Optional.ToNullable(searchExpressionWeight), Optional.ToList(socCodes), Optional.ToNullable(socCodesWeight), Optional.ToNullable(socCodesRequired), Optional.ToNullable(managementLevel), Optional.ToNullable(managementLevelRequired), Optional.ToNullable(managementLevelWeight), Optional.ToList(customData));
         }
     }
 }

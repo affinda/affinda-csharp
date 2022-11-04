@@ -24,8 +24,9 @@ namespace Affinda.API.Models
         /// <param name="location"></param>
         /// <param name="education"></param>
         /// <param name="searchExpression"></param>
+        /// <param name="organizationName"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="pdf"/>, <paramref name="jobTitle"/>, <paramref name="managementLevel"/>, <paramref name="experience"/>, <paramref name="skills"/>, <paramref name="languages"/>, <paramref name="location"/>, <paramref name="education"/> or <paramref name="searchExpression"/> is null. </exception>
-        internal JobDescriptionSearchResult(string identifier, float score, string pdf, JobTitleSearchScoreComponent jobTitle, ManagementLevelSearchScoreComponent managementLevel, ExperienceSearchScoreComponent experience, SkillsSearchScoreComponent skills, LanguagesSearchScoreComponent languages, LocationSearchScoreComponent location, EducationSearchScoreComponent education, SearchExpressionSearchScoreComponent searchExpression)
+        internal JobDescriptionSearchResult(string identifier, float score, string pdf, JobTitleSearchScoreComponent jobTitle, ManagementLevelSearchScoreComponent managementLevel, ExperienceSearchScoreComponent experience, SkillsSearchScoreComponent skills, LanguagesSearchScoreComponent languages, LocationSearchScoreComponent location, EducationSearchScoreComponent education, SearchExpressionSearchScoreComponent searchExpression, string organizationName)
         {
             if (pdf == null)
             {
@@ -75,6 +76,7 @@ namespace Affinda.API.Models
             Location = location;
             Education = education;
             SearchExpression = searchExpression;
+            OrganizationName = organizationName;
         }
 
         /// <summary> Initializes a new instance of JobDescriptionSearchResult. </summary>
@@ -90,7 +92,8 @@ namespace Affinda.API.Models
         /// <param name="education"></param>
         /// <param name="occupationGroup"></param>
         /// <param name="searchExpression"></param>
-        internal JobDescriptionSearchResult(string identifier, float score, string pdf, JobTitleSearchScoreComponent jobTitle, ManagementLevelSearchScoreComponent managementLevel, ExperienceSearchScoreComponent experience, SkillsSearchScoreComponent skills, LanguagesSearchScoreComponent languages, LocationSearchScoreComponent location, EducationSearchScoreComponent education, OccupationGroupSearchScoreComponent occupationGroup, SearchExpressionSearchScoreComponent searchExpression)
+        /// <param name="organizationName"></param>
+        internal JobDescriptionSearchResult(string identifier, float score, string pdf, JobTitleSearchScoreComponent jobTitle, ManagementLevelSearchScoreComponent managementLevel, ExperienceSearchScoreComponent experience, SkillsSearchScoreComponent skills, LanguagesSearchScoreComponent languages, LocationSearchScoreComponent location, EducationSearchScoreComponent education, OccupationGroupSearchScoreComponent occupationGroup, SearchExpressionSearchScoreComponent searchExpression, string organizationName)
         {
             Identifier = identifier;
             Score = score;
@@ -104,6 +107,7 @@ namespace Affinda.API.Models
             Education = education;
             OccupationGroup = occupationGroup;
             SearchExpression = searchExpression;
+            OrganizationName = organizationName;
         }
 
         /// <summary> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </summary>
@@ -130,5 +134,7 @@ namespace Affinda.API.Models
         public OccupationGroupSearchScoreComponent OccupationGroup { get; }
         /// <summary> Gets the search expression. </summary>
         public SearchExpressionSearchScoreComponent SearchExpression { get; }
+        /// <summary> Gets the organization name. </summary>
+        public string OrganizationName { get; }
     }
 }

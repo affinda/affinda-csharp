@@ -22,8 +22,15 @@ namespace Affinda.API.Models
             }
             if (Optional.IsDefined(Coordinates))
             {
-                writer.WritePropertyName("coordinates");
-                writer.WriteObjectValue(Coordinates);
+                if (Coordinates != null)
+                {
+                    writer.WritePropertyName("coordinates");
+                    writer.WriteObjectValue(Coordinates);
+                }
+                else
+                {
+                    writer.WriteNull("coordinates");
+                }
             }
             if (Optional.IsDefined(Distance))
             {
@@ -55,7 +62,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        coordinates = null;
                         continue;
                     }
                     coordinates = ResumeSearchParametersLocationCoordinates.DeserializeResumeSearchParametersLocationCoordinates(property.Value);

@@ -26,6 +26,7 @@ namespace Affinda.API.Models
             EducationSearchScoreComponent education = default;
             Optional<OccupationGroupSearchScoreComponent> occupationGroup = default;
             SearchExpressionSearchScoreComponent searchExpression = default;
+            string organizationName = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("identifier"))
@@ -98,8 +99,18 @@ namespace Affinda.API.Models
                     searchExpression = SearchExpressionSearchScoreComponent.DeserializeSearchExpressionSearchScoreComponent(property.Value);
                     continue;
                 }
+                if (property.NameEquals("organizationName"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        organizationName = null;
+                        continue;
+                    }
+                    organizationName = property.Value.GetString();
+                    continue;
+                }
             }
-            return new JobDescriptionSearchResult(identifier, score, pdf, jobTitle, managementLevel, experience, skills, languages, location, education, occupationGroup.Value, searchExpression);
+            return new JobDescriptionSearchResult(identifier, score, pdf, jobTitle, managementLevel, experience, skills, languages, location, education, occupationGroup.Value, searchExpression, organizationName);
         }
     }
 }
