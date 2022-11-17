@@ -15,7 +15,7 @@ namespace Affinda.API.Models
         internal static Paths1Mc0Je6IndexPostResponses201ContentApplicationJsonSchema DeserializePaths1Mc0Je6IndexPostResponses201ContentApplicationJsonSchema(JsonElement element)
         {
             Optional<string> name = default;
-            Optional<Enum3> documentType = default;
+            Optional<Enum4> documentType = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("name"))
@@ -30,7 +30,7 @@ namespace Affinda.API.Models
                         property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    documentType = new Enum3(property.Value.GetString());
+                    documentType = new Enum4(property.Value.GetString());
                     continue;
                 }
             }

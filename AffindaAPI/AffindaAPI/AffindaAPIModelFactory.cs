@@ -149,8 +149,9 @@ namespace Affinda.API.Models
         /// <param name="sections"></param>
         /// <param name="isResumeProbability"> Probability that the given document is a resume. Values below 30 suggest that the document is not a resume. </param>
         /// <param name="rawText"> All of the raw text of the parsed resume, example is shortened for readiblity. </param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
         /// <returns> A new <see cref="Models.ResumeData"/> instance for mocking. </returns>
-        public static ResumeData ResumeData(ResumeDataName name = null, IEnumerable<string> phoneNumbers = null, IEnumerable<string> websites = null, IEnumerable<string> emails = null, string dateOfBirth = null, Location location = null, string objective = null, IEnumerable<string> languages = null, IEnumerable<string> languageCodes = null, string summary = null, int? totalYearsExperience = null, byte[] headShot = null, IEnumerable<Education> education = null, string profession = null, string linkedin = null, IEnumerable<ResumeDataWorkExperienceItem> workExperience = null, IEnumerable<ResumeDataSkillsItem> skills = null, IEnumerable<string> certifications = null, IEnumerable<string> publications = null, IEnumerable<ResumeDataRefereesItem> referees = null, IEnumerable<ResumeDataSectionsItem> sections = null, int? isResumeProbability = null, string rawText = null)
+        public static ResumeData ResumeData(ResumeDataName name = null, IEnumerable<string> phoneNumbers = null, IEnumerable<string> websites = null, IEnumerable<string> emails = null, string dateOfBirth = null, Location location = null, string objective = null, IEnumerable<string> languages = null, IEnumerable<string> languageCodes = null, string summary = null, int? totalYearsExperience = null, byte[] headShot = null, IEnumerable<Education> education = null, string profession = null, string linkedin = null, IEnumerable<ResumeDataWorkExperienceItem> workExperience = null, IEnumerable<ResumeDataSkillsItem> skills = null, IEnumerable<string> certifications = null, IEnumerable<string> publications = null, IEnumerable<ResumeDataRefereesItem> referees = null, IEnumerable<ResumeDataSectionsItem> sections = null, int? isResumeProbability = null, string rawText = null, IDictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties> additionalProperties = null)
         {
             phoneNumbers ??= new List<string>();
             websites ??= new List<string>();
@@ -164,8 +165,9 @@ namespace Affinda.API.Models
             publications ??= new List<string>();
             referees ??= new List<ResumeDataRefereesItem>();
             sections ??= new List<ResumeDataSectionsItem>();
+            additionalProperties ??= new Dictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties>();
 
-            return new ResumeData(name, phoneNumbers?.ToList(), websites?.ToList(), emails?.ToList(), dateOfBirth, location, objective, languages?.ToList(), languageCodes?.ToList(), summary, totalYearsExperience, headShot, education?.ToList(), profession, linkedin, workExperience?.ToList(), skills?.ToList(), certifications?.ToList(), publications?.ToList(), referees?.ToList(), sections?.ToList(), isResumeProbability, rawText);
+            return new ResumeData(name, phoneNumbers?.ToList(), websites?.ToList(), emails?.ToList(), dateOfBirth, location, objective, languages?.ToList(), languageCodes?.ToList(), summary, totalYearsExperience, headShot, education?.ToList(), profession, linkedin, workExperience?.ToList(), skills?.ToList(), certifications?.ToList(), publications?.ToList(), referees?.ToList(), sections?.ToList(), isResumeProbability, rawText, additionalProperties);
         }
 
         /// <summary> Initializes a new instance of Location. </summary>
@@ -1347,7 +1349,7 @@ namespace Affinda.API.Models
         /// <param name="name"></param>
         /// <param name="documentType"></param>
         /// <returns> A new <see cref="Models.Paths1Mc0Je6IndexPostResponses201ContentApplicationJsonSchema"/> instance for mocking. </returns>
-        public static Paths1Mc0Je6IndexPostResponses201ContentApplicationJsonSchema Paths1Mc0Je6IndexPostResponses201ContentApplicationJsonSchema(string name = null, Enum3? documentType = null)
+        public static Paths1Mc0Je6IndexPostResponses201ContentApplicationJsonSchema Paths1Mc0Je6IndexPostResponses201ContentApplicationJsonSchema(string name = null, Enum4? documentType = null)
         {
             return new Paths1Mc0Je6IndexPostResponses201ContentApplicationJsonSchema(name, documentType);
         }

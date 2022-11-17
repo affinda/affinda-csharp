@@ -6,6 +6,7 @@
 #nullable disable
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -739,6 +740,82 @@ namespace Affinda.API
             }
         }
 
+        /// <summary> Get job title suggestions based on provided job title(s). </summary>
+        /// <param name="jobTitles"> Job title to query suggestions for. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Provided one or more job titles, get related suggestions for your search. </remarks>
+        public virtual async Task<Response<object>> GetResumeSearchSuggestionJobTitleAsync(IEnumerable<string> jobTitles, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResumeSearchSuggestionJobTitle");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetResumeSearchSuggestionJobTitleAsync(jobTitles, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get job title suggestions based on provided job title(s). </summary>
+        /// <param name="jobTitles"> Job title to query suggestions for. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Provided one or more job titles, get related suggestions for your search. </remarks>
+        public virtual Response<object> GetResumeSearchSuggestionJobTitle(IEnumerable<string> jobTitles, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResumeSearchSuggestionJobTitle");
+            scope.Start();
+            try
+            {
+                return RestClient.GetResumeSearchSuggestionJobTitle(jobTitles, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get skill suggestions based on provided skill(s). </summary>
+        /// <param name="skills"> Skill to query suggestions for. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Provided one or more skills, get related suggestions for your search. </remarks>
+        public virtual async Task<Response<object>> GetResumeSearchSuggestionSkillAsync(IEnumerable<string> skills, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResumeSearchSuggestionSkill");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetResumeSearchSuggestionSkillAsync(skills, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get skill suggestions based on provided skill(s). </summary>
+        /// <param name="skills"> Skill to query suggestions for. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Provided one or more skills, get related suggestions for your search. </remarks>
+        public virtual Response<object> GetResumeSearchSuggestionSkill(IEnumerable<string> skills, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResumeSearchSuggestionSkill");
+            scope.Start();
+            try
+            {
+                return RestClient.GetResumeSearchSuggestionSkill(skills, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
         /// <summary> Get list of all job descriptions. </summary>
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
         /// <param name="limit"> The numbers of results to return. </param>
@@ -1127,7 +1204,7 @@ namespace Affinda.API
         /// <param name="documentType"> Filter indices by a document type. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public virtual async Task<Response<object>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum1? documentType = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<object>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum2? documentType = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexes");
             scope.Start();
@@ -1148,7 +1225,7 @@ namespace Affinda.API
         /// <param name="documentType"> Filter indices by a document type. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public virtual Response<object> GetAllIndexes(int? offset = null, int? limit = null, Enum1? documentType = null, CancellationToken cancellationToken = default)
+        public virtual Response<object> GetAllIndexes(int? offset = null, int? limit = null, Enum2? documentType = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexes");
             scope.Start();

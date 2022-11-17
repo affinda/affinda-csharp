@@ -16,7 +16,7 @@ namespace Affinda.API.Models
         {
             writer.WriteStartObject();
             writer.WritePropertyName("filterType");
-            writer.WriteStringValue(FilterType);
+            writer.WriteStringValue(FilterType.ToString());
             writer.WritePropertyName("dataPoint");
             writer.WriteStringValue(DataPoint);
             writer.WritePropertyName("query");
@@ -36,7 +36,7 @@ namespace Affinda.API.Models
 
         internal static ResumeSearchParametersCustomData DeserializeResumeSearchParametersCustomData(JsonElement element)
         {
-            string filterType = default;
+            ResumeSearchParametersCustomDataFilterType filterType = default;
             string dataPoint = default;
             object query = default;
             Optional<bool> required = default;
@@ -45,7 +45,7 @@ namespace Affinda.API.Models
             {
                 if (property.NameEquals("filterType"))
                 {
-                    filterType = property.Value.GetString();
+                    filterType = new ResumeSearchParametersCustomDataFilterType(property.Value.GetString());
                     continue;
                 }
                 if (property.NameEquals("dataPoint"))

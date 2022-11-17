@@ -184,6 +184,11 @@ namespace Affinda.API.Models
                 writer.WritePropertyName("rawText");
                 writer.WriteStringValue(RawText);
             }
+            foreach (var item in AdditionalProperties)
+            {
+                writer.WritePropertyName(item.Key);
+                writer.WriteObjectValue(item.Value);
+            }
             writer.WriteEndObject();
         }
 
@@ -212,6 +217,8 @@ namespace Affinda.API.Models
             Optional<IReadOnlyList<ResumeDataSectionsItem>> sections = default;
             Optional<int> isResumeProbability = default;
             Optional<string> rawText = default;
+            IDictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties> additionalProperties = default;
+            Dictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties> additionalPropertiesDictionary = new Dictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties>();
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("name"))
@@ -499,8 +506,10 @@ namespace Affinda.API.Models
                     rawText = property.Value.GetString();
                     continue;
                 }
+                additionalPropertiesDictionary.Add(property.Name, ComponentsEyyf0ZSchemasResumedataAdditionalproperties.DeserializeComponentsEyyf0ZSchemasResumedataAdditionalproperties(property.Value));
             }
-            return new ResumeData(name.Value, Optional.ToList(phoneNumbers), Optional.ToList(websites), Optional.ToList(emails), dateOfBirth.Value, location.Value, objective.Value, Optional.ToList(languages), Optional.ToList(languageCodes), summary.Value, Optional.ToNullable(totalYearsExperience), headShot.Value, Optional.ToList(education), profession.Value, linkedin.Value, Optional.ToList(workExperience), Optional.ToList(skills), Optional.ToList(certifications), Optional.ToList(publications), Optional.ToList(referees), Optional.ToList(sections), Optional.ToNullable(isResumeProbability), rawText.Value);
+            additionalProperties = additionalPropertiesDictionary;
+            return new ResumeData(name.Value, Optional.ToList(phoneNumbers), Optional.ToList(websites), Optional.ToList(emails), dateOfBirth.Value, location.Value, objective.Value, Optional.ToList(languages), Optional.ToList(languageCodes), summary.Value, Optional.ToNullable(totalYearsExperience), headShot.Value, Optional.ToList(education), profession.Value, linkedin.Value, Optional.ToList(workExperience), Optional.ToList(skills), Optional.ToList(certifications), Optional.ToList(publications), Optional.ToList(referees), Optional.ToList(sections), Optional.ToNullable(isResumeProbability), rawText.Value, additionalProperties);
         }
     }
 }

@@ -29,6 +29,7 @@ namespace Affinda.API.Models
             Publications = new ChangeTrackingList<string>();
             Referees = new ChangeTrackingList<ResumeDataRefereesItem>();
             Sections = new ChangeTrackingList<ResumeDataSectionsItem>();
+            AdditionalProperties = new ChangeTrackingDictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties>();
         }
 
         /// <summary> Initializes a new instance of ResumeData. </summary>
@@ -55,7 +56,8 @@ namespace Affinda.API.Models
         /// <param name="sections"></param>
         /// <param name="isResumeProbability"> Probability that the given document is a resume. Values below 30 suggest that the document is not a resume. </param>
         /// <param name="rawText"> All of the raw text of the parsed resume, example is shortened for readiblity. </param>
-        internal ResumeData(ResumeDataName name, IList<string> phoneNumbers, IList<string> websites, IList<string> emails, string dateOfBirth, Location location, string objective, IReadOnlyList<string> languages, IReadOnlyList<string> languageCodes, string summary, int? totalYearsExperience, byte[] headShot, IList<Education> education, string profession, string linkedin, IList<ResumeDataWorkExperienceItem> workExperience, IList<ResumeDataSkillsItem> skills, IList<string> certifications, IList<string> publications, IList<ResumeDataRefereesItem> referees, IReadOnlyList<ResumeDataSectionsItem> sections, int? isResumeProbability, string rawText)
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        internal ResumeData(ResumeDataName name, IList<string> phoneNumbers, IList<string> websites, IList<string> emails, string dateOfBirth, Location location, string objective, IReadOnlyList<string> languages, IReadOnlyList<string> languageCodes, string summary, int? totalYearsExperience, byte[] headShot, IList<Education> education, string profession, string linkedin, IList<ResumeDataWorkExperienceItem> workExperience, IList<ResumeDataSkillsItem> skills, IList<string> certifications, IList<string> publications, IList<ResumeDataRefereesItem> referees, IReadOnlyList<ResumeDataSectionsItem> sections, int? isResumeProbability, string rawText, IDictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties> additionalProperties)
         {
             Name = name;
             PhoneNumbers = phoneNumbers;
@@ -80,6 +82,7 @@ namespace Affinda.API.Models
             Sections = sections;
             IsResumeProbability = isResumeProbability;
             RawText = rawText;
+            AdditionalProperties = additionalProperties;
         }
 
         /// <summary> Gets or sets the name. </summary>
@@ -128,5 +131,7 @@ namespace Affinda.API.Models
         public int? IsResumeProbability { get; }
         /// <summary> All of the raw text of the parsed resume, example is shortened for readiblity. </summary>
         public string RawText { get; set; }
+        /// <summary> Additional Properties. </summary>
+        public IDictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties> AdditionalProperties { get; }
     }
 }

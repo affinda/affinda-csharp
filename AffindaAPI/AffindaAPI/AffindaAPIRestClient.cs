@@ -1585,6 +1585,204 @@ namespace Affinda.API
             }
         }
 
+        internal HttpMessage CreateGetResumeSearchSuggestionJobTitleRequest(IEnumerable<string> jobTitles)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Get;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(_endpoint);
+            uri.AppendPath("/resume_search/suggestion_job_title", false);
+            foreach (var param in jobTitles)
+            {
+                uri.AppendQuery("job_titles", param, true);
+            }
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Get job title suggestions based on provided job title(s). </summary>
+        /// <param name="jobTitles"> Job title to query suggestions for. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="jobTitles"/> is null. </exception>
+        /// <remarks> Provided one or more job titles, get related suggestions for your search. </remarks>
+        public async Task<Response<object>> GetResumeSearchSuggestionJobTitleAsync(IEnumerable<string> jobTitles, CancellationToken cancellationToken = default)
+        {
+            if (jobTitles == null)
+            {
+                throw new ArgumentNullException(nameof(jobTitles));
+            }
+
+            using var message = CreateGetResumeSearchSuggestionJobTitleRequest(jobTitles);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        IReadOnlyList<string> value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        List<string> array = new List<string>();
+                        foreach (var item in document.RootElement.EnumerateArray())
+                        {
+                            array.Add(item.GetString());
+                        }
+                        value = array;
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                    {
+                        RequestError value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Get job title suggestions based on provided job title(s). </summary>
+        /// <param name="jobTitles"> Job title to query suggestions for. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="jobTitles"/> is null. </exception>
+        /// <remarks> Provided one or more job titles, get related suggestions for your search. </remarks>
+        public Response<object> GetResumeSearchSuggestionJobTitle(IEnumerable<string> jobTitles, CancellationToken cancellationToken = default)
+        {
+            if (jobTitles == null)
+            {
+                throw new ArgumentNullException(nameof(jobTitles));
+            }
+
+            using var message = CreateGetResumeSearchSuggestionJobTitleRequest(jobTitles);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        IReadOnlyList<string> value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        List<string> array = new List<string>();
+                        foreach (var item in document.RootElement.EnumerateArray())
+                        {
+                            array.Add(item.GetString());
+                        }
+                        value = array;
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                    {
+                        RequestError value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateGetResumeSearchSuggestionSkillRequest(IEnumerable<string> skills)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Get;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(_endpoint);
+            uri.AppendPath("/resume_search/suggestion_skill", false);
+            foreach (var param in skills)
+            {
+                uri.AppendQuery("skills", param, true);
+            }
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Get skill suggestions based on provided skill(s). </summary>
+        /// <param name="skills"> Skill to query suggestions for. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="skills"/> is null. </exception>
+        /// <remarks> Provided one or more skills, get related suggestions for your search. </remarks>
+        public async Task<Response<object>> GetResumeSearchSuggestionSkillAsync(IEnumerable<string> skills, CancellationToken cancellationToken = default)
+        {
+            if (skills == null)
+            {
+                throw new ArgumentNullException(nameof(skills));
+            }
+
+            using var message = CreateGetResumeSearchSuggestionSkillRequest(skills);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        IReadOnlyList<string> value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        List<string> array = new List<string>();
+                        foreach (var item in document.RootElement.EnumerateArray())
+                        {
+                            array.Add(item.GetString());
+                        }
+                        value = array;
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                    {
+                        RequestError value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Get skill suggestions based on provided skill(s). </summary>
+        /// <param name="skills"> Skill to query suggestions for. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="skills"/> is null. </exception>
+        /// <remarks> Provided one or more skills, get related suggestions for your search. </remarks>
+        public Response<object> GetResumeSearchSuggestionSkill(IEnumerable<string> skills, CancellationToken cancellationToken = default)
+        {
+            if (skills == null)
+            {
+                throw new ArgumentNullException(nameof(skills));
+            }
+
+            using var message = CreateGetResumeSearchSuggestionSkillRequest(skills);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        IReadOnlyList<string> value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        List<string> array = new List<string>();
+                        foreach (var item in document.RootElement.EnumerateArray())
+                        {
+                            array.Add(item.GetString());
+                        }
+                        value = array;
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                    {
+                        RequestError value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
         internal HttpMessage CreateGetAllJobDescriptionsRequest(int? offset, int? limit)
         {
             var message = _pipeline.CreateMessage();
@@ -2417,7 +2615,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllIndexesRequest(int? offset, int? limit, Enum1? documentType)
+        internal HttpMessage CreateGetAllIndexesRequest(int? offset, int? limit, Enum2? documentType)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -2448,7 +2646,7 @@ namespace Affinda.API
         /// <param name="documentType"> Filter indices by a document type. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public async Task<Response<object>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum1? documentType = null, CancellationToken cancellationToken = default)
+        public async Task<Response<object>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum2? documentType = null, CancellationToken cancellationToken = default)
         {
             using var message = CreateGetAllIndexesRequest(offset, limit, documentType);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
@@ -2480,7 +2678,7 @@ namespace Affinda.API
         /// <param name="documentType"> Filter indices by a document type. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public Response<object> GetAllIndexes(int? offset = null, int? limit = null, Enum1? documentType = null, CancellationToken cancellationToken = default)
+        public Response<object> GetAllIndexes(int? offset = null, int? limit = null, Enum2? documentType = null, CancellationToken cancellationToken = default)
         {
             using var message = CreateGetAllIndexesRequest(offset, limit, documentType);
             _pipeline.Send(message, cancellationToken);
