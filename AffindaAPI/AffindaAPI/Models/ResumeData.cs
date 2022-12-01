@@ -55,7 +55,7 @@ namespace Affinda.API.Models
         /// <param name="referees"></param>
         /// <param name="sections"></param>
         /// <param name="isResumeProbability"> Probability that the given document is a resume. Values below 30 suggest that the document is not a resume. </param>
-        /// <param name="rawText"> All of the raw text of the parsed resume, example is shortened for readiblity. </param>
+        /// <param name="rawText"> All of the raw text of the parsed resume, example is shortened for readability. </param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         internal ResumeData(ResumeDataName name, IList<string> phoneNumbers, IList<string> websites, IList<string> emails, string dateOfBirth, Location location, string objective, IReadOnlyList<string> languages, IReadOnlyList<string> languageCodes, string summary, int? totalYearsExperience, byte[] headShot, IList<Education> education, string profession, string linkedin, IList<ResumeDataWorkExperienceItem> workExperience, IList<ResumeDataSkillsItem> skills, IList<string> certifications, IList<string> publications, IList<ResumeDataRefereesItem> referees, IReadOnlyList<ResumeDataSectionsItem> sections, int? isResumeProbability, string rawText, IDictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties> additionalProperties)
         {
@@ -87,12 +87,12 @@ namespace Affinda.API.Models
 
         /// <summary> Gets or sets the name. </summary>
         public ResumeDataName Name { get; set; }
-        /// <summary> Gets the phone numbers. </summary>
-        public IList<string> PhoneNumbers { get; }
-        /// <summary> Gets the websites. </summary>
-        public IList<string> Websites { get; }
-        /// <summary> Gets the emails. </summary>
-        public IList<string> Emails { get; }
+        /// <summary> Gets or sets the phone numbers. </summary>
+        public IList<string> PhoneNumbers { get; set; }
+        /// <summary> Gets or sets the websites. </summary>
+        public IList<string> Websites { get; set; }
+        /// <summary> Gets or sets the emails. </summary>
+        public IList<string> Emails { get; set; }
         /// <summary> Gets or sets the date of birth. </summary>
         public string DateOfBirth { get; set; }
         /// <summary> Gets or sets the location. </summary>
@@ -129,7 +129,7 @@ namespace Affinda.API.Models
         public IReadOnlyList<ResumeDataSectionsItem> Sections { get; }
         /// <summary> Probability that the given document is a resume. Values below 30 suggest that the document is not a resume. </summary>
         public int? IsResumeProbability { get; }
-        /// <summary> All of the raw text of the parsed resume, example is shortened for readiblity. </summary>
+        /// <summary> All of the raw text of the parsed resume, example is shortened for readability. </summary>
         public string RawText { get; set; }
         /// <summary> Additional Properties. </summary>
         public IDictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties> AdditionalProperties { get; }

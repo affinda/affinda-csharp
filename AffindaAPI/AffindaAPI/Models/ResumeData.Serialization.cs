@@ -31,33 +31,54 @@ namespace Affinda.API.Models
             }
             if (Optional.IsCollectionDefined(PhoneNumbers))
             {
-                writer.WritePropertyName("phoneNumbers");
-                writer.WriteStartArray();
-                foreach (var item in PhoneNumbers)
+                if (PhoneNumbers != null)
                 {
-                    writer.WriteStringValue(item);
+                    writer.WritePropertyName("phoneNumbers");
+                    writer.WriteStartArray();
+                    foreach (var item in PhoneNumbers)
+                    {
+                        writer.WriteStringValue(item);
+                    }
+                    writer.WriteEndArray();
                 }
-                writer.WriteEndArray();
+                else
+                {
+                    writer.WriteNull("phoneNumbers");
+                }
             }
             if (Optional.IsCollectionDefined(Websites))
             {
-                writer.WritePropertyName("websites");
-                writer.WriteStartArray();
-                foreach (var item in Websites)
+                if (Websites != null)
                 {
-                    writer.WriteStringValue(item);
+                    writer.WritePropertyName("websites");
+                    writer.WriteStartArray();
+                    foreach (var item in Websites)
+                    {
+                        writer.WriteStringValue(item);
+                    }
+                    writer.WriteEndArray();
                 }
-                writer.WriteEndArray();
+                else
+                {
+                    writer.WriteNull("websites");
+                }
             }
             if (Optional.IsCollectionDefined(Emails))
             {
-                writer.WritePropertyName("emails");
-                writer.WriteStartArray();
-                foreach (var item in Emails)
+                if (Emails != null)
                 {
-                    writer.WriteStringValue(item);
+                    writer.WritePropertyName("emails");
+                    writer.WriteStartArray();
+                    foreach (var item in Emails)
+                    {
+                        writer.WriteStringValue(item);
+                    }
+                    writer.WriteEndArray();
                 }
-                writer.WriteEndArray();
+                else
+                {
+                    writer.WriteNull("emails");
+                }
             }
             if (Optional.IsDefined(DateOfBirth))
             {
@@ -215,7 +236,7 @@ namespace Affinda.API.Models
             Optional<IList<string>> publications = default;
             Optional<IList<ResumeDataRefereesItem>> referees = default;
             Optional<IReadOnlyList<ResumeDataSectionsItem>> sections = default;
-            Optional<int> isResumeProbability = default;
+            Optional<int?> isResumeProbability = default;
             Optional<string> rawText = default;
             IDictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties> additionalProperties = default;
             Dictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties> additionalPropertiesDictionary = new Dictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties>();
@@ -235,7 +256,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        phoneNumbers = null;
                         continue;
                     }
                     List<string> array = new List<string>();
@@ -250,7 +271,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        websites = null;
                         continue;
                     }
                     List<string> array = new List<string>();
@@ -265,7 +286,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        emails = null;
                         continue;
                     }
                     List<string> array = new List<string>();
@@ -495,7 +516,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        isResumeProbability = null;
                         continue;
                     }
                     isResumeProbability = property.Value.GetInt32();
