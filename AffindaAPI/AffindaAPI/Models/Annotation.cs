@@ -18,11 +18,13 @@ namespace Affinda.API.Models
         /// <param name="rectangle"></param>
         /// <param name="pageIndex"></param>
         /// <param name="raw"></param>
-        /// <param name="confidence"></param>
+        /// <param name="confidence"> Combined confidence from the model confidence and the OCR confidence. </param>
+        /// <param name="classificationConfidence"> The AI model confidence. </param>
+        /// <param name="textExtractionConfidence"> The OCR confidence. </param>
         /// <param name="isVerified"></param>
         /// <param name="classification"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="classification"/> is null. </exception>
-        internal Annotation(Rectangle rectangle, int? pageIndex, string raw, float? confidence, bool isVerified, string classification)
+        internal Annotation(Rectangle rectangle, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, string classification)
         {
             if (classification == null)
             {
@@ -33,6 +35,8 @@ namespace Affinda.API.Models
             PageIndex = pageIndex;
             Raw = raw;
             Confidence = confidence;
+            ClassificationConfidence = classificationConfidence;
+            TextExtractionConfidence = textExtractionConfidence;
             IsVerified = isVerified;
             Classification = classification;
             AdditionalProperties = new ChangeTrackingDictionary<string, object>();
@@ -43,19 +47,23 @@ namespace Affinda.API.Models
         /// <param name="rectangle"></param>
         /// <param name="pageIndex"></param>
         /// <param name="raw"></param>
-        /// <param name="confidence"></param>
+        /// <param name="confidence"> Combined confidence from the model confidence and the OCR confidence. </param>
+        /// <param name="classificationConfidence"> The AI model confidence. </param>
+        /// <param name="textExtractionConfidence"> The OCR confidence. </param>
         /// <param name="isVerified"></param>
         /// <param name="isClientVerified"></param>
         /// <param name="isAutoVerified"></param>
         /// <param name="classification"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
-        internal Annotation(int? id, Rectangle rectangle, int? pageIndex, string raw, float? confidence, bool isVerified, bool? isClientVerified, bool? isAutoVerified, string classification, IReadOnlyDictionary<string, object> additionalProperties)
+        internal Annotation(int? id, Rectangle rectangle, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool? isClientVerified, bool? isAutoVerified, string classification, IReadOnlyDictionary<string, object> additionalProperties)
         {
             Id = id;
             Rectangle = rectangle;
             PageIndex = pageIndex;
             Raw = raw;
             Confidence = confidence;
+            ClassificationConfidence = classificationConfidence;
+            TextExtractionConfidence = textExtractionConfidence;
             IsVerified = isVerified;
             IsClientVerified = isClientVerified;
             IsAutoVerified = isAutoVerified;
@@ -71,8 +79,12 @@ namespace Affinda.API.Models
         public int? PageIndex { get; }
         /// <summary> Gets the raw. </summary>
         public string Raw { get; }
-        /// <summary> Gets the confidence. </summary>
+        /// <summary> Combined confidence from the model confidence and the OCR confidence. </summary>
         public float? Confidence { get; }
+        /// <summary> The AI model confidence. </summary>
+        public float? ClassificationConfidence { get; }
+        /// <summary> The OCR confidence. </summary>
+        public float? TextExtractionConfidence { get; }
         /// <summary> Gets the is verified. </summary>
         public bool IsVerified { get; }
         /// <summary> Gets the is client verified. </summary>

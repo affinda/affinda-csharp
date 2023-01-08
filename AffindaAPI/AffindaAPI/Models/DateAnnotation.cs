@@ -17,11 +17,13 @@ namespace Affinda.API.Models
         /// <param name="rectangle"></param>
         /// <param name="pageIndex"></param>
         /// <param name="raw"></param>
-        /// <param name="confidence"></param>
+        /// <param name="confidence"> Combined confidence from the model confidence and the OCR confidence. </param>
+        /// <param name="classificationConfidence"> The AI model confidence. </param>
+        /// <param name="textExtractionConfidence"> The OCR confidence. </param>
         /// <param name="isVerified"></param>
         /// <param name="classification"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="classification"/> is null. </exception>
-        internal DateAnnotation(Rectangle rectangle, int? pageIndex, string raw, float? confidence, bool isVerified, string classification) : base(rectangle, pageIndex, raw, confidence, isVerified, classification)
+        internal DateAnnotation(Rectangle rectangle, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, string classification) : base(rectangle, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, classification)
         {
             if (classification == null)
             {
@@ -34,14 +36,16 @@ namespace Affinda.API.Models
         /// <param name="rectangle"></param>
         /// <param name="pageIndex"></param>
         /// <param name="raw"></param>
-        /// <param name="confidence"></param>
+        /// <param name="confidence"> Combined confidence from the model confidence and the OCR confidence. </param>
+        /// <param name="classificationConfidence"> The AI model confidence. </param>
+        /// <param name="textExtractionConfidence"> The OCR confidence. </param>
         /// <param name="isVerified"></param>
         /// <param name="isClientVerified"></param>
         /// <param name="isAutoVerified"></param>
         /// <param name="classification"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
-        internal DateAnnotation(int? id, Rectangle rectangle, int? pageIndex, string raw, float? confidence, bool isVerified, bool? isClientVerified, bool? isAutoVerified, string classification, IReadOnlyDictionary<string, object> additionalProperties, DateTimeOffset? parsed) : base(id, rectangle, pageIndex, raw, confidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties)
+        internal DateAnnotation(int? id, Rectangle rectangle, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool? isClientVerified, bool? isAutoVerified, string classification, IReadOnlyDictionary<string, object> additionalProperties, DateTimeOffset? parsed) : base(id, rectangle, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties)
         {
             Parsed = parsed;
         }

@@ -21,6 +21,8 @@ namespace Affinda.API.Models
             int? pageIndex = default;
             string raw = default;
             float? confidence = default;
+            float? classificationConfidence = default;
+            float? textExtractionConfidence = default;
             bool isVerified = default;
             Optional<bool> isClientVerified = default;
             Optional<bool> isAutoVerified = default;
@@ -89,6 +91,26 @@ namespace Affinda.API.Models
                     confidence = property.Value.GetSingle();
                     continue;
                 }
+                if (property.NameEquals("classification_confidence"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        classificationConfidence = null;
+                        continue;
+                    }
+                    classificationConfidence = property.Value.GetSingle();
+                    continue;
+                }
+                if (property.NameEquals("text_extraction_confidence"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        textExtractionConfidence = null;
+                        continue;
+                    }
+                    textExtractionConfidence = property.Value.GetSingle();
+                    continue;
+                }
                 if (property.NameEquals("isVerified"))
                 {
                     isVerified = property.Value.GetBoolean();
@@ -122,7 +144,7 @@ namespace Affinda.API.Models
                 additionalPropertiesDictionary.Add(property.Name, property.Value.GetObject());
             }
             additionalProperties = additionalPropertiesDictionary;
-            return new InvoiceDataCustomerEmail(Optional.ToNullable(id), rectangle, pageIndex, raw, confidence, isVerified, Optional.ToNullable(isClientVerified), Optional.ToNullable(isAutoVerified), classification, additionalProperties, parsed.Value);
+            return new InvoiceDataCustomerEmail(Optional.ToNullable(id), rectangle, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, Optional.ToNullable(isClientVerified), Optional.ToNullable(isAutoVerified), classification, additionalProperties, parsed.Value);
         }
     }
 }

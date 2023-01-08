@@ -1,7 +1,7 @@
 .NET / C# Client Library for Affinda Resume Parser API
 ======================================================
 
-![affinda logo](https://raw.githubusercontent.com/affinda/affinda-dotnet/main/affinda_logo.png)
+![affinda logo](https://raw.githubusercontent.com/affinda/affinda-dotnet/master/affinda_logo.png)
 [![license](https://img.shields.io/github/license/affinda/affinda-dotnet)](https://choosealicense.com/licenses/mit/)
 
 
