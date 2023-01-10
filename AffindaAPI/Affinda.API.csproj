@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>2.6.0</Version>
+        <Version>2.7.0</Version>
         <!-- Necessary as the underling autorest.CSharp lib is beta, nuget complains :( -->
         <VersionSuffix>beta</VersionSuffix>
         <LangVersion>9.0</LangVersion>
