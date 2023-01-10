@@ -18,9 +18,9 @@ namespace Affinda.API.Models
         /// <param name="rectangle"></param>
         /// <param name="pageIndex"></param>
         /// <param name="raw"></param>
-        /// <param name="confidence"> Combined confidence from the model confidence and the OCR confidence. </param>
-        /// <param name="classificationConfidence"> The AI model confidence. </param>
-        /// <param name="textExtractionConfidence"> The OCR confidence. </param>
+        /// <param name="confidence"> The overall confidence that the model&apos;s prediction is correct. </param>
+        /// <param name="classificationConfidence"> The model&apos;s confidence that the text has been classified correctly. </param>
+        /// <param name="textExtractionConfidence"> If the document was submitted as an image, this is the confidence that the text in the image has been correctly read by the model. </param>
         /// <param name="isVerified"></param>
         /// <param name="classification"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="classification"/> is null. </exception>
@@ -32,6 +32,7 @@ namespace Affinda.API.Models
             }
 
             Rectangle = rectangle;
+            Rectangles = new ChangeTrackingList<Rectangle>();
             PageIndex = pageIndex;
             Raw = raw;
             Confidence = confidence;
@@ -45,20 +46,22 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of Annotation. </summary>
         /// <param name="id"></param>
         /// <param name="rectangle"></param>
+        /// <param name="rectangles"></param>
         /// <param name="pageIndex"></param>
         /// <param name="raw"></param>
-        /// <param name="confidence"> Combined confidence from the model confidence and the OCR confidence. </param>
-        /// <param name="classificationConfidence"> The AI model confidence. </param>
-        /// <param name="textExtractionConfidence"> The OCR confidence. </param>
+        /// <param name="confidence"> The overall confidence that the model&apos;s prediction is correct. </param>
+        /// <param name="classificationConfidence"> The model&apos;s confidence that the text has been classified correctly. </param>
+        /// <param name="textExtractionConfidence"> If the document was submitted as an image, this is the confidence that the text in the image has been correctly read by the model. </param>
         /// <param name="isVerified"></param>
         /// <param name="isClientVerified"></param>
         /// <param name="isAutoVerified"></param>
         /// <param name="classification"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
-        internal Annotation(int? id, Rectangle rectangle, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool? isClientVerified, bool? isAutoVerified, string classification, IReadOnlyDictionary<string, object> additionalProperties)
+        internal Annotation(int? id, Rectangle rectangle, IReadOnlyList<Rectangle> rectangles, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool? isClientVerified, bool? isAutoVerified, string classification, IReadOnlyDictionary<string, object> additionalProperties)
         {
             Id = id;
             Rectangle = rectangle;
+            Rectangles = rectangles;
             PageIndex = pageIndex;
             Raw = raw;
             Confidence = confidence;
@@ -75,15 +78,17 @@ namespace Affinda.API.Models
         public int? Id { get; }
         /// <summary> Gets the rectangle. </summary>
         public Rectangle Rectangle { get; }
+        /// <summary> Gets the rectangles. </summary>
+        public IReadOnlyList<Rectangle> Rectangles { get; }
         /// <summary> Gets the page index. </summary>
         public int? PageIndex { get; }
         /// <summary> Gets the raw. </summary>
         public string Raw { get; }
-        /// <summary> Combined confidence from the model confidence and the OCR confidence. </summary>
+        /// <summary> The overall confidence that the model&apos;s prediction is correct. </summary>
         public float? Confidence { get; }
-        /// <summary> The AI model confidence. </summary>
+        /// <summary> The model&apos;s confidence that the text has been classified correctly. </summary>
         public float? ClassificationConfidence { get; }
-        /// <summary> The OCR confidence. </summary>
+        /// <summary> If the document was submitted as an image, this is the confidence that the text in the image has been correctly read by the model. </summary>
         public float? TextExtractionConfidence { get; }
         /// <summary> Gets the is verified. </summary>
         public bool IsVerified { get; }

@@ -56,6 +56,18 @@ namespace Affinda.API.Models
                     writer.WriteNull("number");
                 }
             }
+            if (Optional.IsDefined(Position))
+            {
+                if (Position != null)
+                {
+                    writer.WritePropertyName("position");
+                    writer.WriteStringValue(Position);
+                }
+                else
+                {
+                    writer.WriteNull("position");
+                }
+            }
             writer.WriteEndObject();
         }
 
@@ -65,6 +77,7 @@ namespace Affinda.API.Models
             Optional<string> text = default;
             Optional<string> email = default;
             Optional<string> number = default;
+            Optional<string> position = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("name"))
@@ -102,8 +115,18 @@ namespace Affinda.API.Models
                     number = property.Value.GetString();
                     continue;
                 }
+                if (property.NameEquals("position"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        position = null;
+                        continue;
+                    }
+                    position = property.Value.GetString();
+                    continue;
+                }
             }
-            return new ResumeDataRefereesItem(name.Value, text.Value, email.Value, number.Value);
+            return new ResumeDataRefereesItem(name.Value, text.Value, email.Value, number.Value, position.Value);
         }
     }
 }

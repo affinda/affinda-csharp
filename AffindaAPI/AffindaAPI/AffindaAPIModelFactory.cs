@@ -830,11 +830,12 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of JobTitleAnnotation. </summary>
         /// <param name="id"></param>
         /// <param name="rectangle"></param>
+        /// <param name="rectangles"></param>
         /// <param name="pageIndex"></param>
         /// <param name="raw"></param>
-        /// <param name="confidence"> Combined confidence from the model confidence and the OCR confidence. </param>
-        /// <param name="classificationConfidence"> The AI model confidence. </param>
-        /// <param name="textExtractionConfidence"> The OCR confidence. </param>
+        /// <param name="confidence"> The overall confidence that the model&apos;s prediction is correct. </param>
+        /// <param name="classificationConfidence"> The model&apos;s confidence that the text has been classified correctly. </param>
+        /// <param name="textExtractionConfidence"> If the document was submitted as an image, this is the confidence that the text in the image has been correctly read by the model. </param>
         /// <param name="isVerified"></param>
         /// <param name="isClientVerified"></param>
         /// <param name="isAutoVerified"></param>
@@ -842,11 +843,12 @@ namespace Affinda.API.Models
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"> Years of experience range. </param>
         /// <returns> A new <see cref="Models.JobTitleAnnotation"/> instance for mocking. </returns>
-        public static JobTitleAnnotation JobTitleAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, JobTitleAnnotationParsed parsed = null)
+        public static JobTitleAnnotation JobTitleAnnotation(int? id = null, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, JobTitleAnnotationParsed parsed = null)
         {
+            rectangles ??= new List<Rectangle>();
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new JobTitleAnnotation(id, rectangle, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
+            return new JobTitleAnnotation(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of JobTitleAnnotationParsed. </summary>
@@ -874,22 +876,24 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of Annotation. </summary>
         /// <param name="id"></param>
         /// <param name="rectangle"></param>
+        /// <param name="rectangles"></param>
         /// <param name="pageIndex"></param>
         /// <param name="raw"></param>
-        /// <param name="confidence"> Combined confidence from the model confidence and the OCR confidence. </param>
-        /// <param name="classificationConfidence"> The AI model confidence. </param>
-        /// <param name="textExtractionConfidence"> The OCR confidence. </param>
+        /// <param name="confidence"> The overall confidence that the model&apos;s prediction is correct. </param>
+        /// <param name="classificationConfidence"> The model&apos;s confidence that the text has been classified correctly. </param>
+        /// <param name="textExtractionConfidence"> If the document was submitted as an image, this is the confidence that the text in the image has been correctly read by the model. </param>
         /// <param name="isVerified"></param>
         /// <param name="isClientVerified"></param>
         /// <param name="isAutoVerified"></param>
         /// <param name="classification"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <returns> A new <see cref="Models.Annotation"/> instance for mocking. </returns>
-        public static Annotation Annotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null)
+        public static Annotation Annotation(int? id = null, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null)
         {
+            rectangles ??= new List<Rectangle>();
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new Annotation(id, rectangle, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties);
+            return new Annotation(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties);
         }
 
         /// <summary> Initializes a new instance of Rectangle. </summary>
@@ -906,11 +910,12 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of TextAnnotation. </summary>
         /// <param name="id"></param>
         /// <param name="rectangle"></param>
+        /// <param name="rectangles"></param>
         /// <param name="pageIndex"></param>
         /// <param name="raw"></param>
-        /// <param name="confidence"> Combined confidence from the model confidence and the OCR confidence. </param>
-        /// <param name="classificationConfidence"> The AI model confidence. </param>
-        /// <param name="textExtractionConfidence"> The OCR confidence. </param>
+        /// <param name="confidence"> The overall confidence that the model&apos;s prediction is correct. </param>
+        /// <param name="classificationConfidence"> The model&apos;s confidence that the text has been classified correctly. </param>
+        /// <param name="textExtractionConfidence"> If the document was submitted as an image, this is the confidence that the text in the image has been correctly read by the model. </param>
         /// <param name="isVerified"></param>
         /// <param name="isClientVerified"></param>
         /// <param name="isAutoVerified"></param>
@@ -918,21 +923,23 @@ namespace Affinda.API.Models
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.TextAnnotation"/> instance for mocking. </returns>
-        public static TextAnnotation TextAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        public static TextAnnotation TextAnnotation(int? id = null, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
         {
+            rectangles ??= new List<Rectangle>();
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new TextAnnotation(id, rectangle, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
+            return new TextAnnotation(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of DateAnnotation. </summary>
         /// <param name="id"></param>
         /// <param name="rectangle"></param>
+        /// <param name="rectangles"></param>
         /// <param name="pageIndex"></param>
         /// <param name="raw"></param>
-        /// <param name="confidence"> Combined confidence from the model confidence and the OCR confidence. </param>
-        /// <param name="classificationConfidence"> The AI model confidence. </param>
-        /// <param name="textExtractionConfidence"> The OCR confidence. </param>
+        /// <param name="confidence"> The overall confidence that the model&apos;s prediction is correct. </param>
+        /// <param name="classificationConfidence"> The model&apos;s confidence that the text has been classified correctly. </param>
+        /// <param name="textExtractionConfidence"> If the document was submitted as an image, this is the confidence that the text in the image has been correctly read by the model. </param>
         /// <param name="isVerified"></param>
         /// <param name="isClientVerified"></param>
         /// <param name="isAutoVerified"></param>
@@ -940,21 +947,23 @@ namespace Affinda.API.Models
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.DateAnnotation"/> instance for mocking. </returns>
-        public static DateAnnotation DateAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, DateTimeOffset? parsed = null)
+        public static DateAnnotation DateAnnotation(int? id = null, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, DateTimeOffset? parsed = null)
         {
+            rectangles ??= new List<Rectangle>();
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new DateAnnotation(id, rectangle, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
+            return new DateAnnotation(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of LanguageAnnotation. </summary>
         /// <param name="id"></param>
         /// <param name="rectangle"></param>
+        /// <param name="rectangles"></param>
         /// <param name="pageIndex"></param>
         /// <param name="raw"></param>
-        /// <param name="confidence"> Combined confidence from the model confidence and the OCR confidence. </param>
-        /// <param name="classificationConfidence"> The AI model confidence. </param>
-        /// <param name="textExtractionConfidence"> The OCR confidence. </param>
+        /// <param name="confidence"> The overall confidence that the model&apos;s prediction is correct. </param>
+        /// <param name="classificationConfidence"> The model&apos;s confidence that the text has been classified correctly. </param>
+        /// <param name="textExtractionConfidence"> If the document was submitted as an image, this is the confidence that the text in the image has been correctly read by the model. </param>
         /// <param name="isVerified"></param>
         /// <param name="isClientVerified"></param>
         /// <param name="isAutoVerified"></param>
@@ -962,21 +971,23 @@ namespace Affinda.API.Models
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.LanguageAnnotation"/> instance for mocking. </returns>
-        public static LanguageAnnotation LanguageAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        public static LanguageAnnotation LanguageAnnotation(int? id = null, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
         {
+            rectangles ??= new List<Rectangle>();
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new LanguageAnnotation(id, rectangle, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
+            return new LanguageAnnotation(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of SkillAnnotation. </summary>
         /// <param name="id"></param>
         /// <param name="rectangle"></param>
+        /// <param name="rectangles"></param>
         /// <param name="pageIndex"></param>
         /// <param name="raw"></param>
-        /// <param name="confidence"> Combined confidence from the model confidence and the OCR confidence. </param>
-        /// <param name="classificationConfidence"> The AI model confidence. </param>
-        /// <param name="textExtractionConfidence"> The OCR confidence. </param>
+        /// <param name="confidence"> The overall confidence that the model&apos;s prediction is correct. </param>
+        /// <param name="classificationConfidence"> The model&apos;s confidence that the text has been classified correctly. </param>
+        /// <param name="textExtractionConfidence"> If the document was submitted as an image, this is the confidence that the text in the image has been correctly read by the model. </param>
         /// <param name="isVerified"></param>
         /// <param name="isClientVerified"></param>
         /// <param name="isAutoVerified"></param>
@@ -984,21 +995,23 @@ namespace Affinda.API.Models
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.SkillAnnotation"/> instance for mocking. </returns>
-        public static SkillAnnotation SkillAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        public static SkillAnnotation SkillAnnotation(int? id = null, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
         {
+            rectangles ??= new List<Rectangle>();
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new SkillAnnotation(id, rectangle, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
+            return new SkillAnnotation(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of ExpectedRemunerationAnnotation. </summary>
         /// <param name="id"></param>
         /// <param name="rectangle"></param>
+        /// <param name="rectangles"></param>
         /// <param name="pageIndex"></param>
         /// <param name="raw"></param>
-        /// <param name="confidence"> Combined confidence from the model confidence and the OCR confidence. </param>
-        /// <param name="classificationConfidence"> The AI model confidence. </param>
-        /// <param name="textExtractionConfidence"> The OCR confidence. </param>
+        /// <param name="confidence"> The overall confidence that the model&apos;s prediction is correct. </param>
+        /// <param name="classificationConfidence"> The model&apos;s confidence that the text has been classified correctly. </param>
+        /// <param name="textExtractionConfidence"> If the document was submitted as an image, this is the confidence that the text in the image has been correctly read by the model. </param>
         /// <param name="isVerified"></param>
         /// <param name="isClientVerified"></param>
         /// <param name="isAutoVerified"></param>
@@ -1006,11 +1019,12 @@ namespace Affinda.API.Models
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.ExpectedRemunerationAnnotation"/> instance for mocking. </returns>
-        public static ExpectedRemunerationAnnotation ExpectedRemunerationAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, ExpectedRemunerationAnnotationParsed parsed = null)
+        public static ExpectedRemunerationAnnotation ExpectedRemunerationAnnotation(int? id = null, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, ExpectedRemunerationAnnotationParsed parsed = null)
         {
+            rectangles ??= new List<Rectangle>();
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new ExpectedRemunerationAnnotation(id, rectangle, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
+            return new ExpectedRemunerationAnnotation(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of ExpectedRemunerationAnnotationParsed. </summary>
@@ -1027,11 +1041,12 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of LocationAnnotation. </summary>
         /// <param name="id"></param>
         /// <param name="rectangle"></param>
+        /// <param name="rectangles"></param>
         /// <param name="pageIndex"></param>
         /// <param name="raw"></param>
-        /// <param name="confidence"> Combined confidence from the model confidence and the OCR confidence. </param>
-        /// <param name="classificationConfidence"> The AI model confidence. </param>
-        /// <param name="textExtractionConfidence"> The OCR confidence. </param>
+        /// <param name="confidence"> The overall confidence that the model&apos;s prediction is correct. </param>
+        /// <param name="classificationConfidence"> The model&apos;s confidence that the text has been classified correctly. </param>
+        /// <param name="textExtractionConfidence"> If the document was submitted as an image, this is the confidence that the text in the image has been correctly read by the model. </param>
         /// <param name="isVerified"></param>
         /// <param name="isClientVerified"></param>
         /// <param name="isAutoVerified"></param>
@@ -1039,21 +1054,23 @@ namespace Affinda.API.Models
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.LocationAnnotation"/> instance for mocking. </returns>
-        public static LocationAnnotation LocationAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, Location parsed = null)
+        public static LocationAnnotation LocationAnnotation(int? id = null, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, Location parsed = null)
         {
+            rectangles ??= new List<Rectangle>();
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new LocationAnnotation(id, rectangle, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
+            return new LocationAnnotation(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of YearsExperienceAnnotation. </summary>
         /// <param name="id"></param>
         /// <param name="rectangle"></param>
+        /// <param name="rectangles"></param>
         /// <param name="pageIndex"></param>
         /// <param name="raw"></param>
-        /// <param name="confidence"> Combined confidence from the model confidence and the OCR confidence. </param>
-        /// <param name="classificationConfidence"> The AI model confidence. </param>
-        /// <param name="textExtractionConfidence"> The OCR confidence. </param>
+        /// <param name="confidence"> The overall confidence that the model&apos;s prediction is correct. </param>
+        /// <param name="classificationConfidence"> The model&apos;s confidence that the text has been classified correctly. </param>
+        /// <param name="textExtractionConfidence"> If the document was submitted as an image, this is the confidence that the text in the image has been correctly read by the model. </param>
         /// <param name="isVerified"></param>
         /// <param name="isClientVerified"></param>
         /// <param name="isAutoVerified"></param>
@@ -1061,11 +1078,12 @@ namespace Affinda.API.Models
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"> Years of experience range. </param>
         /// <returns> A new <see cref="Models.YearsExperienceAnnotation"/> instance for mocking. </returns>
-        public static YearsExperienceAnnotation YearsExperienceAnnotation(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, YearsExperienceAnnotationParsed parsed = null)
+        public static YearsExperienceAnnotation YearsExperienceAnnotation(int? id = null, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, YearsExperienceAnnotationParsed parsed = null)
         {
+            rectangles ??= new List<Rectangle>();
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new YearsExperienceAnnotation(id, rectangle, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
+            return new YearsExperienceAnnotation(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of YearsExperienceAnnotationParsed. </summary>
@@ -1324,13 +1342,15 @@ namespace Affinda.API.Models
         /// <param name="searchToolTheme"> Customize the theme of the embeded search tool. </param>
         /// <param name="userId"> ID of the logged in user. </param>
         /// <param name="username"> Username of the logged in user. </param>
+        /// <param name="actions"> A list of actions to show in the dropdown in the embedded search tool. </param>
         /// <returns> A new <see cref="Models.JobDescriptionSearchConfig"/> instance for mocking. </returns>
-        public static JobDescriptionSearchConfig JobDescriptionSearchConfig(bool? allowPdfDownload = null, int? maxResults = null, bool? displayJobTitle = null, bool? displayLocation = null, bool? displayYearsExperience = null, bool? displayOccupationGroup = null, bool? displayEducation = null, bool? displaySkills = null, bool? displayLanguages = null, bool? displayManagementLevel = null, bool? displayKeywords = null, float? weightJobTitle = null, float? weightLocation = null, float? weightYearsExperience = null, float? weightOccupationGroup = null, float? weightEducation = null, float? weightSkills = null, float? weightLanguages = null, float? weightManagementLevel = null, float? weightKeywords = null, IEnumerable<string> indices = null, IDictionary<string, object> searchToolTheme = null, int? userId = null, string username = null)
+        public static JobDescriptionSearchConfig JobDescriptionSearchConfig(bool? allowPdfDownload = null, int? maxResults = null, bool? displayJobTitle = null, bool? displayLocation = null, bool? displayYearsExperience = null, bool? displayOccupationGroup = null, bool? displayEducation = null, bool? displaySkills = null, bool? displayLanguages = null, bool? displayManagementLevel = null, bool? displayKeywords = null, float? weightJobTitle = null, float? weightLocation = null, float? weightYearsExperience = null, float? weightOccupationGroup = null, float? weightEducation = null, float? weightSkills = null, float? weightLanguages = null, float? weightManagementLevel = null, float? weightKeywords = null, IEnumerable<string> indices = null, IDictionary<string, object> searchToolTheme = null, int? userId = null, string username = null, IEnumerable<JobDescriptionSearchConfigActionsItem> actions = null)
         {
             indices ??= new List<string>();
             searchToolTheme ??= new Dictionary<string, object>();
+            actions ??= new List<JobDescriptionSearchConfigActionsItem>();
 
-            return new JobDescriptionSearchConfig(allowPdfDownload, maxResults, displayJobTitle, displayLocation, displayYearsExperience, displayOccupationGroup, displayEducation, displaySkills, displayLanguages, displayManagementLevel, displayKeywords, weightJobTitle, weightLocation, weightYearsExperience, weightOccupationGroup, weightEducation, weightSkills, weightLanguages, weightManagementLevel, weightKeywords, indices?.ToList(), searchToolTheme, userId, username);
+            return new JobDescriptionSearchConfig(allowPdfDownload, maxResults, displayJobTitle, displayLocation, displayYearsExperience, displayOccupationGroup, displayEducation, displaySkills, displayLanguages, displayManagementLevel, displayKeywords, weightJobTitle, weightLocation, weightYearsExperience, weightOccupationGroup, weightEducation, weightSkills, weightLanguages, weightManagementLevel, weightKeywords, indices?.ToList(), searchToolTheme, userId, username, actions?.ToList());
         }
 
         /// <summary> Initializes a new instance of JobDescriptionSearchEmbed. </summary>
@@ -1779,11 +1799,12 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of EnumAnnotationSerializer. </summary>
         /// <param name="id"></param>
         /// <param name="rectangle"></param>
+        /// <param name="rectangles"></param>
         /// <param name="pageIndex"></param>
         /// <param name="raw"></param>
-        /// <param name="confidence"> Combined confidence from the model confidence and the OCR confidence. </param>
-        /// <param name="classificationConfidence"> The AI model confidence. </param>
-        /// <param name="textExtractionConfidence"> The OCR confidence. </param>
+        /// <param name="confidence"> The overall confidence that the model&apos;s prediction is correct. </param>
+        /// <param name="classificationConfidence"> The model&apos;s confidence that the text has been classified correctly. </param>
+        /// <param name="textExtractionConfidence"> If the document was submitted as an image, this is the confidence that the text in the image has been correctly read by the model. </param>
         /// <param name="isVerified"></param>
         /// <param name="isClientVerified"></param>
         /// <param name="isAutoVerified"></param>
@@ -1791,11 +1812,12 @@ namespace Affinda.API.Models
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.EnumAnnotationSerializer"/> instance for mocking. </returns>
-        public static EnumAnnotationSerializer EnumAnnotationSerializer(int? id = null, Rectangle rectangle = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        public static EnumAnnotationSerializer EnumAnnotationSerializer(int? id = null, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
         {
+            rectangles ??= new List<Rectangle>();
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new EnumAnnotationSerializer(id, rectangle, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
+            return new EnumAnnotationSerializer(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of PathsWjaaeuUsersGetResponses200ContentApplicationJsonSchema. </summary>

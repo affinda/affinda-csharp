@@ -18,6 +18,7 @@ namespace Affinda.API.Models
             Optional<string> parsed = default;
             Optional<int?> id = default;
             Rectangle rectangle = default;
+            Optional<IReadOnlyList<Rectangle>> rectangles = default;
             int? pageIndex = default;
             string raw = default;
             float? confidence = default;
@@ -61,6 +62,21 @@ namespace Affinda.API.Models
                     rectangle = Rectangle.DeserializeRectangle(property.Value);
                     continue;
                 }
+                if (property.NameEquals("rectangles"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        rectangles = null;
+                        continue;
+                    }
+                    List<Rectangle> array = new List<Rectangle>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(Rectangle.DeserializeRectangle(item));
+                    }
+                    rectangles = array;
+                    continue;
+                }
                 if (property.NameEquals("pageIndex"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
@@ -91,7 +107,7 @@ namespace Affinda.API.Models
                     confidence = property.Value.GetSingle();
                     continue;
                 }
-                if (property.NameEquals("classification_confidence"))
+                if (property.NameEquals("classificationConfidence"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
@@ -101,7 +117,7 @@ namespace Affinda.API.Models
                     classificationConfidence = property.Value.GetSingle();
                     continue;
                 }
-                if (property.NameEquals("text_extraction_confidence"))
+                if (property.NameEquals("textExtractionConfidence"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
@@ -144,7 +160,7 @@ namespace Affinda.API.Models
                 additionalPropertiesDictionary.Add(property.Name, property.Value.GetObject());
             }
             additionalProperties = additionalPropertiesDictionary;
-            return new InvoiceDataSupplierFax(Optional.ToNullable(id), rectangle, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, Optional.ToNullable(isClientVerified), Optional.ToNullable(isAutoVerified), classification, additionalProperties, parsed.Value);
+            return new InvoiceDataSupplierFax(Optional.ToNullable(id), rectangle, Optional.ToList(rectangles), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, Optional.ToNullable(isClientVerified), Optional.ToNullable(isAutoVerified), classification, additionalProperties, parsed.Value);
         }
     }
 }

@@ -20,12 +20,14 @@ namespace Affinda.API.Models
         /// <param name="text"></param>
         /// <param name="email"></param>
         /// <param name="number"></param>
-        internal ResumeDataRefereesItem(string name, string text, string email, string number)
+        /// <param name="position"></param>
+        internal ResumeDataRefereesItem(string name, string text, string email, string number, string position)
         {
             Name = name;
             Text = text;
             Email = email;
             Number = number;
+            Position = position;
         }
 
         /// <summary> Gets or sets the name. </summary>
@@ -36,5 +38,7 @@ namespace Affinda.API.Models
         public string Email { get; set; }
         /// <summary> Gets or sets the number. </summary>
         public string Number { get; set; }
+        /// <summary> Gets or sets the position. </summary>
+        public string Position { get; set; }
     }
 }

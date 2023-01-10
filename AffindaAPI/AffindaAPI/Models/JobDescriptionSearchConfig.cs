@@ -18,6 +18,7 @@ namespace Affinda.API.Models
         {
             Indices = new ChangeTrackingList<string>();
             SearchToolTheme = new ChangeTrackingDictionary<string, object>();
+            Actions = new ChangeTrackingList<JobDescriptionSearchConfigActionsItem>();
         }
 
         /// <summary> Initializes a new instance of JobDescriptionSearchConfig. </summary>
@@ -45,7 +46,8 @@ namespace Affinda.API.Models
         /// <param name="searchToolTheme"> Customize the theme of the embeded search tool. </param>
         /// <param name="userId"> ID of the logged in user. </param>
         /// <param name="username"> Username of the logged in user. </param>
-        internal JobDescriptionSearchConfig(bool? allowPdfDownload, int? maxResults, bool? displayJobTitle, bool? displayLocation, bool? displayYearsExperience, bool? displayOccupationGroup, bool? displayEducation, bool? displaySkills, bool? displayLanguages, bool? displayManagementLevel, bool? displayKeywords, float? weightJobTitle, float? weightLocation, float? weightYearsExperience, float? weightOccupationGroup, float? weightEducation, float? weightSkills, float? weightLanguages, float? weightManagementLevel, float? weightKeywords, IList<string> indices, IDictionary<string, object> searchToolTheme, int? userId, string username)
+        /// <param name="actions"> A list of actions to show in the dropdown in the embedded search tool. </param>
+        internal JobDescriptionSearchConfig(bool? allowPdfDownload, int? maxResults, bool? displayJobTitle, bool? displayLocation, bool? displayYearsExperience, bool? displayOccupationGroup, bool? displayEducation, bool? displaySkills, bool? displayLanguages, bool? displayManagementLevel, bool? displayKeywords, float? weightJobTitle, float? weightLocation, float? weightYearsExperience, float? weightOccupationGroup, float? weightEducation, float? weightSkills, float? weightLanguages, float? weightManagementLevel, float? weightKeywords, IList<string> indices, IDictionary<string, object> searchToolTheme, int? userId, string username, IList<JobDescriptionSearchConfigActionsItem> actions)
         {
             AllowPdfDownload = allowPdfDownload;
             MaxResults = maxResults;
@@ -71,6 +73,7 @@ namespace Affinda.API.Models
             SearchToolTheme = searchToolTheme;
             UserId = userId;
             Username = username;
+            Actions = actions;
         }
 
         /// <summary> Gets or sets the allow pdf download. </summary>
@@ -121,5 +124,7 @@ namespace Affinda.API.Models
         public int? UserId { get; }
         /// <summary> Username of the logged in user. </summary>
         public string Username { get; }
+        /// <summary> A list of actions to show in the dropdown in the embedded search tool. </summary>
+        public IList<JobDescriptionSearchConfigActionsItem> Actions { get; set; }
     }
 }
