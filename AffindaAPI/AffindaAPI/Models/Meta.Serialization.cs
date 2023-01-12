@@ -16,31 +16,24 @@ namespace Affinda.API.Models
     {
         internal static Meta DeserializeMeta(JsonElement element)
         {
-            string identifier = default;
+            Optional<string> identifier = default;
             Optional<string> fileName = default;
-            bool ready = default;
+            Optional<bool> ready = default;
             Optional<DateTimeOffset?> readyDt = default;
-            bool failed = default;
+            Optional<bool> failed = default;
             Optional<string> expiryTime = default;
             Optional<string> language = default;
             Optional<string> pdf = default;
-            Optional<SplitRelation> parentDocument = default;
-            Optional<IReadOnlyList<SplitRelation>> childDocuments = default;
+            Optional<MetaParentDocument> parentDocument = default;
+            Optional<IReadOnlyList<MetaChildDocumentsItem>> childDocuments = default;
             Optional<IReadOnlyList<PageMeta>> pages = default;
             Optional<bool> isVerified = default;
             Optional<string> reviewUrl = default;
             Optional<float?> ocrConfidence = default;
-            IReadOnlyDictionary<string, object> additionalProperties = default;
-            Dictionary<string, object> additionalPropertiesDictionary = new Dictionary<string, object>();
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("identifier"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        identifier = null;
-                        continue;
-                    }
                     identifier = property.Value.GetString();
                     continue;
                 }
@@ -56,6 +49,11 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("ready"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
                     ready = property.Value.GetBoolean();
                     continue;
                 }
@@ -71,6 +69,11 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("failed"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
                     failed = property.Value.GetBoolean();
                     continue;
                 }
@@ -106,7 +109,7 @@ namespace Affinda.API.Models
                         parentDocument = null;
                         continue;
                     }
-                    parentDocument = SplitRelation.DeserializeSplitRelation(property.Value);
+                    parentDocument = MetaParentDocument.DeserializeMetaParentDocument(property.Value);
                     continue;
                 }
                 if (property.NameEquals("childDocuments"))
@@ -116,10 +119,10 @@ namespace Affinda.API.Models
                         property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    List<SplitRelation> array = new List<SplitRelation>();
+                    List<MetaChildDocumentsItem> array = new List<MetaChildDocumentsItem>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(SplitRelation.DeserializeSplitRelation(item));
+                        array.Add(MetaChildDocumentsItem.DeserializeMetaChildDocumentsItem(item));
                     }
                     childDocuments = array;
                     continue;
@@ -169,10 +172,8 @@ namespace Affinda.API.Models
                     ocrConfidence = property.Value.GetSingle();
                     continue;
                 }
-                additionalPropertiesDictionary.Add(property.Name, property.Value.GetObject());
             }
-            additionalProperties = additionalPropertiesDictionary;
-            return new Meta(identifier, fileName.Value, ready, Optional.ToNullable(readyDt), failed, expiryTime.Value, language.Value, pdf.Value, parentDocument.Value, Optional.ToList(childDocuments), Optional.ToList(pages), Optional.ToNullable(isVerified), reviewUrl.Value, Optional.ToNullable(ocrConfidence), additionalProperties);
+            return new Meta(identifier.Value, fileName.Value, Optional.ToNullable(ready), Optional.ToNullable(readyDt), Optional.ToNullable(failed), expiryTime.Value, language.Value, pdf.Value, parentDocument.Value, Optional.ToList(childDocuments), Optional.ToList(pages), Optional.ToNullable(isVerified), reviewUrl.Value, Optional.ToNullable(ocrConfidence));
         }
     }
 }

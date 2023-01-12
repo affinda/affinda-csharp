@@ -21,7 +21,7 @@ namespace Affinda.API.Models
         public Stream File { get; }
         /// <summary> URL to an invoice to download and process. </summary>
         public string Url { get; }
-        /// <summary> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </summary>
+        /// <summary> A random string that uniquely identify the resource. </summary>
         public string Identifier { get; }
         /// <summary> Optional filename of the file. </summary>
         public string FileName { get; }

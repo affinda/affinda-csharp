@@ -5,42 +5,32 @@
 
 #nullable disable
 
-using System;
-
 namespace Affinda.API.Models
 {
     /// <summary> The User. </summary>
     public partial class User
     {
         /// <summary> Initializes a new instance of User. </summary>
-        /// <param name="username"></param>
-        /// <exception cref="ArgumentNullException"> <paramref name="username"/> is null. </exception>
-        internal User(string username)
+        internal User()
         {
-            if (username == null)
-            {
-                throw new ArgumentNullException(nameof(username));
-            }
-
-            Username = username;
         }
 
         /// <summary> Initializes a new instance of User. </summary>
-        /// <param name="id"></param>
+        /// <param name="id"> Uniquely identify a user. </param>
         /// <param name="name"></param>
         /// <param name="username"></param>
         /// <param name="email"></param>
-        /// <param name="apiKey"></param>
-        internal User(string id, string name, string username, string email, string apiKey)
+        /// <param name="avatar"> URL of the user&apos;s avatar. </param>
+        internal User(string id, string name, string username, string email, string avatar)
         {
             Id = id;
             Name = name;
             Username = username;
             Email = email;
-            ApiKey = apiKey;
+            Avatar = avatar;
         }
 
-        /// <summary> Gets the id. </summary>
+        /// <summary> Uniquely identify a user. </summary>
         public string Id { get; }
         /// <summary> Gets the name. </summary>
         public string Name { get; }
@@ -48,7 +38,7 @@ namespace Affinda.API.Models
         public string Username { get; }
         /// <summary> Gets the email. </summary>
         public string Email { get; }
-        /// <summary> Gets the api key. </summary>
-        public string ApiKey { get; }
+        /// <summary> URL of the user&apos;s avatar. </summary>
+        public string Avatar { get; }
     }
 }

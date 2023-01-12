@@ -16,18 +16,19 @@ namespace Affinda.API.Models
         internal static InvoiceDataPaymentAmountDue DeserializeInvoiceDataPaymentAmountDue(JsonElement element)
         {
             Optional<string> parsed = default;
-            Optional<int?> id = default;
+            int id = default;
             Rectangle rectangle = default;
-            Optional<IReadOnlyList<Rectangle>> rectangles = default;
+            IReadOnlyList<Rectangle> rectangles = default;
             int? pageIndex = default;
             string raw = default;
             float? confidence = default;
             float? classificationConfidence = default;
             float? textExtractionConfidence = default;
             bool isVerified = default;
-            Optional<bool> isClientVerified = default;
-            Optional<bool> isAutoVerified = default;
-            string classification = default;
+            bool isClientVerified = default;
+            bool isAutoVerified = default;
+            string dataPoint = default;
+            string contentType = default;
             IReadOnlyDictionary<string, object> additionalProperties = default;
             Dictionary<string, object> additionalPropertiesDictionary = new Dictionary<string, object>();
             foreach (var property in element.EnumerateObject())
@@ -44,11 +45,6 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("id"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        id = null;
-                        continue;
-                    }
                     id = property.Value.GetInt32();
                     continue;
                 }
@@ -134,33 +130,28 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("isClientVerified"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        property.ThrowNonNullablePropertyIsNull();
-                        continue;
-                    }
                     isClientVerified = property.Value.GetBoolean();
                     continue;
                 }
                 if (property.NameEquals("isAutoVerified"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        property.ThrowNonNullablePropertyIsNull();
-                        continue;
-                    }
                     isAutoVerified = property.Value.GetBoolean();
                     continue;
                 }
-                if (property.NameEquals("classification"))
+                if (property.NameEquals("dataPoint"))
                 {
-                    classification = property.Value.GetString();
+                    dataPoint = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("contentType"))
+                {
+                    contentType = property.Value.GetString();
                     continue;
                 }
                 additionalPropertiesDictionary.Add(property.Name, property.Value.GetObject());
             }
             additionalProperties = additionalPropertiesDictionary;
-            return new InvoiceDataPaymentAmountDue(Optional.ToNullable(id), rectangle, Optional.ToList(rectangles), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, Optional.ToNullable(isClientVerified), Optional.ToNullable(isAutoVerified), classification, additionalProperties, parsed.Value);
+            return new InvoiceDataPaymentAmountDue(id, rectangle, rectangles, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties, parsed.Value);
         }
     }
 }
