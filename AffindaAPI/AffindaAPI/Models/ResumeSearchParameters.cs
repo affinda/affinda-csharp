@@ -39,8 +39,8 @@ namespace Affinda.API.Models
 
         /// <summary> Initializes a new instance of ResumeSearchParameters. </summary>
         /// <param name="indices"></param>
-        /// <param name="jobDescription"> A random string that uniquely identify the resource. </param>
-        /// <param name="resume"> A random string that uniquely identify the resource. </param>
+        /// <param name="jobDescription"> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </param>
+        /// <param name="resume"> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </param>
         /// <param name="jobTitles"></param>
         /// <param name="jobTitlesCurrentOnly"> Search only through the canditate&apos;s current job. </param>
         /// <param name="jobTitlesRequired"></param>
@@ -122,9 +122,9 @@ namespace Affinda.API.Models
 
         /// <summary> Gets the indices. </summary>
         public IList<string> Indices { get; }
-        /// <summary> A random string that uniquely identify the resource. </summary>
+        /// <summary> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </summary>
         public string JobDescription { get; set; }
-        /// <summary> A random string that uniquely identify the resource. </summary>
+        /// <summary> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </summary>
         public string Resume { get; set; }
         /// <summary> Gets the job titles. </summary>
         public IList<string> JobTitles { get; }

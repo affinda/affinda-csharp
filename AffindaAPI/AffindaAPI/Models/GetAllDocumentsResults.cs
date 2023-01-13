@@ -5,9 +5,8 @@
 
 #nullable disable
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
+using Azure.Core;
 
 namespace Affinda.API.Models
 {
@@ -15,18 +14,9 @@ namespace Affinda.API.Models
     public partial class GetAllDocumentsResults
     {
         /// <summary> Initializes a new instance of GetAllDocumentsResults. </summary>
-        /// <param name="count"> Number of documents in result. </param>
-        /// <param name="results"></param>
-        /// <exception cref="ArgumentNullException"> <paramref name="results"/> is null. </exception>
-        internal GetAllDocumentsResults(int count, IEnumerable<Document> results)
+        internal GetAllDocumentsResults()
         {
-            if (results == null)
-            {
-                throw new ArgumentNullException(nameof(results));
-            }
-
-            Count = count;
-            Results = results.ToList();
+            Results = new ChangeTrackingList<Meta>();
         }
 
         /// <summary> Initializes a new instance of GetAllDocumentsResults. </summary>
@@ -34,7 +24,7 @@ namespace Affinda.API.Models
         /// <param name="next"> URL to request next page of results. </param>
         /// <param name="previous"> URL to request previous page of results. </param>
         /// <param name="results"></param>
-        internal GetAllDocumentsResults(int count, string next, string previous, IReadOnlyList<Document> results)
+        internal GetAllDocumentsResults(int? count, string next, string previous, IReadOnlyList<Meta> results)
         {
             Count = count;
             Next = next;
@@ -43,12 +33,12 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Number of documents in result. </summary>
-        public int Count { get; }
+        public int? Count { get; }
         /// <summary> URL to request next page of results. </summary>
         public string Next { get; }
         /// <summary> URL to request previous page of results. </summary>
         public string Previous { get; }
         /// <summary> Gets the results. </summary>
-        public IReadOnlyList<Document> Results { get; }
+        public IReadOnlyList<Meta> Results { get; }
     }
 }

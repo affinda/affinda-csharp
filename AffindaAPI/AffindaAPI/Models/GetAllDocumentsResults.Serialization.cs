@@ -15,14 +15,19 @@ namespace Affinda.API.Models
     {
         internal static GetAllDocumentsResults DeserializeGetAllDocumentsResults(JsonElement element)
         {
-            int count = default;
+            Optional<int> count = default;
             Optional<string> next = default;
             Optional<string> previous = default;
-            IReadOnlyList<Document> results = default;
+            Optional<IReadOnlyList<Meta>> results = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("count"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
                     count = property.Value.GetInt32();
                     continue;
                 }
@@ -48,16 +53,21 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("results"))
                 {
-                    List<Document> array = new List<Document>();
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    List<Meta> array = new List<Meta>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(Document.DeserializeDocument(item));
+                        array.Add(Meta.DeserializeMeta(item));
                     }
                     results = array;
                     continue;
                 }
             }
-            return new GetAllDocumentsResults(count, next.Value, previous.Value, results);
+            return new GetAllDocumentsResults(Optional.ToNullable(count), next.Value, previous.Value, Optional.ToList(results));
         }
     }
 }

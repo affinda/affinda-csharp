@@ -14,21 +14,31 @@ namespace Affinda.API.Models
     {
         internal static PageMeta DeserializePageMeta(JsonElement element)
         {
-            int id = default;
-            int pageIndex = default;
-            string image = default;
-            float height = default;
-            float width = default;
-            int rotation = default;
+            Optional<int> id = default;
+            Optional<int> pageIndex = default;
+            Optional<string> image = default;
+            Optional<float> height = default;
+            Optional<float> width = default;
+            Optional<int> rotation = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("id"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
                     id = property.Value.GetInt32();
                     continue;
                 }
                 if (property.NameEquals("pageIndex"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
                     pageIndex = property.Value.GetInt32();
                     continue;
                 }
@@ -44,21 +54,36 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("height"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
                     height = property.Value.GetSingle();
                     continue;
                 }
                 if (property.NameEquals("width"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
                     width = property.Value.GetSingle();
                     continue;
                 }
                 if (property.NameEquals("rotation"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
                     rotation = property.Value.GetInt32();
                     continue;
                 }
             }
-            return new PageMeta(id, pageIndex, image, height, width, rotation);
+            return new PageMeta(Optional.ToNullable(id), Optional.ToNullable(pageIndex), image.Value, Optional.ToNullable(height), Optional.ToNullable(width), Optional.ToNullable(rotation));
         }
     }
 }

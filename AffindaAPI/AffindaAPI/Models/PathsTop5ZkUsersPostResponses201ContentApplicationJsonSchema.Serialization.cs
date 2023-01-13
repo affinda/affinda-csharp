@@ -10,15 +10,15 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class InvitationRespondedBy
+    public partial class PathsTop5ZkUsersPostResponses201ContentApplicationJsonSchema
     {
-        internal static InvitationRespondedBy DeserializeInvitationRespondedBy(JsonElement element)
+        internal static PathsTop5ZkUsersPostResponses201ContentApplicationJsonSchema DeserializePathsTop5ZkUsersPostResponses201ContentApplicationJsonSchema(JsonElement element)
         {
             Optional<string> id = default;
             Optional<string> name = default;
-            Optional<string> username = default;
+            string username = default;
             Optional<string> email = default;
-            Optional<string> avatar = default;
+            Optional<string> apiKey = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("id"))
@@ -41,18 +41,13 @@ namespace Affinda.API.Models
                     email = property.Value.GetString();
                     continue;
                 }
-                if (property.NameEquals("avatar"))
+                if (property.NameEquals("apiKey"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        avatar = null;
-                        continue;
-                    }
-                    avatar = property.Value.GetString();
+                    apiKey = property.Value.GetString();
                     continue;
                 }
             }
-            return new InvitationRespondedBy(id.Value, name.Value, username.Value, email.Value, avatar.Value);
+            return new PathsTop5ZkUsersPostResponses201ContentApplicationJsonSchema(id.Value, name.Value, username, email.Value, apiKey.Value);
         }
     }
 }

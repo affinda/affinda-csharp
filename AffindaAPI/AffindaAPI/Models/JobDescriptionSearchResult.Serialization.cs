@@ -31,6 +31,11 @@ namespace Affinda.API.Models
             {
                 if (property.NameEquals("identifier"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        identifier = null;
+                        continue;
+                    }
                     identifier = property.Value.GetString();
                     continue;
                 }
