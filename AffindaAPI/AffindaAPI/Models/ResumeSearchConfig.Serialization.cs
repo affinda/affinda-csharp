@@ -151,23 +151,6 @@ namespace Affinda.API.Models
                     writer.WriteNull("searchToolTheme");
                 }
             }
-            if (Optional.IsCollectionDefined(Actions))
-            {
-                if (Actions != null)
-                {
-                    writer.WritePropertyName("actions");
-                    writer.WriteStartArray();
-                    foreach (var item in Actions)
-                    {
-                        writer.WriteObjectValue(item);
-                    }
-                    writer.WriteEndArray();
-                }
-                else
-                {
-                    writer.WriteNull("actions");
-                }
-            }
             writer.WriteEndObject();
         }
 
@@ -197,7 +180,6 @@ namespace Affinda.API.Models
             Optional<IDictionary<string, object>> searchToolTheme = default;
             Optional<int> userId = default;
             Optional<string> username = default;
-            Optional<IList<ResumeSearchConfigActionsItem>> actions = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("allowPdfDownload"))
@@ -445,23 +427,8 @@ namespace Affinda.API.Models
                     username = property.Value.GetString();
                     continue;
                 }
-                if (property.NameEquals("actions"))
-                {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        actions = null;
-                        continue;
-                    }
-                    List<ResumeSearchConfigActionsItem> array = new List<ResumeSearchConfigActionsItem>();
-                    foreach (var item in property.Value.EnumerateArray())
-                    {
-                        array.Add(ResumeSearchConfigActionsItem.DeserializeResumeSearchConfigActionsItem(item));
-                    }
-                    actions = array;
-                    continue;
-                }
             }
-            return new ResumeSearchConfig(Optional.ToNullable(allowPdfDownload), Optional.ToNullable(maxResults), Optional.ToNullable(displayJobTitle), Optional.ToNullable(displayLocation), Optional.ToNullable(displayYearsExperience), Optional.ToNullable(displayOccupationGroup), Optional.ToNullable(displayEducation), Optional.ToNullable(displaySkills), Optional.ToNullable(displayLanguages), Optional.ToNullable(displayManagementLevel), Optional.ToNullable(displayKeywords), Optional.ToNullable(weightJobTitle), Optional.ToNullable(weightLocation), Optional.ToNullable(weightYearsExperience), Optional.ToNullable(weightOccupationGroup), Optional.ToNullable(weightEducation), Optional.ToNullable(weightSkills), Optional.ToNullable(weightLanguages), Optional.ToNullable(weightManagementLevel), Optional.ToNullable(weightKeywords), Optional.ToList(indices), Optional.ToDictionary(searchToolTheme), Optional.ToNullable(userId), username.Value, Optional.ToList(actions));
+            return new ResumeSearchConfig(Optional.ToNullable(allowPdfDownload), Optional.ToNullable(maxResults), Optional.ToNullable(displayJobTitle), Optional.ToNullable(displayLocation), Optional.ToNullable(displayYearsExperience), Optional.ToNullable(displayOccupationGroup), Optional.ToNullable(displayEducation), Optional.ToNullable(displaySkills), Optional.ToNullable(displayLanguages), Optional.ToNullable(displayManagementLevel), Optional.ToNullable(displayKeywords), Optional.ToNullable(weightJobTitle), Optional.ToNullable(weightLocation), Optional.ToNullable(weightYearsExperience), Optional.ToNullable(weightOccupationGroup), Optional.ToNullable(weightEducation), Optional.ToNullable(weightSkills), Optional.ToNullable(weightLanguages), Optional.ToNullable(weightManagementLevel), Optional.ToNullable(weightKeywords), Optional.ToList(indices), Optional.ToDictionary(searchToolTheme), Optional.ToNullable(userId), username.Value);
         }
     }
 }

@@ -10,25 +10,20 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class SplitRelation
+    public partial class DocumentMetaChildDocumentsItem
     {
-        internal static SplitRelation DeserializeSplitRelation(JsonElement element)
+        internal static DocumentMetaChildDocumentsItem DeserializeDocumentMetaChildDocumentsItem(JsonElement element)
         {
             Optional<string> identifier = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("identifier"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        identifier = null;
-                        continue;
-                    }
                     identifier = property.Value.GetString();
                     continue;
                 }
             }
-            return new SplitRelation(identifier.Value);
+            return new DocumentMetaChildDocumentsItem(identifier.Value);
         }
     }
 }

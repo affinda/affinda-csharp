@@ -20,15 +20,15 @@ namespace Affinda.API.Models
         /// <param name="previous"> URL to request previous page of results. </param>
         /// <param name="results"></param>
         /// <returns> A new <see cref="Models.GetAllDocumentsResults"/> instance for mocking. </returns>
-        public static GetAllDocumentsResults GetAllDocumentsResults(int? count = null, string next = null, string previous = null, IEnumerable<Meta> results = null)
+        public static GetAllDocumentsResults GetAllDocumentsResults(int count = default, string next = null, string previous = null, IEnumerable<Document> results = null)
         {
-            results ??= new List<Meta>();
+            results ??= new List<Document>();
 
             return new GetAllDocumentsResults(count, next, previous, results?.ToList());
         }
 
-        /// <summary> Initializes a new instance of Meta. </summary>
-        /// <param name="identifier"> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </param>
+        /// <summary> Initializes a new instance of Document. </summary>
+        /// <param name="identifier"> Uniquely identify a document. </param>
         /// <param name="fileName"> Optional filename of the file. </param>
         /// <param name="ready"> If true, the document has finished processing. Particularly useful if an endpoint request specified wait=False, when polling use this variable to determine when to stop polling. </param>
         /// <param name="readyDt"> The datetime when the document was ready. </param>
@@ -39,26 +39,86 @@ namespace Affinda.API.Models
         /// <param name="parentDocument"> If this document is part of a splitted document, this attribute points to the original document that this document is splitted from. </param>
         /// <param name="childDocuments"> If this document has been splitted into a number of child documents, this attribute points to those child documents. </param>
         /// <param name="pages"> The document&apos;s pages. </param>
-        /// <param name="isVerified"> This is true if the &quot;confirm&quot; button has been clicked in the Affinda validation tool. </param>
-        /// <param name="reviewUrl"> Signed URL (valid for 60 minutes) to access the validation tool.  Not applicable for documents types such a resumes. </param>
-        /// <param name="ocrConfidence"> The overall confidence in the conversion of image to text.  (only applicable for images or PDF documents without a text layer). </param>
-        /// <param name="additionalProperties"> Additional Properties. </param>
-        /// <returns> A new <see cref="Models.Meta"/> instance for mocking. </returns>
-        public static Meta Meta(string identifier = null, string fileName = null, bool ready = default, DateTimeOffset? readyDt = null, bool failed = default, string expiryTime = null, string language = null, string pdf = null, SplitRelation parentDocument = null, IEnumerable<SplitRelation> childDocuments = null, IEnumerable<PageMeta> pages = null, bool? isVerified = null, string reviewUrl = null, float? ocrConfidence = null, IReadOnlyDictionary<string, object> additionalProperties = null)
+        /// <param name="isOcrd"></param>
+        /// <param name="ocrConfidence"></param>
+        /// <param name="reviewUrl"></param>
+        /// <param name="collection"></param>
+        /// <param name="workspace"></param>
+        /// <param name="archivedDt"></param>
+        /// <param name="isArchived"></param>
+        /// <param name="confirmedDt"></param>
+        /// <param name="isConfirmed"></param>
+        /// <param name="rejectedDt"></param>
+        /// <param name="isRejected"></param>
+        /// <param name="createdDt"></param>
+        /// <param name="errorCode"></param>
+        /// <param name="errorDetail"></param>
+        /// <param name="file"> URL to view the file. </param>
+        /// <param name="tags"></param>
+        /// <param name="data"> Dictionary of &lt;any&gt;. </param>
+        /// <returns> A new <see cref="Models.Document"/> instance for mocking. </returns>
+        public static Document Document(string identifier = null, string fileName = null, bool? ready = null, DateTimeOffset? readyDt = null, bool? failed = null, string expiryTime = null, string language = null, string pdf = null, DocumentMetaParentDocument parentDocument = null, IEnumerable<DocumentMetaChildDocumentsItem> childDocuments = null, IEnumerable<PageMeta> pages = null, bool? isOcrd = null, float? ocrConfidence = null, string reviewUrl = null, DocumentMetaCollection collection = null, DocumentMetaWorkspace workspace = null, DateTimeOffset? archivedDt = null, bool? isArchived = null, DateTimeOffset? confirmedDt = null, bool? isConfirmed = null, DateTimeOffset? rejectedDt = null, bool? isRejected = null, DateTimeOffset? createdDt = null, string errorCode = null, string errorDetail = null, string file = null, IEnumerable<Tag> tags = null, IReadOnlyDictionary<string, object> data = null)
         {
-            childDocuments ??= new List<SplitRelation>();
+            childDocuments ??= new List<DocumentMetaChildDocumentsItem>();
             pages ??= new List<PageMeta>();
-            additionalProperties ??= new Dictionary<string, object>();
+            tags ??= new List<Tag>();
+            data ??= new Dictionary<string, object>();
 
-            return new Meta(identifier, fileName, ready, readyDt, failed, expiryTime, language, pdf, parentDocument, childDocuments?.ToList(), pages?.ToList(), isVerified, reviewUrl, ocrConfidence, additionalProperties);
+            return new Document(identifier, fileName, ready, readyDt, failed, expiryTime, language, pdf, parentDocument, childDocuments?.ToList(), pages?.ToList(), isOcrd, ocrConfidence, reviewUrl, collection, workspace, archivedDt, isArchived, confirmedDt, isConfirmed, rejectedDt, isRejected, createdDt, errorCode, errorDetail, file, tags?.ToList(), data);
         }
 
-        /// <summary> Initializes a new instance of SplitRelation. </summary>
-        /// <param name="identifier"> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </param>
-        /// <returns> A new <see cref="Models.SplitRelation"/> instance for mocking. </returns>
-        public static SplitRelation SplitRelation(string identifier = null)
+        /// <summary> Initializes a new instance of DocumentMeta. </summary>
+        /// <param name="identifier"> Uniquely identify a document. </param>
+        /// <param name="fileName"> Optional filename of the file. </param>
+        /// <param name="ready"> If true, the document has finished processing. Particularly useful if an endpoint request specified wait=False, when polling use this variable to determine when to stop polling. </param>
+        /// <param name="readyDt"> The datetime when the document was ready. </param>
+        /// <param name="failed"> If true, some exception was raised during processing. Check the &apos;error&apos; field of the main return object. </param>
+        /// <param name="expiryTime"> The date/time in ISO-8601 format when the document will be automatically deleted.  Defaults to no expiry. </param>
+        /// <param name="language"> The document&apos;s language. </param>
+        /// <param name="pdf"> The URL to the document&apos;s pdf (if the uploaded document is not already pdf, it&apos;s converted to pdf as part of the parsing process). </param>
+        /// <param name="parentDocument"> If this document is part of a splitted document, this attribute points to the original document that this document is splitted from. </param>
+        /// <param name="childDocuments"> If this document has been splitted into a number of child documents, this attribute points to those child documents. </param>
+        /// <param name="pages"> The document&apos;s pages. </param>
+        /// <param name="isOcrd"></param>
+        /// <param name="ocrConfidence"></param>
+        /// <param name="reviewUrl"></param>
+        /// <param name="collection"></param>
+        /// <param name="workspace"></param>
+        /// <param name="archivedDt"></param>
+        /// <param name="isArchived"></param>
+        /// <param name="confirmedDt"></param>
+        /// <param name="isConfirmed"></param>
+        /// <param name="rejectedDt"></param>
+        /// <param name="isRejected"></param>
+        /// <param name="createdDt"></param>
+        /// <param name="errorCode"></param>
+        /// <param name="errorDetail"></param>
+        /// <param name="file"> URL to view the file. </param>
+        /// <param name="tags"></param>
+        /// <returns> A new <see cref="Models.DocumentMeta"/> instance for mocking. </returns>
+        public static DocumentMeta DocumentMeta(string identifier = null, string fileName = null, bool? ready = null, DateTimeOffset? readyDt = null, bool? failed = null, string expiryTime = null, string language = null, string pdf = null, DocumentMetaParentDocument parentDocument = null, IEnumerable<DocumentMetaChildDocumentsItem> childDocuments = null, IEnumerable<PageMeta> pages = null, bool? isOcrd = null, float? ocrConfidence = null, string reviewUrl = null, DocumentMetaCollection collection = null, DocumentMetaWorkspace workspace = null, DateTimeOffset? archivedDt = null, bool? isArchived = null, DateTimeOffset? confirmedDt = null, bool? isConfirmed = null, DateTimeOffset? rejectedDt = null, bool? isRejected = null, DateTimeOffset? createdDt = null, string errorCode = null, string errorDetail = null, string file = null, IEnumerable<Tag> tags = null)
         {
-            return new SplitRelation(identifier);
+            childDocuments ??= new List<DocumentMetaChildDocumentsItem>();
+            pages ??= new List<PageMeta>();
+            tags ??= new List<Tag>();
+
+            return new DocumentMeta(identifier, fileName, ready, readyDt, failed, expiryTime, language, pdf, parentDocument, childDocuments?.ToList(), pages?.ToList(), isOcrd, ocrConfidence, reviewUrl, collection, workspace, archivedDt, isArchived, confirmedDt, isConfirmed, rejectedDt, isRejected, createdDt, errorCode, errorDetail, file, tags?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of DocumentMetaParentDocument. </summary>
+        /// <param name="identifier"> Uniquely identify a document. </param>
+        /// <returns> A new <see cref="Models.DocumentMetaParentDocument"/> instance for mocking. </returns>
+        public static DocumentMetaParentDocument DocumentMetaParentDocument(string identifier = null)
+        {
+            return new DocumentMetaParentDocument(identifier);
+        }
+
+        /// <summary> Initializes a new instance of DocumentMetaChildDocumentsItem. </summary>
+        /// <param name="identifier"> Uniquely identify a document. </param>
+        /// <returns> A new <see cref="Models.DocumentMetaChildDocumentsItem"/> instance for mocking. </returns>
+        public static DocumentMetaChildDocumentsItem DocumentMetaChildDocumentsItem(string identifier = null)
+        {
+            return new DocumentMetaChildDocumentsItem(identifier);
         }
 
         /// <summary> Initializes a new instance of PageMeta. </summary>
@@ -69,9 +129,60 @@ namespace Affinda.API.Models
         /// <param name="width"> Width of the page&apos;s image in px. </param>
         /// <param name="rotation"> The degree of rotation applied to the page. Greater than 0 indicates clockwise rotation. Less than 0 indicates counter-clockwise rotation. </param>
         /// <returns> A new <see cref="Models.PageMeta"/> instance for mocking. </returns>
-        public static PageMeta PageMeta(int? id = null, int? pageIndex = null, string image = null, float? height = null, float? width = null, int? rotation = null)
+        public static PageMeta PageMeta(int id = default, int pageIndex = default, string image = null, float height = default, float width = default, int rotation = default)
         {
             return new PageMeta(id, pageIndex, image, height, width, rotation);
+        }
+
+        /// <summary> Initializes a new instance of DocumentMetaCollection. </summary>
+        /// <param name="identifier"> Uniquely identify a collection. </param>
+        /// <param name="name"></param>
+        /// <param name="extractor"></param>
+        /// <returns> A new <see cref="Models.DocumentMetaCollection"/> instance for mocking. </returns>
+        public static DocumentMetaCollection DocumentMetaCollection(string identifier = null, string name = null, DocumentMetaCollectionExtractor extractor = null)
+        {
+            return new DocumentMetaCollection(identifier, name, extractor);
+        }
+
+        /// <summary> Initializes a new instance of DocumentMetaCollectionExtractor. </summary>
+        /// <param name="id"> Extractor&apos;s ID. </param>
+        /// <param name="name"></param>
+        /// <param name="baseExtractor"> Base extractor&apos;s ID. </param>
+        /// <param name="validatable"></param>
+        /// <returns> A new <see cref="Models.DocumentMetaCollectionExtractor"/> instance for mocking. </returns>
+        public static DocumentMetaCollectionExtractor DocumentMetaCollectionExtractor(int? id = null, string name = null, int? baseExtractor = null, bool? validatable = null)
+        {
+            return new DocumentMetaCollectionExtractor(id, name, baseExtractor, validatable);
+        }
+
+        /// <summary> Initializes a new instance of DocumentMetaWorkspace. </summary>
+        /// <param name="identifier"> Uniquely identify a workspace. </param>
+        /// <param name="name"></param>
+        /// <returns> A new <see cref="Models.DocumentMetaWorkspace"/> instance for mocking. </returns>
+        public static DocumentMetaWorkspace DocumentMetaWorkspace(string identifier = null, string name = null)
+        {
+            return new DocumentMetaWorkspace(identifier, name);
+        }
+
+        /// <summary> Initializes a new instance of Tag. </summary>
+        /// <param name="id"> Uniquely identify a tag. </param>
+        /// <param name="name"></param>
+        /// <param name="workspace"> Uniquely identify a workspace. </param>
+        /// <param name="documentCount"> Number of documents tagged with this. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/> or <paramref name="workspace"/> is null. </exception>
+        /// <returns> A new <see cref="Models.Tag"/> instance for mocking. </returns>
+        public static Tag Tag(int id = default, string name = null, string workspace = null, int documentCount = default)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+            if (workspace == null)
+            {
+                throw new ArgumentNullException(nameof(workspace));
+            }
+
+            return new Tag(id, name, workspace, documentCount);
         }
 
         /// <summary> Initializes a new instance of RequestError. </summary>
@@ -279,6 +390,46 @@ namespace Affinda.API.Models
             return new ResumeDataSectionsItem(sectionType, bbox?.ToList(), pageIndex, text);
         }
 
+        /// <summary> Initializes a new instance of Meta. </summary>
+        /// <param name="identifier"> Uniquely identify a document. </param>
+        /// <param name="fileName"> Optional filename of the file. </param>
+        /// <param name="ready"> If true, the document has finished processing. Particularly useful if an endpoint request specified wait=False, when polling use this variable to determine when to stop polling. </param>
+        /// <param name="readyDt"> The datetime when the document was ready. </param>
+        /// <param name="failed"> If true, some exception was raised during processing. Check the &apos;error&apos; field of the main return object. </param>
+        /// <param name="expiryTime"> The date/time in ISO-8601 format when the document will be automatically deleted.  Defaults to no expiry. </param>
+        /// <param name="language"> The document&apos;s language. </param>
+        /// <param name="pdf"> The URL to the document&apos;s pdf (if the uploaded document is not already pdf, it&apos;s converted to pdf as part of the parsing process). </param>
+        /// <param name="parentDocument"> If this document is part of a splitted document, this attribute points to the original document that this document is splitted from. </param>
+        /// <param name="childDocuments"> If this document has been splitted into a number of child documents, this attribute points to those child documents. </param>
+        /// <param name="pages"> The document&apos;s pages. </param>
+        /// <param name="isVerified"> This is true if the &quot;confirm&quot; button has been clicked in the Affinda validation tool. </param>
+        /// <param name="reviewUrl"> Signed URL (valid for 60 minutes) to access the validation tool.  Not applicable for documents types such a resumes. </param>
+        /// <param name="ocrConfidence"> The overall confidence in the conversion of image to text.  (only applicable for images or PDF documents without a text layer). </param>
+        /// <returns> A new <see cref="Models.Meta"/> instance for mocking. </returns>
+        public static Meta Meta(string identifier = null, string fileName = null, bool? ready = null, DateTimeOffset? readyDt = null, bool? failed = null, string expiryTime = null, string language = null, string pdf = null, MetaParentDocument parentDocument = null, IEnumerable<MetaChildDocumentsItem> childDocuments = null, IEnumerable<PageMeta> pages = null, bool? isVerified = null, string reviewUrl = null, float? ocrConfidence = null)
+        {
+            childDocuments ??= new List<MetaChildDocumentsItem>();
+            pages ??= new List<PageMeta>();
+
+            return new Meta(identifier, fileName, ready, readyDt, failed, expiryTime, language, pdf, parentDocument, childDocuments?.ToList(), pages?.ToList(), isVerified, reviewUrl, ocrConfidence);
+        }
+
+        /// <summary> Initializes a new instance of MetaParentDocument. </summary>
+        /// <param name="identifier"> Uniquely identify a document. </param>
+        /// <returns> A new <see cref="Models.MetaParentDocument"/> instance for mocking. </returns>
+        public static MetaParentDocument MetaParentDocument(string identifier = null)
+        {
+            return new MetaParentDocument(identifier);
+        }
+
+        /// <summary> Initializes a new instance of MetaChildDocumentsItem. </summary>
+        /// <param name="identifier"> Uniquely identify a document. </param>
+        /// <returns> A new <see cref="Models.MetaChildDocumentsItem"/> instance for mocking. </returns>
+        public static MetaChildDocumentsItem MetaChildDocumentsItem(string identifier = null)
+        {
+            return new MetaChildDocumentsItem(identifier);
+        }
+
         /// <summary> Initializes a new instance of Error. </summary>
         /// <param name="errorCode"></param>
         /// <param name="errorDetail"></param>
@@ -331,7 +482,7 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of ResumeSearchResult. </summary>
-        /// <param name="identifier"> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </param>
+        /// <param name="identifier"> A random string that uniquely identify the resource. </param>
         /// <param name="score"></param>
         /// <param name="pdf"></param>
         /// <param name="name"></param>
@@ -749,15 +900,13 @@ namespace Affinda.API.Models
         /// <param name="searchToolTheme"> Customize the theme of the embeded search tool. </param>
         /// <param name="userId"> ID of the logged in user. </param>
         /// <param name="username"> Username of the logged in user. </param>
-        /// <param name="actions"> A list of actions to show in the dropdown in the embedded search tool. </param>
         /// <returns> A new <see cref="Models.ResumeSearchConfig"/> instance for mocking. </returns>
-        public static ResumeSearchConfig ResumeSearchConfig(bool? allowPdfDownload = null, int? maxResults = null, bool? displayJobTitle = null, bool? displayLocation = null, bool? displayYearsExperience = null, bool? displayOccupationGroup = null, bool? displayEducation = null, bool? displaySkills = null, bool? displayLanguages = null, bool? displayManagementLevel = null, bool? displayKeywords = null, float? weightJobTitle = null, float? weightLocation = null, float? weightYearsExperience = null, float? weightOccupationGroup = null, float? weightEducation = null, float? weightSkills = null, float? weightLanguages = null, float? weightManagementLevel = null, float? weightKeywords = null, IEnumerable<string> indices = null, IDictionary<string, object> searchToolTheme = null, int? userId = null, string username = null, IEnumerable<ResumeSearchConfigActionsItem> actions = null)
+        public static ResumeSearchConfig ResumeSearchConfig(bool? allowPdfDownload = null, int? maxResults = null, bool? displayJobTitle = null, bool? displayLocation = null, bool? displayYearsExperience = null, bool? displayOccupationGroup = null, bool? displayEducation = null, bool? displaySkills = null, bool? displayLanguages = null, bool? displayManagementLevel = null, bool? displayKeywords = null, float? weightJobTitle = null, float? weightLocation = null, float? weightYearsExperience = null, float? weightOccupationGroup = null, float? weightEducation = null, float? weightSkills = null, float? weightLanguages = null, float? weightManagementLevel = null, float? weightKeywords = null, IEnumerable<string> indices = null, IDictionary<string, object> searchToolTheme = null, int? userId = null, string username = null)
         {
             indices ??= new List<string>();
             searchToolTheme ??= new Dictionary<string, object>();
-            actions ??= new List<ResumeSearchConfigActionsItem>();
 
-            return new ResumeSearchConfig(allowPdfDownload, maxResults, displayJobTitle, displayLocation, displayYearsExperience, displayOccupationGroup, displayEducation, displaySkills, displayLanguages, displayManagementLevel, displayKeywords, weightJobTitle, weightLocation, weightYearsExperience, weightOccupationGroup, weightEducation, weightSkills, weightLanguages, weightManagementLevel, weightKeywords, indices?.ToList(), searchToolTheme, userId, username, actions?.ToList());
+            return new ResumeSearchConfig(allowPdfDownload, maxResults, displayJobTitle, displayLocation, displayYearsExperience, displayOccupationGroup, displayEducation, displaySkills, displayLanguages, displayManagementLevel, displayKeywords, weightJobTitle, weightLocation, weightYearsExperience, weightOccupationGroup, weightEducation, weightSkills, weightLanguages, weightManagementLevel, weightKeywords, indices?.ToList(), searchToolTheme, userId, username);
         }
 
         /// <summary> Initializes a new instance of ResumeSearchEmbed. </summary>
@@ -841,16 +990,17 @@ namespace Affinda.API.Models
         /// <param name="isVerified"></param>
         /// <param name="isClientVerified"></param>
         /// <param name="isAutoVerified"></param>
-        /// <param name="classification"></param>
+        /// <param name="dataPoint"></param>
+        /// <param name="contentType"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"> Years of experience range. </param>
         /// <returns> A new <see cref="Models.JobTitleAnnotation"/> instance for mocking. </returns>
-        public static JobTitleAnnotation JobTitleAnnotation(int? id = null, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, JobTitleAnnotationParsed parsed = null)
+        public static JobTitleAnnotation JobTitleAnnotation(int id = default, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool isClientVerified = default, bool isAutoVerified = default, string dataPoint = null, string contentType = null, IReadOnlyDictionary<string, object> additionalProperties = null, JobTitleAnnotationParsed parsed = null)
         {
             rectangles ??= new List<Rectangle>();
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new JobTitleAnnotation(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
+            return new JobTitleAnnotation(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of JobTitleAnnotationParsed. </summary>
@@ -887,15 +1037,16 @@ namespace Affinda.API.Models
         /// <param name="isVerified"></param>
         /// <param name="isClientVerified"></param>
         /// <param name="isAutoVerified"></param>
-        /// <param name="classification"></param>
+        /// <param name="dataPoint"></param>
+        /// <param name="contentType"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <returns> A new <see cref="Models.Annotation"/> instance for mocking. </returns>
-        public static Annotation Annotation(int? id = null, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null)
+        public static Annotation Annotation(int id = default, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool isClientVerified = default, bool isAutoVerified = default, string dataPoint = null, string contentType = null, IReadOnlyDictionary<string, object> additionalProperties = null)
         {
             rectangles ??= new List<Rectangle>();
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new Annotation(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties);
+            return new Annotation(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties);
         }
 
         /// <summary> Initializes a new instance of Rectangle. </summary>
@@ -921,16 +1072,17 @@ namespace Affinda.API.Models
         /// <param name="isVerified"></param>
         /// <param name="isClientVerified"></param>
         /// <param name="isAutoVerified"></param>
-        /// <param name="classification"></param>
+        /// <param name="dataPoint"></param>
+        /// <param name="contentType"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.TextAnnotation"/> instance for mocking. </returns>
-        public static TextAnnotation TextAnnotation(int? id = null, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        public static TextAnnotation TextAnnotation(int id = default, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool isClientVerified = default, bool isAutoVerified = default, string dataPoint = null, string contentType = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
         {
             rectangles ??= new List<Rectangle>();
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new TextAnnotation(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
+            return new TextAnnotation(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of DateAnnotation. </summary>
@@ -945,16 +1097,17 @@ namespace Affinda.API.Models
         /// <param name="isVerified"></param>
         /// <param name="isClientVerified"></param>
         /// <param name="isAutoVerified"></param>
-        /// <param name="classification"></param>
+        /// <param name="dataPoint"></param>
+        /// <param name="contentType"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.DateAnnotation"/> instance for mocking. </returns>
-        public static DateAnnotation DateAnnotation(int? id = null, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, DateTimeOffset? parsed = null)
+        public static DateAnnotation DateAnnotation(int id = default, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool isClientVerified = default, bool isAutoVerified = default, string dataPoint = null, string contentType = null, IReadOnlyDictionary<string, object> additionalProperties = null, DateTimeOffset? parsed = null)
         {
             rectangles ??= new List<Rectangle>();
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new DateAnnotation(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
+            return new DateAnnotation(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of LanguageAnnotation. </summary>
@@ -969,16 +1122,17 @@ namespace Affinda.API.Models
         /// <param name="isVerified"></param>
         /// <param name="isClientVerified"></param>
         /// <param name="isAutoVerified"></param>
-        /// <param name="classification"></param>
+        /// <param name="dataPoint"></param>
+        /// <param name="contentType"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.LanguageAnnotation"/> instance for mocking. </returns>
-        public static LanguageAnnotation LanguageAnnotation(int? id = null, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        public static LanguageAnnotation LanguageAnnotation(int id = default, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool isClientVerified = default, bool isAutoVerified = default, string dataPoint = null, string contentType = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
         {
             rectangles ??= new List<Rectangle>();
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new LanguageAnnotation(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
+            return new LanguageAnnotation(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of SkillAnnotation. </summary>
@@ -993,16 +1147,17 @@ namespace Affinda.API.Models
         /// <param name="isVerified"></param>
         /// <param name="isClientVerified"></param>
         /// <param name="isAutoVerified"></param>
-        /// <param name="classification"></param>
+        /// <param name="dataPoint"></param>
+        /// <param name="contentType"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.SkillAnnotation"/> instance for mocking. </returns>
-        public static SkillAnnotation SkillAnnotation(int? id = null, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        public static SkillAnnotation SkillAnnotation(int id = default, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool isClientVerified = default, bool isAutoVerified = default, string dataPoint = null, string contentType = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
         {
             rectangles ??= new List<Rectangle>();
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new SkillAnnotation(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
+            return new SkillAnnotation(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of ExpectedRemunerationAnnotation. </summary>
@@ -1017,16 +1172,17 @@ namespace Affinda.API.Models
         /// <param name="isVerified"></param>
         /// <param name="isClientVerified"></param>
         /// <param name="isAutoVerified"></param>
-        /// <param name="classification"></param>
+        /// <param name="dataPoint"></param>
+        /// <param name="contentType"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.ExpectedRemunerationAnnotation"/> instance for mocking. </returns>
-        public static ExpectedRemunerationAnnotation ExpectedRemunerationAnnotation(int? id = null, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, ExpectedRemunerationAnnotationParsed parsed = null)
+        public static ExpectedRemunerationAnnotation ExpectedRemunerationAnnotation(int id = default, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool isClientVerified = default, bool isAutoVerified = default, string dataPoint = null, string contentType = null, IReadOnlyDictionary<string, object> additionalProperties = null, ExpectedRemunerationAnnotationParsed parsed = null)
         {
             rectangles ??= new List<Rectangle>();
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new ExpectedRemunerationAnnotation(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
+            return new ExpectedRemunerationAnnotation(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of ExpectedRemunerationAnnotationParsed. </summary>
@@ -1052,16 +1208,17 @@ namespace Affinda.API.Models
         /// <param name="isVerified"></param>
         /// <param name="isClientVerified"></param>
         /// <param name="isAutoVerified"></param>
-        /// <param name="classification"></param>
+        /// <param name="dataPoint"></param>
+        /// <param name="contentType"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.LocationAnnotation"/> instance for mocking. </returns>
-        public static LocationAnnotation LocationAnnotation(int? id = null, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, Location parsed = null)
+        public static LocationAnnotation LocationAnnotation(int id = default, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool isClientVerified = default, bool isAutoVerified = default, string dataPoint = null, string contentType = null, IReadOnlyDictionary<string, object> additionalProperties = null, Location parsed = null)
         {
             rectangles ??= new List<Rectangle>();
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new LocationAnnotation(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
+            return new LocationAnnotation(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of YearsExperienceAnnotation. </summary>
@@ -1076,16 +1233,17 @@ namespace Affinda.API.Models
         /// <param name="isVerified"></param>
         /// <param name="isClientVerified"></param>
         /// <param name="isAutoVerified"></param>
-        /// <param name="classification"></param>
+        /// <param name="dataPoint"></param>
+        /// <param name="contentType"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"> Years of experience range. </param>
         /// <returns> A new <see cref="Models.YearsExperienceAnnotation"/> instance for mocking. </returns>
-        public static YearsExperienceAnnotation YearsExperienceAnnotation(int? id = null, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, YearsExperienceAnnotationParsed parsed = null)
+        public static YearsExperienceAnnotation YearsExperienceAnnotation(int id = default, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool isClientVerified = default, bool isAutoVerified = default, string dataPoint = null, string contentType = null, IReadOnlyDictionary<string, object> additionalProperties = null, YearsExperienceAnnotationParsed parsed = null)
         {
             rectangles ??= new List<Rectangle>();
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new YearsExperienceAnnotation(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
+            return new YearsExperienceAnnotation(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of YearsExperienceAnnotationParsed. </summary>
@@ -1112,7 +1270,7 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of JobDescriptionSearchResult. </summary>
-        /// <param name="identifier"> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </param>
+        /// <param name="identifier"> A random string that uniquely identify the resource. </param>
         /// <param name="score"></param>
         /// <param name="pdf"></param>
         /// <param name="jobTitle"></param>
@@ -1810,16 +1968,17 @@ namespace Affinda.API.Models
         /// <param name="isVerified"></param>
         /// <param name="isClientVerified"></param>
         /// <param name="isAutoVerified"></param>
-        /// <param name="classification"></param>
+        /// <param name="dataPoint"></param>
+        /// <param name="contentType"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.EnumAnnotationSerializer"/> instance for mocking. </returns>
-        public static EnumAnnotationSerializer EnumAnnotationSerializer(int? id = null, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool? isClientVerified = null, bool? isAutoVerified = null, string classification = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
+        public static EnumAnnotationSerializer EnumAnnotationSerializer(int id = default, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool isClientVerified = default, bool isAutoVerified = default, string dataPoint = null, string contentType = null, IReadOnlyDictionary<string, object> additionalProperties = null, string parsed = null)
         {
             rectangles ??= new List<Rectangle>();
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new EnumAnnotationSerializer(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, classification, additionalProperties, parsed);
+            return new EnumAnnotationSerializer(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of PathsWjaaeuUsersGetResponses200ContentApplicationJsonSchema. </summary>
@@ -1836,23 +1995,343 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of User. </summary>
-        /// <param name="id"></param>
+        /// <param name="id"> Uniquely identify a user. </param>
         /// <param name="name"></param>
         /// <param name="username"></param>
         /// <param name="email"></param>
-        /// <param name="apiKey"></param>
+        /// <param name="avatar"> URL of the user&apos;s avatar. </param>
         /// <returns> A new <see cref="Models.User"/> instance for mocking. </returns>
-        public static User User(string id = null, string name = null, string username = null, string email = null, string apiKey = null)
+        public static User User(string id = null, string name = null, string username = null, string email = null, string avatar = null)
         {
-            return new User(id, name, username, email, apiKey);
+            return new User(id, name, username, email, avatar);
         }
 
-        /// <summary> Initializes a new instance of Paths1Y6A2MfUsersPostResponses201ContentApplicationJsonSchemaAllof1. </summary>
-        /// <param name="apiKey"> API key used to authenticate for future requests.  This key is only retrievable at the initial creation of the user. </param>
-        /// <returns> A new <see cref="Models.Paths1Y6A2MfUsersPostResponses201ContentApplicationJsonSchemaAllof1"/> instance for mocking. </returns>
-        public static Paths1Y6A2MfUsersPostResponses201ContentApplicationJsonSchemaAllof1 Paths1Y6A2MfUsersPostResponses201ContentApplicationJsonSchemaAllof1(string apiKey = null)
+        /// <summary> Initializes a new instance of UserCreateResponse. </summary>
+        /// <param name="id"> Uniquely identify a user. </param>
+        /// <param name="name"></param>
+        /// <param name="username"></param>
+        /// <param name="email"></param>
+        /// <param name="avatar"> URL of the user&apos;s avatar. </param>
+        /// <param name="apiKey"> API key used to authenticate for future requests. This key is only retrievable at the initial creation of the user. </param>
+        /// <returns> A new <see cref="Models.UserCreateResponse"/> instance for mocking. </returns>
+        public static UserCreateResponse UserCreateResponse(string id = null, string name = null, string username = null, string email = null, string avatar = null, string apiKey = null)
         {
-            return new Paths1Y6A2MfUsersPostResponses201ContentApplicationJsonSchemaAllof1(apiKey);
+            return new UserCreateResponse(id, name, username, email, avatar, apiKey);
+        }
+
+        /// <summary> Initializes a new instance of Organization. </summary>
+        /// <param name="identifier"> Uniquely identify an organization. </param>
+        /// <param name="name"></param>
+        /// <param name="userRole"> The role of the logged in user within the organization. </param>
+        /// <param name="avatar"> URL of the organization&apos;s avatar. </param>
+        /// <param name="resthookSignatureKey"> Used to sign webhook payloads so you can verify their integrity. </param>
+        /// <param name="isTrial"></param>
+        /// <returns> A new <see cref="Models.Organization"/> instance for mocking. </returns>
+        public static Organization Organization(string identifier = null, string name = null, OrganizationUserRole? userRole = null, string avatar = null, string resthookSignatureKey = null, bool? isTrial = null)
+        {
+            return new Organization(identifier, name, userRole, avatar, resthookSignatureKey, isTrial);
+        }
+
+        /// <summary> Initializes a new instance of PathsCkdzu3OrganizationMembershipsGetResponses200ContentApplicationJsonSchema. </summary>
+        /// <param name="count"> Number of items in results. </param>
+        /// <param name="next"> URL to request next page of results. </param>
+        /// <param name="previous"> URL to request previous page of results. </param>
+        /// <param name="results"></param>
+        /// <returns> A new <see cref="Models.PathsCkdzu3OrganizationMembershipsGetResponses200ContentApplicationJsonSchema"/> instance for mocking. </returns>
+        public static PathsCkdzu3OrganizationMembershipsGetResponses200ContentApplicationJsonSchema PathsCkdzu3OrganizationMembershipsGetResponses200ContentApplicationJsonSchema(int count = default, string next = null, string previous = null, IEnumerable<OrganizationMembership> results = null)
+        {
+            results ??= new List<OrganizationMembership>();
+
+            return new PathsCkdzu3OrganizationMembershipsGetResponses200ContentApplicationJsonSchema(count, next, previous, results?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of PaginatedResponse. </summary>
+        /// <param name="count"> Number of items in results. </param>
+        /// <param name="next"> URL to request next page of results. </param>
+        /// <param name="previous"> URL to request previous page of results. </param>
+        /// <returns> A new <see cref="Models.PaginatedResponse"/> instance for mocking. </returns>
+        public static PaginatedResponse PaginatedResponse(int count = default, string next = null, string previous = null)
+        {
+            return new PaginatedResponse(count, next, previous);
+        }
+
+        /// <summary> Initializes a new instance of Paths171Dpm5OrganizationMembershipsGetResponses200ContentApplicationJsonSchemaAllof1. </summary>
+        /// <param name="results"></param>
+        /// <returns> A new <see cref="Models.Paths171Dpm5OrganizationMembershipsGetResponses200ContentApplicationJsonSchemaAllof1"/> instance for mocking. </returns>
+        public static Paths171Dpm5OrganizationMembershipsGetResponses200ContentApplicationJsonSchemaAllof1 Paths171Dpm5OrganizationMembershipsGetResponses200ContentApplicationJsonSchemaAllof1(IEnumerable<OrganizationMembership> results = null)
+        {
+            results ??= new List<OrganizationMembership>();
+
+            return new Paths171Dpm5OrganizationMembershipsGetResponses200ContentApplicationJsonSchemaAllof1(results?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of OrganizationMembership. </summary>
+        /// <param name="identifier"> A random string that uniquely identify the resource. </param>
+        /// <param name="organization"> Uniquely identify an organization. </param>
+        /// <param name="user"></param>
+        /// <param name="role"></param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/>, <paramref name="organization"/> or <paramref name="user"/> is null. </exception>
+        /// <returns> A new <see cref="Models.OrganizationMembership"/> instance for mocking. </returns>
+        public static OrganizationMembership OrganizationMembership(string identifier = null, string organization = null, User user = null, OrganizationRole role = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+            if (organization == null)
+            {
+                throw new ArgumentNullException(nameof(organization));
+            }
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+
+            return new OrganizationMembership(identifier, organization, user, role);
+        }
+
+        /// <summary> Initializes a new instance of PathsZt2JhiInvitationsGetResponses200ContentApplicationJsonSchema. </summary>
+        /// <param name="count"> Number of items in results. </param>
+        /// <param name="next"> URL to request next page of results. </param>
+        /// <param name="previous"> URL to request previous page of results. </param>
+        /// <param name="results"></param>
+        /// <returns> A new <see cref="Models.PathsZt2JhiInvitationsGetResponses200ContentApplicationJsonSchema"/> instance for mocking. </returns>
+        public static PathsZt2JhiInvitationsGetResponses200ContentApplicationJsonSchema PathsZt2JhiInvitationsGetResponses200ContentApplicationJsonSchema(int count = default, string next = null, string previous = null, IEnumerable<Invitation> results = null)
+        {
+            results ??= new List<Invitation>();
+
+            return new PathsZt2JhiInvitationsGetResponses200ContentApplicationJsonSchema(count, next, previous, results?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of PathsSnpek6InvitationsGetResponses200ContentApplicationJsonSchemaAllof1. </summary>
+        /// <param name="results"></param>
+        /// <returns> A new <see cref="Models.PathsSnpek6InvitationsGetResponses200ContentApplicationJsonSchemaAllof1"/> instance for mocking. </returns>
+        public static PathsSnpek6InvitationsGetResponses200ContentApplicationJsonSchemaAllof1 PathsSnpek6InvitationsGetResponses200ContentApplicationJsonSchemaAllof1(IEnumerable<Invitation> results = null)
+        {
+            results ??= new List<Invitation>();
+
+            return new PathsSnpek6InvitationsGetResponses200ContentApplicationJsonSchemaAllof1(results?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of Invitation. </summary>
+        /// <param name="identifier"> Uniquely identify an invitation. </param>
+        /// <param name="organization"></param>
+        /// <param name="email"> The email which the invitation is sent to. </param>
+        /// <param name="role"></param>
+        /// <param name="status"></param>
+        /// <param name="expiryDate"> The date after which the invitation expires. Default is 10 days from now. </param>
+        /// <param name="invitedBy"></param>
+        /// <param name="respondedBy"></param>
+        /// <param name="createdDt"></param>
+        /// <returns> A new <see cref="Models.Invitation"/> instance for mocking. </returns>
+        public static Invitation Invitation(string identifier = null, Organization organization = null, string email = null, OrganizationRole? role = null, InvitationStatus? status = null, DateTimeOffset? expiryDate = null, User invitedBy = null, InvitationRespondedBy respondedBy = null, DateTimeOffset? createdDt = null)
+        {
+            return new Invitation(identifier, organization, email, role, status, expiryDate, invitedBy, respondedBy, createdDt);
+        }
+
+        /// <summary> Initializes a new instance of Extractor. </summary>
+        /// <param name="id"> Extractor&apos;s ID. </param>
+        /// <param name="identifier"></param>
+        /// <param name="name"></param>
+        /// <param name="namePlural"></param>
+        /// <param name="baseExtractor"></param>
+        /// <param name="organization"></param>
+        /// <param name="category"></param>
+        /// <param name="validatable"></param>
+        /// <param name="isCustom"></param>
+        /// <param name="fieldGroups"></param>
+        /// <param name="createdDt"></param>
+        /// <returns> A new <see cref="Models.Extractor"/> instance for mocking. </returns>
+        public static Extractor Extractor(int id = default, string identifier = null, string name = null, string namePlural = null, ExtractorBaseExtractor baseExtractor = null, Organization organization = null, string category = null, bool validatable = default, bool? isCustom = null, ExtractorFieldGroups fieldGroups = null, DateTimeOffset? createdDt = null)
+        {
+            return new Extractor(id, identifier, name, namePlural, baseExtractor, organization, category, validatable, isCustom, fieldGroups, createdDt);
+        }
+
+        /// <summary> Initializes a new instance of ExtractorBaseExtractor. </summary>
+        /// <param name="id"></param>
+        /// <param name="identifier"></param>
+        /// <param name="name"></param>
+        /// <param name="namePlural"></param>
+        /// <param name="validatable"></param>
+        /// <param name="isCustom"></param>
+        /// <param name="createdDt"></param>
+        /// <returns> A new <see cref="Models.ExtractorBaseExtractor"/> instance for mocking. </returns>
+        public static ExtractorBaseExtractor ExtractorBaseExtractor(int id = default, string identifier = null, string name = null, string namePlural = null, bool validatable = default, bool? isCustom = null, DateTimeOffset? createdDt = null)
+        {
+            return new ExtractorBaseExtractor(id, identifier, name, namePlural, validatable, isCustom, createdDt);
+        }
+
+        /// <summary> Initializes a new instance of DataPoint. </summary>
+        /// <param name="identifier"> Uniquely identify a data point. </param>
+        /// <param name="name"></param>
+        /// <param name="slug"></param>
+        /// <param name="description"></param>
+        /// <param name="annotationContentType"></param>
+        /// <param name="organization"></param>
+        /// <param name="extractor"> Extractor&apos;s ID. </param>
+        /// <param name="multiple"></param>
+        /// <param name="noRect"></param>
+        /// <param name="similarTo"></param>
+        /// <param name="choices"></param>
+        /// <param name="children"></param>
+        /// <returns> A new <see cref="Models.DataPoint"/> instance for mocking. </returns>
+        public static DataPoint DataPoint(string identifier = null, string name = null, string slug = null, string description = null, AnnotationContentType annotationContentType = default, Organization organization = null, int extractor = default, bool? multiple = null, bool? noRect = null, IEnumerable<string> similarTo = null, IEnumerable<DataPointChoicesItem> choices = null, IEnumerable<DataPoint> children = null)
+        {
+            similarTo ??= new List<string>();
+            choices ??= new List<DataPointChoicesItem>();
+            children ??= new List<DataPoint>();
+
+            return new DataPoint(identifier, name, slug, description, annotationContentType, organization, extractor, multiple, noRect, similarTo?.ToList(), choices?.ToList(), children?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of DataPointChoicesItem. </summary>
+        /// <param name="label"></param>
+        /// <exception cref="ArgumentNullException"> <paramref name="label"/> is null. </exception>
+        /// <returns> A new <see cref="Models.DataPointChoicesItem"/> instance for mocking. </returns>
+        public static DataPointChoicesItem DataPointChoicesItem(string label = null)
+        {
+            if (label == null)
+            {
+                throw new ArgumentNullException(nameof(label));
+            }
+
+            return new DataPointChoicesItem(label);
+        }
+
+        /// <summary> Initializes a new instance of Workspace. </summary>
+        /// <param name="identifier"> Uniquely identify a workspace. </param>
+        /// <param name="organization"></param>
+        /// <param name="name"></param>
+        /// <param name="visibility"> Visibility &quot;organization&quot; means everyone in the organization can access the workspace. Visibility &quot;private&quot; means only people explicitly added can access the workspace. </param>
+        /// <param name="collections"></param>
+        /// <param name="rejectInvalidDocuments"> If true, the uploaded document will be rejected if it&apos;s of the wrong document type, or if its document type cannot be determined. No credits will be consumed. </param>
+        /// <param name="members"></param>
+        /// <param name="unvalidatedDocsCount"> Number of unvalidated documents in the workspace. </param>
+        /// <param name="confirmedDocsCount"> Number of validated documents in the workspace. </param>
+        /// <returns> A new <see cref="Models.Workspace"/> instance for mocking. </returns>
+        public static Workspace Workspace(string identifier = null, Organization organization = null, string name = null, WorkspaceVisibility? visibility = null, IEnumerable<WorkspaceCollectionsItem> collections = null, bool? rejectInvalidDocuments = null, IEnumerable<User> members = null, int? unvalidatedDocsCount = null, int? confirmedDocsCount = null)
+        {
+            collections ??= new List<WorkspaceCollectionsItem>();
+            members ??= new List<User>();
+
+            return new Workspace(identifier, organization, name, visibility, collections?.ToList(), rejectInvalidDocuments, members?.ToList(), unvalidatedDocsCount, confirmedDocsCount);
+        }
+
+        /// <summary> Initializes a new instance of WorkspaceCollectionsItem. </summary>
+        /// <param name="identifier"> Uniquely identify a collection. </param>
+        /// <param name="name"></param>
+        /// <param name="extractor"></param>
+        /// <param name="unvalidatedDocsCount"> Number of unvalidated documents in the collection. </param>
+        /// <param name="confirmedDocsCount"> Number of validated documents in the collection. </param>
+        /// <returns> A new <see cref="Models.WorkspaceCollectionsItem"/> instance for mocking. </returns>
+        public static WorkspaceCollectionsItem WorkspaceCollectionsItem(string identifier = null, string name = null, WorkspaceCollectionsItemExtractor extractor = null, int? unvalidatedDocsCount = null, int? confirmedDocsCount = null)
+        {
+            return new WorkspaceCollectionsItem(identifier, name, extractor, unvalidatedDocsCount, confirmedDocsCount);
+        }
+
+        /// <summary> Initializes a new instance of WorkspaceCollectionsItemExtractor. </summary>
+        /// <param name="id"> Extractor&apos;s ID. </param>
+        /// <param name="identifier"></param>
+        /// <param name="name"></param>
+        /// <param name="namePlural"></param>
+        /// <param name="baseExtractor"></param>
+        /// <param name="category"></param>
+        /// <param name="validatable"></param>
+        /// <param name="isCustom"></param>
+        /// <param name="createdDt"></param>
+        /// <returns> A new <see cref="Models.WorkspaceCollectionsItemExtractor"/> instance for mocking. </returns>
+        public static WorkspaceCollectionsItemExtractor WorkspaceCollectionsItemExtractor(int id = default, string identifier = null, string name = null, string namePlural = null, BaseExtractor baseExtractor = null, string category = null, bool validatable = default, bool? isCustom = null, DateTimeOffset? createdDt = null)
+        {
+            return new WorkspaceCollectionsItemExtractor(id, identifier, name, namePlural, baseExtractor, category, validatable, isCustom, createdDt);
+        }
+
+        /// <summary> Initializes a new instance of BaseExtractor. </summary>
+        /// <param name="id"></param>
+        /// <param name="identifier"></param>
+        /// <param name="name"></param>
+        /// <param name="namePlural"></param>
+        /// <param name="validatable"></param>
+        /// <param name="isCustom"></param>
+        /// <param name="createdDt"></param>
+        /// <returns> A new <see cref="Models.BaseExtractor"/> instance for mocking. </returns>
+        public static BaseExtractor BaseExtractor(int id = default, string identifier = null, string name = null, string namePlural = null, bool validatable = default, bool? isCustom = null, DateTimeOffset? createdDt = null)
+        {
+            return new BaseExtractor(id, identifier, name, namePlural, validatable, isCustom, createdDt);
+        }
+
+        /// <summary> Initializes a new instance of PathsAdr1YhWorkspaceMembershipsGetResponses200ContentApplicationJsonSchema. </summary>
+        /// <param name="count"> Number of items in results. </param>
+        /// <param name="next"> URL to request next page of results. </param>
+        /// <param name="previous"> URL to request previous page of results. </param>
+        /// <param name="results"></param>
+        /// <returns> A new <see cref="Models.PathsAdr1YhWorkspaceMembershipsGetResponses200ContentApplicationJsonSchema"/> instance for mocking. </returns>
+        public static PathsAdr1YhWorkspaceMembershipsGetResponses200ContentApplicationJsonSchema PathsAdr1YhWorkspaceMembershipsGetResponses200ContentApplicationJsonSchema(int count = default, string next = null, string previous = null, IEnumerable<WorkspaceMembership> results = null)
+        {
+            results ??= new List<WorkspaceMembership>();
+
+            return new PathsAdr1YhWorkspaceMembershipsGetResponses200ContentApplicationJsonSchema(count, next, previous, results?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of ListResult. </summary>
+        /// <param name="count"> Number of items in results. </param>
+        /// <param name="next"> URL to request next page of results. </param>
+        /// <param name="previous"> URL to request previous page of results. </param>
+        /// <returns> A new <see cref="Models.ListResult"/> instance for mocking. </returns>
+        public static ListResult ListResult(int count = default, string next = null, string previous = null)
+        {
+            return new ListResult(count, next, previous);
+        }
+
+        /// <summary> Initializes a new instance of Paths1Vlpqy9WorkspaceMembershipsGetResponses200ContentApplicationJsonSchemaAllof1. </summary>
+        /// <param name="results"></param>
+        /// <returns> A new <see cref="Models.Paths1Vlpqy9WorkspaceMembershipsGetResponses200ContentApplicationJsonSchemaAllof1"/> instance for mocking. </returns>
+        public static Paths1Vlpqy9WorkspaceMembershipsGetResponses200ContentApplicationJsonSchemaAllof1 Paths1Vlpqy9WorkspaceMembershipsGetResponses200ContentApplicationJsonSchemaAllof1(IEnumerable<WorkspaceMembership> results = null)
+        {
+            results ??= new List<WorkspaceMembership>();
+
+            return new Paths1Vlpqy9WorkspaceMembershipsGetResponses200ContentApplicationJsonSchemaAllof1(results?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of WorkspaceMembership. </summary>
+        /// <param name="identifier"> Uniquely identify a membership. </param>
+        /// <param name="workspace"> Uniquely identify a workspace. </param>
+        /// <param name="user"></param>
+        /// <returns> A new <see cref="Models.WorkspaceMembership"/> instance for mocking. </returns>
+        public static WorkspaceMembership WorkspaceMembership(string identifier = null, string workspace = null, User user = null)
+        {
+            return new WorkspaceMembership(identifier, workspace, user);
+        }
+
+        /// <summary> Initializes a new instance of Collection. </summary>
+        /// <param name="identifier"> Uniquely identify a collection. </param>
+        /// <param name="name"></param>
+        /// <param name="workspace"></param>
+        /// <param name="extractor"></param>
+        /// <param name="autoValidationThreshold"></param>
+        /// <param name="fields"></param>
+        /// <param name="fieldsConfigured"></param>
+        /// <param name="dateFormatPreference"></param>
+        /// <param name="dateFormatFromDocument"> Predict the date format from any dates in the document that is not ambiguous. </param>
+        /// <param name="extractorConfig"> Extra configurations specific to an extractor. </param>
+        /// <param name="unvalidatedDocsCount"> Number of unvalidated documents in the collection. </param>
+        /// <param name="confirmedDocsCount"> Number of validated documents in the collection. </param>
+        /// <returns> A new <see cref="Models.Collection"/> instance for mocking. </returns>
+        public static Collection Collection(string identifier = null, string name = null, CollectionWorkspace workspace = null, Extractor extractor = null, float? autoValidationThreshold = null, IEnumerable<FieldGroup> fields = null, bool? fieldsConfigured = null, CollectionDateFormatPreference? dateFormatPreference = null, bool? dateFormatFromDocument = null, IReadOnlyDictionary<string, object> extractorConfig = null, int? unvalidatedDocsCount = null, int? confirmedDocsCount = null)
+        {
+            fields ??= new List<FieldGroup>();
+            extractorConfig ??= new Dictionary<string, object>();
+
+            return new Collection(identifier, name, workspace, extractor, autoValidationThreshold, fields?.ToList(), fieldsConfigured, dateFormatPreference, dateFormatFromDocument, extractorConfig, unvalidatedDocsCount, confirmedDocsCount);
+        }
+
+        /// <summary> Initializes a new instance of CollectionWorkspace. </summary>
+        /// <param name="identifier"> Uniquely identify a workspace. </param>
+        /// <param name="organization"></param>
+        /// <param name="name"></param>
+        /// <returns> A new <see cref="Models.CollectionWorkspace"/> instance for mocking. </returns>
+        public static CollectionWorkspace CollectionWorkspace(string identifier = null, Organization organization = null, string name = null)
+        {
+            return new CollectionWorkspace(identifier, organization, name);
         }
     }
 }

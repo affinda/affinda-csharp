@@ -23,7 +23,7 @@ namespace Affinda.API.Models
         public string Url { get; }
         /// <summary> Gets the data. </summary>
         public string Data { get; }
-        /// <summary> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </summary>
+        /// <summary> A random string that uniquely identify the resource. </summary>
         public string Identifier { get; }
         /// <summary> Optional filename of the file. </summary>
         public string FileName { get; }

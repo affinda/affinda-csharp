@@ -13,7 +13,7 @@ namespace Affinda.API.Models
     public partial class JobDescriptionSearchResult
     {
         /// <summary> Initializes a new instance of JobDescriptionSearchResult. </summary>
-        /// <param name="identifier"> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </param>
+        /// <param name="identifier"> A random string that uniquely identify the resource. </param>
         /// <param name="score"></param>
         /// <param name="pdf"></param>
         /// <param name="jobTitle"></param>
@@ -25,9 +25,13 @@ namespace Affinda.API.Models
         /// <param name="education"></param>
         /// <param name="searchExpression"></param>
         /// <param name="organizationName"></param>
-        /// <exception cref="ArgumentNullException"> <paramref name="pdf"/>, <paramref name="jobTitle"/>, <paramref name="managementLevel"/>, <paramref name="experience"/>, <paramref name="skills"/>, <paramref name="languages"/>, <paramref name="location"/>, <paramref name="education"/> or <paramref name="searchExpression"/> is null. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/>, <paramref name="pdf"/>, <paramref name="jobTitle"/>, <paramref name="managementLevel"/>, <paramref name="experience"/>, <paramref name="skills"/>, <paramref name="languages"/>, <paramref name="location"/>, <paramref name="education"/> or <paramref name="searchExpression"/> is null. </exception>
         internal JobDescriptionSearchResult(string identifier, float score, string pdf, JobTitleSearchScoreComponent jobTitle, ManagementLevelSearchScoreComponent managementLevel, ExperienceSearchScoreComponent experience, SkillsSearchScoreComponent skills, LanguagesSearchScoreComponent languages, LocationSearchScoreComponent location, EducationSearchScoreComponent education, SearchExpressionSearchScoreComponent searchExpression, string organizationName)
         {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
             if (pdf == null)
             {
                 throw new ArgumentNullException(nameof(pdf));
@@ -80,7 +84,7 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of JobDescriptionSearchResult. </summary>
-        /// <param name="identifier"> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </param>
+        /// <param name="identifier"> A random string that uniquely identify the resource. </param>
         /// <param name="score"></param>
         /// <param name="pdf"></param>
         /// <param name="jobTitle"></param>
@@ -110,7 +114,7 @@ namespace Affinda.API.Models
             OrganizationName = organizationName;
         }
 
-        /// <summary> Unique identifier for the document. If creating a document and left blank, one will be automatically generated. </summary>
+        /// <summary> A random string that uniquely identify the resource. </summary>
         public string Identifier { get; }
         /// <summary> Gets the score. </summary>
         public float Score { get; }

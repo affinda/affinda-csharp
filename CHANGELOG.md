@@ -6,11 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [2.8.1] - 2023-01-13
-### Added
-- Add back actions to ResumeSearchConfig
-
-## [2.8.0] - 2023-01-12
+## [3.0.0] - 2023-01-13
 ### Added
 - Added endpoints: Organization, Membership, Invitation, tags
 - Added name, organization to DataPoint, change id to identifier
@@ -27,6 +23,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Don't paginate extractors endpoint
 - Fix avatar uploads
 - Allow writing resthookSignatureKey
+
+## [2.8.0] - 2023-01-12
+- Yanked as this was a breaking release, see newer release for more info
 
 ## [2.7.0] - 2023-01-10
 ### Added
