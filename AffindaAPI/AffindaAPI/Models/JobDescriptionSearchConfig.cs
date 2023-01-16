@@ -43,11 +43,12 @@ namespace Affinda.API.Models
         /// <param name="weightManagementLevel"></param>
         /// <param name="weightKeywords"></param>
         /// <param name="indices"> List of index names. </param>
+        /// <param name="showIndexDropdown"> Controls whether or not the index dropdown is displayed to the user. </param>
         /// <param name="searchToolTheme"> Customize the theme of the embeded search tool. </param>
         /// <param name="userId"> ID of the logged in user. </param>
         /// <param name="username"> Username of the logged in user. </param>
         /// <param name="actions"> A list of actions to show in the dropdown in the embedded search tool. </param>
-        internal JobDescriptionSearchConfig(bool? allowPdfDownload, int? maxResults, bool? displayJobTitle, bool? displayLocation, bool? displayYearsExperience, bool? displayOccupationGroup, bool? displayEducation, bool? displaySkills, bool? displayLanguages, bool? displayManagementLevel, bool? displayKeywords, float? weightJobTitle, float? weightLocation, float? weightYearsExperience, float? weightOccupationGroup, float? weightEducation, float? weightSkills, float? weightLanguages, float? weightManagementLevel, float? weightKeywords, IList<string> indices, IDictionary<string, object> searchToolTheme, int? userId, string username, IList<JobDescriptionSearchConfigActionsItem> actions)
+        internal JobDescriptionSearchConfig(bool? allowPdfDownload, int? maxResults, bool? displayJobTitle, bool? displayLocation, bool? displayYearsExperience, bool? displayOccupationGroup, bool? displayEducation, bool? displaySkills, bool? displayLanguages, bool? displayManagementLevel, bool? displayKeywords, float? weightJobTitle, float? weightLocation, float? weightYearsExperience, float? weightOccupationGroup, float? weightEducation, float? weightSkills, float? weightLanguages, float? weightManagementLevel, float? weightKeywords, IList<string> indices, bool? showIndexDropdown, IDictionary<string, object> searchToolTheme, int? userId, string username, IList<JobDescriptionSearchConfigActionsItem> actions)
         {
             AllowPdfDownload = allowPdfDownload;
             MaxResults = maxResults;
@@ -70,6 +71,7 @@ namespace Affinda.API.Models
             WeightManagementLevel = weightManagementLevel;
             WeightKeywords = weightKeywords;
             Indices = indices;
+            ShowIndexDropdown = showIndexDropdown;
             SearchToolTheme = searchToolTheme;
             UserId = userId;
             Username = username;
@@ -118,6 +120,8 @@ namespace Affinda.API.Models
         public float? WeightKeywords { get; set; }
         /// <summary> List of index names. </summary>
         public IList<string> Indices { get; }
+        /// <summary> Controls whether or not the index dropdown is displayed to the user. </summary>
+        public bool? ShowIndexDropdown { get; set; }
         /// <summary> Customize the theme of the embeded search tool. </summary>
         public IDictionary<string, object> SearchToolTheme { get; set; }
         /// <summary> ID of the logged in user. </summary>

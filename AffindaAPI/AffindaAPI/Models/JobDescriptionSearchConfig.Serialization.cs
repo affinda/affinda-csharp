@@ -133,6 +133,18 @@ namespace Affinda.API.Models
                 }
                 writer.WriteEndArray();
             }
+            if (Optional.IsDefined(ShowIndexDropdown))
+            {
+                if (ShowIndexDropdown != null)
+                {
+                    writer.WritePropertyName("showIndexDropdown");
+                    writer.WriteBooleanValue(ShowIndexDropdown.Value);
+                }
+                else
+                {
+                    writer.WriteNull("showIndexDropdown");
+                }
+            }
             if (Optional.IsCollectionDefined(SearchToolTheme))
             {
                 if (SearchToolTheme != null)
@@ -194,6 +206,7 @@ namespace Affinda.API.Models
             Optional<float> weightManagementLevel = default;
             Optional<float> weightKeywords = default;
             Optional<IList<string>> indices = default;
+            Optional<bool?> showIndexDropdown = default;
             Optional<IDictionary<string, object>> searchToolTheme = default;
             Optional<int> userId = default;
             Optional<string> username = default;
@@ -415,6 +428,16 @@ namespace Affinda.API.Models
                     indices = array;
                     continue;
                 }
+                if (property.NameEquals("showIndexDropdown"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        showIndexDropdown = null;
+                        continue;
+                    }
+                    showIndexDropdown = property.Value.GetBoolean();
+                    continue;
+                }
                 if (property.NameEquals("searchToolTheme"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
@@ -461,7 +484,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new JobDescriptionSearchConfig(Optional.ToNullable(allowPdfDownload), Optional.ToNullable(maxResults), Optional.ToNullable(displayJobTitle), Optional.ToNullable(displayLocation), Optional.ToNullable(displayYearsExperience), Optional.ToNullable(displayOccupationGroup), Optional.ToNullable(displayEducation), Optional.ToNullable(displaySkills), Optional.ToNullable(displayLanguages), Optional.ToNullable(displayManagementLevel), Optional.ToNullable(displayKeywords), Optional.ToNullable(weightJobTitle), Optional.ToNullable(weightLocation), Optional.ToNullable(weightYearsExperience), Optional.ToNullable(weightOccupationGroup), Optional.ToNullable(weightEducation), Optional.ToNullable(weightSkills), Optional.ToNullable(weightLanguages), Optional.ToNullable(weightManagementLevel), Optional.ToNullable(weightKeywords), Optional.ToList(indices), Optional.ToDictionary(searchToolTheme), Optional.ToNullable(userId), username.Value, Optional.ToList(actions));
+            return new JobDescriptionSearchConfig(Optional.ToNullable(allowPdfDownload), Optional.ToNullable(maxResults), Optional.ToNullable(displayJobTitle), Optional.ToNullable(displayLocation), Optional.ToNullable(displayYearsExperience), Optional.ToNullable(displayOccupationGroup), Optional.ToNullable(displayEducation), Optional.ToNullable(displaySkills), Optional.ToNullable(displayLanguages), Optional.ToNullable(displayManagementLevel), Optional.ToNullable(displayKeywords), Optional.ToNullable(weightJobTitle), Optional.ToNullable(weightLocation), Optional.ToNullable(weightYearsExperience), Optional.ToNullable(weightOccupationGroup), Optional.ToNullable(weightEducation), Optional.ToNullable(weightSkills), Optional.ToNullable(weightLanguages), Optional.ToNullable(weightManagementLevel), Optional.ToNullable(weightKeywords), Optional.ToList(indices), Optional.ToNullable(showIndexDropdown), Optional.ToDictionary(searchToolTheme), Optional.ToNullable(userId), username.Value, Optional.ToList(actions));
         }
     }
 }

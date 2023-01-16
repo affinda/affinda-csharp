@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Add document.collection.extractor.identifier to DocumentMeta
+- Add an option to force display the index dropdown
 
 ### Changed
 - Updated endpoints for old v2 and newer v3 to point to the correct places.

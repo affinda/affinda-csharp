@@ -1459,18 +1459,19 @@ namespace Affinda.API.Models
         /// <param name="weightManagementLevel"></param>
         /// <param name="weightKeywords"></param>
         /// <param name="indices"> List of index names. </param>
+        /// <param name="showIndexDropdown"> Controls whether or not the index dropdown is displayed to the user. </param>
         /// <param name="searchToolTheme"> Customize the theme of the embeded search tool. </param>
         /// <param name="userId"> ID of the logged in user. </param>
         /// <param name="username"> Username of the logged in user. </param>
         /// <param name="actions"> A list of actions to show in the dropdown in the embedded search tool. </param>
         /// <returns> A new <see cref="Models.JobDescriptionSearchConfig"/> instance for mocking. </returns>
-        public static JobDescriptionSearchConfig JobDescriptionSearchConfig(bool? allowPdfDownload = null, int? maxResults = null, bool? displayJobTitle = null, bool? displayLocation = null, bool? displayYearsExperience = null, bool? displayOccupationGroup = null, bool? displayEducation = null, bool? displaySkills = null, bool? displayLanguages = null, bool? displayManagementLevel = null, bool? displayKeywords = null, float? weightJobTitle = null, float? weightLocation = null, float? weightYearsExperience = null, float? weightOccupationGroup = null, float? weightEducation = null, float? weightSkills = null, float? weightLanguages = null, float? weightManagementLevel = null, float? weightKeywords = null, IEnumerable<string> indices = null, IDictionary<string, object> searchToolTheme = null, int? userId = null, string username = null, IEnumerable<JobDescriptionSearchConfigActionsItem> actions = null)
+        public static JobDescriptionSearchConfig JobDescriptionSearchConfig(bool? allowPdfDownload = null, int? maxResults = null, bool? displayJobTitle = null, bool? displayLocation = null, bool? displayYearsExperience = null, bool? displayOccupationGroup = null, bool? displayEducation = null, bool? displaySkills = null, bool? displayLanguages = null, bool? displayManagementLevel = null, bool? displayKeywords = null, float? weightJobTitle = null, float? weightLocation = null, float? weightYearsExperience = null, float? weightOccupationGroup = null, float? weightEducation = null, float? weightSkills = null, float? weightLanguages = null, float? weightManagementLevel = null, float? weightKeywords = null, IEnumerable<string> indices = null, bool? showIndexDropdown = null, IDictionary<string, object> searchToolTheme = null, int? userId = null, string username = null, IEnumerable<JobDescriptionSearchConfigActionsItem> actions = null)
         {
             indices ??= new List<string>();
             searchToolTheme ??= new Dictionary<string, object>();
             actions ??= new List<JobDescriptionSearchConfigActionsItem>();
 
-            return new JobDescriptionSearchConfig(allowPdfDownload, maxResults, displayJobTitle, displayLocation, displayYearsExperience, displayOccupationGroup, displayEducation, displaySkills, displayLanguages, displayManagementLevel, displayKeywords, weightJobTitle, weightLocation, weightYearsExperience, weightOccupationGroup, weightEducation, weightSkills, weightLanguages, weightManagementLevel, weightKeywords, indices?.ToList(), searchToolTheme, userId, username, actions?.ToList());
+            return new JobDescriptionSearchConfig(allowPdfDownload, maxResults, displayJobTitle, displayLocation, displayYearsExperience, displayOccupationGroup, displayEducation, displaySkills, displayLanguages, displayManagementLevel, displayKeywords, weightJobTitle, weightLocation, weightYearsExperience, weightOccupationGroup, weightEducation, weightSkills, weightLanguages, weightManagementLevel, weightKeywords, indices?.ToList(), showIndexDropdown, searchToolTheme, userId, username, actions?.ToList());
         }
 
         /// <summary> Initializes a new instance of JobDescriptionSearchEmbed. </summary>
@@ -1809,18 +1810,19 @@ namespace Affinda.API.Models
         /// <param name="weightManagementLevel"></param>
         /// <param name="weightKeywords"></param>
         /// <param name="indices"> List of index names. </param>
+        /// <param name="showIndexDropdown"> Controls whether or not the index dropdown is displayed to the user. </param>
         /// <param name="searchToolTheme"> Customize the theme of the embeded search tool. </param>
         /// <param name="userId"> ID of the logged in user. </param>
         /// <param name="username"> Username of the logged in user. </param>
         /// <param name="actions"> A list of actions to show in the dropdown in the embedded search tool. </param>
         /// <returns> A new <see cref="Models.ResumeSearchConfig"/> instance for mocking. </returns>
-        public static ResumeSearchConfig ResumeSearchConfig(bool? allowPdfDownload = null, int? maxResults = null, bool? displayJobTitle = null, bool? displayLocation = null, bool? displayYearsExperience = null, bool? displayOccupationGroup = null, bool? displayEducation = null, bool? displaySkills = null, bool? displayLanguages = null, bool? displayManagementLevel = null, bool? displayKeywords = null, float? weightJobTitle = null, float? weightLocation = null, float? weightYearsExperience = null, float? weightOccupationGroup = null, float? weightEducation = null, float? weightSkills = null, float? weightLanguages = null, float? weightManagementLevel = null, float? weightKeywords = null, IEnumerable<string> indices = null, IDictionary<string, object> searchToolTheme = null, int? userId = null, string username = null, IEnumerable<ResumeSearchConfigActionsItem> actions = null)
+        public static ResumeSearchConfig ResumeSearchConfig(bool? allowPdfDownload = null, int? maxResults = null, bool? displayJobTitle = null, bool? displayLocation = null, bool? displayYearsExperience = null, bool? displayOccupationGroup = null, bool? displayEducation = null, bool? displaySkills = null, bool? displayLanguages = null, bool? displayManagementLevel = null, bool? displayKeywords = null, float? weightJobTitle = null, float? weightLocation = null, float? weightYearsExperience = null, float? weightOccupationGroup = null, float? weightEducation = null, float? weightSkills = null, float? weightLanguages = null, float? weightManagementLevel = null, float? weightKeywords = null, IEnumerable<string> indices = null, bool? showIndexDropdown = null, IDictionary<string, object> searchToolTheme = null, int? userId = null, string username = null, IEnumerable<ResumeSearchConfigActionsItem> actions = null)
         {
             indices ??= new List<string>();
             searchToolTheme ??= new Dictionary<string, object>();
             actions ??= new List<ResumeSearchConfigActionsItem>();
 
-            return new ResumeSearchConfig(allowPdfDownload, maxResults, displayJobTitle, displayLocation, displayYearsExperience, displayOccupationGroup, displayEducation, displaySkills, displayLanguages, displayManagementLevel, displayKeywords, weightJobTitle, weightLocation, weightYearsExperience, weightOccupationGroup, weightEducation, weightSkills, weightLanguages, weightManagementLevel, weightKeywords, indices?.ToList(), searchToolTheme, userId, username, actions?.ToList());
+            return new ResumeSearchConfig(allowPdfDownload, maxResults, displayJobTitle, displayLocation, displayYearsExperience, displayOccupationGroup, displayEducation, displaySkills, displayLanguages, displayManagementLevel, displayKeywords, weightJobTitle, weightLocation, weightYearsExperience, weightOccupationGroup, weightEducation, weightSkills, weightLanguages, weightManagementLevel, weightKeywords, indices?.ToList(), showIndexDropdown, searchToolTheme, userId, username, actions?.ToList());
         }
 
         /// <summary> Initializes a new instance of ResumeSearchEmbed. </summary>
