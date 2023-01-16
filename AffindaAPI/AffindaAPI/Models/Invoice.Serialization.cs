@@ -32,11 +32,6 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("data"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        data = null;
-                        continue;
-                    }
                     data = InvoiceData.DeserializeInvoiceData(property.Value);
                     continue;
                 }

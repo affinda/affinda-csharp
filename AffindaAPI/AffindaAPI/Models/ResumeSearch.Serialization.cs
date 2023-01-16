@@ -56,7 +56,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        parameters = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
                     parameters = ResumeSearchParameters.DeserializeResumeSearchParameters(property.Value);

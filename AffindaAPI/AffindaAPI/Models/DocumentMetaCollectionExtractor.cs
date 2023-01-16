@@ -17,12 +17,14 @@ namespace Affinda.API.Models
 
         /// <summary> Initializes a new instance of DocumentMetaCollectionExtractor. </summary>
         /// <param name="id"> Extractor&apos;s ID. </param>
+        /// <param name="identifier"></param>
         /// <param name="name"></param>
         /// <param name="baseExtractor"> Base extractor&apos;s ID. </param>
         /// <param name="validatable"></param>
-        internal DocumentMetaCollectionExtractor(int? id, string name, int? baseExtractor, bool? validatable)
+        internal DocumentMetaCollectionExtractor(int? id, string identifier, string name, int? baseExtractor, bool? validatable)
         {
             Id = id;
+            Identifier = identifier;
             Name = name;
             BaseExtractor = baseExtractor;
             Validatable = validatable;
@@ -30,6 +32,8 @@ namespace Affinda.API.Models
 
         /// <summary> Extractor&apos;s ID. </summary>
         public int? Id { get; }
+        /// <summary> Gets the identifier. </summary>
+        public string Identifier { get; }
         /// <summary> Gets the name. </summary>
         public string Name { get; }
         /// <summary> Base extractor&apos;s ID. </summary>

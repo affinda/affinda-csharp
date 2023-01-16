@@ -15,6 +15,7 @@ namespace Affinda.API.Models
         internal static DocumentMetaCollectionExtractor DeserializeDocumentMetaCollectionExtractor(JsonElement element)
         {
             Optional<int> id = default;
+            Optional<string> identifier = default;
             Optional<string> name = default;
             Optional<int> baseExtractor = default;
             Optional<bool> validatable = default;
@@ -28,6 +29,11 @@ namespace Affinda.API.Models
                         continue;
                     }
                     id = property.Value.GetInt32();
+                    continue;
+                }
+                if (property.NameEquals("identifier"))
+                {
+                    identifier = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("name"))
@@ -56,7 +62,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new DocumentMetaCollectionExtractor(Optional.ToNullable(id), name.Value, Optional.ToNullable(baseExtractor), Optional.ToNullable(validatable));
+            return new DocumentMetaCollectionExtractor(Optional.ToNullable(id), identifier.Value, name.Value, Optional.ToNullable(baseExtractor), Optional.ToNullable(validatable));
         }
     }
 }

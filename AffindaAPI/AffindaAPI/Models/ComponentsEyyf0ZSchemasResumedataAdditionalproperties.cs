@@ -7,7 +7,7 @@
 
 namespace Affinda.API.Models
 {
-    /// <summary> For custom fields. E.g. &quot;isAvailable&quot;: true. </summary>
+    /// <summary> For custom fields. E.g. &apos;isAvailable&apos;: true. </summary>
     public partial class ComponentsEyyf0ZSchemasResumedataAdditionalproperties
     {
         /// <summary> Initializes a new instance of ComponentsEyyf0ZSchemasResumedataAdditionalproperties. </summary>

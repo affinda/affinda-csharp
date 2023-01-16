@@ -11,7 +11,7 @@ using System.Collections.Generic;
 namespace Affinda.API.Models
 {
     /// <summary> The InvoiceDataSupplierCompanyName. </summary>
-    public partial class InvoiceDataSupplierCompanyName : TextAnnotation
+    public partial class InvoiceDataSupplierCompanyName : TextAnnotationV2
     {
         /// <summary> Initializes a new instance of InvoiceDataSupplierCompanyName. </summary>
         /// <param name="id"></param>
@@ -25,15 +25,10 @@ namespace Affinda.API.Models
         /// <param name="isVerified"></param>
         /// <param name="isClientVerified"></param>
         /// <param name="isAutoVerified"></param>
-        /// <param name="dataPoint"></param>
         /// <param name="contentType"></param>
-        /// <exception cref="ArgumentNullException"> <paramref name="dataPoint"/> or <paramref name="contentType"/> is null. </exception>
-        internal InvoiceDataSupplierCompanyName(int id, Rectangle rectangle, IEnumerable<Rectangle> rectangles, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool isClientVerified, bool isAutoVerified, string dataPoint, string contentType) : base(id, rectangle, rectangles, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType)
+        /// <exception cref="ArgumentNullException"> <paramref name="contentType"/> is null. </exception>
+        internal InvoiceDataSupplierCompanyName(int id, Rectangle rectangle, IEnumerable<Rectangle> rectangles, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool isClientVerified, bool isAutoVerified, string contentType) : base(id, rectangle, rectangles, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, contentType)
         {
-            if (dataPoint == null)
-            {
-                throw new ArgumentNullException(nameof(dataPoint));
-            }
             if (contentType == null)
             {
                 throw new ArgumentNullException(nameof(contentType));

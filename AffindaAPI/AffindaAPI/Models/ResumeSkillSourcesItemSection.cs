@@ -39,6 +39,9 @@ namespace Affinda.API.Models
         private const string NotPopulatedValue = "NotPopulated";
         private const string HeaderValue = "Header";
         private const string FooterValue = "Footer";
+        private const string SkillsInterestsLanguagesValue = "Skills/Interests/Languages";
+        private const string TrainingCertificationsValue = "Training/Certifications";
+        private const string ExtracurricularsLeadershipValue = "Extracurriculars/Leadership";
 
         /// <summary> Achievements. </summary>
         public static ResumeSkillSourcesItemSection Achievements { get; } = new ResumeSkillSourcesItemSection(AchievementsValue);
@@ -74,6 +77,12 @@ namespace Affinda.API.Models
         public static ResumeSkillSourcesItemSection Header { get; } = new ResumeSkillSourcesItemSection(HeaderValue);
         /// <summary> Footer. </summary>
         public static ResumeSkillSourcesItemSection Footer { get; } = new ResumeSkillSourcesItemSection(FooterValue);
+        /// <summary> Skills/Interests/Languages. </summary>
+        public static ResumeSkillSourcesItemSection SkillsInterestsLanguages { get; } = new ResumeSkillSourcesItemSection(SkillsInterestsLanguagesValue);
+        /// <summary> Training/Certifications. </summary>
+        public static ResumeSkillSourcesItemSection TrainingCertifications { get; } = new ResumeSkillSourcesItemSection(TrainingCertificationsValue);
+        /// <summary> Extracurriculars/Leadership. </summary>
+        public static ResumeSkillSourcesItemSection ExtracurricularsLeadership { get; } = new ResumeSkillSourcesItemSection(ExtracurricularsLeadershipValue);
         /// <summary> Determines if two <see cref="ResumeSkillSourcesItemSection"/> values are the same. </summary>
         public static bool operator ==(ResumeSkillSourcesItemSection left, ResumeSkillSourcesItemSection right) => left.Equals(right);
         /// <summary> Determines if two <see cref="ResumeSkillSourcesItemSection"/> values are not the same. </summary>

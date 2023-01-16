@@ -89,6 +89,11 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("language"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        language = null;
+                        continue;
+                    }
                     language = property.Value.GetString();
                     continue;
                 }

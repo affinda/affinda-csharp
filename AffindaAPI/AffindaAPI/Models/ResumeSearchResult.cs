@@ -27,13 +27,9 @@ namespace Affinda.API.Models
         /// <param name="occupationGroup"></param>
         /// <param name="searchExpression"></param>
         /// <param name="customData"> Dictionary of &lt;components·nqbw24·schemas·customdatasearchscorecomponent·additionalproperties&gt;. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/>, <paramref name="pdf"/>, <paramref name="jobTitle"/>, <paramref name="managementLevel"/>, <paramref name="experience"/>, <paramref name="skills"/>, <paramref name="languages"/>, <paramref name="location"/>, <paramref name="education"/>, <paramref name="occupationGroup"/>, <paramref name="searchExpression"/> or <paramref name="customData"/> is null. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="pdf"/>, <paramref name="jobTitle"/>, <paramref name="managementLevel"/>, <paramref name="experience"/>, <paramref name="skills"/>, <paramref name="languages"/>, <paramref name="location"/>, <paramref name="education"/>, <paramref name="occupationGroup"/>, <paramref name="searchExpression"/> or <paramref name="customData"/> is null. </exception>
         internal ResumeSearchResult(string identifier, float score, string pdf, JobTitleSearchScoreComponent jobTitle, ManagementLevelSearchScoreComponent managementLevel, ExperienceSearchScoreComponent experience, SkillsSearchScoreComponent skills, LanguagesSearchScoreComponent languages, LocationSearchScoreComponent location, EducationSearchScoreComponent education, OccupationGroupSearchScoreComponent occupationGroup, SearchExpressionSearchScoreComponent searchExpression, IReadOnlyDictionary<string, ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties> customData)
         {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
             if (pdf == null)
             {
                 throw new ArgumentNullException(nameof(pdf));

@@ -17,9 +17,13 @@ namespace Affinda.API.Models
         /// <param name="data"></param>
         /// <param name="meta"></param>
         /// <param name="error"></param>
-        /// <exception cref="ArgumentNullException"> <paramref name="meta"/> or <paramref name="error"/> is null. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="data"/>, <paramref name="meta"/> or <paramref name="error"/> is null. </exception>
         internal Invoice(string clientVerifiedDt, InvoiceData data, Meta meta, Error error)
         {
+            if (data == null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
             if (meta == null)
             {
                 throw new ArgumentNullException(nameof(meta));

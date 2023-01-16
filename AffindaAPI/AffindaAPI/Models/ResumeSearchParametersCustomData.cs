@@ -15,7 +15,7 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of ResumeSearchParametersCustomData. </summary>
         /// <param name="filterType"></param>
         /// <param name="dataPoint"></param>
-        /// <param name="query"> &quot;equals&quot; searches require the &quot;value&quot; key inside the query, and &quot;range&quot; searches require at least one of &quot;gte&quot; (greater than or equal) and &quot;lte&quot; (less than or equal). </param>
+        /// <param name="query"> &apos;equals&apos; searches require the &apos;value&apos; key inside the query, and &apos;range&apos; searches require at least one of &apos;gte&apos; (greater than or equal) and &apos;lte&apos; (less than or equal). </param>
         /// <exception cref="ArgumentNullException"> <paramref name="dataPoint"/> or <paramref name="query"/> is null. </exception>
         public ResumeSearchParametersCustomData(ResumeSearchParametersCustomDataFilterType filterType, string dataPoint, object query)
         {
@@ -36,7 +36,7 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of ResumeSearchParametersCustomData. </summary>
         /// <param name="filterType"></param>
         /// <param name="dataPoint"></param>
-        /// <param name="query"> &quot;equals&quot; searches require the &quot;value&quot; key inside the query, and &quot;range&quot; searches require at least one of &quot;gte&quot; (greater than or equal) and &quot;lte&quot; (less than or equal). </param>
+        /// <param name="query"> &apos;equals&apos; searches require the &apos;value&apos; key inside the query, and &apos;range&apos; searches require at least one of &apos;gte&apos; (greater than or equal) and &apos;lte&apos; (less than or equal). </param>
         /// <param name="required"></param>
         /// <param name="weight"></param>
         internal ResumeSearchParametersCustomData(ResumeSearchParametersCustomDataFilterType filterType, string dataPoint, object query, bool? required, float? weight)
@@ -52,7 +52,7 @@ namespace Affinda.API.Models
         public ResumeSearchParametersCustomDataFilterType FilterType { get; set; }
         /// <summary> Gets or sets the data point. </summary>
         public string DataPoint { get; set; }
-        /// <summary> &quot;equals&quot; searches require the &quot;value&quot; key inside the query, and &quot;range&quot; searches require at least one of &quot;gte&quot; (greater than or equal) and &quot;lte&quot; (less than or equal). </summary>
+        /// <summary> &apos;equals&apos; searches require the &apos;value&apos; key inside the query, and &apos;range&apos; searches require at least one of &apos;gte&apos; (greater than or equal) and &apos;lte&apos; (less than or equal). </summary>
         public object Query { get; set; }
         /// <summary> Gets or sets the required. </summary>
         public bool? Required { get; set; }

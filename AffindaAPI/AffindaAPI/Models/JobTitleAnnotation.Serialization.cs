@@ -27,7 +27,7 @@ namespace Affinda.API.Models
             bool isVerified = default;
             bool isClientVerified = default;
             bool isAutoVerified = default;
-            string dataPoint = default;
+            Optional<string> dataPoint = default;
             string contentType = default;
             IReadOnlyDictionary<string, object> additionalProperties = default;
             Dictionary<string, object> additionalPropertiesDictionary = new Dictionary<string, object>();
@@ -151,7 +151,7 @@ namespace Affinda.API.Models
                 additionalPropertiesDictionary.Add(property.Name, property.Value.GetObject());
             }
             additionalProperties = additionalPropertiesDictionary;
-            return new JobTitleAnnotation(id, rectangle, rectangles, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties, parsed.Value);
+            return new JobTitleAnnotation(id, rectangle, rectangles, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint.Value, contentType, additionalProperties, parsed.Value);
         }
     }
 }

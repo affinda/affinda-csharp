@@ -17,13 +17,9 @@ namespace Affinda.API.Models
         /// <param name="organization"> Uniquely identify an organization. </param>
         /// <param name="user"></param>
         /// <param name="role"></param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/>, <paramref name="organization"/> or <paramref name="user"/> is null. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="organization"/> or <paramref name="user"/> is null. </exception>
         internal OrganizationMembership(string identifier, string organization, User user, OrganizationRole role)
         {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
             if (organization == null)
             {
                 throw new ArgumentNullException(nameof(organization));

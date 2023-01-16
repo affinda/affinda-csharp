@@ -33,7 +33,7 @@ namespace Affinda.API.Models
         /// <param name="parentDocument"> If this document is part of a splitted document, this attribute points to the original document that this document is splitted from. </param>
         /// <param name="childDocuments"> If this document has been splitted into a number of child documents, this attribute points to those child documents. </param>
         /// <param name="pages"> The document&apos;s pages. </param>
-        /// <param name="isVerified"> This is true if the &quot;confirm&quot; button has been clicked in the Affinda validation tool. </param>
+        /// <param name="isVerified"> This is true if the &apos;confirm&apos; button has been clicked in the Affinda validation tool. </param>
         /// <param name="reviewUrl"> Signed URL (valid for 60 minutes) to access the validation tool.  Not applicable for documents types such a resumes. </param>
         /// <param name="ocrConfidence"> The overall confidence in the conversion of image to text.  (only applicable for images or PDF documents without a text layer). </param>
         internal Meta(string identifier, string fileName, bool? ready, DateTimeOffset? readyDt, bool? failed, string expiryTime, string language, string pdf, MetaParentDocument parentDocument, IReadOnlyList<MetaChildDocumentsItem> childDocuments, IReadOnlyList<PageMeta> pages, bool? isVerified, string reviewUrl, float? ocrConfidence)
@@ -76,7 +76,7 @@ namespace Affinda.API.Models
         public IReadOnlyList<MetaChildDocumentsItem> ChildDocuments { get; }
         /// <summary> The document&apos;s pages. </summary>
         public IReadOnlyList<PageMeta> Pages { get; }
-        /// <summary> This is true if the &quot;confirm&quot; button has been clicked in the Affinda validation tool. </summary>
+        /// <summary> This is true if the &apos;confirm&apos; button has been clicked in the Affinda validation tool. </summary>
         public bool? IsVerified { get; }
         /// <summary> Signed URL (valid for 60 minutes) to access the validation tool.  Not applicable for documents types such a resumes. </summary>
         public string ReviewUrl { get; }

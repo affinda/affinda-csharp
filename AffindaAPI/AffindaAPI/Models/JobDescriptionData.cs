@@ -16,9 +16,9 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of JobDescriptionData. </summary>
         internal JobDescriptionData()
         {
-            Languages = new ChangeTrackingList<LanguageAnnotation>();
-            Skills = new ChangeTrackingList<SkillAnnotation>();
-            Certifications = new ChangeTrackingList<TextAnnotation>();
+            Languages = new ChangeTrackingList<LanguageAnnotationV2>();
+            Skills = new ChangeTrackingList<SkillAnnotationV2>();
+            Certifications = new ChangeTrackingList<TextAnnotationV2>();
         }
 
         /// <summary> Initializes a new instance of JobDescriptionData. </summary>
@@ -39,7 +39,7 @@ namespace Affinda.API.Models
         /// <param name="location"></param>
         /// <param name="certifications"></param>
         /// <param name="yearsExperience"></param>
-        internal JobDescriptionData(JobTitleAnnotation jobTitle, TextAnnotation contactEmail, TextAnnotation contactName, TextAnnotation contactPhone, DateAnnotation startDate, DateAnnotation endDate, TextAnnotation jobType, IReadOnlyList<LanguageAnnotation> languages, IReadOnlyList<SkillAnnotation> skills, TextAnnotation organizationName, TextAnnotation organizationWebsite, TextAnnotation educationLevel, TextAnnotation educationAccreditation, ExpectedRemunerationAnnotation expectedRemuneration, LocationAnnotation location, IReadOnlyList<TextAnnotation> certifications, YearsExperienceAnnotation yearsExperience)
+        internal JobDescriptionData(JobTitleAnnotation jobTitle, TextAnnotationV2 contactEmail, TextAnnotationV2 contactName, TextAnnotationV2 contactPhone, DateAnnotation startDate, DateAnnotation endDate, TextAnnotationV2 jobType, IReadOnlyList<LanguageAnnotationV2> languages, IReadOnlyList<SkillAnnotationV2> skills, TextAnnotationV2 organizationName, TextAnnotationV2 organizationWebsite, TextAnnotationV2 educationLevel, TextAnnotationV2 educationAccreditation, ExpectedRemunerationAnnotationV2 expectedRemuneration, LocationAnnotationV2 location, IReadOnlyList<TextAnnotationV2> certifications, YearsExperienceAnnotationV2 yearsExperience)
         {
             JobTitle = jobTitle;
             ContactEmail = contactEmail;
@@ -63,36 +63,36 @@ namespace Affinda.API.Models
         /// <summary> Gets the job title. </summary>
         public JobTitleAnnotation JobTitle { get; }
         /// <summary> Gets the contact email. </summary>
-        public TextAnnotation ContactEmail { get; }
+        public TextAnnotationV2 ContactEmail { get; }
         /// <summary> Gets the contact name. </summary>
-        public TextAnnotation ContactName { get; }
+        public TextAnnotationV2 ContactName { get; }
         /// <summary> Gets the contact phone. </summary>
-        public TextAnnotation ContactPhone { get; }
+        public TextAnnotationV2 ContactPhone { get; }
         /// <summary> Gets the start date. </summary>
         public DateAnnotation StartDate { get; }
         /// <summary> Gets the end date. </summary>
         public DateAnnotation EndDate { get; }
         /// <summary> Gets the job type. </summary>
-        public TextAnnotation JobType { get; }
+        public TextAnnotationV2 JobType { get; }
         /// <summary> Gets the languages. </summary>
-        public IReadOnlyList<LanguageAnnotation> Languages { get; }
+        public IReadOnlyList<LanguageAnnotationV2> Languages { get; }
         /// <summary> Gets the skills. </summary>
-        public IReadOnlyList<SkillAnnotation> Skills { get; }
+        public IReadOnlyList<SkillAnnotationV2> Skills { get; }
         /// <summary> Gets the organization name. </summary>
-        public TextAnnotation OrganizationName { get; }
+        public TextAnnotationV2 OrganizationName { get; }
         /// <summary> Gets the organization website. </summary>
-        public TextAnnotation OrganizationWebsite { get; }
+        public TextAnnotationV2 OrganizationWebsite { get; }
         /// <summary> Gets the education level. </summary>
-        public TextAnnotation EducationLevel { get; }
+        public TextAnnotationV2 EducationLevel { get; }
         /// <summary> Gets the education accreditation. </summary>
-        public TextAnnotation EducationAccreditation { get; }
+        public TextAnnotationV2 EducationAccreditation { get; }
         /// <summary> Gets the expected remuneration. </summary>
-        public ExpectedRemunerationAnnotation ExpectedRemuneration { get; }
+        public ExpectedRemunerationAnnotationV2 ExpectedRemuneration { get; }
         /// <summary> Gets the location. </summary>
-        public LocationAnnotation Location { get; }
+        public LocationAnnotationV2 Location { get; }
         /// <summary> Gets the certifications. </summary>
-        public IReadOnlyList<TextAnnotation> Certifications { get; }
+        public IReadOnlyList<TextAnnotationV2> Certifications { get; }
         /// <summary> Gets the years experience. </summary>
-        public YearsExperienceAnnotation YearsExperience { get; }
+        public YearsExperienceAnnotationV2 YearsExperience { get; }
     }
 }
