@@ -34,6 +34,11 @@ namespace Affinda.API.Models
         private const string JsonValue = "json";
         private const string TableValue = "table";
         private const string CellValue = "cell";
+        private const string ExpectedremunerationValue = "expectedremuneration";
+        private const string JobtitleValue = "jobtitle";
+        private const string LanguageValue = "language";
+        private const string SkillValue = "skill";
+        private const string YearsexperienceValue = "yearsexperience";
 
         /// <summary> text. </summary>
         public static AnnotationContentType Text { get; } = new AnnotationContentType(TextValue);
@@ -59,6 +64,16 @@ namespace Affinda.API.Models
         public static AnnotationContentType Table { get; } = new AnnotationContentType(TableValue);
         /// <summary> cell. </summary>
         public static AnnotationContentType Cell { get; } = new AnnotationContentType(CellValue);
+        /// <summary> expectedremuneration. </summary>
+        public static AnnotationContentType Expectedremuneration { get; } = new AnnotationContentType(ExpectedremunerationValue);
+        /// <summary> jobtitle. </summary>
+        public static AnnotationContentType Jobtitle { get; } = new AnnotationContentType(JobtitleValue);
+        /// <summary> language. </summary>
+        public static AnnotationContentType Language { get; } = new AnnotationContentType(LanguageValue);
+        /// <summary> skill. </summary>
+        public static AnnotationContentType Skill { get; } = new AnnotationContentType(SkillValue);
+        /// <summary> yearsexperience. </summary>
+        public static AnnotationContentType Yearsexperience { get; } = new AnnotationContentType(YearsexperienceValue);
         /// <summary> Determines if two <see cref="AnnotationContentType"/> values are the same. </summary>
         public static bool operator ==(AnnotationContentType left, AnnotationContentType right) => left.Equals(right);
         /// <summary> Determines if two <see cref="AnnotationContentType"/> values are not the same. </summary>
