@@ -62,7 +62,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        organization = null;
                         continue;
                     }
                     organization = Organization.DeserializeOrganization(property.Value);

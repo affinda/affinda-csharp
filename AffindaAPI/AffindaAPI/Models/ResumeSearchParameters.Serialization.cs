@@ -25,13 +25,27 @@ namespace Affinda.API.Models
             writer.WriteEndArray();
             if (Optional.IsDefined(JobDescription))
             {
-                writer.WritePropertyName("jobDescription");
-                writer.WriteStringValue(JobDescription);
+                if (JobDescription != null)
+                {
+                    writer.WritePropertyName("jobDescription");
+                    writer.WriteStringValue(JobDescription);
+                }
+                else
+                {
+                    writer.WriteNull("jobDescription");
+                }
             }
             if (Optional.IsDefined(Resume))
             {
-                writer.WritePropertyName("resume");
-                writer.WriteStringValue(Resume);
+                if (Resume != null)
+                {
+                    writer.WritePropertyName("resume");
+                    writer.WriteStringValue(Resume);
+                }
+                else
+                {
+                    writer.WriteNull("resume");
+                }
             }
             if (Optional.IsCollectionDefined(JobTitles))
             {
@@ -344,11 +358,21 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("jobDescription"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        jobDescription = null;
+                        continue;
+                    }
                     jobDescription = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("resume"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        resume = null;
+                        continue;
+                    }
                     resume = property.Value.GetString();
                     continue;
                 }

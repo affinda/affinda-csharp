@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Changed Document top level structure to more closely resemble api v2 with top level keys of meta, data and error
+- ResumeSearchParamaters.resume, ResumeSearchParameters.jobdescription, JobDescriptionSearchParameters.resume, DataPoint.organization
 
 ### Fixed
 - Fixed various nullable fields not being nullable, and vice versa
