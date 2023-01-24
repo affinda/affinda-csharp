@@ -25,9 +25,13 @@ namespace Affinda.API.Models
         /// <param name="education"></param>
         /// <param name="searchExpression"></param>
         /// <param name="organizationName"></param>
-        /// <exception cref="ArgumentNullException"> <paramref name="pdf"/>, <paramref name="jobTitle"/>, <paramref name="managementLevel"/>, <paramref name="experience"/>, <paramref name="skills"/>, <paramref name="languages"/>, <paramref name="location"/>, <paramref name="education"/> or <paramref name="searchExpression"/> is null. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/>, <paramref name="pdf"/>, <paramref name="jobTitle"/>, <paramref name="managementLevel"/>, <paramref name="experience"/>, <paramref name="skills"/>, <paramref name="languages"/>, <paramref name="location"/>, <paramref name="education"/> or <paramref name="searchExpression"/> is null. </exception>
         internal JobDescriptionSearchResult(string identifier, float score, string pdf, JobTitleSearchScoreComponent jobTitle, ManagementLevelSearchScoreComponent managementLevel, ExperienceSearchScoreComponent experience, SkillsSearchScoreComponent skills, LanguagesSearchScoreComponent languages, LocationSearchScoreComponent location, EducationSearchScoreComponent education, SearchExpressionSearchScoreComponent searchExpression, string organizationName)
         {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
             if (pdf == null)
             {
                 throw new ArgumentNullException(nameof(pdf));

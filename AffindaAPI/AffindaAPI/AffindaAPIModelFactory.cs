@@ -187,10 +187,12 @@ namespace Affinda.API.Models
         /// <param name="street"></param>
         /// <param name="apartmentNumber"></param>
         /// <param name="city"></param>
+        /// <param name="latitude"></param>
+        /// <param name="longitude"></param>
         /// <returns> A new <see cref="Models.Location"/> instance for mocking. </returns>
-        public static Location Location(string formatted = null, string postalCode = null, string state = null, string country = null, string countryCode = null, string rawInput = null, string streetNumber = null, string street = null, string apartmentNumber = null, string city = null)
+        public static Location Location(string formatted = null, string postalCode = null, string state = null, string country = null, string countryCode = null, string rawInput = null, string streetNumber = null, string street = null, string apartmentNumber = null, string city = null, float? latitude = null, float? longitude = null)
         {
-            return new Location(formatted, postalCode, state, country, countryCode, rawInput, streetNumber, street, apartmentNumber, city);
+            return new Location(formatted, postalCode, state, country, countryCode, rawInput, streetNumber, street, apartmentNumber, city, latitude, longitude);
         }
 
         /// <summary> Initializes a new instance of Accreditation. </summary>
@@ -1859,7 +1861,7 @@ namespace Affinda.API.Models
         /// <param name="name"></param>
         /// <param name="documentType"></param>
         /// <returns> A new <see cref="Models.Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema"/> instance for mocking. </returns>
-        public static Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema(string name = null, Enum4? documentType = null)
+        public static Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema(string name = null, Enum5? documentType = null)
         {
             return new Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema(name, documentType);
         }
@@ -1982,10 +1984,14 @@ namespace Affinda.API.Models
         /// <param name="organization"> Uniquely identify an organization. </param>
         /// <param name="user"></param>
         /// <param name="role"></param>
-        /// <exception cref="ArgumentNullException"> <paramref name="organization"/> or <paramref name="user"/> is null. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/>, <paramref name="organization"/> or <paramref name="user"/> is null. </exception>
         /// <returns> A new <see cref="Models.OrganizationMembership"/> instance for mocking. </returns>
         public static OrganizationMembership OrganizationMembership(string identifier = null, string organization = null, User user = null, OrganizationRole role = default)
         {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
             if (organization == null)
             {
                 throw new ArgumentNullException(nameof(organization));
@@ -2079,17 +2085,15 @@ namespace Affinda.API.Models
         /// <param name="extractor"> Extractor&apos;s ID. </param>
         /// <param name="multiple"></param>
         /// <param name="noRect"></param>
-        /// <param name="similarTo"></param>
         /// <param name="choices"></param>
         /// <param name="children"></param>
         /// <returns> A new <see cref="Models.DataPoint"/> instance for mocking. </returns>
-        public static DataPoint DataPoint(string identifier = null, string name = null, string slug = null, string description = null, AnnotationContentType annotationContentType = default, Organization organization = null, int extractor = default, bool? multiple = null, bool? noRect = null, IEnumerable<string> similarTo = null, IEnumerable<DataPointChoicesItem> choices = null, IEnumerable<DataPoint> children = null)
+        public static DataPoint DataPoint(string identifier = null, string name = null, string slug = null, string description = null, AnnotationContentType annotationContentType = default, Organization organization = null, int? extractor = null, bool? multiple = null, bool? noRect = null, IEnumerable<DataPointChoicesItem> choices = null, IEnumerable<DataPoint> children = null)
         {
-            similarTo ??= new List<string>();
             choices ??= new List<DataPointChoicesItem>();
             children ??= new List<DataPoint>();
 
-            return new DataPoint(identifier, name, slug, description, annotationContentType, organization, extractor, multiple, noRect, similarTo?.ToList(), choices?.ToList(), children?.ToList());
+            return new DataPoint(identifier, name, slug, description, annotationContentType, organization, extractor, multiple, noRect, choices?.ToList(), children?.ToList());
         }
 
         /// <summary> Initializes a new instance of DataPointChoicesItem. </summary>
@@ -2256,43 +2260,15 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of Document. </summary>
-        /// <param name="identifier"> Uniquely identify a document. </param>
-        /// <param name="fileName"> Optional filename of the file. </param>
-        /// <param name="ready"> If true, the document has finished processing. Particularly useful if an endpoint request specified wait=False, when polling use this variable to determine when to stop polling. </param>
-        /// <param name="readyDt"> The datetime when the document was ready. </param>
-        /// <param name="failed"> If true, some exception was raised during processing. Check the &apos;error&apos; field of the main return object. </param>
-        /// <param name="expiryTime"> The date/time in ISO-8601 format when the document will be automatically deleted.  Defaults to no expiry. </param>
-        /// <param name="language"> The document&apos;s language. </param>
-        /// <param name="pdf"> The URL to the document&apos;s pdf (if the uploaded document is not already pdf, it&apos;s converted to pdf as part of the parsing process). </param>
-        /// <param name="parentDocument"> If this document is part of a splitted document, this attribute points to the original document that this document is splitted from. </param>
-        /// <param name="childDocuments"> If this document has been splitted into a number of child documents, this attribute points to those child documents. </param>
-        /// <param name="pages"> The document&apos;s pages. </param>
-        /// <param name="isOcrd"></param>
-        /// <param name="ocrConfidence"></param>
-        /// <param name="reviewUrl"></param>
-        /// <param name="collection"></param>
-        /// <param name="workspace"></param>
-        /// <param name="archivedDt"></param>
-        /// <param name="isArchived"></param>
-        /// <param name="confirmedDt"></param>
-        /// <param name="isConfirmed"></param>
-        /// <param name="rejectedDt"></param>
-        /// <param name="isRejected"></param>
-        /// <param name="createdDt"></param>
-        /// <param name="errorCode"></param>
-        /// <param name="errorDetail"></param>
-        /// <param name="file"> URL to view the file. </param>
-        /// <param name="tags"></param>
+        /// <param name="meta"></param>
         /// <param name="data"> Dictionary of &lt;any&gt;. </param>
+        /// <param name="error"></param>
         /// <returns> A new <see cref="Models.Document"/> instance for mocking. </returns>
-        public static Document Document(string identifier = null, string fileName = null, bool? ready = null, DateTimeOffset? readyDt = null, bool? failed = null, string expiryTime = null, string language = null, string pdf = null, DocumentMetaParentDocument parentDocument = null, IEnumerable<DocumentMetaChildDocumentsItem> childDocuments = null, IEnumerable<PageMeta> pages = null, bool? isOcrd = null, float? ocrConfidence = null, string reviewUrl = null, DocumentMetaCollection collection = null, DocumentMetaWorkspace workspace = null, DateTimeOffset? archivedDt = null, bool? isArchived = null, DateTimeOffset? confirmedDt = null, bool? isConfirmed = null, DateTimeOffset? rejectedDt = null, bool? isRejected = null, DateTimeOffset? createdDt = null, string errorCode = null, string errorDetail = null, string file = null, IEnumerable<Tag> tags = null, IReadOnlyDictionary<string, object> data = null)
+        public static Document Document(DocumentMeta meta = null, IReadOnlyDictionary<string, object> data = null, Error error = null)
         {
-            childDocuments ??= new List<DocumentMetaChildDocumentsItem>();
-            pages ??= new List<PageMeta>();
-            tags ??= new List<Tag>();
             data ??= new Dictionary<string, object>();
 
-            return new Document(identifier, fileName, ready, readyDt, failed, expiryTime, language, pdf, parentDocument, childDocuments?.ToList(), pages?.ToList(), isOcrd, ocrConfidence, reviewUrl, collection, workspace, archivedDt, isArchived, confirmedDt, isConfirmed, rejectedDt, isRejected, createdDt, errorCode, errorDetail, file, tags?.ToList(), data);
+            return new Document(meta, data, error);
         }
 
         /// <summary> Initializes a new instance of DocumentMeta. </summary>

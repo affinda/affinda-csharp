@@ -21,10 +21,9 @@ namespace Affinda.API.Models
             Optional<string> description = default;
             AnnotationContentType annotationContentType = default;
             Optional<Organization> organization = default;
-            int extractor = default;
+            int? extractor = default;
             Optional<bool> multiple = default;
             Optional<bool> noRect = default;
-            IReadOnlyList<string> similarTo = default;
             Optional<IReadOnlyList<DataPointChoicesItem>> choices = default;
             Optional<IReadOnlyList<DataPoint>> children = default;
             foreach (var property in element.EnumerateObject())
@@ -71,6 +70,11 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("extractor"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        extractor = null;
+                        continue;
+                    }
                     extractor = property.Value.GetInt32();
                     continue;
                 }
@@ -92,16 +96,6 @@ namespace Affinda.API.Models
                         continue;
                     }
                     noRect = property.Value.GetBoolean();
-                    continue;
-                }
-                if (property.NameEquals("similarTo"))
-                {
-                    List<string> array = new List<string>();
-                    foreach (var item in property.Value.EnumerateArray())
-                    {
-                        array.Add(item.GetString());
-                    }
-                    similarTo = array;
                     continue;
                 }
                 if (property.NameEquals("choices"))
@@ -135,7 +129,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new DataPoint(identifier, name, slug.Value, description.Value, annotationContentType, organization.Value, extractor, Optional.ToNullable(multiple), Optional.ToNullable(noRect), similarTo, Optional.ToList(choices), Optional.ToList(children));
+            return new DataPoint(identifier, name, slug.Value, description.Value, annotationContentType, organization.Value, extractor, Optional.ToNullable(multiple), Optional.ToNullable(noRect), Optional.ToList(choices), Optional.ToList(children));
         }
     }
 }

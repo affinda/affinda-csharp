@@ -36,7 +36,9 @@ namespace Affinda.API.Models
         /// <param name="street"></param>
         /// <param name="apartmentNumber"></param>
         /// <param name="city"></param>
-        internal Location(string formatted, string postalCode, string state, string country, string countryCode, string rawInput, string streetNumber, string street, string apartmentNumber, string city)
+        /// <param name="latitude"></param>
+        /// <param name="longitude"></param>
+        internal Location(string formatted, string postalCode, string state, string country, string countryCode, string rawInput, string streetNumber, string street, string apartmentNumber, string city, float? latitude, float? longitude)
         {
             Formatted = formatted;
             PostalCode = postalCode;
@@ -48,6 +50,8 @@ namespace Affinda.API.Models
             Street = street;
             ApartmentNumber = apartmentNumber;
             City = city;
+            Latitude = latitude;
+            Longitude = longitude;
         }
 
         /// <summary> Gets the formatted. </summary>
@@ -70,5 +74,9 @@ namespace Affinda.API.Models
         public string ApartmentNumber { get; }
         /// <summary> Gets the city. </summary>
         public string City { get; }
+        /// <summary> Gets the latitude. </summary>
+        public float? Latitude { get; }
+        /// <summary> Gets the longitude. </summary>
+        public float? Longitude { get; }
     }
 }

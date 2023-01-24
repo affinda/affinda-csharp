@@ -87,12 +87,12 @@ namespace Affinda.API.Models
 
         /// <summary> Gets or sets the name. </summary>
         public ResumeDataName Name { get; set; }
-        /// <summary> Gets or sets the phone numbers. </summary>
-        public IList<string> PhoneNumbers { get; set; }
-        /// <summary> Gets or sets the websites. </summary>
-        public IList<string> Websites { get; set; }
-        /// <summary> Gets or sets the emails. </summary>
-        public IList<string> Emails { get; set; }
+        /// <summary> Gets the phone numbers. </summary>
+        public IList<string> PhoneNumbers { get; }
+        /// <summary> Gets the websites. </summary>
+        public IList<string> Websites { get; }
+        /// <summary> Gets the emails. </summary>
+        public IList<string> Emails { get; }
         /// <summary> Gets or sets the date of birth. </summary>
         public string DateOfBirth { get; set; }
         /// <summary> Gets or sets the location. </summary>

@@ -31,31 +31,31 @@ namespace Affinda.API
 
         /// <summary> Initializes a new instance of AffindaAPIClient. </summary>
         /// <param name="credential"> A credential used to authenticate to an Azure Service. </param>
-        /// <param name="endpoint"> server parameter. </param>
+        /// <param name="region"> region - server parameter. </param>
         /// <param name="options"> The options for configuring the client. </param>
-        public AffindaAPIClient(TokenCredential credential, Uri endpoint = null, AffindaAPIClientOptions options = null)
+        public AffindaAPIClient(TokenCredential credential, Region? region = null, AffindaAPIClientOptions options = null)
         {
             if (credential == null)
             {
                 throw new ArgumentNullException(nameof(credential));
             }
-            endpoint ??= new Uri("https://api.affinda.com");
+            region ??= Region.Api;
 
             options ??= new AffindaAPIClientOptions();
             _clientDiagnostics = new ClientDiagnostics(options);
             string[] scopes = { "https://management.azure.com/.default" };
             _pipeline = HttpPipelineBuilder.Build(options, new BearerTokenAuthenticationPolicy(credential, scopes));
-            RestClient = new AffindaAPIRestClient(_clientDiagnostics, _pipeline, endpoint);
+            RestClient = new AffindaAPIRestClient(_clientDiagnostics, _pipeline, region);
         }
 
         /// <summary> Initializes a new instance of AffindaAPIClient. </summary>
         /// <param name="clientDiagnostics"> The handler for diagnostic messaging in the client. </param>
         /// <param name="pipeline"> The HTTP pipeline for sending and receiving REST requests and responses. </param>
-        /// <param name="endpoint"> server parameter. </param>
+        /// <param name="region"> region - server parameter. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="clientDiagnostics"/> or <paramref name="pipeline"/> is null. </exception>
-        internal AffindaAPIClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, Uri endpoint = null)
+        internal AffindaAPIClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, Region? region = null)
         {
-            RestClient = new AffindaAPIRestClient(clientDiagnostics, pipeline, endpoint);
+            RestClient = new AffindaAPIRestClient(clientDiagnostics, pipeline, region);
             _clientDiagnostics = clientDiagnostics;
             _pipeline = pipeline;
         }
@@ -1384,7 +1384,7 @@ namespace Affinda.API
         /// <param name="documentType"> Filter indices by a document type. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public virtual async Task<Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum2? documentType = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum3? documentType = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexes");
             scope.Start();
@@ -1405,7 +1405,7 @@ namespace Affinda.API
         /// <param name="documentType"> Filter indices by a document type. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public virtual Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema> GetAllIndexes(int? offset = null, int? limit = null, Enum2? documentType = null, CancellationToken cancellationToken = default)
+        public virtual Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema> GetAllIndexes(int? offset = null, int? limit = null, Enum3? documentType = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexes");
             scope.Start();

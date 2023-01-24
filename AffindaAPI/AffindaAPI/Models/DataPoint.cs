@@ -7,7 +7,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Azure.Core;
 
 namespace Affinda.API.Models
@@ -20,9 +19,8 @@ namespace Affinda.API.Models
         /// <param name="name"></param>
         /// <param name="annotationContentType"></param>
         /// <param name="extractor"> Extractor&apos;s ID. </param>
-        /// <param name="similarTo"></param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/>, <paramref name="name"/> or <paramref name="similarTo"/> is null. </exception>
-        internal DataPoint(string identifier, string name, AnnotationContentType annotationContentType, int extractor, IEnumerable<string> similarTo)
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="name"/> is null. </exception>
+        internal DataPoint(string identifier, string name, AnnotationContentType annotationContentType, int? extractor)
         {
             if (identifier == null)
             {
@@ -32,16 +30,11 @@ namespace Affinda.API.Models
             {
                 throw new ArgumentNullException(nameof(name));
             }
-            if (similarTo == null)
-            {
-                throw new ArgumentNullException(nameof(similarTo));
-            }
 
             Identifier = identifier;
             Name = name;
             AnnotationContentType = annotationContentType;
             Extractor = extractor;
-            SimilarTo = similarTo.ToList();
             Choices = new ChangeTrackingList<DataPointChoicesItem>();
             Children = new ChangeTrackingList<DataPoint>();
         }
@@ -56,10 +49,9 @@ namespace Affinda.API.Models
         /// <param name="extractor"> Extractor&apos;s ID. </param>
         /// <param name="multiple"></param>
         /// <param name="noRect"></param>
-        /// <param name="similarTo"></param>
         /// <param name="choices"></param>
         /// <param name="children"></param>
-        internal DataPoint(string identifier, string name, string slug, string description, AnnotationContentType annotationContentType, Organization organization, int extractor, bool? multiple, bool? noRect, IReadOnlyList<string> similarTo, IReadOnlyList<DataPointChoicesItem> choices, IReadOnlyList<DataPoint> children)
+        internal DataPoint(string identifier, string name, string slug, string description, AnnotationContentType annotationContentType, Organization organization, int? extractor, bool? multiple, bool? noRect, IReadOnlyList<DataPointChoicesItem> choices, IReadOnlyList<DataPoint> children)
         {
             Identifier = identifier;
             Name = name;
@@ -70,7 +62,6 @@ namespace Affinda.API.Models
             Extractor = extractor;
             Multiple = multiple;
             NoRect = noRect;
-            SimilarTo = similarTo;
             Choices = choices;
             Children = children;
         }
@@ -88,13 +79,11 @@ namespace Affinda.API.Models
         /// <summary> Gets the organization. </summary>
         public Organization Organization { get; }
         /// <summary> Extractor&apos;s ID. </summary>
-        public int Extractor { get; }
+        public int? Extractor { get; }
         /// <summary> Gets the multiple. </summary>
         public bool? Multiple { get; }
         /// <summary> Gets the no rect. </summary>
         public bool? NoRect { get; }
-        /// <summary> Gets the similar to. </summary>
-        public IReadOnlyList<string> SimilarTo { get; }
         /// <summary> Gets the choices. </summary>
         public IReadOnlyList<DataPointChoicesItem> Choices { get; }
         /// <summary> Gets the children. </summary>

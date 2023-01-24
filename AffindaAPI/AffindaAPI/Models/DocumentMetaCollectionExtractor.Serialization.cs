@@ -17,7 +17,7 @@ namespace Affinda.API.Models
             Optional<int> id = default;
             Optional<string> identifier = default;
             Optional<string> name = default;
-            Optional<int> baseExtractor = default;
+            Optional<int?> baseExtractor = default;
             Optional<bool> validatable = default;
             foreach (var property in element.EnumerateObject())
             {
@@ -45,7 +45,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        baseExtractor = null;
                         continue;
                     }
                     baseExtractor = property.Value.GetInt32();

@@ -33,6 +33,7 @@ namespace Affinda.API.Models
         private const string LocationValue = "location";
         private const string JsonValue = "json";
         private const string TableValue = "table";
+        private const string CellValue = "cell";
 
         /// <summary> text. </summary>
         public static AnnotationContentType Text { get; } = new AnnotationContentType(TextValue);
@@ -56,6 +57,8 @@ namespace Affinda.API.Models
         public static AnnotationContentType Json { get; } = new AnnotationContentType(JsonValue);
         /// <summary> table. </summary>
         public static AnnotationContentType Table { get; } = new AnnotationContentType(TableValue);
+        /// <summary> cell. </summary>
+        public static AnnotationContentType Cell { get; } = new AnnotationContentType(CellValue);
         /// <summary> Determines if two <see cref="AnnotationContentType"/> values are the same. </summary>
         public static bool operator ==(AnnotationContentType left, AnnotationContentType right) => left.Equals(right);
         /// <summary> Determines if two <see cref="AnnotationContentType"/> values are not the same. </summary>

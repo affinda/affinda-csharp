@@ -32,6 +32,8 @@ namespace Affinda.API.Models
             Optional<string> street = default;
             Optional<string> apartmentNumber = default;
             Optional<string> city = default;
+            Optional<float?> latitude = default;
+            Optional<float?> longitude = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("formatted"))
@@ -129,8 +131,28 @@ namespace Affinda.API.Models
                     city = property.Value.GetString();
                     continue;
                 }
+                if (property.NameEquals("latitude"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        latitude = null;
+                        continue;
+                    }
+                    latitude = property.Value.GetSingle();
+                    continue;
+                }
+                if (property.NameEquals("longitude"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        longitude = null;
+                        continue;
+                    }
+                    longitude = property.Value.GetSingle();
+                    continue;
+                }
             }
-            return new Location(formatted.Value, postalCode.Value, state.Value, country.Value, countryCode.Value, rawInput, streetNumber.Value, street.Value, apartmentNumber.Value, city.Value);
+            return new Location(formatted.Value, postalCode.Value, state.Value, country.Value, countryCode.Value, rawInput, streetNumber.Value, street.Value, apartmentNumber.Value, city.Value, Optional.ToNullable(latitude), Optional.ToNullable(longitude));
         }
     }
 }

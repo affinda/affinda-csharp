@@ -102,6 +102,11 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("language"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        language = null;
+                        continue;
+                    }
                     language = property.Value.GetString();
                     continue;
                 }
@@ -172,6 +177,11 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("reviewUrl"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        reviewUrl = null;
+                        continue;
+                    }
                     reviewUrl = property.Value.GetString();
                     continue;
                 }

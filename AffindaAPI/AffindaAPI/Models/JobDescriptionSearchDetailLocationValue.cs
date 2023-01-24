@@ -34,8 +34,10 @@ namespace Affinda.API.Models
         /// <param name="street"></param>
         /// <param name="apartmentNumber"></param>
         /// <param name="city"></param>
+        /// <param name="latitude"></param>
+        /// <param name="longitude"></param>
         /// <param name="match"></param>
-        internal JobDescriptionSearchDetailLocationValue(string formatted, string postalCode, string state, string country, string countryCode, string rawInput, string streetNumber, string street, string apartmentNumber, string city, bool? match) : base(formatted, postalCode, state, country, countryCode, rawInput, streetNumber, street, apartmentNumber, city)
+        internal JobDescriptionSearchDetailLocationValue(string formatted, string postalCode, string state, string country, string countryCode, string rawInput, string streetNumber, string street, string apartmentNumber, string city, float? latitude, float? longitude, bool? match) : base(formatted, postalCode, state, country, countryCode, rawInput, streetNumber, street, apartmentNumber, city, latitude, longitude)
         {
             Match = match;
         }

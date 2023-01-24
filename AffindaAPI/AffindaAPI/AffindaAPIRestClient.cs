@@ -21,7 +21,7 @@ namespace Affinda.API
     internal partial class AffindaAPIRestClient
     {
         private readonly HttpPipeline _pipeline;
-        private readonly Uri _endpoint;
+        private readonly Region? _region;
 
         /// <summary> The ClientDiagnostics is used to provide tracing support for the client library. </summary>
         internal ClientDiagnostics ClientDiagnostics { get; }
@@ -29,13 +29,13 @@ namespace Affinda.API
         /// <summary> Initializes a new instance of AffindaAPIRestClient. </summary>
         /// <param name="clientDiagnostics"> The handler for diagnostic messaging in the client. </param>
         /// <param name="pipeline"> The HTTP pipeline for sending and receiving REST requests and responses. </param>
-        /// <param name="endpoint"> server parameter. </param>
+        /// <param name="region"> region - server parameter. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="clientDiagnostics"/> or <paramref name="pipeline"/> is null. </exception>
-        public AffindaAPIRestClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, Uri endpoint = null)
+        public AffindaAPIRestClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, Region? region = null)
         {
             ClientDiagnostics = clientDiagnostics ?? throw new ArgumentNullException(nameof(clientDiagnostics));
             _pipeline = pipeline ?? throw new ArgumentNullException(nameof(pipeline));
-            _endpoint = endpoint ?? new Uri("https://api.affinda.com");
+            _region = region ?? Region.Api;
         }
 
         internal HttpMessage CreateGetAllResumesRequest(int? offset, int? limit)
@@ -44,7 +44,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v2/resumes", false);
             if (offset != null)
             {
@@ -111,7 +113,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v2/resumes", false);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -231,7 +235,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v2/resumes/", false);
             uri.AppendPath(identifier, true);
             if (format != null)
@@ -331,7 +337,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Patch;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v2/resumes/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -438,7 +446,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Delete;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v2/resumes/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -498,7 +508,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v2/redacted_resumes", false);
             if (offset != null)
             {
@@ -565,7 +577,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v2/redacted_resumes", false);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -715,7 +729,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v2/redacted_resumes/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -791,7 +807,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Delete;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v2/redacted_resumes/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -851,7 +869,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v2/invoices", false);
             if (offset != null)
             {
@@ -918,7 +938,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v2/invoices", false);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -1032,7 +1054,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v2/invoices/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -1108,7 +1132,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Delete;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v2/invoices/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -1168,7 +1194,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v2/job_descriptions", false);
             if (offset != null)
             {
@@ -1235,7 +1263,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v2/job_descriptions", false);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -1351,7 +1381,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v2/job_descriptions/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -1427,7 +1459,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Delete;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v2/job_descriptions/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -1487,7 +1521,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v2/job_description_search", false);
             if (offset != null)
             {
@@ -1575,7 +1611,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v2/job_description_search/details/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -1668,7 +1706,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v2/job_description_search/config", false);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -1723,7 +1763,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Patch;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v2/job_description_search/config", false);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -1796,7 +1838,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v2/job_description_search/embed", false);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -1860,7 +1904,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/resume_search", false);
             if (offset != null)
             {
@@ -1945,7 +1991,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/resume_search/details/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -2035,7 +2083,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/resume_search/match", false);
             uri.AppendQuery("resume", resume, true);
             uri.AppendQuery("job_description", jobDescription, true);
@@ -2182,7 +2232,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/resume_search/config", false);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -2237,7 +2289,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Patch;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/resume_search/config", false);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -2310,7 +2364,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/resume_search/embed", false);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -2374,7 +2430,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/resume_search/suggestion_job_title", false);
             foreach (var param in jobTitles)
             {
@@ -2457,7 +2515,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/resume_search/suggestion_skill", false);
             foreach (var param in skills)
             {
@@ -2534,13 +2594,15 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllIndexesRequest(int? offset, int? limit, Enum2? documentType)
+        internal HttpMessage CreateGetAllIndexesRequest(int? offset, int? limit, Enum3? documentType)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/index", false);
             if (offset != null)
             {
@@ -2565,7 +2627,7 @@ namespace Affinda.API
         /// <param name="documentType"> Filter indices by a document type. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public async Task<Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum2? documentType = null, CancellationToken cancellationToken = default)
+        public async Task<Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum3? documentType = null, CancellationToken cancellationToken = default)
         {
             using var message = CreateGetAllIndexesRequest(offset, limit, documentType);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
@@ -2589,7 +2651,7 @@ namespace Affinda.API
         /// <param name="documentType"> Filter indices by a document type. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema> GetAllIndexes(int? offset = null, int? limit = null, Enum2? documentType = null, CancellationToken cancellationToken = default)
+        public Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema> GetAllIndexes(int? offset = null, int? limit = null, Enum3? documentType = null, CancellationToken cancellationToken = default)
         {
             using var message = CreateGetAllIndexesRequest(offset, limit, documentType);
             _pipeline.Send(message, cancellationToken);
@@ -2613,7 +2675,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/index", false);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -2683,7 +2747,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Delete;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/index/", false);
             uri.AppendPath(name, true);
             request.Uri = uri;
@@ -2743,7 +2809,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/index/", false);
             uri.AppendPath(name, true);
             uri.AppendPath("/documents", false);
@@ -2814,7 +2882,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/index/", false);
             uri.AppendPath(name, true);
             uri.AppendPath("/documents", false);
@@ -2899,7 +2969,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Delete;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/index/", false);
             uri.AppendPath(name, true);
             uri.AppendPath("/documents/", false);
@@ -2971,7 +3043,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/occupation_groups", false);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -3036,7 +3110,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/users", false);
             if (offset != null)
             {
@@ -3103,7 +3179,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/users", false);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -3199,7 +3277,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/organizations", false);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -3264,7 +3344,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/organizations", false);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -3349,7 +3431,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/organizations/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -3419,7 +3503,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Patch;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/organizations/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -3510,7 +3596,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Delete;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/organizations/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -3570,7 +3658,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/organization_memberships", false);
             if (offset != null)
             {
@@ -3649,7 +3739,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/organization_memberships/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -3719,7 +3811,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Patch;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/organization_memberships/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -3803,7 +3897,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Delete;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/organization_memberships/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -3863,7 +3959,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/invitations", false);
             if (offset != null)
             {
@@ -3948,7 +4046,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/invitations", false);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -4021,7 +4121,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/invitations/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -4091,7 +4193,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Patch;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/invitations/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -4175,7 +4279,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Delete;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/invitations/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -4235,7 +4341,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/invitations/token/", false);
             uri.AppendPath(token, true);
             request.Uri = uri;
@@ -4305,7 +4413,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Patch;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/invitations/token/", false);
             uri.AppendPath(token, true);
             request.Uri = uri;
@@ -4389,7 +4499,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/extractors", false);
             uri.AppendQuery("organization", organization, true);
             if (includePublicExtractors != null)
@@ -4487,7 +4599,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/extractors", false);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -4551,7 +4665,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/extractors/", false);
             uri.AppendPath(id, true);
             request.Uri = uri;
@@ -4609,7 +4725,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Patch;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/extractors/", false);
             uri.AppendPath(id, true);
             request.Uri = uri;
@@ -4685,7 +4803,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Delete;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/extractors/", false);
             uri.AppendPath(id, true);
             request.Uri = uri;
@@ -4733,7 +4853,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/data_points", false);
             if (offset != null)
             {
@@ -4840,7 +4962,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/data_points", false);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -4904,7 +5028,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/data_points/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -4974,7 +5100,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Patch;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/data_points/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -5058,7 +5186,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Delete;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/data_points/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -5118,7 +5248,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/workspaces", false);
             uri.AppendQuery("organization", organization, true);
             if (name != null)
@@ -5204,7 +5336,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/workspaces", false);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -5275,7 +5409,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/workspaces/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -5345,7 +5481,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Patch;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/workspaces/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -5429,7 +5567,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Delete;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/workspaces/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -5489,7 +5629,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/workspace_memberships", false);
             if (offset != null)
             {
@@ -5568,7 +5710,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/workspace_memberships", false);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -5641,7 +5785,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/workspace_memberships/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -5711,7 +5857,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Delete;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/workspace_memberships/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -5771,7 +5919,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/collections", false);
             uri.AppendQuery("workspace", workspace, true);
             request.Uri = uri;
@@ -5851,7 +6001,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/collections", false);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -5922,7 +6074,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/collections/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -5992,7 +6146,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Patch;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/collections/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -6076,7 +6232,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Delete;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/collections/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -6136,7 +6294,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/documents", false);
             if (offset != null)
             {
@@ -6251,7 +6411,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/documents", false);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -6369,7 +6531,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/documents/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -6439,7 +6603,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Patch;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/documents/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -6523,7 +6689,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Delete;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/documents/", false);
             uri.AppendPath(identifier, true);
             request.Uri = uri;
@@ -6583,7 +6751,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/tags", false);
             if (limit != null)
             {
@@ -6666,7 +6836,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/tags", false);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -6737,7 +6909,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/tags/", false);
             uri.AppendPath(id, true);
             request.Uri = uri;
@@ -6795,7 +6969,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Patch;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/tags/", false);
             uri.AppendPath(id, true);
             request.Uri = uri;
@@ -6871,7 +7047,9 @@ namespace Affinda.API
             var request = message.Request;
             request.Method = RequestMethod.Delete;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(_endpoint);
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/tags/", false);
             uri.AppendPath(id, true);
             request.Uri = uri;

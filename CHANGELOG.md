@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Add cell to valid content types
+- Add EU API server to api docs
+- Add latitude and longtitude to Location
+
+### Changed
+- Changed Document top level structure to more closely resemble api v2 with top level keys of meta, data and error
+
+### Fixed
+- Fixed various nullable fields not being nullable, and vice versa
 
 ## [3.0.1] - 2023-01-16
 ### Added

@@ -31,54 +31,33 @@ namespace Affinda.API.Models
             }
             if (Optional.IsCollectionDefined(PhoneNumbers))
             {
-                if (PhoneNumbers != null)
+                writer.WritePropertyName("phoneNumbers");
+                writer.WriteStartArray();
+                foreach (var item in PhoneNumbers)
                 {
-                    writer.WritePropertyName("phoneNumbers");
-                    writer.WriteStartArray();
-                    foreach (var item in PhoneNumbers)
-                    {
-                        writer.WriteStringValue(item);
-                    }
-                    writer.WriteEndArray();
+                    writer.WriteStringValue(item);
                 }
-                else
-                {
-                    writer.WriteNull("phoneNumbers");
-                }
+                writer.WriteEndArray();
             }
             if (Optional.IsCollectionDefined(Websites))
             {
-                if (Websites != null)
+                writer.WritePropertyName("websites");
+                writer.WriteStartArray();
+                foreach (var item in Websites)
                 {
-                    writer.WritePropertyName("websites");
-                    writer.WriteStartArray();
-                    foreach (var item in Websites)
-                    {
-                        writer.WriteStringValue(item);
-                    }
-                    writer.WriteEndArray();
+                    writer.WriteStringValue(item);
                 }
-                else
-                {
-                    writer.WriteNull("websites");
-                }
+                writer.WriteEndArray();
             }
             if (Optional.IsCollectionDefined(Emails))
             {
-                if (Emails != null)
+                writer.WritePropertyName("emails");
+                writer.WriteStartArray();
+                foreach (var item in Emails)
                 {
-                    writer.WritePropertyName("emails");
-                    writer.WriteStartArray();
-                    foreach (var item in Emails)
-                    {
-                        writer.WriteStringValue(item);
-                    }
-                    writer.WriteEndArray();
+                    writer.WriteStringValue(item);
                 }
-                else
-                {
-                    writer.WriteNull("emails");
-                }
+                writer.WriteEndArray();
             }
             if (Optional.IsDefined(DateOfBirth))
             {
@@ -256,7 +235,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        phoneNumbers = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
                     List<string> array = new List<string>();
@@ -271,7 +250,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        websites = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
                     List<string> array = new List<string>();
@@ -286,7 +265,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        emails = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
                     List<string> array = new List<string>();
