@@ -35,6 +35,7 @@ namespace Affinda.API.Models
             Name = name;
             AnnotationContentType = annotationContentType;
             Extractor = extractor;
+            SimilarTo = new ChangeTrackingList<string>();
             Choices = new ChangeTrackingList<DataPointChoicesItem>();
             Children = new ChangeTrackingList<DataPoint>();
         }
@@ -49,9 +50,10 @@ namespace Affinda.API.Models
         /// <param name="extractor"> Extractor&apos;s ID. </param>
         /// <param name="multiple"></param>
         /// <param name="noRect"></param>
+        /// <param name="similarTo"></param>
         /// <param name="choices"></param>
         /// <param name="children"></param>
-        internal DataPoint(string identifier, string name, string slug, string description, AnnotationContentType annotationContentType, Organization organization, int? extractor, bool? multiple, bool? noRect, IReadOnlyList<DataPointChoicesItem> choices, IReadOnlyList<DataPoint> children)
+        internal DataPoint(string identifier, string name, string slug, string description, AnnotationContentType annotationContentType, Organization organization, int? extractor, bool? multiple, bool? noRect, IReadOnlyList<string> similarTo, IReadOnlyList<DataPointChoicesItem> choices, IReadOnlyList<DataPoint> children)
         {
             Identifier = identifier;
             Name = name;
@@ -62,6 +64,7 @@ namespace Affinda.API.Models
             Extractor = extractor;
             Multiple = multiple;
             NoRect = noRect;
+            SimilarTo = similarTo;
             Choices = choices;
             Children = children;
         }
@@ -84,6 +87,8 @@ namespace Affinda.API.Models
         public bool? Multiple { get; }
         /// <summary> Gets the no rect. </summary>
         public bool? NoRect { get; }
+        /// <summary> Gets the similar to. </summary>
+        public IReadOnlyList<string> SimilarTo { get; }
         /// <summary> Gets the choices. </summary>
         public IReadOnlyList<DataPointChoicesItem> Choices { get; }
         /// <summary> Gets the children. </summary>

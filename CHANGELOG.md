@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add EU API server to api docs
 - Add latitude and longtitude to Location
 - Add expectedremuneration, jobtitle, language, skill and yearsexperience to AnnotationContentType
+- re-add DataPoint.simlarTo
 
 ### Changed
 - Changed Document top level structure to more closely resemble api v2 with top level keys of meta, data and error

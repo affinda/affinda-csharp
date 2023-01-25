@@ -24,6 +24,7 @@ namespace Affinda.API.Models
             int? extractor = default;
             Optional<bool> multiple = default;
             Optional<bool> noRect = default;
+            Optional<IReadOnlyList<string>> similarTo = default;
             Optional<IReadOnlyList<DataPointChoicesItem>> choices = default;
             Optional<IReadOnlyList<DataPoint>> children = default;
             foreach (var property in element.EnumerateObject())
@@ -98,6 +99,21 @@ namespace Affinda.API.Models
                     noRect = property.Value.GetBoolean();
                     continue;
                 }
+                if (property.NameEquals("similarTo"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    List<string> array = new List<string>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(item.GetString());
+                    }
+                    similarTo = array;
+                    continue;
+                }
                 if (property.NameEquals("choices"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
@@ -129,7 +145,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new DataPoint(identifier, name, slug.Value, description.Value, annotationContentType, organization.Value, extractor, Optional.ToNullable(multiple), Optional.ToNullable(noRect), Optional.ToList(choices), Optional.ToList(children));
+            return new DataPoint(identifier, name, slug.Value, description.Value, annotationContentType, organization.Value, extractor, Optional.ToNullable(multiple), Optional.ToNullable(noRect), Optional.ToList(similarTo), Optional.ToList(choices), Optional.ToList(children));
         }
     }
 }

@@ -2085,15 +2085,17 @@ namespace Affinda.API.Models
         /// <param name="extractor"> Extractor&apos;s ID. </param>
         /// <param name="multiple"></param>
         /// <param name="noRect"></param>
+        /// <param name="similarTo"></param>
         /// <param name="choices"></param>
         /// <param name="children"></param>
         /// <returns> A new <see cref="Models.DataPoint"/> instance for mocking. </returns>
-        public static DataPoint DataPoint(string identifier = null, string name = null, string slug = null, string description = null, AnnotationContentType annotationContentType = default, Organization organization = null, int? extractor = null, bool? multiple = null, bool? noRect = null, IEnumerable<DataPointChoicesItem> choices = null, IEnumerable<DataPoint> children = null)
+        public static DataPoint DataPoint(string identifier = null, string name = null, string slug = null, string description = null, AnnotationContentType annotationContentType = default, Organization organization = null, int? extractor = null, bool? multiple = null, bool? noRect = null, IEnumerable<string> similarTo = null, IEnumerable<DataPointChoicesItem> choices = null, IEnumerable<DataPoint> children = null)
         {
+            similarTo ??= new List<string>();
             choices ??= new List<DataPointChoicesItem>();
             children ??= new List<DataPoint>();
 
-            return new DataPoint(identifier, name, slug, description, annotationContentType, organization, extractor, multiple, noRect, choices?.ToList(), children?.ToList());
+            return new DataPoint(identifier, name, slug, description, annotationContentType, organization, extractor, multiple, noRect, similarTo?.ToList(), choices?.ToList(), children?.ToList());
         }
 
         /// <summary> Initializes a new instance of DataPointChoicesItem. </summary>
