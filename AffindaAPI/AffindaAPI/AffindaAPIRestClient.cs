@@ -3104,173 +3104,6 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllUsersRequest(int? offset, int? limit)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Get;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v3/users", false);
-            if (offset != null)
-            {
-                uri.AppendQuery("offset", offset.Value, true);
-            }
-            if (limit != null)
-            {
-                uri.AppendQuery("limit", limit.Value, true);
-            }
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            return message;
-        }
-
-        /// <summary> Get list of all users. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns all the users. </remarks>
-        public async Task<Response<Paths9K2ZxlV3UsersGetResponses200ContentApplicationJsonSchema>> GetAllUsersAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
-        {
-            using var message = CreateGetAllUsersRequest(offset, limit);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        Paths9K2ZxlV3UsersGetResponses200ContentApplicationJsonSchema value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = Paths9K2ZxlV3UsersGetResponses200ContentApplicationJsonSchema.DeserializePaths9K2ZxlV3UsersGetResponses200ContentApplicationJsonSchema(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Get list of all users. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns all the users. </remarks>
-        public Response<Paths9K2ZxlV3UsersGetResponses200ContentApplicationJsonSchema> GetAllUsers(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
-        {
-            using var message = CreateGetAllUsersRequest(offset, limit);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        Paths9K2ZxlV3UsersGetResponses200ContentApplicationJsonSchema value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = Paths9K2ZxlV3UsersGetResponses200ContentApplicationJsonSchema.DeserializePaths9K2ZxlV3UsersGetResponses200ContentApplicationJsonSchema(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateCreateUserRequest(string username, string email, string name, Stream avatar)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Post;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v3/users", false);
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            request.Headers.Add("Content-Type", "multipart/form-data");
-            var content = new MultipartFormDataContent();
-            if (name != null)
-            {
-                content.Add(new StringRequestContent(name), "name", null);
-            }
-            content.Add(new StringRequestContent(username), "username", null);
-            content.Add(new StringRequestContent(email), "email", null);
-            if (avatar != null)
-            {
-                content.Add(RequestContent.Create(avatar), "avatar", null);
-            }
-            content.ApplyToRequest(request);
-            return message;
-        }
-
-        /// <summary> Create a new user. </summary>
-        /// <param name="username"> The String to use. </param>
-        /// <param name="email"> The String to use. </param>
-        /// <param name="name"> The String to use. </param>
-        /// <param name="avatar"> Upload avatar for the user. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="username"/> or <paramref name="email"/> is null. </exception>
-        /// <remarks> Create an user as part of your account. </remarks>
-        public async Task<Response<UserCreateResponse>> CreateUserAsync(string username, string email, string name = null, Stream avatar = null, CancellationToken cancellationToken = default)
-        {
-            if (username == null)
-            {
-                throw new ArgumentNullException(nameof(username));
-            }
-            if (email == null)
-            {
-                throw new ArgumentNullException(nameof(email));
-            }
-
-            using var message = CreateCreateUserRequest(username, email, name, avatar);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 201:
-                    {
-                        UserCreateResponse value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = UserCreateResponse.DeserializeUserCreateResponse(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Create a new user. </summary>
-        /// <param name="username"> The String to use. </param>
-        /// <param name="email"> The String to use. </param>
-        /// <param name="name"> The String to use. </param>
-        /// <param name="avatar"> Upload avatar for the user. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="username"/> or <paramref name="email"/> is null. </exception>
-        /// <remarks> Create an user as part of your account. </remarks>
-        public Response<UserCreateResponse> CreateUser(string username, string email, string name = null, Stream avatar = null, CancellationToken cancellationToken = default)
-        {
-            if (username == null)
-            {
-                throw new ArgumentNullException(nameof(username));
-            }
-            if (email == null)
-            {
-                throw new ArgumentNullException(nameof(email));
-            }
-
-            using var message = CreateCreateUserRequest(username, email, name, avatar);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 201:
-                    {
-                        UserCreateResponse value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = UserCreateResponse.DeserializeUserCreateResponse(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
         internal HttpMessage CreateGetAllOrganizationsRequest()
         {
             var message = _pipeline.CreateMessage();
@@ -6288,7 +6121,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllDocumentsRequest(int? offset, int? limit, string workspace, string collection, DocumentState? state, IEnumerable<int> tags, DateRange? createdDt, string search, IEnumerable<Get8ItemsItem> ordering, bool? includeData)
+        internal HttpMessage CreateGetAllDocumentsRequest(int? offset, int? limit, string workspace, string collection, DocumentState? state, IEnumerable<int> tags, DateRange? createdDt, string search, IEnumerable<Get8ItemsItem> ordering, bool? includeData, IEnumerable<string> exclude)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -6338,6 +6171,10 @@ namespace Affinda.API
             {
                 uri.AppendQuery("include_data", includeData.Value, true);
             }
+            if (exclude != null)
+            {
+                uri.AppendQueryDelimited("exclude", exclude, ",", true);
+            }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -6354,11 +6191,12 @@ namespace Affinda.API
         /// <param name="search"> Partial, case-insensitive match with file name or tag name. </param>
         /// <param name="ordering"> Sort the result set. A &quot;-&quot; at the beginning denotes DESC sort, e.g. -created_dt. Sort by multiple fields is supported. </param>
         /// <param name="includeData"> By default, this endpoint returns only the meta data of the documents. Set this to `true` will return the detailed data that was parsed, at a performance cost. </param>
+        /// <param name="exclude"> Exclude some documents from the result. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the document summaries for that user, limited to 300 per page. </remarks>
-        public async Task<Response<GetAllDocumentsResults>> GetAllDocumentsAsync(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, CancellationToken cancellationToken = default)
+        public async Task<Response<GetAllDocumentsResults>> GetAllDocumentsAsync(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllDocumentsRequest(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData);
+            using var message = CreateGetAllDocumentsRequest(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -6385,11 +6223,12 @@ namespace Affinda.API
         /// <param name="search"> Partial, case-insensitive match with file name or tag name. </param>
         /// <param name="ordering"> Sort the result set. A &quot;-&quot; at the beginning denotes DESC sort, e.g. -created_dt. Sort by multiple fields is supported. </param>
         /// <param name="includeData"> By default, this endpoint returns only the meta data of the documents. Set this to `true` will return the detailed data that was parsed, at a performance cost. </param>
+        /// <param name="exclude"> Exclude some documents from the result. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the document summaries for that user, limited to 300 per page. </remarks>
-        public Response<GetAllDocumentsResults> GetAllDocuments(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, CancellationToken cancellationToken = default)
+        public Response<GetAllDocumentsResults> GetAllDocuments(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllDocumentsRequest(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData);
+            using var message = CreateGetAllDocumentsRequest(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {

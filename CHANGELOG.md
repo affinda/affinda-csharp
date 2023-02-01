@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add latitude and longtitude to Location
 - Add expectedremuneration, jobtitle, language, skill and yearsexperience to AnnotationContentType
 - re-add DataPoint.simlarTo
+- Add `exclude` parameter to /documents query
 
 ### Changed
 - Changed Document top level structure to more closely resemble api v2 with top level keys of meta, data and error
@@ -18,6 +19,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Fixed various nullable fields not being nullable, and vice versa
+
+### Removed
+- Master/child accounts endpoints
 
 ## [3.0.1] - 2023-01-16
 ### Added

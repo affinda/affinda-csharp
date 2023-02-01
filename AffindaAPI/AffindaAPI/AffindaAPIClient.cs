@@ -1652,90 +1652,6 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Get list of all users. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns all the users. </remarks>
-        public virtual async Task<Response<Paths9K2ZxlV3UsersGetResponses200ContentApplicationJsonSchema>> GetAllUsersAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllUsers");
-            scope.Start();
-            try
-            {
-                return await RestClient.GetAllUsersAsync(offset, limit, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get list of all users. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns all the users. </remarks>
-        public virtual Response<Paths9K2ZxlV3UsersGetResponses200ContentApplicationJsonSchema> GetAllUsers(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllUsers");
-            scope.Start();
-            try
-            {
-                return RestClient.GetAllUsers(offset, limit, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Create a new user. </summary>
-        /// <param name="username"> The String to use. </param>
-        /// <param name="email"> The String to use. </param>
-        /// <param name="name"> The String to use. </param>
-        /// <param name="avatar"> Upload avatar for the user. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Create an user as part of your account. </remarks>
-        public virtual async Task<Response<UserCreateResponse>> CreateUserAsync(string username, string email, string name = null, Stream avatar = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateUser");
-            scope.Start();
-            try
-            {
-                return await RestClient.CreateUserAsync(username, email, name, avatar, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Create a new user. </summary>
-        /// <param name="username"> The String to use. </param>
-        /// <param name="email"> The String to use. </param>
-        /// <param name="name"> The String to use. </param>
-        /// <param name="avatar"> Upload avatar for the user. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Create an user as part of your account. </remarks>
-        public virtual Response<UserCreateResponse> CreateUser(string username, string email, string name = null, Stream avatar = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateUser");
-            scope.Start();
-            try
-            {
-                return RestClient.CreateUser(username, email, name, avatar, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
         /// <summary> Get list of all organizations. </summary>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the organizations. </remarks>
@@ -3325,15 +3241,16 @@ namespace Affinda.API
         /// <param name="search"> Partial, case-insensitive match with file name or tag name. </param>
         /// <param name="ordering"> Sort the result set. A &quot;-&quot; at the beginning denotes DESC sort, e.g. -created_dt. Sort by multiple fields is supported. </param>
         /// <param name="includeData"> By default, this endpoint returns only the meta data of the documents. Set this to `true` will return the detailed data that was parsed, at a performance cost. </param>
+        /// <param name="exclude"> Exclude some documents from the result. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the document summaries for that user, limited to 300 per page. </remarks>
-        public virtual async Task<Response<GetAllDocumentsResults>> GetAllDocumentsAsync(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<GetAllDocumentsResults>> GetAllDocumentsAsync(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllDocuments");
             scope.Start();
             try
             {
-                return await RestClient.GetAllDocumentsAsync(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, cancellationToken).ConfigureAwait(false);
+                return await RestClient.GetAllDocumentsAsync(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -3353,15 +3270,16 @@ namespace Affinda.API
         /// <param name="search"> Partial, case-insensitive match with file name or tag name. </param>
         /// <param name="ordering"> Sort the result set. A &quot;-&quot; at the beginning denotes DESC sort, e.g. -created_dt. Sort by multiple fields is supported. </param>
         /// <param name="includeData"> By default, this endpoint returns only the meta data of the documents. Set this to `true` will return the detailed data that was parsed, at a performance cost. </param>
+        /// <param name="exclude"> Exclude some documents from the result. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the document summaries for that user, limited to 300 per page. </remarks>
-        public virtual Response<GetAllDocumentsResults> GetAllDocuments(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, CancellationToken cancellationToken = default)
+        public virtual Response<GetAllDocumentsResults> GetAllDocuments(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllDocuments");
             scope.Start();
             try
             {
-                return RestClient.GetAllDocuments(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, cancellationToken);
+                return RestClient.GetAllDocuments(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, cancellationToken);
             }
             catch (Exception e)
             {

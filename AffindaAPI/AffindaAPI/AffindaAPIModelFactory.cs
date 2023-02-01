@@ -1895,44 +1895,6 @@ namespace Affinda.API.Models
             return new PathsFte27NV3IndexNameDocumentsPostResponses201ContentApplicationJsonSchema(document);
         }
 
-        /// <summary> Initializes a new instance of Paths9K2ZxlV3UsersGetResponses200ContentApplicationJsonSchema. </summary>
-        /// <param name="count"> Number of indexes in result. </param>
-        /// <param name="next"> URL to request next page of results. </param>
-        /// <param name="previous"> URL to request previous page of results. </param>
-        /// <param name="results"></param>
-        /// <returns> A new <see cref="Models.Paths9K2ZxlV3UsersGetResponses200ContentApplicationJsonSchema"/> instance for mocking. </returns>
-        public static Paths9K2ZxlV3UsersGetResponses200ContentApplicationJsonSchema Paths9K2ZxlV3UsersGetResponses200ContentApplicationJsonSchema(int? count = null, string next = null, string previous = null, IEnumerable<User> results = null)
-        {
-            results ??= new List<User>();
-
-            return new Paths9K2ZxlV3UsersGetResponses200ContentApplicationJsonSchema(count, next, previous, results?.ToList());
-        }
-
-        /// <summary> Initializes a new instance of User. </summary>
-        /// <param name="id"> Uniquely identify a user. </param>
-        /// <param name="name"></param>
-        /// <param name="username"></param>
-        /// <param name="email"></param>
-        /// <param name="avatar"> URL of the user&apos;s avatar. </param>
-        /// <returns> A new <see cref="Models.User"/> instance for mocking. </returns>
-        public static User User(string id = null, string name = null, string username = null, string email = null, string avatar = null)
-        {
-            return new User(id, name, username, email, avatar);
-        }
-
-        /// <summary> Initializes a new instance of UserCreateResponse. </summary>
-        /// <param name="id"> Uniquely identify a user. </param>
-        /// <param name="name"></param>
-        /// <param name="username"></param>
-        /// <param name="email"></param>
-        /// <param name="avatar"> URL of the user&apos;s avatar. </param>
-        /// <param name="apiKey"> API key used to authenticate for future requests. This key is only retrievable at the initial creation of the user. </param>
-        /// <returns> A new <see cref="Models.UserCreateResponse"/> instance for mocking. </returns>
-        public static UserCreateResponse UserCreateResponse(string id = null, string name = null, string username = null, string email = null, string avatar = null, string apiKey = null)
-        {
-            return new UserCreateResponse(id, name, username, email, avatar, apiKey);
-        }
-
         /// <summary> Initializes a new instance of Organization. </summary>
         /// <param name="identifier"> Uniquely identify an organization. </param>
         /// <param name="name"></param>
@@ -2002,6 +1964,18 @@ namespace Affinda.API.Models
             }
 
             return new OrganizationMembership(identifier, organization, user, role);
+        }
+
+        /// <summary> Initializes a new instance of User. </summary>
+        /// <param name="id"> Uniquely identify a user. </param>
+        /// <param name="name"></param>
+        /// <param name="username"></param>
+        /// <param name="email"></param>
+        /// <param name="avatar"> URL of the user&apos;s avatar. </param>
+        /// <returns> A new <see cref="Models.User"/> instance for mocking. </returns>
+        public static User User(string id = null, string name = null, string username = null, string email = null, string avatar = null)
+        {
+            return new User(id, name, username, email, avatar);
         }
 
         /// <summary> Initializes a new instance of Paths18Wh2VcV3InvitationsGetResponses200ContentApplicationJsonSchema. </summary>
