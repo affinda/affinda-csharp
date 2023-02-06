@@ -36,7 +36,6 @@ namespace Affinda.API.Models
             AnnotationContentType = annotationContentType;
             Extractor = extractor;
             SimilarTo = new ChangeTrackingList<string>();
-            Choices = new ChangeTrackingList<DataPointChoicesItem>();
             Children = new ChangeTrackingList<DataPoint>();
         }
 
@@ -51,9 +50,9 @@ namespace Affinda.API.Models
         /// <param name="multiple"></param>
         /// <param name="noRect"></param>
         /// <param name="similarTo"></param>
-        /// <param name="choices"></param>
+        /// <param name="displayEnumValue"></param>
         /// <param name="children"></param>
-        internal DataPoint(string identifier, string name, string slug, string description, AnnotationContentType annotationContentType, Organization organization, int? extractor, bool? multiple, bool? noRect, IReadOnlyList<string> similarTo, IReadOnlyList<DataPointChoicesItem> choices, IReadOnlyList<DataPoint> children)
+        internal DataPoint(string identifier, string name, string slug, string description, AnnotationContentType annotationContentType, Organization organization, int? extractor, bool? multiple, bool? noRect, IReadOnlyList<string> similarTo, bool? displayEnumValue, IReadOnlyList<DataPoint> children)
         {
             Identifier = identifier;
             Name = name;
@@ -65,7 +64,7 @@ namespace Affinda.API.Models
             Multiple = multiple;
             NoRect = noRect;
             SimilarTo = similarTo;
-            Choices = choices;
+            DisplayEnumValue = displayEnumValue;
             Children = children;
         }
 
@@ -89,8 +88,8 @@ namespace Affinda.API.Models
         public bool? NoRect { get; }
         /// <summary> Gets the similar to. </summary>
         public IReadOnlyList<string> SimilarTo { get; }
-        /// <summary> Gets the choices. </summary>
-        public IReadOnlyList<DataPointChoicesItem> Choices { get; }
+        /// <summary> Gets the display enum value. </summary>
+        public bool? DisplayEnumValue { get; }
         /// <summary> Gets the children. </summary>
         public IReadOnlyList<DataPoint> Children { get; }
     }

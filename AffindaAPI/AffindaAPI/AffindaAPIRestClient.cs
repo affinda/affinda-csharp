@@ -5075,6 +5075,96 @@ namespace Affinda.API
             }
         }
 
+        internal HttpMessage CreateGetDataPointChoicesRequest(string dataPoint, int? offset, int? limit, string search)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Get;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/data_point_choices", false);
+            if (offset != null)
+            {
+                uri.AppendQuery("offset", offset.Value, true);
+            }
+            if (limit != null)
+            {
+                uri.AppendQuery("limit", limit.Value, true);
+            }
+            uri.AppendQuery("data_point", dataPoint, true);
+            if (search != null)
+            {
+                uri.AppendQuery("search", search, true);
+            }
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Get list of data point choices. </summary>
+        /// <param name="dataPoint"> The data point to get choices for. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="search"> Filter choices by searching for a substring. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="dataPoint"/> is null. </exception>
+        /// <remarks> Returns available choices for a specific enum data point. </remarks>
+        public async Task<Response<PathsMnwxgV3DataPointChoicesGetResponses200ContentApplicationJsonSchema>> GetDataPointChoicesAsync(string dataPoint, int? offset = null, int? limit = null, string search = null, CancellationToken cancellationToken = default)
+        {
+            if (dataPoint == null)
+            {
+                throw new ArgumentNullException(nameof(dataPoint));
+            }
+
+            using var message = CreateGetDataPointChoicesRequest(dataPoint, offset, limit, search);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        PathsMnwxgV3DataPointChoicesGetResponses200ContentApplicationJsonSchema value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = PathsMnwxgV3DataPointChoicesGetResponses200ContentApplicationJsonSchema.DeserializePathsMnwxgV3DataPointChoicesGetResponses200ContentApplicationJsonSchema(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Get list of data point choices. </summary>
+        /// <param name="dataPoint"> The data point to get choices for. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="search"> Filter choices by searching for a substring. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="dataPoint"/> is null. </exception>
+        /// <remarks> Returns available choices for a specific enum data point. </remarks>
+        public Response<PathsMnwxgV3DataPointChoicesGetResponses200ContentApplicationJsonSchema> GetDataPointChoices(string dataPoint, int? offset = null, int? limit = null, string search = null, CancellationToken cancellationToken = default)
+        {
+            if (dataPoint == null)
+            {
+                throw new ArgumentNullException(nameof(dataPoint));
+            }
+
+            using var message = CreateGetDataPointChoicesRequest(dataPoint, offset, limit, search);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        PathsMnwxgV3DataPointChoicesGetResponses200ContentApplicationJsonSchema value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = PathsMnwxgV3DataPointChoicesGetResponses200ContentApplicationJsonSchema.DeserializePathsMnwxgV3DataPointChoicesGetResponses200ContentApplicationJsonSchema(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
         internal HttpMessage CreateGetAllWorkspacesRequest(string organization, string name)
         {
             var message = _pipeline.CreateMessage();

@@ -5,6 +5,9 @@
 
 #nullable disable
 
+using System.Collections.Generic;
+using Azure.Core;
+
 namespace Affinda.API.Models
 {
     /// <summary> The ResumeDataRefereesItem. </summary>
@@ -13,6 +16,7 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of ResumeDataRefereesItem. </summary>
         public ResumeDataRefereesItem()
         {
+            AdditionalProperties = new ChangeTrackingDictionary<string, object>();
         }
 
         /// <summary> Initializes a new instance of ResumeDataRefereesItem. </summary>
@@ -21,13 +25,15 @@ namespace Affinda.API.Models
         /// <param name="email"></param>
         /// <param name="number"></param>
         /// <param name="position"></param>
-        internal ResumeDataRefereesItem(string name, string text, string email, string number, string position)
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        internal ResumeDataRefereesItem(string name, string text, string email, string number, string position, IDictionary<string, object> additionalProperties)
         {
             Name = name;
             Text = text;
             Email = email;
             Number = number;
             Position = position;
+            AdditionalProperties = additionalProperties;
         }
 
         /// <summary> Gets or sets the name. </summary>
@@ -40,5 +46,7 @@ namespace Affinda.API.Models
         public string Number { get; set; }
         /// <summary> Gets or sets the position. </summary>
         public string Position { get; set; }
+        /// <summary> Additional Properties. </summary>
+        public IDictionary<string, object> AdditionalProperties { get; }
     }
 }

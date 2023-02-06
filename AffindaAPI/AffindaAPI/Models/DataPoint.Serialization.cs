@@ -25,7 +25,7 @@ namespace Affinda.API.Models
             Optional<bool> multiple = default;
             Optional<bool> noRect = default;
             Optional<IReadOnlyList<string>> similarTo = default;
-            Optional<IReadOnlyList<DataPointChoicesItem>> choices = default;
+            Optional<bool> displayEnumValue = default;
             Optional<IReadOnlyList<DataPoint>> children = default;
             foreach (var property in element.EnumerateObject())
             {
@@ -114,19 +114,14 @@ namespace Affinda.API.Models
                     similarTo = array;
                     continue;
                 }
-                if (property.NameEquals("choices"))
+                if (property.NameEquals("displayEnumValue"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
                         property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    List<DataPointChoicesItem> array = new List<DataPointChoicesItem>();
-                    foreach (var item in property.Value.EnumerateArray())
-                    {
-                        array.Add(DataPointChoicesItem.DeserializeDataPointChoicesItem(item));
-                    }
-                    choices = array;
+                    displayEnumValue = property.Value.GetBoolean();
                     continue;
                 }
                 if (property.NameEquals("children"))
@@ -145,7 +140,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new DataPoint(identifier, name, slug.Value, description.Value, annotationContentType, organization.Value, extractor, Optional.ToNullable(multiple), Optional.ToNullable(noRect), Optional.ToList(similarTo), Optional.ToList(choices), Optional.ToList(children));
+            return new DataPoint(identifier, name, slug.Value, description.Value, annotationContentType, organization.Value, extractor, Optional.ToNullable(multiple), Optional.ToNullable(noRect), Optional.ToList(similarTo), Optional.ToNullable(displayEnumValue), Optional.ToList(children));
         }
     }
 }

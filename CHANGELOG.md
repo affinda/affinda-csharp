@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add expectedremuneration, jobtitle, language, skill and yearsexperience to AnnotationContentType
 - re-add DataPoint.simlarTo
 - Add `exclude` parameter to /documents query
+- add ingest email to Workspace and Collection
 
 ### Changed
 - Changed Document top level structure to more closely resemble api v2 with top level keys of meta, data and error

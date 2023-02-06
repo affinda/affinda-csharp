@@ -39,7 +39,8 @@ namespace Affinda.API.Models
         /// <param name="members"></param>
         /// <param name="unvalidatedDocsCount"> Number of unvalidated documents in the workspace. </param>
         /// <param name="confirmedDocsCount"> Number of validated documents in the workspace. </param>
-        internal Workspace(string identifier, Organization organization, string name, WorkspaceVisibility? visibility, IReadOnlyList<WorkspaceCollectionsItem> collections, bool? rejectInvalidDocuments, IReadOnlyList<User> members, int? unvalidatedDocsCount, int? confirmedDocsCount)
+        /// <param name="ingestEmail"></param>
+        internal Workspace(string identifier, Organization organization, string name, WorkspaceVisibility? visibility, IReadOnlyList<WorkspaceCollectionsItem> collections, bool? rejectInvalidDocuments, IReadOnlyList<User> members, int? unvalidatedDocsCount, int? confirmedDocsCount, string ingestEmail)
         {
             Identifier = identifier;
             Organization = organization;
@@ -50,6 +51,7 @@ namespace Affinda.API.Models
             Members = members;
             UnvalidatedDocsCount = unvalidatedDocsCount;
             ConfirmedDocsCount = confirmedDocsCount;
+            IngestEmail = ingestEmail;
         }
 
         /// <summary> Uniquely identify a workspace. </summary>
@@ -70,5 +72,7 @@ namespace Affinda.API.Models
         public int? UnvalidatedDocsCount { get; }
         /// <summary> Number of validated documents in the workspace. </summary>
         public int? ConfirmedDocsCount { get; }
+        /// <summary> Gets the ingest email. </summary>
+        public string IngestEmail { get; }
     }
 }

@@ -27,6 +27,7 @@ namespace Affinda.API.Models
             Optional<IReadOnlyDictionary<string, object>> extractorConfig = default;
             Optional<int?> unvalidatedDocsCount = default;
             Optional<int?> confirmedDocsCount = default;
+            Optional<string> ingestEmail = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("identifier"))
@@ -149,8 +150,13 @@ namespace Affinda.API.Models
                     confirmedDocsCount = property.Value.GetInt32();
                     continue;
                 }
+                if (property.NameEquals("ingestEmail"))
+                {
+                    ingestEmail = property.Value.GetString();
+                    continue;
+                }
             }
-            return new Collection(identifier, name.Value, workspace.Value, extractor.Value, Optional.ToNullable(autoValidationThreshold), Optional.ToList(fields), Optional.ToNullable(fieldsConfigured), Optional.ToNullable(dateFormatPreference), Optional.ToNullable(dateFormatFromDocument), Optional.ToDictionary(extractorConfig), Optional.ToNullable(unvalidatedDocsCount), Optional.ToNullable(confirmedDocsCount));
+            return new Collection(identifier, name.Value, workspace.Value, extractor.Value, Optional.ToNullable(autoValidationThreshold), Optional.ToList(fields), Optional.ToNullable(fieldsConfigured), Optional.ToNullable(dateFormatPreference), Optional.ToNullable(dateFormatFromDocument), Optional.ToDictionary(extractorConfig), Optional.ToNullable(unvalidatedDocsCount), Optional.ToNullable(confirmedDocsCount), ingestEmail.Value);
         }
     }
 }

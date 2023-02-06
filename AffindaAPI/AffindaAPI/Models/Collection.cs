@@ -42,7 +42,8 @@ namespace Affinda.API.Models
         /// <param name="extractorConfig"> Extra configurations specific to an extractor. </param>
         /// <param name="unvalidatedDocsCount"> Number of unvalidated documents in the collection. </param>
         /// <param name="confirmedDocsCount"> Number of validated documents in the collection. </param>
-        internal Collection(string identifier, string name, CollectionWorkspace workspace, Extractor extractor, float? autoValidationThreshold, IReadOnlyList<FieldGroup> fields, bool? fieldsConfigured, CollectionDateFormatPreference? dateFormatPreference, bool? dateFormatFromDocument, IReadOnlyDictionary<string, object> extractorConfig, int? unvalidatedDocsCount, int? confirmedDocsCount)
+        /// <param name="ingestEmail"></param>
+        internal Collection(string identifier, string name, CollectionWorkspace workspace, Extractor extractor, float? autoValidationThreshold, IReadOnlyList<FieldGroup> fields, bool? fieldsConfigured, CollectionDateFormatPreference? dateFormatPreference, bool? dateFormatFromDocument, IReadOnlyDictionary<string, object> extractorConfig, int? unvalidatedDocsCount, int? confirmedDocsCount, string ingestEmail)
         {
             Identifier = identifier;
             Name = name;
@@ -56,6 +57,7 @@ namespace Affinda.API.Models
             ExtractorConfig = extractorConfig;
             UnvalidatedDocsCount = unvalidatedDocsCount;
             ConfirmedDocsCount = confirmedDocsCount;
+            IngestEmail = ingestEmail;
         }
 
         /// <summary> Uniquely identify a collection. </summary>
@@ -82,5 +84,7 @@ namespace Affinda.API.Models
         public int? UnvalidatedDocsCount { get; }
         /// <summary> Number of validated documents in the collection. </summary>
         public int? ConfirmedDocsCount { get; }
+        /// <summary> Gets the ingest email. </summary>
+        public string IngestEmail { get; }
     }
 }

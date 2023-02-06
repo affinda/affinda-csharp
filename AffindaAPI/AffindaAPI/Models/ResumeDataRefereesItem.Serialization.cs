@@ -5,6 +5,7 @@
 
 #nullable disable
 
+using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
 
@@ -68,6 +69,11 @@ namespace Affinda.API.Models
                     writer.WriteNull("position");
                 }
             }
+            foreach (var item in AdditionalProperties)
+            {
+                writer.WritePropertyName(item.Key);
+                writer.WriteObjectValue(item.Value);
+            }
             writer.WriteEndObject();
         }
 
@@ -78,6 +84,8 @@ namespace Affinda.API.Models
             Optional<string> email = default;
             Optional<string> number = default;
             Optional<string> position = default;
+            IDictionary<string, object> additionalProperties = default;
+            Dictionary<string, object> additionalPropertiesDictionary = new Dictionary<string, object>();
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("name"))
@@ -125,8 +133,10 @@ namespace Affinda.API.Models
                     position = property.Value.GetString();
                     continue;
                 }
+                additionalPropertiesDictionary.Add(property.Name, property.Value.GetObject());
             }
-            return new ResumeDataRefereesItem(name.Value, text.Value, email.Value, number.Value, position.Value);
+            additionalProperties = additionalPropertiesDictionary;
+            return new ResumeDataRefereesItem(name.Value, text.Value, email.Value, number.Value, position.Value, additionalProperties);
         }
     }
 }

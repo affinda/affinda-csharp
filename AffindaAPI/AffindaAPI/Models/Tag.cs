@@ -18,7 +18,7 @@ namespace Affinda.API.Models
         /// <param name="workspace"> Uniquely identify a workspace. </param>
         /// <param name="documentCount"> Number of documents tagged with this. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="name"/> or <paramref name="workspace"/> is null. </exception>
-        internal Tag(int id, string name, string workspace, int documentCount)
+        public Tag(int id, string name, string workspace, int documentCount)
         {
             if (name == null)
             {
@@ -36,12 +36,12 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Uniquely identify a tag. </summary>
-        public int Id { get; }
-        /// <summary> Gets the name. </summary>
-        public string Name { get; }
+        public int Id { get; set; }
+        /// <summary> Gets or sets the name. </summary>
+        public string Name { get; set; }
         /// <summary> Uniquely identify a workspace. </summary>
-        public string Workspace { get; }
+        public string Workspace { get; set; }
         /// <summary> Number of documents tagged with this. </summary>
-        public int DocumentCount { get; }
+        public int DocumentCount { get; set; }
     }
 }

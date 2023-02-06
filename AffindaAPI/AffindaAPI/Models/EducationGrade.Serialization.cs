@@ -5,6 +5,7 @@
 
 #nullable disable
 
+using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
 
@@ -37,6 +38,11 @@ namespace Affinda.API.Models
                 writer.WritePropertyName("value");
                 writer.WriteStringValue(Value);
             }
+            foreach (var item in AdditionalProperties)
+            {
+                writer.WritePropertyName(item.Key);
+                writer.WriteObjectValue(item.Value);
+            }
             writer.WriteEndObject();
         }
 
@@ -45,6 +51,8 @@ namespace Affinda.API.Models
             Optional<string> raw = default;
             Optional<string> metric = default;
             Optional<string> value = default;
+            IDictionary<string, object> additionalProperties = default;
+            Dictionary<string, object> additionalPropertiesDictionary = new Dictionary<string, object>();
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("raw"))
@@ -67,8 +75,10 @@ namespace Affinda.API.Models
                     value = property.Value.GetString();
                     continue;
                 }
+                additionalPropertiesDictionary.Add(property.Name, property.Value.GetObject());
             }
-            return new EducationGrade(raw.Value, metric.Value, value.Value);
+            additionalProperties = additionalPropertiesDictionary;
+            return new EducationGrade(raw.Value, metric.Value, value.Value, additionalProperties);
         }
     }
 }

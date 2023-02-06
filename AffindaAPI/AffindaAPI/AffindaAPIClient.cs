@@ -2690,6 +2690,50 @@ namespace Affinda.API
             }
         }
 
+        /// <summary> Get list of data point choices. </summary>
+        /// <param name="dataPoint"> The data point to get choices for. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="search"> Filter choices by searching for a substring. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns available choices for a specific enum data point. </remarks>
+        public virtual async Task<Response<PathsMnwxgV3DataPointChoicesGetResponses200ContentApplicationJsonSchema>> GetDataPointChoicesAsync(string dataPoint, int? offset = null, int? limit = null, string search = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetDataPointChoices");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetDataPointChoicesAsync(dataPoint, offset, limit, search, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get list of data point choices. </summary>
+        /// <param name="dataPoint"> The data point to get choices for. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="search"> Filter choices by searching for a substring. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns available choices for a specific enum data point. </remarks>
+        public virtual Response<PathsMnwxgV3DataPointChoicesGetResponses200ContentApplicationJsonSchema> GetDataPointChoices(string dataPoint, int? offset = null, int? limit = null, string search = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetDataPointChoices");
+            scope.Start();
+            try
+            {
+                return RestClient.GetDataPointChoices(dataPoint, offset, limit, search, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
         /// <summary> Get list of all workspaces. </summary>
         /// <param name="organization"> Filter by organization. </param>
         /// <param name="name"> Filter by name. </param>

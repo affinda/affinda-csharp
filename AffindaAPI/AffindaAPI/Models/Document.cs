@@ -17,7 +17,7 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of Document. </summary>
         /// <param name="meta"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="meta"/> is null. </exception>
-        internal Document(DocumentMeta meta)
+        public Document(DocumentMeta meta)
         {
             if (meta == null)
             {
@@ -32,18 +32,18 @@ namespace Affinda.API.Models
         /// <param name="meta"></param>
         /// <param name="data"> Dictionary of &lt;any&gt;. </param>
         /// <param name="error"></param>
-        internal Document(DocumentMeta meta, IReadOnlyDictionary<string, object> data, Error error)
+        internal Document(DocumentMeta meta, IDictionary<string, object> data, Error error)
         {
             Meta = meta;
             Data = data;
             Error = error;
         }
 
-        /// <summary> Gets the meta. </summary>
-        public DocumentMeta Meta { get; }
+        /// <summary> Gets or sets the meta. </summary>
+        public DocumentMeta Meta { get; set; }
         /// <summary> Dictionary of &lt;any&gt;. </summary>
-        public IReadOnlyDictionary<string, object> Data { get; }
-        /// <summary> Gets the error. </summary>
-        public Error Error { get; }
+        public IDictionary<string, object> Data { get; }
+        /// <summary> Gets or sets the error. </summary>
+        public Error Error { get; set; }
     }
 }

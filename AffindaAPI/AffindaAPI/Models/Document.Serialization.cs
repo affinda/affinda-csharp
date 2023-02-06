@@ -11,12 +11,36 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class Document
+    public partial class Document : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            writer.WritePropertyName("meta");
+            writer.WriteObjectValue(Meta);
+            if (Optional.IsCollectionDefined(Data))
+            {
+                writer.WritePropertyName("data");
+                writer.WriteStartObject();
+                foreach (var item in Data)
+                {
+                    writer.WritePropertyName(item.Key);
+                    writer.WriteObjectValue(item.Value);
+                }
+                writer.WriteEndObject();
+            }
+            if (Optional.IsDefined(Error))
+            {
+                writer.WritePropertyName("error");
+                writer.WriteObjectValue(Error);
+            }
+            writer.WriteEndObject();
+        }
+
         internal static Document DeserializeDocument(JsonElement element)
         {
             DocumentMeta meta = default;
-            Optional<IReadOnlyDictionary<string, object>> data = default;
+            Optional<IDictionary<string, object>> data = default;
             Optional<Error> error = default;
             foreach (var property in element.EnumerateObject())
             {
