@@ -1652,6 +1652,198 @@ namespace Affinda.API
             }
         }
 
+        /// <summary> Get list of all resthook subscriptions. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns your resthook subscriptions. </remarks>
+        public virtual async Task<Response<IReadOnlyList<ResthookSubscription>>> GetAllResthookSubscriptionsAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllResthookSubscriptions");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetAllResthookSubscriptionsAsync(offset, limit, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get list of all resthook subscriptions. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns your resthook subscriptions. </remarks>
+        public virtual Response<IReadOnlyList<ResthookSubscription>> GetAllResthookSubscriptions(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllResthookSubscriptions");
+            scope.Start();
+            try
+            {
+                return RestClient.GetAllResthookSubscriptions(offset, limit, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create a resthook subscriptions. </summary>
+        /// <param name="body"> The ResthookSubscriptionCreate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<ResthookSubscription>> CreateResthookSubscriptionAsync(ResthookSubscriptionCreate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateResthookSubscription");
+            scope.Start();
+            try
+            {
+                return await RestClient.CreateResthookSubscriptionAsync(body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create a resthook subscriptions. </summary>
+        /// <param name="body"> The ResthookSubscriptionCreate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<ResthookSubscription> CreateResthookSubscription(ResthookSubscriptionCreate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateResthookSubscription");
+            scope.Start();
+            try
+            {
+                return RestClient.CreateResthookSubscription(body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get specific resthook subscription. </summary>
+        /// <param name="id"> Resthook subscription&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return a specific resthook subscription. </remarks>
+        public virtual async Task<Response<ResthookSubscription>> GetResthookSubscriptionAsync(int id, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResthookSubscription");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetResthookSubscriptionAsync(id, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get specific resthook subscription. </summary>
+        /// <param name="id"> Resthook subscription&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return a specific resthook subscription. </remarks>
+        public virtual Response<ResthookSubscription> GetResthookSubscription(int id, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResthookSubscription");
+            scope.Start();
+            try
+            {
+                return RestClient.GetResthookSubscription(id, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update a resthook subscription&apos;s data. </summary>
+        /// <param name="id"> ResthookSubscription&apos;s ID. </param>
+        /// <param name="body"> ResthookSubscription data to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Update data of a resthook subscription. </remarks>
+        public virtual async Task<Response<ResthookSubscription>> UpdateResthookSubscriptionDataAsync(int id, ResthookSubscriptionUpdate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateResthookSubscriptionData");
+            scope.Start();
+            try
+            {
+                return await RestClient.UpdateResthookSubscriptionDataAsync(id, body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update a resthook subscription&apos;s data. </summary>
+        /// <param name="id"> ResthookSubscription&apos;s ID. </param>
+        /// <param name="body"> ResthookSubscription data to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Update data of a resthook subscription. </remarks>
+        public virtual Response<ResthookSubscription> UpdateResthookSubscriptionData(int id, ResthookSubscriptionUpdate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateResthookSubscriptionData");
+            scope.Start();
+            try
+            {
+                return RestClient.UpdateResthookSubscriptionData(id, body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete a resthook subscription. </summary>
+        /// <param name="id"> ResthookSubscription&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Deletes the specified resthook subscription from the database. </remarks>
+        public virtual async Task<Response> DeleteResthookSubscriptionAsync(int id, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteResthookSubscription");
+            scope.Start();
+            try
+            {
+                return await RestClient.DeleteResthookSubscriptionAsync(id, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete a resthook subscription. </summary>
+        /// <param name="id"> ResthookSubscription&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Deletes the specified resthook subscription from the database. </remarks>
+        public virtual Response DeleteResthookSubscription(int id, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteResthookSubscription");
+            scope.Start();
+            try
+            {
+                return RestClient.DeleteResthookSubscription(id, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
         /// <summary> Get list of all organizations. </summary>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the organizations. </remarks>

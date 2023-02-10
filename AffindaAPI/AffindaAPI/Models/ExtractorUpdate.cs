@@ -5,6 +5,9 @@
 
 #nullable disable
 
+using System.Collections.Generic;
+using Azure.Core;
+
 namespace Affinda.API.Models
 {
     /// <summary> The ExtractorUpdate. </summary>
@@ -13,6 +16,7 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of ExtractorUpdate. </summary>
         public ExtractorUpdate()
         {
+            FieldGroups = new ChangeTrackingList<FieldGroup>();
         }
 
         /// <summary> Gets or sets the name. </summary>
@@ -26,6 +30,6 @@ namespace Affinda.API.Models
         /// <summary> Gets or sets the validatable. </summary>
         public bool? Validatable { get; set; }
         /// <summary> Gets or sets the field groups. </summary>
-        public FieldGroups FieldGroups { get; set; }
+        public IList<FieldGroup> FieldGroups { get; set; }
     }
 }

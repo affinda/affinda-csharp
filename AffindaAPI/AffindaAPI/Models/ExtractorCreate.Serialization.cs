@@ -46,12 +46,17 @@ namespace Affinda.API.Models
                 writer.WritePropertyName("validatable");
                 writer.WriteBooleanValue(Validatable.Value);
             }
-            if (Optional.IsDefined(FieldGroups))
+            if (Optional.IsCollectionDefined(FieldGroups))
             {
                 if (FieldGroups != null)
                 {
                     writer.WritePropertyName("fieldGroups");
-                    writer.WriteObjectValue(FieldGroups);
+                    writer.WriteStartArray();
+                    foreach (var item in FieldGroups)
+                    {
+                        writer.WriteObjectValue(item);
+                    }
+                    writer.WriteEndArray();
                 }
                 else
                 {

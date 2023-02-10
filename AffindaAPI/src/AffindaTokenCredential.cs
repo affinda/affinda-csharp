@@ -15,7 +15,7 @@ namespace Affinda.API
         public override ValueTask<AccessToken> GetTokenAsync(TokenRequestContext requestContext,
             CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return new ValueTask<AccessToken>(Token);
         }
 
         public override AccessToken GetToken(TokenRequestContext requestContext,

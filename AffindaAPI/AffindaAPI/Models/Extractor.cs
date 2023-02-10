@@ -6,6 +6,8 @@
 #nullable disable
 
 using System;
+using System.Collections.Generic;
+using Azure.Core;
 
 namespace Affinda.API.Models
 {
@@ -39,6 +41,7 @@ namespace Affinda.API.Models
             Name = name;
             NamePlural = namePlural;
             Validatable = validatable;
+            FieldGroups = new ChangeTrackingList<FieldGroup>();
         }
 
         /// <summary> Initializes a new instance of Extractor. </summary>
@@ -53,7 +56,7 @@ namespace Affinda.API.Models
         /// <param name="isCustom"></param>
         /// <param name="fieldGroups"></param>
         /// <param name="createdDt"></param>
-        internal Extractor(int id, string identifier, string name, string namePlural, ExtractorBaseExtractor baseExtractor, Organization organization, string category, bool validatable, bool? isCustom, ExtractorFieldGroups fieldGroups, DateTimeOffset? createdDt)
+        internal Extractor(int id, string identifier, string name, string namePlural, ExtractorBaseExtractor baseExtractor, Organization organization, string category, bool validatable, bool? isCustom, IReadOnlyList<FieldGroup> fieldGroups, DateTimeOffset? createdDt)
         {
             Id = id;
             Identifier = identifier;
@@ -87,7 +90,7 @@ namespace Affinda.API.Models
         /// <summary> Gets the is custom. </summary>
         public bool? IsCustom { get; }
         /// <summary> Gets the field groups. </summary>
-        public ExtractorFieldGroups FieldGroups { get; }
+        public IReadOnlyList<FieldGroup> FieldGroups { get; }
         /// <summary> Gets the created dt. </summary>
         public DateTimeOffset? CreatedDt { get; }
     }

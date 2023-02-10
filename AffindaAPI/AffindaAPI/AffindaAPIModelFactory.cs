@@ -1848,6 +1848,21 @@ namespace Affinda.API.Models
             return new PathsFte27NV3IndexNameDocumentsPostResponses201ContentApplicationJsonSchema(document);
         }
 
+        /// <summary> Initializes a new instance of ResthookSubscription. </summary>
+        /// <param name="id"> Resthook subscription&apos;s ID. </param>
+        /// <param name="event"> The event name to subscribe to. </param>
+        /// <param name="organization"></param>
+        /// <param name="targetUrl"> URL of the resthook&apos;s receiver. </param>
+        /// <param name="active"> Resthooks only fire for active subscriptions. </param>
+        /// <param name="autoDeactivated"> Resthook subscriptions can be auto deactivated if the receiver continuously returns error status code over a period of time. </param>
+        /// <param name="autoDeactivateReason"> The reason for the subscription being auto deactivated. May contains the error response that the receiver returned. </param>
+        /// <param name="version"> Version of the resthook subscription. Determines the resthook body being fired. </param>
+        /// <returns> A new <see cref="Models.ResthookSubscription"/> instance for mocking. </returns>
+        public static ResthookSubscription ResthookSubscription(int? id = null, ResthookEvent? @event = null, Organization organization = null, string targetUrl = null, bool? active = null, bool? autoDeactivated = null, string autoDeactivateReason = null, ResthookSubscriptionVersion? version = null)
+        {
+            return new ResthookSubscription(id, @event, organization, targetUrl, active, autoDeactivated, autoDeactivateReason, version);
+        }
+
         /// <summary> Initializes a new instance of Organization. </summary>
         /// <param name="identifier"> Uniquely identify an organization. </param>
         /// <param name="name"></param>
@@ -1983,9 +1998,11 @@ namespace Affinda.API.Models
         /// <param name="fieldGroups"></param>
         /// <param name="createdDt"></param>
         /// <returns> A new <see cref="Models.Extractor"/> instance for mocking. </returns>
-        public static Extractor Extractor(int id = default, string identifier = null, string name = null, string namePlural = null, ExtractorBaseExtractor baseExtractor = null, Organization organization = null, string category = null, bool validatable = default, bool? isCustom = null, ExtractorFieldGroups fieldGroups = null, DateTimeOffset? createdDt = null)
+        public static Extractor Extractor(int id = default, string identifier = null, string name = null, string namePlural = null, ExtractorBaseExtractor baseExtractor = null, Organization organization = null, string category = null, bool validatable = default, bool? isCustom = null, IEnumerable<FieldGroup> fieldGroups = null, DateTimeOffset? createdDt = null)
         {
-            return new Extractor(id, identifier, name, namePlural, baseExtractor, organization, category, validatable, isCustom, fieldGroups, createdDt);
+            fieldGroups ??= new List<FieldGroup>();
+
+            return new Extractor(id, identifier, name, namePlural, baseExtractor, organization, category, validatable, isCustom, fieldGroups?.ToList(), createdDt);
         }
 
         /// <summary> Initializes a new instance of ExtractorBaseExtractor. </summary>

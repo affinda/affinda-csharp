@@ -28,13 +28,20 @@ namespace Affinda.API.Models
             }
             if (Optional.IsCollectionDefined(Fields))
             {
-                writer.WritePropertyName("fields");
-                writer.WriteStartArray();
-                foreach (var item in Fields)
+                if (Fields != null)
                 {
-                    writer.WriteObjectValue(item);
+                    writer.WritePropertyName("fields");
+                    writer.WriteStartArray();
+                    foreach (var item in Fields)
+                    {
+                        writer.WriteObjectValue(item);
+                    }
+                    writer.WriteEndArray();
                 }
-                writer.WriteEndArray();
+                else
+                {
+                    writer.WriteNull("fields");
+                }
             }
             if (Optional.IsDefined(DateFormatPreference))
             {

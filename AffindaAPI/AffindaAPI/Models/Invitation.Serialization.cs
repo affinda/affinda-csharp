@@ -90,7 +90,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        respondedBy = null;
                         continue;
                     }
                     respondedBy = InvitationRespondedBy.DeserializeInvitationRespondedBy(property.Value);

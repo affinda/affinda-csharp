@@ -19,6 +19,11 @@ namespace Affinda.API.Models
             {
                 if (property.NameEquals("redactedPdf"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        redactedPdf = null;
+                        continue;
+                    }
                     redactedPdf = property.Value.GetString();
                     continue;
                 }

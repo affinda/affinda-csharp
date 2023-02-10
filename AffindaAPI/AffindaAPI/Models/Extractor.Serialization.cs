@@ -6,6 +6,7 @@
 #nullable disable
 
 using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
 
@@ -24,7 +25,7 @@ namespace Affinda.API.Models
             Optional<string> category = default;
             bool validatable = default;
             Optional<bool> isCustom = default;
-            Optional<ExtractorFieldGroups> fieldGroups = default;
+            Optional<IReadOnlyList<FieldGroup>> fieldGroups = default;
             Optional<DateTimeOffset> createdDt = default;
             foreach (var property in element.EnumerateObject())
             {
@@ -97,10 +98,15 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        fieldGroups = null;
                         continue;
                     }
-                    fieldGroups = ExtractorFieldGroups.DeserializeExtractorFieldGroups(property.Value);
+                    List<FieldGroup> array = new List<FieldGroup>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(FieldGroup.DeserializeFieldGroup(item));
+                    }
+                    fieldGroups = array;
                     continue;
                 }
                 if (property.NameEquals("createdDt"))
@@ -114,7 +120,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new Extractor(id, identifier, name, namePlural, baseExtractor.Value, organization.Value, category.Value, validatable, Optional.ToNullable(isCustom), fieldGroups.Value, Optional.ToNullable(createdDt));
+            return new Extractor(id, identifier, name, namePlural, baseExtractor.Value, organization.Value, category.Value, validatable, Optional.ToNullable(isCustom), Optional.ToList(fieldGroups), Optional.ToNullable(createdDt));
         }
     }
 }

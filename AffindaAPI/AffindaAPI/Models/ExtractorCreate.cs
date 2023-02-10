@@ -6,6 +6,8 @@
 #nullable disable
 
 using System;
+using System.Collections.Generic;
+using Azure.Core;
 
 namespace Affinda.API.Models
 {
@@ -29,6 +31,7 @@ namespace Affinda.API.Models
 
             Name = name;
             Organization = organization;
+            FieldGroups = new ChangeTrackingList<FieldGroup>();
         }
 
         /// <summary> Gets the name. </summary>
@@ -44,6 +47,6 @@ namespace Affinda.API.Models
         /// <summary> Gets or sets the validatable. </summary>
         public bool? Validatable { get; set; }
         /// <summary> Gets or sets the field groups. </summary>
-        public FieldGroups FieldGroups { get; set; }
+        public IList<FieldGroup> FieldGroups { get; set; }
     }
 }

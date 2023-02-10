@@ -74,7 +74,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        fields = null;
                         continue;
                     }
                     List<FieldGroup> array = new List<FieldGroup>();
