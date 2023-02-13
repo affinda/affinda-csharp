@@ -38,7 +38,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        value = null;
                         continue;
                     }
                     value = ResumeSearchDetailLocationValue.DeserializeResumeSearchDetailLocationValue(property.Value);

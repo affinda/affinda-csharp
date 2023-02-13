@@ -39,7 +39,7 @@ namespace Affinda.API.Models
             writer.WritePropertyName("organization");
             writer.WriteStringValue(Organization);
             writer.WritePropertyName("extractor");
-            writer.WriteNumberValue(Extractor);
+            writer.WriteStringValue(Extractor);
             if (Optional.IsDefined(Multiple))
             {
                 writer.WritePropertyName("multiple");

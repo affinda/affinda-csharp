@@ -13,13 +13,12 @@ namespace Affinda.API.Models
     public partial class BaseExtractor
     {
         /// <summary> Initializes a new instance of BaseExtractor. </summary>
-        /// <param name="id"></param>
-        /// <param name="identifier"></param>
+        /// <param name="identifier"> Uniquely identify an extractor. </param>
         /// <param name="name"></param>
         /// <param name="namePlural"></param>
         /// <param name="validatable"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/>, <paramref name="name"/> or <paramref name="namePlural"/> is null. </exception>
-        internal BaseExtractor(int id, string identifier, string name, string namePlural, bool validatable)
+        internal BaseExtractor(string identifier, string name, string namePlural, bool validatable)
         {
             if (identifier == null)
             {
@@ -34,7 +33,6 @@ namespace Affinda.API.Models
                 throw new ArgumentNullException(nameof(namePlural));
             }
 
-            Id = id;
             Identifier = identifier;
             Name = name;
             NamePlural = namePlural;
@@ -42,16 +40,14 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of BaseExtractor. </summary>
-        /// <param name="id"></param>
-        /// <param name="identifier"></param>
+        /// <param name="identifier"> Uniquely identify an extractor. </param>
         /// <param name="name"></param>
         /// <param name="namePlural"></param>
         /// <param name="validatable"></param>
         /// <param name="isCustom"></param>
         /// <param name="createdDt"></param>
-        internal BaseExtractor(int id, string identifier, string name, string namePlural, bool validatable, bool? isCustom, DateTimeOffset? createdDt)
+        internal BaseExtractor(string identifier, string name, string namePlural, bool validatable, bool? isCustom, DateTimeOffset? createdDt)
         {
-            Id = id;
             Identifier = identifier;
             Name = name;
             NamePlural = namePlural;
@@ -60,9 +56,7 @@ namespace Affinda.API.Models
             CreatedDt = createdDt;
         }
 
-        /// <summary> Gets the id. </summary>
-        public int Id { get; }
-        /// <summary> Gets the identifier. </summary>
+        /// <summary> Uniquely identify an extractor. </summary>
         public string Identifier { get; }
         /// <summary> Gets the name. </summary>
         public string Name { get; }

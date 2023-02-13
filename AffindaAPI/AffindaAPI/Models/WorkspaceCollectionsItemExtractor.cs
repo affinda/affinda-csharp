@@ -13,13 +13,12 @@ namespace Affinda.API.Models
     public partial class WorkspaceCollectionsItemExtractor
     {
         /// <summary> Initializes a new instance of WorkspaceCollectionsItemExtractor. </summary>
-        /// <param name="id"> Extractor&apos;s ID. </param>
-        /// <param name="identifier"></param>
+        /// <param name="identifier"> Uniquely identify an extractor. </param>
         /// <param name="name"></param>
         /// <param name="namePlural"></param>
         /// <param name="validatable"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/>, <paramref name="name"/> or <paramref name="namePlural"/> is null. </exception>
-        internal WorkspaceCollectionsItemExtractor(int id, string identifier, string name, string namePlural, bool validatable)
+        internal WorkspaceCollectionsItemExtractor(string identifier, string name, string namePlural, bool validatable)
         {
             if (identifier == null)
             {
@@ -34,7 +33,6 @@ namespace Affinda.API.Models
                 throw new ArgumentNullException(nameof(namePlural));
             }
 
-            Id = id;
             Identifier = identifier;
             Name = name;
             NamePlural = namePlural;
@@ -42,8 +40,7 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of WorkspaceCollectionsItemExtractor. </summary>
-        /// <param name="id"> Extractor&apos;s ID. </param>
-        /// <param name="identifier"></param>
+        /// <param name="identifier"> Uniquely identify an extractor. </param>
         /// <param name="name"></param>
         /// <param name="namePlural"></param>
         /// <param name="baseExtractor"></param>
@@ -51,9 +48,8 @@ namespace Affinda.API.Models
         /// <param name="validatable"></param>
         /// <param name="isCustom"></param>
         /// <param name="createdDt"></param>
-        internal WorkspaceCollectionsItemExtractor(int id, string identifier, string name, string namePlural, BaseExtractor baseExtractor, string category, bool validatable, bool? isCustom, DateTimeOffset? createdDt)
+        internal WorkspaceCollectionsItemExtractor(string identifier, string name, string namePlural, BaseExtractor baseExtractor, string category, bool validatable, bool? isCustom, DateTimeOffset? createdDt)
         {
-            Id = id;
             Identifier = identifier;
             Name = name;
             NamePlural = namePlural;
@@ -64,9 +60,7 @@ namespace Affinda.API.Models
             CreatedDt = createdDt;
         }
 
-        /// <summary> Extractor&apos;s ID. </summary>
-        public int Id { get; }
-        /// <summary> Gets the identifier. </summary>
+        /// <summary> Uniquely identify an extractor. </summary>
         public string Identifier { get; }
         /// <summary> Gets the name. </summary>
         public string Name { get; }

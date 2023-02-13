@@ -15,11 +15,6 @@ namespace Affinda.API.Models
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
         {
             writer.WriteStartObject();
-            if (Optional.IsDefined(Id))
-            {
-                writer.WritePropertyName("id");
-                writer.WriteNumberValue(Id.Value);
-            }
             if (Optional.IsDefined(Identifier))
             {
                 writer.WritePropertyName("identifier");
@@ -35,7 +30,7 @@ namespace Affinda.API.Models
                 if (BaseExtractor != null)
                 {
                     writer.WritePropertyName("baseExtractor");
-                    writer.WriteNumberValue(BaseExtractor.Value);
+                    writer.WriteStringValue(BaseExtractor);
                 }
                 else
                 {
@@ -52,23 +47,12 @@ namespace Affinda.API.Models
 
         internal static DocumentMetaCollectionExtractor DeserializeDocumentMetaCollectionExtractor(JsonElement element)
         {
-            Optional<int> id = default;
             Optional<string> identifier = default;
             Optional<string> name = default;
-            Optional<int?> baseExtractor = default;
+            Optional<string> baseExtractor = default;
             Optional<bool> validatable = default;
             foreach (var property in element.EnumerateObject())
             {
-                if (property.NameEquals("id"))
-                {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        property.ThrowNonNullablePropertyIsNull();
-                        continue;
-                    }
-                    id = property.Value.GetInt32();
-                    continue;
-                }
                 if (property.NameEquals("identifier"))
                 {
                     identifier = property.Value.GetString();
@@ -86,7 +70,7 @@ namespace Affinda.API.Models
                         baseExtractor = null;
                         continue;
                     }
-                    baseExtractor = property.Value.GetInt32();
+                    baseExtractor = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("validatable"))
@@ -100,7 +84,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new DocumentMetaCollectionExtractor(Optional.ToNullable(id), identifier.Value, name.Value, Optional.ToNullable(baseExtractor), Optional.ToNullable(validatable));
+            return new DocumentMetaCollectionExtractor(identifier.Value, name.Value, baseExtractor.Value, Optional.ToNullable(validatable));
         }
     }
 }

@@ -1848,6 +1848,39 @@ namespace Affinda.API.Models
             return new PathsFte27NV3IndexNameDocumentsPostResponses201ContentApplicationJsonSchema(document);
         }
 
+        /// <summary> Initializes a new instance of PathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema. </summary>
+        /// <param name="count"> Number of items in results. </param>
+        /// <param name="next"> URL to request next page of results. </param>
+        /// <param name="previous"> URL to request previous page of results. </param>
+        /// <param name="results"></param>
+        /// <returns> A new <see cref="Models.PathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema"/> instance for mocking. </returns>
+        public static PathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema PathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema(int count = default, string next = null, string previous = null, IEnumerable<ResthookSubscription> results = null)
+        {
+            results ??= new List<ResthookSubscription>();
+
+            return new PathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema(count, next, previous, results?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of PaginatedResponse. </summary>
+        /// <param name="count"> Number of items in results. </param>
+        /// <param name="next"> URL to request next page of results. </param>
+        /// <param name="previous"> URL to request previous page of results. </param>
+        /// <returns> A new <see cref="Models.PaginatedResponse"/> instance for mocking. </returns>
+        public static PaginatedResponse PaginatedResponse(int count = default, string next = null, string previous = null)
+        {
+            return new PaginatedResponse(count, next, previous);
+        }
+
+        /// <summary> Initializes a new instance of Paths1Qojy9V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchemaAllof1. </summary>
+        /// <param name="results"></param>
+        /// <returns> A new <see cref="Models.Paths1Qojy9V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchemaAllof1"/> instance for mocking. </returns>
+        public static Paths1Qojy9V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchemaAllof1 Paths1Qojy9V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchemaAllof1(IEnumerable<ResthookSubscription> results = null)
+        {
+            results ??= new List<ResthookSubscription>();
+
+            return new Paths1Qojy9V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchemaAllof1(results?.ToList());
+        }
+
         /// <summary> Initializes a new instance of ResthookSubscription. </summary>
         /// <param name="id"> Resthook subscription&apos;s ID. </param>
         /// <param name="event"> The event name to subscribe to. </param>
@@ -1887,16 +1920,6 @@ namespace Affinda.API.Models
             results ??= new List<OrganizationMembership>();
 
             return new PathsQ5Os5RV3OrganizationMembershipsGetResponses200ContentApplicationJsonSchema(count, next, previous, results?.ToList());
-        }
-
-        /// <summary> Initializes a new instance of PaginatedResponse. </summary>
-        /// <param name="count"> Number of items in results. </param>
-        /// <param name="next"> URL to request next page of results. </param>
-        /// <param name="previous"> URL to request previous page of results. </param>
-        /// <returns> A new <see cref="Models.PaginatedResponse"/> instance for mocking. </returns>
-        public static PaginatedResponse PaginatedResponse(int count = default, string next = null, string previous = null)
-        {
-            return new PaginatedResponse(count, next, previous);
         }
 
         /// <summary> Initializes a new instance of Paths93Fa0ZV3OrganizationMembershipsGetResponses200ContentApplicationJsonSchemaAllof1. </summary>
@@ -1986,8 +2009,7 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of Extractor. </summary>
-        /// <param name="id"> Extractor&apos;s ID. </param>
-        /// <param name="identifier"></param>
+        /// <param name="identifier"> Uniquely identify an extractor. </param>
         /// <param name="name"></param>
         /// <param name="namePlural"></param>
         /// <param name="baseExtractor"></param>
@@ -1998,25 +2020,24 @@ namespace Affinda.API.Models
         /// <param name="fieldGroups"></param>
         /// <param name="createdDt"></param>
         /// <returns> A new <see cref="Models.Extractor"/> instance for mocking. </returns>
-        public static Extractor Extractor(int id = default, string identifier = null, string name = null, string namePlural = null, ExtractorBaseExtractor baseExtractor = null, Organization organization = null, string category = null, bool validatable = default, bool? isCustom = null, IEnumerable<FieldGroup> fieldGroups = null, DateTimeOffset? createdDt = null)
+        public static Extractor Extractor(string identifier = null, string name = null, string namePlural = null, ExtractorBaseExtractor baseExtractor = null, Organization organization = null, string category = null, bool validatable = default, bool? isCustom = null, IEnumerable<FieldGroup> fieldGroups = null, DateTimeOffset? createdDt = null)
         {
             fieldGroups ??= new List<FieldGroup>();
 
-            return new Extractor(id, identifier, name, namePlural, baseExtractor, organization, category, validatable, isCustom, fieldGroups?.ToList(), createdDt);
+            return new Extractor(identifier, name, namePlural, baseExtractor, organization, category, validatable, isCustom, fieldGroups?.ToList(), createdDt);
         }
 
         /// <summary> Initializes a new instance of ExtractorBaseExtractor. </summary>
-        /// <param name="id"></param>
-        /// <param name="identifier"></param>
+        /// <param name="identifier"> Uniquely identify an extractor. </param>
         /// <param name="name"></param>
         /// <param name="namePlural"></param>
         /// <param name="validatable"></param>
         /// <param name="isCustom"></param>
         /// <param name="createdDt"></param>
         /// <returns> A new <see cref="Models.ExtractorBaseExtractor"/> instance for mocking. </returns>
-        public static ExtractorBaseExtractor ExtractorBaseExtractor(int id = default, string identifier = null, string name = null, string namePlural = null, bool validatable = default, bool? isCustom = null, DateTimeOffset? createdDt = null)
+        public static ExtractorBaseExtractor ExtractorBaseExtractor(string identifier = null, string name = null, string namePlural = null, bool validatable = default, bool? isCustom = null, DateTimeOffset? createdDt = null)
         {
-            return new ExtractorBaseExtractor(id, identifier, name, namePlural, validatable, isCustom, createdDt);
+            return new ExtractorBaseExtractor(identifier, name, namePlural, validatable, isCustom, createdDt);
         }
 
         /// <summary> Initializes a new instance of DataPoint. </summary>
@@ -2026,14 +2047,14 @@ namespace Affinda.API.Models
         /// <param name="description"></param>
         /// <param name="annotationContentType"></param>
         /// <param name="organization"></param>
-        /// <param name="extractor"> Extractor&apos;s ID. </param>
+        /// <param name="extractor"> Uniquely identify an extractor. </param>
         /// <param name="multiple"></param>
         /// <param name="noRect"></param>
         /// <param name="similarTo"></param>
         /// <param name="displayEnumValue"></param>
         /// <param name="children"></param>
         /// <returns> A new <see cref="Models.DataPoint"/> instance for mocking. </returns>
-        public static DataPoint DataPoint(string identifier = null, string name = null, string slug = null, string description = null, AnnotationContentType annotationContentType = default, Organization organization = null, int? extractor = null, bool? multiple = null, bool? noRect = null, IEnumerable<string> similarTo = null, bool? displayEnumValue = null, IEnumerable<DataPoint> children = null)
+        public static DataPoint DataPoint(string identifier = null, string name = null, string slug = null, string description = null, AnnotationContentType annotationContentType = default, Organization organization = null, string extractor = null, bool? multiple = null, bool? noRect = null, IEnumerable<string> similarTo = null, bool? displayEnumValue = null, IEnumerable<DataPoint> children = null)
         {
             similarTo ??= new List<string>();
             children ??= new List<DataPoint>();
@@ -2117,8 +2138,7 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of WorkspaceCollectionsItemExtractor. </summary>
-        /// <param name="id"> Extractor&apos;s ID. </param>
-        /// <param name="identifier"></param>
+        /// <param name="identifier"> Uniquely identify an extractor. </param>
         /// <param name="name"></param>
         /// <param name="namePlural"></param>
         /// <param name="baseExtractor"></param>
@@ -2127,23 +2147,22 @@ namespace Affinda.API.Models
         /// <param name="isCustom"></param>
         /// <param name="createdDt"></param>
         /// <returns> A new <see cref="Models.WorkspaceCollectionsItemExtractor"/> instance for mocking. </returns>
-        public static WorkspaceCollectionsItemExtractor WorkspaceCollectionsItemExtractor(int id = default, string identifier = null, string name = null, string namePlural = null, BaseExtractor baseExtractor = null, string category = null, bool validatable = default, bool? isCustom = null, DateTimeOffset? createdDt = null)
+        public static WorkspaceCollectionsItemExtractor WorkspaceCollectionsItemExtractor(string identifier = null, string name = null, string namePlural = null, BaseExtractor baseExtractor = null, string category = null, bool validatable = default, bool? isCustom = null, DateTimeOffset? createdDt = null)
         {
-            return new WorkspaceCollectionsItemExtractor(id, identifier, name, namePlural, baseExtractor, category, validatable, isCustom, createdDt);
+            return new WorkspaceCollectionsItemExtractor(identifier, name, namePlural, baseExtractor, category, validatable, isCustom, createdDt);
         }
 
         /// <summary> Initializes a new instance of BaseExtractor. </summary>
-        /// <param name="id"></param>
-        /// <param name="identifier"></param>
+        /// <param name="identifier"> Uniquely identify an extractor. </param>
         /// <param name="name"></param>
         /// <param name="namePlural"></param>
         /// <param name="validatable"></param>
         /// <param name="isCustom"></param>
         /// <param name="createdDt"></param>
         /// <returns> A new <see cref="Models.BaseExtractor"/> instance for mocking. </returns>
-        public static BaseExtractor BaseExtractor(int id = default, string identifier = null, string name = null, string namePlural = null, bool validatable = default, bool? isCustom = null, DateTimeOffset? createdDt = null)
+        public static BaseExtractor BaseExtractor(string identifier = null, string name = null, string namePlural = null, bool validatable = default, bool? isCustom = null, DateTimeOffset? createdDt = null)
         {
-            return new BaseExtractor(id, identifier, name, namePlural, validatable, isCustom, createdDt);
+            return new BaseExtractor(identifier, name, namePlural, validatable, isCustom, createdDt);
         }
 
         /// <summary> Initializes a new instance of PathsZ1JuagV3WorkspaceMembershipsGetResponses200ContentApplicationJsonSchema. </summary>

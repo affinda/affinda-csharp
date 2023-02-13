@@ -23,8 +23,8 @@ namespace Affinda.API.Models
         public string Name { get; set; }
         /// <summary> Gets or sets the name plural. </summary>
         public string NamePlural { get; set; }
-        /// <summary> The base extractor&apos;s ID. </summary>
-        public int? BaseExtractor { get; set; }
+        /// <summary> Uniquely identify an extractor. </summary>
+        public string BaseExtractor { get; set; }
         /// <summary> Gets or sets the category. </summary>
         public string Category { get; set; }
         /// <summary> Gets or sets the validatable. </summary>

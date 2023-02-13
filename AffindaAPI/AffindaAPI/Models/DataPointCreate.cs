@@ -16,9 +16,9 @@ namespace Affinda.API.Models
         /// <param name="slug"></param>
         /// <param name="annotationContentType"></param>
         /// <param name="organization"> Uniquely identify an organization. </param>
-        /// <param name="extractor"> Extractor&apos;s ID. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="slug"/> or <paramref name="organization"/> is null. </exception>
-        public DataPointCreate(string slug, AnnotationContentType annotationContentType, string organization, int extractor)
+        /// <param name="extractor"> Uniquely identify an extractor. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="slug"/>, <paramref name="organization"/> or <paramref name="extractor"/> is null. </exception>
+        public DataPointCreate(string slug, AnnotationContentType annotationContentType, string organization, string extractor)
         {
             if (slug == null)
             {
@@ -27,6 +27,10 @@ namespace Affinda.API.Models
             if (organization == null)
             {
                 throw new ArgumentNullException(nameof(organization));
+            }
+            if (extractor == null)
+            {
+                throw new ArgumentNullException(nameof(extractor));
             }
 
             Slug = slug;
@@ -45,8 +49,8 @@ namespace Affinda.API.Models
         public AnnotationContentType AnnotationContentType { get; }
         /// <summary> Uniquely identify an organization. </summary>
         public string Organization { get; }
-        /// <summary> Extractor&apos;s ID. </summary>
-        public int Extractor { get; }
+        /// <summary> Uniquely identify an extractor. </summary>
+        public string Extractor { get; }
         /// <summary> Gets or sets the multiple. </summary>
         public bool? Multiple { get; set; }
         /// <summary> Gets or sets the no rect. </summary>

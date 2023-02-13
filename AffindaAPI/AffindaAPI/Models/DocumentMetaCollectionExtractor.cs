@@ -16,28 +16,24 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of DocumentMetaCollectionExtractor. </summary>
-        /// <param name="id"> Extractor&apos;s ID. </param>
-        /// <param name="identifier"></param>
+        /// <param name="identifier"> Uniquely identify an extractor. </param>
         /// <param name="name"></param>
-        /// <param name="baseExtractor"> Base extractor&apos;s ID. </param>
+        /// <param name="baseExtractor"> Base extractor&apos;s identifier. </param>
         /// <param name="validatable"></param>
-        internal DocumentMetaCollectionExtractor(int? id, string identifier, string name, int? baseExtractor, bool? validatable)
+        internal DocumentMetaCollectionExtractor(string identifier, string name, string baseExtractor, bool? validatable)
         {
-            Id = id;
             Identifier = identifier;
             Name = name;
             BaseExtractor = baseExtractor;
             Validatable = validatable;
         }
 
-        /// <summary> Extractor&apos;s ID. </summary>
-        public int? Id { get; set; }
-        /// <summary> Gets or sets the identifier. </summary>
+        /// <summary> Uniquely identify an extractor. </summary>
         public string Identifier { get; set; }
         /// <summary> Gets or sets the name. </summary>
         public string Name { get; set; }
-        /// <summary> Base extractor&apos;s ID. </summary>
-        public int? BaseExtractor { get; set; }
+        /// <summary> Base extractor&apos;s identifier. </summary>
+        public string BaseExtractor { get; set; }
         /// <summary> Gets or sets the validatable. </summary>
         public bool? Validatable { get; set; }
     }

@@ -1657,7 +1657,7 @@ namespace Affinda.API
         /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns your resthook subscriptions. </remarks>
-        public virtual async Task<Response<IReadOnlyList<ResthookSubscription>>> GetAllResthookSubscriptionsAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<PathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema>> GetAllResthookSubscriptionsAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllResthookSubscriptions");
             scope.Start();
@@ -1677,7 +1677,7 @@ namespace Affinda.API
         /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns your resthook subscriptions. </remarks>
-        public virtual Response<IReadOnlyList<ResthookSubscription>> GetAllResthookSubscriptions(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public virtual Response<PathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema> GetAllResthookSubscriptions(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllResthookSubscriptions");
             scope.Start();
@@ -2563,16 +2563,16 @@ namespace Affinda.API
         }
 
         /// <summary> Get specific extractor. </summary>
-        /// <param name="id"> Extractor&apos;s ID. </param>
+        /// <param name="identifier"> Extractor&apos;s identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Return a specific extractor. </remarks>
-        public virtual async Task<Response<Extractor>> GetExtractorAsync(int id, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<Extractor>> GetExtractorAsync(string identifier, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetExtractor");
             scope.Start();
             try
             {
-                return await RestClient.GetExtractorAsync(id, cancellationToken).ConfigureAwait(false);
+                return await RestClient.GetExtractorAsync(identifier, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -2582,16 +2582,16 @@ namespace Affinda.API
         }
 
         /// <summary> Get specific extractor. </summary>
-        /// <param name="id"> Extractor&apos;s ID. </param>
+        /// <param name="identifier"> Extractor&apos;s identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Return a specific extractor. </remarks>
-        public virtual Response<Extractor> GetExtractor(int id, CancellationToken cancellationToken = default)
+        public virtual Response<Extractor> GetExtractor(string identifier, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetExtractor");
             scope.Start();
             try
             {
-                return RestClient.GetExtractor(id, cancellationToken);
+                return RestClient.GetExtractor(identifier, cancellationToken);
             }
             catch (Exception e)
             {
@@ -2601,17 +2601,17 @@ namespace Affinda.API
         }
 
         /// <summary> Update an extractor&apos;s data. </summary>
-        /// <param name="id"> Extractor&apos;s ID. </param>
+        /// <param name="identifier"> Extractor&apos;s identifier. </param>
         /// <param name="body"> Extractor data to update. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Update data of an extractor. </remarks>
-        public virtual async Task<Response<Extractor>> UpdateExtractorDataAsync(int id, ExtractorUpdate body, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<Extractor>> UpdateExtractorDataAsync(string identifier, ExtractorUpdate body, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateExtractorData");
             scope.Start();
             try
             {
-                return await RestClient.UpdateExtractorDataAsync(id, body, cancellationToken).ConfigureAwait(false);
+                return await RestClient.UpdateExtractorDataAsync(identifier, body, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -2621,17 +2621,17 @@ namespace Affinda.API
         }
 
         /// <summary> Update an extractor&apos;s data. </summary>
-        /// <param name="id"> Extractor&apos;s ID. </param>
+        /// <param name="identifier"> Extractor&apos;s identifier. </param>
         /// <param name="body"> Extractor data to update. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Update data of an extractor. </remarks>
-        public virtual Response<Extractor> UpdateExtractorData(int id, ExtractorUpdate body, CancellationToken cancellationToken = default)
+        public virtual Response<Extractor> UpdateExtractorData(string identifier, ExtractorUpdate body, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateExtractorData");
             scope.Start();
             try
             {
-                return RestClient.UpdateExtractorData(id, body, cancellationToken);
+                return RestClient.UpdateExtractorData(identifier, body, cancellationToken);
             }
             catch (Exception e)
             {
@@ -2641,16 +2641,16 @@ namespace Affinda.API
         }
 
         /// <summary> Delete an extractor. </summary>
-        /// <param name="id"> Extractor&apos;s ID. </param>
+        /// <param name="identifier"> Extractor&apos;s identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Deletes the specified extractor from the database. </remarks>
-        public virtual async Task<Response> DeleteExtractorAsync(int id, CancellationToken cancellationToken = default)
+        public virtual async Task<Response> DeleteExtractorAsync(string identifier, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteExtractor");
             scope.Start();
             try
             {
-                return await RestClient.DeleteExtractorAsync(id, cancellationToken).ConfigureAwait(false);
+                return await RestClient.DeleteExtractorAsync(identifier, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -2660,16 +2660,16 @@ namespace Affinda.API
         }
 
         /// <summary> Delete an extractor. </summary>
-        /// <param name="id"> Extractor&apos;s ID. </param>
+        /// <param name="identifier"> Extractor&apos;s identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Deletes the specified extractor from the database. </remarks>
-        public virtual Response DeleteExtractor(int id, CancellationToken cancellationToken = default)
+        public virtual Response DeleteExtractor(string identifier, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteExtractor");
             scope.Start();
             try
             {
-                return RestClient.DeleteExtractor(id, cancellationToken);
+                return RestClient.DeleteExtractor(identifier, cancellationToken);
             }
             catch (Exception e)
             {
@@ -2688,7 +2688,7 @@ namespace Affinda.API
         /// <param name="annotationContentType"> Filter by annotation content type, e.g. text, integer, float, date, etc. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns your custom data points as well as Affinda&apos;s off-the-shelf data points. </remarks>
-        public virtual async Task<Response<IReadOnlyList<DataPoint>>> GetAllDataPointsAsync(int? offset = null, int? limit = null, string organization = null, int? extractor = null, string slug = null, string description = null, string annotationContentType = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<IReadOnlyList<DataPoint>>> GetAllDataPointsAsync(int? offset = null, int? limit = null, string organization = null, string extractor = null, string slug = null, string description = null, string annotationContentType = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllDataPoints");
             scope.Start();
@@ -2713,7 +2713,7 @@ namespace Affinda.API
         /// <param name="annotationContentType"> Filter by annotation content type, e.g. text, integer, float, date, etc. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns your custom data points as well as Affinda&apos;s off-the-shelf data points. </remarks>
-        public virtual Response<IReadOnlyList<DataPoint>> GetAllDataPoints(int? offset = null, int? limit = null, string organization = null, int? extractor = null, string slug = null, string description = null, string annotationContentType = null, CancellationToken cancellationToken = default)
+        public virtual Response<IReadOnlyList<DataPoint>> GetAllDataPoints(int? offset = null, int? limit = null, string organization = null, string extractor = null, string slug = null, string description = null, string annotationContentType = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllDataPoints");
             scope.Start();
@@ -3478,15 +3478,16 @@ namespace Affinda.API
         /// <param name="ordering"> Sort the result set. A &quot;-&quot; at the beginning denotes DESC sort, e.g. -created_dt. Sort by multiple fields is supported. </param>
         /// <param name="includeData"> By default, this endpoint returns only the meta data of the documents. Set this to `true` will return the detailed data that was parsed, at a performance cost. </param>
         /// <param name="exclude"> Exclude some documents from the result. </param>
+        /// <param name="inReview"> Exclude documents that are currently being reviewed. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the document summaries for that user, limited to 300 per page. </remarks>
-        public virtual async Task<Response<GetAllDocumentsResults>> GetAllDocumentsAsync(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<GetAllDocumentsResults>> GetAllDocumentsAsync(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllDocuments");
             scope.Start();
             try
             {
-                return await RestClient.GetAllDocumentsAsync(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, cancellationToken).ConfigureAwait(false);
+                return await RestClient.GetAllDocumentsAsync(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -3507,15 +3508,16 @@ namespace Affinda.API
         /// <param name="ordering"> Sort the result set. A &quot;-&quot; at the beginning denotes DESC sort, e.g. -created_dt. Sort by multiple fields is supported. </param>
         /// <param name="includeData"> By default, this endpoint returns only the meta data of the documents. Set this to `true` will return the detailed data that was parsed, at a performance cost. </param>
         /// <param name="exclude"> Exclude some documents from the result. </param>
+        /// <param name="inReview"> Exclude documents that are currently being reviewed. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the document summaries for that user, limited to 300 per page. </remarks>
-        public virtual Response<GetAllDocumentsResults> GetAllDocuments(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, CancellationToken cancellationToken = default)
+        public virtual Response<GetAllDocumentsResults> GetAllDocuments(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllDocuments");
             scope.Start();
             try
             {
-                return RestClient.GetAllDocuments(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, cancellationToken);
+                return RestClient.GetAllDocuments(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview, cancellationToken);
             }
             catch (Exception e)
             {

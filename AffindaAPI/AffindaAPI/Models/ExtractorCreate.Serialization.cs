@@ -25,7 +25,7 @@ namespace Affinda.API.Models
             if (Optional.IsDefined(BaseExtractor))
             {
                 writer.WritePropertyName("baseExtractor");
-                writer.WriteNumberValue(BaseExtractor.Value);
+                writer.WriteStringValue(BaseExtractor);
             }
             writer.WritePropertyName("organization");
             writer.WriteStringValue(Organization);

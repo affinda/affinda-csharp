@@ -15,7 +15,6 @@ namespace Affinda.API.Models
     {
         internal static ExtractorBaseExtractor DeserializeExtractorBaseExtractor(JsonElement element)
         {
-            int id = default;
             string identifier = default;
             string name = default;
             string namePlural = default;
@@ -24,11 +23,6 @@ namespace Affinda.API.Models
             Optional<DateTimeOffset> createdDt = default;
             foreach (var property in element.EnumerateObject())
             {
-                if (property.NameEquals("id"))
-                {
-                    id = property.Value.GetInt32();
-                    continue;
-                }
                 if (property.NameEquals("identifier"))
                 {
                     identifier = property.Value.GetString();
@@ -70,7 +64,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new ExtractorBaseExtractor(id, identifier, name, namePlural, validatable, Optional.ToNullable(isCustom), Optional.ToNullable(createdDt));
+            return new ExtractorBaseExtractor(identifier, name, namePlural, validatable, Optional.ToNullable(isCustom), Optional.ToNullable(createdDt));
         }
     }
 }

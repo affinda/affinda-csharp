@@ -18,9 +18,9 @@ namespace Affinda.API.Models
         /// <param name="identifier"> Uniquely identify a data point. </param>
         /// <param name="name"></param>
         /// <param name="annotationContentType"></param>
-        /// <param name="extractor"> Extractor&apos;s ID. </param>
+        /// <param name="extractor"> Uniquely identify an extractor. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="name"/> is null. </exception>
-        internal DataPoint(string identifier, string name, AnnotationContentType annotationContentType, int? extractor)
+        internal DataPoint(string identifier, string name, AnnotationContentType annotationContentType, string extractor)
         {
             if (identifier == null)
             {
@@ -46,13 +46,13 @@ namespace Affinda.API.Models
         /// <param name="description"></param>
         /// <param name="annotationContentType"></param>
         /// <param name="organization"></param>
-        /// <param name="extractor"> Extractor&apos;s ID. </param>
+        /// <param name="extractor"> Uniquely identify an extractor. </param>
         /// <param name="multiple"></param>
         /// <param name="noRect"></param>
         /// <param name="similarTo"></param>
         /// <param name="displayEnumValue"></param>
         /// <param name="children"></param>
-        internal DataPoint(string identifier, string name, string slug, string description, AnnotationContentType annotationContentType, Organization organization, int? extractor, bool? multiple, bool? noRect, IReadOnlyList<string> similarTo, bool? displayEnumValue, IReadOnlyList<DataPoint> children)
+        internal DataPoint(string identifier, string name, string slug, string description, AnnotationContentType annotationContentType, Organization organization, string extractor, bool? multiple, bool? noRect, IReadOnlyList<string> similarTo, bool? displayEnumValue, IReadOnlyList<DataPoint> children)
         {
             Identifier = identifier;
             Name = name;
@@ -80,8 +80,8 @@ namespace Affinda.API.Models
         public AnnotationContentType AnnotationContentType { get; }
         /// <summary> Gets the organization. </summary>
         public Organization Organization { get; }
-        /// <summary> Extractor&apos;s ID. </summary>
-        public int? Extractor { get; }
+        /// <summary> Uniquely identify an extractor. </summary>
+        public string Extractor { get; }
         /// <summary> Gets the multiple. </summary>
         public bool? Multiple { get; }
         /// <summary> Gets the no rect. </summary>

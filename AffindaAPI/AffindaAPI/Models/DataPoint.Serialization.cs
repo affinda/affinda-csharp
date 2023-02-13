@@ -21,7 +21,7 @@ namespace Affinda.API.Models
             Optional<string> description = default;
             AnnotationContentType annotationContentType = default;
             Optional<Organization> organization = default;
-            int? extractor = default;
+            string extractor = default;
             Optional<bool> multiple = default;
             Optional<bool> noRect = default;
             Optional<IReadOnlyList<string>> similarTo = default;
@@ -76,7 +76,7 @@ namespace Affinda.API.Models
                         extractor = null;
                         continue;
                     }
-                    extractor = property.Value.GetInt32();
+                    extractor = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("multiple"))

@@ -3132,7 +3132,7 @@ namespace Affinda.API
         /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns your resthook subscriptions. </remarks>
-        public async Task<Response<IReadOnlyList<ResthookSubscription>>> GetAllResthookSubscriptionsAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public async Task<Response<PathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema>> GetAllResthookSubscriptionsAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
             using var message = CreateGetAllResthookSubscriptionsRequest(offset, limit);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
@@ -3140,14 +3140,9 @@ namespace Affinda.API
             {
                 case 200:
                     {
-                        IReadOnlyList<ResthookSubscription> value = default;
+                        PathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        List<ResthookSubscription> array = new List<ResthookSubscription>();
-                        foreach (var item in document.RootElement.EnumerateArray())
-                        {
-                            array.Add(ResthookSubscription.DeserializeResthookSubscription(item));
-                        }
-                        value = array;
+                        value = PathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema.DeserializePathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -3160,7 +3155,7 @@ namespace Affinda.API
         /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns your resthook subscriptions. </remarks>
-        public Response<IReadOnlyList<ResthookSubscription>> GetAllResthookSubscriptions(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public Response<PathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema> GetAllResthookSubscriptions(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
             using var message = CreateGetAllResthookSubscriptionsRequest(offset, limit);
             _pipeline.Send(message, cancellationToken);
@@ -3168,14 +3163,9 @@ namespace Affinda.API
             {
                 case 200:
                     {
-                        IReadOnlyList<ResthookSubscription> value = default;
+                        PathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        List<ResthookSubscription> array = new List<ResthookSubscription>();
-                        foreach (var item in document.RootElement.EnumerateArray())
-                        {
-                            array.Add(ResthookSubscription.DeserializeResthookSubscription(item));
-                        }
-                        value = array;
+                        value = PathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema.DeserializePathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -4832,7 +4822,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetExtractorRequest(int id)
+        internal HttpMessage CreateGetExtractorRequest(string identifier)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -4842,19 +4832,25 @@ namespace Affinda.API
             uri.AppendRaw(_region.Value.ToString(), true);
             uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/extractors/", false);
-            uri.AppendPath(id, true);
+            uri.AppendPath(identifier, true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
         }
 
         /// <summary> Get specific extractor. </summary>
-        /// <param name="id"> Extractor&apos;s ID. </param>
+        /// <param name="identifier"> Extractor&apos;s identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
         /// <remarks> Return a specific extractor. </remarks>
-        public async Task<Response<Extractor>> GetExtractorAsync(int id, CancellationToken cancellationToken = default)
+        public async Task<Response<Extractor>> GetExtractorAsync(string identifier, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetExtractorRequest(id);
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            using var message = CreateGetExtractorRequest(identifier);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -4871,12 +4867,18 @@ namespace Affinda.API
         }
 
         /// <summary> Get specific extractor. </summary>
-        /// <param name="id"> Extractor&apos;s ID. </param>
+        /// <param name="identifier"> Extractor&apos;s identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
         /// <remarks> Return a specific extractor. </remarks>
-        public Response<Extractor> GetExtractor(int id, CancellationToken cancellationToken = default)
+        public Response<Extractor> GetExtractor(string identifier, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetExtractorRequest(id);
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            using var message = CreateGetExtractorRequest(identifier);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -4892,7 +4894,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateUpdateExtractorDataRequest(int id, ExtractorUpdate body)
+        internal HttpMessage CreateUpdateExtractorDataRequest(string identifier, ExtractorUpdate body)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -4902,7 +4904,7 @@ namespace Affinda.API
             uri.AppendRaw(_region.Value.ToString(), true);
             uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/extractors/", false);
-            uri.AppendPath(id, true);
+            uri.AppendPath(identifier, true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             request.Headers.Add("Content-Type", "application/json");
@@ -4913,19 +4915,23 @@ namespace Affinda.API
         }
 
         /// <summary> Update an extractor&apos;s data. </summary>
-        /// <param name="id"> Extractor&apos;s ID. </param>
+        /// <param name="identifier"> Extractor&apos;s identifier. </param>
         /// <param name="body"> Extractor data to update. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
         /// <remarks> Update data of an extractor. </remarks>
-        public async Task<Response<Extractor>> UpdateExtractorDataAsync(int id, ExtractorUpdate body, CancellationToken cancellationToken = default)
+        public async Task<Response<Extractor>> UpdateExtractorDataAsync(string identifier, ExtractorUpdate body, CancellationToken cancellationToken = default)
         {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
             if (body == null)
             {
                 throw new ArgumentNullException(nameof(body));
             }
 
-            using var message = CreateUpdateExtractorDataRequest(id, body);
+            using var message = CreateUpdateExtractorDataRequest(identifier, body);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -4942,19 +4948,23 @@ namespace Affinda.API
         }
 
         /// <summary> Update an extractor&apos;s data. </summary>
-        /// <param name="id"> Extractor&apos;s ID. </param>
+        /// <param name="identifier"> Extractor&apos;s identifier. </param>
         /// <param name="body"> Extractor data to update. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
         /// <remarks> Update data of an extractor. </remarks>
-        public Response<Extractor> UpdateExtractorData(int id, ExtractorUpdate body, CancellationToken cancellationToken = default)
+        public Response<Extractor> UpdateExtractorData(string identifier, ExtractorUpdate body, CancellationToken cancellationToken = default)
         {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
             if (body == null)
             {
                 throw new ArgumentNullException(nameof(body));
             }
 
-            using var message = CreateUpdateExtractorDataRequest(id, body);
+            using var message = CreateUpdateExtractorDataRequest(identifier, body);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -4970,7 +4980,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateDeleteExtractorRequest(int id)
+        internal HttpMessage CreateDeleteExtractorRequest(string identifier)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -4980,19 +4990,25 @@ namespace Affinda.API
             uri.AppendRaw(_region.Value.ToString(), true);
             uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/extractors/", false);
-            uri.AppendPath(id, true);
+            uri.AppendPath(identifier, true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
         }
 
         /// <summary> Delete an extractor. </summary>
-        /// <param name="id"> Extractor&apos;s ID. </param>
+        /// <param name="identifier"> Extractor&apos;s identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
         /// <remarks> Deletes the specified extractor from the database. </remarks>
-        public async Task<Response> DeleteExtractorAsync(int id, CancellationToken cancellationToken = default)
+        public async Task<Response> DeleteExtractorAsync(string identifier, CancellationToken cancellationToken = default)
         {
-            using var message = CreateDeleteExtractorRequest(id);
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            using var message = CreateDeleteExtractorRequest(identifier);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -5004,12 +5020,18 @@ namespace Affinda.API
         }
 
         /// <summary> Delete an extractor. </summary>
-        /// <param name="id"> Extractor&apos;s ID. </param>
+        /// <param name="identifier"> Extractor&apos;s identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
         /// <remarks> Deletes the specified extractor from the database. </remarks>
-        public Response DeleteExtractor(int id, CancellationToken cancellationToken = default)
+        public Response DeleteExtractor(string identifier, CancellationToken cancellationToken = default)
         {
-            using var message = CreateDeleteExtractorRequest(id);
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            using var message = CreateDeleteExtractorRequest(identifier);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -5020,7 +5042,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllDataPointsRequest(int? offset, int? limit, string organization, int? extractor, string slug, string description, string annotationContentType)
+        internal HttpMessage CreateGetAllDataPointsRequest(int? offset, int? limit, string organization, string extractor, string slug, string description, string annotationContentType)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -5044,7 +5066,7 @@ namespace Affinda.API
             }
             if (extractor != null)
             {
-                uri.AppendQuery("extractor", extractor.Value, true);
+                uri.AppendQuery("extractor", extractor, true);
             }
             if (slug != null)
             {
@@ -5073,7 +5095,7 @@ namespace Affinda.API
         /// <param name="annotationContentType"> Filter by annotation content type, e.g. text, integer, float, date, etc. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns your custom data points as well as Affinda&apos;s off-the-shelf data points. </remarks>
-        public async Task<Response<IReadOnlyList<DataPoint>>> GetAllDataPointsAsync(int? offset = null, int? limit = null, string organization = null, int? extractor = null, string slug = null, string description = null, string annotationContentType = null, CancellationToken cancellationToken = default)
+        public async Task<Response<IReadOnlyList<DataPoint>>> GetAllDataPointsAsync(int? offset = null, int? limit = null, string organization = null, string extractor = null, string slug = null, string description = null, string annotationContentType = null, CancellationToken cancellationToken = default)
         {
             using var message = CreateGetAllDataPointsRequest(offset, limit, organization, extractor, slug, description, annotationContentType);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
@@ -5106,7 +5128,7 @@ namespace Affinda.API
         /// <param name="annotationContentType"> Filter by annotation content type, e.g. text, integer, float, date, etc. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns your custom data points as well as Affinda&apos;s off-the-shelf data points. </remarks>
-        public Response<IReadOnlyList<DataPoint>> GetAllDataPoints(int? offset = null, int? limit = null, string organization = null, int? extractor = null, string slug = null, string description = null, string annotationContentType = null, CancellationToken cancellationToken = default)
+        public Response<IReadOnlyList<DataPoint>> GetAllDataPoints(int? offset = null, int? limit = null, string organization = null, string extractor = null, string slug = null, string description = null, string annotationContentType = null, CancellationToken cancellationToken = default)
         {
             using var message = CreateGetAllDataPointsRequest(offset, limit, organization, extractor, slug, description, annotationContentType);
             _pipeline.Send(message, cancellationToken);
@@ -6551,7 +6573,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllDocumentsRequest(int? offset, int? limit, string workspace, string collection, DocumentState? state, IEnumerable<int> tags, DateRange? createdDt, string search, IEnumerable<Get8ItemsItem> ordering, bool? includeData, IEnumerable<string> exclude)
+        internal HttpMessage CreateGetAllDocumentsRequest(int? offset, int? limit, string workspace, string collection, DocumentState? state, IEnumerable<int> tags, DateRange? createdDt, string search, IEnumerable<Get8ItemsItem> ordering, bool? includeData, IEnumerable<string> exclude, bool? inReview)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -6605,6 +6627,10 @@ namespace Affinda.API
             {
                 uri.AppendQueryDelimited("exclude", exclude, ",", true);
             }
+            if (inReview != null)
+            {
+                uri.AppendQuery("in_review", inReview.Value, true);
+            }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -6622,11 +6648,12 @@ namespace Affinda.API
         /// <param name="ordering"> Sort the result set. A &quot;-&quot; at the beginning denotes DESC sort, e.g. -created_dt. Sort by multiple fields is supported. </param>
         /// <param name="includeData"> By default, this endpoint returns only the meta data of the documents. Set this to `true` will return the detailed data that was parsed, at a performance cost. </param>
         /// <param name="exclude"> Exclude some documents from the result. </param>
+        /// <param name="inReview"> Exclude documents that are currently being reviewed. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the document summaries for that user, limited to 300 per page. </remarks>
-        public async Task<Response<GetAllDocumentsResults>> GetAllDocumentsAsync(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, CancellationToken cancellationToken = default)
+        public async Task<Response<GetAllDocumentsResults>> GetAllDocumentsAsync(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllDocumentsRequest(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude);
+            using var message = CreateGetAllDocumentsRequest(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -6654,11 +6681,12 @@ namespace Affinda.API
         /// <param name="ordering"> Sort the result set. A &quot;-&quot; at the beginning denotes DESC sort, e.g. -created_dt. Sort by multiple fields is supported. </param>
         /// <param name="includeData"> By default, this endpoint returns only the meta data of the documents. Set this to `true` will return the detailed data that was parsed, at a performance cost. </param>
         /// <param name="exclude"> Exclude some documents from the result. </param>
+        /// <param name="inReview"> Exclude documents that are currently being reviewed. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the document summaries for that user, limited to 300 per page. </remarks>
-        public Response<GetAllDocumentsResults> GetAllDocuments(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, CancellationToken cancellationToken = default)
+        public Response<GetAllDocumentsResults> GetAllDocuments(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllDocumentsRequest(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude);
+            using var message = CreateGetAllDocumentsRequest(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {

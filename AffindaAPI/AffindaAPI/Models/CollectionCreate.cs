@@ -17,9 +17,9 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of CollectionCreate. </summary>
         /// <param name="name"></param>
         /// <param name="workspace"> Uniquely identify a workspace. </param>
-        /// <param name="extractor"> Extractor&apos;s ID. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="name"/> or <paramref name="workspace"/> is null. </exception>
-        public CollectionCreate(string name, string workspace, int extractor)
+        /// <param name="extractor"> Uniquely identify an extractor. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/>, <paramref name="workspace"/> or <paramref name="extractor"/> is null. </exception>
+        public CollectionCreate(string name, string workspace, string extractor)
         {
             if (name == null)
             {
@@ -28,6 +28,10 @@ namespace Affinda.API.Models
             if (workspace == null)
             {
                 throw new ArgumentNullException(nameof(workspace));
+            }
+            if (extractor == null)
+            {
+                throw new ArgumentNullException(nameof(extractor));
             }
 
             Name = name;
@@ -41,8 +45,8 @@ namespace Affinda.API.Models
         public string Name { get; }
         /// <summary> Uniquely identify a workspace. </summary>
         public string Workspace { get; }
-        /// <summary> Extractor&apos;s ID. </summary>
-        public int Extractor { get; }
+        /// <summary> Uniquely identify an extractor. </summary>
+        public string Extractor { get; }
         /// <summary> Gets or sets the auto validation threshold. </summary>
         public float? AutoValidationThreshold { get; set; }
         /// <summary> Gets or sets the fields. </summary>
