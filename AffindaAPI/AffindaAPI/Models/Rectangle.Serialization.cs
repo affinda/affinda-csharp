@@ -10,8 +10,22 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class Rectangle
+    public partial class Rectangle : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            writer.WritePropertyName("x0");
+            writer.WriteNumberValue(X0);
+            writer.WritePropertyName("y0");
+            writer.WriteNumberValue(Y0);
+            writer.WritePropertyName("x1");
+            writer.WriteNumberValue(X1);
+            writer.WritePropertyName("y1");
+            writer.WriteNumberValue(Y1);
+            writer.WriteEndObject();
+        }
+
         internal static Rectangle DeserializeRectangle(JsonElement element)
         {
             float x0 = default;

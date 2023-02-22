@@ -7,21 +7,21 @@
 
 namespace Affinda.API.Models
 {
-    /// <summary> The JobTitleAnnotationParsedClassification. </summary>
-    public partial class JobTitleAnnotationParsedClassification
+    /// <summary> The JobTitleParsedClassification. </summary>
+    public partial class JobTitleParsedClassification
     {
-        /// <summary> Initializes a new instance of JobTitleAnnotationParsedClassification. </summary>
-        internal JobTitleAnnotationParsedClassification()
+        /// <summary> Initializes a new instance of JobTitleParsedClassification. </summary>
+        internal JobTitleParsedClassification()
         {
         }
 
-        /// <summary> Initializes a new instance of JobTitleAnnotationParsedClassification. </summary>
+        /// <summary> Initializes a new instance of JobTitleParsedClassification. </summary>
         /// <param name="socCode"></param>
         /// <param name="title"></param>
         /// <param name="minorGroup"></param>
         /// <param name="subMajorGroup"></param>
         /// <param name="majorGroup"></param>
-        internal JobTitleAnnotationParsedClassification(float? socCode, string title, string minorGroup, string subMajorGroup, string majorGroup)
+        internal JobTitleParsedClassification(float? socCode, string title, string minorGroup, string subMajorGroup, string majorGroup)
         {
             SocCode = socCode;
             Title = title;

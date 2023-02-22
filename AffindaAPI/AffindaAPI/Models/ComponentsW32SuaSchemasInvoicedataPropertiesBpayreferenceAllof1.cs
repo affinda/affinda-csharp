@@ -11,7 +11,7 @@ namespace Affinda.API.Models
     public partial class ComponentsW32SuaSchemasInvoicedataPropertiesBpayreferenceAllof1
     {
         /// <summary> Initializes a new instance of ComponentsW32SuaSchemasInvoicedataPropertiesBpayreferenceAllof1. </summary>
-        internal ComponentsW32SuaSchemasInvoicedataPropertiesBpayreferenceAllof1()
+        public ComponentsW32SuaSchemasInvoicedataPropertiesBpayreferenceAllof1()
         {
         }
 
@@ -24,9 +24,9 @@ namespace Affinda.API.Models
             Parsed = parsed;
         }
 
-        /// <summary> Gets the raw. </summary>
-        public string Raw { get; }
-        /// <summary> Gets the parsed. </summary>
-        public string Parsed { get; }
+        /// <summary> Gets or sets the raw. </summary>
+        public string Raw { get; set; }
+        /// <summary> Gets or sets the parsed. </summary>
+        public string Parsed { get; set; }
     }
 }

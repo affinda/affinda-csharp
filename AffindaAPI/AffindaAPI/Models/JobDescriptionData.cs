@@ -10,7 +10,7 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    /// <summary> The JobDescriptionData. </summary>
+    /// <summary> A JSON-encoded string of the `JobDescriptionData` object. </summary>
     public partial class JobDescriptionData
     {
         /// <summary> Initializes a new instance of JobDescriptionData. </summary>
@@ -39,7 +39,7 @@ namespace Affinda.API.Models
         /// <param name="location"></param>
         /// <param name="certifications"></param>
         /// <param name="yearsExperience"></param>
-        internal JobDescriptionData(JobTitleAnnotation jobTitle, TextAnnotationV2 contactEmail, TextAnnotationV2 contactName, TextAnnotationV2 contactPhone, DateAnnotation startDate, DateAnnotation endDate, TextAnnotationV2 jobType, IReadOnlyList<LanguageAnnotationV2> languages, IReadOnlyList<SkillAnnotationV2> skills, TextAnnotationV2 organizationName, TextAnnotationV2 organizationWebsite, TextAnnotationV2 educationLevel, TextAnnotationV2 educationAccreditation, ExpectedRemunerationAnnotationV2 expectedRemuneration, LocationAnnotationV2 location, IReadOnlyList<TextAnnotationV2> certifications, YearsExperienceAnnotationV2 yearsExperience)
+        internal JobDescriptionData(JobTitleAnnotation jobTitle, TextAnnotationV2 contactEmail, TextAnnotationV2 contactName, TextAnnotationV2 contactPhone, DateAnnotationV2 startDate, DateAnnotationV2 endDate, TextAnnotationV2 jobType, IReadOnlyList<LanguageAnnotationV2> languages, IReadOnlyList<SkillAnnotationV2> skills, TextAnnotationV2 organizationName, TextAnnotationV2 organizationWebsite, TextAnnotationV2 educationLevel, TextAnnotationV2 educationAccreditation, ExpectedRemunerationAnnotationV2 expectedRemuneration, LocationAnnotationV2 location, IReadOnlyList<TextAnnotationV2> certifications, YearsExperienceAnnotationV2 yearsExperience)
         {
             JobTitle = jobTitle;
             ContactEmail = contactEmail;
@@ -69,9 +69,9 @@ namespace Affinda.API.Models
         /// <summary> Gets the contact phone. </summary>
         public TextAnnotationV2 ContactPhone { get; }
         /// <summary> Gets the start date. </summary>
-        public DateAnnotation StartDate { get; }
+        public DateAnnotationV2 StartDate { get; }
         /// <summary> Gets the end date. </summary>
-        public DateAnnotation EndDate { get; }
+        public DateAnnotationV2 EndDate { get; }
         /// <summary> Gets the job type. </summary>
         public TextAnnotationV2 JobType { get; }
         /// <summary> Gets the languages. </summary>

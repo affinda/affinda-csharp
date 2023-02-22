@@ -711,7 +711,7 @@ namespace Affinda.API
         /// <remarks>
         /// Uploads a job description for parsing.
         /// When successful, returns an `identifier` in the response for subsequent use with the [/job_descriptions/{identifier}](#get-/job_descriptions/-identifier-) endpoint to check processing status and retrieve results.
-        /// Job Descriptions can be uploaded as a file or a URL.
+        /// Job Descriptions can be uploaded as a file or a URL. In addition, data can be added directly if users want to upload directly without parsing any resume file. For uploading resume data, the `data` argument provided must be a JSON-encoded string. Data uploads will not impact upon parsing credits.
         /// </remarks>
         public virtual async Task<Response<JobDescription>> CreateJobDescriptionAsync(Stream file = null, string url = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
@@ -741,7 +741,7 @@ namespace Affinda.API
         /// <remarks>
         /// Uploads a job description for parsing.
         /// When successful, returns an `identifier` in the response for subsequent use with the [/job_descriptions/{identifier}](#get-/job_descriptions/-identifier-) endpoint to check processing status and retrieve results.
-        /// Job Descriptions can be uploaded as a file or a URL.
+        /// Job Descriptions can be uploaded as a file or a URL. In addition, data can be added directly if users want to upload directly without parsing any resume file. For uploading resume data, the `data` argument provided must be a JSON-encoded string. Data uploads will not impact upon parsing credits.
         /// </remarks>
         public virtual Response<JobDescription> CreateJobDescription(Stream file = null, string url = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
@@ -794,6 +794,52 @@ namespace Affinda.API
             try
             {
                 return RestClient.GetJobDescription(identifier, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update a job description&apos;s data. </summary>
+        /// <param name="identifier"> Job description identifier. </param>
+        /// <param name="body"> Job description data to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks>
+        /// Update data of a job description.
+        /// The `identifier` is the unique ID returned after POST-ing the job description via the [/job_descriptions](#post-/job_descriptions) endpoint.
+        /// </remarks>
+        public virtual async Task<Response<JobDescriptionData>> UpdateJobDescriptionDataAsync(string identifier, JobDescriptionDataUpdate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateJobDescriptionData");
+            scope.Start();
+            try
+            {
+                return await RestClient.UpdateJobDescriptionDataAsync(identifier, body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update a job description&apos;s data. </summary>
+        /// <param name="identifier"> Job description identifier. </param>
+        /// <param name="body"> Job description data to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks>
+        /// Update data of a job description.
+        /// The `identifier` is the unique ID returned after POST-ing the job description via the [/job_descriptions](#post-/job_descriptions) endpoint.
+        /// </remarks>
+        public virtual Response<JobDescriptionData> UpdateJobDescriptionData(string identifier, JobDescriptionDataUpdate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateJobDescriptionData");
+            scope.Start();
+            try
+            {
+                return RestClient.UpdateJobDescriptionData(identifier, body, cancellationToken);
             }
             catch (Exception e)
             {

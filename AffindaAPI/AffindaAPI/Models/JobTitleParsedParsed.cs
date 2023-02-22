@@ -7,19 +7,19 @@
 
 namespace Affinda.API.Models
 {
-    /// <summary> Years of experience range. </summary>
-    public partial class JobTitleAnnotationParsed
+    /// <summary> Matching job title to extracted text. </summary>
+    public partial class JobTitleParsedParsed
     {
-        /// <summary> Initializes a new instance of JobTitleAnnotationParsed. </summary>
-        internal JobTitleAnnotationParsed()
+        /// <summary> Initializes a new instance of JobTitleParsedParsed. </summary>
+        internal JobTitleParsedParsed()
         {
         }
 
-        /// <summary> Initializes a new instance of JobTitleAnnotationParsed. </summary>
+        /// <summary> Initializes a new instance of JobTitleParsedParsed. </summary>
         /// <param name="name"></param>
         /// <param name="managementLevel"></param>
         /// <param name="classification"></param>
-        internal JobTitleAnnotationParsed(string name, string managementLevel, JobTitleAnnotationParsedClassification classification)
+        internal JobTitleParsedParsed(string name, string managementLevel, JobTitleParsedClassification classification)
         {
             Name = name;
             ManagementLevel = managementLevel;
@@ -31,6 +31,6 @@ namespace Affinda.API.Models
         /// <summary> Gets the management level. </summary>
         public string ManagementLevel { get; }
         /// <summary> Gets the classification. </summary>
-        public JobTitleAnnotationParsedClassification Classification { get; }
+        public JobTitleParsedClassification Classification { get; }
     }
 }

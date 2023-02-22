@@ -10,9 +10,9 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class JobTitleAnnotationParsedClassification
+    public partial class JobTitleParsedClassification
     {
-        internal static JobTitleAnnotationParsedClassification DeserializeJobTitleAnnotationParsedClassification(JsonElement element)
+        internal static JobTitleParsedClassification DeserializeJobTitleParsedClassification(JsonElement element)
         {
             Optional<float> socCode = default;
             Optional<string> title = default;
@@ -52,7 +52,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new JobTitleAnnotationParsedClassification(Optional.ToNullable(socCode), title.Value, minorGroup.Value, subMajorGroup.Value, majorGroup.Value);
+            return new JobTitleParsedClassification(Optional.ToNullable(socCode), title.Value, minorGroup.Value, subMajorGroup.Value, majorGroup.Value);
         }
     }
 }

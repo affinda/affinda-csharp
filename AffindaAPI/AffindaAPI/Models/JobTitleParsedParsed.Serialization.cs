@@ -10,13 +10,13 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class JobTitleAnnotationParsed
+    public partial class JobTitleParsedParsed
     {
-        internal static JobTitleAnnotationParsed DeserializeJobTitleAnnotationParsed(JsonElement element)
+        internal static JobTitleParsedParsed DeserializeJobTitleParsedParsed(JsonElement element)
         {
             Optional<string> name = default;
             Optional<string> managementLevel = default;
-            Optional<JobTitleAnnotationParsedClassification> classification = default;
+            Optional<JobTitleParsedClassification> classification = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("name"))
@@ -46,11 +46,11 @@ namespace Affinda.API.Models
                         classification = null;
                         continue;
                     }
-                    classification = JobTitleAnnotationParsedClassification.DeserializeJobTitleAnnotationParsedClassification(property.Value);
+                    classification = JobTitleParsedClassification.DeserializeJobTitleParsedClassification(property.Value);
                     continue;
                 }
             }
-            return new JobTitleAnnotationParsed(name.Value, managementLevel.Value, classification.Value);
+            return new JobTitleParsedParsed(name.Value, managementLevel.Value, classification.Value);
         }
     }
 }

@@ -11,14 +11,120 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class InvoiceDataInvoiceNumber
+    public partial class InvoiceDataInvoiceNumber : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            if (Optional.IsDefined(Parsed))
+            {
+                if (Parsed != null)
+                {
+                    writer.WritePropertyName("parsed");
+                    writer.WriteStringValue(Parsed);
+                }
+                else
+                {
+                    writer.WriteNull("parsed");
+                }
+            }
+            writer.WritePropertyName("id");
+            writer.WriteNumberValue(Id);
+            if (Rectangle != null)
+            {
+                writer.WritePropertyName("rectangle");
+                writer.WriteObjectValue(Rectangle);
+            }
+            else
+            {
+                writer.WriteNull("rectangle");
+            }
+            if (Rectangles != null)
+            {
+                writer.WritePropertyName("rectangles");
+                writer.WriteStartArray();
+                foreach (var item in Rectangles)
+                {
+                    writer.WriteObjectValue(item);
+                }
+                writer.WriteEndArray();
+            }
+            else
+            {
+                writer.WriteNull("rectangles");
+            }
+            if (PageIndex != null)
+            {
+                writer.WritePropertyName("pageIndex");
+                writer.WriteNumberValue(PageIndex.Value);
+            }
+            else
+            {
+                writer.WriteNull("pageIndex");
+            }
+            if (Raw != null)
+            {
+                writer.WritePropertyName("raw");
+                writer.WriteStringValue(Raw);
+            }
+            else
+            {
+                writer.WriteNull("raw");
+            }
+            if (Confidence != null)
+            {
+                writer.WritePropertyName("confidence");
+                writer.WriteNumberValue(Confidence.Value);
+            }
+            else
+            {
+                writer.WriteNull("confidence");
+            }
+            if (ClassificationConfidence != null)
+            {
+                writer.WritePropertyName("classificationConfidence");
+                writer.WriteNumberValue(ClassificationConfidence.Value);
+            }
+            else
+            {
+                writer.WriteNull("classificationConfidence");
+            }
+            if (TextExtractionConfidence != null)
+            {
+                writer.WritePropertyName("textExtractionConfidence");
+                writer.WriteNumberValue(TextExtractionConfidence.Value);
+            }
+            else
+            {
+                writer.WriteNull("textExtractionConfidence");
+            }
+            writer.WritePropertyName("isVerified");
+            writer.WriteBooleanValue(IsVerified);
+            writer.WritePropertyName("isClientVerified");
+            writer.WriteBooleanValue(IsClientVerified);
+            writer.WritePropertyName("isAutoVerified");
+            writer.WriteBooleanValue(IsAutoVerified);
+            if (Optional.IsDefined(DataPoint))
+            {
+                writer.WritePropertyName("dataPoint");
+                writer.WriteStringValue(DataPoint);
+            }
+            writer.WritePropertyName("contentType");
+            writer.WriteStringValue(ContentType);
+            foreach (var item in AdditionalProperties)
+            {
+                writer.WritePropertyName(item.Key);
+                writer.WriteObjectValue(item.Value);
+            }
+            writer.WriteEndObject();
+        }
+
         internal static InvoiceDataInvoiceNumber DeserializeInvoiceDataInvoiceNumber(JsonElement element)
         {
             Optional<string> parsed = default;
             int id = default;
             Rectangle rectangle = default;
-            IReadOnlyList<Rectangle> rectangles = default;
+            IList<Rectangle> rectangles = default;
             int? pageIndex = default;
             string raw = default;
             float? confidence = default;
@@ -29,7 +135,7 @@ namespace Affinda.API.Models
             bool isAutoVerified = default;
             Optional<string> dataPoint = default;
             string contentType = default;
-            IReadOnlyDictionary<string, object> additionalProperties = default;
+            IDictionary<string, object> additionalProperties = default;
             Dictionary<string, object> additionalPropertiesDictionary = new Dictionary<string, object>();
             foreach (var property in element.EnumerateObject())
             {

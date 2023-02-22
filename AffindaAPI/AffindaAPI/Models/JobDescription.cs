@@ -13,7 +13,7 @@ namespace Affinda.API.Models
     public partial class JobDescription
     {
         /// <summary> Initializes a new instance of JobDescription. </summary>
-        /// <param name="data"></param>
+        /// <param name="data"> A JSON-encoded string of the `JobDescriptionData` object. </param>
         /// <param name="meta"></param>
         /// <param name="error"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="meta"/> or <paramref name="error"/> is null. </exception>
@@ -33,7 +33,7 @@ namespace Affinda.API.Models
             Error = error;
         }
 
-        /// <summary> Gets the data. </summary>
+        /// <summary> A JSON-encoded string of the `JobDescriptionData` object. </summary>
         public JobDescriptionData Data { get; }
         /// <summary> Gets the meta. </summary>
         public Meta Meta { get; }

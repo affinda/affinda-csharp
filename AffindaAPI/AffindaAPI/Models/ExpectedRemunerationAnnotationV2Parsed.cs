@@ -11,7 +11,7 @@ namespace Affinda.API.Models
     public partial class ExpectedRemunerationAnnotationV2Parsed
     {
         /// <summary> Initializes a new instance of ExpectedRemunerationAnnotationV2Parsed. </summary>
-        internal ExpectedRemunerationAnnotationV2Parsed()
+        public ExpectedRemunerationAnnotationV2Parsed()
         {
         }
 
@@ -28,13 +28,13 @@ namespace Affinda.API.Models
             Unit = unit;
         }
 
-        /// <summary> Gets the minimum. </summary>
-        public float? Minimum { get; }
-        /// <summary> Gets the maximum. </summary>
-        public float? Maximum { get; }
-        /// <summary> Gets the currency. </summary>
-        public string Currency { get; }
-        /// <summary> Gets the unit. </summary>
-        public string Unit { get; }
+        /// <summary> Gets or sets the minimum. </summary>
+        public float? Minimum { get; set; }
+        /// <summary> Gets or sets the maximum. </summary>
+        public float? Maximum { get; set; }
+        /// <summary> Gets or sets the currency. </summary>
+        public string Currency { get; set; }
+        /// <summary> Gets or sets the unit. </summary>
+        public string Unit { get; set; }
     }
 }

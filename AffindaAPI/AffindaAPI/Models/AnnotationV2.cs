@@ -29,7 +29,7 @@ namespace Affinda.API.Models
         /// <param name="isAutoVerified"></param>
         /// <param name="contentType"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="contentType"/> is null. </exception>
-        internal AnnotationV2(int id, Rectangle rectangle, IEnumerable<Rectangle> rectangles, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool isClientVerified, bool isAutoVerified, string contentType)
+        public AnnotationV2(int id, Rectangle rectangle, IEnumerable<Rectangle> rectangles, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool isClientVerified, bool isAutoVerified, string contentType)
         {
             if (contentType == null)
             {
@@ -66,7 +66,7 @@ namespace Affinda.API.Models
         /// <param name="dataPoint"></param>
         /// <param name="contentType"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
-        internal AnnotationV2(int id, Rectangle rectangle, IReadOnlyList<Rectangle> rectangles, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool isClientVerified, bool isAutoVerified, string dataPoint, string contentType, IReadOnlyDictionary<string, object> additionalProperties)
+        internal AnnotationV2(int id, Rectangle rectangle, IList<Rectangle> rectangles, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool isClientVerified, bool isAutoVerified, string dataPoint, string contentType, IDictionary<string, object> additionalProperties)
         {
             Id = id;
             Rectangle = rectangle;
@@ -84,33 +84,33 @@ namespace Affinda.API.Models
             AdditionalProperties = additionalProperties;
         }
 
-        /// <summary> Gets the id. </summary>
-        public int Id { get; }
-        /// <summary> Gets the rectangle. </summary>
-        public Rectangle Rectangle { get; }
-        /// <summary> Gets the rectangles. </summary>
-        public IReadOnlyList<Rectangle> Rectangles { get; }
-        /// <summary> Gets the page index. </summary>
-        public int? PageIndex { get; }
-        /// <summary> Gets the raw. </summary>
-        public string Raw { get; }
+        /// <summary> Gets or sets the id. </summary>
+        public int Id { get; set; }
+        /// <summary> Gets or sets the rectangle. </summary>
+        public Rectangle Rectangle { get; set; }
+        /// <summary> Gets or sets the rectangles. </summary>
+        public IList<Rectangle> Rectangles { get; set; }
+        /// <summary> Gets or sets the page index. </summary>
+        public int? PageIndex { get; set; }
+        /// <summary> Gets or sets the raw. </summary>
+        public string Raw { get; set; }
         /// <summary> The overall confidence that the model&apos;s prediction is correct. </summary>
-        public float? Confidence { get; }
+        public float? Confidence { get; set; }
         /// <summary> The model&apos;s confidence that the text has been classified correctly. </summary>
-        public float? ClassificationConfidence { get; }
+        public float? ClassificationConfidence { get; set; }
         /// <summary> If the document was submitted as an image, this is the confidence that the text in the image has been correctly read by the model. </summary>
-        public float? TextExtractionConfidence { get; }
-        /// <summary> Gets the is verified. </summary>
-        public bool IsVerified { get; }
-        /// <summary> Gets the is client verified. </summary>
-        public bool IsClientVerified { get; }
-        /// <summary> Gets the is auto verified. </summary>
-        public bool IsAutoVerified { get; }
-        /// <summary> Gets the data point. </summary>
-        public string DataPoint { get; }
-        /// <summary> Gets the content type. </summary>
-        public string ContentType { get; }
+        public float? TextExtractionConfidence { get; set; }
+        /// <summary> Gets or sets the is verified. </summary>
+        public bool IsVerified { get; set; }
+        /// <summary> Gets or sets the is client verified. </summary>
+        public bool IsClientVerified { get; set; }
+        /// <summary> Gets or sets the is auto verified. </summary>
+        public bool IsAutoVerified { get; set; }
+        /// <summary> Gets or sets the data point. </summary>
+        public string DataPoint { get; set; }
+        /// <summary> Gets or sets the content type. </summary>
+        public string ContentType { get; set; }
         /// <summary> Additional Properties. </summary>
-        public IReadOnlyDictionary<string, object> AdditionalProperties { get; }
+        public IDictionary<string, object> AdditionalProperties { get; }
     }
 }

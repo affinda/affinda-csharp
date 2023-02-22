@@ -27,7 +27,7 @@ namespace Affinda.API.Models
         /// <param name="isAutoVerified"></param>
         /// <param name="contentType"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="contentType"/> is null. </exception>
-        internal JobTitleAnnotation(int id, Rectangle rectangle, IEnumerable<Rectangle> rectangles, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool isClientVerified, bool isAutoVerified, string contentType) : base(id, rectangle, rectangles, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, contentType)
+        public JobTitleAnnotation(int id, Rectangle rectangle, IEnumerable<Rectangle> rectangles, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool isClientVerified, bool isAutoVerified, string contentType) : base(id, rectangle, rectangles, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, contentType)
         {
             if (contentType == null)
             {
@@ -50,13 +50,13 @@ namespace Affinda.API.Models
         /// <param name="dataPoint"></param>
         /// <param name="contentType"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
-        /// <param name="parsed"> Years of experience range. </param>
-        internal JobTitleAnnotation(int id, Rectangle rectangle, IReadOnlyList<Rectangle> rectangles, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool isClientVerified, bool isAutoVerified, string dataPoint, string contentType, IReadOnlyDictionary<string, object> additionalProperties, JobTitleAnnotationParsed parsed) : base(id, rectangle, rectangles, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties)
+        /// <param name="parsed"> Matching job title to extracted text. </param>
+        internal JobTitleAnnotation(int id, Rectangle rectangle, IList<Rectangle> rectangles, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool isClientVerified, bool isAutoVerified, string dataPoint, string contentType, IDictionary<string, object> additionalProperties, JobTitleParsedParsed parsed) : base(id, rectangle, rectangles, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties)
         {
             Parsed = parsed;
         }
 
-        /// <summary> Years of experience range. </summary>
-        public JobTitleAnnotationParsed Parsed { get; }
+        /// <summary> Matching job title to extracted text. </summary>
+        public JobTitleParsedParsed Parsed { get; }
     }
 }

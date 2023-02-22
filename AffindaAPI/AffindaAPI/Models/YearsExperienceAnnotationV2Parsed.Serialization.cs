@@ -10,8 +10,38 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class YearsExperienceAnnotationV2Parsed
+    public partial class YearsExperienceAnnotationV2Parsed : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            if (Optional.IsDefined(Minimum))
+            {
+                if (Minimum != null)
+                {
+                    writer.WritePropertyName("minimum");
+                    writer.WriteNumberValue(Minimum.Value);
+                }
+                else
+                {
+                    writer.WriteNull("minimum");
+                }
+            }
+            if (Optional.IsDefined(Maximum))
+            {
+                if (Maximum != null)
+                {
+                    writer.WritePropertyName("maximum");
+                    writer.WriteNumberValue(Maximum.Value);
+                }
+                else
+                {
+                    writer.WriteNull("maximum");
+                }
+            }
+            writer.WriteEndObject();
+        }
+
         internal static YearsExperienceAnnotationV2Parsed DeserializeYearsExperienceAnnotationV2Parsed(JsonElement element)
         {
             Optional<float?> minimum = default;

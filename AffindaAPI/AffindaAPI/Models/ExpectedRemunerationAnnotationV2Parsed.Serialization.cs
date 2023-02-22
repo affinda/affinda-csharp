@@ -10,8 +10,62 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class ExpectedRemunerationAnnotationV2Parsed
+    public partial class ExpectedRemunerationAnnotationV2Parsed : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            if (Optional.IsDefined(Minimum))
+            {
+                if (Minimum != null)
+                {
+                    writer.WritePropertyName("minimum");
+                    writer.WriteNumberValue(Minimum.Value);
+                }
+                else
+                {
+                    writer.WriteNull("minimum");
+                }
+            }
+            if (Optional.IsDefined(Maximum))
+            {
+                if (Maximum != null)
+                {
+                    writer.WritePropertyName("maximum");
+                    writer.WriteNumberValue(Maximum.Value);
+                }
+                else
+                {
+                    writer.WriteNull("maximum");
+                }
+            }
+            if (Optional.IsDefined(Currency))
+            {
+                if (Currency != null)
+                {
+                    writer.WritePropertyName("currency");
+                    writer.WriteStringValue(Currency);
+                }
+                else
+                {
+                    writer.WriteNull("currency");
+                }
+            }
+            if (Optional.IsDefined(Unit))
+            {
+                if (Unit != null)
+                {
+                    writer.WritePropertyName("unit");
+                    writer.WriteStringValue(Unit);
+                }
+                else
+                {
+                    writer.WriteNull("unit");
+                }
+            }
+            writer.WriteEndObject();
+        }
+
         internal static ExpectedRemunerationAnnotationV2Parsed DeserializeExpectedRemunerationAnnotationV2Parsed(JsonElement element)
         {
             Optional<float?> minimum = default;

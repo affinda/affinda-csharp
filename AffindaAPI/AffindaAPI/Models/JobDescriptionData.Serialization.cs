@@ -19,8 +19,8 @@ namespace Affinda.API.Models
             Optional<TextAnnotationV2> contactEmail = default;
             Optional<TextAnnotationV2> contactName = default;
             Optional<TextAnnotationV2> contactPhone = default;
-            Optional<DateAnnotation> startDate = default;
-            Optional<DateAnnotation> endDate = default;
+            Optional<DateAnnotationV2> startDate = default;
+            Optional<DateAnnotationV2> endDate = default;
             Optional<TextAnnotationV2> jobType = default;
             Optional<IReadOnlyList<LanguageAnnotationV2>> languages = default;
             Optional<IReadOnlyList<SkillAnnotationV2>> skills = default;
@@ -81,7 +81,7 @@ namespace Affinda.API.Models
                         startDate = null;
                         continue;
                     }
-                    startDate = DateAnnotation.DeserializeDateAnnotation(property.Value);
+                    startDate = DateAnnotationV2.DeserializeDateAnnotationV2(property.Value);
                     continue;
                 }
                 if (property.NameEquals("endDate"))
@@ -91,7 +91,7 @@ namespace Affinda.API.Models
                         endDate = null;
                         continue;
                     }
-                    endDate = DateAnnotation.DeserializeDateAnnotation(property.Value);
+                    endDate = DateAnnotationV2.DeserializeDateAnnotationV2(property.Value);
                     continue;
                 }
                 if (property.NameEquals("jobType"))

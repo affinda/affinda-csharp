@@ -1320,7 +1320,7 @@ namespace Affinda.API
         /// <remarks>
         /// Uploads a job description for parsing.
         /// When successful, returns an `identifier` in the response for subsequent use with the [/job_descriptions/{identifier}](#get-/job_descriptions/-identifier-) endpoint to check processing status and retrieve results.
-        /// Job Descriptions can be uploaded as a file or a URL.
+        /// Job Descriptions can be uploaded as a file or a URL. In addition, data can be added directly if users want to upload directly without parsing any resume file. For uploading resume data, the `data` argument provided must be a JSON-encoded string. Data uploads will not impact upon parsing credits.
         /// </remarks>
         public async Task<Response<JobDescription>> CreateJobDescriptionAsync(Stream file = null, string url = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
@@ -1354,7 +1354,7 @@ namespace Affinda.API
         /// <remarks>
         /// Uploads a job description for parsing.
         /// When successful, returns an `identifier` in the response for subsequent use with the [/job_descriptions/{identifier}](#get-/job_descriptions/-identifier-) endpoint to check processing status and retrieve results.
-        /// Job Descriptions can be uploaded as a file or a URL.
+        /// Job Descriptions can be uploaded as a file or a URL. In addition, data can be added directly if users want to upload directly without parsing any resume file. For uploading resume data, the `data` argument provided must be a JSON-encoded string. Data uploads will not impact upon parsing credits.
         /// </remarks>
         public Response<JobDescription> CreateJobDescription(Stream file = null, string url = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
@@ -1446,6 +1446,115 @@ namespace Affinda.API
                         JobDescription value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
                         value = JobDescription.DeserializeJobDescription(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateUpdateJobDescriptionDataRequest(string identifier, JobDescriptionDataUpdate body)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Patch;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v2/job_descriptions/", false);
+            uri.AppendPath(identifier, true);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            if (body != null)
+            {
+                request.Headers.Add("Content-Type", "application/json");
+                var content = new Utf8JsonRequestContent();
+                content.JsonWriter.WriteObjectValue(body);
+                request.Content = content;
+            }
+            return message;
+        }
+
+        /// <summary> Update a job description&apos;s data. </summary>
+        /// <param name="identifier"> Job description identifier. </param>
+        /// <param name="body"> Job description data to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
+        /// <remarks>
+        /// Update data of a job description.
+        /// The `identifier` is the unique ID returned after POST-ing the job description via the [/job_descriptions](#post-/job_descriptions) endpoint.
+        /// </remarks>
+        public async Task<Response<JobDescriptionData>> UpdateJobDescriptionDataAsync(string identifier, JobDescriptionDataUpdate body, CancellationToken cancellationToken = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateUpdateJobDescriptionDataRequest(identifier, body);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        JobDescriptionData value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = JobDescriptionData.DeserializeJobDescriptionData(document.RootElement);
+                        }
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Update a job description&apos;s data. </summary>
+        /// <param name="identifier"> Job description identifier. </param>
+        /// <param name="body"> Job description data to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
+        /// <remarks>
+        /// Update data of a job description.
+        /// The `identifier` is the unique ID returned after POST-ing the job description via the [/job_descriptions](#post-/job_descriptions) endpoint.
+        /// </remarks>
+        public Response<JobDescriptionData> UpdateJobDescriptionData(string identifier, JobDescriptionDataUpdate body, CancellationToken cancellationToken = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateUpdateJobDescriptionDataRequest(identifier, body);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        JobDescriptionData value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        if (document.RootElement.ValueKind == JsonValueKind.Null)
+                        {
+                            value = null;
+                        }
+                        else
+                        {
+                            value = JobDescriptionData.DeserializeJobDescriptionData(document.RootElement);
+                        }
                         return Response.FromValue(value, message.Response);
                     }
                 default:
