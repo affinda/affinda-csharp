@@ -10,14 +10,8 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class JobTitleParsed : IUtf8JsonSerializable
+    public partial class JobTitleParsed
     {
-        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
-        {
-            writer.WriteStartObject();
-            writer.WriteEndObject();
-        }
-
         internal static JobTitleParsed DeserializeJobTitleParsed(JsonElement element)
         {
             Optional<JobTitleParsedParsed> parsed = default;

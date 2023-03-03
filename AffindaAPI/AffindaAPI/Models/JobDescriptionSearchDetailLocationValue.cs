@@ -15,7 +15,7 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of JobDescriptionSearchDetailLocationValue. </summary>
         /// <param name="rawInput"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="rawInput"/> is null. </exception>
-        public JobDescriptionSearchDetailLocationValue(string rawInput) : base(rawInput)
+        internal JobDescriptionSearchDetailLocationValue(string rawInput) : base(rawInput)
         {
             if (rawInput == null)
             {
@@ -42,7 +42,7 @@ namespace Affinda.API.Models
             Match = match;
         }
 
-        /// <summary> Gets or sets the match. </summary>
-        public bool? Match { get; set; }
+        /// <summary> Gets the match. </summary>
+        public bool? Match { get; }
     }
 }

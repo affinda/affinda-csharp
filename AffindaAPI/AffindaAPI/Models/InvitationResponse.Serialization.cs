@@ -10,15 +10,15 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class Paths15O3Zn5V2JobDescriptionSearchEmbedPostRequestbodyContentApplicationJsonSchema : IUtf8JsonSerializable
+    public partial class InvitationResponse : IUtf8JsonSerializable
     {
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
         {
             writer.WriteStartObject();
-            if (Optional.IsDefined(ConfigOverride))
+            if (Optional.IsDefined(Status))
             {
-                writer.WritePropertyName("configOverride");
-                writer.WriteObjectValue(ConfigOverride);
+                writer.WritePropertyName("status");
+                writer.WriteStringValue(Status.Value.ToString());
             }
             writer.WriteEndObject();
         }

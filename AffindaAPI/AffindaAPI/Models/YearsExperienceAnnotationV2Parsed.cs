@@ -11,7 +11,7 @@ namespace Affinda.API.Models
     public partial class YearsExperienceAnnotationV2Parsed
     {
         /// <summary> Initializes a new instance of YearsExperienceAnnotationV2Parsed. </summary>
-        public YearsExperienceAnnotationV2Parsed()
+        internal YearsExperienceAnnotationV2Parsed()
         {
         }
 
@@ -25,8 +25,8 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Minimum years of experience. </summary>
-        public float? Minimum { get; set; }
+        public float? Minimum { get; }
         /// <summary> Maximum years of experience. </summary>
-        public float? Maximum { get; set; }
+        public float? Maximum { get; }
     }
 }

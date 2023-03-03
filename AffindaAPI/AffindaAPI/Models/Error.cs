@@ -11,7 +11,7 @@ namespace Affinda.API.Models
     public partial class Error
     {
         /// <summary> Initializes a new instance of Error. </summary>
-        public Error()
+        internal Error()
         {
         }
 
@@ -24,9 +24,9 @@ namespace Affinda.API.Models
             ErrorDetail = errorDetail;
         }
 
-        /// <summary> Gets or sets the error code. </summary>
-        public string ErrorCode { get; set; }
-        /// <summary> Gets or sets the error detail. </summary>
-        public string ErrorDetail { get; set; }
+        /// <summary> Gets the error code. </summary>
+        public string ErrorCode { get; }
+        /// <summary> Gets the error detail. </summary>
+        public string ErrorDetail { get; }
     }
 }

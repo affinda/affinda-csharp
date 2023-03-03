@@ -10,39 +10,8 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class ResumeDataName : IUtf8JsonSerializable
+    public partial class ResumeDataName
     {
-        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
-        {
-            writer.WriteStartObject();
-            if (Optional.IsDefined(Raw))
-            {
-                writer.WritePropertyName("raw");
-                writer.WriteStringValue(Raw);
-            }
-            if (Optional.IsDefined(First))
-            {
-                writer.WritePropertyName("first");
-                writer.WriteStringValue(First);
-            }
-            if (Optional.IsDefined(Last))
-            {
-                writer.WritePropertyName("last");
-                writer.WriteStringValue(Last);
-            }
-            if (Optional.IsDefined(Middle))
-            {
-                writer.WritePropertyName("middle");
-                writer.WriteStringValue(Middle);
-            }
-            if (Optional.IsDefined(Title))
-            {
-                writer.WritePropertyName("title");
-                writer.WriteStringValue(Title);
-            }
-            writer.WriteEndObject();
-        }
-
         internal static ResumeDataName DeserializeResumeDataName(JsonElement element)
         {
             Optional<string> raw = default;

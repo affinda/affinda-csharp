@@ -13,7 +13,7 @@ namespace Affinda.API.Models
     public partial class ResumeDataWorkExperienceItemDates
     {
         /// <summary> Initializes a new instance of ResumeDataWorkExperienceItemDates. </summary>
-        public ResumeDataWorkExperienceItemDates()
+        internal ResumeDataWorkExperienceItemDates()
         {
         }
 
@@ -30,13 +30,13 @@ namespace Affinda.API.Models
             IsCurrent = isCurrent;
         }
 
-        /// <summary> Gets or sets the start date. </summary>
-        public DateTimeOffset? StartDate { get; set; }
-        /// <summary> Gets or sets the end date. </summary>
-        public DateTimeOffset? EndDate { get; set; }
-        /// <summary> Gets or sets the months in position. </summary>
-        public int? MonthsInPosition { get; set; }
-        /// <summary> Gets or sets the is current. </summary>
-        public bool? IsCurrent { get; set; }
+        /// <summary> Gets the start date. </summary>
+        public DateTimeOffset? StartDate { get; }
+        /// <summary> Gets the end date. </summary>
+        public DateTimeOffset? EndDate { get; }
+        /// <summary> Gets the months in position. </summary>
+        public int? MonthsInPosition { get; }
+        /// <summary> Gets the is current. </summary>
+        public bool? IsCurrent { get; }
     }
 }

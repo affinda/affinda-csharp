@@ -11,7 +11,7 @@ namespace Affinda.API.Models
     public partial class ComponentsSxu0N3SchemasResumesearchdetailPropertiesEducationPropertiesValueItemsAllof1
     {
         /// <summary> Initializes a new instance of ComponentsSxu0N3SchemasResumesearchdetailPropertiesEducationPropertiesValueItemsAllof1. </summary>
-        public ComponentsSxu0N3SchemasResumesearchdetailPropertiesEducationPropertiesValueItemsAllof1()
+        internal ComponentsSxu0N3SchemasResumesearchdetailPropertiesEducationPropertiesValueItemsAllof1()
         {
         }
 
@@ -22,7 +22,7 @@ namespace Affinda.API.Models
             Match = match;
         }
 
-        /// <summary> Gets or sets the match. </summary>
-        public bool? Match { get; set; }
+        /// <summary> Gets the match. </summary>
+        public bool? Match { get; }
     }
 }

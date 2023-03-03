@@ -6,18 +6,11 @@
 #nullable disable
 
 using System.Text.Json;
-using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class ComponentsEyyf0ZSchemasResumedataAdditionalproperties : IUtf8JsonSerializable
+    public partial class ComponentsEyyf0ZSchemasResumedataAdditionalproperties
     {
-        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
-        {
-            writer.WriteStartObject();
-            writer.WriteEndObject();
-        }
-
         internal static ComponentsEyyf0ZSchemasResumedataAdditionalproperties DeserializeComponentsEyyf0ZSchemasResumedataAdditionalproperties(JsonElement element)
         {
             foreach (var property in element.EnumerateObject())

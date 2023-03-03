@@ -27,7 +27,7 @@ namespace Affinda.API.Models
         /// <param name="isAutoVerified"></param>
         /// <param name="contentType"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="contentType"/> is null. </exception>
-        public DateAnnotationV2(int id, Rectangle rectangle, IEnumerable<Rectangle> rectangles, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool isClientVerified, bool isAutoVerified, string contentType) : base(id, rectangle, rectangles, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, contentType)
+        internal DateAnnotationV2(int id, Rectangle rectangle, IEnumerable<Rectangle> rectangles, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool isClientVerified, bool isAutoVerified, string contentType) : base(id, rectangle, rectangles, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, contentType)
         {
             if (contentType == null)
             {
@@ -51,12 +51,12 @@ namespace Affinda.API.Models
         /// <param name="contentType"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
-        internal DateAnnotationV2(int id, Rectangle rectangle, IList<Rectangle> rectangles, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool isClientVerified, bool isAutoVerified, string dataPoint, string contentType, IDictionary<string, object> additionalProperties, DateTimeOffset? parsed) : base(id, rectangle, rectangles, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties)
+        internal DateAnnotationV2(int id, Rectangle rectangle, IReadOnlyList<Rectangle> rectangles, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool isClientVerified, bool isAutoVerified, string dataPoint, string contentType, IReadOnlyDictionary<string, object> additionalProperties, DateTimeOffset? parsed) : base(id, rectangle, rectangles, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties)
         {
             Parsed = parsed;
         }
 
-        /// <summary> Gets or sets the parsed. </summary>
-        public DateTimeOffset? Parsed { get; set; }
+        /// <summary> Gets the parsed. </summary>
+        public DateTimeOffset? Parsed { get; }
     }
 }

@@ -12,192 +12,14 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class ResumeData : IUtf8JsonSerializable
+    public partial class ResumeData
     {
-        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
-        {
-            writer.WriteStartObject();
-            if (Optional.IsDefined(Name))
-            {
-                if (Name != null)
-                {
-                    writer.WritePropertyName("name");
-                    writer.WriteObjectValue(Name);
-                }
-                else
-                {
-                    writer.WriteNull("name");
-                }
-            }
-            if (Optional.IsCollectionDefined(PhoneNumbers))
-            {
-                writer.WritePropertyName("phoneNumbers");
-                writer.WriteStartArray();
-                foreach (var item in PhoneNumbers)
-                {
-                    writer.WriteStringValue(item);
-                }
-                writer.WriteEndArray();
-            }
-            if (Optional.IsCollectionDefined(Websites))
-            {
-                writer.WritePropertyName("websites");
-                writer.WriteStartArray();
-                foreach (var item in Websites)
-                {
-                    writer.WriteStringValue(item);
-                }
-                writer.WriteEndArray();
-            }
-            if (Optional.IsCollectionDefined(Emails))
-            {
-                writer.WritePropertyName("emails");
-                writer.WriteStartArray();
-                foreach (var item in Emails)
-                {
-                    writer.WriteStringValue(item);
-                }
-                writer.WriteEndArray();
-            }
-            if (Optional.IsDefined(DateOfBirth))
-            {
-                if (DateOfBirth != null)
-                {
-                    writer.WritePropertyName("dateOfBirth");
-                    writer.WriteStringValue(DateOfBirth);
-                }
-                else
-                {
-                    writer.WriteNull("dateOfBirth");
-                }
-            }
-            if (Optional.IsDefined(Location))
-            {
-                if (Location != null)
-                {
-                    writer.WritePropertyName("location");
-                    writer.WriteObjectValue(Location);
-                }
-                else
-                {
-                    writer.WriteNull("location");
-                }
-            }
-            if (Optional.IsDefined(Objective))
-            {
-                if (Objective != null)
-                {
-                    writer.WritePropertyName("objective");
-                    writer.WriteStringValue(Objective);
-                }
-                else
-                {
-                    writer.WriteNull("objective");
-                }
-            }
-            if (Optional.IsDefined(Summary))
-            {
-                if (Summary != null)
-                {
-                    writer.WritePropertyName("summary");
-                    writer.WriteStringValue(Summary);
-                }
-                else
-                {
-                    writer.WriteNull("summary");
-                }
-            }
-            if (Optional.IsDefined(TotalYearsExperience))
-            {
-                if (TotalYearsExperience != null)
-                {
-                    writer.WritePropertyName("totalYearsExperience");
-                    writer.WriteNumberValue(TotalYearsExperience.Value);
-                }
-                else
-                {
-                    writer.WriteNull("totalYearsExperience");
-                }
-            }
-            if (Optional.IsCollectionDefined(Education))
-            {
-                writer.WritePropertyName("education");
-                writer.WriteStartArray();
-                foreach (var item in Education)
-                {
-                    writer.WriteObjectValue(item);
-                }
-                writer.WriteEndArray();
-            }
-            if (Optional.IsCollectionDefined(WorkExperience))
-            {
-                writer.WritePropertyName("workExperience");
-                writer.WriteStartArray();
-                foreach (var item in WorkExperience)
-                {
-                    writer.WriteObjectValue(item);
-                }
-                writer.WriteEndArray();
-            }
-            if (Optional.IsCollectionDefined(Skills))
-            {
-                writer.WritePropertyName("skills");
-                writer.WriteStartArray();
-                foreach (var item in Skills)
-                {
-                    writer.WriteObjectValue(item);
-                }
-                writer.WriteEndArray();
-            }
-            if (Optional.IsCollectionDefined(Certifications))
-            {
-                writer.WritePropertyName("certifications");
-                writer.WriteStartArray();
-                foreach (var item in Certifications)
-                {
-                    writer.WriteStringValue(item);
-                }
-                writer.WriteEndArray();
-            }
-            if (Optional.IsCollectionDefined(Publications))
-            {
-                writer.WritePropertyName("publications");
-                writer.WriteStartArray();
-                foreach (var item in Publications)
-                {
-                    writer.WriteStringValue(item);
-                }
-                writer.WriteEndArray();
-            }
-            if (Optional.IsCollectionDefined(Referees))
-            {
-                writer.WritePropertyName("referees");
-                writer.WriteStartArray();
-                foreach (var item in Referees)
-                {
-                    writer.WriteObjectValue(item);
-                }
-                writer.WriteEndArray();
-            }
-            if (Optional.IsDefined(RawText))
-            {
-                writer.WritePropertyName("rawText");
-                writer.WriteStringValue(RawText);
-            }
-            foreach (var item in AdditionalProperties)
-            {
-                writer.WritePropertyName(item.Key);
-                writer.WriteObjectValue(item.Value);
-            }
-            writer.WriteEndObject();
-        }
-
         internal static ResumeData DeserializeResumeData(JsonElement element)
         {
             Optional<ResumeDataName> name = default;
-            Optional<IList<string>> phoneNumbers = default;
-            Optional<IList<string>> websites = default;
-            Optional<IList<string>> emails = default;
+            Optional<IReadOnlyList<string>> phoneNumbers = default;
+            Optional<IReadOnlyList<string>> websites = default;
+            Optional<IReadOnlyList<string>> emails = default;
             Optional<string> dateOfBirth = default;
             Optional<Location> location = default;
             Optional<string> objective = default;
@@ -206,18 +28,18 @@ namespace Affinda.API.Models
             Optional<string> summary = default;
             Optional<int?> totalYearsExperience = default;
             Optional<byte[]> headShot = default;
-            Optional<IList<Education>> education = default;
+            Optional<IReadOnlyList<Education>> education = default;
             Optional<string> profession = default;
             Optional<string> linkedin = default;
-            Optional<IList<ResumeDataWorkExperienceItem>> workExperience = default;
-            Optional<IList<ResumeDataSkillsItem>> skills = default;
-            Optional<IList<string>> certifications = default;
-            Optional<IList<string>> publications = default;
-            Optional<IList<ResumeDataRefereesItem>> referees = default;
+            Optional<IReadOnlyList<ResumeDataWorkExperienceItem>> workExperience = default;
+            Optional<IReadOnlyList<ResumeDataSkillsItem>> skills = default;
+            Optional<IReadOnlyList<string>> certifications = default;
+            Optional<IReadOnlyList<string>> publications = default;
+            Optional<IReadOnlyList<ResumeDataRefereesItem>> referees = default;
             Optional<IReadOnlyList<ResumeDataSectionsItem>> sections = default;
             Optional<int?> isResumeProbability = default;
             Optional<string> rawText = default;
-            IDictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties> additionalProperties = default;
+            IReadOnlyDictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties> additionalProperties = default;
             Dictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties> additionalPropertiesDictionary = new Dictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties>();
             foreach (var property in element.EnumerateObject())
             {

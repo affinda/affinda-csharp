@@ -11,55 +11,8 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class ResumeDataWorkExperienceItemDates : IUtf8JsonSerializable
+    public partial class ResumeDataWorkExperienceItemDates
     {
-        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
-        {
-            writer.WriteStartObject();
-            if (Optional.IsDefined(StartDate))
-            {
-                if (StartDate != null)
-                {
-                    writer.WritePropertyName("startDate");
-                    writer.WriteStringValue(StartDate.Value, "D");
-                }
-                else
-                {
-                    writer.WriteNull("startDate");
-                }
-            }
-            if (Optional.IsDefined(EndDate))
-            {
-                if (EndDate != null)
-                {
-                    writer.WritePropertyName("endDate");
-                    writer.WriteStringValue(EndDate.Value, "D");
-                }
-                else
-                {
-                    writer.WriteNull("endDate");
-                }
-            }
-            if (Optional.IsDefined(MonthsInPosition))
-            {
-                if (MonthsInPosition != null)
-                {
-                    writer.WritePropertyName("monthsInPosition");
-                    writer.WriteNumberValue(MonthsInPosition.Value);
-                }
-                else
-                {
-                    writer.WriteNull("monthsInPosition");
-                }
-            }
-            if (Optional.IsDefined(IsCurrent))
-            {
-                writer.WritePropertyName("isCurrent");
-                writer.WriteBooleanValue(IsCurrent.Value);
-            }
-            writer.WriteEndObject();
-        }
-
         internal static ResumeDataWorkExperienceItemDates DeserializeResumeDataWorkExperienceItemDates(JsonElement element)
         {
             Optional<DateTimeOffset?> startDate = default;

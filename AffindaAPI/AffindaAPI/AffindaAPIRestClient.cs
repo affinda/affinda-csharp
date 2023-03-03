@@ -38,1975 +38,6 @@ namespace Affinda.API
             _region = region ?? Region.Api;
         }
 
-        internal HttpMessage CreateGetAllResumesRequest(int? offset, int? limit)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Get;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v2/resumes", false);
-            if (offset != null)
-            {
-                uri.AppendQuery("offset", offset.Value, true);
-            }
-            if (limit != null)
-            {
-                uri.AppendQuery("limit", limit.Value, true);
-            }
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            return message;
-        }
-
-        /// <summary> Get list of all resumes. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns all the resume summaries for that user, limited to 300 per page. </remarks>
-        public async Task<Response<GetAllDocumentsResultsV2>> GetAllResumesAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
-        {
-            using var message = CreateGetAllResumesRequest(offset, limit);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        GetAllDocumentsResultsV2 value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = GetAllDocumentsResultsV2.DeserializeGetAllDocumentsResultsV2(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Get list of all resumes. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns all the resume summaries for that user, limited to 300 per page. </remarks>
-        public Response<GetAllDocumentsResultsV2> GetAllResumes(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
-        {
-            using var message = CreateGetAllResumesRequest(offset, limit);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        GetAllDocumentsResultsV2 value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = GetAllDocumentsResultsV2.DeserializeGetAllDocumentsResultsV2(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateCreateResumeRequest(Stream file, string url, string data, string identifier, string fileName, string wait, string rejectDuplicates, string language, string expiryTime)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Post;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v2/resumes", false);
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            request.Headers.Add("Content-Type", "multipart/form-data");
-            var content = new MultipartFormDataContent();
-            if (file != null)
-            {
-                content.Add(RequestContent.Create(file), "file", fileName ?? "null.pdf" , null);
-            }
-            if (url != null)
-            {
-                content.Add(new StringRequestContent(url), "url", null);
-            }
-            if (data != null)
-            {
-                content.Add(new StringRequestContent(data), "data", null);
-            }
-            if (identifier != null)
-            {
-                content.Add(new StringRequestContent(identifier), "identifier", null);
-            }
-            if (fileName != null)
-            {
-                content.Add(new StringRequestContent(fileName), "fileName", null);
-            }
-            if (wait != null)
-            {
-                content.Add(new StringRequestContent(wait), "wait", null);
-            }
-            if (rejectDuplicates != null)
-            {
-                content.Add(new StringRequestContent(rejectDuplicates), "rejectDuplicates", null);
-            }
-            if (language != null)
-            {
-                content.Add(new StringRequestContent(language), "language", null);
-            }
-            if (expiryTime != null)
-            {
-                content.Add(new StringRequestContent(expiryTime), "expiryTime", null);
-            }
-            content.ApplyToRequest(request);
-            return message;
-        }
-
-        /// <summary> Upload a resume for parsing. </summary>
-        /// <param name="file"> The Stream to use. </param>
-        /// <param name="url"> The String to use. </param>
-        /// <param name="data"> The String to use. </param>
-        /// <param name="identifier"> The String to use. </param>
-        /// <param name="fileName"> The String to use. </param>
-        /// <param name="wait"> The String to use. </param>
-        /// <param name="rejectDuplicates"> The String to use. </param>
-        /// <param name="language"> The String to use. </param>
-        /// <param name="expiryTime"> The String to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks>
-        /// Uploads a resume for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/resumes/{identifier}](#get-/resumes/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
-        /// Resumes can be uploaded as a file or a URL. In addition, data can be added directly if users want to upload directly without parsing any resume file. For uploading resume data, the `data` argument provided must be a JSON-encoded string. Data uploads will not impact upon parsing credits.
-        /// </remarks>
-        public async Task<Response<Resume>> CreateResumeAsync(Stream file = null, string url = null, string data = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
-        {
-            using var message = CreateCreateResumeRequest(file, url, data, identifier, fileName, wait, rejectDuplicates, language, expiryTime);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 200:
-                case 201:
-                    {
-                        Resume value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = Resume.DeserializeResume(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Upload a resume for parsing. </summary>
-        /// <param name="file"> The Stream to use. </param>
-        /// <param name="url"> The String to use. </param>
-        /// <param name="data"> The String to use. </param>
-        /// <param name="identifier"> The String to use. </param>
-        /// <param name="fileName"> The String to use. </param>
-        /// <param name="wait"> The String to use. </param>
-        /// <param name="rejectDuplicates"> The String to use. </param>
-        /// <param name="language"> The String to use. </param>
-        /// <param name="expiryTime"> The String to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks>
-        /// Uploads a resume for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/resumes/{identifier}](#get-/resumes/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
-        /// Resumes can be uploaded as a file or a URL. In addition, data can be added directly if users want to upload directly without parsing any resume file. For uploading resume data, the `data` argument provided must be a JSON-encoded string. Data uploads will not impact upon parsing credits.
-        /// </remarks>
-        public Response<Resume> CreateResume(Stream file = null, string url = null, string data = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
-        {
-            using var message = CreateCreateResumeRequest(file, url, data, identifier, fileName, wait, rejectDuplicates, language, expiryTime);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 200:
-                case 201:
-                    {
-                        Resume value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = Resume.DeserializeResume(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateGetResumeRequest(string identifier, string format)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Get;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v2/resumes/", false);
-            uri.AppendPath(identifier, true);
-            if (format != null)
-            {
-                uri.AppendQuery("format", format, true);
-            }
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            return message;
-        }
-
-        /// <summary> Get parse results for a specific resume. </summary>
-        /// <param name="identifier"> Document identifier. </param>
-        /// <param name="format"> Set this to &quot;hr-xml&quot; to get the response in HR-XML format. Currently the only supported value for this parameter is &quot;hr-xml&quot;. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
-        /// <remarks>
-        /// Returns all the parse results for that resume if processing is completed.
-        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/resumes](#post-/resumes) endpoint.
-        /// </remarks>
-        public async Task<Response<object>> GetResumeAsync(string identifier, string format = null, CancellationToken cancellationToken = default)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
-            using var message = CreateGetResumeRequest(identifier, format);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        Resume value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = Resume.DeserializeResume(document.RootElement);
-                        return Response.FromValue<object>(value, message.Response);
-                    }
-                case 400:
-                case 401:
-                case 404:
-                    {
-                        RequestError value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = RequestError.DeserializeRequestError(document.RootElement);
-                        return Response.FromValue<object>(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Get parse results for a specific resume. </summary>
-        /// <param name="identifier"> Document identifier. </param>
-        /// <param name="format"> Set this to &quot;hr-xml&quot; to get the response in HR-XML format. Currently the only supported value for this parameter is &quot;hr-xml&quot;. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
-        /// <remarks>
-        /// Returns all the parse results for that resume if processing is completed.
-        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/resumes](#post-/resumes) endpoint.
-        /// </remarks>
-        public Response<object> GetResume(string identifier, string format = null, CancellationToken cancellationToken = default)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
-            using var message = CreateGetResumeRequest(identifier, format);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        Resume value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = Resume.DeserializeResume(document.RootElement);
-                        return Response.FromValue<object>(value, message.Response);
-                    }
-                case 400:
-                case 401:
-                case 404:
-                    {
-                        RequestError value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = RequestError.DeserializeRequestError(document.RootElement);
-                        return Response.FromValue<object>(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateUpdateResumeDataRequest(string identifier, ResumeData body)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Patch;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v2/resumes/", false);
-            uri.AppendPath(identifier, true);
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            if (body != null)
-            {
-                request.Headers.Add("Content-Type", "application/json");
-                var content = new Utf8JsonRequestContent();
-                content.JsonWriter.WriteObjectValue(body);
-                request.Content = content;
-            }
-            return message;
-        }
-
-        /// <summary> Update a resume&apos;s data. </summary>
-        /// <param name="identifier"> Resume identifier. </param>
-        /// <param name="body"> Resume data to update. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
-        /// <remarks>
-        /// Update data of a parsed resume.
-        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/resumes](#post-/resumes) endpoint.
-        /// </remarks>
-        public async Task<Response<ResumeData>> UpdateResumeDataAsync(string identifier, ResumeData body, CancellationToken cancellationToken = default)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-            if (body == null)
-            {
-                throw new ArgumentNullException(nameof(body));
-            }
-
-            using var message = CreateUpdateResumeDataRequest(identifier, body);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        ResumeData value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = ResumeData.DeserializeResumeData(document.RootElement);
-                        }
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Update a resume&apos;s data. </summary>
-        /// <param name="identifier"> Resume identifier. </param>
-        /// <param name="body"> Resume data to update. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
-        /// <remarks>
-        /// Update data of a parsed resume.
-        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/resumes](#post-/resumes) endpoint.
-        /// </remarks>
-        public Response<ResumeData> UpdateResumeData(string identifier, ResumeData body, CancellationToken cancellationToken = default)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-            if (body == null)
-            {
-                throw new ArgumentNullException(nameof(body));
-            }
-
-            using var message = CreateUpdateResumeDataRequest(identifier, body);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        ResumeData value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = ResumeData.DeserializeResumeData(document.RootElement);
-                        }
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateDeleteResumeRequest(string identifier)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Delete;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v2/resumes/", false);
-            uri.AppendPath(identifier, true);
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            return message;
-        }
-
-        /// <summary> Delete a resume. </summary>
-        /// <param name="identifier"> Resume identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
-        /// <remarks> Deletes the specified resume from the database. </remarks>
-        public async Task<Response> DeleteResumeAsync(string identifier, CancellationToken cancellationToken = default)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
-            using var message = CreateDeleteResumeRequest(identifier);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 204:
-                    return message.Response;
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Delete a resume. </summary>
-        /// <param name="identifier"> Resume identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
-        /// <remarks> Deletes the specified resume from the database. </remarks>
-        public Response DeleteResume(string identifier, CancellationToken cancellationToken = default)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
-            using var message = CreateDeleteResumeRequest(identifier);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 204:
-                    return message.Response;
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateGetAllRedactedResumesRequest(int? offset, int? limit)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Get;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v2/redacted_resumes", false);
-            if (offset != null)
-            {
-                uri.AppendQuery("offset", offset.Value, true);
-            }
-            if (limit != null)
-            {
-                uri.AppendQuery("limit", limit.Value, true);
-            }
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            return message;
-        }
-
-        /// <summary> Get list of all redacted resumes. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns all the redacted resume information for that resume. </remarks>
-        public async Task<Response<GetAllDocumentsResultsV2>> GetAllRedactedResumesAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
-        {
-            using var message = CreateGetAllRedactedResumesRequest(offset, limit);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        GetAllDocumentsResultsV2 value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = GetAllDocumentsResultsV2.DeserializeGetAllDocumentsResultsV2(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Get list of all redacted resumes. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns all the redacted resume information for that resume. </remarks>
-        public Response<GetAllDocumentsResultsV2> GetAllRedactedResumes(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
-        {
-            using var message = CreateGetAllRedactedResumesRequest(offset, limit);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        GetAllDocumentsResultsV2 value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = GetAllDocumentsResultsV2.DeserializeGetAllDocumentsResultsV2(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateCreateRedactedResumeRequest(Stream file, string identifier, string fileName, string url, string language, string wait, string redactHeadshot, string redactPersonalDetails, string redactWorkDetails, string redactEducationDetails, string redactReferees, string redactLocations, string redactDates, string redactGender, string expiryTime)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Post;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v2/redacted_resumes", false);
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            request.Headers.Add("Content-Type", "multipart/form-data");
-            var content = new MultipartFormDataContent();
-            if (file != null)
-            {
-                content.Add(RequestContent.Create(file), "file", fileName ?? "null.pdf" , null);
-            }
-            if (identifier != null)
-            {
-                content.Add(new StringRequestContent(identifier), "identifier", null);
-            }
-            if (fileName != null)
-            {
-                content.Add(new StringRequestContent(fileName), "fileName", null);
-            }
-            if (url != null)
-            {
-                content.Add(new StringRequestContent(url), "url", null);
-            }
-            if (language != null)
-            {
-                content.Add(new StringRequestContent(language), "language", null);
-            }
-            if (wait != null)
-            {
-                content.Add(new StringRequestContent(wait), "wait", null);
-            }
-            if (redactHeadshot != null)
-            {
-                content.Add(new StringRequestContent(redactHeadshot), "redactHeadshot", null);
-            }
-            if (redactPersonalDetails != null)
-            {
-                content.Add(new StringRequestContent(redactPersonalDetails), "redactPersonalDetails", null);
-            }
-            if (redactWorkDetails != null)
-            {
-                content.Add(new StringRequestContent(redactWorkDetails), "redactWorkDetails", null);
-            }
-            if (redactEducationDetails != null)
-            {
-                content.Add(new StringRequestContent(redactEducationDetails), "redactEducationDetails", null);
-            }
-            if (redactReferees != null)
-            {
-                content.Add(new StringRequestContent(redactReferees), "redactReferees", null);
-            }
-            if (redactLocations != null)
-            {
-                content.Add(new StringRequestContent(redactLocations), "redactLocations", null);
-            }
-            if (redactDates != null)
-            {
-                content.Add(new StringRequestContent(redactDates), "redactDates", null);
-            }
-            if (redactGender != null)
-            {
-                content.Add(new StringRequestContent(redactGender), "redactGender", null);
-            }
-            if (expiryTime != null)
-            {
-                content.Add(new StringRequestContent(expiryTime), "expiryTime", null);
-            }
-            content.ApplyToRequest(request);
-            return message;
-        }
-
-        /// <summary> Upload a resume for redacting. </summary>
-        /// <param name="file"> The Stream to use. </param>
-        /// <param name="identifier"> The String to use. </param>
-        /// <param name="fileName"> The String to use. </param>
-        /// <param name="url"> The String to use. </param>
-        /// <param name="language"> The String to use. </param>
-        /// <param name="wait"> The String to use. </param>
-        /// <param name="redactHeadshot"> Whether to redact headshot. </param>
-        /// <param name="redactPersonalDetails"> Whether to redact personal details (e.g. name, address). </param>
-        /// <param name="redactWorkDetails"> Whether to redact work details (e.g. company names). </param>
-        /// <param name="redactEducationDetails"> Whether to redact education details (e.g. university names). </param>
-        /// <param name="redactReferees"> Whether to redact referee details. </param>
-        /// <param name="redactLocations"> Whether to redact location names. </param>
-        /// <param name="redactDates"> Whether to redact dates. </param>
-        /// <param name="redactGender"> Whether to redact gender. </param>
-        /// <param name="expiryTime"> The String to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Uploads a resume for redacting. </remarks>
-        public async Task<Response<RedactedResume>> CreateRedactedResumeAsync(Stream file = null, string identifier = null, string fileName = null, string url = null, string language = null, string wait = null, string redactHeadshot = null, string redactPersonalDetails = null, string redactWorkDetails = null, string redactEducationDetails = null, string redactReferees = null, string redactLocations = null, string redactDates = null, string redactGender = null, string expiryTime = null, CancellationToken cancellationToken = default)
-        {
-            using var message = CreateCreateRedactedResumeRequest(file, identifier, fileName, url, language, wait, redactHeadshot, redactPersonalDetails, redactWorkDetails, redactEducationDetails, redactReferees, redactLocations, redactDates, redactGender, expiryTime);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 200:
-                case 201:
-                    {
-                        RedactedResume value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = RedactedResume.DeserializeRedactedResume(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Upload a resume for redacting. </summary>
-        /// <param name="file"> The Stream to use. </param>
-        /// <param name="identifier"> The String to use. </param>
-        /// <param name="fileName"> The String to use. </param>
-        /// <param name="url"> The String to use. </param>
-        /// <param name="language"> The String to use. </param>
-        /// <param name="wait"> The String to use. </param>
-        /// <param name="redactHeadshot"> Whether to redact headshot. </param>
-        /// <param name="redactPersonalDetails"> Whether to redact personal details (e.g. name, address). </param>
-        /// <param name="redactWorkDetails"> Whether to redact work details (e.g. company names). </param>
-        /// <param name="redactEducationDetails"> Whether to redact education details (e.g. university names). </param>
-        /// <param name="redactReferees"> Whether to redact referee details. </param>
-        /// <param name="redactLocations"> Whether to redact location names. </param>
-        /// <param name="redactDates"> Whether to redact dates. </param>
-        /// <param name="redactGender"> Whether to redact gender. </param>
-        /// <param name="expiryTime"> The String to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Uploads a resume for redacting. </remarks>
-        public Response<RedactedResume> CreateRedactedResume(Stream file = null, string identifier = null, string fileName = null, string url = null, string language = null, string wait = null, string redactHeadshot = null, string redactPersonalDetails = null, string redactWorkDetails = null, string redactEducationDetails = null, string redactReferees = null, string redactLocations = null, string redactDates = null, string redactGender = null, string expiryTime = null, CancellationToken cancellationToken = default)
-        {
-            using var message = CreateCreateRedactedResumeRequest(file, identifier, fileName, url, language, wait, redactHeadshot, redactPersonalDetails, redactWorkDetails, redactEducationDetails, redactReferees, redactLocations, redactDates, redactGender, expiryTime);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 200:
-                case 201:
-                    {
-                        RedactedResume value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = RedactedResume.DeserializeRedactedResume(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateGetRedactedResumeRequest(string identifier)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Get;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v2/redacted_resumes/", false);
-            uri.AppendPath(identifier, true);
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            return message;
-        }
-
-        /// <summary> Get redaction results for a specific resume. </summary>
-        /// <param name="identifier"> Document identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
-        /// <remarks>
-        /// Returns all the redaction results for that resume if processing is completed.
-        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/redacted_resumes](#post-/redacted_resumes) endpoint.
-        /// </remarks>
-        public async Task<Response<RedactedResume>> GetRedactedResumeAsync(string identifier, CancellationToken cancellationToken = default)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
-            using var message = CreateGetRedactedResumeRequest(identifier);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        RedactedResume value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = RedactedResume.DeserializeRedactedResume(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Get redaction results for a specific resume. </summary>
-        /// <param name="identifier"> Document identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
-        /// <remarks>
-        /// Returns all the redaction results for that resume if processing is completed.
-        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/redacted_resumes](#post-/redacted_resumes) endpoint.
-        /// </remarks>
-        public Response<RedactedResume> GetRedactedResume(string identifier, CancellationToken cancellationToken = default)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
-            using var message = CreateGetRedactedResumeRequest(identifier);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        RedactedResume value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = RedactedResume.DeserializeRedactedResume(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateDeleteRedactedResumeRequest(string identifier)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Delete;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v2/redacted_resumes/", false);
-            uri.AppendPath(identifier, true);
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            return message;
-        }
-
-        /// <summary> Delete a redacted resume. </summary>
-        /// <param name="identifier"> Document identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
-        /// <remarks> Deletes the specified resume from the database. </remarks>
-        public async Task<Response> DeleteRedactedResumeAsync(string identifier, CancellationToken cancellationToken = default)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
-            using var message = CreateDeleteRedactedResumeRequest(identifier);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 204:
-                    return message.Response;
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Delete a redacted resume. </summary>
-        /// <param name="identifier"> Document identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
-        /// <remarks> Deletes the specified resume from the database. </remarks>
-        public Response DeleteRedactedResume(string identifier, CancellationToken cancellationToken = default)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
-            using var message = CreateDeleteRedactedResumeRequest(identifier);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 204:
-                    return message.Response;
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateGetAllInvoicesRequest(int? offset, int? limit)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Get;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v2/invoices", false);
-            if (offset != null)
-            {
-                uri.AppendQuery("offset", offset.Value, true);
-            }
-            if (limit != null)
-            {
-                uri.AppendQuery("limit", limit.Value, true);
-            }
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            return message;
-        }
-
-        /// <summary> Get list of all invoices. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns all the invoice summaries for that user, limited to 300 per page. </remarks>
-        public async Task<Response<GetAllInvoicesResults>> GetAllInvoicesAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
-        {
-            using var message = CreateGetAllInvoicesRequest(offset, limit);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        GetAllInvoicesResults value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = GetAllInvoicesResults.DeserializeGetAllInvoicesResults(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Get list of all invoices. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns all the invoice summaries for that user, limited to 300 per page. </remarks>
-        public Response<GetAllInvoicesResults> GetAllInvoices(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
-        {
-            using var message = CreateGetAllInvoicesRequest(offset, limit);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        GetAllInvoicesResults value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = GetAllInvoicesResults.DeserializeGetAllInvoicesResults(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateCreateInvoiceRequest(Stream file, string url, string identifier, string fileName, string wait, string rejectDuplicates, string language, string expiryTime)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Post;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v2/invoices", false);
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            request.Headers.Add("Content-Type", "multipart/form-data");
-            var content = new MultipartFormDataContent();
-            if (file != null)
-            {
-                content.Add(RequestContent.Create(file), "file", fileName ?? "null.pdf" , null);
-            }
-            if (url != null)
-            {
-                content.Add(new StringRequestContent(url), "url", null);
-            }
-            if (identifier != null)
-            {
-                content.Add(new StringRequestContent(identifier), "identifier", null);
-            }
-            if (fileName != null)
-            {
-                content.Add(new StringRequestContent(fileName), "fileName", null);
-            }
-            if (wait != null)
-            {
-                content.Add(new StringRequestContent(wait), "wait", null);
-            }
-            if (rejectDuplicates != null)
-            {
-                content.Add(new StringRequestContent(rejectDuplicates), "rejectDuplicates", null);
-            }
-            if (language != null)
-            {
-                content.Add(new StringRequestContent(language), "language", null);
-            }
-            if (expiryTime != null)
-            {
-                content.Add(new StringRequestContent(expiryTime), "expiryTime", null);
-            }
-            content.ApplyToRequest(request);
-            return message;
-        }
-
-        /// <summary> Upload an invoice for parsing. </summary>
-        /// <param name="file"> The Stream to use. </param>
-        /// <param name="url"> The String to use. </param>
-        /// <param name="identifier"> The String to use. </param>
-        /// <param name="fileName"> The String to use. </param>
-        /// <param name="wait"> The String to use. </param>
-        /// <param name="rejectDuplicates"> The String to use. </param>
-        /// <param name="language"> The String to use. </param>
-        /// <param name="expiryTime"> The String to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks>
-        /// Uploads an invoice for parsing.
-        /// When successful, returns an `identifier` in the response for subsequent use with the [/invoices/{identifier}](#get-/invoices/-identifier-) endpoint to check processing status and retrieve results.
-        /// </remarks>
-        public async Task<Response<Invoice>> CreateInvoiceAsync(Stream file = null, string url = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
-        {
-            using var message = CreateCreateInvoiceRequest(file, url, identifier, fileName, wait, rejectDuplicates, language, expiryTime);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 200:
-                case 201:
-                    {
-                        Invoice value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = Invoice.DeserializeInvoice(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Upload an invoice for parsing. </summary>
-        /// <param name="file"> The Stream to use. </param>
-        /// <param name="url"> The String to use. </param>
-        /// <param name="identifier"> The String to use. </param>
-        /// <param name="fileName"> The String to use. </param>
-        /// <param name="wait"> The String to use. </param>
-        /// <param name="rejectDuplicates"> The String to use. </param>
-        /// <param name="language"> The String to use. </param>
-        /// <param name="expiryTime"> The String to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks>
-        /// Uploads an invoice for parsing.
-        /// When successful, returns an `identifier` in the response for subsequent use with the [/invoices/{identifier}](#get-/invoices/-identifier-) endpoint to check processing status and retrieve results.
-        /// </remarks>
-        public Response<Invoice> CreateInvoice(Stream file = null, string url = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
-        {
-            using var message = CreateCreateInvoiceRequest(file, url, identifier, fileName, wait, rejectDuplicates, language, expiryTime);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 200:
-                case 201:
-                    {
-                        Invoice value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = Invoice.DeserializeInvoice(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateGetInvoiceRequest(string identifier)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Get;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v2/invoices/", false);
-            uri.AppendPath(identifier, true);
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            return message;
-        }
-
-        /// <summary> Get parse results for a specific invoice. </summary>
-        /// <param name="identifier"> Document identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
-        /// <remarks>
-        /// Returns all the parse results for that invoice if processing is completed.
-        /// The `identifier` is the unique ID returned after POST-ing the invoice via the [/invoices](#post-/invoices) endpoint.
-        /// </remarks>
-        public async Task<Response<Invoice>> GetInvoiceAsync(string identifier, CancellationToken cancellationToken = default)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
-            using var message = CreateGetInvoiceRequest(identifier);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        Invoice value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = Invoice.DeserializeInvoice(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Get parse results for a specific invoice. </summary>
-        /// <param name="identifier"> Document identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
-        /// <remarks>
-        /// Returns all the parse results for that invoice if processing is completed.
-        /// The `identifier` is the unique ID returned after POST-ing the invoice via the [/invoices](#post-/invoices) endpoint.
-        /// </remarks>
-        public Response<Invoice> GetInvoice(string identifier, CancellationToken cancellationToken = default)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
-            using var message = CreateGetInvoiceRequest(identifier);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        Invoice value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = Invoice.DeserializeInvoice(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateDeleteInvoiceRequest(string identifier)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Delete;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v2/invoices/", false);
-            uri.AppendPath(identifier, true);
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            return message;
-        }
-
-        /// <summary> Delete an invoice. </summary>
-        /// <param name="identifier"> Invoice identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
-        /// <remarks> Delete the specified invoice from the database. Note, any invoices deleted from the database will no longer be used in any tailored customer models. </remarks>
-        public async Task<Response> DeleteInvoiceAsync(string identifier, CancellationToken cancellationToken = default)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
-            using var message = CreateDeleteInvoiceRequest(identifier);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 204:
-                    return message.Response;
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Delete an invoice. </summary>
-        /// <param name="identifier"> Invoice identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
-        /// <remarks> Delete the specified invoice from the database. Note, any invoices deleted from the database will no longer be used in any tailored customer models. </remarks>
-        public Response DeleteInvoice(string identifier, CancellationToken cancellationToken = default)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
-            using var message = CreateDeleteInvoiceRequest(identifier);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 204:
-                    return message.Response;
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateGetAllJobDescriptionsRequest(int? offset, int? limit)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Get;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v2/job_descriptions", false);
-            if (offset != null)
-            {
-                uri.AppendQuery("offset", offset.Value, true);
-            }
-            if (limit != null)
-            {
-                uri.AppendQuery("limit", limit.Value, true);
-            }
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            return message;
-        }
-
-        /// <summary> Get list of all job descriptions. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns all the job descriptions for that user, limited to 300 per page. </remarks>
-        public async Task<Response<GetAllJobDescriptionsResults>> GetAllJobDescriptionsAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
-        {
-            using var message = CreateGetAllJobDescriptionsRequest(offset, limit);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        GetAllJobDescriptionsResults value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = GetAllJobDescriptionsResults.DeserializeGetAllJobDescriptionsResults(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Get list of all job descriptions. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns all the job descriptions for that user, limited to 300 per page. </remarks>
-        public Response<GetAllJobDescriptionsResults> GetAllJobDescriptions(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
-        {
-            using var message = CreateGetAllJobDescriptionsRequest(offset, limit);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        GetAllJobDescriptionsResults value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = GetAllJobDescriptionsResults.DeserializeGetAllJobDescriptionsResults(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateCreateJobDescriptionRequest(Stream file, string url, string identifier, string fileName, string wait, string rejectDuplicates, string language, string expiryTime)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Post;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v2/job_descriptions", false);
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            request.Headers.Add("Content-Type", "multipart/form-data");
-            var content = new MultipartFormDataContent();
-            if (file != null)
-            {
-                content.Add(RequestContent.Create(file), "file", fileName ?? "null.pdf" , null);
-            }
-            if (url != null)
-            {
-                content.Add(new StringRequestContent(url), "url", null);
-            }
-            if (identifier != null)
-            {
-                content.Add(new StringRequestContent(identifier), "identifier", null);
-            }
-            if (fileName != null)
-            {
-                content.Add(new StringRequestContent(fileName), "fileName", null);
-            }
-            if (wait != null)
-            {
-                content.Add(new StringRequestContent(wait), "wait", null);
-            }
-            if (rejectDuplicates != null)
-            {
-                content.Add(new StringRequestContent(rejectDuplicates), "rejectDuplicates", null);
-            }
-            if (language != null)
-            {
-                content.Add(new StringRequestContent(language), "language", null);
-            }
-            if (expiryTime != null)
-            {
-                content.Add(new StringRequestContent(expiryTime), "expiryTime", null);
-            }
-            content.ApplyToRequest(request);
-            return message;
-        }
-
-        /// <summary> Upload a job description for parsing. </summary>
-        /// <param name="file"> The Stream to use. </param>
-        /// <param name="url"> The String to use. </param>
-        /// <param name="identifier"> The String to use. </param>
-        /// <param name="fileName"> The String to use. </param>
-        /// <param name="wait"> The String to use. </param>
-        /// <param name="rejectDuplicates"> The String to use. </param>
-        /// <param name="language"> The String to use. </param>
-        /// <param name="expiryTime"> The String to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks>
-        /// Uploads a job description for parsing.
-        /// When successful, returns an `identifier` in the response for subsequent use with the [/job_descriptions/{identifier}](#get-/job_descriptions/-identifier-) endpoint to check processing status and retrieve results.
-        /// Job Descriptions can be uploaded as a file or a URL. In addition, data can be added directly if users want to upload directly without parsing any resume file. For uploading resume data, the `data` argument provided must be a JSON-encoded string. Data uploads will not impact upon parsing credits.
-        /// </remarks>
-        public async Task<Response<JobDescription>> CreateJobDescriptionAsync(Stream file = null, string url = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
-        {
-            using var message = CreateCreateJobDescriptionRequest(file, url, identifier, fileName, wait, rejectDuplicates, language, expiryTime);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 200:
-                case 201:
-                    {
-                        JobDescription value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = JobDescription.DeserializeJobDescription(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Upload a job description for parsing. </summary>
-        /// <param name="file"> The Stream to use. </param>
-        /// <param name="url"> The String to use. </param>
-        /// <param name="identifier"> The String to use. </param>
-        /// <param name="fileName"> The String to use. </param>
-        /// <param name="wait"> The String to use. </param>
-        /// <param name="rejectDuplicates"> The String to use. </param>
-        /// <param name="language"> The String to use. </param>
-        /// <param name="expiryTime"> The String to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks>
-        /// Uploads a job description for parsing.
-        /// When successful, returns an `identifier` in the response for subsequent use with the [/job_descriptions/{identifier}](#get-/job_descriptions/-identifier-) endpoint to check processing status and retrieve results.
-        /// Job Descriptions can be uploaded as a file or a URL. In addition, data can be added directly if users want to upload directly without parsing any resume file. For uploading resume data, the `data` argument provided must be a JSON-encoded string. Data uploads will not impact upon parsing credits.
-        /// </remarks>
-        public Response<JobDescription> CreateJobDescription(Stream file = null, string url = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
-        {
-            using var message = CreateCreateJobDescriptionRequest(file, url, identifier, fileName, wait, rejectDuplicates, language, expiryTime);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 200:
-                case 201:
-                    {
-                        JobDescription value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = JobDescription.DeserializeJobDescription(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateGetJobDescriptionRequest(string identifier)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Get;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v2/job_descriptions/", false);
-            uri.AppendPath(identifier, true);
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            return message;
-        }
-
-        /// <summary> Get job description results for a specific job description file. </summary>
-        /// <param name="identifier"> Document identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
-        /// <remarks>
-        /// Returns all the results for that job description if processing is completed.
-        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/job_descriptions](#post-/job_descriptions) endpoint.
-        /// </remarks>
-        public async Task<Response<JobDescription>> GetJobDescriptionAsync(string identifier, CancellationToken cancellationToken = default)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
-            using var message = CreateGetJobDescriptionRequest(identifier);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        JobDescription value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = JobDescription.DeserializeJobDescription(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Get job description results for a specific job description file. </summary>
-        /// <param name="identifier"> Document identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
-        /// <remarks>
-        /// Returns all the results for that job description if processing is completed.
-        /// The `identifier` is the unique ID returned after POST-ing the resume via the [/job_descriptions](#post-/job_descriptions) endpoint.
-        /// </remarks>
-        public Response<JobDescription> GetJobDescription(string identifier, CancellationToken cancellationToken = default)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
-            using var message = CreateGetJobDescriptionRequest(identifier);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        JobDescription value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = JobDescription.DeserializeJobDescription(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateUpdateJobDescriptionDataRequest(string identifier, JobDescriptionDataUpdate body)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Patch;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v2/job_descriptions/", false);
-            uri.AppendPath(identifier, true);
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            if (body != null)
-            {
-                request.Headers.Add("Content-Type", "application/json");
-                var content = new Utf8JsonRequestContent();
-                content.JsonWriter.WriteObjectValue(body);
-                request.Content = content;
-            }
-            return message;
-        }
-
-        /// <summary> Update a job description&apos;s data. </summary>
-        /// <param name="identifier"> Job description identifier. </param>
-        /// <param name="body"> Job description data to update. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
-        /// <remarks>
-        /// Update data of a job description.
-        /// The `identifier` is the unique ID returned after POST-ing the job description via the [/job_descriptions](#post-/job_descriptions) endpoint.
-        /// </remarks>
-        public async Task<Response<JobDescriptionData>> UpdateJobDescriptionDataAsync(string identifier, JobDescriptionDataUpdate body, CancellationToken cancellationToken = default)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-            if (body == null)
-            {
-                throw new ArgumentNullException(nameof(body));
-            }
-
-            using var message = CreateUpdateJobDescriptionDataRequest(identifier, body);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        JobDescriptionData value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = JobDescriptionData.DeserializeJobDescriptionData(document.RootElement);
-                        }
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Update a job description&apos;s data. </summary>
-        /// <param name="identifier"> Job description identifier. </param>
-        /// <param name="body"> Job description data to update. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
-        /// <remarks>
-        /// Update data of a job description.
-        /// The `identifier` is the unique ID returned after POST-ing the job description via the [/job_descriptions](#post-/job_descriptions) endpoint.
-        /// </remarks>
-        public Response<JobDescriptionData> UpdateJobDescriptionData(string identifier, JobDescriptionDataUpdate body, CancellationToken cancellationToken = default)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-            if (body == null)
-            {
-                throw new ArgumentNullException(nameof(body));
-            }
-
-            using var message = CreateUpdateJobDescriptionDataRequest(identifier, body);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        JobDescriptionData value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        if (document.RootElement.ValueKind == JsonValueKind.Null)
-                        {
-                            value = null;
-                        }
-                        else
-                        {
-                            value = JobDescriptionData.DeserializeJobDescriptionData(document.RootElement);
-                        }
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateDeleteJobDescriptionRequest(string identifier)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Delete;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v2/job_descriptions/", false);
-            uri.AppendPath(identifier, true);
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            return message;
-        }
-
-        /// <summary> Delete a job description. </summary>
-        /// <param name="identifier"> Document identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
-        /// <remarks> Deletes the specified job description from the database. </remarks>
-        public async Task<Response> DeleteJobDescriptionAsync(string identifier, CancellationToken cancellationToken = default)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
-            using var message = CreateDeleteJobDescriptionRequest(identifier);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 204:
-                    return message.Response;
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Delete a job description. </summary>
-        /// <param name="identifier"> Document identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
-        /// <remarks> Deletes the specified job description from the database. </remarks>
-        public Response DeleteJobDescription(string identifier, CancellationToken cancellationToken = default)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-
-            using var message = CreateDeleteJobDescriptionRequest(identifier);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 204:
-                    return message.Response;
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateCreateJobDescriptionSearchRequest(JobDescriptionSearchParameters body, int? offset, int? limit)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Post;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v2/job_description_search", false);
-            if (offset != null)
-            {
-                uri.AppendQuery("offset", offset.Value, true);
-            }
-            if (limit != null)
-            {
-                uri.AppendQuery("limit", limit.Value, true);
-            }
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            if (body != null)
-            {
-                request.Headers.Add("Content-Type", "application/json");
-                var content = new Utf8JsonRequestContent();
-                content.JsonWriter.WriteObjectValue(body);
-                request.Content = content;
-            }
-            return message;
-        }
-
-        /// <summary> Search through parsed job descriptions. </summary>
-        /// <param name="body"> Search parameters. </param>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
-        /// <remarks> Searches through parsed job descriptions. You can search with custom criterias or a resume. </remarks>
-        public async Task<Response<JobDescriptionSearch>> CreateJobDescriptionSearchAsync(JobDescriptionSearchParameters body, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
-        {
-            if (body == null)
-            {
-                throw new ArgumentNullException(nameof(body));
-            }
-
-            using var message = CreateCreateJobDescriptionSearchRequest(body, offset, limit);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 201:
-                    {
-                        JobDescriptionSearch value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = JobDescriptionSearch.DeserializeJobDescriptionSearch(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Search through parsed job descriptions. </summary>
-        /// <param name="body"> Search parameters. </param>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
-        /// <remarks> Searches through parsed job descriptions. You can search with custom criterias or a resume. </remarks>
-        public Response<JobDescriptionSearch> CreateJobDescriptionSearch(JobDescriptionSearchParameters body, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
-        {
-            if (body == null)
-            {
-                throw new ArgumentNullException(nameof(body));
-            }
-
-            using var message = CreateCreateJobDescriptionSearchRequest(body, offset, limit);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 201:
-                    {
-                        JobDescriptionSearch value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = JobDescriptionSearch.DeserializeJobDescriptionSearch(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateGetJobDescriptionSearchDetailRequest(string identifier, JobDescriptionSearchParameters body)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Post;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v2/job_description_search/details/", false);
-            uri.AppendPath(identifier, true);
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            if (body != null)
-            {
-                request.Headers.Add("Content-Type", "application/json");
-                var content = new Utf8JsonRequestContent();
-                content.JsonWriter.WriteObjectValue(body);
-                request.Content = content;
-            }
-            return message;
-        }
-
-        /// <summary> Get search result of specific job description. </summary>
-        /// <param name="identifier"> Job Description identifier. </param>
-        /// <param name="body"> Search parameters. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
-        /// <remarks>
-        /// This contains more detailed information about the matching score of the search criteria, or which search criteria is missing in this job description.
-        /// The `identifier` is the unique ID returned via the [/job_description_search](#post-/job_description_search) endpoint.
-        /// </remarks>
-        public async Task<Response<JobDescriptionSearchDetail>> GetJobDescriptionSearchDetailAsync(string identifier, JobDescriptionSearchParameters body, CancellationToken cancellationToken = default)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-            if (body == null)
-            {
-                throw new ArgumentNullException(nameof(body));
-            }
-
-            using var message = CreateGetJobDescriptionSearchDetailRequest(identifier, body);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        JobDescriptionSearchDetail value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = JobDescriptionSearchDetail.DeserializeJobDescriptionSearchDetail(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Get search result of specific job description. </summary>
-        /// <param name="identifier"> Job Description identifier. </param>
-        /// <param name="body"> Search parameters. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
-        /// <remarks>
-        /// This contains more detailed information about the matching score of the search criteria, or which search criteria is missing in this job description.
-        /// The `identifier` is the unique ID returned via the [/job_description_search](#post-/job_description_search) endpoint.
-        /// </remarks>
-        public Response<JobDescriptionSearchDetail> GetJobDescriptionSearchDetail(string identifier, JobDescriptionSearchParameters body, CancellationToken cancellationToken = default)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-            if (body == null)
-            {
-                throw new ArgumentNullException(nameof(body));
-            }
-
-            using var message = CreateGetJobDescriptionSearchDetailRequest(identifier, body);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        JobDescriptionSearchDetail value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = JobDescriptionSearchDetail.DeserializeJobDescriptionSearchDetail(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateGetJobDescriptionSearchConfigRequest()
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Get;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v2/job_description_search/config", false);
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            return message;
-        }
-
-        /// <summary> Get the config for the logged in user&apos;s embeddable job description search tool. </summary>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Return configurations such as which fields can be displayed in the logged in user&apos;s embeddable job description search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
-        public async Task<Response<JobDescriptionSearchConfig>> GetJobDescriptionSearchConfigAsync(CancellationToken cancellationToken = default)
-        {
-            using var message = CreateGetJobDescriptionSearchConfigRequest();
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        JobDescriptionSearchConfig value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = JobDescriptionSearchConfig.DeserializeJobDescriptionSearchConfig(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Get the config for the logged in user&apos;s embeddable job description search tool. </summary>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Return configurations such as which fields can be displayed in the logged in user&apos;s embeddable job description search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
-        public Response<JobDescriptionSearchConfig> GetJobDescriptionSearchConfig(CancellationToken cancellationToken = default)
-        {
-            using var message = CreateGetJobDescriptionSearchConfigRequest();
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        JobDescriptionSearchConfig value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = JobDescriptionSearchConfig.DeserializeJobDescriptionSearchConfig(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateUpdateJobDescriptionSearchConfigRequest(JobDescriptionSearchConfig body)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Patch;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v2/job_description_search/config", false);
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            request.Headers.Add("Content-Type", "application/json");
-            var content = new Utf8JsonRequestContent();
-            content.JsonWriter.WriteObjectValue(body);
-            request.Content = content;
-            return message;
-        }
-
-        /// <summary> Update the config for the logged in user&apos;s embeddable job description search tool. </summary>
-        /// <param name="body"> The JobDescriptionSearchConfig to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
-        /// <remarks> Update configurations such as which fields can be displayed in the logged in user&apos;s embeddable job description search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
-        public async Task<Response<JobDescriptionSearchConfig>> UpdateJobDescriptionSearchConfigAsync(JobDescriptionSearchConfig body, CancellationToken cancellationToken = default)
-        {
-            if (body == null)
-            {
-                throw new ArgumentNullException(nameof(body));
-            }
-
-            using var message = CreateUpdateJobDescriptionSearchConfigRequest(body);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        JobDescriptionSearchConfig value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = JobDescriptionSearchConfig.DeserializeJobDescriptionSearchConfig(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Update the config for the logged in user&apos;s embeddable job description search tool. </summary>
-        /// <param name="body"> The JobDescriptionSearchConfig to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
-        /// <remarks> Update configurations such as which fields can be displayed in the logged in user&apos;s embeddable job description search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
-        public Response<JobDescriptionSearchConfig> UpdateJobDescriptionSearchConfig(JobDescriptionSearchConfig body, CancellationToken cancellationToken = default)
-        {
-            if (body == null)
-            {
-                throw new ArgumentNullException(nameof(body));
-            }
-
-            using var message = CreateUpdateJobDescriptionSearchConfigRequest(body);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        JobDescriptionSearchConfig value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = JobDescriptionSearchConfig.DeserializeJobDescriptionSearchConfig(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateCreateJobDescriptionSearchEmbedUrlRequest(Paths15O3Zn5V2JobDescriptionSearchEmbedPostRequestbodyContentApplicationJsonSchema body)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Post;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v2/job_description_search/embed", false);
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            if (body != null)
-            {
-                request.Headers.Add("Content-Type", "application/json");
-                var content = new Utf8JsonRequestContent();
-                content.JsonWriter.WriteObjectValue(body);
-                request.Content = content;
-            }
-            return message;
-        }
-
-        /// <summary> Create a signed URL for the embeddable job description search tool. </summary>
-        /// <param name="body"> The Paths15O3Zn5V2JobDescriptionSearchEmbedPostRequestbodyContentApplicationJsonSchema to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Create and return a signed URL of the job description search tool which then can be embedded on a web page. An optional parameter `config_override` can be passed to override the user-level configurations of the embeddable search tool. </remarks>
-        public async Task<Response<JobDescriptionSearchEmbed>> CreateJobDescriptionSearchEmbedUrlAsync(Paths15O3Zn5V2JobDescriptionSearchEmbedPostRequestbodyContentApplicationJsonSchema body = null, CancellationToken cancellationToken = default)
-        {
-            using var message = CreateCreateJobDescriptionSearchEmbedUrlRequest(body);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        JobDescriptionSearchEmbed value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = JobDescriptionSearchEmbed.DeserializeJobDescriptionSearchEmbed(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Create a signed URL for the embeddable job description search tool. </summary>
-        /// <param name="body"> The Paths15O3Zn5V2JobDescriptionSearchEmbedPostRequestbodyContentApplicationJsonSchema to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Create and return a signed URL of the job description search tool which then can be embedded on a web page. An optional parameter `config_override` can be passed to override the user-level configurations of the embeddable search tool. </remarks>
-        public Response<JobDescriptionSearchEmbed> CreateJobDescriptionSearchEmbedUrl(Paths15O3Zn5V2JobDescriptionSearchEmbedPostRequestbodyContentApplicationJsonSchema body = null, CancellationToken cancellationToken = default)
-        {
-            using var message = CreateCreateJobDescriptionSearchEmbedUrlRequest(body);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        JobDescriptionSearchEmbed value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = JobDescriptionSearchEmbed.DeserializeJobDescriptionSearchEmbed(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
         internal HttpMessage CreateCreateResumeSearchRequest(ResumeSearchParameters body, int? offset, int? limit)
         {
             var message = _pipeline.CreateMessage();
@@ -2703,6 +734,389 @@ namespace Affinda.API
             }
         }
 
+        internal HttpMessage CreateCreateJobDescriptionSearchRequest(JobDescriptionSearchParameters body, int? offset, int? limit)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/job_description_search", false);
+            if (offset != null)
+            {
+                uri.AppendQuery("offset", offset.Value, true);
+            }
+            if (limit != null)
+            {
+                uri.AppendQuery("limit", limit.Value, true);
+            }
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            if (body != null)
+            {
+                request.Headers.Add("Content-Type", "application/json");
+                var content = new Utf8JsonRequestContent();
+                content.JsonWriter.WriteObjectValue(body);
+                request.Content = content;
+            }
+            return message;
+        }
+
+        /// <summary> Search through parsed job descriptions. </summary>
+        /// <param name="body"> Search parameters. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        /// <remarks> Searches through parsed job descriptions. You can search with custom criterias or a resume. </remarks>
+        public async Task<Response<JobDescriptionSearch>> CreateJobDescriptionSearchAsync(JobDescriptionSearchParameters body, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateCreateJobDescriptionSearchRequest(body, offset, limit);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 201:
+                    {
+                        JobDescriptionSearch value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = JobDescriptionSearch.DeserializeJobDescriptionSearch(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Search through parsed job descriptions. </summary>
+        /// <param name="body"> Search parameters. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        /// <remarks> Searches through parsed job descriptions. You can search with custom criterias or a resume. </remarks>
+        public Response<JobDescriptionSearch> CreateJobDescriptionSearch(JobDescriptionSearchParameters body, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateCreateJobDescriptionSearchRequest(body, offset, limit);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 201:
+                    {
+                        JobDescriptionSearch value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = JobDescriptionSearch.DeserializeJobDescriptionSearch(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateGetJobDescriptionSearchDetailRequest(string identifier, JobDescriptionSearchParameters body)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/job_description_search/details/", false);
+            uri.AppendPath(identifier, true);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            if (body != null)
+            {
+                request.Headers.Add("Content-Type", "application/json");
+                var content = new Utf8JsonRequestContent();
+                content.JsonWriter.WriteObjectValue(body);
+                request.Content = content;
+            }
+            return message;
+        }
+
+        /// <summary> Get search result of specific job description. </summary>
+        /// <param name="identifier"> Job Description identifier. </param>
+        /// <param name="body"> Search parameters. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
+        /// <remarks>
+        /// This contains more detailed information about the matching score of the search criteria, or which search criteria is missing in this job description.
+        /// The `identifier` is the unique ID returned via the [/job_description_search](#post-/job_description_search) endpoint.
+        /// </remarks>
+        public async Task<Response<JobDescriptionSearchDetail>> GetJobDescriptionSearchDetailAsync(string identifier, JobDescriptionSearchParameters body, CancellationToken cancellationToken = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateGetJobDescriptionSearchDetailRequest(identifier, body);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        JobDescriptionSearchDetail value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = JobDescriptionSearchDetail.DeserializeJobDescriptionSearchDetail(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Get search result of specific job description. </summary>
+        /// <param name="identifier"> Job Description identifier. </param>
+        /// <param name="body"> Search parameters. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
+        /// <remarks>
+        /// This contains more detailed information about the matching score of the search criteria, or which search criteria is missing in this job description.
+        /// The `identifier` is the unique ID returned via the [/job_description_search](#post-/job_description_search) endpoint.
+        /// </remarks>
+        public Response<JobDescriptionSearchDetail> GetJobDescriptionSearchDetail(string identifier, JobDescriptionSearchParameters body, CancellationToken cancellationToken = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateGetJobDescriptionSearchDetailRequest(identifier, body);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        JobDescriptionSearchDetail value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = JobDescriptionSearchDetail.DeserializeJobDescriptionSearchDetail(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateGetJobDescriptionSearchConfigRequest()
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Get;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/job_description_search/config", false);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Get the config for the logged in user&apos;s embeddable job description search tool. </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return configurations such as which fields can be displayed in the logged in user&apos;s embeddable job description search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
+        public async Task<Response<JobDescriptionSearchConfig>> GetJobDescriptionSearchConfigAsync(CancellationToken cancellationToken = default)
+        {
+            using var message = CreateGetJobDescriptionSearchConfigRequest();
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        JobDescriptionSearchConfig value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = JobDescriptionSearchConfig.DeserializeJobDescriptionSearchConfig(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Get the config for the logged in user&apos;s embeddable job description search tool. </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return configurations such as which fields can be displayed in the logged in user&apos;s embeddable job description search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
+        public Response<JobDescriptionSearchConfig> GetJobDescriptionSearchConfig(CancellationToken cancellationToken = default)
+        {
+            using var message = CreateGetJobDescriptionSearchConfigRequest();
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        JobDescriptionSearchConfig value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = JobDescriptionSearchConfig.DeserializeJobDescriptionSearchConfig(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateUpdateJobDescriptionSearchConfigRequest(JobDescriptionSearchConfig body)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Patch;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/job_description_search/config", false);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Content-Type", "application/json");
+            var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(body);
+            request.Content = content;
+            return message;
+        }
+
+        /// <summary> Update the config for the logged in user&apos;s embeddable job description search tool. </summary>
+        /// <param name="body"> The JobDescriptionSearchConfig to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        /// <remarks> Update configurations such as which fields can be displayed in the logged in user&apos;s embeddable job description search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
+        public async Task<Response<JobDescriptionSearchConfig>> UpdateJobDescriptionSearchConfigAsync(JobDescriptionSearchConfig body, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateUpdateJobDescriptionSearchConfigRequest(body);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        JobDescriptionSearchConfig value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = JobDescriptionSearchConfig.DeserializeJobDescriptionSearchConfig(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Update the config for the logged in user&apos;s embeddable job description search tool. </summary>
+        /// <param name="body"> The JobDescriptionSearchConfig to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        /// <remarks> Update configurations such as which fields can be displayed in the logged in user&apos;s embeddable job description search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
+        public Response<JobDescriptionSearchConfig> UpdateJobDescriptionSearchConfig(JobDescriptionSearchConfig body, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateUpdateJobDescriptionSearchConfigRequest(body);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        JobDescriptionSearchConfig value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = JobDescriptionSearchConfig.DeserializeJobDescriptionSearchConfig(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateCreateJobDescriptionSearchEmbedUrlRequest(PathsM3DzbgV3JobDescriptionSearchEmbedPostRequestbodyContentApplicationJsonSchema body)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/job_description_search/embed", false);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            if (body != null)
+            {
+                request.Headers.Add("Content-Type", "application/json");
+                var content = new Utf8JsonRequestContent();
+                content.JsonWriter.WriteObjectValue(body);
+                request.Content = content;
+            }
+            return message;
+        }
+
+        /// <summary> Create a signed URL for the embeddable job description search tool. </summary>
+        /// <param name="body"> The PathsM3DzbgV3JobDescriptionSearchEmbedPostRequestbodyContentApplicationJsonSchema to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create and return a signed URL of the job description search tool which then can be embedded on a web page. An optional parameter `config_override` can be passed to override the user-level configurations of the embeddable search tool. </remarks>
+        public async Task<Response<JobDescriptionSearchEmbed>> CreateJobDescriptionSearchEmbedUrlAsync(PathsM3DzbgV3JobDescriptionSearchEmbedPostRequestbodyContentApplicationJsonSchema body = null, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateCreateJobDescriptionSearchEmbedUrlRequest(body);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        JobDescriptionSearchEmbed value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = JobDescriptionSearchEmbed.DeserializeJobDescriptionSearchEmbed(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Create a signed URL for the embeddable job description search tool. </summary>
+        /// <param name="body"> The PathsM3DzbgV3JobDescriptionSearchEmbedPostRequestbodyContentApplicationJsonSchema to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create and return a signed URL of the job description search tool which then can be embedded on a web page. An optional parameter `config_override` can be passed to override the user-level configurations of the embeddable search tool. </remarks>
+        public Response<JobDescriptionSearchEmbed> CreateJobDescriptionSearchEmbedUrl(PathsM3DzbgV3JobDescriptionSearchEmbedPostRequestbodyContentApplicationJsonSchema body = null, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateCreateJobDescriptionSearchEmbedUrlRequest(body);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        JobDescriptionSearchEmbed value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = JobDescriptionSearchEmbed.DeserializeJobDescriptionSearchEmbed(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
         internal HttpMessage CreateGetAllIndexesRequest(int? offset, int? limit, Enum3? documentType)
         {
             var message = _pipeline.CreateMessage();
@@ -3208,336 +1622,6 @@ namespace Affinda.API
                         value = array;
                         return Response.FromValue(value, message.Response);
                     }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateGetAllResthookSubscriptionsRequest(int? offset, int? limit)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Get;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v3/resthook_subscriptions", false);
-            if (offset != null)
-            {
-                uri.AppendQuery("offset", offset.Value, true);
-            }
-            if (limit != null)
-            {
-                uri.AppendQuery("limit", limit.Value, true);
-            }
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            return message;
-        }
-
-        /// <summary> Get list of all resthook subscriptions. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns your resthook subscriptions. </remarks>
-        public async Task<Response<PathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema>> GetAllResthookSubscriptionsAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
-        {
-            using var message = CreateGetAllResthookSubscriptionsRequest(offset, limit);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        PathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = PathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema.DeserializePathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Get list of all resthook subscriptions. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns your resthook subscriptions. </remarks>
-        public Response<PathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema> GetAllResthookSubscriptions(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
-        {
-            using var message = CreateGetAllResthookSubscriptionsRequest(offset, limit);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        PathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = PathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema.DeserializePathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateCreateResthookSubscriptionRequest(ResthookSubscriptionCreate body)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Post;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v3/resthook_subscriptions", false);
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            request.Headers.Add("Content-Type", "application/json");
-            var content = new Utf8JsonRequestContent();
-            content.JsonWriter.WriteObjectValue(body);
-            request.Content = content;
-            return message;
-        }
-
-        /// <summary> Create a resthook subscriptions. </summary>
-        /// <param name="body"> The ResthookSubscriptionCreate to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
-        public async Task<Response<ResthookSubscription>> CreateResthookSubscriptionAsync(ResthookSubscriptionCreate body, CancellationToken cancellationToken = default)
-        {
-            if (body == null)
-            {
-                throw new ArgumentNullException(nameof(body));
-            }
-
-            using var message = CreateCreateResthookSubscriptionRequest(body);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 201:
-                    {
-                        ResthookSubscription value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = ResthookSubscription.DeserializeResthookSubscription(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Create a resthook subscriptions. </summary>
-        /// <param name="body"> The ResthookSubscriptionCreate to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
-        public Response<ResthookSubscription> CreateResthookSubscription(ResthookSubscriptionCreate body, CancellationToken cancellationToken = default)
-        {
-            if (body == null)
-            {
-                throw new ArgumentNullException(nameof(body));
-            }
-
-            using var message = CreateCreateResthookSubscriptionRequest(body);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 201:
-                    {
-                        ResthookSubscription value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = ResthookSubscription.DeserializeResthookSubscription(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateGetResthookSubscriptionRequest(int id)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Get;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v3/resthook_subscriptions/", false);
-            uri.AppendPath(id, true);
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            return message;
-        }
-
-        /// <summary> Get specific resthook subscription. </summary>
-        /// <param name="id"> Resthook subscription&apos;s ID. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Return a specific resthook subscription. </remarks>
-        public async Task<Response<ResthookSubscription>> GetResthookSubscriptionAsync(int id, CancellationToken cancellationToken = default)
-        {
-            using var message = CreateGetResthookSubscriptionRequest(id);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        ResthookSubscription value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = ResthookSubscription.DeserializeResthookSubscription(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Get specific resthook subscription. </summary>
-        /// <param name="id"> Resthook subscription&apos;s ID. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Return a specific resthook subscription. </remarks>
-        public Response<ResthookSubscription> GetResthookSubscription(int id, CancellationToken cancellationToken = default)
-        {
-            using var message = CreateGetResthookSubscriptionRequest(id);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        ResthookSubscription value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = ResthookSubscription.DeserializeResthookSubscription(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateUpdateResthookSubscriptionDataRequest(int id, ResthookSubscriptionUpdate body)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Patch;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v3/resthook_subscriptions/", false);
-            uri.AppendPath(id, true);
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            request.Headers.Add("Content-Type", "application/json");
-            var content = new Utf8JsonRequestContent();
-            content.JsonWriter.WriteObjectValue(body);
-            request.Content = content;
-            return message;
-        }
-
-        /// <summary> Update a resthook subscription&apos;s data. </summary>
-        /// <param name="id"> ResthookSubscription&apos;s ID. </param>
-        /// <param name="body"> ResthookSubscription data to update. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
-        /// <remarks> Update data of a resthook subscription. </remarks>
-        public async Task<Response<ResthookSubscription>> UpdateResthookSubscriptionDataAsync(int id, ResthookSubscriptionUpdate body, CancellationToken cancellationToken = default)
-        {
-            if (body == null)
-            {
-                throw new ArgumentNullException(nameof(body));
-            }
-
-            using var message = CreateUpdateResthookSubscriptionDataRequest(id, body);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        ResthookSubscription value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = ResthookSubscription.DeserializeResthookSubscription(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Update a resthook subscription&apos;s data. </summary>
-        /// <param name="id"> ResthookSubscription&apos;s ID. </param>
-        /// <param name="body"> ResthookSubscription data to update. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
-        /// <remarks> Update data of a resthook subscription. </remarks>
-        public Response<ResthookSubscription> UpdateResthookSubscriptionData(int id, ResthookSubscriptionUpdate body, CancellationToken cancellationToken = default)
-        {
-            if (body == null)
-            {
-                throw new ArgumentNullException(nameof(body));
-            }
-
-            using var message = CreateUpdateResthookSubscriptionDataRequest(id, body);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        ResthookSubscription value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = ResthookSubscription.DeserializeResthookSubscription(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
-        internal HttpMessage CreateDeleteResthookSubscriptionRequest(int id)
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Delete;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v3/resthook_subscriptions/", false);
-            uri.AppendPath(id, true);
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            return message;
-        }
-
-        /// <summary> Delete a resthook subscription. </summary>
-        /// <param name="id"> ResthookSubscription&apos;s ID. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Deletes the specified resthook subscription from the database. </remarks>
-        public async Task<Response> DeleteResthookSubscriptionAsync(int id, CancellationToken cancellationToken = default)
-        {
-            using var message = CreateDeleteResthookSubscriptionRequest(id);
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 204:
-                    return message.Response;
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> Delete a resthook subscription. </summary>
-        /// <param name="id"> ResthookSubscription&apos;s ID. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Deletes the specified resthook subscription from the database. </remarks>
-        public Response DeleteResthookSubscription(int id, CancellationToken cancellationToken = default)
-        {
-            using var message = CreateDeleteResthookSubscriptionRequest(id);
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 204:
-                    return message.Response;
                 default:
                     throw ClientDiagnostics.CreateRequestFailedException(message.Response);
             }
@@ -4679,7 +2763,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateRespondToInvitationRequest(string token, PathsCtl5TcV3InvitationsTokenPatchRequestbodyContentApplicationJsonSchema body)
+        internal HttpMessage CreateRespondToInvitationRequest(string token, InvitationResponse body)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -4701,11 +2785,11 @@ namespace Affinda.API
 
         /// <summary> Respond to an invitation. </summary>
         /// <param name="token"> Invitation token. </param>
-        /// <param name="body"> The PathsCtl5TcV3InvitationsTokenPatchRequestbodyContentApplicationJsonSchema to use. </param>
+        /// <param name="body"> The InvitationResponse to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="token"/> or <paramref name="body"/> is null. </exception>
         /// <remarks> Choose to accept or decline an invitation. </remarks>
-        public async Task<Response<Invitation>> RespondToInvitationAsync(string token, PathsCtl5TcV3InvitationsTokenPatchRequestbodyContentApplicationJsonSchema body, CancellationToken cancellationToken = default)
+        public async Task<Response<Invitation>> RespondToInvitationAsync(string token, InvitationResponse body, CancellationToken cancellationToken = default)
         {
             if (token == null)
             {
@@ -4734,11 +2818,11 @@ namespace Affinda.API
 
         /// <summary> Respond to an invitation. </summary>
         /// <param name="token"> Invitation token. </param>
-        /// <param name="body"> The PathsCtl5TcV3InvitationsTokenPatchRequestbodyContentApplicationJsonSchema to use. </param>
+        /// <param name="body"> The InvitationResponse to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="token"/> or <paramref name="body"/> is null. </exception>
         /// <remarks> Choose to accept or decline an invitation. </remarks>
-        public Response<Invitation> RespondToInvitation(string token, PathsCtl5TcV3InvitationsTokenPatchRequestbodyContentApplicationJsonSchema body, CancellationToken cancellationToken = default)
+        public Response<Invitation> RespondToInvitation(string token, InvitationResponse body, CancellationToken cancellationToken = default)
         {
             if (token == null)
             {
@@ -5003,7 +3087,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateUpdateExtractorDataRequest(string identifier, ExtractorUpdate body)
+        internal HttpMessage CreateUpdateExtractorRequest(string identifier, ExtractorUpdate body)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -5023,13 +3107,13 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary> Update an extractor&apos;s data. </summary>
+        /// <summary> Update an extractor. </summary>
         /// <param name="identifier"> Extractor&apos;s identifier. </param>
         /// <param name="body"> Extractor data to update. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
         /// <remarks> Update data of an extractor. </remarks>
-        public async Task<Response<Extractor>> UpdateExtractorDataAsync(string identifier, ExtractorUpdate body, CancellationToken cancellationToken = default)
+        public async Task<Response<Extractor>> UpdateExtractorAsync(string identifier, ExtractorUpdate body, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
             {
@@ -5040,7 +3124,7 @@ namespace Affinda.API
                 throw new ArgumentNullException(nameof(body));
             }
 
-            using var message = CreateUpdateExtractorDataRequest(identifier, body);
+            using var message = CreateUpdateExtractorRequest(identifier, body);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -5056,13 +3140,13 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Update an extractor&apos;s data. </summary>
+        /// <summary> Update an extractor. </summary>
         /// <param name="identifier"> Extractor&apos;s identifier. </param>
         /// <param name="body"> Extractor data to update. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
         /// <remarks> Update data of an extractor. </remarks>
-        public Response<Extractor> UpdateExtractorData(string identifier, ExtractorUpdate body, CancellationToken cancellationToken = default)
+        public Response<Extractor> UpdateExtractor(string identifier, ExtractorUpdate body, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
             {
@@ -5073,7 +3157,7 @@ namespace Affinda.API
                 throw new ArgumentNullException(nameof(body));
             }
 
-            using var message = CreateUpdateExtractorDataRequest(identifier, body);
+            using var message = CreateUpdateExtractorRequest(identifier, body);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -5398,7 +3482,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateUpdateDataPointDataRequest(string identifier, DataPointUpdate body)
+        internal HttpMessage CreateUpdateDataPointRequest(string identifier, DataPointUpdate body)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -5418,13 +3502,13 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary> Update a data point&apos;s data. </summary>
+        /// <summary> Update a data point. </summary>
         /// <param name="identifier"> DataPoint&apos;s identifier. </param>
         /// <param name="body"> Data point to update. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
         /// <remarks> Update data of a data point. </remarks>
-        public async Task<Response<DataPoint>> UpdateDataPointDataAsync(string identifier, DataPointUpdate body, CancellationToken cancellationToken = default)
+        public async Task<Response<DataPoint>> UpdateDataPointAsync(string identifier, DataPointUpdate body, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
             {
@@ -5435,7 +3519,7 @@ namespace Affinda.API
                 throw new ArgumentNullException(nameof(body));
             }
 
-            using var message = CreateUpdateDataPointDataRequest(identifier, body);
+            using var message = CreateUpdateDataPointRequest(identifier, body);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -5451,13 +3535,13 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Update a data point&apos;s data. </summary>
+        /// <summary> Update a data point. </summary>
         /// <param name="identifier"> DataPoint&apos;s identifier. </param>
         /// <param name="body"> Data point to update. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
         /// <remarks> Update data of a data point. </remarks>
-        public Response<DataPoint> UpdateDataPointData(string identifier, DataPointUpdate body, CancellationToken cancellationToken = default)
+        public Response<DataPoint> UpdateDataPoint(string identifier, DataPointUpdate body, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
             {
@@ -5468,7 +3552,7 @@ namespace Affinda.API
                 throw new ArgumentNullException(nameof(body));
             }
 
-            using var message = CreateUpdateDataPointDataRequest(identifier, body);
+            using var message = CreateUpdateDataPointRequest(identifier, body);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -6534,7 +4618,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateUpdateCollectionDataRequest(string identifier, CollectionUpdate body)
+        internal HttpMessage CreateUpdateCollectionRequest(string identifier, CollectionUpdate body)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -6554,13 +4638,13 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary> Update a collection&apos;s data. </summary>
+        /// <summary> Update a collection. </summary>
         /// <param name="identifier"> Collection&apos;s identifier. </param>
         /// <param name="body"> Collection data to update. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
         /// <remarks> Update data of a collection. </remarks>
-        public async Task<Response<Collection>> UpdateCollectionDataAsync(string identifier, CollectionUpdate body, CancellationToken cancellationToken = default)
+        public async Task<Response<Collection>> UpdateCollectionAsync(string identifier, CollectionUpdate body, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
             {
@@ -6571,7 +4655,7 @@ namespace Affinda.API
                 throw new ArgumentNullException(nameof(body));
             }
 
-            using var message = CreateUpdateCollectionDataRequest(identifier, body);
+            using var message = CreateUpdateCollectionRequest(identifier, body);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -6587,13 +4671,13 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Update a collection&apos;s data. </summary>
+        /// <summary> Update a collection. </summary>
         /// <param name="identifier"> Collection&apos;s identifier. </param>
         /// <param name="body"> Collection data to update. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
         /// <remarks> Update data of a collection. </remarks>
-        public Response<Collection> UpdateCollectionData(string identifier, CollectionUpdate body, CancellationToken cancellationToken = default)
+        public Response<Collection> UpdateCollection(string identifier, CollectionUpdate body, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
             {
@@ -6604,7 +4688,7 @@ namespace Affinda.API
                 throw new ArgumentNullException(nameof(body));
             }
 
-            using var message = CreateUpdateCollectionDataRequest(identifier, body);
+            using var message = CreateUpdateCollectionRequest(identifier, body);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -6751,7 +4835,7 @@ namespace Affinda.API
         /// <param name="workspace"> Filter by workspace. </param>
         /// <param name="collection"> Filter by collection. </param>
         /// <param name="state"> Filter by the document&apos;s state. </param>
-        /// <param name="tags"> Filter by tags. </param>
+        /// <param name="tags"> Filter by tag&apos;s IDs. </param>
         /// <param name="createdDt"> Filter by created datetime. </param>
         /// <param name="search"> Partial, case-insensitive match with file name or tag name. </param>
         /// <param name="ordering"> Sort the result set. A &quot;-&quot; at the beginning denotes DESC sort, e.g. -created_dt. Sort by multiple fields is supported. </param>
@@ -6784,7 +4868,7 @@ namespace Affinda.API
         /// <param name="workspace"> Filter by workspace. </param>
         /// <param name="collection"> Filter by collection. </param>
         /// <param name="state"> Filter by the document&apos;s state. </param>
-        /// <param name="tags"> Filter by tags. </param>
+        /// <param name="tags"> Filter by tag&apos;s IDs. </param>
         /// <param name="createdDt"> Filter by created datetime. </param>
         /// <param name="search"> Partial, case-insensitive match with file name or tag name. </param>
         /// <param name="ordering"> Sort the result set. A &quot;-&quot; at the beginning denotes DESC sort, e.g. -created_dt. Sort by multiple fields is supported. </param>
@@ -7003,7 +5087,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateUpdateDocumentDataRequest(string identifier, DocumentUpdate body)
+        internal HttpMessage CreateUpdateDocumentRequest(string identifier, DocumentUpdate body)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -7023,13 +5107,13 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary> Update a document&apos;s data. </summary>
+        /// <summary> Update a document. </summary>
         /// <param name="identifier"> Document&apos;s identifier. </param>
         /// <param name="body"> Document data to update. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
         /// <remarks> Update file name, expiry time, or move to another collection, etc. </remarks>
-        public async Task<Response<Document>> UpdateDocumentDataAsync(string identifier, DocumentUpdate body, CancellationToken cancellationToken = default)
+        public async Task<Response<Document>> UpdateDocumentAsync(string identifier, DocumentUpdate body, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
             {
@@ -7040,7 +5124,7 @@ namespace Affinda.API
                 throw new ArgumentNullException(nameof(body));
             }
 
-            using var message = CreateUpdateDocumentDataRequest(identifier, body);
+            using var message = CreateUpdateDocumentRequest(identifier, body);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -7056,13 +5140,13 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Update a document&apos;s data. </summary>
+        /// <summary> Update a document. </summary>
         /// <param name="identifier"> Document&apos;s identifier. </param>
         /// <param name="body"> Document data to update. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
         /// <remarks> Update file name, expiry time, or move to another collection, etc. </remarks>
-        public Response<Document> UpdateDocumentData(string identifier, DocumentUpdate body, CancellationToken cancellationToken = default)
+        public Response<Document> UpdateDocument(string identifier, DocumentUpdate body, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
             {
@@ -7073,7 +5157,7 @@ namespace Affinda.API
                 throw new ArgumentNullException(nameof(body));
             }
 
-            using var message = CreateUpdateDocumentDataRequest(identifier, body);
+            using var message = CreateUpdateDocumentRequest(identifier, body);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -7369,7 +5453,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateUpdateTagDataRequest(int id, TagUpdate body)
+        internal HttpMessage CreateUpdateTagRequest(int id, TagUpdate body)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -7389,20 +5473,20 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary> Update an tag&apos;s data. </summary>
+        /// <summary> Update a tag. </summary>
         /// <param name="id"> Tag&apos;s ID. </param>
         /// <param name="body"> Tag data to update. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
         /// <remarks> Update data of an tag. </remarks>
-        public async Task<Response<Tag>> UpdateTagDataAsync(int id, TagUpdate body, CancellationToken cancellationToken = default)
+        public async Task<Response<Tag>> UpdateTagAsync(int id, TagUpdate body, CancellationToken cancellationToken = default)
         {
             if (body == null)
             {
                 throw new ArgumentNullException(nameof(body));
             }
 
-            using var message = CreateUpdateTagDataRequest(id, body);
+            using var message = CreateUpdateTagRequest(id, body);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -7418,20 +5502,20 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Update an tag&apos;s data. </summary>
+        /// <summary> Update a tag. </summary>
         /// <param name="id"> Tag&apos;s ID. </param>
         /// <param name="body"> Tag data to update. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
         /// <remarks> Update data of an tag. </remarks>
-        public Response<Tag> UpdateTagData(int id, TagUpdate body, CancellationToken cancellationToken = default)
+        public Response<Tag> UpdateTag(int id, TagUpdate body, CancellationToken cancellationToken = default)
         {
             if (body == null)
             {
                 throw new ArgumentNullException(nameof(body));
             }
 
-            using var message = CreateUpdateTagDataRequest(id, body);
+            using var message = CreateUpdateTagRequest(id, body);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -7487,6 +5571,336 @@ namespace Affinda.API
         public Response DeleteTag(int id, CancellationToken cancellationToken = default)
         {
             using var message = CreateDeleteTagRequest(id);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 204:
+                    return message.Response;
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateGetAllResthookSubscriptionsRequest(int? offset, int? limit)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Get;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/resthook_subscriptions", false);
+            if (offset != null)
+            {
+                uri.AppendQuery("offset", offset.Value, true);
+            }
+            if (limit != null)
+            {
+                uri.AppendQuery("limit", limit.Value, true);
+            }
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Get list of all resthook subscriptions. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns your resthook subscriptions. </remarks>
+        public async Task<Response<PathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema>> GetAllResthookSubscriptionsAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateGetAllResthookSubscriptionsRequest(offset, limit);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        PathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = PathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema.DeserializePathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Get list of all resthook subscriptions. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns your resthook subscriptions. </remarks>
+        public Response<PathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema> GetAllResthookSubscriptions(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateGetAllResthookSubscriptionsRequest(offset, limit);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        PathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = PathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema.DeserializePathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateCreateResthookSubscriptionRequest(ResthookSubscriptionCreate body)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/resthook_subscriptions", false);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Content-Type", "application/json");
+            var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(body);
+            request.Content = content;
+            return message;
+        }
+
+        /// <summary> Create a resthook subscriptions. </summary>
+        /// <param name="body"> The ResthookSubscriptionCreate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        public async Task<Response<ResthookSubscription>> CreateResthookSubscriptionAsync(ResthookSubscriptionCreate body, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateCreateResthookSubscriptionRequest(body);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 201:
+                    {
+                        ResthookSubscription value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = ResthookSubscription.DeserializeResthookSubscription(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Create a resthook subscriptions. </summary>
+        /// <param name="body"> The ResthookSubscriptionCreate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        public Response<ResthookSubscription> CreateResthookSubscription(ResthookSubscriptionCreate body, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateCreateResthookSubscriptionRequest(body);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 201:
+                    {
+                        ResthookSubscription value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = ResthookSubscription.DeserializeResthookSubscription(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateGetResthookSubscriptionRequest(int id)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Get;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/resthook_subscriptions/", false);
+            uri.AppendPath(id, true);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Get specific resthook subscription. </summary>
+        /// <param name="id"> Resthook subscription&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return a specific resthook subscription. </remarks>
+        public async Task<Response<ResthookSubscription>> GetResthookSubscriptionAsync(int id, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateGetResthookSubscriptionRequest(id);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ResthookSubscription value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = ResthookSubscription.DeserializeResthookSubscription(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Get specific resthook subscription. </summary>
+        /// <param name="id"> Resthook subscription&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return a specific resthook subscription. </remarks>
+        public Response<ResthookSubscription> GetResthookSubscription(int id, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateGetResthookSubscriptionRequest(id);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ResthookSubscription value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = ResthookSubscription.DeserializeResthookSubscription(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateUpdateResthookSubscriptionRequest(int id, ResthookSubscriptionUpdate body)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Patch;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/resthook_subscriptions/", false);
+            uri.AppendPath(id, true);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Content-Type", "application/json");
+            var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(body);
+            request.Content = content;
+            return message;
+        }
+
+        /// <summary> Update a resthook subscription. </summary>
+        /// <param name="id"> ResthookSubscription&apos;s ID. </param>
+        /// <param name="body"> ResthookSubscription data to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        /// <remarks> Update data of a resthook subscription. </remarks>
+        public async Task<Response<ResthookSubscription>> UpdateResthookSubscriptionAsync(int id, ResthookSubscriptionUpdate body, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateUpdateResthookSubscriptionRequest(id, body);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ResthookSubscription value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = ResthookSubscription.DeserializeResthookSubscription(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Update a resthook subscription. </summary>
+        /// <param name="id"> ResthookSubscription&apos;s ID. </param>
+        /// <param name="body"> ResthookSubscription data to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        /// <remarks> Update data of a resthook subscription. </remarks>
+        public Response<ResthookSubscription> UpdateResthookSubscription(int id, ResthookSubscriptionUpdate body, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateUpdateResthookSubscriptionRequest(id, body);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ResthookSubscription value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = ResthookSubscription.DeserializeResthookSubscription(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateDeleteResthookSubscriptionRequest(int id)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Delete;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/resthook_subscriptions/", false);
+            uri.AppendPath(id, true);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Delete a resthook subscription. </summary>
+        /// <param name="id"> ResthookSubscription&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Deletes the specified resthook subscription from the database. </remarks>
+        public async Task<Response> DeleteResthookSubscriptionAsync(int id, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateDeleteResthookSubscriptionRequest(id);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 204:
+                    return message.Response;
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Delete a resthook subscription. </summary>
+        /// <param name="id"> ResthookSubscription&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Deletes the specified resthook subscription from the database. </remarks>
+        public Response DeleteResthookSubscription(int id, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateDeleteResthookSubscriptionRequest(id);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {

@@ -11,7 +11,7 @@ namespace Affinda.API.Models
     public partial class ResumeSearchDetailEducationValueItem : Education
     {
         /// <summary> Initializes a new instance of ResumeSearchDetailEducationValueItem. </summary>
-        public ResumeSearchDetailEducationValueItem()
+        internal ResumeSearchDetailEducationValueItem()
         {
         }
 
@@ -28,7 +28,7 @@ namespace Affinda.API.Models
             Match = match;
         }
 
-        /// <summary> Gets or sets the match. </summary>
-        public bool? Match { get; set; }
+        /// <summary> Gets the match. </summary>
+        public bool? Match { get; }
     }
 }

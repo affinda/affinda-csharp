@@ -15,7 +15,7 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of DocumentMetaWorkspace. </summary>
         /// <param name="identifier"> Uniquely identify a workspace. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
-        public DocumentMetaWorkspace(string identifier)
+        internal DocumentMetaWorkspace(string identifier)
         {
             if (identifier == null)
             {
@@ -35,8 +35,8 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Uniquely identify a workspace. </summary>
-        public string Identifier { get; set; }
-        /// <summary> Gets or sets the name. </summary>
-        public string Name { get; set; }
+        public string Identifier { get; }
+        /// <summary> Gets the name. </summary>
+        public string Name { get; }
     }
 }

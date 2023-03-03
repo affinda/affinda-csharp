@@ -6,8 +6,6 @@
 #nullable disable
 
 using System;
-using System.Collections.Generic;
-using Azure.Core;
 
 namespace Affinda.API.Models
 {
@@ -17,7 +15,7 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of Document. </summary>
         /// <param name="meta"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="meta"/> is null. </exception>
-        public Document(DocumentMeta meta)
+        internal Document(DocumentMeta meta)
         {
             if (meta == null)
             {
@@ -25,25 +23,24 @@ namespace Affinda.API.Models
             }
 
             Meta = meta;
-            Data = new ChangeTrackingDictionary<string, object>();
         }
 
         /// <summary> Initializes a new instance of Document. </summary>
+        /// <param name="extractor"></param>
         /// <param name="meta"></param>
-        /// <param name="data"> Dictionary of &lt;any&gt;. </param>
         /// <param name="error"></param>
-        internal Document(DocumentMeta meta, IDictionary<string, object> data, Error error)
+        internal Document(string extractor, DocumentMeta meta, Error error)
         {
+            Extractor = extractor;
             Meta = meta;
-            Data = data;
             Error = error;
         }
 
-        /// <summary> Gets or sets the meta. </summary>
-        public DocumentMeta Meta { get; set; }
-        /// <summary> Dictionary of &lt;any&gt;. </summary>
-        public IDictionary<string, object> Data { get; }
-        /// <summary> Gets or sets the error. </summary>
-        public Error Error { get; set; }
+        /// <summary> Gets or sets the extractor. </summary>
+        internal string Extractor { get; set; }
+        /// <summary> Gets the meta. </summary>
+        public DocumentMeta Meta { get; }
+        /// <summary> Gets the error. </summary>
+        public Error Error { get; }
     }
 }

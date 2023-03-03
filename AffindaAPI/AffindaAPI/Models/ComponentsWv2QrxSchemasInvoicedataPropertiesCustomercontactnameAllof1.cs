@@ -11,7 +11,7 @@ namespace Affinda.API.Models
     public partial class ComponentsWv2QrxSchemasInvoicedataPropertiesCustomercontactnameAllof1
     {
         /// <summary> Initializes a new instance of ComponentsWv2QrxSchemasInvoicedataPropertiesCustomercontactnameAllof1. </summary>
-        public ComponentsWv2QrxSchemasInvoicedataPropertiesCustomercontactnameAllof1()
+        internal ComponentsWv2QrxSchemasInvoicedataPropertiesCustomercontactnameAllof1()
         {
         }
 
@@ -24,9 +24,9 @@ namespace Affinda.API.Models
             Parsed = parsed;
         }
 
-        /// <summary> Gets or sets the raw. </summary>
-        public string Raw { get; set; }
-        /// <summary> Gets or sets the parsed. </summary>
-        public string Parsed { get; set; }
+        /// <summary> Gets the raw. </summary>
+        public string Raw { get; }
+        /// <summary> Gets the parsed. </summary>
+        public string Parsed { get; }
     }
 }

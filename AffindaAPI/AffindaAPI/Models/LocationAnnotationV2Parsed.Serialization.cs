@@ -10,16 +10,8 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class LocationAnnotationV2Parsed : IUtf8JsonSerializable
+    public partial class LocationAnnotationV2Parsed
     {
-        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
-        {
-            writer.WriteStartObject();
-            writer.WritePropertyName("rawInput");
-            writer.WriteStringValue(RawInput);
-            writer.WriteEndObject();
-        }
-
         internal static LocationAnnotationV2Parsed DeserializeLocationAnnotationV2Parsed(JsonElement element)
         {
             Optional<string> formatted = default;

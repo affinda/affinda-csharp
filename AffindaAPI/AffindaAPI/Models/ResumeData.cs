@@ -15,7 +15,7 @@ namespace Affinda.API.Models
     public partial class ResumeData
     {
         /// <summary> Initializes a new instance of ResumeData. </summary>
-        public ResumeData()
+        internal ResumeData()
         {
             PhoneNumbers = new ChangeTrackingList<string>();
             Websites = new ChangeTrackingList<string>();
@@ -57,7 +57,7 @@ namespace Affinda.API.Models
         /// <param name="isResumeProbability"> Probability that the given document is a resume. Values below 30 suggest that the document is not a resume. </param>
         /// <param name="rawText"> All of the raw text of the parsed resume, example is shortened for readability. </param>
         /// <param name="additionalProperties"> Additional Properties. </param>
-        internal ResumeData(ResumeDataName name, IList<string> phoneNumbers, IList<string> websites, IList<string> emails, string dateOfBirth, Location location, string objective, IReadOnlyList<string> languages, IReadOnlyList<string> languageCodes, string summary, int? totalYearsExperience, byte[] headShot, IList<Education> education, string profession, string linkedin, IList<ResumeDataWorkExperienceItem> workExperience, IList<ResumeDataSkillsItem> skills, IList<string> certifications, IList<string> publications, IList<ResumeDataRefereesItem> referees, IReadOnlyList<ResumeDataSectionsItem> sections, int? isResumeProbability, string rawText, IDictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties> additionalProperties)
+        internal ResumeData(ResumeDataName name, IReadOnlyList<string> phoneNumbers, IReadOnlyList<string> websites, IReadOnlyList<string> emails, string dateOfBirth, Location location, string objective, IReadOnlyList<string> languages, IReadOnlyList<string> languageCodes, string summary, int? totalYearsExperience, byte[] headShot, IReadOnlyList<Education> education, string profession, string linkedin, IReadOnlyList<ResumeDataWorkExperienceItem> workExperience, IReadOnlyList<ResumeDataSkillsItem> skills, IReadOnlyList<string> certifications, IReadOnlyList<string> publications, IReadOnlyList<ResumeDataRefereesItem> referees, IReadOnlyList<ResumeDataSectionsItem> sections, int? isResumeProbability, string rawText, IReadOnlyDictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties> additionalProperties)
         {
             Name = name;
             PhoneNumbers = phoneNumbers;
@@ -85,53 +85,53 @@ namespace Affinda.API.Models
             AdditionalProperties = additionalProperties;
         }
 
-        /// <summary> Gets or sets the name. </summary>
-        public ResumeDataName Name { get; set; }
+        /// <summary> Gets the name. </summary>
+        public ResumeDataName Name { get; }
         /// <summary> Gets the phone numbers. </summary>
-        public IList<string> PhoneNumbers { get; }
+        public IReadOnlyList<string> PhoneNumbers { get; }
         /// <summary> Gets the websites. </summary>
-        public IList<string> Websites { get; }
+        public IReadOnlyList<string> Websites { get; }
         /// <summary> Gets the emails. </summary>
-        public IList<string> Emails { get; }
-        /// <summary> Gets or sets the date of birth. </summary>
-        public string DateOfBirth { get; set; }
-        /// <summary> Gets or sets the location. </summary>
-        public Location Location { get; set; }
-        /// <summary> Gets or sets the objective. </summary>
-        public string Objective { get; set; }
+        public IReadOnlyList<string> Emails { get; }
+        /// <summary> Gets the date of birth. </summary>
+        public string DateOfBirth { get; }
+        /// <summary> Gets the location. </summary>
+        public Location Location { get; }
+        /// <summary> Gets the objective. </summary>
+        public string Objective { get; }
         /// <summary> Gets the languages. </summary>
         public IReadOnlyList<string> Languages { get; }
         /// <summary> Gets the language codes. </summary>
         public IReadOnlyList<string> LanguageCodes { get; }
-        /// <summary> Gets or sets the summary. </summary>
-        public string Summary { get; set; }
-        /// <summary> Gets or sets the total years experience. </summary>
-        public int? TotalYearsExperience { get; set; }
+        /// <summary> Gets the summary. </summary>
+        public string Summary { get; }
+        /// <summary> Gets the total years experience. </summary>
+        public int? TotalYearsExperience { get; }
         /// <summary> base64 encoded string. </summary>
         public byte[] HeadShot { get; }
         /// <summary> Gets the education. </summary>
-        public IList<Education> Education { get; }
+        public IReadOnlyList<Education> Education { get; }
         /// <summary> Prediction of the candidate&apos;s profession based on recent work experience. </summary>
         public string Profession { get; }
         /// <summary> Linkedin account associated with the candidate. </summary>
         public string Linkedin { get; }
         /// <summary> Gets the work experience. </summary>
-        public IList<ResumeDataWorkExperienceItem> WorkExperience { get; }
+        public IReadOnlyList<ResumeDataWorkExperienceItem> WorkExperience { get; }
         /// <summary> Gets the skills. </summary>
-        public IList<ResumeDataSkillsItem> Skills { get; }
+        public IReadOnlyList<ResumeDataSkillsItem> Skills { get; }
         /// <summary> Gets the certifications. </summary>
-        public IList<string> Certifications { get; }
+        public IReadOnlyList<string> Certifications { get; }
         /// <summary> Gets the publications. </summary>
-        public IList<string> Publications { get; }
+        public IReadOnlyList<string> Publications { get; }
         /// <summary> Gets the referees. </summary>
-        public IList<ResumeDataRefereesItem> Referees { get; }
+        public IReadOnlyList<ResumeDataRefereesItem> Referees { get; }
         /// <summary> Gets the sections. </summary>
         public IReadOnlyList<ResumeDataSectionsItem> Sections { get; }
         /// <summary> Probability that the given document is a resume. Values below 30 suggest that the document is not a resume. </summary>
         public int? IsResumeProbability { get; }
         /// <summary> All of the raw text of the parsed resume, example is shortened for readability. </summary>
-        public string RawText { get; set; }
+        public string RawText { get; }
         /// <summary> Additional Properties. </summary>
-        public IDictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties> AdditionalProperties { get; }
+        public IReadOnlyDictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties> AdditionalProperties { get; }
     }
 }

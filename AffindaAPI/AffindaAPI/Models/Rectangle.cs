@@ -15,7 +15,7 @@ namespace Affinda.API.Models
         /// <param name="y0"></param>
         /// <param name="x1"></param>
         /// <param name="y1"></param>
-        public Rectangle(float x0, float y0, float x1, float y1)
+        internal Rectangle(float x0, float y0, float x1, float y1)
         {
             X0 = x0;
             Y0 = y0;
@@ -23,13 +23,13 @@ namespace Affinda.API.Models
             Y1 = y1;
         }
 
-        /// <summary> Gets or sets the x 0. </summary>
-        public float X0 { get; set; }
-        /// <summary> Gets or sets the y 0. </summary>
-        public float Y0 { get; set; }
-        /// <summary> Gets or sets the x 1. </summary>
-        public float X1 { get; set; }
-        /// <summary> Gets or sets the y 1. </summary>
-        public float Y1 { get; set; }
+        /// <summary> Gets the x 0. </summary>
+        public float X0 { get; }
+        /// <summary> Gets the y 0. </summary>
+        public float Y0 { get; }
+        /// <summary> Gets the x 1. </summary>
+        public float X1 { get; }
+        /// <summary> Gets the y 1. </summary>
+        public float Y1 { get; }
     }
 }

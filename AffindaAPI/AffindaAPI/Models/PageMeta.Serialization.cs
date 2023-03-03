@@ -10,33 +10,8 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class PageMeta : IUtf8JsonSerializable
+    public partial class PageMeta
     {
-        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
-        {
-            writer.WriteStartObject();
-            writer.WritePropertyName("id");
-            writer.WriteNumberValue(Id);
-            writer.WritePropertyName("pageIndex");
-            writer.WriteNumberValue(PageIndex);
-            if (Image != null)
-            {
-                writer.WritePropertyName("image");
-                writer.WriteStringValue(Image);
-            }
-            else
-            {
-                writer.WriteNull("image");
-            }
-            writer.WritePropertyName("height");
-            writer.WriteNumberValue(Height);
-            writer.WritePropertyName("width");
-            writer.WriteNumberValue(Width);
-            writer.WritePropertyName("rotation");
-            writer.WriteNumberValue(Rotation);
-            writer.WriteEndObject();
-        }
-
         internal static PageMeta DeserializePageMeta(JsonElement element)
         {
             int id = default;

@@ -15,7 +15,7 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of LocationAnnotationV2Parsed. </summary>
         /// <param name="rawInput"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="rawInput"/> is null. </exception>
-        public LocationAnnotationV2Parsed(string rawInput) : base(rawInput)
+        internal LocationAnnotationV2Parsed(string rawInput) : base(rawInput)
         {
             if (rawInput == null)
             {

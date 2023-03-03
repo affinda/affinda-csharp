@@ -11,7 +11,7 @@ namespace Affinda.API.Models
     public partial class Education
     {
         /// <summary> Initializes a new instance of Education. </summary>
-        public Education()
+        internal Education()
         {
         }
 
@@ -32,17 +32,17 @@ namespace Affinda.API.Models
             Dates = dates;
         }
 
-        /// <summary> Gets or sets the id. </summary>
-        public int? Id { get; set; }
-        /// <summary> Gets or sets the organization. </summary>
-        public string Organization { get; set; }
-        /// <summary> Gets or sets the accreditation. </summary>
-        public Accreditation Accreditation { get; set; }
-        /// <summary> Gets or sets the grade. </summary>
-        public EducationGrade Grade { get; set; }
-        /// <summary> Gets or sets the location. </summary>
-        public Location Location { get; set; }
-        /// <summary> Gets or sets the dates. </summary>
-        public EducationDates Dates { get; set; }
+        /// <summary> Gets the id. </summary>
+        public int? Id { get; }
+        /// <summary> Gets the organization. </summary>
+        public string Organization { get; }
+        /// <summary> Gets the accreditation. </summary>
+        public Accreditation Accreditation { get; }
+        /// <summary> Gets the grade. </summary>
+        public EducationGrade Grade { get; }
+        /// <summary> Gets the location. </summary>
+        public Location Location { get; }
+        /// <summary> Gets the dates. </summary>
+        public EducationDates Dates { get; }
     }
 }

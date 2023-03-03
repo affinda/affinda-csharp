@@ -9,13 +9,13 @@ namespace AffindaAPISample
     {
         static void Main(string[] args)
         {
-            string resumePath = "PATH_TO_RESUME";
-            using (FileStream fs = File.OpenRead(resumePath))
+            string documentPath = "PATH_TO_DOCUMENT";
+            using (FileStream fs = File.OpenRead(documentPath))
             {
                 var credential = new AffindaTokenCredential("REPLACE_TOKEN");
                 var client = new AffindaAPIClient(credential);
-                var resume = client.CreateResume(file: fs);
-                Console.WriteLine(JsonConvert.SerializeObject(resume, Formatting.Indented));
+                var document = client.CreateDocument(file: fs);
+                Console.WriteLine(JsonConvert.SerializeObject(document, Formatting.Indented));
             }
         }
     }

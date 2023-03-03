@@ -11,36 +11,8 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class EducationDates : IUtf8JsonSerializable
+    public partial class EducationDates
     {
-        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
-        {
-            writer.WriteStartObject();
-            if (Optional.IsDefined(CompletionDate))
-            {
-                writer.WritePropertyName("completionDate");
-                writer.WriteStringValue(CompletionDate.Value, "D");
-            }
-            if (Optional.IsDefined(IsCurrent))
-            {
-                writer.WritePropertyName("isCurrent");
-                writer.WriteBooleanValue(IsCurrent.Value);
-            }
-            if (Optional.IsDefined(StartDate))
-            {
-                if (StartDate != null)
-                {
-                    writer.WritePropertyName("startDate");
-                    writer.WriteStringValue(StartDate.Value, "D");
-                }
-                else
-                {
-                    writer.WriteNull("startDate");
-                }
-            }
-            writer.WriteEndObject();
-        }
-
         internal static EducationDates DeserializeEducationDates(JsonElement element)
         {
             Optional<DateTimeOffset> completionDate = default;

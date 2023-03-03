@@ -11,7 +11,7 @@ namespace Affinda.API.Models
     public partial class DocumentMetaCollectionExtractor
     {
         /// <summary> Initializes a new instance of DocumentMetaCollectionExtractor. </summary>
-        public DocumentMetaCollectionExtractor()
+        internal DocumentMetaCollectionExtractor()
         {
         }
 
@@ -29,12 +29,12 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Uniquely identify an extractor. </summary>
-        public string Identifier { get; set; }
-        /// <summary> Gets or sets the name. </summary>
-        public string Name { get; set; }
+        public string Identifier { get; }
+        /// <summary> Gets the name. </summary>
+        public string Name { get; }
         /// <summary> Base extractor&apos;s identifier. </summary>
-        public string BaseExtractor { get; set; }
-        /// <summary> Gets or sets the validatable. </summary>
-        public bool? Validatable { get; set; }
+        public string BaseExtractor { get; }
+        /// <summary> Gets the validatable. </summary>
+        public bool? Validatable { get; }
     }
 }

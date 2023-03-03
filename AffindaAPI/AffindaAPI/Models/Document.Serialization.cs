@@ -5,63 +5,37 @@
 
 #nullable disable
 
-using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class Document : IUtf8JsonSerializable
+    public partial class Document
     {
-        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
-        {
-            writer.WriteStartObject();
-            writer.WritePropertyName("meta");
-            writer.WriteObjectValue(Meta);
-            if (Optional.IsCollectionDefined(Data))
-            {
-                writer.WritePropertyName("data");
-                writer.WriteStartObject();
-                foreach (var item in Data)
-                {
-                    writer.WritePropertyName(item.Key);
-                    writer.WriteObjectValue(item.Value);
-                }
-                writer.WriteEndObject();
-            }
-            if (Optional.IsDefined(Error))
-            {
-                writer.WritePropertyName("error");
-                writer.WriteObjectValue(Error);
-            }
-            writer.WriteEndObject();
-        }
-
         internal static Document DeserializeDocument(JsonElement element)
         {
+            if (element.TryGetProperty("extractor", out JsonElement discriminator))
+            {
+                switch (discriminator.GetString())
+                {
+                    case "invoice": return InvoiceDocument.DeserializeInvoiceDocument(element);
+                    case "job-description": return JobDescriptionDocument.DeserializeJobDescriptionDocument(element);
+                    case "resume": return ResumeDocument.DeserializeResumeDocument(element);
+                }
+            }
+            string extractor = default;
             DocumentMeta meta = default;
-            Optional<IDictionary<string, object>> data = default;
             Optional<Error> error = default;
             foreach (var property in element.EnumerateObject())
             {
+                if (property.NameEquals("extractor"))
+                {
+                    extractor = property.Value.GetString();
+                    continue;
+                }
                 if (property.NameEquals("meta"))
                 {
                     meta = DocumentMeta.DeserializeDocumentMeta(property.Value);
-                    continue;
-                }
-                if (property.NameEquals("data"))
-                {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        property.ThrowNonNullablePropertyIsNull();
-                        continue;
-                    }
-                    Dictionary<string, object> dictionary = new Dictionary<string, object>();
-                    foreach (var property0 in property.Value.EnumerateObject())
-                    {
-                        dictionary.Add(property0.Name, property0.Value.GetObject());
-                    }
-                    data = dictionary;
                     continue;
                 }
                 if (property.NameEquals("error"))
@@ -75,7 +49,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new Document(meta, Optional.ToDictionary(data), error.Value);
+            return new Document(extractor, meta, error.Value);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Affinda.API.Models
     public partial class Components1TlnsonSchemasJobdescriptionsearchdetailPropertiesLocationPropertiesValueAllof1
     {
         /// <summary> Initializes a new instance of Components1TlnsonSchemasJobdescriptionsearchdetailPropertiesLocationPropertiesValueAllof1. </summary>
-        public Components1TlnsonSchemasJobdescriptionsearchdetailPropertiesLocationPropertiesValueAllof1()
+        internal Components1TlnsonSchemasJobdescriptionsearchdetailPropertiesLocationPropertiesValueAllof1()
         {
         }
 
@@ -22,7 +22,7 @@ namespace Affinda.API.Models
             Match = match;
         }
 
-        /// <summary> Gets or sets the match. </summary>
-        public bool? Match { get; set; }
+        /// <summary> Gets the match. </summary>
+        public bool? Match { get; }
     }
 }

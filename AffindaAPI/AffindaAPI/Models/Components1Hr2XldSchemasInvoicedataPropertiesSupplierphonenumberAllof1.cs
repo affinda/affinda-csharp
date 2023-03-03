@@ -11,7 +11,7 @@ namespace Affinda.API.Models
     public partial class Components1Hr2XldSchemasInvoicedataPropertiesSupplierphonenumberAllof1
     {
         /// <summary> Initializes a new instance of Components1Hr2XldSchemasInvoicedataPropertiesSupplierphonenumberAllof1. </summary>
-        public Components1Hr2XldSchemasInvoicedataPropertiesSupplierphonenumberAllof1()
+        internal Components1Hr2XldSchemasInvoicedataPropertiesSupplierphonenumberAllof1()
         {
         }
 
@@ -24,9 +24,9 @@ namespace Affinda.API.Models
             Parsed = parsed;
         }
 
-        /// <summary> Gets or sets the raw. </summary>
-        public string Raw { get; set; }
-        /// <summary> Gets or sets the parsed. </summary>
-        public string Parsed { get; set; }
+        /// <summary> Gets the raw. </summary>
+        public string Raw { get; }
+        /// <summary> Gets the parsed. </summary>
+        public string Parsed { get; }
     }
 }

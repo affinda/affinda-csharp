@@ -11,7 +11,7 @@ namespace Affinda.API.Models
     public partial class JobTitleParsed
     {
         /// <summary> Initializes a new instance of JobTitleParsed. </summary>
-        public JobTitleParsed()
+        internal JobTitleParsed()
         {
         }
 

@@ -10,38 +10,8 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class Error : IUtf8JsonSerializable
+    public partial class Error
     {
-        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
-        {
-            writer.WriteStartObject();
-            if (Optional.IsDefined(ErrorCode))
-            {
-                if (ErrorCode != null)
-                {
-                    writer.WritePropertyName("errorCode");
-                    writer.WriteStringValue(ErrorCode);
-                }
-                else
-                {
-                    writer.WriteNull("errorCode");
-                }
-            }
-            if (Optional.IsDefined(ErrorDetail))
-            {
-                if (ErrorDetail != null)
-                {
-                    writer.WritePropertyName("errorDetail");
-                    writer.WriteStringValue(ErrorDetail);
-                }
-                else
-                {
-                    writer.WriteNull("errorDetail");
-                }
-            }
-            writer.WriteEndObject();
-        }
-
         internal static Error DeserializeError(JsonElement element)
         {
             Optional<string> errorCode = default;
