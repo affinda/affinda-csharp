@@ -33,11 +33,26 @@ namespace Affinda.API.Models
             Value = value;
         }
 
+        /// <summary> Initializes a new instance of DataPointChoice. </summary>
+        /// <param name="id"></param>
+        /// <param name="label"></param>
+        /// <param name="value"></param>
+        /// <param name="description"></param>
+        internal DataPointChoice(float id, string label, string value, string description)
+        {
+            Id = id;
+            Label = label;
+            Value = value;
+            Description = description;
+        }
+
         /// <summary> Gets the id. </summary>
         public float Id { get; }
         /// <summary> Gets the label. </summary>
         public string Label { get; }
         /// <summary> Gets the value. </summary>
         public string Value { get; }
+        /// <summary> Gets the description. </summary>
+        public string Description { get; }
     }
 }

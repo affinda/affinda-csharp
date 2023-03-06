@@ -18,7 +18,7 @@ namespace Affinda.API.Models
         /// <param name="count"> Number of documents in result. </param>
         /// <param name="results"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="results"/> is null. </exception>
-        internal GetAllDocumentsResults(int count, IEnumerable<Document> results)
+        internal GetAllDocumentsResults(int count, IEnumerable<GetAllDocumentsResultsItem> results)
         {
             if (results == null)
             {
@@ -34,7 +34,7 @@ namespace Affinda.API.Models
         /// <param name="next"> URL to request next page of results. </param>
         /// <param name="previous"> URL to request previous page of results. </param>
         /// <param name="results"></param>
-        internal GetAllDocumentsResults(int count, string next, string previous, IReadOnlyList<Document> results)
+        internal GetAllDocumentsResults(int count, string next, string previous, IReadOnlyList<GetAllDocumentsResultsItem> results)
         {
             Count = count;
             Next = next;
@@ -49,6 +49,6 @@ namespace Affinda.API.Models
         /// <summary> URL to request previous page of results. </summary>
         public string Previous { get; }
         /// <summary> Gets the results. </summary>
-        public IReadOnlyList<Document> Results { get; }
+        public IReadOnlyList<GetAllDocumentsResultsItem> Results { get; }
     }
 }

@@ -17,6 +17,7 @@ namespace Affinda.API.Models
             float id = default;
             string label = default;
             string value = default;
+            Optional<string> description = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("id"))
@@ -34,8 +35,13 @@ namespace Affinda.API.Models
                     value = property.Value.GetString();
                     continue;
                 }
+                if (property.NameEquals("description"))
+                {
+                    description = property.Value.GetString();
+                    continue;
+                }
             }
-            return new DataPointChoice(id, label, value);
+            return new DataPointChoice(id, label, value, description.Value);
         }
     }
 }

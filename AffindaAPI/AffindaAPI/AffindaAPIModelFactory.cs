@@ -1141,20 +1141,11 @@ namespace Affinda.API.Models
         /// <param name="id"></param>
         /// <param name="label"></param>
         /// <param name="value"></param>
-        /// <exception cref="ArgumentNullException"> <paramref name="label"/> or <paramref name="value"/> is null. </exception>
+        /// <param name="description"></param>
         /// <returns> A new <see cref="Models.DataPointChoice"/> instance for mocking. </returns>
-        public static DataPointChoice DataPointChoice(float id = default, string label = null, string value = null)
+        public static DataPointChoice DataPointChoice(float id = default, string label = null, string value = null, string description = null)
         {
-            if (label == null)
-            {
-                throw new ArgumentNullException(nameof(label));
-            }
-            if (value == null)
-            {
-                throw new ArgumentNullException(nameof(value));
-            }
-
-            return new DataPointChoice(id, label, value);
+            return new DataPointChoice(id, label, value, description);
         }
 
         /// <summary> Initializes a new instance of Workspace. </summary>
@@ -1299,21 +1290,20 @@ namespace Affinda.API.Models
         /// <param name="previous"> URL to request previous page of results. </param>
         /// <param name="results"></param>
         /// <returns> A new <see cref="Models.GetAllDocumentsResults"/> instance for mocking. </returns>
-        public static GetAllDocumentsResults GetAllDocumentsResults(int count = default, string next = null, string previous = null, IEnumerable<Document> results = null)
+        public static GetAllDocumentsResults GetAllDocumentsResults(int count = default, string next = null, string previous = null, IEnumerable<GetAllDocumentsResultsItem> results = null)
         {
-            results ??= new List<Document>();
+            results ??= new List<GetAllDocumentsResultsItem>();
 
             return new GetAllDocumentsResults(count, next, previous, results?.ToList());
         }
 
-        /// <summary> Initializes a new instance of Document. </summary>
-        /// <param name="extractor"></param>
+        /// <summary> Initializes a new instance of GetAllDocumentsResultsItem. </summary>
         /// <param name="meta"></param>
         /// <param name="error"></param>
-        /// <returns> A new <see cref="Models.Document"/> instance for mocking. </returns>
-        public static Document Document(string extractor = null, DocumentMeta meta = null, Error error = null)
+        /// <returns> A new <see cref="Models.GetAllDocumentsResultsItem"/> instance for mocking. </returns>
+        public static GetAllDocumentsResultsItem GetAllDocumentsResultsItem(DocumentMeta meta = null, Error error = null)
         {
-            return new Document(extractor, meta, error);
+            return new GetAllDocumentsResultsItem(meta, error);
         }
 
         /// <summary> Initializes a new instance of DocumentMeta. </summary>
@@ -1346,7 +1336,7 @@ namespace Affinda.API.Models
         /// <param name="tags"></param>
         /// <param name="confirmedBy"></param>
         /// <returns> A new <see cref="Models.DocumentMeta"/> instance for mocking. </returns>
-        public static DocumentMeta DocumentMeta(string identifier = null, string fileName = null, bool? ready = null, DateTimeOffset? readyDt = null, bool? failed = null, string expiryTime = null, string language = null, string pdf = null, DocumentMetaParentDocument parentDocument = null, IEnumerable<DocumentMetaChildDocumentsItem> childDocuments = null, IEnumerable<PageMeta> pages = null, bool? isOcrd = null, float? ocrConfidence = null, string reviewUrl = null, DocumentMetaCollection collection = null, DocumentMetaWorkspace workspace = null, DateTimeOffset? archivedDt = null, bool? isArchived = null, DateTimeOffset? confirmedDt = null, bool? isConfirmed = null, DateTimeOffset? rejectedDt = null, bool? isRejected = null, DateTimeOffset? createdDt = null, string errorCode = null, string errorDetail = null, string file = null, IEnumerable<Tag> tags = null, User confirmedBy = null)
+        public static DocumentMeta DocumentMeta(string identifier = null, string fileName = null, bool? ready = null, DateTimeOffset? readyDt = null, bool? failed = null, string expiryTime = null, string language = null, string pdf = null, DocumentMetaParentDocument parentDocument = null, IEnumerable<DocumentMetaChildDocumentsItem> childDocuments = null, IEnumerable<PageMeta> pages = null, bool? isOcrd = null, float? ocrConfidence = null, string reviewUrl = null, DocumentMetaCollection collection = null, DocumentMetaWorkspace workspace = null, DateTimeOffset? archivedDt = null, bool? isArchived = null, DateTimeOffset? confirmedDt = null, bool? isConfirmed = null, DateTimeOffset? rejectedDt = null, bool? isRejected = null, DateTimeOffset? createdDt = null, string errorCode = null, string errorDetail = null, string file = null, IEnumerable<Tag> tags = null, UserNullable confirmedBy = null)
         {
             childDocuments ??= new List<DocumentMetaChildDocumentsItem>();
             pages ??= new List<PageMeta>();
@@ -1435,6 +1425,18 @@ namespace Affinda.API.Models
             return new Tag(id, name, workspace, documentCount);
         }
 
+        /// <summary> Initializes a new instance of UserNullable. </summary>
+        /// <param name="id"> Uniquely identify a user. </param>
+        /// <param name="name"></param>
+        /// <param name="username"></param>
+        /// <param name="email"></param>
+        /// <param name="avatar"> URL of the user&apos;s avatar. </param>
+        /// <returns> A new <see cref="Models.UserNullable"/> instance for mocking. </returns>
+        public static UserNullable UserNullable(int? id = null, string name = null, string username = null, string email = null, string avatar = null)
+        {
+            return new UserNullable(id, name, username, email, avatar);
+        }
+
         /// <summary> Initializes a new instance of Error. </summary>
         /// <param name="errorCode"></param>
         /// <param name="errorDetail"></param>
@@ -1442,6 +1444,16 @@ namespace Affinda.API.Models
         public static Error Error(string errorCode = null, string errorDetail = null)
         {
             return new Error(errorCode, errorDetail);
+        }
+
+        /// <summary> Initializes a new instance of Document. </summary>
+        /// <param name="extractor"></param>
+        /// <param name="meta"></param>
+        /// <param name="error"></param>
+        /// <returns> A new <see cref="Models.Document"/> instance for mocking. </returns>
+        public static Document Document(string extractor = null, DocumentMeta meta = null, Error error = null)
+        {
+            return new Document(extractor, meta, error);
         }
 
         /// <summary> Initializes a new instance of PathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema. </summary>

@@ -71,7 +71,7 @@ namespace Affinda.API.Models
         /// <param name="file"> URL to view the file. </param>
         /// <param name="tags"></param>
         /// <param name="confirmedBy"></param>
-        internal DocumentMeta(string identifier, string fileName, bool? ready, DateTimeOffset? readyDt, bool? failed, string expiryTime, string language, string pdf, DocumentMetaParentDocument parentDocument, IReadOnlyList<DocumentMetaChildDocumentsItem> childDocuments, IReadOnlyList<PageMeta> pages, bool? isOcrd, float? ocrConfidence, string reviewUrl, DocumentMetaCollection collection, DocumentMetaWorkspace workspace, DateTimeOffset? archivedDt, bool? isArchived, DateTimeOffset? confirmedDt, bool? isConfirmed, DateTimeOffset? rejectedDt, bool? isRejected, DateTimeOffset? createdDt, string errorCode, string errorDetail, string file, IReadOnlyList<Tag> tags, User confirmedBy)
+        internal DocumentMeta(string identifier, string fileName, bool? ready, DateTimeOffset? readyDt, bool? failed, string expiryTime, string language, string pdf, DocumentMetaParentDocument parentDocument, IReadOnlyList<DocumentMetaChildDocumentsItem> childDocuments, IReadOnlyList<PageMeta> pages, bool? isOcrd, float? ocrConfidence, string reviewUrl, DocumentMetaCollection collection, DocumentMetaWorkspace workspace, DateTimeOffset? archivedDt, bool? isArchived, DateTimeOffset? confirmedDt, bool? isConfirmed, DateTimeOffset? rejectedDt, bool? isRejected, DateTimeOffset? createdDt, string errorCode, string errorDetail, string file, IReadOnlyList<Tag> tags, UserNullable confirmedBy)
         {
             Identifier = identifier;
             FileName = fileName;
@@ -158,6 +158,6 @@ namespace Affinda.API.Models
         /// <summary> Gets the tags. </summary>
         public IReadOnlyList<Tag> Tags { get; }
         /// <summary> Gets the confirmed by. </summary>
-        public User ConfirmedBy { get; }
+        public UserNullable ConfirmedBy { get; }
     }
 }

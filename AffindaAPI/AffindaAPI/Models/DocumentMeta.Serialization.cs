@@ -43,7 +43,7 @@ namespace Affinda.API.Models
             Optional<string> errorDetail = default;
             Optional<string> file = default;
             Optional<IReadOnlyList<Tag>> tags = default;
-            Optional<User> confirmedBy = default;
+            Optional<UserNullable> confirmedBy = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("identifier"))
@@ -320,10 +320,10 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        confirmedBy = null;
                         continue;
                     }
-                    confirmedBy = User.DeserializeUser(property.Value);
+                    confirmedBy = UserNullable.DeserializeUserNullable(property.Value);
                     continue;
                 }
             }

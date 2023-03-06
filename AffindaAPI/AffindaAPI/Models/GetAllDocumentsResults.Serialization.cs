@@ -18,7 +18,7 @@ namespace Affinda.API.Models
             int count = default;
             Optional<string> next = default;
             Optional<string> previous = default;
-            IReadOnlyList<Document> results = default;
+            IReadOnlyList<GetAllDocumentsResultsItem> results = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("count"))
@@ -48,10 +48,10 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("results"))
                 {
-                    List<Document> array = new List<Document>();
+                    List<GetAllDocumentsResultsItem> array = new List<GetAllDocumentsResultsItem>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(Document.DeserializeDocument(item));
+                        array.Add(GetAllDocumentsResultsItem.DeserializeGetAllDocumentsResultsItem(item));
                     }
                     results = array;
                     continue;
