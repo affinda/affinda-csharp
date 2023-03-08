@@ -11,7 +11,7 @@ namespace Affinda.API.Models
     public partial class Accreditation
     {
         /// <summary> Initializes a new instance of Accreditation. </summary>
-        internal Accreditation()
+        public Accreditation()
         {
         }
 
@@ -28,8 +28,8 @@ namespace Affinda.API.Models
             EducationLevel = educationLevel;
         }
 
-        /// <summary> Gets the education. </summary>
-        public string Education { get; }
+        /// <summary> Gets or sets the education. </summary>
+        public string Education { get; set; }
         /// <summary> Gets the input str. </summary>
         public string InputStr { get; }
         /// <summary> Gets the match str. </summary>

@@ -11,7 +11,7 @@ namespace Affinda.API.Models
     public partial class ComponentsB3U7OaSchemasInvoicedataPropertiesSuppliervatAllof1
     {
         /// <summary> Initializes a new instance of ComponentsB3U7OaSchemasInvoicedataPropertiesSuppliervatAllof1. </summary>
-        internal ComponentsB3U7OaSchemasInvoicedataPropertiesSuppliervatAllof1()
+        public ComponentsB3U7OaSchemasInvoicedataPropertiesSuppliervatAllof1()
         {
         }
 
@@ -24,9 +24,9 @@ namespace Affinda.API.Models
             Parsed = parsed;
         }
 
-        /// <summary> Gets the raw. </summary>
-        public string Raw { get; }
-        /// <summary> Gets the parsed. </summary>
-        public string Parsed { get; }
+        /// <summary> Gets or sets the raw. </summary>
+        public string Raw { get; set; }
+        /// <summary> Gets or sets the parsed. </summary>
+        public string Parsed { get; set; }
     }
 }

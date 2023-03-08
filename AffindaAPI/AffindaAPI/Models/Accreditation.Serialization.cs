@@ -10,8 +10,19 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class Accreditation
+    public partial class Accreditation : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            if (Optional.IsDefined(Education))
+            {
+                writer.WritePropertyName("education");
+                writer.WriteStringValue(Education);
+            }
+            writer.WriteEndObject();
+        }
+
         internal static Accreditation DeserializeAccreditation(JsonElement element)
         {
             Optional<string> education = default;

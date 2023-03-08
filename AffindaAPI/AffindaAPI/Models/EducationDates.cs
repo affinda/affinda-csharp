@@ -13,7 +13,7 @@ namespace Affinda.API.Models
     public partial class EducationDates
     {
         /// <summary> Initializes a new instance of EducationDates. </summary>
-        internal EducationDates()
+        public EducationDates()
         {
         }
 
@@ -28,11 +28,11 @@ namespace Affinda.API.Models
             StartDate = startDate;
         }
 
-        /// <summary> Gets the completion date. </summary>
-        public DateTimeOffset? CompletionDate { get; }
-        /// <summary> Gets the is current. </summary>
-        public bool? IsCurrent { get; }
-        /// <summary> Gets the start date. </summary>
-        public DateTimeOffset? StartDate { get; }
+        /// <summary> Gets or sets the completion date. </summary>
+        public DateTimeOffset? CompletionDate { get; set; }
+        /// <summary> Gets or sets the is current. </summary>
+        public bool? IsCurrent { get; set; }
+        /// <summary> Gets or sets the start date. </summary>
+        public DateTimeOffset? StartDate { get; set; }
     }
 }

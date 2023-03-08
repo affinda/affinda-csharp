@@ -18,17 +18,15 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of ResthookSubscription. </summary>
         /// <param name="id"> Resthook subscription&apos;s ID. </param>
         /// <param name="event"> The event name to subscribe to. </param>
-        /// <param name="organization"></param>
         /// <param name="targetUrl"> URL of the resthook&apos;s receiver. </param>
         /// <param name="active"> Resthooks only fire for active subscriptions. </param>
         /// <param name="autoDeactivated"> Resthook subscriptions can be auto deactivated if the receiver continuously returns error status code over a period of time. </param>
         /// <param name="autoDeactivateReason"> The reason for the subscription being auto deactivated. May contains the error response that the receiver returned. </param>
         /// <param name="version"> Version of the resthook subscription. Determines the resthook body being fired. </param>
-        internal ResthookSubscription(int? id, ResthookEvent? @event, Organization organization, string targetUrl, bool? active, bool? autoDeactivated, string autoDeactivateReason, ResthookSubscriptionVersion? version)
+        internal ResthookSubscription(int? id, ResthookEvent? @event, string targetUrl, bool? active, bool? autoDeactivated, string autoDeactivateReason, ResthookSubscriptionVersion? version)
         {
             Id = id;
             Event = @event;
-            Organization = organization;
             TargetUrl = targetUrl;
             Active = active;
             AutoDeactivated = autoDeactivated;
@@ -40,8 +38,6 @@ namespace Affinda.API.Models
         public int? Id { get; }
         /// <summary> The event name to subscribe to. </summary>
         public ResthookEvent? Event { get; }
-        /// <summary> Gets the organization. </summary>
-        public Organization Organization { get; }
         /// <summary> URL of the resthook&apos;s receiver. </summary>
         public string TargetUrl { get; }
         /// <summary> Resthooks only fire for active subscriptions. </summary>

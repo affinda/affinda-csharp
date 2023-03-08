@@ -59,7 +59,7 @@ namespace Affinda.API.Models
         /// <param name="supplierWebsite"></param>
         /// <param name="currencyCode"></param>
         /// <param name="customFields"> Dictionary of &lt;any&gt;. </param>
-        internal InvoiceData(IReadOnlyList<InvoiceDataTablesItem> tables, DateAnnotationV2 invoiceDate, DateAnnotationV2 invoiceOrderDate, DateAnnotationV2 paymentDateDue, InvoiceDataPaymentAmountBase paymentAmountBase, InvoiceDataPaymentAmountTax paymentAmountTax, InvoiceDataPaymentAmountTotal paymentAmountTotal, InvoiceDataPaymentAmountPaid paymentAmountPaid, InvoiceDataPaymentAmountDue paymentAmountDue, InvoiceDataInvoiceNumber invoiceNumber, InvoiceDataInvoicePurchaseOrderNumber invoicePurchaseOrderNumber, InvoiceDataSupplierBusinessNumber supplierBusinessNumber, InvoiceDataCustomerNumber customerNumber, InvoiceDataCustomerBusinessNumber customerBusinessNumber, InvoiceDataPaymentReference paymentReference, InvoiceDataBankAccountNumber bankAccountNumber, InvoiceDataSupplierVat supplierVat, InvoiceDataCustomerVat customerVat, InvoiceDataBpayBillerCode bpayBillerCode, InvoiceDataBpayReference bpayReference, InvoiceDataBankSortCode bankSortCode, InvoiceDataBankIban bankIban, InvoiceDataBankSwift bankSwift, InvoiceDataBankBsb bankBsb, InvoiceDataCustomerContactName customerContactName, InvoiceDataCustomerCompanyName customerCompanyName, InvoiceDataSupplierCompanyName supplierCompanyName, LocationAnnotationV2 customerBillingAddress, LocationAnnotationV2 customerDeliveryAddress, LocationAnnotationV2 supplierAddress, InvoiceDataCustomerPhoneNumber customerPhoneNumber, InvoiceDataSupplierPhoneNumber supplierPhoneNumber, InvoiceDataSupplierFax supplierFax, InvoiceDataCustomerEmail customerEmail, InvoiceDataSupplierEmail supplierEmail, InvoiceDataSupplierWebsite supplierWebsite, TextAnnotationV2 currencyCode, IReadOnlyDictionary<string, object> customFields)
+        internal InvoiceData(IReadOnlyList<InvoiceDataTablesItem> tables, DateAnnotation invoiceDate, DateAnnotation invoiceOrderDate, DateAnnotation paymentDateDue, InvoiceDataPaymentAmountBase paymentAmountBase, InvoiceDataPaymentAmountTax paymentAmountTax, InvoiceDataPaymentAmountTotal paymentAmountTotal, InvoiceDataPaymentAmountPaid paymentAmountPaid, InvoiceDataPaymentAmountDue paymentAmountDue, InvoiceDataInvoiceNumber invoiceNumber, InvoiceDataInvoicePurchaseOrderNumber invoicePurchaseOrderNumber, InvoiceDataSupplierBusinessNumber supplierBusinessNumber, InvoiceDataCustomerNumber customerNumber, InvoiceDataCustomerBusinessNumber customerBusinessNumber, InvoiceDataPaymentReference paymentReference, InvoiceDataBankAccountNumber bankAccountNumber, InvoiceDataSupplierVat supplierVat, InvoiceDataCustomerVat customerVat, InvoiceDataBpayBillerCode bpayBillerCode, InvoiceDataBpayReference bpayReference, InvoiceDataBankSortCode bankSortCode, InvoiceDataBankIban bankIban, InvoiceDataBankSwift bankSwift, InvoiceDataBankBsb bankBsb, InvoiceDataCustomerContactName customerContactName, InvoiceDataCustomerCompanyName customerCompanyName, InvoiceDataSupplierCompanyName supplierCompanyName, LocationAnnotation customerBillingAddress, LocationAnnotation customerDeliveryAddress, LocationAnnotation supplierAddress, InvoiceDataCustomerPhoneNumber customerPhoneNumber, InvoiceDataSupplierPhoneNumber supplierPhoneNumber, InvoiceDataSupplierFax supplierFax, InvoiceDataCustomerEmail customerEmail, InvoiceDataSupplierEmail supplierEmail, InvoiceDataSupplierWebsite supplierWebsite, TextAnnotation currencyCode, IReadOnlyDictionary<string, object> customFields)
         {
             Tables = tables;
             InvoiceDate = invoiceDate;
@@ -104,11 +104,11 @@ namespace Affinda.API.Models
         /// <summary> Gets the tables. </summary>
         public IReadOnlyList<InvoiceDataTablesItem> Tables { get; }
         /// <summary> Gets the invoice date. </summary>
-        public DateAnnotationV2 InvoiceDate { get; }
+        public DateAnnotation InvoiceDate { get; }
         /// <summary> Gets the invoice order date. </summary>
-        public DateAnnotationV2 InvoiceOrderDate { get; }
+        public DateAnnotation InvoiceOrderDate { get; }
         /// <summary> Gets the payment date due. </summary>
-        public DateAnnotationV2 PaymentDateDue { get; }
+        public DateAnnotation PaymentDateDue { get; }
         /// <summary> Gets the payment amount base. </summary>
         public InvoiceDataPaymentAmountBase PaymentAmountBase { get; }
         /// <summary> Gets the payment amount tax. </summary>
@@ -156,11 +156,11 @@ namespace Affinda.API.Models
         /// <summary> Gets the supplier company name. </summary>
         public InvoiceDataSupplierCompanyName SupplierCompanyName { get; }
         /// <summary> Gets the customer billing address. </summary>
-        public LocationAnnotationV2 CustomerBillingAddress { get; }
+        public LocationAnnotation CustomerBillingAddress { get; }
         /// <summary> Gets the customer delivery address. </summary>
-        public LocationAnnotationV2 CustomerDeliveryAddress { get; }
+        public LocationAnnotation CustomerDeliveryAddress { get; }
         /// <summary> Gets the supplier address. </summary>
-        public LocationAnnotationV2 SupplierAddress { get; }
+        public LocationAnnotation SupplierAddress { get; }
         /// <summary> Gets the customer phone number. </summary>
         public InvoiceDataCustomerPhoneNumber CustomerPhoneNumber { get; }
         /// <summary> Gets the supplier phone number. </summary>
@@ -174,7 +174,7 @@ namespace Affinda.API.Models
         /// <summary> Gets the supplier website. </summary>
         public InvoiceDataSupplierWebsite SupplierWebsite { get; }
         /// <summary> Gets the currency code. </summary>
-        public TextAnnotationV2 CurrencyCode { get; }
+        public TextAnnotation CurrencyCode { get; }
         /// <summary> Dictionary of &lt;any&gt;. </summary>
         public IReadOnlyDictionary<string, object> CustomFields { get; }
     }

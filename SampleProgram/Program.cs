@@ -14,8 +14,8 @@ namespace AffindaAPISample
             {
                 var credential = new AffindaTokenCredential("REPLACE_TOKEN");
                 var client = new AffindaAPIClient(credential);
-                var document = client.CreateDocument(file: fs);
-                Console.WriteLine(JsonConvert.SerializeObject(document, Formatting.Indented));
+                var resume = client.CreateResume(file: fs);
+                Console.WriteLine(JsonConvert.SerializeObject(resume, Formatting.Indented));
             }
         }
     }

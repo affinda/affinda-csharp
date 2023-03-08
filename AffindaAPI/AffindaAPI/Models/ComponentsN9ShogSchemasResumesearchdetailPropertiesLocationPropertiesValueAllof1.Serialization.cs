@@ -10,8 +10,19 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class ComponentsN9ShogSchemasResumesearchdetailPropertiesLocationPropertiesValueAllof1
+    public partial class ComponentsN9ShogSchemasResumesearchdetailPropertiesLocationPropertiesValueAllof1 : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            if (Optional.IsDefined(Match))
+            {
+                writer.WritePropertyName("match");
+                writer.WriteBooleanValue(Match.Value);
+            }
+            writer.WriteEndObject();
+        }
+
         internal static ComponentsN9ShogSchemasResumesearchdetailPropertiesLocationPropertiesValueAllof1 DeserializeComponentsN9ShogSchemasResumesearchdetailPropertiesLocationPropertiesValueAllof1(JsonElement element)
         {
             Optional<bool> match = default;

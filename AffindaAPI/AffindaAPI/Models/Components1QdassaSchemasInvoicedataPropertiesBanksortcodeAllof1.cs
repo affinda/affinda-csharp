@@ -11,7 +11,7 @@ namespace Affinda.API.Models
     public partial class Components1QdassaSchemasInvoicedataPropertiesBanksortcodeAllof1
     {
         /// <summary> Initializes a new instance of Components1QdassaSchemasInvoicedataPropertiesBanksortcodeAllof1. </summary>
-        internal Components1QdassaSchemasInvoicedataPropertiesBanksortcodeAllof1()
+        public Components1QdassaSchemasInvoicedataPropertiesBanksortcodeAllof1()
         {
         }
 
@@ -24,9 +24,9 @@ namespace Affinda.API.Models
             Parsed = parsed;
         }
 
-        /// <summary> Gets the raw. </summary>
-        public string Raw { get; }
-        /// <summary> Gets the parsed. </summary>
-        public string Parsed { get; }
+        /// <summary> Gets or sets the raw. </summary>
+        public string Raw { get; set; }
+        /// <summary> Gets or sets the parsed. </summary>
+        public string Parsed { get; set; }
     }
 }

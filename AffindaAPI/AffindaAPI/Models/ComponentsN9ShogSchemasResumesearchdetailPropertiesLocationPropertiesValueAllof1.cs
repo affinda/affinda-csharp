@@ -11,7 +11,7 @@ namespace Affinda.API.Models
     public partial class ComponentsN9ShogSchemasResumesearchdetailPropertiesLocationPropertiesValueAllof1
     {
         /// <summary> Initializes a new instance of ComponentsN9ShogSchemasResumesearchdetailPropertiesLocationPropertiesValueAllof1. </summary>
-        internal ComponentsN9ShogSchemasResumesearchdetailPropertiesLocationPropertiesValueAllof1()
+        public ComponentsN9ShogSchemasResumesearchdetailPropertiesLocationPropertiesValueAllof1()
         {
         }
 
@@ -22,7 +22,7 @@ namespace Affinda.API.Models
             Match = match;
         }
 
-        /// <summary> Gets the match. </summary>
-        public bool? Match { get; }
+        /// <summary> Gets or sets the match. </summary>
+        public bool? Match { get; set; }
     }
 }

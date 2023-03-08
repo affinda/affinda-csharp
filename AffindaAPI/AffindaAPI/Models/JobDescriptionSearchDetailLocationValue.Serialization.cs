@@ -10,8 +10,21 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class JobDescriptionSearchDetailLocationValue
+    public partial class JobDescriptionSearchDetailLocationValue : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            if (Optional.IsDefined(Match))
+            {
+                writer.WritePropertyName("match");
+                writer.WriteBooleanValue(Match.Value);
+            }
+            writer.WritePropertyName("rawInput");
+            writer.WriteStringValue(RawInput);
+            writer.WriteEndObject();
+        }
+
         internal static JobDescriptionSearchDetailLocationValue DeserializeJobDescriptionSearchDetailLocationValue(JsonElement element)
         {
             Optional<bool> match = default;

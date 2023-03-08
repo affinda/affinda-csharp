@@ -16,9 +16,9 @@ namespace Affinda.API.Models
         internal static InvoiceData DeserializeInvoiceData(JsonElement element)
         {
             Optional<IReadOnlyList<InvoiceDataTablesItem>> tables = default;
-            Optional<DateAnnotationV2> invoiceDate = default;
-            Optional<DateAnnotationV2> invoiceOrderDate = default;
-            Optional<DateAnnotationV2> paymentDateDue = default;
+            Optional<DateAnnotation> invoiceDate = default;
+            Optional<DateAnnotation> invoiceOrderDate = default;
+            Optional<DateAnnotation> paymentDateDue = default;
             Optional<InvoiceDataPaymentAmountBase> paymentAmountBase = default;
             Optional<InvoiceDataPaymentAmountTax> paymentAmountTax = default;
             Optional<InvoiceDataPaymentAmountTotal> paymentAmountTotal = default;
@@ -42,16 +42,16 @@ namespace Affinda.API.Models
             Optional<InvoiceDataCustomerContactName> customerContactName = default;
             Optional<InvoiceDataCustomerCompanyName> customerCompanyName = default;
             Optional<InvoiceDataSupplierCompanyName> supplierCompanyName = default;
-            Optional<LocationAnnotationV2> customerBillingAddress = default;
-            Optional<LocationAnnotationV2> customerDeliveryAddress = default;
-            Optional<LocationAnnotationV2> supplierAddress = default;
+            Optional<LocationAnnotation> customerBillingAddress = default;
+            Optional<LocationAnnotation> customerDeliveryAddress = default;
+            Optional<LocationAnnotation> supplierAddress = default;
             Optional<InvoiceDataCustomerPhoneNumber> customerPhoneNumber = default;
             Optional<InvoiceDataSupplierPhoneNumber> supplierPhoneNumber = default;
             Optional<InvoiceDataSupplierFax> supplierFax = default;
             Optional<InvoiceDataCustomerEmail> customerEmail = default;
             Optional<InvoiceDataSupplierEmail> supplierEmail = default;
             Optional<InvoiceDataSupplierWebsite> supplierWebsite = default;
-            Optional<TextAnnotationV2> currencyCode = default;
+            Optional<TextAnnotation> currencyCode = default;
             Optional<IReadOnlyDictionary<string, object>> customFields = default;
             foreach (var property in element.EnumerateObject())
             {
@@ -77,7 +77,7 @@ namespace Affinda.API.Models
                         invoiceDate = null;
                         continue;
                     }
-                    invoiceDate = DateAnnotationV2.DeserializeDateAnnotationV2(property.Value);
+                    invoiceDate = DateAnnotation.DeserializeDateAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("invoiceOrderDate"))
@@ -87,7 +87,7 @@ namespace Affinda.API.Models
                         invoiceOrderDate = null;
                         continue;
                     }
-                    invoiceOrderDate = DateAnnotationV2.DeserializeDateAnnotationV2(property.Value);
+                    invoiceOrderDate = DateAnnotation.DeserializeDateAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("paymentDateDue"))
@@ -97,7 +97,7 @@ namespace Affinda.API.Models
                         paymentDateDue = null;
                         continue;
                     }
-                    paymentDateDue = DateAnnotationV2.DeserializeDateAnnotationV2(property.Value);
+                    paymentDateDue = DateAnnotation.DeserializeDateAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("paymentAmountBase"))
@@ -337,7 +337,7 @@ namespace Affinda.API.Models
                         customerBillingAddress = null;
                         continue;
                     }
-                    customerBillingAddress = LocationAnnotationV2.DeserializeLocationAnnotationV2(property.Value);
+                    customerBillingAddress = LocationAnnotation.DeserializeLocationAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("customerDeliveryAddress"))
@@ -347,7 +347,7 @@ namespace Affinda.API.Models
                         customerDeliveryAddress = null;
                         continue;
                     }
-                    customerDeliveryAddress = LocationAnnotationV2.DeserializeLocationAnnotationV2(property.Value);
+                    customerDeliveryAddress = LocationAnnotation.DeserializeLocationAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("supplierAddress"))
@@ -357,7 +357,7 @@ namespace Affinda.API.Models
                         supplierAddress = null;
                         continue;
                     }
-                    supplierAddress = LocationAnnotationV2.DeserializeLocationAnnotationV2(property.Value);
+                    supplierAddress = LocationAnnotation.DeserializeLocationAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("customerPhoneNumber"))
@@ -427,7 +427,7 @@ namespace Affinda.API.Models
                         currencyCode = null;
                         continue;
                     }
-                    currencyCode = TextAnnotationV2.DeserializeTextAnnotationV2(property.Value);
+                    currencyCode = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("customFields"))

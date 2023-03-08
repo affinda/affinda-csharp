@@ -20,11 +20,6 @@ namespace Affinda.API.Models
                 writer.WritePropertyName("event");
                 writer.WriteStringValue(Event.Value.ToString());
             }
-            if (Optional.IsDefined(Organization))
-            {
-                writer.WritePropertyName("organization");
-                writer.WriteStringValue(Organization);
-            }
             if (Optional.IsDefined(Version))
             {
                 writer.WritePropertyName("version");

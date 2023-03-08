@@ -10,8 +10,79 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class ResumeDataWorkExperienceItem
+    public partial class ResumeDataWorkExperienceItem : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            if (Optional.IsDefined(Id))
+            {
+                writer.WritePropertyName("id");
+                writer.WriteNumberValue(Id.Value);
+            }
+            if (Optional.IsDefined(JobTitle))
+            {
+                if (JobTitle != null)
+                {
+                    writer.WritePropertyName("jobTitle");
+                    writer.WriteStringValue(JobTitle);
+                }
+                else
+                {
+                    writer.WriteNull("jobTitle");
+                }
+            }
+            if (Optional.IsDefined(Organization))
+            {
+                if (Organization != null)
+                {
+                    writer.WritePropertyName("organization");
+                    writer.WriteStringValue(Organization);
+                }
+                else
+                {
+                    writer.WriteNull("organization");
+                }
+            }
+            if (Optional.IsDefined(Location))
+            {
+                if (Location != null)
+                {
+                    writer.WritePropertyName("location");
+                    writer.WriteObjectValue(Location);
+                }
+                else
+                {
+                    writer.WriteNull("location");
+                }
+            }
+            if (Optional.IsDefined(JobDescription))
+            {
+                if (JobDescription != null)
+                {
+                    writer.WritePropertyName("jobDescription");
+                    writer.WriteStringValue(JobDescription);
+                }
+                else
+                {
+                    writer.WriteNull("jobDescription");
+                }
+            }
+            if (Optional.IsDefined(Dates))
+            {
+                if (Dates != null)
+                {
+                    writer.WritePropertyName("dates");
+                    writer.WriteObjectValue(Dates);
+                }
+                else
+                {
+                    writer.WriteNull("dates");
+                }
+            }
+            writer.WriteEndObject();
+        }
+
         internal static ResumeDataWorkExperienceItem DeserializeResumeDataWorkExperienceItem(JsonElement element)
         {
             Optional<int> id = default;

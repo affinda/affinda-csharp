@@ -31,8 +31,6 @@ namespace Affinda.API.Models
         public string TargetUrl { get; }
         /// <summary> The event name to subscribe to. </summary>
         public ResthookEvent Event { get; }
-        /// <summary> Gets or sets the organization. </summary>
-        public string Organization { get; set; }
         /// <summary> Version of the resthook subscription. Determines the resthook body being fired. </summary>
         public Version? Version { get; set; }
     }

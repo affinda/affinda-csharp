@@ -11,7 +11,7 @@ using System.Collections.Generic;
 namespace Affinda.API.Models
 {
     /// <summary> The InvoiceDataCustomerVat. </summary>
-    public partial class InvoiceDataCustomerVat : TextAnnotationV2
+    public partial class InvoiceDataCustomerVat : TextAnnotation
     {
         /// <summary> Initializes a new instance of InvoiceDataCustomerVat. </summary>
         /// <param name="id"></param>
@@ -27,7 +27,7 @@ namespace Affinda.API.Models
         /// <param name="isAutoVerified"></param>
         /// <param name="contentType"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="contentType"/> is null. </exception>
-        internal InvoiceDataCustomerVat(int id, Rectangle rectangle, IEnumerable<Rectangle> rectangles, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool isClientVerified, bool isAutoVerified, string contentType) : base(id, rectangle, rectangles, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, contentType)
+        public InvoiceDataCustomerVat(int id, Rectangle rectangle, IEnumerable<Rectangle> rectangles, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool isClientVerified, bool isAutoVerified, string contentType) : base(id, rectangle, rectangles, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, contentType)
         {
             if (contentType == null)
             {
@@ -51,7 +51,7 @@ namespace Affinda.API.Models
         /// <param name="contentType"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
-        internal InvoiceDataCustomerVat(int id, Rectangle rectangle, IReadOnlyList<Rectangle> rectangles, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool isClientVerified, bool isAutoVerified, string dataPoint, string contentType, IReadOnlyDictionary<string, object> additionalProperties, string parsed) : base(id, rectangle, rectangles, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties, parsed)
+        internal InvoiceDataCustomerVat(int id, Rectangle rectangle, IList<Rectangle> rectangles, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool isClientVerified, bool isAutoVerified, string dataPoint, string contentType, IDictionary<string, object> additionalProperties, string parsed) : base(id, rectangle, rectangles, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties, parsed)
         {
         }
     }
