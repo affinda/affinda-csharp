@@ -91,9 +91,10 @@ namespace Affinda.API.Models
         /// <param name="sections"></param>
         /// <param name="isResumeProbability"> Probability that the given document is a resume. Values below 30 suggest that the document is not a resume. </param>
         /// <param name="rawText"> All of the raw text of the parsed resume, example is shortened for readability. </param>
+        /// <param name="redactedText"> Redacted version of the text in the resume, removing PII. </param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <returns> A new <see cref="Models.ResumeData"/> instance for mocking. </returns>
-        public static ResumeData ResumeData(ResumeDataName name = null, IEnumerable<string> phoneNumbers = null, IEnumerable<string> websites = null, IEnumerable<string> emails = null, string dateOfBirth = null, Location location = null, string objective = null, IEnumerable<string> languages = null, IEnumerable<string> languageCodes = null, string summary = null, int? totalYearsExperience = null, byte[] headShot = null, IEnumerable<Education> education = null, string profession = null, string linkedin = null, IEnumerable<ResumeDataWorkExperienceItem> workExperience = null, IEnumerable<ResumeDataSkillsItem> skills = null, IEnumerable<string> certifications = null, IEnumerable<string> publications = null, IEnumerable<ResumeDataRefereesItem> referees = null, IEnumerable<ResumeDataSectionsItem> sections = null, int? isResumeProbability = null, string rawText = null, IDictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties> additionalProperties = null)
+        public static ResumeData ResumeData(ResumeDataName name = null, IEnumerable<string> phoneNumbers = null, IEnumerable<string> websites = null, IEnumerable<string> emails = null, string dateOfBirth = null, Location location = null, string objective = null, IEnumerable<string> languages = null, IEnumerable<string> languageCodes = null, string summary = null, int? totalYearsExperience = null, byte[] headShot = null, IEnumerable<Education> education = null, string profession = null, string linkedin = null, IEnumerable<ResumeDataWorkExperienceItem> workExperience = null, IEnumerable<ResumeDataSkillsItem> skills = null, IEnumerable<string> certifications = null, IEnumerable<string> publications = null, IEnumerable<ResumeDataRefereesItem> referees = null, IEnumerable<ResumeDataSectionsItem> sections = null, int? isResumeProbability = null, string rawText = null, string redactedText = null, IDictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties> additionalProperties = null)
         {
             phoneNumbers ??= new List<string>();
             websites ??= new List<string>();
@@ -109,7 +110,7 @@ namespace Affinda.API.Models
             sections ??= new List<ResumeDataSectionsItem>();
             additionalProperties ??= new Dictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties>();
 
-            return new ResumeData(name, phoneNumbers?.ToList(), websites?.ToList(), emails?.ToList(), dateOfBirth, location, objective, languages?.ToList(), languageCodes?.ToList(), summary, totalYearsExperience, headShot, education?.ToList(), profession, linkedin, workExperience?.ToList(), skills?.ToList(), certifications?.ToList(), publications?.ToList(), referees?.ToList(), sections?.ToList(), isResumeProbability, rawText, additionalProperties);
+            return new ResumeData(name, phoneNumbers?.ToList(), websites?.ToList(), emails?.ToList(), dateOfBirth, location, objective, languages?.ToList(), languageCodes?.ToList(), summary, totalYearsExperience, headShot, education?.ToList(), profession, linkedin, workExperience?.ToList(), skills?.ToList(), certifications?.ToList(), publications?.ToList(), referees?.ToList(), sections?.ToList(), isResumeProbability, rawText, redactedText, additionalProperties);
         }
 
         /// <summary> Initializes a new instance of Location. </summary>
@@ -834,45 +835,48 @@ namespace Affinda.API.Models
         /// <param name="missing"></param>
         /// <param name="value"></param>
         /// <returns> A new <see cref="Models.JobDescriptionSearchDetailOccupationGroup"/> instance for mocking. </returns>
-        public static JobDescriptionSearchDetailOccupationGroup JobDescriptionSearchDetailOccupationGroup(IEnumerable<int> missing = null, IEnumerable<JobDescriptionSearchDetailOccupationGroupValueItem> value = null)
+        public static JobDescriptionSearchDetailOccupationGroup JobDescriptionSearchDetailOccupationGroup(IEnumerable<int> missing = null, JobDescriptionSearchDetailOccupationGroupValue value = null)
         {
             missing ??= new List<int>();
-            value ??= new List<JobDescriptionSearchDetailOccupationGroupValueItem>();
 
-            return new JobDescriptionSearchDetailOccupationGroup(missing?.ToList(), value?.ToList());
+            return new JobDescriptionSearchDetailOccupationGroup(missing?.ToList(), value);
         }
 
-        /// <summary> Initializes a new instance of JobDescriptionSearchDetailOccupationGroupValueItem. </summary>
+        /// <summary> Initializes a new instance of JobDescriptionSearchDetailOccupationGroupValue. </summary>
         /// <param name="code"></param>
         /// <param name="name"></param>
         /// <param name="children"></param>
+        /// <param name="parents"></param>
         /// <param name="match"></param>
-        /// <returns> A new <see cref="Models.JobDescriptionSearchDetailOccupationGroupValueItem"/> instance for mocking. </returns>
-        public static JobDescriptionSearchDetailOccupationGroupValueItem JobDescriptionSearchDetailOccupationGroupValueItem(int code = default, string name = null, IEnumerable<OccupationGroup> children = null, bool? match = null)
+        /// <returns> A new <see cref="Models.JobDescriptionSearchDetailOccupationGroupValue"/> instance for mocking. </returns>
+        public static JobDescriptionSearchDetailOccupationGroupValue JobDescriptionSearchDetailOccupationGroupValue(int code = default, string name = null, IEnumerable<OccupationGroup> children = null, IEnumerable<OccupationGroup> parents = null, bool? match = null)
         {
             children ??= new List<OccupationGroup>();
+            parents ??= new List<OccupationGroup>();
 
-            return new JobDescriptionSearchDetailOccupationGroupValueItem(code, name, children?.ToList(), match);
+            return new JobDescriptionSearchDetailOccupationGroupValue(code, name, children?.ToList(), parents?.ToList(), match);
         }
 
         /// <summary> Initializes a new instance of OccupationGroup. </summary>
         /// <param name="code"></param>
         /// <param name="name"></param>
         /// <param name="children"></param>
+        /// <param name="parents"></param>
         /// <returns> A new <see cref="Models.OccupationGroup"/> instance for mocking. </returns>
-        public static OccupationGroup OccupationGroup(int code = default, string name = null, IEnumerable<OccupationGroup> children = null)
+        public static OccupationGroup OccupationGroup(int code = default, string name = null, IEnumerable<OccupationGroup> children = null, IEnumerable<OccupationGroup> parents = null)
         {
             children ??= new List<OccupationGroup>();
+            parents ??= new List<OccupationGroup>();
 
-            return new OccupationGroup(code, name, children?.ToList());
+            return new OccupationGroup(code, name, children?.ToList(), parents?.ToList());
         }
 
-        /// <summary> Initializes a new instance of Components1Bq3Q31SchemasJobdescriptionsearchdetailPropertiesOccupationgroupPropertiesValueItemsAllof1. </summary>
+        /// <summary> Initializes a new instance of ComponentsRe6GnoSchemasJobdescriptionsearchdetailPropertiesOccupationgroupPropertiesValueAllof1. </summary>
         /// <param name="match"></param>
-        /// <returns> A new <see cref="Models.Components1Bq3Q31SchemasJobdescriptionsearchdetailPropertiesOccupationgroupPropertiesValueItemsAllof1"/> instance for mocking. </returns>
-        public static Components1Bq3Q31SchemasJobdescriptionsearchdetailPropertiesOccupationgroupPropertiesValueItemsAllof1 Components1Bq3Q31SchemasJobdescriptionsearchdetailPropertiesOccupationgroupPropertiesValueItemsAllof1(bool? match = null)
+        /// <returns> A new <see cref="Models.ComponentsRe6GnoSchemasJobdescriptionsearchdetailPropertiesOccupationgroupPropertiesValueAllof1"/> instance for mocking. </returns>
+        public static ComponentsRe6GnoSchemasJobdescriptionsearchdetailPropertiesOccupationgroupPropertiesValueAllof1 ComponentsRe6GnoSchemasJobdescriptionsearchdetailPropertiesOccupationgroupPropertiesValueAllof1(bool? match = null)
         {
-            return new Components1Bq3Q31SchemasJobdescriptionsearchdetailPropertiesOccupationgroupPropertiesValueItemsAllof1(match);
+            return new ComponentsRe6GnoSchemasJobdescriptionsearchdetailPropertiesOccupationgroupPropertiesValueAllof1(match);
         }
 
         /// <summary> Initializes a new instance of JobDescriptionSearchDetailLanguages. </summary>
@@ -1158,33 +1162,27 @@ namespace Affinda.API.Models
         /// <param name="missing"></param>
         /// <param name="value"></param>
         /// <returns> A new <see cref="Models.ResumeSearchDetailOccupationGroup"/> instance for mocking. </returns>
-        public static ResumeSearchDetailOccupationGroup ResumeSearchDetailOccupationGroup(IEnumerable<int> missing = null, IEnumerable<ResumeSearchDetailOccupationGroupValueItem> value = null)
+        public static ResumeSearchDetailOccupationGroup ResumeSearchDetailOccupationGroup(IEnumerable<int> missing = null, IEnumerable<OccupationGroupSearchResult> value = null)
         {
             missing ??= new List<int>();
-            value ??= new List<ResumeSearchDetailOccupationGroupValueItem>();
+            value ??= new List<OccupationGroupSearchResult>();
 
             return new ResumeSearchDetailOccupationGroup(missing?.ToList(), value?.ToList());
         }
 
-        /// <summary> Initializes a new instance of ResumeSearchDetailOccupationGroupValueItem. </summary>
+        /// <summary> Initializes a new instance of OccupationGroupSearchResult. </summary>
+        /// <param name="match"></param>
         /// <param name="code"></param>
         /// <param name="name"></param>
         /// <param name="children"></param>
-        /// <param name="match"></param>
-        /// <returns> A new <see cref="Models.ResumeSearchDetailOccupationGroupValueItem"/> instance for mocking. </returns>
-        public static ResumeSearchDetailOccupationGroupValueItem ResumeSearchDetailOccupationGroupValueItem(int code = default, string name = null, IEnumerable<OccupationGroup> children = null, bool? match = null)
+        /// <param name="parents"></param>
+        /// <returns> A new <see cref="Models.OccupationGroupSearchResult"/> instance for mocking. </returns>
+        public static OccupationGroupSearchResult OccupationGroupSearchResult(bool? match = null, int code = default, string name = null, IEnumerable<OccupationGroup> children = null, IEnumerable<OccupationGroup> parents = null)
         {
             children ??= new List<OccupationGroup>();
+            parents ??= new List<OccupationGroup>();
 
-            return new ResumeSearchDetailOccupationGroupValueItem(code, name, children?.ToList(), match);
-        }
-
-        /// <summary> Initializes a new instance of ComponentsK7P1F5SchemasResumesearchdetailPropertiesOccupationgroupPropertiesValueItemsAllof1. </summary>
-        /// <param name="match"></param>
-        /// <returns> A new <see cref="Models.ComponentsK7P1F5SchemasResumesearchdetailPropertiesOccupationgroupPropertiesValueItemsAllof1"/> instance for mocking. </returns>
-        public static ComponentsK7P1F5SchemasResumesearchdetailPropertiesOccupationgroupPropertiesValueItemsAllof1 ComponentsK7P1F5SchemasResumesearchdetailPropertiesOccupationgroupPropertiesValueItemsAllof1(bool? match = null)
-        {
-            return new ComponentsK7P1F5SchemasResumesearchdetailPropertiesOccupationgroupPropertiesValueItemsAllof1(match);
+            return new OccupationGroupSearchResult(match, code, name, children?.ToList(), parents?.ToList());
         }
 
         /// <summary> Initializes a new instance of ResumeSearchDetailLanguages. </summary>

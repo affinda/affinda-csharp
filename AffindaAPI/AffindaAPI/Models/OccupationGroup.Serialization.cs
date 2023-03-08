@@ -18,6 +18,7 @@ namespace Affinda.API.Models
             int code = default;
             string name = default;
             IReadOnlyList<OccupationGroup> children = default;
+            Optional<IReadOnlyList<OccupationGroup>> parents = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("code"))
@@ -40,8 +41,23 @@ namespace Affinda.API.Models
                     children = array;
                     continue;
                 }
+                if (property.NameEquals("parents"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    List<OccupationGroup> array = new List<OccupationGroup>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(DeserializeOccupationGroup(item));
+                    }
+                    parents = array;
+                    continue;
+                }
             }
-            return new OccupationGroup(code, name, children);
+            return new OccupationGroup(code, name, children, Optional.ToList(parents));
         }
     }
 }

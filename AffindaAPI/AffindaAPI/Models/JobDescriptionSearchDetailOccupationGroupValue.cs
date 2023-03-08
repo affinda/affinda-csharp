@@ -10,15 +10,15 @@ using System.Collections.Generic;
 
 namespace Affinda.API.Models
 {
-    /// <summary> The ResumeSearchDetailOccupationGroupValueItem. </summary>
-    public partial class ResumeSearchDetailOccupationGroupValueItem : OccupationGroup
+    /// <summary> The JobDescriptionSearchDetailOccupationGroupValue. </summary>
+    public partial class JobDescriptionSearchDetailOccupationGroupValue : OccupationGroup
     {
-        /// <summary> Initializes a new instance of ResumeSearchDetailOccupationGroupValueItem. </summary>
+        /// <summary> Initializes a new instance of JobDescriptionSearchDetailOccupationGroupValue. </summary>
         /// <param name="code"></param>
         /// <param name="name"></param>
         /// <param name="children"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="name"/> or <paramref name="children"/> is null. </exception>
-        internal ResumeSearchDetailOccupationGroupValueItem(int code, string name, IEnumerable<OccupationGroup> children) : base(code, name, children)
+        internal JobDescriptionSearchDetailOccupationGroupValue(int code, string name, IEnumerable<OccupationGroup> children) : base(code, name, children)
         {
             if (name == null)
             {
@@ -30,12 +30,13 @@ namespace Affinda.API.Models
             }
         }
 
-        /// <summary> Initializes a new instance of ResumeSearchDetailOccupationGroupValueItem. </summary>
+        /// <summary> Initializes a new instance of JobDescriptionSearchDetailOccupationGroupValue. </summary>
         /// <param name="code"></param>
         /// <param name="name"></param>
         /// <param name="children"></param>
+        /// <param name="parents"></param>
         /// <param name="match"></param>
-        internal ResumeSearchDetailOccupationGroupValueItem(int code, string name, IReadOnlyList<OccupationGroup> children, bool? match) : base(code, name, children)
+        internal JobDescriptionSearchDetailOccupationGroupValue(int code, string name, IReadOnlyList<OccupationGroup> children, IReadOnlyList<OccupationGroup> parents, bool? match) : base(code, name, children, parents)
         {
             Match = match;
         }

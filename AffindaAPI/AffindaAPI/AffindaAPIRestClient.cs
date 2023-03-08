@@ -3301,10 +3301,16 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary> Create a resthook subscriptions. </summary>
+        /// <summary> Create a resthook subscription. </summary>
         /// <param name="body"> The ResthookSubscriptionCreate to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        /// <remarks>
+        /// After a subscription is sucessfully created, we&apos;ll send a POST request to your target URL with a `X-Hook-Secret` header.
+        /// You need to response to this request with a 200 status code to confirm your subscribe intention.
+        /// Then, you need to use the `X-Hook-Secret` to activate the subscription using the [/resthook_subscriptions/activate](#post-/v3/resthook_subscriptions/activate) endpoint.
+        /// For more information, see our help article here - [How do I create a webhook?](https://help.affinda.com/hc/en-au/articles/11474095148569-How-do-I-create-a-webhook)
+        /// </remarks>
         public async Task<Response<ResthookSubscription>> CreateResthookSubscriptionAsync(ResthookSubscriptionCreate body, CancellationToken cancellationToken = default)
         {
             if (body == null)
@@ -3328,10 +3334,16 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Create a resthook subscriptions. </summary>
+        /// <summary> Create a resthook subscription. </summary>
         /// <param name="body"> The ResthookSubscriptionCreate to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        /// <remarks>
+        /// After a subscription is sucessfully created, we&apos;ll send a POST request to your target URL with a `X-Hook-Secret` header.
+        /// You need to response to this request with a 200 status code to confirm your subscribe intention.
+        /// Then, you need to use the `X-Hook-Secret` to activate the subscription using the [/resthook_subscriptions/activate](#post-/v3/resthook_subscriptions/activate) endpoint.
+        /// For more information, see our help article here - [How do I create a webhook?](https://help.affinda.com/hc/en-au/articles/11474095148569-How-do-I-create-a-webhook)
+        /// </remarks>
         public Response<ResthookSubscription> CreateResthookSubscription(ResthookSubscriptionCreate body, CancellationToken cancellationToken = default)
         {
             if (body == null)
@@ -3538,6 +3550,84 @@ namespace Affinda.API
             {
                 case 204:
                     return message.Response;
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateActivateResthookSubscriptionRequest(string xHookSecret)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v2/resthook_subscriptions/activate", false);
+            request.Uri = uri;
+            request.Headers.Add("X-Hook-Secret", xHookSecret);
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Activate a resthook subscription. </summary>
+        /// <param name="xHookSecret"> The secret received when creating a subscription. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="xHookSecret"/> is null. </exception>
+        /// <remarks>
+        /// After creating a subscription, we&apos;ll send a POST request to your target URL with a `X-Hook-Secret` header.
+        /// You should response to this with a 200 status code, and use the value of the `X-Hook-Secret` header that you received to activate the subscription using this endpoint.
+        /// </remarks>
+        public async Task<Response<ResthookSubscription>> ActivateResthookSubscriptionAsync(string xHookSecret, CancellationToken cancellationToken = default)
+        {
+            if (xHookSecret == null)
+            {
+                throw new ArgumentNullException(nameof(xHookSecret));
+            }
+
+            using var message = CreateActivateResthookSubscriptionRequest(xHookSecret);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ResthookSubscription value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = ResthookSubscription.DeserializeResthookSubscription(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Activate a resthook subscription. </summary>
+        /// <param name="xHookSecret"> The secret received when creating a subscription. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="xHookSecret"/> is null. </exception>
+        /// <remarks>
+        /// After creating a subscription, we&apos;ll send a POST request to your target URL with a `X-Hook-Secret` header.
+        /// You should response to this with a 200 status code, and use the value of the `X-Hook-Secret` header that you received to activate the subscription using this endpoint.
+        /// </remarks>
+        public Response<ResthookSubscription> ActivateResthookSubscription(string xHookSecret, CancellationToken cancellationToken = default)
+        {
+            if (xHookSecret == null)
+            {
+                throw new ArgumentNullException(nameof(xHookSecret));
+            }
+
+            using var message = CreateActivateResthookSubscriptionRequest(xHookSecret);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ResthookSubscription value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = ResthookSubscription.DeserializeResthookSubscription(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
                 default:
                     throw ClientDiagnostics.CreateRequestFailedException(message.Response);
             }

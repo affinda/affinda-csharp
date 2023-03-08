@@ -11,14 +11,15 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class ResumeSearchDetailOccupationGroupValueItem
+    public partial class JobDescriptionSearchDetailOccupationGroupValue
     {
-        internal static ResumeSearchDetailOccupationGroupValueItem DeserializeResumeSearchDetailOccupationGroupValueItem(JsonElement element)
+        internal static JobDescriptionSearchDetailOccupationGroupValue DeserializeJobDescriptionSearchDetailOccupationGroupValue(JsonElement element)
         {
             Optional<bool> match = default;
             int code = default;
             string name = default;
             IReadOnlyList<OccupationGroup> children = default;
+            Optional<IReadOnlyList<OccupationGroup>> parents = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("match"))
@@ -51,8 +52,23 @@ namespace Affinda.API.Models
                     children = array;
                     continue;
                 }
+                if (property.NameEquals("parents"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    List<OccupationGroup> array = new List<OccupationGroup>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(DeserializeOccupationGroup(item));
+                    }
+                    parents = array;
+                    continue;
+                }
             }
-            return new ResumeSearchDetailOccupationGroupValueItem(code, name, children, Optional.ToNullable(match));
+            return new JobDescriptionSearchDetailOccupationGroupValue(code, name, children, Optional.ToList(parents), Optional.ToNullable(match));
         }
     }
 }

@@ -11,14 +11,15 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class JobDescriptionSearchDetailOccupationGroupValueItem
+    public partial class OccupationGroupSearchResult
     {
-        internal static JobDescriptionSearchDetailOccupationGroupValueItem DeserializeJobDescriptionSearchDetailOccupationGroupValueItem(JsonElement element)
+        internal static OccupationGroupSearchResult DeserializeOccupationGroupSearchResult(JsonElement element)
         {
             Optional<bool> match = default;
             int code = default;
             string name = default;
             IReadOnlyList<OccupationGroup> children = default;
+            Optional<IReadOnlyList<OccupationGroup>> parents = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("match"))
@@ -46,13 +47,28 @@ namespace Affinda.API.Models
                     List<OccupationGroup> array = new List<OccupationGroup>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(DeserializeOccupationGroup(item));
+                        array.Add(OccupationGroup.DeserializeOccupationGroup(item));
                     }
                     children = array;
                     continue;
                 }
+                if (property.NameEquals("parents"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    List<OccupationGroup> array = new List<OccupationGroup>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(OccupationGroup.DeserializeOccupationGroup(item));
+                    }
+                    parents = array;
+                    continue;
+                }
             }
-            return new JobDescriptionSearchDetailOccupationGroupValueItem(code, name, children, Optional.ToNullable(match));
+            return new OccupationGroupSearchResult(Optional.ToNullable(match), code, name, children, Optional.ToList(parents));
         }
     }
 }

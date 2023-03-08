@@ -1738,9 +1738,15 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Create a resthook subscriptions. </summary>
+        /// <summary> Create a resthook subscription. </summary>
         /// <param name="body"> The ResthookSubscriptionCreate to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks>
+        /// After a subscription is sucessfully created, we&apos;ll send a POST request to your target URL with a `X-Hook-Secret` header.
+        /// You need to response to this request with a 200 status code to confirm your subscribe intention.
+        /// Then, you need to use the `X-Hook-Secret` to activate the subscription using the [/resthook_subscriptions/activate](#post-/v3/resthook_subscriptions/activate) endpoint.
+        /// For more information, see our help article here - [How do I create a webhook?](https://help.affinda.com/hc/en-au/articles/11474095148569-How-do-I-create-a-webhook)
+        /// </remarks>
         public virtual async Task<Response<ResthookSubscription>> CreateResthookSubscriptionAsync(ResthookSubscriptionCreate body, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateResthookSubscription");
@@ -1756,9 +1762,15 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Create a resthook subscriptions. </summary>
+        /// <summary> Create a resthook subscription. </summary>
         /// <param name="body"> The ResthookSubscriptionCreate to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks>
+        /// After a subscription is sucessfully created, we&apos;ll send a POST request to your target URL with a `X-Hook-Secret` header.
+        /// You need to response to this request with a 200 status code to confirm your subscribe intention.
+        /// Then, you need to use the `X-Hook-Secret` to activate the subscription using the [/resthook_subscriptions/activate](#post-/v3/resthook_subscriptions/activate) endpoint.
+        /// For more information, see our help article here - [How do I create a webhook?](https://help.affinda.com/hc/en-au/articles/11474095148569-How-do-I-create-a-webhook)
+        /// </remarks>
         public virtual Response<ResthookSubscription> CreateResthookSubscription(ResthookSubscriptionCreate body, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateResthookSubscription");
@@ -1882,6 +1894,50 @@ namespace Affinda.API
             try
             {
                 return RestClient.DeleteResthookSubscription(id, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Activate a resthook subscription. </summary>
+        /// <param name="xHookSecret"> The secret received when creating a subscription. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks>
+        /// After creating a subscription, we&apos;ll send a POST request to your target URL with a `X-Hook-Secret` header.
+        /// You should response to this with a 200 status code, and use the value of the `X-Hook-Secret` header that you received to activate the subscription using this endpoint.
+        /// </remarks>
+        public virtual async Task<Response<ResthookSubscription>> ActivateResthookSubscriptionAsync(string xHookSecret, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.ActivateResthookSubscription");
+            scope.Start();
+            try
+            {
+                return await RestClient.ActivateResthookSubscriptionAsync(xHookSecret, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Activate a resthook subscription. </summary>
+        /// <param name="xHookSecret"> The secret received when creating a subscription. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks>
+        /// After creating a subscription, we&apos;ll send a POST request to your target URL with a `X-Hook-Secret` header.
+        /// You should response to this with a 200 status code, and use the value of the `X-Hook-Secret` header that you received to activate the subscription using this endpoint.
+        /// </remarks>
+        public virtual Response<ResthookSubscription> ActivateResthookSubscription(string xHookSecret, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.ActivateResthookSubscription");
+            scope.Start();
+            try
+            {
+                return RestClient.ActivateResthookSubscription(xHookSecret, cancellationToken);
             }
             catch (Exception e)
             {

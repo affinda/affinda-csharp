@@ -10,9 +10,9 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class ComponentsK7P1F5SchemasResumesearchdetailPropertiesOccupationgroupPropertiesValueItemsAllof1
+    public partial class ComponentsRe6GnoSchemasJobdescriptionsearchdetailPropertiesOccupationgroupPropertiesValueAllof1
     {
-        internal static ComponentsK7P1F5SchemasResumesearchdetailPropertiesOccupationgroupPropertiesValueItemsAllof1 DeserializeComponentsK7P1F5SchemasResumesearchdetailPropertiesOccupationgroupPropertiesValueItemsAllof1(JsonElement element)
+        internal static ComponentsRe6GnoSchemasJobdescriptionsearchdetailPropertiesOccupationgroupPropertiesValueAllof1 DeserializeComponentsRe6GnoSchemasJobdescriptionsearchdetailPropertiesOccupationgroupPropertiesValueAllof1(JsonElement element)
         {
             Optional<bool> match = default;
             foreach (var property in element.EnumerateObject())
@@ -28,7 +28,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new ComponentsK7P1F5SchemasResumesearchdetailPropertiesOccupationgroupPropertiesValueItemsAllof1(Optional.ToNullable(match));
+            return new ComponentsRe6GnoSchemasJobdescriptionsearchdetailPropertiesOccupationgroupPropertiesValueAllof1(Optional.ToNullable(match));
         }
     }
 }

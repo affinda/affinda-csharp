@@ -12,15 +12,15 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    /// <summary> The OccupationGroup. </summary>
-    public partial class OccupationGroup
+    /// <summary> The OccupationGroupSearchResult. </summary>
+    public partial class OccupationGroupSearchResult
     {
-        /// <summary> Initializes a new instance of OccupationGroup. </summary>
+        /// <summary> Initializes a new instance of OccupationGroupSearchResult. </summary>
         /// <param name="code"></param>
         /// <param name="name"></param>
         /// <param name="children"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="name"/> or <paramref name="children"/> is null. </exception>
-        internal OccupationGroup(int code, string name, IEnumerable<OccupationGroup> children)
+        internal OccupationGroupSearchResult(int code, string name, IEnumerable<OccupationGroup> children)
         {
             if (name == null)
             {
@@ -37,19 +37,23 @@ namespace Affinda.API.Models
             Parents = new ChangeTrackingList<OccupationGroup>();
         }
 
-        /// <summary> Initializes a new instance of OccupationGroup. </summary>
+        /// <summary> Initializes a new instance of OccupationGroupSearchResult. </summary>
+        /// <param name="match"></param>
         /// <param name="code"></param>
         /// <param name="name"></param>
         /// <param name="children"></param>
         /// <param name="parents"></param>
-        internal OccupationGroup(int code, string name, IReadOnlyList<OccupationGroup> children, IReadOnlyList<OccupationGroup> parents)
+        internal OccupationGroupSearchResult(bool? match, int code, string name, IReadOnlyList<OccupationGroup> children, IReadOnlyList<OccupationGroup> parents)
         {
+            Match = match;
             Code = code;
             Name = name;
             Children = children;
             Parents = parents;
         }
 
+        /// <summary> Gets the match. </summary>
+        public bool? Match { get; }
         /// <summary> Gets the code. </summary>
         public int Code { get; }
         /// <summary> Gets the name. </summary>
