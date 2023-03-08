@@ -15,7 +15,7 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of Document. </summary>
         /// <param name="meta"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="meta"/> is null. </exception>
-        internal Document(DocumentMeta meta)
+        public Document(DocumentMeta meta)
         {
             if (meta == null)
             {
@@ -29,7 +29,7 @@ namespace Affinda.API.Models
         /// <param name="extractor"></param>
         /// <param name="meta"></param>
         /// <param name="error"></param>
-        internal Document(string extractor, DocumentMeta meta, Error error)
+        internal Document(string extractor, DocumentMeta meta, DocumentError error)
         {
             Extractor = extractor;
             Meta = meta;
@@ -38,9 +38,9 @@ namespace Affinda.API.Models
 
         /// <summary> Gets or sets the extractor. </summary>
         internal string Extractor { get; set; }
-        /// <summary> Gets the meta. </summary>
-        public DocumentMeta Meta { get; }
-        /// <summary> Gets the error. </summary>
-        public Error Error { get; }
+        /// <summary> Gets or sets the meta. </summary>
+        public DocumentMeta Meta { get; set; }
+        /// <summary> Gets or sets the error. </summary>
+        public DocumentError Error { get; set; }
     }
 }

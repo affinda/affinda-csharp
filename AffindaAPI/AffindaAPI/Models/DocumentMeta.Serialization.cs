@@ -12,8 +12,284 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class DocumentMeta
+    public partial class DocumentMeta : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            writer.WritePropertyName("identifier");
+            writer.WriteStringValue(Identifier);
+            if (Optional.IsDefined(FileName))
+            {
+                if (FileName != null)
+                {
+                    writer.WritePropertyName("fileName");
+                    writer.WriteStringValue(FileName);
+                }
+                else
+                {
+                    writer.WriteNull("fileName");
+                }
+            }
+            if (Optional.IsDefined(Ready))
+            {
+                writer.WritePropertyName("ready");
+                writer.WriteBooleanValue(Ready.Value);
+            }
+            if (Optional.IsDefined(ReadyDt))
+            {
+                if (ReadyDt != null)
+                {
+                    writer.WritePropertyName("readyDt");
+                    writer.WriteStringValue(ReadyDt.Value, "O");
+                }
+                else
+                {
+                    writer.WriteNull("readyDt");
+                }
+            }
+            if (Optional.IsDefined(Failed))
+            {
+                writer.WritePropertyName("failed");
+                writer.WriteBooleanValue(Failed.Value);
+            }
+            if (Optional.IsDefined(ExpiryTime))
+            {
+                if (ExpiryTime != null)
+                {
+                    writer.WritePropertyName("expiryTime");
+                    writer.WriteStringValue(ExpiryTime);
+                }
+                else
+                {
+                    writer.WriteNull("expiryTime");
+                }
+            }
+            if (Optional.IsDefined(Language))
+            {
+                if (Language != null)
+                {
+                    writer.WritePropertyName("language");
+                    writer.WriteStringValue(Language);
+                }
+                else
+                {
+                    writer.WriteNull("language");
+                }
+            }
+            if (Optional.IsDefined(Pdf))
+            {
+                if (Pdf != null)
+                {
+                    writer.WritePropertyName("pdf");
+                    writer.WriteStringValue(Pdf);
+                }
+                else
+                {
+                    writer.WriteNull("pdf");
+                }
+            }
+            if (Optional.IsDefined(ParentDocument))
+            {
+                if (ParentDocument != null)
+                {
+                    writer.WritePropertyName("parentDocument");
+                    writer.WriteObjectValue(ParentDocument);
+                }
+                else
+                {
+                    writer.WriteNull("parentDocument");
+                }
+            }
+            if (Optional.IsCollectionDefined(ChildDocuments))
+            {
+                writer.WritePropertyName("childDocuments");
+                writer.WriteStartArray();
+                foreach (var item in ChildDocuments)
+                {
+                    writer.WriteObjectValue(item);
+                }
+                writer.WriteEndArray();
+            }
+            writer.WritePropertyName("pages");
+            writer.WriteStartArray();
+            foreach (var item in Pages)
+            {
+                writer.WriteObjectValue(item);
+            }
+            writer.WriteEndArray();
+            if (Optional.IsDefined(IsOcrd))
+            {
+                writer.WritePropertyName("isOcrd");
+                writer.WriteBooleanValue(IsOcrd.Value);
+            }
+            if (Optional.IsDefined(OcrConfidence))
+            {
+                if (OcrConfidence != null)
+                {
+                    writer.WritePropertyName("ocrConfidence");
+                    writer.WriteNumberValue(OcrConfidence.Value);
+                }
+                else
+                {
+                    writer.WriteNull("ocrConfidence");
+                }
+            }
+            if (Optional.IsDefined(ReviewUrl))
+            {
+                if (ReviewUrl != null)
+                {
+                    writer.WritePropertyName("reviewUrl");
+                    writer.WriteStringValue(ReviewUrl);
+                }
+                else
+                {
+                    writer.WriteNull("reviewUrl");
+                }
+            }
+            if (Optional.IsDefined(Collection))
+            {
+                if (Collection != null)
+                {
+                    writer.WritePropertyName("collection");
+                    writer.WriteObjectValue(Collection);
+                }
+                else
+                {
+                    writer.WriteNull("collection");
+                }
+            }
+            writer.WritePropertyName("workspace");
+            writer.WriteObjectValue(Workspace);
+            if (Optional.IsDefined(ArchivedDt))
+            {
+                if (ArchivedDt != null)
+                {
+                    writer.WritePropertyName("archivedDt");
+                    writer.WriteStringValue(ArchivedDt.Value, "O");
+                }
+                else
+                {
+                    writer.WriteNull("archivedDt");
+                }
+            }
+            if (Optional.IsDefined(IsArchived))
+            {
+                writer.WritePropertyName("isArchived");
+                writer.WriteBooleanValue(IsArchived.Value);
+            }
+            if (Optional.IsDefined(ConfirmedDt))
+            {
+                if (ConfirmedDt != null)
+                {
+                    writer.WritePropertyName("confirmedDt");
+                    writer.WriteStringValue(ConfirmedDt.Value, "O");
+                }
+                else
+                {
+                    writer.WriteNull("confirmedDt");
+                }
+            }
+            if (Optional.IsDefined(IsConfirmed))
+            {
+                writer.WritePropertyName("isConfirmed");
+                writer.WriteBooleanValue(IsConfirmed.Value);
+            }
+            if (Optional.IsDefined(RejectedDt))
+            {
+                if (RejectedDt != null)
+                {
+                    writer.WritePropertyName("rejectedDt");
+                    writer.WriteStringValue(RejectedDt.Value, "O");
+                }
+                else
+                {
+                    writer.WriteNull("rejectedDt");
+                }
+            }
+            if (Optional.IsDefined(IsRejected))
+            {
+                writer.WritePropertyName("isRejected");
+                writer.WriteBooleanValue(IsRejected.Value);
+            }
+            if (Optional.IsDefined(CreatedDt))
+            {
+                writer.WritePropertyName("createdDt");
+                writer.WriteStringValue(CreatedDt.Value, "O");
+            }
+            if (Optional.IsDefined(ErrorCode))
+            {
+                if (ErrorCode != null)
+                {
+                    writer.WritePropertyName("errorCode");
+                    writer.WriteStringValue(ErrorCode);
+                }
+                else
+                {
+                    writer.WriteNull("errorCode");
+                }
+            }
+            if (Optional.IsDefined(ErrorDetail))
+            {
+                if (ErrorDetail != null)
+                {
+                    writer.WritePropertyName("errorDetail");
+                    writer.WriteStringValue(ErrorDetail);
+                }
+                else
+                {
+                    writer.WriteNull("errorDetail");
+                }
+            }
+            if (Optional.IsDefined(File))
+            {
+                if (File != null)
+                {
+                    writer.WritePropertyName("file");
+                    writer.WriteStringValue(File);
+                }
+                else
+                {
+                    writer.WriteNull("file");
+                }
+            }
+            if (Optional.IsCollectionDefined(Tags))
+            {
+                writer.WritePropertyName("tags");
+                writer.WriteStartArray();
+                foreach (var item in Tags)
+                {
+                    writer.WriteObjectValue(item);
+                }
+                writer.WriteEndArray();
+            }
+            if (Optional.IsDefined(ConfirmedBy))
+            {
+                if (ConfirmedBy != null)
+                {
+                    writer.WritePropertyName("confirmedBy");
+                    writer.WriteObjectValue(ConfirmedBy);
+                }
+                else
+                {
+                    writer.WriteNull("confirmedBy");
+                }
+            }
+            if (Optional.IsDefined(SourceEmail))
+            {
+                if (SourceEmail != null)
+                {
+                    writer.WritePropertyName("sourceEmail");
+                    writer.WriteStringValue(SourceEmail);
+                }
+                else
+                {
+                    writer.WriteNull("sourceEmail");
+                }
+            }
+            writer.WriteEndObject();
+        }
+
         internal static DocumentMeta DeserializeDocumentMeta(JsonElement element)
         {
             string identifier = default;
@@ -25,8 +301,8 @@ namespace Affinda.API.Models
             Optional<string> language = default;
             Optional<string> pdf = default;
             Optional<DocumentMetaParentDocument> parentDocument = default;
-            Optional<IReadOnlyList<DocumentMetaChildDocumentsItem>> childDocuments = default;
-            IReadOnlyList<PageMeta> pages = default;
+            Optional<IList<DocumentMetaChildDocumentsItem>> childDocuments = default;
+            IList<PageMeta> pages = default;
             Optional<bool> isOcrd = default;
             Optional<float?> ocrConfidence = default;
             Optional<string> reviewUrl = default;
@@ -42,8 +318,9 @@ namespace Affinda.API.Models
             Optional<string> errorCode = default;
             Optional<string> errorDetail = default;
             Optional<string> file = default;
-            Optional<IReadOnlyList<Tag>> tags = default;
+            Optional<IList<Tag>> tags = default;
             Optional<UserNullable> confirmedBy = default;
+            Optional<string> sourceEmail = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("identifier"))
@@ -326,8 +603,18 @@ namespace Affinda.API.Models
                     confirmedBy = UserNullable.DeserializeUserNullable(property.Value);
                     continue;
                 }
+                if (property.NameEquals("sourceEmail"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        sourceEmail = null;
+                        continue;
+                    }
+                    sourceEmail = property.Value.GetString();
+                    continue;
+                }
             }
-            return new DocumentMeta(identifier, fileName.Value, Optional.ToNullable(ready), Optional.ToNullable(readyDt), Optional.ToNullable(failed), expiryTime.Value, language.Value, pdf.Value, parentDocument.Value, Optional.ToList(childDocuments), pages, Optional.ToNullable(isOcrd), Optional.ToNullable(ocrConfidence), reviewUrl.Value, collection.Value, workspace, Optional.ToNullable(archivedDt), Optional.ToNullable(isArchived), Optional.ToNullable(confirmedDt), Optional.ToNullable(isConfirmed), Optional.ToNullable(rejectedDt), Optional.ToNullable(isRejected), Optional.ToNullable(createdDt), errorCode.Value, errorDetail.Value, file.Value, Optional.ToList(tags), confirmedBy.Value);
+            return new DocumentMeta(identifier, fileName.Value, Optional.ToNullable(ready), Optional.ToNullable(readyDt), Optional.ToNullable(failed), expiryTime.Value, language.Value, pdf.Value, parentDocument.Value, Optional.ToList(childDocuments), pages, Optional.ToNullable(isOcrd), Optional.ToNullable(ocrConfidence), reviewUrl.Value, collection.Value, workspace, Optional.ToNullable(archivedDt), Optional.ToNullable(isArchived), Optional.ToNullable(confirmedDt), Optional.ToNullable(isConfirmed), Optional.ToNullable(rejectedDt), Optional.ToNullable(isRejected), Optional.ToNullable(createdDt), errorCode.Value, errorDetail.Value, file.Value, Optional.ToList(tags), confirmedBy.Value, sourceEmail.Value);
         }
     }
 }

@@ -10,22 +10,37 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class Document
+    public partial class Document : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            writer.WritePropertyName("extractor");
+            writer.WriteStringValue(Extractor);
+            writer.WritePropertyName("meta");
+            writer.WriteObjectValue(Meta);
+            if (Optional.IsDefined(Error))
+            {
+                writer.WritePropertyName("error");
+                writer.WriteObjectValue(Error);
+            }
+            writer.WriteEndObject();
+        }
+
         internal static Document DeserializeDocument(JsonElement element)
         {
             if (element.TryGetProperty("extractor", out JsonElement discriminator))
             {
                 switch (discriminator.GetString())
                 {
-                    case "invoice": return InvoiceDocument.DeserializeInvoiceDocument(element);
-                    case "job-description": return JobDescriptionDocument.DeserializeJobDescriptionDocument(element);
-                    case "resume": return ResumeDocument.DeserializeResumeDocument(element);
+                    case "invoice": return Invoice.DeserializeInvoice(element);
+                    case "job-description": return JobDescription.DeserializeJobDescription(element);
+                    case "resume": return Resume.DeserializeResume(element);
                 }
             }
             string extractor = default;
             DocumentMeta meta = default;
-            Optional<Error> error = default;
+            Optional<DocumentError> error = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("extractor"))
@@ -45,7 +60,7 @@ namespace Affinda.API.Models
                         property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    error = Error.DeserializeError(property.Value);
+                    error = DocumentError.DeserializeDocumentError(property.Value);
                     continue;
                 }
             }

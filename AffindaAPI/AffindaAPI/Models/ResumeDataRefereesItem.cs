@@ -14,7 +14,7 @@ namespace Affinda.API.Models
     public partial class ResumeDataRefereesItem
     {
         /// <summary> Initializes a new instance of ResumeDataRefereesItem. </summary>
-        internal ResumeDataRefereesItem()
+        public ResumeDataRefereesItem()
         {
             AdditionalProperties = new ChangeTrackingDictionary<string, object>();
         }
@@ -26,7 +26,7 @@ namespace Affinda.API.Models
         /// <param name="number"></param>
         /// <param name="position"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
-        internal ResumeDataRefereesItem(string name, string text, string email, string number, string position, IReadOnlyDictionary<string, object> additionalProperties)
+        internal ResumeDataRefereesItem(string name, string text, string email, string number, string position, IDictionary<string, object> additionalProperties)
         {
             Name = name;
             Text = text;
@@ -36,17 +36,17 @@ namespace Affinda.API.Models
             AdditionalProperties = additionalProperties;
         }
 
-        /// <summary> Gets the name. </summary>
-        public string Name { get; }
-        /// <summary> Gets the text. </summary>
-        public string Text { get; }
-        /// <summary> Gets the email. </summary>
-        public string Email { get; }
-        /// <summary> Gets the number. </summary>
-        public string Number { get; }
-        /// <summary> Gets the position. </summary>
-        public string Position { get; }
+        /// <summary> Gets or sets the name. </summary>
+        public string Name { get; set; }
+        /// <summary> Gets or sets the text. </summary>
+        public string Text { get; set; }
+        /// <summary> Gets or sets the email. </summary>
+        public string Email { get; set; }
+        /// <summary> Gets or sets the number. </summary>
+        public string Number { get; set; }
+        /// <summary> Gets or sets the position. </summary>
+        public string Position { get; set; }
         /// <summary> Additional Properties. </summary>
-        public IReadOnlyDictionary<string, object> AdditionalProperties { get; }
+        public IDictionary<string, object> AdditionalProperties { get; }
     }
 }

@@ -10,8 +10,22 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class Tag
+    public partial class Tag : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            writer.WritePropertyName("id");
+            writer.WriteNumberValue(Id);
+            writer.WritePropertyName("name");
+            writer.WriteStringValue(Name);
+            writer.WritePropertyName("workspace");
+            writer.WriteStringValue(Workspace);
+            writer.WritePropertyName("documentCount");
+            writer.WriteNumberValue(DocumentCount);
+            writer.WriteEndObject();
+        }
+
         internal static Tag DeserializeTag(JsonElement element)
         {
             int id = default;

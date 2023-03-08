@@ -54,6 +54,11 @@ namespace Affinda.API.Models
                 writer.WritePropertyName("isRejected");
                 writer.WriteBooleanValue(IsRejected.Value);
             }
+            if (Optional.IsDefined(IsArchived))
+            {
+                writer.WritePropertyName("isArchived");
+                writer.WriteBooleanValue(IsArchived.Value);
+            }
             if (Optional.IsDefined(Language))
             {
                 if (Language != null)

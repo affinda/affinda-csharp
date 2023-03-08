@@ -16,7 +16,7 @@ namespace Affinda.API.Models
         internal static JobDescriptionSearchDetailOccupationGroup DeserializeJobDescriptionSearchDetailOccupationGroup(JsonElement element)
         {
             Optional<IReadOnlyList<int>> missing = default;
-            Optional<IReadOnlyList<JobDescriptionSearchDetailOccupationGroupValueItem>> value = default;
+            Optional<JobDescriptionSearchDetailOccupationGroupValue> value = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("missing"))
@@ -41,16 +41,11 @@ namespace Affinda.API.Models
                         value = null;
                         continue;
                     }
-                    List<JobDescriptionSearchDetailOccupationGroupValueItem> array = new List<JobDescriptionSearchDetailOccupationGroupValueItem>();
-                    foreach (var item in property.Value.EnumerateArray())
-                    {
-                        array.Add(JobDescriptionSearchDetailOccupationGroupValueItem.DeserializeJobDescriptionSearchDetailOccupationGroupValueItem(item));
-                    }
-                    value = array;
+                    value = JobDescriptionSearchDetailOccupationGroupValue.DeserializeJobDescriptionSearchDetailOccupationGroupValue(property.Value);
                     continue;
                 }
             }
-            return new JobDescriptionSearchDetailOccupationGroup(Optional.ToList(missing), Optional.ToList(value));
+            return new JobDescriptionSearchDetailOccupationGroup(Optional.ToList(missing), value.Value);
         }
     }
 }

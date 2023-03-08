@@ -11,7 +11,7 @@ namespace Affinda.API.Models
     public partial class UserNullable
     {
         /// <summary> Initializes a new instance of UserNullable. </summary>
-        internal UserNullable()
+        public UserNullable()
         {
         }
 
@@ -31,14 +31,14 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Uniquely identify a user. </summary>
-        public int? Id { get; }
-        /// <summary> Gets the name. </summary>
-        public string Name { get; }
-        /// <summary> Gets the username. </summary>
-        public string Username { get; }
-        /// <summary> Gets the email. </summary>
-        public string Email { get; }
+        public int? Id { get; set; }
+        /// <summary> Gets or sets the name. </summary>
+        public string Name { get; set; }
+        /// <summary> Gets or sets the username. </summary>
+        public string Username { get; set; }
+        /// <summary> Gets or sets the email. </summary>
+        public string Email { get; set; }
         /// <summary> URL of the user&apos;s avatar. </summary>
-        public string Avatar { get; }
+        public string Avatar { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace Affinda.API.Models
     public partial class RowAnnotation
     {
         /// <summary> Initializes a new instance of RowAnnotation. </summary>
-        internal RowAnnotation()
+        public RowAnnotation()
         {
             CustomFields = new ChangeTrackingDictionary<string, object>();
         }
@@ -33,7 +33,7 @@ namespace Affinda.API.Models
         /// <param name="total"></param>
         /// <param name="other"></param>
         /// <param name="customFields"> Dictionary of &lt;any&gt;. </param>
-        internal RowAnnotation(string code, string date, string description, string unit, float? unitPrice, float? quantity, string discount, float? baseTotal, string taxRate, float? taxTotal, float? total, string other, IReadOnlyDictionary<string, object> customFields)
+        internal RowAnnotation(string code, string date, string description, string unit, float? unitPrice, float? quantity, string discount, float? baseTotal, string taxRate, float? taxTotal, float? total, string other, IDictionary<string, object> customFields)
         {
             Code = code;
             Date = date;
@@ -50,31 +50,31 @@ namespace Affinda.API.Models
             CustomFields = customFields;
         }
 
-        /// <summary> Gets the code. </summary>
-        public string Code { get; }
-        /// <summary> Gets the date. </summary>
-        public string Date { get; }
-        /// <summary> Gets the description. </summary>
-        public string Description { get; }
-        /// <summary> Gets the unit. </summary>
-        public string Unit { get; }
-        /// <summary> Gets the unit price. </summary>
-        public float? UnitPrice { get; }
-        /// <summary> Gets the quantity. </summary>
-        public float? Quantity { get; }
-        /// <summary> Gets the discount. </summary>
-        public string Discount { get; }
-        /// <summary> Gets the base total. </summary>
-        public float? BaseTotal { get; }
-        /// <summary> Gets the tax rate. </summary>
-        public string TaxRate { get; }
-        /// <summary> Gets the tax total. </summary>
-        public float? TaxTotal { get; }
-        /// <summary> Gets the total. </summary>
-        public float? Total { get; }
-        /// <summary> Gets the other. </summary>
-        public string Other { get; }
+        /// <summary> Gets or sets the code. </summary>
+        public string Code { get; set; }
+        /// <summary> Gets or sets the date. </summary>
+        public string Date { get; set; }
+        /// <summary> Gets or sets the description. </summary>
+        public string Description { get; set; }
+        /// <summary> Gets or sets the unit. </summary>
+        public string Unit { get; set; }
+        /// <summary> Gets or sets the unit price. </summary>
+        public float? UnitPrice { get; set; }
+        /// <summary> Gets or sets the quantity. </summary>
+        public float? Quantity { get; set; }
+        /// <summary> Gets or sets the discount. </summary>
+        public string Discount { get; set; }
+        /// <summary> Gets or sets the base total. </summary>
+        public float? BaseTotal { get; set; }
+        /// <summary> Gets or sets the tax rate. </summary>
+        public string TaxRate { get; set; }
+        /// <summary> Gets or sets the tax total. </summary>
+        public float? TaxTotal { get; set; }
+        /// <summary> Gets or sets the total. </summary>
+        public float? Total { get; set; }
+        /// <summary> Gets or sets the other. </summary>
+        public string Other { get; set; }
         /// <summary> Dictionary of &lt;any&gt;. </summary>
-        public IReadOnlyDictionary<string, object> CustomFields { get; }
+        public IDictionary<string, object> CustomFields { get; }
     }
 }

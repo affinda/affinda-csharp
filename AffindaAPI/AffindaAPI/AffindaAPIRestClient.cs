@@ -4844,7 +4844,7 @@ namespace Affinda.API
         /// <param name="inReview"> Exclude documents that are currently being reviewed. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the document summaries for that user, limited to 300 per page. </remarks>
-        public async Task<Response<GetAllDocumentsResults>> GetAllDocumentsAsync(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, CancellationToken cancellationToken = default)
+        public async Task<Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema>> GetAllDocumentsAsync(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, CancellationToken cancellationToken = default)
         {
             using var message = CreateGetAllDocumentsRequest(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
@@ -4852,9 +4852,9 @@ namespace Affinda.API
             {
                 case 200:
                     {
-                        GetAllDocumentsResults value = default;
+                        PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = GetAllDocumentsResults.DeserializeGetAllDocumentsResults(document.RootElement);
+                        value = PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema.DeserializePathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -4877,7 +4877,7 @@ namespace Affinda.API
         /// <param name="inReview"> Exclude documents that are currently being reviewed. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the document summaries for that user, limited to 300 per page. </remarks>
-        public Response<GetAllDocumentsResults> GetAllDocuments(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, CancellationToken cancellationToken = default)
+        public Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema> GetAllDocuments(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, CancellationToken cancellationToken = default)
         {
             using var message = CreateGetAllDocumentsRequest(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview);
             _pipeline.Send(message, cancellationToken);
@@ -4885,9 +4885,9 @@ namespace Affinda.API
             {
                 case 200:
                     {
-                        GetAllDocumentsResults value = default;
+                        PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = GetAllDocumentsResults.DeserializeGetAllDocumentsResults(document.RootElement);
+                        value = PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema.DeserializePathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -4895,7 +4895,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateCreateDocumentRequest(Stream file, string url, string collection, string workspace, string wait, string identifier, string fileName, string expiryTime, string language)
+        internal HttpMessage CreateCreateDocumentRequest(Stream file, string url, string collection, string workspace, string wait, string identifier, string fileName, string expiryTime, string language, string rejectDuplicates)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -4945,13 +4945,17 @@ namespace Affinda.API
             {
                 content.Add(new StringRequestContent(language), "language", null);
             }
+            if (rejectDuplicates != null)
+            {
+                content.Add(new StringRequestContent(rejectDuplicates), "rejectDuplicates", null);
+            }
             content.ApplyToRequest(request);
             return message;
         }
 
         /// <summary> Upload a document for parsing. </summary>
         /// <param name="file"> The Stream to use. </param>
-        /// <param name="url"> The String to use. </param>
+        /// <param name="url"> URL to download the document. </param>
         /// <param name="collection"> The String to use. </param>
         /// <param name="workspace"> The String to use. </param>
         /// <param name="wait"> The String to use. </param>
@@ -4959,13 +4963,14 @@ namespace Affinda.API
         /// <param name="fileName"> The String to use. </param>
         /// <param name="expiryTime"> The String to use. </param>
         /// <param name="language"> The String to use. </param>
+        /// <param name="rejectDuplicates"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
-        /// Uploads a document for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/documents/{identifier}](#get-/documents/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
+        /// Uploads a document for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/documents/{identifier}](#get-/v3/documents/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
         /// </remarks>
-        public async Task<Response<Document>> CreateDocumentAsync(Stream file = null, string url = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string fileName = null, string expiryTime = null, string language = null, CancellationToken cancellationToken = default)
+        public async Task<Response<Document>> CreateDocumentAsync(Stream file = null, string url = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateDocumentRequest(file, url, collection, workspace, wait, identifier, fileName, expiryTime, language);
+            using var message = CreateCreateDocumentRequest(file, url, collection, workspace, wait, identifier, fileName, expiryTime, language, rejectDuplicates);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -4984,7 +4989,7 @@ namespace Affinda.API
 
         /// <summary> Upload a document for parsing. </summary>
         /// <param name="file"> The Stream to use. </param>
-        /// <param name="url"> The String to use. </param>
+        /// <param name="url"> URL to download the document. </param>
         /// <param name="collection"> The String to use. </param>
         /// <param name="workspace"> The String to use. </param>
         /// <param name="wait"> The String to use. </param>
@@ -4992,13 +4997,14 @@ namespace Affinda.API
         /// <param name="fileName"> The String to use. </param>
         /// <param name="expiryTime"> The String to use. </param>
         /// <param name="language"> The String to use. </param>
+        /// <param name="rejectDuplicates"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
-        /// Uploads a document for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/documents/{identifier}](#get-/documents/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
+        /// Uploads a document for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/documents/{identifier}](#get-/v3/documents/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
         /// </remarks>
-        public Response<Document> CreateDocument(Stream file = null, string url = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string fileName = null, string expiryTime = null, string language = null, CancellationToken cancellationToken = default)
+        public Response<Document> CreateDocument(Stream file = null, string url = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateDocumentRequest(file, url, collection, workspace, wait, identifier, fileName, expiryTime, language);
+            using var message = CreateCreateDocumentRequest(file, url, collection, workspace, wait, identifier, fileName, expiryTime, language, rejectDuplicates);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -5015,7 +5021,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetDocumentRequest(string identifier)
+        internal HttpMessage CreateGetDocumentRequest(string identifier, DocumentFormat? format)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -5026,6 +5032,10 @@ namespace Affinda.API
             uri.AppendRaw(".affinda.com", false);
             uri.AppendPath("/v3/documents/", false);
             uri.AppendPath(identifier, true);
+            if (format != null)
+            {
+                uri.AppendQuery("format", format.Value.ToString(), true);
+            }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -5033,17 +5043,18 @@ namespace Affinda.API
 
         /// <summary> Get specific document. </summary>
         /// <param name="identifier"> Document&apos;s identifier. </param>
+        /// <param name="format"> Specify which format you want the response to be. Default is &quot;json&quot;. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
         /// <remarks> Return a specific document. </remarks>
-        public async Task<Response<Document>> GetDocumentAsync(string identifier, CancellationToken cancellationToken = default)
+        public async Task<Response<Document>> GetDocumentAsync(string identifier, DocumentFormat? format = null, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
             {
                 throw new ArgumentNullException(nameof(identifier));
             }
 
-            using var message = CreateGetDocumentRequest(identifier);
+            using var message = CreateGetDocumentRequest(identifier, format);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -5061,17 +5072,18 @@ namespace Affinda.API
 
         /// <summary> Get specific document. </summary>
         /// <param name="identifier"> Document&apos;s identifier. </param>
+        /// <param name="format"> Specify which format you want the response to be. Default is &quot;json&quot;. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
         /// <remarks> Return a specific document. </remarks>
-        public Response<Document> GetDocument(string identifier, CancellationToken cancellationToken = default)
+        public Response<Document> GetDocument(string identifier, DocumentFormat? format = null, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
             {
                 throw new ArgumentNullException(nameof(identifier));
             }
 
-            using var message = CreateGetDocumentRequest(identifier);
+            using var message = CreateGetDocumentRequest(identifier, format);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -5669,10 +5681,16 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary> Create a resthook subscriptions. </summary>
+        /// <summary> Create a resthook subscription. </summary>
         /// <param name="body"> The ResthookSubscriptionCreate to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        /// <remarks>
+        /// After a subscription is sucessfully created, we&apos;ll send a POST request to your target URL with a `X-Hook-Secret` header.
+        /// You need to response to this request with a 200 status code to confirm your subscribe intention.
+        /// Then, you need to use the `X-Hook-Secret` to activate the subscription using the [/resthook_subscriptions/activate](#post-/v3/resthook_subscriptions/activate) endpoint.
+        /// For more information, see our help article here - [How do I create a webhook?](https://help.affinda.com/hc/en-au/articles/11474095148569-How-do-I-create-a-webhook)
+        /// </remarks>
         public async Task<Response<ResthookSubscription>> CreateResthookSubscriptionAsync(ResthookSubscriptionCreate body, CancellationToken cancellationToken = default)
         {
             if (body == null)
@@ -5696,10 +5714,16 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Create a resthook subscriptions. </summary>
+        /// <summary> Create a resthook subscription. </summary>
         /// <param name="body"> The ResthookSubscriptionCreate to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        /// <remarks>
+        /// After a subscription is sucessfully created, we&apos;ll send a POST request to your target URL with a `X-Hook-Secret` header.
+        /// You need to response to this request with a 200 status code to confirm your subscribe intention.
+        /// Then, you need to use the `X-Hook-Secret` to activate the subscription using the [/resthook_subscriptions/activate](#post-/v3/resthook_subscriptions/activate) endpoint.
+        /// For more information, see our help article here - [How do I create a webhook?](https://help.affinda.com/hc/en-au/articles/11474095148569-How-do-I-create-a-webhook)
+        /// </remarks>
         public Response<ResthookSubscription> CreateResthookSubscription(ResthookSubscriptionCreate body, CancellationToken cancellationToken = default)
         {
             if (body == null)
@@ -5906,6 +5930,84 @@ namespace Affinda.API
             {
                 case 204:
                     return message.Response;
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateActivateResthookSubscriptionRequest(string xHookSecret)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/resthook_subscriptions/activate", false);
+            request.Uri = uri;
+            request.Headers.Add("X-Hook-Secret", xHookSecret);
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Activate a resthook subscription. </summary>
+        /// <param name="xHookSecret"> The secret received when creating a subscription. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="xHookSecret"/> is null. </exception>
+        /// <remarks>
+        /// After creating a subscription, we&apos;ll send a POST request to your target URL with a `X-Hook-Secret` header.
+        /// You should response to this with a 200 status code, and use the value of the `X-Hook-Secret` header that you received to activate the subscription using this endpoint.
+        /// </remarks>
+        public async Task<Response<ResthookSubscription>> ActivateResthookSubscriptionAsync(string xHookSecret, CancellationToken cancellationToken = default)
+        {
+            if (xHookSecret == null)
+            {
+                throw new ArgumentNullException(nameof(xHookSecret));
+            }
+
+            using var message = CreateActivateResthookSubscriptionRequest(xHookSecret);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ResthookSubscription value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = ResthookSubscription.DeserializeResthookSubscription(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Activate a resthook subscription. </summary>
+        /// <param name="xHookSecret"> The secret received when creating a subscription. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="xHookSecret"/> is null. </exception>
+        /// <remarks>
+        /// After creating a subscription, we&apos;ll send a POST request to your target URL with a `X-Hook-Secret` header.
+        /// You should response to this with a 200 status code, and use the value of the `X-Hook-Secret` header that you received to activate the subscription using this endpoint.
+        /// </remarks>
+        public Response<ResthookSubscription> ActivateResthookSubscription(string xHookSecret, CancellationToken cancellationToken = default)
+        {
+            if (xHookSecret == null)
+            {
+                throw new ArgumentNullException(nameof(xHookSecret));
+            }
+
+            using var message = CreateActivateResthookSubscriptionRequest(xHookSecret);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ResthookSubscription value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = ResthookSubscription.DeserializeResthookSubscription(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
                 default:
                     throw ClientDiagnostics.CreateRequestFailedException(message.Response);
             }

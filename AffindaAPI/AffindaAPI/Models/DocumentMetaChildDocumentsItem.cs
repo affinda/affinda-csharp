@@ -11,7 +11,7 @@ namespace Affinda.API.Models
     public partial class DocumentMetaChildDocumentsItem
     {
         /// <summary> Initializes a new instance of DocumentMetaChildDocumentsItem. </summary>
-        internal DocumentMetaChildDocumentsItem()
+        public DocumentMetaChildDocumentsItem()
         {
         }
 
@@ -23,6 +23,6 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Uniquely identify a document. </summary>
-        public string Identifier { get; }
+        public string Identifier { get; set; }
     }
 }

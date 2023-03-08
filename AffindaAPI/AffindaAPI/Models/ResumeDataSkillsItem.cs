@@ -14,7 +14,7 @@ namespace Affinda.API.Models
     public partial class ResumeDataSkillsItem
     {
         /// <summary> Initializes a new instance of ResumeDataSkillsItem. </summary>
-        internal ResumeDataSkillsItem()
+        public ResumeDataSkillsItem()
         {
             Sources = new ChangeTrackingList<ResumeDataSkillsPropertiesItemsItem>();
         }
@@ -42,16 +42,16 @@ namespace Affinda.API.Models
             Sources = sources;
         }
 
-        /// <summary> Gets the id. </summary>
-        public int? Id { get; }
+        /// <summary> Gets or sets the id. </summary>
+        public int? Id { get; set; }
         /// <summary> EMSI id of this skill. </summary>
         public string EmsiId { get; }
-        /// <summary> Gets the name. </summary>
-        public string Name { get; }
-        /// <summary> Gets the last used. </summary>
-        public string LastUsed { get; }
-        /// <summary> Gets the number of months. </summary>
-        public int? NumberOfMonths { get; }
+        /// <summary> Gets or sets the name. </summary>
+        public string Name { get; set; }
+        /// <summary> Gets or sets the last used. </summary>
+        public string LastUsed { get; set; }
+        /// <summary> Gets or sets the number of months. </summary>
+        public int? NumberOfMonths { get; set; }
         /// <summary> Gets the type. </summary>
         public string Type { get; }
         /// <summary> Gets the count. </summary>

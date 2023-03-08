@@ -37,6 +37,11 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("description"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        description = null;
+                        continue;
+                    }
                     description = property.Value.GetString();
                     continue;
                 }

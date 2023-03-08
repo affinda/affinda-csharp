@@ -11,8 +11,48 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class ResumeDataSkillsItem
+    public partial class ResumeDataSkillsItem : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            if (Optional.IsDefined(Id))
+            {
+                writer.WritePropertyName("id");
+                writer.WriteNumberValue(Id.Value);
+            }
+            if (Optional.IsDefined(Name))
+            {
+                writer.WritePropertyName("name");
+                writer.WriteStringValue(Name);
+            }
+            if (Optional.IsDefined(LastUsed))
+            {
+                if (LastUsed != null)
+                {
+                    writer.WritePropertyName("lastUsed");
+                    writer.WriteStringValue(LastUsed);
+                }
+                else
+                {
+                    writer.WriteNull("lastUsed");
+                }
+            }
+            if (Optional.IsDefined(NumberOfMonths))
+            {
+                if (NumberOfMonths != null)
+                {
+                    writer.WritePropertyName("numberOfMonths");
+                    writer.WriteNumberValue(NumberOfMonths.Value);
+                }
+                else
+                {
+                    writer.WriteNull("numberOfMonths");
+                }
+            }
+            writer.WriteEndObject();
+        }
+
         internal static ResumeDataSkillsItem DeserializeResumeDataSkillsItem(JsonElement element)
         {
             Optional<int> id = default;

@@ -14,7 +14,7 @@ namespace Affinda.API.Models
     public partial class EducationGrade
     {
         /// <summary> Initializes a new instance of EducationGrade. </summary>
-        internal EducationGrade()
+        public EducationGrade()
         {
             AdditionalProperties = new ChangeTrackingDictionary<string, object>();
         }
@@ -24,7 +24,7 @@ namespace Affinda.API.Models
         /// <param name="metric"></param>
         /// <param name="value"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
-        internal EducationGrade(string raw, string metric, string value, IReadOnlyDictionary<string, object> additionalProperties)
+        internal EducationGrade(string raw, string metric, string value, IDictionary<string, object> additionalProperties)
         {
             Raw = raw;
             Metric = metric;
@@ -32,13 +32,13 @@ namespace Affinda.API.Models
             AdditionalProperties = additionalProperties;
         }
 
-        /// <summary> Gets the raw. </summary>
-        public string Raw { get; }
-        /// <summary> Gets the metric. </summary>
-        public string Metric { get; }
-        /// <summary> Gets the value. </summary>
-        public string Value { get; }
+        /// <summary> Gets or sets the raw. </summary>
+        public string Raw { get; set; }
+        /// <summary> Gets or sets the metric. </summary>
+        public string Metric { get; set; }
+        /// <summary> Gets or sets the value. </summary>
+        public string Value { get; set; }
         /// <summary> Additional Properties. </summary>
-        public IReadOnlyDictionary<string, object> AdditionalProperties { get; }
+        public IDictionary<string, object> AdditionalProperties { get; }
     }
 }

@@ -11,7 +11,7 @@ namespace Affinda.API.Models
     public partial class DocumentMetaParentDocument
     {
         /// <summary> Initializes a new instance of DocumentMetaParentDocument. </summary>
-        internal DocumentMetaParentDocument()
+        public DocumentMetaParentDocument()
         {
         }
 
@@ -23,6 +23,6 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Uniquely identify a document. </summary>
-        public string Identifier { get; }
+        public string Identifier { get; set; }
     }
 }

@@ -10,8 +10,21 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class DocumentMetaWorkspace
+    public partial class DocumentMetaWorkspace : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            writer.WritePropertyName("identifier");
+            writer.WriteStringValue(Identifier);
+            if (Optional.IsDefined(Name))
+            {
+                writer.WritePropertyName("name");
+                writer.WriteStringValue(Name);
+            }
+            writer.WriteEndObject();
+        }
+
         internal static DocumentMetaWorkspace DeserializeDocumentMetaWorkspace(JsonElement element)
         {
             string identifier = default;

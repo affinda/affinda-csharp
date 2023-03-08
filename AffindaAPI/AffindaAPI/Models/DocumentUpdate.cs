@@ -25,6 +25,8 @@ namespace Affinda.API.Models
         public bool? IsConfirmed { get; set; }
         /// <summary> Gets or sets the is rejected. </summary>
         public bool? IsRejected { get; set; }
+        /// <summary> Gets or sets the is archived. </summary>
+        public bool? IsArchived { get; set; }
         /// <summary> Language code in ISO 639-1 format. Must specify zh-cn or zh-tw for Chinese. </summary>
         public string Language { get; set; }
     }

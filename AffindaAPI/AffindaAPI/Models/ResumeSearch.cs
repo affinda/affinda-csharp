@@ -16,7 +16,7 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of ResumeSearch. </summary>
         internal ResumeSearch()
         {
-            Results = new ChangeTrackingList<ResumeSearchResult>();
+            Results = new ChangeTrackingList<Document>();
         }
 
         /// <summary> Initializes a new instance of ResumeSearch. </summary>
@@ -25,7 +25,7 @@ namespace Affinda.API.Models
         /// <param name="previous"> URL to request previous page of results. </param>
         /// <param name="parameters"></param>
         /// <param name="results"></param>
-        internal ResumeSearch(int? count, string next, string previous, ResumeSearchParameters parameters, IReadOnlyList<ResumeSearchResult> results)
+        internal ResumeSearch(int? count, string next, string previous, ResumeSearchParameters parameters, IReadOnlyList<Document> results)
         {
             Count = count;
             Next = next;
@@ -43,6 +43,6 @@ namespace Affinda.API.Models
         /// <summary> Gets the parameters. </summary>
         public ResumeSearchParameters Parameters { get; }
         /// <summary> Gets the results. </summary>
-        public IReadOnlyList<ResumeSearchResult> Results { get; }
+        public IReadOnlyList<Document> Results { get; }
     }
 }

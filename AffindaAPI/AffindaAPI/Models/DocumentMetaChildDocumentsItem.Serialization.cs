@@ -10,8 +10,19 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class DocumentMetaChildDocumentsItem
+    public partial class DocumentMetaChildDocumentsItem : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            if (Optional.IsDefined(Identifier))
+            {
+                writer.WritePropertyName("identifier");
+                writer.WriteStringValue(Identifier);
+            }
+            writer.WriteEndObject();
+        }
+
         internal static DocumentMetaChildDocumentsItem DeserializeDocumentMetaChildDocumentsItem(JsonElement element)
         {
             Optional<string> identifier = default;

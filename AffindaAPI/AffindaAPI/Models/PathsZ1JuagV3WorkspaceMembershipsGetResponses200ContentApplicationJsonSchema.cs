@@ -12,7 +12,7 @@ using System.Linq;
 namespace Affinda.API.Models
 {
     /// <summary> The PathsZ1JuagV3WorkspaceMembershipsGetResponses200ContentApplicationJsonSchema. </summary>
-    public partial class PathsZ1JuagV3WorkspaceMembershipsGetResponses200ContentApplicationJsonSchema : ListResult
+    public partial class PathsZ1JuagV3WorkspaceMembershipsGetResponses200ContentApplicationJsonSchema : PaginatedResponse
     {
         /// <summary> Initializes a new instance of PathsZ1JuagV3WorkspaceMembershipsGetResponses200ContentApplicationJsonSchema. </summary>
         /// <param name="count"> Number of items in results. </param>

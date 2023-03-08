@@ -11,7 +11,7 @@ namespace Affinda.API.Models
     public partial class ResumeDataWorkExperienceItem
     {
         /// <summary> Initializes a new instance of ResumeDataWorkExperienceItem. </summary>
-        internal ResumeDataWorkExperienceItem()
+        public ResumeDataWorkExperienceItem()
         {
         }
 
@@ -40,24 +40,24 @@ namespace Affinda.API.Models
             Occupation = occupation;
         }
 
-        /// <summary> Gets the id. </summary>
-        public int? Id { get; }
-        /// <summary> Gets the job title. </summary>
-        public string JobTitle { get; }
+        /// <summary> Gets or sets the id. </summary>
+        public int? Id { get; set; }
+        /// <summary> Gets or sets the job title. </summary>
+        public string JobTitle { get; set; }
         /// <summary> Gets the soc code. </summary>
         public string SocCode { get; }
         /// <summary> Gets the soc name. </summary>
         public string SocName { get; }
-        /// <summary> Gets the organization. </summary>
-        public string Organization { get; }
+        /// <summary> Gets or sets the organization. </summary>
+        public string Organization { get; set; }
         /// <summary> Gets the industry. </summary>
         public string Industry { get; }
-        /// <summary> Gets the location. </summary>
-        public Location Location { get; }
-        /// <summary> Gets the job description. </summary>
-        public string JobDescription { get; }
-        /// <summary> Gets the dates. </summary>
-        public ResumeDataWorkExperienceItemDates Dates { get; }
+        /// <summary> Gets or sets the location. </summary>
+        public Location Location { get; set; }
+        /// <summary> Gets or sets the job description. </summary>
+        public string JobDescription { get; set; }
+        /// <summary> Gets or sets the dates. </summary>
+        public ResumeDataWorkExperienceItemDates Dates { get; set; }
         /// <summary> Gets the occupation. </summary>
         public ResumeDataWorkExperienceItemOccupation Occupation { get; }
     }

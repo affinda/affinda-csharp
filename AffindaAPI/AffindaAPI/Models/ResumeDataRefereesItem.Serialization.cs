@@ -11,8 +11,72 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class ResumeDataRefereesItem
+    public partial class ResumeDataRefereesItem : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            if (Optional.IsDefined(Name))
+            {
+                if (Name != null)
+                {
+                    writer.WritePropertyName("name");
+                    writer.WriteStringValue(Name);
+                }
+                else
+                {
+                    writer.WriteNull("name");
+                }
+            }
+            if (Optional.IsDefined(Text))
+            {
+                writer.WritePropertyName("text");
+                writer.WriteStringValue(Text);
+            }
+            if (Optional.IsDefined(Email))
+            {
+                if (Email != null)
+                {
+                    writer.WritePropertyName("email");
+                    writer.WriteStringValue(Email);
+                }
+                else
+                {
+                    writer.WriteNull("email");
+                }
+            }
+            if (Optional.IsDefined(Number))
+            {
+                if (Number != null)
+                {
+                    writer.WritePropertyName("number");
+                    writer.WriteStringValue(Number);
+                }
+                else
+                {
+                    writer.WriteNull("number");
+                }
+            }
+            if (Optional.IsDefined(Position))
+            {
+                if (Position != null)
+                {
+                    writer.WritePropertyName("position");
+                    writer.WriteStringValue(Position);
+                }
+                else
+                {
+                    writer.WriteNull("position");
+                }
+            }
+            foreach (var item in AdditionalProperties)
+            {
+                writer.WritePropertyName(item.Key);
+                writer.WriteObjectValue(item.Value);
+            }
+            writer.WriteEndObject();
+        }
+
         internal static ResumeDataRefereesItem DeserializeResumeDataRefereesItem(JsonElement element)
         {
             Optional<string> name = default;
@@ -20,7 +84,7 @@ namespace Affinda.API.Models
             Optional<string> email = default;
             Optional<string> number = default;
             Optional<string> position = default;
-            IReadOnlyDictionary<string, object> additionalProperties = default;
+            IDictionary<string, object> additionalProperties = default;
             Dictionary<string, object> additionalPropertiesDictionary = new Dictionary<string, object>();
             foreach (var property in element.EnumerateObject())
             {

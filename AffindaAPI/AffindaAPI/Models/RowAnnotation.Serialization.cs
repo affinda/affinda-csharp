@@ -11,8 +11,169 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class RowAnnotation
+    public partial class RowAnnotation : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            if (Optional.IsDefined(Code))
+            {
+                if (Code != null)
+                {
+                    writer.WritePropertyName("code");
+                    writer.WriteStringValue(Code);
+                }
+                else
+                {
+                    writer.WriteNull("code");
+                }
+            }
+            if (Optional.IsDefined(Date))
+            {
+                if (Date != null)
+                {
+                    writer.WritePropertyName("date");
+                    writer.WriteStringValue(Date);
+                }
+                else
+                {
+                    writer.WriteNull("date");
+                }
+            }
+            if (Optional.IsDefined(Description))
+            {
+                if (Description != null)
+                {
+                    writer.WritePropertyName("description");
+                    writer.WriteStringValue(Description);
+                }
+                else
+                {
+                    writer.WriteNull("description");
+                }
+            }
+            if (Optional.IsDefined(Unit))
+            {
+                if (Unit != null)
+                {
+                    writer.WritePropertyName("unit");
+                    writer.WriteStringValue(Unit);
+                }
+                else
+                {
+                    writer.WriteNull("unit");
+                }
+            }
+            if (Optional.IsDefined(UnitPrice))
+            {
+                if (UnitPrice != null)
+                {
+                    writer.WritePropertyName("unitPrice");
+                    writer.WriteNumberValue(UnitPrice.Value);
+                }
+                else
+                {
+                    writer.WriteNull("unitPrice");
+                }
+            }
+            if (Optional.IsDefined(Quantity))
+            {
+                if (Quantity != null)
+                {
+                    writer.WritePropertyName("quantity");
+                    writer.WriteNumberValue(Quantity.Value);
+                }
+                else
+                {
+                    writer.WriteNull("quantity");
+                }
+            }
+            if (Optional.IsDefined(Discount))
+            {
+                if (Discount != null)
+                {
+                    writer.WritePropertyName("discount");
+                    writer.WriteStringValue(Discount);
+                }
+                else
+                {
+                    writer.WriteNull("discount");
+                }
+            }
+            if (Optional.IsDefined(BaseTotal))
+            {
+                if (BaseTotal != null)
+                {
+                    writer.WritePropertyName("baseTotal");
+                    writer.WriteNumberValue(BaseTotal.Value);
+                }
+                else
+                {
+                    writer.WriteNull("baseTotal");
+                }
+            }
+            if (Optional.IsDefined(TaxRate))
+            {
+                if (TaxRate != null)
+                {
+                    writer.WritePropertyName("taxRate");
+                    writer.WriteStringValue(TaxRate);
+                }
+                else
+                {
+                    writer.WriteNull("taxRate");
+                }
+            }
+            if (Optional.IsDefined(TaxTotal))
+            {
+                if (TaxTotal != null)
+                {
+                    writer.WritePropertyName("taxTotal");
+                    writer.WriteNumberValue(TaxTotal.Value);
+                }
+                else
+                {
+                    writer.WriteNull("taxTotal");
+                }
+            }
+            if (Optional.IsDefined(Total))
+            {
+                if (Total != null)
+                {
+                    writer.WritePropertyName("total");
+                    writer.WriteNumberValue(Total.Value);
+                }
+                else
+                {
+                    writer.WriteNull("total");
+                }
+            }
+            if (Optional.IsDefined(Other))
+            {
+                if (Other != null)
+                {
+                    writer.WritePropertyName("other");
+                    writer.WriteStringValue(Other);
+                }
+                else
+                {
+                    writer.WriteNull("other");
+                }
+            }
+            if (Optional.IsCollectionDefined(CustomFields))
+            {
+                writer.WritePropertyName("customFields");
+                writer.WriteStartObject();
+                foreach (var item in CustomFields)
+                {
+                    writer.WritePropertyName(item.Key);
+                    writer.WriteObjectValue(item.Value);
+                }
+                writer.WriteEndObject();
+            }
+            writer.WriteEndObject();
+        }
+
         internal static RowAnnotation DeserializeRowAnnotation(JsonElement element)
         {
             Optional<string> code = default;
@@ -27,7 +188,7 @@ namespace Affinda.API.Models
             Optional<float?> taxTotal = default;
             Optional<float?> total = default;
             Optional<string> other = default;
-            Optional<IReadOnlyDictionary<string, object>> customFields = default;
+            Optional<IDictionary<string, object>> customFields = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("code"))

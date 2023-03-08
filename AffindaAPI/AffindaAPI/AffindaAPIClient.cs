@@ -2509,7 +2509,7 @@ namespace Affinda.API
         /// <param name="inReview"> Exclude documents that are currently being reviewed. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the document summaries for that user, limited to 300 per page. </remarks>
-        public virtual async Task<Response<GetAllDocumentsResults>> GetAllDocumentsAsync(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema>> GetAllDocumentsAsync(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllDocuments");
             scope.Start();
@@ -2539,7 +2539,7 @@ namespace Affinda.API
         /// <param name="inReview"> Exclude documents that are currently being reviewed. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the document summaries for that user, limited to 300 per page. </remarks>
-        public virtual Response<GetAllDocumentsResults> GetAllDocuments(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, CancellationToken cancellationToken = default)
+        public virtual Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema> GetAllDocuments(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllDocuments");
             scope.Start();
@@ -2556,7 +2556,7 @@ namespace Affinda.API
 
         /// <summary> Upload a document for parsing. </summary>
         /// <param name="file"> The Stream to use. </param>
-        /// <param name="url"> The String to use. </param>
+        /// <param name="url"> URL to download the document. </param>
         /// <param name="collection"> The String to use. </param>
         /// <param name="workspace"> The String to use. </param>
         /// <param name="wait"> The String to use. </param>
@@ -2564,17 +2564,18 @@ namespace Affinda.API
         /// <param name="fileName"> The String to use. </param>
         /// <param name="expiryTime"> The String to use. </param>
         /// <param name="language"> The String to use. </param>
+        /// <param name="rejectDuplicates"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
-        /// Uploads a document for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/documents/{identifier}](#get-/documents/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
+        /// Uploads a document for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/documents/{identifier}](#get-/v3/documents/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
         /// </remarks>
-        public virtual async Task<Response<Document>> CreateDocumentAsync(Stream file = null, string url = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string fileName = null, string expiryTime = null, string language = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<Document>> CreateDocumentAsync(Stream file = null, string url = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateDocument");
             scope.Start();
             try
             {
-                return await RestClient.CreateDocumentAsync(file, url, collection, workspace, wait, identifier, fileName, expiryTime, language, cancellationToken).ConfigureAwait(false);
+                return await RestClient.CreateDocumentAsync(file, url, collection, workspace, wait, identifier, fileName, expiryTime, language, rejectDuplicates, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -2585,7 +2586,7 @@ namespace Affinda.API
 
         /// <summary> Upload a document for parsing. </summary>
         /// <param name="file"> The Stream to use. </param>
-        /// <param name="url"> The String to use. </param>
+        /// <param name="url"> URL to download the document. </param>
         /// <param name="collection"> The String to use. </param>
         /// <param name="workspace"> The String to use. </param>
         /// <param name="wait"> The String to use. </param>
@@ -2593,17 +2594,18 @@ namespace Affinda.API
         /// <param name="fileName"> The String to use. </param>
         /// <param name="expiryTime"> The String to use. </param>
         /// <param name="language"> The String to use. </param>
+        /// <param name="rejectDuplicates"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
-        /// Uploads a document for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/documents/{identifier}](#get-/documents/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
+        /// Uploads a document for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/documents/{identifier}](#get-/v3/documents/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
         /// </remarks>
-        public virtual Response<Document> CreateDocument(Stream file = null, string url = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string fileName = null, string expiryTime = null, string language = null, CancellationToken cancellationToken = default)
+        public virtual Response<Document> CreateDocument(Stream file = null, string url = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateDocument");
             scope.Start();
             try
             {
-                return RestClient.CreateDocument(file, url, collection, workspace, wait, identifier, fileName, expiryTime, language, cancellationToken);
+                return RestClient.CreateDocument(file, url, collection, workspace, wait, identifier, fileName, expiryTime, language, rejectDuplicates, cancellationToken);
             }
             catch (Exception e)
             {
@@ -2614,15 +2616,16 @@ namespace Affinda.API
 
         /// <summary> Get specific document. </summary>
         /// <param name="identifier"> Document&apos;s identifier. </param>
+        /// <param name="format"> Specify which format you want the response to be. Default is &quot;json&quot;. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Return a specific document. </remarks>
-        public virtual async Task<Response<Document>> GetDocumentAsync(string identifier, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<Document>> GetDocumentAsync(string identifier, DocumentFormat? format = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetDocument");
             scope.Start();
             try
             {
-                return await RestClient.GetDocumentAsync(identifier, cancellationToken).ConfigureAwait(false);
+                return await RestClient.GetDocumentAsync(identifier, format, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -2633,15 +2636,16 @@ namespace Affinda.API
 
         /// <summary> Get specific document. </summary>
         /// <param name="identifier"> Document&apos;s identifier. </param>
+        /// <param name="format"> Specify which format you want the response to be. Default is &quot;json&quot;. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Return a specific document. </remarks>
-        public virtual Response<Document> GetDocument(string identifier, CancellationToken cancellationToken = default)
+        public virtual Response<Document> GetDocument(string identifier, DocumentFormat? format = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetDocument");
             scope.Start();
             try
             {
-                return RestClient.GetDocument(identifier, cancellationToken);
+                return RestClient.GetDocument(identifier, format, cancellationToken);
             }
             catch (Exception e)
             {
@@ -2962,9 +2966,15 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Create a resthook subscriptions. </summary>
+        /// <summary> Create a resthook subscription. </summary>
         /// <param name="body"> The ResthookSubscriptionCreate to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks>
+        /// After a subscription is sucessfully created, we&apos;ll send a POST request to your target URL with a `X-Hook-Secret` header.
+        /// You need to response to this request with a 200 status code to confirm your subscribe intention.
+        /// Then, you need to use the `X-Hook-Secret` to activate the subscription using the [/resthook_subscriptions/activate](#post-/v3/resthook_subscriptions/activate) endpoint.
+        /// For more information, see our help article here - [How do I create a webhook?](https://help.affinda.com/hc/en-au/articles/11474095148569-How-do-I-create-a-webhook)
+        /// </remarks>
         public virtual async Task<Response<ResthookSubscription>> CreateResthookSubscriptionAsync(ResthookSubscriptionCreate body, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateResthookSubscription");
@@ -2980,9 +2990,15 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Create a resthook subscriptions. </summary>
+        /// <summary> Create a resthook subscription. </summary>
         /// <param name="body"> The ResthookSubscriptionCreate to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks>
+        /// After a subscription is sucessfully created, we&apos;ll send a POST request to your target URL with a `X-Hook-Secret` header.
+        /// You need to response to this request with a 200 status code to confirm your subscribe intention.
+        /// Then, you need to use the `X-Hook-Secret` to activate the subscription using the [/resthook_subscriptions/activate](#post-/v3/resthook_subscriptions/activate) endpoint.
+        /// For more information, see our help article here - [How do I create a webhook?](https://help.affinda.com/hc/en-au/articles/11474095148569-How-do-I-create-a-webhook)
+        /// </remarks>
         public virtual Response<ResthookSubscription> CreateResthookSubscription(ResthookSubscriptionCreate body, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateResthookSubscription");
@@ -3106,6 +3122,50 @@ namespace Affinda.API
             try
             {
                 return RestClient.DeleteResthookSubscription(id, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Activate a resthook subscription. </summary>
+        /// <param name="xHookSecret"> The secret received when creating a subscription. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks>
+        /// After creating a subscription, we&apos;ll send a POST request to your target URL with a `X-Hook-Secret` header.
+        /// You should response to this with a 200 status code, and use the value of the `X-Hook-Secret` header that you received to activate the subscription using this endpoint.
+        /// </remarks>
+        public virtual async Task<Response<ResthookSubscription>> ActivateResthookSubscriptionAsync(string xHookSecret, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.ActivateResthookSubscription");
+            scope.Start();
+            try
+            {
+                return await RestClient.ActivateResthookSubscriptionAsync(xHookSecret, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Activate a resthook subscription. </summary>
+        /// <param name="xHookSecret"> The secret received when creating a subscription. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks>
+        /// After creating a subscription, we&apos;ll send a POST request to your target URL with a `X-Hook-Secret` header.
+        /// You should response to this with a 200 status code, and use the value of the `X-Hook-Secret` header that you received to activate the subscription using this endpoint.
+        /// </remarks>
+        public virtual Response<ResthookSubscription> ActivateResthookSubscription(string xHookSecret, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.ActivateResthookSubscription");
+            scope.Start();
+            try
+            {
+                return RestClient.ActivateResthookSubscription(xHookSecret, cancellationToken);
             }
             catch (Exception e)
             {

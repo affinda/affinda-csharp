@@ -11,14 +11,480 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class InvoiceData
+    public partial class InvoiceData : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            if (Optional.IsCollectionDefined(Tables))
+            {
+                writer.WritePropertyName("tables");
+                writer.WriteStartArray();
+                foreach (var item in Tables)
+                {
+                    writer.WriteObjectValue(item);
+                }
+                writer.WriteEndArray();
+            }
+            if (Optional.IsDefined(InvoiceDate))
+            {
+                if (InvoiceDate != null)
+                {
+                    writer.WritePropertyName("invoiceDate");
+                    writer.WriteObjectValue(InvoiceDate);
+                }
+                else
+                {
+                    writer.WriteNull("invoiceDate");
+                }
+            }
+            if (Optional.IsDefined(InvoiceOrderDate))
+            {
+                if (InvoiceOrderDate != null)
+                {
+                    writer.WritePropertyName("invoiceOrderDate");
+                    writer.WriteObjectValue(InvoiceOrderDate);
+                }
+                else
+                {
+                    writer.WriteNull("invoiceOrderDate");
+                }
+            }
+            if (Optional.IsDefined(PaymentDateDue))
+            {
+                if (PaymentDateDue != null)
+                {
+                    writer.WritePropertyName("paymentDateDue");
+                    writer.WriteObjectValue(PaymentDateDue);
+                }
+                else
+                {
+                    writer.WriteNull("paymentDateDue");
+                }
+            }
+            if (Optional.IsDefined(PaymentAmountBase))
+            {
+                if (PaymentAmountBase != null)
+                {
+                    writer.WritePropertyName("paymentAmountBase");
+                    writer.WriteObjectValue(PaymentAmountBase);
+                }
+                else
+                {
+                    writer.WriteNull("paymentAmountBase");
+                }
+            }
+            if (Optional.IsDefined(PaymentAmountTax))
+            {
+                if (PaymentAmountTax != null)
+                {
+                    writer.WritePropertyName("paymentAmountTax");
+                    writer.WriteObjectValue(PaymentAmountTax);
+                }
+                else
+                {
+                    writer.WriteNull("paymentAmountTax");
+                }
+            }
+            if (Optional.IsDefined(PaymentAmountTotal))
+            {
+                if (PaymentAmountTotal != null)
+                {
+                    writer.WritePropertyName("paymentAmountTotal");
+                    writer.WriteObjectValue(PaymentAmountTotal);
+                }
+                else
+                {
+                    writer.WriteNull("paymentAmountTotal");
+                }
+            }
+            if (Optional.IsDefined(PaymentAmountPaid))
+            {
+                if (PaymentAmountPaid != null)
+                {
+                    writer.WritePropertyName("paymentAmountPaid");
+                    writer.WriteObjectValue(PaymentAmountPaid);
+                }
+                else
+                {
+                    writer.WriteNull("paymentAmountPaid");
+                }
+            }
+            if (Optional.IsDefined(PaymentAmountDue))
+            {
+                if (PaymentAmountDue != null)
+                {
+                    writer.WritePropertyName("paymentAmountDue");
+                    writer.WriteObjectValue(PaymentAmountDue);
+                }
+                else
+                {
+                    writer.WriteNull("paymentAmountDue");
+                }
+            }
+            if (Optional.IsDefined(InvoiceNumber))
+            {
+                if (InvoiceNumber != null)
+                {
+                    writer.WritePropertyName("invoiceNumber");
+                    writer.WriteObjectValue(InvoiceNumber);
+                }
+                else
+                {
+                    writer.WriteNull("invoiceNumber");
+                }
+            }
+            if (Optional.IsDefined(InvoicePurchaseOrderNumber))
+            {
+                if (InvoicePurchaseOrderNumber != null)
+                {
+                    writer.WritePropertyName("invoicePurchaseOrderNumber");
+                    writer.WriteObjectValue(InvoicePurchaseOrderNumber);
+                }
+                else
+                {
+                    writer.WriteNull("invoicePurchaseOrderNumber");
+                }
+            }
+            if (Optional.IsDefined(SupplierBusinessNumber))
+            {
+                if (SupplierBusinessNumber != null)
+                {
+                    writer.WritePropertyName("supplierBusinessNumber");
+                    writer.WriteObjectValue(SupplierBusinessNumber);
+                }
+                else
+                {
+                    writer.WriteNull("supplierBusinessNumber");
+                }
+            }
+            if (Optional.IsDefined(CustomerNumber))
+            {
+                if (CustomerNumber != null)
+                {
+                    writer.WritePropertyName("customerNumber");
+                    writer.WriteObjectValue(CustomerNumber);
+                }
+                else
+                {
+                    writer.WriteNull("customerNumber");
+                }
+            }
+            if (Optional.IsDefined(CustomerBusinessNumber))
+            {
+                if (CustomerBusinessNumber != null)
+                {
+                    writer.WritePropertyName("customerBusinessNumber");
+                    writer.WriteObjectValue(CustomerBusinessNumber);
+                }
+                else
+                {
+                    writer.WriteNull("customerBusinessNumber");
+                }
+            }
+            if (Optional.IsDefined(PaymentReference))
+            {
+                if (PaymentReference != null)
+                {
+                    writer.WritePropertyName("paymentReference");
+                    writer.WriteObjectValue(PaymentReference);
+                }
+                else
+                {
+                    writer.WriteNull("paymentReference");
+                }
+            }
+            if (Optional.IsDefined(BankAccountNumber))
+            {
+                if (BankAccountNumber != null)
+                {
+                    writer.WritePropertyName("bankAccountNumber");
+                    writer.WriteObjectValue(BankAccountNumber);
+                }
+                else
+                {
+                    writer.WriteNull("bankAccountNumber");
+                }
+            }
+            if (Optional.IsDefined(SupplierVat))
+            {
+                if (SupplierVat != null)
+                {
+                    writer.WritePropertyName("supplierVat");
+                    writer.WriteObjectValue(SupplierVat);
+                }
+                else
+                {
+                    writer.WriteNull("supplierVat");
+                }
+            }
+            if (Optional.IsDefined(CustomerVat))
+            {
+                if (CustomerVat != null)
+                {
+                    writer.WritePropertyName("customerVat");
+                    writer.WriteObjectValue(CustomerVat);
+                }
+                else
+                {
+                    writer.WriteNull("customerVat");
+                }
+            }
+            if (Optional.IsDefined(BpayBillerCode))
+            {
+                if (BpayBillerCode != null)
+                {
+                    writer.WritePropertyName("bpayBillerCode");
+                    writer.WriteObjectValue(BpayBillerCode);
+                }
+                else
+                {
+                    writer.WriteNull("bpayBillerCode");
+                }
+            }
+            if (Optional.IsDefined(BpayReference))
+            {
+                if (BpayReference != null)
+                {
+                    writer.WritePropertyName("bpayReference");
+                    writer.WriteObjectValue(BpayReference);
+                }
+                else
+                {
+                    writer.WriteNull("bpayReference");
+                }
+            }
+            if (Optional.IsDefined(BankSortCode))
+            {
+                if (BankSortCode != null)
+                {
+                    writer.WritePropertyName("bankSortCode");
+                    writer.WriteObjectValue(BankSortCode);
+                }
+                else
+                {
+                    writer.WriteNull("bankSortCode");
+                }
+            }
+            if (Optional.IsDefined(BankIban))
+            {
+                if (BankIban != null)
+                {
+                    writer.WritePropertyName("bankIban");
+                    writer.WriteObjectValue(BankIban);
+                }
+                else
+                {
+                    writer.WriteNull("bankIban");
+                }
+            }
+            if (Optional.IsDefined(BankSwift))
+            {
+                if (BankSwift != null)
+                {
+                    writer.WritePropertyName("bankSwift");
+                    writer.WriteObjectValue(BankSwift);
+                }
+                else
+                {
+                    writer.WriteNull("bankSwift");
+                }
+            }
+            if (Optional.IsDefined(BankBsb))
+            {
+                if (BankBsb != null)
+                {
+                    writer.WritePropertyName("bankBsb");
+                    writer.WriteObjectValue(BankBsb);
+                }
+                else
+                {
+                    writer.WriteNull("bankBsb");
+                }
+            }
+            if (Optional.IsDefined(CustomerContactName))
+            {
+                if (CustomerContactName != null)
+                {
+                    writer.WritePropertyName("customerContactName");
+                    writer.WriteObjectValue(CustomerContactName);
+                }
+                else
+                {
+                    writer.WriteNull("customerContactName");
+                }
+            }
+            if (Optional.IsDefined(CustomerCompanyName))
+            {
+                if (CustomerCompanyName != null)
+                {
+                    writer.WritePropertyName("customerCompanyName");
+                    writer.WriteObjectValue(CustomerCompanyName);
+                }
+                else
+                {
+                    writer.WriteNull("customerCompanyName");
+                }
+            }
+            if (Optional.IsDefined(SupplierCompanyName))
+            {
+                if (SupplierCompanyName != null)
+                {
+                    writer.WritePropertyName("supplierCompanyName");
+                    writer.WriteObjectValue(SupplierCompanyName);
+                }
+                else
+                {
+                    writer.WriteNull("supplierCompanyName");
+                }
+            }
+            if (Optional.IsDefined(CustomerBillingAddress))
+            {
+                if (CustomerBillingAddress != null)
+                {
+                    writer.WritePropertyName("customerBillingAddress");
+                    writer.WriteObjectValue(CustomerBillingAddress);
+                }
+                else
+                {
+                    writer.WriteNull("customerBillingAddress");
+                }
+            }
+            if (Optional.IsDefined(CustomerDeliveryAddress))
+            {
+                if (CustomerDeliveryAddress != null)
+                {
+                    writer.WritePropertyName("customerDeliveryAddress");
+                    writer.WriteObjectValue(CustomerDeliveryAddress);
+                }
+                else
+                {
+                    writer.WriteNull("customerDeliveryAddress");
+                }
+            }
+            if (Optional.IsDefined(SupplierAddress))
+            {
+                if (SupplierAddress != null)
+                {
+                    writer.WritePropertyName("supplierAddress");
+                    writer.WriteObjectValue(SupplierAddress);
+                }
+                else
+                {
+                    writer.WriteNull("supplierAddress");
+                }
+            }
+            if (Optional.IsDefined(CustomerPhoneNumber))
+            {
+                if (CustomerPhoneNumber != null)
+                {
+                    writer.WritePropertyName("customerPhoneNumber");
+                    writer.WriteObjectValue(CustomerPhoneNumber);
+                }
+                else
+                {
+                    writer.WriteNull("customerPhoneNumber");
+                }
+            }
+            if (Optional.IsDefined(SupplierPhoneNumber))
+            {
+                if (SupplierPhoneNumber != null)
+                {
+                    writer.WritePropertyName("supplierPhoneNumber");
+                    writer.WriteObjectValue(SupplierPhoneNumber);
+                }
+                else
+                {
+                    writer.WriteNull("supplierPhoneNumber");
+                }
+            }
+            if (Optional.IsDefined(SupplierFax))
+            {
+                if (SupplierFax != null)
+                {
+                    writer.WritePropertyName("supplierFax");
+                    writer.WriteObjectValue(SupplierFax);
+                }
+                else
+                {
+                    writer.WriteNull("supplierFax");
+                }
+            }
+            if (Optional.IsDefined(CustomerEmail))
+            {
+                if (CustomerEmail != null)
+                {
+                    writer.WritePropertyName("customerEmail");
+                    writer.WriteObjectValue(CustomerEmail);
+                }
+                else
+                {
+                    writer.WriteNull("customerEmail");
+                }
+            }
+            if (Optional.IsDefined(SupplierEmail))
+            {
+                if (SupplierEmail != null)
+                {
+                    writer.WritePropertyName("supplierEmail");
+                    writer.WriteObjectValue(SupplierEmail);
+                }
+                else
+                {
+                    writer.WriteNull("supplierEmail");
+                }
+            }
+            if (Optional.IsDefined(SupplierWebsite))
+            {
+                if (SupplierWebsite != null)
+                {
+                    writer.WritePropertyName("supplierWebsite");
+                    writer.WriteObjectValue(SupplierWebsite);
+                }
+                else
+                {
+                    writer.WriteNull("supplierWebsite");
+                }
+            }
+            if (Optional.IsDefined(CurrencyCode))
+            {
+                if (CurrencyCode != null)
+                {
+                    writer.WritePropertyName("currencyCode");
+                    writer.WriteObjectValue(CurrencyCode);
+                }
+                else
+                {
+                    writer.WriteNull("currencyCode");
+                }
+            }
+            if (Optional.IsCollectionDefined(CustomFields))
+            {
+                if (CustomFields != null)
+                {
+                    writer.WritePropertyName("customFields");
+                    writer.WriteStartObject();
+                    foreach (var item in CustomFields)
+                    {
+                        writer.WritePropertyName(item.Key);
+                        writer.WriteObjectValue(item.Value);
+                    }
+                    writer.WriteEndObject();
+                }
+                else
+                {
+                    writer.WriteNull("customFields");
+                }
+            }
+            writer.WriteEndObject();
+        }
+
         internal static InvoiceData DeserializeInvoiceData(JsonElement element)
         {
-            Optional<IReadOnlyList<InvoiceDataTablesItem>> tables = default;
-            Optional<DateAnnotationV2> invoiceDate = default;
-            Optional<DateAnnotationV2> invoiceOrderDate = default;
-            Optional<DateAnnotationV2> paymentDateDue = default;
+            Optional<IList<InvoiceDataTablesItem>> tables = default;
+            Optional<DateAnnotation> invoiceDate = default;
+            Optional<DateAnnotation> invoiceOrderDate = default;
+            Optional<DateAnnotation> paymentDateDue = default;
             Optional<InvoiceDataPaymentAmountBase> paymentAmountBase = default;
             Optional<InvoiceDataPaymentAmountTax> paymentAmountTax = default;
             Optional<InvoiceDataPaymentAmountTotal> paymentAmountTotal = default;
@@ -42,17 +508,17 @@ namespace Affinda.API.Models
             Optional<InvoiceDataCustomerContactName> customerContactName = default;
             Optional<InvoiceDataCustomerCompanyName> customerCompanyName = default;
             Optional<InvoiceDataSupplierCompanyName> supplierCompanyName = default;
-            Optional<LocationAnnotationV2> customerBillingAddress = default;
-            Optional<LocationAnnotationV2> customerDeliveryAddress = default;
-            Optional<LocationAnnotationV2> supplierAddress = default;
+            Optional<LocationAnnotation> customerBillingAddress = default;
+            Optional<LocationAnnotation> customerDeliveryAddress = default;
+            Optional<LocationAnnotation> supplierAddress = default;
             Optional<InvoiceDataCustomerPhoneNumber> customerPhoneNumber = default;
             Optional<InvoiceDataSupplierPhoneNumber> supplierPhoneNumber = default;
             Optional<InvoiceDataSupplierFax> supplierFax = default;
             Optional<InvoiceDataCustomerEmail> customerEmail = default;
             Optional<InvoiceDataSupplierEmail> supplierEmail = default;
             Optional<InvoiceDataSupplierWebsite> supplierWebsite = default;
-            Optional<TextAnnotationV2> currencyCode = default;
-            Optional<IReadOnlyDictionary<string, object>> customFields = default;
+            Optional<TextAnnotation> currencyCode = default;
+            Optional<IDictionary<string, object>> customFields = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("tables"))
@@ -77,7 +543,7 @@ namespace Affinda.API.Models
                         invoiceDate = null;
                         continue;
                     }
-                    invoiceDate = DateAnnotationV2.DeserializeDateAnnotationV2(property.Value);
+                    invoiceDate = DateAnnotation.DeserializeDateAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("invoiceOrderDate"))
@@ -87,7 +553,7 @@ namespace Affinda.API.Models
                         invoiceOrderDate = null;
                         continue;
                     }
-                    invoiceOrderDate = DateAnnotationV2.DeserializeDateAnnotationV2(property.Value);
+                    invoiceOrderDate = DateAnnotation.DeserializeDateAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("paymentDateDue"))
@@ -97,7 +563,7 @@ namespace Affinda.API.Models
                         paymentDateDue = null;
                         continue;
                     }
-                    paymentDateDue = DateAnnotationV2.DeserializeDateAnnotationV2(property.Value);
+                    paymentDateDue = DateAnnotation.DeserializeDateAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("paymentAmountBase"))
@@ -337,7 +803,7 @@ namespace Affinda.API.Models
                         customerBillingAddress = null;
                         continue;
                     }
-                    customerBillingAddress = LocationAnnotationV2.DeserializeLocationAnnotationV2(property.Value);
+                    customerBillingAddress = LocationAnnotation.DeserializeLocationAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("customerDeliveryAddress"))
@@ -347,7 +813,7 @@ namespace Affinda.API.Models
                         customerDeliveryAddress = null;
                         continue;
                     }
-                    customerDeliveryAddress = LocationAnnotationV2.DeserializeLocationAnnotationV2(property.Value);
+                    customerDeliveryAddress = LocationAnnotation.DeserializeLocationAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("supplierAddress"))
@@ -357,7 +823,7 @@ namespace Affinda.API.Models
                         supplierAddress = null;
                         continue;
                     }
-                    supplierAddress = LocationAnnotationV2.DeserializeLocationAnnotationV2(property.Value);
+                    supplierAddress = LocationAnnotation.DeserializeLocationAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("customerPhoneNumber"))
@@ -427,7 +893,7 @@ namespace Affinda.API.Models
                         currencyCode = null;
                         continue;
                     }
-                    currencyCode = TextAnnotationV2.DeserializeTextAnnotationV2(property.Value);
+                    currencyCode = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("customFields"))

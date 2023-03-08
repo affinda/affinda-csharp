@@ -11,14 +11,47 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class EducationGrade
+    public partial class EducationGrade : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            if (Optional.IsDefined(Raw))
+            {
+                writer.WritePropertyName("raw");
+                writer.WriteStringValue(Raw);
+            }
+            if (Optional.IsDefined(Metric))
+            {
+                if (Metric != null)
+                {
+                    writer.WritePropertyName("metric");
+                    writer.WriteStringValue(Metric);
+                }
+                else
+                {
+                    writer.WriteNull("metric");
+                }
+            }
+            if (Optional.IsDefined(Value))
+            {
+                writer.WritePropertyName("value");
+                writer.WriteStringValue(Value);
+            }
+            foreach (var item in AdditionalProperties)
+            {
+                writer.WritePropertyName(item.Key);
+                writer.WriteObjectValue(item.Value);
+            }
+            writer.WriteEndObject();
+        }
+
         internal static EducationGrade DeserializeEducationGrade(JsonElement element)
         {
             Optional<string> raw = default;
             Optional<string> metric = default;
             Optional<string> value = default;
-            IReadOnlyDictionary<string, object> additionalProperties = default;
+            IDictionary<string, object> additionalProperties = default;
             Dictionary<string, object> additionalPropertiesDictionary = new Dictionary<string, object>();
             foreach (var property in element.EnumerateObject())
             {

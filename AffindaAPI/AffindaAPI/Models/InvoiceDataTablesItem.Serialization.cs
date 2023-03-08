@@ -11,11 +11,27 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class InvoiceDataTablesItem
+    public partial class InvoiceDataTablesItem : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            if (Optional.IsCollectionDefined(Rows))
+            {
+                writer.WritePropertyName("rows");
+                writer.WriteStartArray();
+                foreach (var item in Rows)
+                {
+                    writer.WriteObjectValue(item);
+                }
+                writer.WriteEndArray();
+            }
+            writer.WriteEndObject();
+        }
+
         internal static InvoiceDataTablesItem DeserializeInvoiceDataTablesItem(JsonElement element)
         {
-            Optional<IReadOnlyList<RowAnnotation>> rows = default;
+            Optional<IList<RowAnnotation>> rows = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("rows"))

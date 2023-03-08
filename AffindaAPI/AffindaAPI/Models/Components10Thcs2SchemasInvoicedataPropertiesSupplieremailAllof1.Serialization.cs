@@ -10,8 +10,38 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class Components10Thcs2SchemasInvoicedataPropertiesSupplieremailAllof1
+    public partial class Components10Thcs2SchemasInvoicedataPropertiesSupplieremailAllof1 : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            if (Optional.IsDefined(Raw))
+            {
+                if (Raw != null)
+                {
+                    writer.WritePropertyName("raw");
+                    writer.WriteStringValue(Raw);
+                }
+                else
+                {
+                    writer.WriteNull("raw");
+                }
+            }
+            if (Optional.IsDefined(Parsed))
+            {
+                if (Parsed != null)
+                {
+                    writer.WritePropertyName("parsed");
+                    writer.WriteStringValue(Parsed);
+                }
+                else
+                {
+                    writer.WriteNull("parsed");
+                }
+            }
+            writer.WriteEndObject();
+        }
+
         internal static Components10Thcs2SchemasInvoicedataPropertiesSupplieremailAllof1 DeserializeComponents10Thcs2SchemasInvoicedataPropertiesSupplieremailAllof1(JsonElement element)
         {
             Optional<string> raw = default;

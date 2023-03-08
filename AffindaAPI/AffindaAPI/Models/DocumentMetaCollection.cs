@@ -15,7 +15,7 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of DocumentMetaCollection. </summary>
         /// <param name="identifier"> Uniquely identify a collection. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
-        internal DocumentMetaCollection(string identifier)
+        public DocumentMetaCollection(string identifier)
         {
             if (identifier == null)
             {
@@ -37,10 +37,10 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Uniquely identify a collection. </summary>
-        public string Identifier { get; }
-        /// <summary> Gets the name. </summary>
-        public string Name { get; }
-        /// <summary> Gets the extractor. </summary>
-        public DocumentMetaCollectionExtractor Extractor { get; }
+        public string Identifier { get; set; }
+        /// <summary> Gets or sets the name. </summary>
+        public string Name { get; set; }
+        /// <summary> Gets or sets the extractor. </summary>
+        public DocumentMetaCollectionExtractor Extractor { get; set; }
     }
 }

@@ -20,7 +20,7 @@ namespace Affinda.API.Models
         /// <param name="pages"> The document&apos;s pages. </param>
         /// <param name="workspace"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/>, <paramref name="pages"/> or <paramref name="workspace"/> is null. </exception>
-        internal DocumentMeta(string identifier, IEnumerable<PageMeta> pages, DocumentMetaWorkspace workspace)
+        public DocumentMeta(string identifier, IEnumerable<PageMeta> pages, DocumentMetaWorkspace workspace)
         {
             if (identifier == null)
             {
@@ -71,7 +71,8 @@ namespace Affinda.API.Models
         /// <param name="file"> URL to view the file. </param>
         /// <param name="tags"></param>
         /// <param name="confirmedBy"></param>
-        internal DocumentMeta(string identifier, string fileName, bool? ready, DateTimeOffset? readyDt, bool? failed, string expiryTime, string language, string pdf, DocumentMetaParentDocument parentDocument, IReadOnlyList<DocumentMetaChildDocumentsItem> childDocuments, IReadOnlyList<PageMeta> pages, bool? isOcrd, float? ocrConfidence, string reviewUrl, DocumentMetaCollection collection, DocumentMetaWorkspace workspace, DateTimeOffset? archivedDt, bool? isArchived, DateTimeOffset? confirmedDt, bool? isConfirmed, DateTimeOffset? rejectedDt, bool? isRejected, DateTimeOffset? createdDt, string errorCode, string errorDetail, string file, IReadOnlyList<Tag> tags, UserNullable confirmedBy)
+        /// <param name="sourceEmail"> If the document is created via email ingestion, this field stores the email file&apos;s URL. </param>
+        internal DocumentMeta(string identifier, string fileName, bool? ready, DateTimeOffset? readyDt, bool? failed, string expiryTime, string language, string pdf, DocumentMetaParentDocument parentDocument, IList<DocumentMetaChildDocumentsItem> childDocuments, IList<PageMeta> pages, bool? isOcrd, float? ocrConfidence, string reviewUrl, DocumentMetaCollection collection, DocumentMetaWorkspace workspace, DateTimeOffset? archivedDt, bool? isArchived, DateTimeOffset? confirmedDt, bool? isConfirmed, DateTimeOffset? rejectedDt, bool? isRejected, DateTimeOffset? createdDt, string errorCode, string errorDetail, string file, IList<Tag> tags, UserNullable confirmedBy, string sourceEmail)
         {
             Identifier = identifier;
             FileName = fileName;
@@ -101,63 +102,66 @@ namespace Affinda.API.Models
             File = file;
             Tags = tags;
             ConfirmedBy = confirmedBy;
+            SourceEmail = sourceEmail;
         }
 
         /// <summary> Uniquely identify a document. </summary>
-        public string Identifier { get; }
+        public string Identifier { get; set; }
         /// <summary> Optional filename of the file. </summary>
-        public string FileName { get; }
+        public string FileName { get; set; }
         /// <summary> If true, the document has finished processing. Particularly useful if an endpoint request specified wait=False, when polling use this variable to determine when to stop polling. </summary>
-        public bool? Ready { get; }
+        public bool? Ready { get; set; }
         /// <summary> The datetime when the document was ready. </summary>
-        public DateTimeOffset? ReadyDt { get; }
+        public DateTimeOffset? ReadyDt { get; set; }
         /// <summary> If true, some exception was raised during processing. Check the &apos;error&apos; field of the main return object. </summary>
-        public bool? Failed { get; }
+        public bool? Failed { get; set; }
         /// <summary> The date/time in ISO-8601 format when the document will be automatically deleted.  Defaults to no expiry. </summary>
-        public string ExpiryTime { get; }
+        public string ExpiryTime { get; set; }
         /// <summary> The document&apos;s language. </summary>
-        public string Language { get; }
+        public string Language { get; set; }
         /// <summary> The URL to the document&apos;s pdf (if the uploaded document is not already pdf, it&apos;s converted to pdf as part of the parsing process). </summary>
-        public string Pdf { get; }
+        public string Pdf { get; set; }
         /// <summary> If this document is part of a splitted document, this attribute points to the original document that this document is splitted from. </summary>
-        public DocumentMetaParentDocument ParentDocument { get; }
+        public DocumentMetaParentDocument ParentDocument { get; set; }
         /// <summary> If this document has been splitted into a number of child documents, this attribute points to those child documents. </summary>
-        public IReadOnlyList<DocumentMetaChildDocumentsItem> ChildDocuments { get; }
+        public IList<DocumentMetaChildDocumentsItem> ChildDocuments { get; }
         /// <summary> The document&apos;s pages. </summary>
-        public IReadOnlyList<PageMeta> Pages { get; }
-        /// <summary> Gets the is ocrd. </summary>
-        public bool? IsOcrd { get; }
-        /// <summary> Gets the ocr confidence. </summary>
-        public float? OcrConfidence { get; }
-        /// <summary> Gets the review url. </summary>
-        public string ReviewUrl { get; }
-        /// <summary> Gets the collection. </summary>
-        public DocumentMetaCollection Collection { get; }
-        /// <summary> Gets the workspace. </summary>
-        public DocumentMetaWorkspace Workspace { get; }
-        /// <summary> Gets the archived dt. </summary>
-        public DateTimeOffset? ArchivedDt { get; }
-        /// <summary> Gets the is archived. </summary>
-        public bool? IsArchived { get; }
-        /// <summary> Gets the confirmed dt. </summary>
-        public DateTimeOffset? ConfirmedDt { get; }
-        /// <summary> Gets the is confirmed. </summary>
-        public bool? IsConfirmed { get; }
-        /// <summary> Gets the rejected dt. </summary>
-        public DateTimeOffset? RejectedDt { get; }
-        /// <summary> Gets the is rejected. </summary>
-        public bool? IsRejected { get; }
-        /// <summary> Gets the created dt. </summary>
-        public DateTimeOffset? CreatedDt { get; }
-        /// <summary> Gets the error code. </summary>
-        public string ErrorCode { get; }
-        /// <summary> Gets the error detail. </summary>
-        public string ErrorDetail { get; }
+        public IList<PageMeta> Pages { get; }
+        /// <summary> Gets or sets the is ocrd. </summary>
+        public bool? IsOcrd { get; set; }
+        /// <summary> Gets or sets the ocr confidence. </summary>
+        public float? OcrConfidence { get; set; }
+        /// <summary> Gets or sets the review url. </summary>
+        public string ReviewUrl { get; set; }
+        /// <summary> Gets or sets the collection. </summary>
+        public DocumentMetaCollection Collection { get; set; }
+        /// <summary> Gets or sets the workspace. </summary>
+        public DocumentMetaWorkspace Workspace { get; set; }
+        /// <summary> Gets or sets the archived dt. </summary>
+        public DateTimeOffset? ArchivedDt { get; set; }
+        /// <summary> Gets or sets the is archived. </summary>
+        public bool? IsArchived { get; set; }
+        /// <summary> Gets or sets the confirmed dt. </summary>
+        public DateTimeOffset? ConfirmedDt { get; set; }
+        /// <summary> Gets or sets the is confirmed. </summary>
+        public bool? IsConfirmed { get; set; }
+        /// <summary> Gets or sets the rejected dt. </summary>
+        public DateTimeOffset? RejectedDt { get; set; }
+        /// <summary> Gets or sets the is rejected. </summary>
+        public bool? IsRejected { get; set; }
+        /// <summary> Gets or sets the created dt. </summary>
+        public DateTimeOffset? CreatedDt { get; set; }
+        /// <summary> Gets or sets the error code. </summary>
+        public string ErrorCode { get; set; }
+        /// <summary> Gets or sets the error detail. </summary>
+        public string ErrorDetail { get; set; }
         /// <summary> URL to view the file. </summary>
-        public string File { get; }
+        public string File { get; set; }
         /// <summary> Gets the tags. </summary>
-        public IReadOnlyList<Tag> Tags { get; }
-        /// <summary> Gets the confirmed by. </summary>
-        public UserNullable ConfirmedBy { get; }
+        public IList<Tag> Tags { get; }
+        /// <summary> Gets or sets the confirmed by. </summary>
+        public UserNullable ConfirmedBy { get; set; }
+        /// <summary> If the document is created via email ingestion, this field stores the email file&apos;s URL. </summary>
+        public string SourceEmail { get; set; }
     }
 }

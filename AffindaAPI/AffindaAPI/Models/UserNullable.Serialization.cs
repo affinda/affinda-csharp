@@ -10,8 +10,46 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class UserNullable
+    public partial class UserNullable : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            if (Optional.IsDefined(Id))
+            {
+                writer.WritePropertyName("id");
+                writer.WriteNumberValue(Id.Value);
+            }
+            if (Optional.IsDefined(Name))
+            {
+                writer.WritePropertyName("name");
+                writer.WriteStringValue(Name);
+            }
+            if (Optional.IsDefined(Username))
+            {
+                writer.WritePropertyName("username");
+                writer.WriteStringValue(Username);
+            }
+            if (Optional.IsDefined(Email))
+            {
+                writer.WritePropertyName("email");
+                writer.WriteStringValue(Email);
+            }
+            if (Optional.IsDefined(Avatar))
+            {
+                if (Avatar != null)
+                {
+                    writer.WritePropertyName("avatar");
+                    writer.WriteStringValue(Avatar);
+                }
+                else
+                {
+                    writer.WriteNull("avatar");
+                }
+            }
+            writer.WriteEndObject();
+        }
+
         internal static UserNullable DeserializeUserNullable(JsonElement element)
         {
             Optional<int> id = default;

@@ -14,19 +14,19 @@ namespace Affinda.API.Models
     public partial class InvoiceDataTablesItem
     {
         /// <summary> Initializes a new instance of InvoiceDataTablesItem. </summary>
-        internal InvoiceDataTablesItem()
+        public InvoiceDataTablesItem()
         {
             Rows = new ChangeTrackingList<RowAnnotation>();
         }
 
         /// <summary> Initializes a new instance of InvoiceDataTablesItem. </summary>
         /// <param name="rows"></param>
-        internal InvoiceDataTablesItem(IReadOnlyList<RowAnnotation> rows)
+        internal InvoiceDataTablesItem(IList<RowAnnotation> rows)
         {
             Rows = rows;
         }
 
         /// <summary> Gets the rows. </summary>
-        public IReadOnlyList<RowAnnotation> Rows { get; }
+        public IList<RowAnnotation> Rows { get; }
     }
 }

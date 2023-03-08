@@ -19,7 +19,7 @@ namespace Affinda.API.Models
 
         /// <summary> File as binary data blob. Supported formats: PDF, DOC, DOCX, TXT, RTF, HTML, PNG, JPG. </summary>
         public Stream File { get; }
-        /// <summary> URL to a resume to download and process. </summary>
+        /// <summary> URL to download the document. </summary>
         public string Url { get; }
         /// <summary> Uniquely identify a collection. </summary>
         public string Collection { get; }
@@ -35,5 +35,7 @@ namespace Affinda.API.Models
         public string ExpiryTime { get; }
         /// <summary> Language code in ISO 639-1 format. Must specify zh-cn or zh-tw for Chinese. </summary>
         public string Language { get; }
+        /// <summary> If &quot;true&quot;, parsing will fail when the uploaded document is duplicate of an existing document. If &quot;false&quot; (default), will parse the document normally whether its a duplicate or not. </summary>
+        public string RejectDuplicates { get; }
     }
 }

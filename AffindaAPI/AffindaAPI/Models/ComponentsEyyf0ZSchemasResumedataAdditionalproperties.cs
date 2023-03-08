@@ -11,7 +11,7 @@ namespace Affinda.API.Models
     public partial class ComponentsEyyf0ZSchemasResumedataAdditionalproperties
     {
         /// <summary> Initializes a new instance of ComponentsEyyf0ZSchemasResumedataAdditionalproperties. </summary>
-        internal ComponentsEyyf0ZSchemasResumedataAdditionalproperties()
+        public ComponentsEyyf0ZSchemasResumedataAdditionalproperties()
         {
         }
     }

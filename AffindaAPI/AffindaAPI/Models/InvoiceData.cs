@@ -14,7 +14,7 @@ namespace Affinda.API.Models
     public partial class InvoiceData
     {
         /// <summary> Initializes a new instance of InvoiceData. </summary>
-        internal InvoiceData()
+        public InvoiceData()
         {
             Tables = new ChangeTrackingList<InvoiceDataTablesItem>();
             CustomFields = new ChangeTrackingDictionary<string, object>();
@@ -59,7 +59,7 @@ namespace Affinda.API.Models
         /// <param name="supplierWebsite"></param>
         /// <param name="currencyCode"></param>
         /// <param name="customFields"> Dictionary of &lt;any&gt;. </param>
-        internal InvoiceData(IReadOnlyList<InvoiceDataTablesItem> tables, DateAnnotationV2 invoiceDate, DateAnnotationV2 invoiceOrderDate, DateAnnotationV2 paymentDateDue, InvoiceDataPaymentAmountBase paymentAmountBase, InvoiceDataPaymentAmountTax paymentAmountTax, InvoiceDataPaymentAmountTotal paymentAmountTotal, InvoiceDataPaymentAmountPaid paymentAmountPaid, InvoiceDataPaymentAmountDue paymentAmountDue, InvoiceDataInvoiceNumber invoiceNumber, InvoiceDataInvoicePurchaseOrderNumber invoicePurchaseOrderNumber, InvoiceDataSupplierBusinessNumber supplierBusinessNumber, InvoiceDataCustomerNumber customerNumber, InvoiceDataCustomerBusinessNumber customerBusinessNumber, InvoiceDataPaymentReference paymentReference, InvoiceDataBankAccountNumber bankAccountNumber, InvoiceDataSupplierVat supplierVat, InvoiceDataCustomerVat customerVat, InvoiceDataBpayBillerCode bpayBillerCode, InvoiceDataBpayReference bpayReference, InvoiceDataBankSortCode bankSortCode, InvoiceDataBankIban bankIban, InvoiceDataBankSwift bankSwift, InvoiceDataBankBsb bankBsb, InvoiceDataCustomerContactName customerContactName, InvoiceDataCustomerCompanyName customerCompanyName, InvoiceDataSupplierCompanyName supplierCompanyName, LocationAnnotationV2 customerBillingAddress, LocationAnnotationV2 customerDeliveryAddress, LocationAnnotationV2 supplierAddress, InvoiceDataCustomerPhoneNumber customerPhoneNumber, InvoiceDataSupplierPhoneNumber supplierPhoneNumber, InvoiceDataSupplierFax supplierFax, InvoiceDataCustomerEmail customerEmail, InvoiceDataSupplierEmail supplierEmail, InvoiceDataSupplierWebsite supplierWebsite, TextAnnotationV2 currencyCode, IReadOnlyDictionary<string, object> customFields)
+        internal InvoiceData(IList<InvoiceDataTablesItem> tables, DateAnnotation invoiceDate, DateAnnotation invoiceOrderDate, DateAnnotation paymentDateDue, InvoiceDataPaymentAmountBase paymentAmountBase, InvoiceDataPaymentAmountTax paymentAmountTax, InvoiceDataPaymentAmountTotal paymentAmountTotal, InvoiceDataPaymentAmountPaid paymentAmountPaid, InvoiceDataPaymentAmountDue paymentAmountDue, InvoiceDataInvoiceNumber invoiceNumber, InvoiceDataInvoicePurchaseOrderNumber invoicePurchaseOrderNumber, InvoiceDataSupplierBusinessNumber supplierBusinessNumber, InvoiceDataCustomerNumber customerNumber, InvoiceDataCustomerBusinessNumber customerBusinessNumber, InvoiceDataPaymentReference paymentReference, InvoiceDataBankAccountNumber bankAccountNumber, InvoiceDataSupplierVat supplierVat, InvoiceDataCustomerVat customerVat, InvoiceDataBpayBillerCode bpayBillerCode, InvoiceDataBpayReference bpayReference, InvoiceDataBankSortCode bankSortCode, InvoiceDataBankIban bankIban, InvoiceDataBankSwift bankSwift, InvoiceDataBankBsb bankBsb, InvoiceDataCustomerContactName customerContactName, InvoiceDataCustomerCompanyName customerCompanyName, InvoiceDataSupplierCompanyName supplierCompanyName, LocationAnnotation customerBillingAddress, LocationAnnotation customerDeliveryAddress, LocationAnnotation supplierAddress, InvoiceDataCustomerPhoneNumber customerPhoneNumber, InvoiceDataSupplierPhoneNumber supplierPhoneNumber, InvoiceDataSupplierFax supplierFax, InvoiceDataCustomerEmail customerEmail, InvoiceDataSupplierEmail supplierEmail, InvoiceDataSupplierWebsite supplierWebsite, TextAnnotation currencyCode, IDictionary<string, object> customFields)
         {
             Tables = tables;
             InvoiceDate = invoiceDate;
@@ -102,80 +102,80 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Gets the tables. </summary>
-        public IReadOnlyList<InvoiceDataTablesItem> Tables { get; }
-        /// <summary> Gets the invoice date. </summary>
-        public DateAnnotationV2 InvoiceDate { get; }
-        /// <summary> Gets the invoice order date. </summary>
-        public DateAnnotationV2 InvoiceOrderDate { get; }
-        /// <summary> Gets the payment date due. </summary>
-        public DateAnnotationV2 PaymentDateDue { get; }
-        /// <summary> Gets the payment amount base. </summary>
-        public InvoiceDataPaymentAmountBase PaymentAmountBase { get; }
-        /// <summary> Gets the payment amount tax. </summary>
-        public InvoiceDataPaymentAmountTax PaymentAmountTax { get; }
-        /// <summary> Gets the payment amount total. </summary>
-        public InvoiceDataPaymentAmountTotal PaymentAmountTotal { get; }
-        /// <summary> Gets the payment amount paid. </summary>
-        public InvoiceDataPaymentAmountPaid PaymentAmountPaid { get; }
-        /// <summary> Gets the payment amount due. </summary>
-        public InvoiceDataPaymentAmountDue PaymentAmountDue { get; }
-        /// <summary> Gets the invoice number. </summary>
-        public InvoiceDataInvoiceNumber InvoiceNumber { get; }
-        /// <summary> Gets the invoice purchase order number. </summary>
-        public InvoiceDataInvoicePurchaseOrderNumber InvoicePurchaseOrderNumber { get; }
-        /// <summary> Gets the supplier business number. </summary>
-        public InvoiceDataSupplierBusinessNumber SupplierBusinessNumber { get; }
-        /// <summary> Gets the customer number. </summary>
-        public InvoiceDataCustomerNumber CustomerNumber { get; }
-        /// <summary> Gets the customer business number. </summary>
-        public InvoiceDataCustomerBusinessNumber CustomerBusinessNumber { get; }
-        /// <summary> Gets the payment reference. </summary>
-        public InvoiceDataPaymentReference PaymentReference { get; }
-        /// <summary> Gets the bank account number. </summary>
-        public InvoiceDataBankAccountNumber BankAccountNumber { get; }
-        /// <summary> Gets the supplier vat. </summary>
-        public InvoiceDataSupplierVat SupplierVat { get; }
-        /// <summary> Gets the customer vat. </summary>
-        public InvoiceDataCustomerVat CustomerVat { get; }
-        /// <summary> Gets the bpay biller code. </summary>
-        public InvoiceDataBpayBillerCode BpayBillerCode { get; }
-        /// <summary> Gets the bpay reference. </summary>
-        public InvoiceDataBpayReference BpayReference { get; }
-        /// <summary> Gets the bank sort code. </summary>
-        public InvoiceDataBankSortCode BankSortCode { get; }
-        /// <summary> Gets the bank iban. </summary>
-        public InvoiceDataBankIban BankIban { get; }
-        /// <summary> Gets the bank swift. </summary>
-        public InvoiceDataBankSwift BankSwift { get; }
-        /// <summary> Gets the bank bsb. </summary>
-        public InvoiceDataBankBsb BankBsb { get; }
-        /// <summary> Gets the customer contact name. </summary>
-        public InvoiceDataCustomerContactName CustomerContactName { get; }
-        /// <summary> Gets the customer company name. </summary>
-        public InvoiceDataCustomerCompanyName CustomerCompanyName { get; }
-        /// <summary> Gets the supplier company name. </summary>
-        public InvoiceDataSupplierCompanyName SupplierCompanyName { get; }
-        /// <summary> Gets the customer billing address. </summary>
-        public LocationAnnotationV2 CustomerBillingAddress { get; }
-        /// <summary> Gets the customer delivery address. </summary>
-        public LocationAnnotationV2 CustomerDeliveryAddress { get; }
-        /// <summary> Gets the supplier address. </summary>
-        public LocationAnnotationV2 SupplierAddress { get; }
-        /// <summary> Gets the customer phone number. </summary>
-        public InvoiceDataCustomerPhoneNumber CustomerPhoneNumber { get; }
-        /// <summary> Gets the supplier phone number. </summary>
-        public InvoiceDataSupplierPhoneNumber SupplierPhoneNumber { get; }
-        /// <summary> Gets the supplier fax. </summary>
-        public InvoiceDataSupplierFax SupplierFax { get; }
-        /// <summary> Gets the customer email. </summary>
-        public InvoiceDataCustomerEmail CustomerEmail { get; }
-        /// <summary> Gets the supplier email. </summary>
-        public InvoiceDataSupplierEmail SupplierEmail { get; }
-        /// <summary> Gets the supplier website. </summary>
-        public InvoiceDataSupplierWebsite SupplierWebsite { get; }
-        /// <summary> Gets the currency code. </summary>
-        public TextAnnotationV2 CurrencyCode { get; }
+        public IList<InvoiceDataTablesItem> Tables { get; }
+        /// <summary> Gets or sets the invoice date. </summary>
+        public DateAnnotation InvoiceDate { get; set; }
+        /// <summary> Gets or sets the invoice order date. </summary>
+        public DateAnnotation InvoiceOrderDate { get; set; }
+        /// <summary> Gets or sets the payment date due. </summary>
+        public DateAnnotation PaymentDateDue { get; set; }
+        /// <summary> Gets or sets the payment amount base. </summary>
+        public InvoiceDataPaymentAmountBase PaymentAmountBase { get; set; }
+        /// <summary> Gets or sets the payment amount tax. </summary>
+        public InvoiceDataPaymentAmountTax PaymentAmountTax { get; set; }
+        /// <summary> Gets or sets the payment amount total. </summary>
+        public InvoiceDataPaymentAmountTotal PaymentAmountTotal { get; set; }
+        /// <summary> Gets or sets the payment amount paid. </summary>
+        public InvoiceDataPaymentAmountPaid PaymentAmountPaid { get; set; }
+        /// <summary> Gets or sets the payment amount due. </summary>
+        public InvoiceDataPaymentAmountDue PaymentAmountDue { get; set; }
+        /// <summary> Gets or sets the invoice number. </summary>
+        public InvoiceDataInvoiceNumber InvoiceNumber { get; set; }
+        /// <summary> Gets or sets the invoice purchase order number. </summary>
+        public InvoiceDataInvoicePurchaseOrderNumber InvoicePurchaseOrderNumber { get; set; }
+        /// <summary> Gets or sets the supplier business number. </summary>
+        public InvoiceDataSupplierBusinessNumber SupplierBusinessNumber { get; set; }
+        /// <summary> Gets or sets the customer number. </summary>
+        public InvoiceDataCustomerNumber CustomerNumber { get; set; }
+        /// <summary> Gets or sets the customer business number. </summary>
+        public InvoiceDataCustomerBusinessNumber CustomerBusinessNumber { get; set; }
+        /// <summary> Gets or sets the payment reference. </summary>
+        public InvoiceDataPaymentReference PaymentReference { get; set; }
+        /// <summary> Gets or sets the bank account number. </summary>
+        public InvoiceDataBankAccountNumber BankAccountNumber { get; set; }
+        /// <summary> Gets or sets the supplier vat. </summary>
+        public InvoiceDataSupplierVat SupplierVat { get; set; }
+        /// <summary> Gets or sets the customer vat. </summary>
+        public InvoiceDataCustomerVat CustomerVat { get; set; }
+        /// <summary> Gets or sets the bpay biller code. </summary>
+        public InvoiceDataBpayBillerCode BpayBillerCode { get; set; }
+        /// <summary> Gets or sets the bpay reference. </summary>
+        public InvoiceDataBpayReference BpayReference { get; set; }
+        /// <summary> Gets or sets the bank sort code. </summary>
+        public InvoiceDataBankSortCode BankSortCode { get; set; }
+        /// <summary> Gets or sets the bank iban. </summary>
+        public InvoiceDataBankIban BankIban { get; set; }
+        /// <summary> Gets or sets the bank swift. </summary>
+        public InvoiceDataBankSwift BankSwift { get; set; }
+        /// <summary> Gets or sets the bank bsb. </summary>
+        public InvoiceDataBankBsb BankBsb { get; set; }
+        /// <summary> Gets or sets the customer contact name. </summary>
+        public InvoiceDataCustomerContactName CustomerContactName { get; set; }
+        /// <summary> Gets or sets the customer company name. </summary>
+        public InvoiceDataCustomerCompanyName CustomerCompanyName { get; set; }
+        /// <summary> Gets or sets the supplier company name. </summary>
+        public InvoiceDataSupplierCompanyName SupplierCompanyName { get; set; }
+        /// <summary> Gets or sets the customer billing address. </summary>
+        public LocationAnnotation CustomerBillingAddress { get; set; }
+        /// <summary> Gets or sets the customer delivery address. </summary>
+        public LocationAnnotation CustomerDeliveryAddress { get; set; }
+        /// <summary> Gets or sets the supplier address. </summary>
+        public LocationAnnotation SupplierAddress { get; set; }
+        /// <summary> Gets or sets the customer phone number. </summary>
+        public InvoiceDataCustomerPhoneNumber CustomerPhoneNumber { get; set; }
+        /// <summary> Gets or sets the supplier phone number. </summary>
+        public InvoiceDataSupplierPhoneNumber SupplierPhoneNumber { get; set; }
+        /// <summary> Gets or sets the supplier fax. </summary>
+        public InvoiceDataSupplierFax SupplierFax { get; set; }
+        /// <summary> Gets or sets the customer email. </summary>
+        public InvoiceDataCustomerEmail CustomerEmail { get; set; }
+        /// <summary> Gets or sets the supplier email. </summary>
+        public InvoiceDataSupplierEmail SupplierEmail { get; set; }
+        /// <summary> Gets or sets the supplier website. </summary>
+        public InvoiceDataSupplierWebsite SupplierWebsite { get; set; }
+        /// <summary> Gets or sets the currency code. </summary>
+        public TextAnnotation CurrencyCode { get; set; }
         /// <summary> Dictionary of &lt;any&gt;. </summary>
-        public IReadOnlyDictionary<string, object> CustomFields { get; }
+        public IDictionary<string, object> CustomFields { get; set; }
     }
 }
