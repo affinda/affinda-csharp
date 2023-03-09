@@ -13,13 +13,13 @@ namespace Affinda.API
     /// <summary> Client options for AffindaAPIClient. </summary>
     public partial class AffindaAPIClientOptions : ClientOptions
     {
-        private const ServiceVersion LatestVersion = ServiceVersion.V3;
+        private const ServiceVersion LatestVersion = ServiceVersion.V2;
 
         /// <summary> The version of the service to use. </summary>
         public enum ServiceVersion
         {
-            /// <summary> Service version "v3". </summary>
-            V3 = 1,
+            /// <summary> Service version "v2". </summary>
+            V2 = 1,
         }
 
         internal string Version { get; }
@@ -29,7 +29,7 @@ namespace Affinda.API
         {
             Version = version switch
             {
-                ServiceVersion.V3 => "v3",
+                ServiceVersion.V2 => "v2",
                 _ => throw new NotSupportedException()
             };
         }
