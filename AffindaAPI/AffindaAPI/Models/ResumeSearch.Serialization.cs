@@ -19,7 +19,7 @@ namespace Affinda.API.Models
             Optional<string> next = default;
             Optional<string> previous = default;
             Optional<ResumeSearchParameters> parameters = default;
-            Optional<IReadOnlyList<Document>> results = default;
+            Optional<IReadOnlyList<ResumeSearchResult>> results = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("count"))
@@ -69,10 +69,10 @@ namespace Affinda.API.Models
                         property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    List<Document> array = new List<Document>();
+                    List<ResumeSearchResult> array = new List<ResumeSearchResult>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(Document.DeserializeDocument(item));
+                        array.Add(ResumeSearchResult.DeserializeResumeSearchResult(item));
                     }
                     results = array;
                     continue;

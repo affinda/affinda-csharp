@@ -21,11 +21,134 @@ namespace Affinda.API.Models
         /// <param name="parameters"></param>
         /// <param name="results"></param>
         /// <returns> A new <see cref="Models.ResumeSearch"/> instance for mocking. </returns>
-        public static ResumeSearch ResumeSearch(int? count = null, string next = null, string previous = null, ResumeSearchParameters parameters = null, IEnumerable<Document> results = null)
+        public static ResumeSearch ResumeSearch(int? count = null, string next = null, string previous = null, ResumeSearchParameters parameters = null, IEnumerable<ResumeSearchResult> results = null)
         {
-            results ??= new List<Document>();
+            results ??= new List<ResumeSearchResult>();
 
             return new ResumeSearch(count, next, previous, parameters, results?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of ResumeSearchResult. </summary>
+        /// <param name="identifier"> A random string that uniquely identify the resource. </param>
+        /// <param name="score"></param>
+        /// <param name="pdf"></param>
+        /// <param name="name"></param>
+        /// <param name="jobTitle"></param>
+        /// <param name="managementLevel"></param>
+        /// <param name="experience"></param>
+        /// <param name="skills"></param>
+        /// <param name="languages"></param>
+        /// <param name="location"></param>
+        /// <param name="education"></param>
+        /// <param name="occupationGroup"></param>
+        /// <param name="searchExpression"></param>
+        /// <param name="customData"> Dictionary of &lt;components·nqbw24·schemas·customdatasearchscorecomponent·additionalproperties&gt;. </param>
+        /// <returns> A new <see cref="Models.ResumeSearchResult"/> instance for mocking. </returns>
+        public static ResumeSearchResult ResumeSearchResult(string identifier = null, float score = default, string pdf = null, string name = null, JobTitleSearchScoreComponent jobTitle = null, ManagementLevelSearchScoreComponent managementLevel = null, ExperienceSearchScoreComponent experience = null, SkillsSearchScoreComponent skills = null, LanguagesSearchScoreComponent languages = null, LocationSearchScoreComponent location = null, EducationSearchScoreComponent education = null, OccupationGroupSearchScoreComponent occupationGroup = null, SearchExpressionSearchScoreComponent searchExpression = null, IReadOnlyDictionary<string, ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties> customData = null)
+        {
+            customData ??= new Dictionary<string, ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties>();
+
+            return new ResumeSearchResult(identifier, score, pdf, name, jobTitle, managementLevel, experience, skills, languages, location, education, occupationGroup, searchExpression, customData);
+        }
+
+        /// <summary> Initializes a new instance of JobTitleSearchScoreComponent. </summary>
+        /// <param name="value"></param>
+        /// <param name="label"></param>
+        /// <param name="score"></param>
+        /// <returns> A new <see cref="Models.JobTitleSearchScoreComponent"/> instance for mocking. </returns>
+        public static JobTitleSearchScoreComponent JobTitleSearchScoreComponent(string value = null, string label = null, float? score = null)
+        {
+            return new JobTitleSearchScoreComponent(value, label, score);
+        }
+
+        /// <summary> Initializes a new instance of ManagementLevelSearchScoreComponent. </summary>
+        /// <param name="value"></param>
+        /// <param name="label"></param>
+        /// <param name="score"></param>
+        /// <returns> A new <see cref="Models.ManagementLevelSearchScoreComponent"/> instance for mocking. </returns>
+        public static ManagementLevelSearchScoreComponent ManagementLevelSearchScoreComponent(string value = null, string label = null, float? score = null)
+        {
+            return new ManagementLevelSearchScoreComponent(value, label, score);
+        }
+
+        /// <summary> Initializes a new instance of ExperienceSearchScoreComponent. </summary>
+        /// <param name="value"></param>
+        /// <param name="label"></param>
+        /// <param name="score"></param>
+        /// <returns> A new <see cref="Models.ExperienceSearchScoreComponent"/> instance for mocking. </returns>
+        public static ExperienceSearchScoreComponent ExperienceSearchScoreComponent(string value = null, string label = null, float? score = null)
+        {
+            return new ExperienceSearchScoreComponent(value, label, score);
+        }
+
+        /// <summary> Initializes a new instance of SkillsSearchScoreComponent. </summary>
+        /// <param name="value"></param>
+        /// <param name="label"></param>
+        /// <param name="score"></param>
+        /// <returns> A new <see cref="Models.SkillsSearchScoreComponent"/> instance for mocking. </returns>
+        public static SkillsSearchScoreComponent SkillsSearchScoreComponent(string value = null, string label = null, float? score = null)
+        {
+            return new SkillsSearchScoreComponent(value, label, score);
+        }
+
+        /// <summary> Initializes a new instance of LanguagesSearchScoreComponent. </summary>
+        /// <param name="value"></param>
+        /// <param name="label"></param>
+        /// <param name="score"></param>
+        /// <returns> A new <see cref="Models.LanguagesSearchScoreComponent"/> instance for mocking. </returns>
+        public static LanguagesSearchScoreComponent LanguagesSearchScoreComponent(string value = null, string label = null, float? score = null)
+        {
+            return new LanguagesSearchScoreComponent(value, label, score);
+        }
+
+        /// <summary> Initializes a new instance of LocationSearchScoreComponent. </summary>
+        /// <param name="value"></param>
+        /// <param name="label"></param>
+        /// <param name="score"></param>
+        /// <returns> A new <see cref="Models.LocationSearchScoreComponent"/> instance for mocking. </returns>
+        public static LocationSearchScoreComponent LocationSearchScoreComponent(string value = null, string label = null, float? score = null)
+        {
+            return new LocationSearchScoreComponent(value, label, score);
+        }
+
+        /// <summary> Initializes a new instance of EducationSearchScoreComponent. </summary>
+        /// <param name="value"></param>
+        /// <param name="label"></param>
+        /// <param name="score"></param>
+        /// <returns> A new <see cref="Models.EducationSearchScoreComponent"/> instance for mocking. </returns>
+        public static EducationSearchScoreComponent EducationSearchScoreComponent(string value = null, string label = null, float? score = null)
+        {
+            return new EducationSearchScoreComponent(value, label, score);
+        }
+
+        /// <summary> Initializes a new instance of OccupationGroupSearchScoreComponent. </summary>
+        /// <param name="value"></param>
+        /// <param name="label"></param>
+        /// <param name="score"></param>
+        /// <returns> A new <see cref="Models.OccupationGroupSearchScoreComponent"/> instance for mocking. </returns>
+        public static OccupationGroupSearchScoreComponent OccupationGroupSearchScoreComponent(string value = null, string label = null, float? score = null)
+        {
+            return new OccupationGroupSearchScoreComponent(value, label, score);
+        }
+
+        /// <summary> Initializes a new instance of SearchExpressionSearchScoreComponent. </summary>
+        /// <param name="label"></param>
+        /// <param name="value"></param>
+        /// <param name="score"></param>
+        /// <returns> A new <see cref="Models.SearchExpressionSearchScoreComponent"/> instance for mocking. </returns>
+        public static SearchExpressionSearchScoreComponent SearchExpressionSearchScoreComponent(string label = null, string value = null, float? score = null)
+        {
+            return new SearchExpressionSearchScoreComponent(label, value, score);
+        }
+
+        /// <summary> Initializes a new instance of ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties. </summary>
+        /// <param name="value"></param>
+        /// <param name="label"></param>
+        /// <param name="score"></param>
+        /// <returns> A new <see cref="Models.ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties"/> instance for mocking. </returns>
+        public static ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties(string value = null, string label = null, float? score = null)
+        {
+            return new ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties(value, label, score);
         }
 
         /// <summary> Initializes a new instance of ResumeSearchDetail. </summary>
@@ -327,96 +450,6 @@ namespace Affinda.API.Models
         public static ResumeSearchMatchDetails ResumeSearchMatchDetails(JobTitleSearchScoreComponent jobTitle = null, ManagementLevelSearchScoreComponent managementLevel = null, ExperienceSearchScoreComponent experience = null, SkillsSearchScoreComponent skills = null, LanguagesSearchScoreComponent languages = null, LocationSearchScoreComponent location = null, EducationSearchScoreComponent education = null, OccupationGroupSearchScoreComponent occupationGroup = null, SearchExpressionSearchScoreComponent searchExpression = null)
         {
             return new ResumeSearchMatchDetails(jobTitle, managementLevel, experience, skills, languages, location, education, occupationGroup, searchExpression);
-        }
-
-        /// <summary> Initializes a new instance of JobTitleSearchScoreComponent. </summary>
-        /// <param name="value"></param>
-        /// <param name="label"></param>
-        /// <param name="score"></param>
-        /// <returns> A new <see cref="Models.JobTitleSearchScoreComponent"/> instance for mocking. </returns>
-        public static JobTitleSearchScoreComponent JobTitleSearchScoreComponent(string value = null, string label = null, float? score = null)
-        {
-            return new JobTitleSearchScoreComponent(value, label, score);
-        }
-
-        /// <summary> Initializes a new instance of ManagementLevelSearchScoreComponent. </summary>
-        /// <param name="value"></param>
-        /// <param name="label"></param>
-        /// <param name="score"></param>
-        /// <returns> A new <see cref="Models.ManagementLevelSearchScoreComponent"/> instance for mocking. </returns>
-        public static ManagementLevelSearchScoreComponent ManagementLevelSearchScoreComponent(string value = null, string label = null, float? score = null)
-        {
-            return new ManagementLevelSearchScoreComponent(value, label, score);
-        }
-
-        /// <summary> Initializes a new instance of ExperienceSearchScoreComponent. </summary>
-        /// <param name="value"></param>
-        /// <param name="label"></param>
-        /// <param name="score"></param>
-        /// <returns> A new <see cref="Models.ExperienceSearchScoreComponent"/> instance for mocking. </returns>
-        public static ExperienceSearchScoreComponent ExperienceSearchScoreComponent(string value = null, string label = null, float? score = null)
-        {
-            return new ExperienceSearchScoreComponent(value, label, score);
-        }
-
-        /// <summary> Initializes a new instance of SkillsSearchScoreComponent. </summary>
-        /// <param name="value"></param>
-        /// <param name="label"></param>
-        /// <param name="score"></param>
-        /// <returns> A new <see cref="Models.SkillsSearchScoreComponent"/> instance for mocking. </returns>
-        public static SkillsSearchScoreComponent SkillsSearchScoreComponent(string value = null, string label = null, float? score = null)
-        {
-            return new SkillsSearchScoreComponent(value, label, score);
-        }
-
-        /// <summary> Initializes a new instance of LanguagesSearchScoreComponent. </summary>
-        /// <param name="value"></param>
-        /// <param name="label"></param>
-        /// <param name="score"></param>
-        /// <returns> A new <see cref="Models.LanguagesSearchScoreComponent"/> instance for mocking. </returns>
-        public static LanguagesSearchScoreComponent LanguagesSearchScoreComponent(string value = null, string label = null, float? score = null)
-        {
-            return new LanguagesSearchScoreComponent(value, label, score);
-        }
-
-        /// <summary> Initializes a new instance of LocationSearchScoreComponent. </summary>
-        /// <param name="value"></param>
-        /// <param name="label"></param>
-        /// <param name="score"></param>
-        /// <returns> A new <see cref="Models.LocationSearchScoreComponent"/> instance for mocking. </returns>
-        public static LocationSearchScoreComponent LocationSearchScoreComponent(string value = null, string label = null, float? score = null)
-        {
-            return new LocationSearchScoreComponent(value, label, score);
-        }
-
-        /// <summary> Initializes a new instance of EducationSearchScoreComponent. </summary>
-        /// <param name="value"></param>
-        /// <param name="label"></param>
-        /// <param name="score"></param>
-        /// <returns> A new <see cref="Models.EducationSearchScoreComponent"/> instance for mocking. </returns>
-        public static EducationSearchScoreComponent EducationSearchScoreComponent(string value = null, string label = null, float? score = null)
-        {
-            return new EducationSearchScoreComponent(value, label, score);
-        }
-
-        /// <summary> Initializes a new instance of OccupationGroupSearchScoreComponent. </summary>
-        /// <param name="value"></param>
-        /// <param name="label"></param>
-        /// <param name="score"></param>
-        /// <returns> A new <see cref="Models.OccupationGroupSearchScoreComponent"/> instance for mocking. </returns>
-        public static OccupationGroupSearchScoreComponent OccupationGroupSearchScoreComponent(string value = null, string label = null, float? score = null)
-        {
-            return new OccupationGroupSearchScoreComponent(value, label, score);
-        }
-
-        /// <summary> Initializes a new instance of SearchExpressionSearchScoreComponent. </summary>
-        /// <param name="label"></param>
-        /// <param name="value"></param>
-        /// <param name="score"></param>
-        /// <returns> A new <see cref="Models.SearchExpressionSearchScoreComponent"/> instance for mocking. </returns>
-        public static SearchExpressionSearchScoreComponent SearchExpressionSearchScoreComponent(string label = null, string value = null, float? score = null)
-        {
-            return new SearchExpressionSearchScoreComponent(label, value, score);
         }
 
         /// <summary> Initializes a new instance of ResumeSearchConfig. </summary>
