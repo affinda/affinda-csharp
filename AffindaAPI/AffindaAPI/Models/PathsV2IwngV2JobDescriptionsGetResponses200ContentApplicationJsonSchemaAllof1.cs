@@ -16,17 +16,17 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of PathsV2IwngV2JobDescriptionsGetResponses200ContentApplicationJsonSchemaAllof1. </summary>
         internal PathsV2IwngV2JobDescriptionsGetResponses200ContentApplicationJsonSchemaAllof1()
         {
-            Results = new ChangeTrackingList<JobDescription>();
+            Results = new ChangeTrackingList<Meta>();
         }
 
         /// <summary> Initializes a new instance of PathsV2IwngV2JobDescriptionsGetResponses200ContentApplicationJsonSchemaAllof1. </summary>
         /// <param name="results"></param>
-        internal PathsV2IwngV2JobDescriptionsGetResponses200ContentApplicationJsonSchemaAllof1(IReadOnlyList<JobDescription> results)
+        internal PathsV2IwngV2JobDescriptionsGetResponses200ContentApplicationJsonSchemaAllof1(IReadOnlyList<Meta> results)
         {
             Results = results;
         }
 
         /// <summary> Gets the results. </summary>
-        public IReadOnlyList<JobDescription> Results { get; }
+        public IReadOnlyList<Meta> Results { get; }
     }
 }

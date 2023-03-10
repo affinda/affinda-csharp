@@ -36,7 +36,9 @@ namespace Affinda.API.Models
         /// <param name="isVerified"> This is true if the &apos;confirm&apos; button has been clicked in the Affinda validation tool. </param>
         /// <param name="reviewUrl"> Signed URL (valid for 60 minutes) to access the validation tool.  Not applicable for documents types such a resumes. </param>
         /// <param name="ocrConfidence"> The overall confidence in the conversion of image to text.  (only applicable for images or PDF documents without a text layer). </param>
-        internal Meta(string identifier, string fileName, bool? ready, DateTimeOffset? readyDt, bool? failed, string expiryTime, string language, string pdf, MetaParentDocument parentDocument, IReadOnlyList<MetaChildDocumentsItem> childDocuments, IReadOnlyList<PageMeta> pages, bool? isVerified, string reviewUrl, float? ocrConfidence)
+        /// <param name="createdDt"></param>
+        /// <param name="documentType"></param>
+        internal Meta(string identifier, string fileName, bool? ready, DateTimeOffset? readyDt, bool? failed, string expiryTime, string language, string pdf, MetaParentDocument parentDocument, IReadOnlyList<MetaChildDocumentsItem> childDocuments, IReadOnlyList<PageMeta> pages, bool? isVerified, string reviewUrl, float? ocrConfidence, DateTimeOffset? createdDt, string documentType)
         {
             Identifier = identifier;
             FileName = fileName;
@@ -52,6 +54,8 @@ namespace Affinda.API.Models
             IsVerified = isVerified;
             ReviewUrl = reviewUrl;
             OcrConfidence = ocrConfidence;
+            CreatedDt = createdDt;
+            DocumentType = documentType;
         }
 
         /// <summary> Uniquely identify a document. </summary>
@@ -82,5 +86,9 @@ namespace Affinda.API.Models
         public string ReviewUrl { get; }
         /// <summary> The overall confidence in the conversion of image to text.  (only applicable for images or PDF documents without a text layer). </summary>
         public float? OcrConfidence { get; }
+        /// <summary> Gets the created dt. </summary>
+        public DateTimeOffset? CreatedDt { get; }
+        /// <summary> Gets the document type. </summary>
+        public string DocumentType { get; }
     }
 }

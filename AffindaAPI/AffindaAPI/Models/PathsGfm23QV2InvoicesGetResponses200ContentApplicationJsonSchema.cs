@@ -17,7 +17,7 @@ namespace Affinda.API.Models
         /// <param name="count"> Number of items in results. </param>
         internal PathsGfm23QV2InvoicesGetResponses200ContentApplicationJsonSchema(int count) : base(count)
         {
-            Results = new ChangeTrackingList<Invoice>();
+            Results = new ChangeTrackingList<Meta>();
         }
 
         /// <summary> Initializes a new instance of PathsGfm23QV2InvoicesGetResponses200ContentApplicationJsonSchema. </summary>
@@ -25,12 +25,12 @@ namespace Affinda.API.Models
         /// <param name="next"> URL to request next page of results. </param>
         /// <param name="previous"> URL to request previous page of results. </param>
         /// <param name="results"></param>
-        internal PathsGfm23QV2InvoicesGetResponses200ContentApplicationJsonSchema(int count, string next, string previous, IReadOnlyList<Invoice> results) : base(count, next, previous)
+        internal PathsGfm23QV2InvoicesGetResponses200ContentApplicationJsonSchema(int count, string next, string previous, IReadOnlyList<Meta> results) : base(count, next, previous)
         {
             Results = results;
         }
 
         /// <summary> Gets the results. </summary>
-        public IReadOnlyList<Invoice> Results { get; }
+        public IReadOnlyList<Meta> Results { get; }
     }
 }

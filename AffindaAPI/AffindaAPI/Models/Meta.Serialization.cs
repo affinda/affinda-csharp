@@ -30,6 +30,8 @@ namespace Affinda.API.Models
             Optional<bool> isVerified = default;
             Optional<string> reviewUrl = default;
             Optional<float?> ocrConfidence = default;
+            Optional<DateTimeOffset> createdDt = default;
+            Optional<string> documentType = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("identifier"))
@@ -177,8 +179,23 @@ namespace Affinda.API.Models
                     ocrConfidence = property.Value.GetSingle();
                     continue;
                 }
+                if (property.NameEquals("createdDt"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    createdDt = property.Value.GetDateTimeOffset("O");
+                    continue;
+                }
+                if (property.NameEquals("documentType"))
+                {
+                    documentType = property.Value.GetString();
+                    continue;
+                }
             }
-            return new Meta(identifier.Value, fileName.Value, Optional.ToNullable(ready), Optional.ToNullable(readyDt), Optional.ToNullable(failed), expiryTime.Value, language.Value, pdf.Value, parentDocument.Value, Optional.ToList(childDocuments), Optional.ToList(pages), Optional.ToNullable(isVerified), reviewUrl.Value, Optional.ToNullable(ocrConfidence));
+            return new Meta(identifier.Value, fileName.Value, Optional.ToNullable(ready), Optional.ToNullable(readyDt), Optional.ToNullable(failed), expiryTime.Value, language.Value, pdf.Value, parentDocument.Value, Optional.ToList(childDocuments), Optional.ToList(pages), Optional.ToNullable(isVerified), reviewUrl.Value, Optional.ToNullable(ocrConfidence), Optional.ToNullable(createdDt), documentType.Value);
         }
     }
 }

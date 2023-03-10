@@ -20,9 +20,9 @@ namespace Affinda.API.Models
         /// <param name="previous"> URL to request previous page of results. </param>
         /// <param name="results"></param>
         /// <returns> A new <see cref="Models.Paths14VxierV2ResumesGetResponses200ContentApplicationJsonSchema"/> instance for mocking. </returns>
-        public static Paths14VxierV2ResumesGetResponses200ContentApplicationJsonSchema Paths14VxierV2ResumesGetResponses200ContentApplicationJsonSchema(int count = default, string next = null, string previous = null, IEnumerable<Resume> results = null)
+        public static Paths14VxierV2ResumesGetResponses200ContentApplicationJsonSchema Paths14VxierV2ResumesGetResponses200ContentApplicationJsonSchema(int count = default, string next = null, string previous = null, IEnumerable<Meta> results = null)
         {
-            results ??= new List<Resume>();
+            results ??= new List<Meta>();
 
             return new Paths14VxierV2ResumesGetResponses200ContentApplicationJsonSchema(count, next, previous, results?.ToList());
         }
@@ -40,11 +40,97 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of PathsX4VofmV2ResumesGetResponses200ContentApplicationJsonSchemaAllof1. </summary>
         /// <param name="results"></param>
         /// <returns> A new <see cref="Models.PathsX4VofmV2ResumesGetResponses200ContentApplicationJsonSchemaAllof1"/> instance for mocking. </returns>
-        public static PathsX4VofmV2ResumesGetResponses200ContentApplicationJsonSchemaAllof1 PathsX4VofmV2ResumesGetResponses200ContentApplicationJsonSchemaAllof1(IEnumerable<Resume> results = null)
+        public static PathsX4VofmV2ResumesGetResponses200ContentApplicationJsonSchemaAllof1 PathsX4VofmV2ResumesGetResponses200ContentApplicationJsonSchemaAllof1(IEnumerable<Meta> results = null)
         {
-            results ??= new List<Resume>();
+            results ??= new List<Meta>();
 
             return new PathsX4VofmV2ResumesGetResponses200ContentApplicationJsonSchemaAllof1(results?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of Meta. </summary>
+        /// <param name="identifier"> Uniquely identify a document. </param>
+        /// <param name="fileName"> Optional filename of the file. </param>
+        /// <param name="ready"> If true, the document has finished processing. Particularly useful if an endpoint request specified wait=False, when polling use this variable to determine when to stop polling. </param>
+        /// <param name="readyDt"> The datetime when the document was ready. </param>
+        /// <param name="failed"> If true, some exception was raised during processing. Check the &apos;error&apos; field of the main return object. </param>
+        /// <param name="expiryTime"> The date/time in ISO-8601 format when the document will be automatically deleted.  Defaults to no expiry. </param>
+        /// <param name="language"> The document&apos;s language. </param>
+        /// <param name="pdf"> The URL to the document&apos;s pdf (if the uploaded document is not already pdf, it&apos;s converted to pdf as part of the parsing process). </param>
+        /// <param name="parentDocument"> If this document is part of a splitted document, this attribute points to the original document that this document is splitted from. </param>
+        /// <param name="childDocuments"> If this document has been splitted into a number of child documents, this attribute points to those child documents. </param>
+        /// <param name="pages"> The document&apos;s pages. </param>
+        /// <param name="isVerified"> This is true if the &apos;confirm&apos; button has been clicked in the Affinda validation tool. </param>
+        /// <param name="reviewUrl"> Signed URL (valid for 60 minutes) to access the validation tool.  Not applicable for documents types such a resumes. </param>
+        /// <param name="ocrConfidence"> The overall confidence in the conversion of image to text.  (only applicable for images or PDF documents without a text layer). </param>
+        /// <param name="createdDt"></param>
+        /// <param name="documentType"></param>
+        /// <returns> A new <see cref="Models.Meta"/> instance for mocking. </returns>
+        public static Meta Meta(string identifier = null, string fileName = null, bool? ready = null, DateTimeOffset? readyDt = null, bool? failed = null, string expiryTime = null, string language = null, string pdf = null, MetaParentDocument parentDocument = null, IEnumerable<MetaChildDocumentsItem> childDocuments = null, IEnumerable<PageMeta> pages = null, bool? isVerified = null, string reviewUrl = null, float? ocrConfidence = null, DateTimeOffset? createdDt = null, string documentType = null)
+        {
+            childDocuments ??= new List<MetaChildDocumentsItem>();
+            pages ??= new List<PageMeta>();
+
+            return new Meta(identifier, fileName, ready, readyDt, failed, expiryTime, language, pdf, parentDocument, childDocuments?.ToList(), pages?.ToList(), isVerified, reviewUrl, ocrConfidence, createdDt, documentType);
+        }
+
+        /// <summary> Initializes a new instance of MetaParentDocument. </summary>
+        /// <param name="identifier"> Uniquely identify a document. </param>
+        /// <returns> A new <see cref="Models.MetaParentDocument"/> instance for mocking. </returns>
+        public static MetaParentDocument MetaParentDocument(string identifier = null)
+        {
+            return new MetaParentDocument(identifier);
+        }
+
+        /// <summary> Initializes a new instance of MetaChildDocumentsItem. </summary>
+        /// <param name="identifier"> Uniquely identify a document. </param>
+        /// <returns> A new <see cref="Models.MetaChildDocumentsItem"/> instance for mocking. </returns>
+        public static MetaChildDocumentsItem MetaChildDocumentsItem(string identifier = null)
+        {
+            return new MetaChildDocumentsItem(identifier);
+        }
+
+        /// <summary> Initializes a new instance of PageMeta. </summary>
+        /// <param name="id"></param>
+        /// <param name="pageIndex"> Page number within the document, starts from 0. </param>
+        /// <param name="image"> The URL to the image of the page. </param>
+        /// <param name="height"> Height of the page&apos;s image in px. </param>
+        /// <param name="width"> Width of the page&apos;s image in px. </param>
+        /// <param name="rotation"> The degree of rotation applied to the page. Greater than 0 indicates clockwise rotation. Less than 0 indicates counter-clockwise rotation. </param>
+        /// <returns> A new <see cref="Models.PageMeta"/> instance for mocking. </returns>
+        public static PageMeta PageMeta(int id = default, int pageIndex = default, string image = null, float height = default, float width = default, int rotation = default)
+        {
+            return new PageMeta(id, pageIndex, image, height, width, rotation);
+        }
+
+        /// <summary> Initializes a new instance of RequestError. </summary>
+        /// <param name="type"></param>
+        /// <param name="errors"></param>
+        /// <returns> A new <see cref="Models.RequestError"/> instance for mocking. </returns>
+        public static RequestError RequestError(string type = null, IEnumerable<RequestErrorErrorsItem> errors = null)
+        {
+            errors ??= new List<RequestErrorErrorsItem>();
+
+            return new RequestError(type, errors?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of RequestErrorErrorsItem. </summary>
+        /// <param name="attr"></param>
+        /// <param name="code"></param>
+        /// <param name="detail"></param>
+        /// <exception cref="ArgumentNullException"> <paramref name="code"/> or <paramref name="detail"/> is null. </exception>
+        /// <returns> A new <see cref="Models.RequestErrorErrorsItem"/> instance for mocking. </returns>
+        public static RequestErrorErrorsItem RequestErrorErrorsItem(string attr = null, string code = null, string detail = null)
+        {
+            if (code == null)
+            {
+                throw new ArgumentNullException(nameof(code));
+            }
+            if (detail == null)
+            {
+                throw new ArgumentNullException(nameof(detail));
+            }
+
+            return new RequestErrorErrorsItem(attr, code, detail);
         }
 
         /// <summary> Initializes a new instance of Resume. </summary>
@@ -224,59 +310,6 @@ namespace Affinda.API.Models
             return new ResumeDataSectionsItem(sectionType, bbox?.ToList(), pageIndex, text);
         }
 
-        /// <summary> Initializes a new instance of Meta. </summary>
-        /// <param name="identifier"> Uniquely identify a document. </param>
-        /// <param name="fileName"> Optional filename of the file. </param>
-        /// <param name="ready"> If true, the document has finished processing. Particularly useful if an endpoint request specified wait=False, when polling use this variable to determine when to stop polling. </param>
-        /// <param name="readyDt"> The datetime when the document was ready. </param>
-        /// <param name="failed"> If true, some exception was raised during processing. Check the &apos;error&apos; field of the main return object. </param>
-        /// <param name="expiryTime"> The date/time in ISO-8601 format when the document will be automatically deleted.  Defaults to no expiry. </param>
-        /// <param name="language"> The document&apos;s language. </param>
-        /// <param name="pdf"> The URL to the document&apos;s pdf (if the uploaded document is not already pdf, it&apos;s converted to pdf as part of the parsing process). </param>
-        /// <param name="parentDocument"> If this document is part of a splitted document, this attribute points to the original document that this document is splitted from. </param>
-        /// <param name="childDocuments"> If this document has been splitted into a number of child documents, this attribute points to those child documents. </param>
-        /// <param name="pages"> The document&apos;s pages. </param>
-        /// <param name="isVerified"> This is true if the &apos;confirm&apos; button has been clicked in the Affinda validation tool. </param>
-        /// <param name="reviewUrl"> Signed URL (valid for 60 minutes) to access the validation tool.  Not applicable for documents types such a resumes. </param>
-        /// <param name="ocrConfidence"> The overall confidence in the conversion of image to text.  (only applicable for images or PDF documents without a text layer). </param>
-        /// <returns> A new <see cref="Models.Meta"/> instance for mocking. </returns>
-        public static Meta Meta(string identifier = null, string fileName = null, bool? ready = null, DateTimeOffset? readyDt = null, bool? failed = null, string expiryTime = null, string language = null, string pdf = null, MetaParentDocument parentDocument = null, IEnumerable<MetaChildDocumentsItem> childDocuments = null, IEnumerable<PageMeta> pages = null, bool? isVerified = null, string reviewUrl = null, float? ocrConfidence = null)
-        {
-            childDocuments ??= new List<MetaChildDocumentsItem>();
-            pages ??= new List<PageMeta>();
-
-            return new Meta(identifier, fileName, ready, readyDt, failed, expiryTime, language, pdf, parentDocument, childDocuments?.ToList(), pages?.ToList(), isVerified, reviewUrl, ocrConfidence);
-        }
-
-        /// <summary> Initializes a new instance of MetaParentDocument. </summary>
-        /// <param name="identifier"> Uniquely identify a document. </param>
-        /// <returns> A new <see cref="Models.MetaParentDocument"/> instance for mocking. </returns>
-        public static MetaParentDocument MetaParentDocument(string identifier = null)
-        {
-            return new MetaParentDocument(identifier);
-        }
-
-        /// <summary> Initializes a new instance of MetaChildDocumentsItem. </summary>
-        /// <param name="identifier"> Uniquely identify a document. </param>
-        /// <returns> A new <see cref="Models.MetaChildDocumentsItem"/> instance for mocking. </returns>
-        public static MetaChildDocumentsItem MetaChildDocumentsItem(string identifier = null)
-        {
-            return new MetaChildDocumentsItem(identifier);
-        }
-
-        /// <summary> Initializes a new instance of PageMeta. </summary>
-        /// <param name="id"></param>
-        /// <param name="pageIndex"> Page number within the document, starts from 0. </param>
-        /// <param name="image"> The URL to the image of the page. </param>
-        /// <param name="height"> Height of the page&apos;s image in px. </param>
-        /// <param name="width"> Width of the page&apos;s image in px. </param>
-        /// <param name="rotation"> The degree of rotation applied to the page. Greater than 0 indicates clockwise rotation. Less than 0 indicates counter-clockwise rotation. </param>
-        /// <returns> A new <see cref="Models.PageMeta"/> instance for mocking. </returns>
-        public static PageMeta PageMeta(int id = default, int pageIndex = default, string image = null, float height = default, float width = default, int rotation = default)
-        {
-            return new PageMeta(id, pageIndex, image, height, width, rotation);
-        }
-
         /// <summary> Initializes a new instance of Error. </summary>
         /// <param name="errorCode"></param>
         /// <param name="errorDetail"></param>
@@ -286,46 +319,15 @@ namespace Affinda.API.Models
             return new Error(errorCode, errorDetail);
         }
 
-        /// <summary> Initializes a new instance of RequestError. </summary>
-        /// <param name="type"></param>
-        /// <param name="errors"></param>
-        /// <returns> A new <see cref="Models.RequestError"/> instance for mocking. </returns>
-        public static RequestError RequestError(string type = null, IEnumerable<RequestErrorErrorsItem> errors = null)
-        {
-            errors ??= new List<RequestErrorErrorsItem>();
-
-            return new RequestError(type, errors?.ToList());
-        }
-
-        /// <summary> Initializes a new instance of RequestErrorErrorsItem. </summary>
-        /// <param name="attr"></param>
-        /// <param name="code"></param>
-        /// <param name="detail"></param>
-        /// <exception cref="ArgumentNullException"> <paramref name="code"/> or <paramref name="detail"/> is null. </exception>
-        /// <returns> A new <see cref="Models.RequestErrorErrorsItem"/> instance for mocking. </returns>
-        public static RequestErrorErrorsItem RequestErrorErrorsItem(string attr = null, string code = null, string detail = null)
-        {
-            if (code == null)
-            {
-                throw new ArgumentNullException(nameof(code));
-            }
-            if (detail == null)
-            {
-                throw new ArgumentNullException(nameof(detail));
-            }
-
-            return new RequestErrorErrorsItem(attr, code, detail);
-        }
-
         /// <summary> Initializes a new instance of Paths1D957B5V2RedactedResumesGetResponses200ContentApplicationJsonSchema. </summary>
         /// <param name="count"> Number of items in results. </param>
         /// <param name="next"> URL to request next page of results. </param>
         /// <param name="previous"> URL to request previous page of results. </param>
         /// <param name="results"></param>
         /// <returns> A new <see cref="Models.Paths1D957B5V2RedactedResumesGetResponses200ContentApplicationJsonSchema"/> instance for mocking. </returns>
-        public static Paths1D957B5V2RedactedResumesGetResponses200ContentApplicationJsonSchema Paths1D957B5V2RedactedResumesGetResponses200ContentApplicationJsonSchema(int count = default, string next = null, string previous = null, IEnumerable<Resume> results = null)
+        public static Paths1D957B5V2RedactedResumesGetResponses200ContentApplicationJsonSchema Paths1D957B5V2RedactedResumesGetResponses200ContentApplicationJsonSchema(int count = default, string next = null, string previous = null, IEnumerable<Meta> results = null)
         {
-            results ??= new List<Resume>();
+            results ??= new List<Meta>();
 
             return new Paths1D957B5V2RedactedResumesGetResponses200ContentApplicationJsonSchema(count, next, previous, results?.ToList());
         }
@@ -333,9 +335,9 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of Paths1Q5Zfv5V2RedactedResumesGetResponses200ContentApplicationJsonSchemaAllof1. </summary>
         /// <param name="results"></param>
         /// <returns> A new <see cref="Models.Paths1Q5Zfv5V2RedactedResumesGetResponses200ContentApplicationJsonSchemaAllof1"/> instance for mocking. </returns>
-        public static Paths1Q5Zfv5V2RedactedResumesGetResponses200ContentApplicationJsonSchemaAllof1 Paths1Q5Zfv5V2RedactedResumesGetResponses200ContentApplicationJsonSchemaAllof1(IEnumerable<Resume> results = null)
+        public static Paths1Q5Zfv5V2RedactedResumesGetResponses200ContentApplicationJsonSchemaAllof1 Paths1Q5Zfv5V2RedactedResumesGetResponses200ContentApplicationJsonSchemaAllof1(IEnumerable<Meta> results = null)
         {
-            results ??= new List<Resume>();
+            results ??= new List<Meta>();
 
             return new Paths1Q5Zfv5V2RedactedResumesGetResponses200ContentApplicationJsonSchemaAllof1(results?.ToList());
         }
@@ -374,9 +376,9 @@ namespace Affinda.API.Models
         /// <param name="previous"> URL to request previous page of results. </param>
         /// <param name="results"></param>
         /// <returns> A new <see cref="Models.PathsGfm23QV2InvoicesGetResponses200ContentApplicationJsonSchema"/> instance for mocking. </returns>
-        public static PathsGfm23QV2InvoicesGetResponses200ContentApplicationJsonSchema PathsGfm23QV2InvoicesGetResponses200ContentApplicationJsonSchema(int count = default, string next = null, string previous = null, IEnumerable<Invoice> results = null)
+        public static PathsGfm23QV2InvoicesGetResponses200ContentApplicationJsonSchema PathsGfm23QV2InvoicesGetResponses200ContentApplicationJsonSchema(int count = default, string next = null, string previous = null, IEnumerable<Meta> results = null)
         {
-            results ??= new List<Invoice>();
+            results ??= new List<Meta>();
 
             return new PathsGfm23QV2InvoicesGetResponses200ContentApplicationJsonSchema(count, next, previous, results?.ToList());
         }
@@ -384,9 +386,9 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of Paths18ZzckpV2InvoicesGetResponses200ContentApplicationJsonSchemaAllof1. </summary>
         /// <param name="results"></param>
         /// <returns> A new <see cref="Models.Paths18ZzckpV2InvoicesGetResponses200ContentApplicationJsonSchemaAllof1"/> instance for mocking. </returns>
-        public static Paths18ZzckpV2InvoicesGetResponses200ContentApplicationJsonSchemaAllof1 Paths18ZzckpV2InvoicesGetResponses200ContentApplicationJsonSchemaAllof1(IEnumerable<Invoice> results = null)
+        public static Paths18ZzckpV2InvoicesGetResponses200ContentApplicationJsonSchemaAllof1 Paths18ZzckpV2InvoicesGetResponses200ContentApplicationJsonSchemaAllof1(IEnumerable<Meta> results = null)
         {
-            results ??= new List<Invoice>();
+            results ??= new List<Meta>();
 
             return new Paths18ZzckpV2InvoicesGetResponses200ContentApplicationJsonSchemaAllof1(results?.ToList());
         }
@@ -502,9 +504,9 @@ namespace Affinda.API.Models
         /// <param name="previous"> URL to request previous page of results. </param>
         /// <param name="results"></param>
         /// <returns> A new <see cref="Models.PathsChbpqfV2JobDescriptionsGetResponses200ContentApplicationJsonSchema"/> instance for mocking. </returns>
-        public static PathsChbpqfV2JobDescriptionsGetResponses200ContentApplicationJsonSchema PathsChbpqfV2JobDescriptionsGetResponses200ContentApplicationJsonSchema(int count = default, string next = null, string previous = null, IEnumerable<JobDescription> results = null)
+        public static PathsChbpqfV2JobDescriptionsGetResponses200ContentApplicationJsonSchema PathsChbpqfV2JobDescriptionsGetResponses200ContentApplicationJsonSchema(int count = default, string next = null, string previous = null, IEnumerable<Meta> results = null)
         {
-            results ??= new List<JobDescription>();
+            results ??= new List<Meta>();
 
             return new PathsChbpqfV2JobDescriptionsGetResponses200ContentApplicationJsonSchema(count, next, previous, results?.ToList());
         }
@@ -512,9 +514,9 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of PathsV2IwngV2JobDescriptionsGetResponses200ContentApplicationJsonSchemaAllof1. </summary>
         /// <param name="results"></param>
         /// <returns> A new <see cref="Models.PathsV2IwngV2JobDescriptionsGetResponses200ContentApplicationJsonSchemaAllof1"/> instance for mocking. </returns>
-        public static PathsV2IwngV2JobDescriptionsGetResponses200ContentApplicationJsonSchemaAllof1 PathsV2IwngV2JobDescriptionsGetResponses200ContentApplicationJsonSchemaAllof1(IEnumerable<JobDescription> results = null)
+        public static PathsV2IwngV2JobDescriptionsGetResponses200ContentApplicationJsonSchemaAllof1 PathsV2IwngV2JobDescriptionsGetResponses200ContentApplicationJsonSchemaAllof1(IEnumerable<Meta> results = null)
         {
-            results ??= new List<JobDescription>();
+            results ??= new List<Meta>();
 
             return new PathsV2IwngV2JobDescriptionsGetResponses200ContentApplicationJsonSchemaAllof1(results?.ToList());
         }

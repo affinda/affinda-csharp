@@ -15,7 +15,7 @@ namespace Affinda.API.Models
     {
         internal static PathsGfm23QV2InvoicesGetResponses200ContentApplicationJsonSchema DeserializePathsGfm23QV2InvoicesGetResponses200ContentApplicationJsonSchema(JsonElement element)
         {
-            Optional<IReadOnlyList<Invoice>> results = default;
+            Optional<IReadOnlyList<Meta>> results = default;
             int count = default;
             Optional<string> next = default;
             Optional<string> previous = default;
@@ -28,10 +28,10 @@ namespace Affinda.API.Models
                         property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    List<Invoice> array = new List<Invoice>();
+                    List<Meta> array = new List<Meta>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(Invoice.DeserializeInvoice(item));
+                        array.Add(Meta.DeserializeMeta(item));
                     }
                     results = array;
                     continue;

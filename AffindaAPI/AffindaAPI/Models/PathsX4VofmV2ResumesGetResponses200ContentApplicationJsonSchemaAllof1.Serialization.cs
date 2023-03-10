@@ -15,7 +15,7 @@ namespace Affinda.API.Models
     {
         internal static PathsX4VofmV2ResumesGetResponses200ContentApplicationJsonSchemaAllof1 DeserializePathsX4VofmV2ResumesGetResponses200ContentApplicationJsonSchemaAllof1(JsonElement element)
         {
-            Optional<IReadOnlyList<Resume>> results = default;
+            Optional<IReadOnlyList<Meta>> results = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("results"))
@@ -25,10 +25,10 @@ namespace Affinda.API.Models
                         property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    List<Resume> array = new List<Resume>();
+                    List<Meta> array = new List<Meta>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(Resume.DeserializeResume(item));
+                        array.Add(Meta.DeserializeMeta(item));
                     }
                     results = array;
                     continue;

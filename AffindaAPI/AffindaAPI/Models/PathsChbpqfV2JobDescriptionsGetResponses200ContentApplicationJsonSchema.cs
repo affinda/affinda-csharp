@@ -17,7 +17,7 @@ namespace Affinda.API.Models
         /// <param name="count"> Number of items in results. </param>
         internal PathsChbpqfV2JobDescriptionsGetResponses200ContentApplicationJsonSchema(int count) : base(count)
         {
-            Results = new ChangeTrackingList<JobDescription>();
+            Results = new ChangeTrackingList<Meta>();
         }
 
         /// <summary> Initializes a new instance of PathsChbpqfV2JobDescriptionsGetResponses200ContentApplicationJsonSchema. </summary>
@@ -25,12 +25,12 @@ namespace Affinda.API.Models
         /// <param name="next"> URL to request next page of results. </param>
         /// <param name="previous"> URL to request previous page of results. </param>
         /// <param name="results"></param>
-        internal PathsChbpqfV2JobDescriptionsGetResponses200ContentApplicationJsonSchema(int count, string next, string previous, IReadOnlyList<JobDescription> results) : base(count, next, previous)
+        internal PathsChbpqfV2JobDescriptionsGetResponses200ContentApplicationJsonSchema(int count, string next, string previous, IReadOnlyList<Meta> results) : base(count, next, previous)
         {
             Results = results;
         }
 
         /// <summary> Gets the results. </summary>
-        public IReadOnlyList<JobDescription> Results { get; }
+        public IReadOnlyList<Meta> Results { get; }
     }
 }

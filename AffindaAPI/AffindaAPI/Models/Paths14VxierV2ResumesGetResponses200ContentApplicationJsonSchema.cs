@@ -17,7 +17,7 @@ namespace Affinda.API.Models
         /// <param name="count"> Number of items in results. </param>
         internal Paths14VxierV2ResumesGetResponses200ContentApplicationJsonSchema(int count) : base(count)
         {
-            Results = new ChangeTrackingList<Resume>();
+            Results = new ChangeTrackingList<Meta>();
         }
 
         /// <summary> Initializes a new instance of Paths14VxierV2ResumesGetResponses200ContentApplicationJsonSchema. </summary>
@@ -25,12 +25,12 @@ namespace Affinda.API.Models
         /// <param name="next"> URL to request next page of results. </param>
         /// <param name="previous"> URL to request previous page of results. </param>
         /// <param name="results"></param>
-        internal Paths14VxierV2ResumesGetResponses200ContentApplicationJsonSchema(int count, string next, string previous, IReadOnlyList<Resume> results) : base(count, next, previous)
+        internal Paths14VxierV2ResumesGetResponses200ContentApplicationJsonSchema(int count, string next, string previous, IReadOnlyList<Meta> results) : base(count, next, previous)
         {
             Results = results;
         }
 
         /// <summary> Gets the results. </summary>
-        public IReadOnlyList<Resume> Results { get; }
+        public IReadOnlyList<Meta> Results { get; }
     }
 }

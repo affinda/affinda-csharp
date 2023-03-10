@@ -15,7 +15,7 @@ namespace Affinda.API.Models
     {
         internal static PathsChbpqfV2JobDescriptionsGetResponses200ContentApplicationJsonSchema DeserializePathsChbpqfV2JobDescriptionsGetResponses200ContentApplicationJsonSchema(JsonElement element)
         {
-            Optional<IReadOnlyList<JobDescription>> results = default;
+            Optional<IReadOnlyList<Meta>> results = default;
             int count = default;
             Optional<string> next = default;
             Optional<string> previous = default;
@@ -28,10 +28,10 @@ namespace Affinda.API.Models
                         property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    List<JobDescription> array = new List<JobDescription>();
+                    List<Meta> array = new List<Meta>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(JobDescription.DeserializeJobDescription(item));
+                        array.Add(Meta.DeserializeMeta(item));
                     }
                     results = array;
                     continue;
