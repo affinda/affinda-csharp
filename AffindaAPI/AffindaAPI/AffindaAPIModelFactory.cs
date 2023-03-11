@@ -541,6 +541,34 @@ namespace Affinda.API.Models
             return new JobDescription(data, meta, error);
         }
 
+        /// <summary> Initializes a new instance of JobDescriptionData. </summary>
+        /// <param name="jobTitle"></param>
+        /// <param name="contactEmail"></param>
+        /// <param name="contactName"></param>
+        /// <param name="contactPhone"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <param name="jobType"></param>
+        /// <param name="languages"></param>
+        /// <param name="skills"></param>
+        /// <param name="organizationName"></param>
+        /// <param name="organizationWebsite"></param>
+        /// <param name="educationLevel"></param>
+        /// <param name="educationAccreditation"></param>
+        /// <param name="expectedRemuneration"></param>
+        /// <param name="location"></param>
+        /// <param name="certifications"></param>
+        /// <param name="yearsExperience"></param>
+        /// <returns> A new <see cref="Models.JobDescriptionData"/> instance for mocking. </returns>
+        public static JobDescriptionData JobDescriptionData(JobTitleAnnotation jobTitle = null, TextAnnotation contactEmail = null, TextAnnotation contactName = null, TextAnnotation contactPhone = null, DateAnnotation startDate = null, DateAnnotation endDate = null, TextAnnotation jobType = null, IEnumerable<LanguageAnnotation> languages = null, IEnumerable<SkillAnnotation> skills = null, TextAnnotation organizationName = null, TextAnnotation organizationWebsite = null, TextAnnotation educationLevel = null, TextAnnotation educationAccreditation = null, ExpectedRemunerationAnnotation expectedRemuneration = null, LocationAnnotation location = null, IEnumerable<TextAnnotation> certifications = null, YearsExperienceAnnotation yearsExperience = null)
+        {
+            languages ??= new List<LanguageAnnotation>();
+            skills ??= new List<SkillAnnotation>();
+            certifications ??= new List<TextAnnotation>();
+
+            return new JobDescriptionData(jobTitle, contactEmail, contactName, contactPhone, startDate, endDate, jobType, languages?.ToList(), skills?.ToList(), organizationName, organizationWebsite, educationLevel, educationAccreditation, expectedRemuneration, location, certifications?.ToList(), yearsExperience);
+        }
+
         /// <summary> Initializes a new instance of JobTitleAnnotation. </summary>
         /// <param name="id"></param>
         /// <param name="rectangle"></param>
@@ -594,6 +622,106 @@ namespace Affinda.API.Models
         public static JobTitleParsedClassification JobTitleParsedClassification(float? socCode = null, string title = null, string minorGroup = null, string subMajorGroup = null, string majorGroup = null)
         {
             return new JobTitleParsedClassification(socCode, title, minorGroup, subMajorGroup, majorGroup);
+        }
+
+        /// <summary> Initializes a new instance of JobTitleAnnotationUpdate. </summary>
+        /// <param name="id"></param>
+        /// <param name="rectangle"></param>
+        /// <param name="rectangles"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"> The overall confidence that the model&apos;s prediction is correct. </param>
+        /// <param name="classificationConfidence"> The model&apos;s confidence that the text has been classified correctly. </param>
+        /// <param name="textExtractionConfidence"> If the document was submitted as an image, this is the confidence that the text in the image has been correctly read by the model. </param>
+        /// <param name="isVerified"></param>
+        /// <param name="isClientVerified"></param>
+        /// <param name="isAutoVerified"></param>
+        /// <param name="dataPoint"></param>
+        /// <param name="contentType"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"> Matching job title to extracted text. </param>
+        /// <returns> A new <see cref="Models.JobTitleAnnotationUpdate"/> instance for mocking. </returns>
+        public static JobTitleAnnotationUpdate JobTitleAnnotationUpdate(int? id = null, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool? isVerified = null, bool? isClientVerified = null, bool? isAutoVerified = null, string dataPoint = null, string contentType = null, IDictionary<string, object> additionalProperties = null, JobTitleParsedParsed parsed = null)
+        {
+            rectangles ??= new List<Rectangle>();
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new JobTitleAnnotationUpdate(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties, parsed);
+        }
+
+        /// <summary> Initializes a new instance of LanguageAnnotationV2Update. </summary>
+        /// <param name="id"></param>
+        /// <param name="rectangle"></param>
+        /// <param name="rectangles"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"> The overall confidence that the model&apos;s prediction is correct. </param>
+        /// <param name="classificationConfidence"> The model&apos;s confidence that the text has been classified correctly. </param>
+        /// <param name="textExtractionConfidence"> If the document was submitted as an image, this is the confidence that the text in the image has been correctly read by the model. </param>
+        /// <param name="isVerified"></param>
+        /// <param name="isClientVerified"></param>
+        /// <param name="isAutoVerified"></param>
+        /// <param name="dataPoint"></param>
+        /// <param name="contentType"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.LanguageAnnotationV2Update"/> instance for mocking. </returns>
+        public static LanguageAnnotationV2Update LanguageAnnotationV2Update(int? id = null, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool? isVerified = null, bool? isClientVerified = null, bool? isAutoVerified = null, string dataPoint = null, string contentType = null, IDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            rectangles ??= new List<Rectangle>();
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new LanguageAnnotationV2Update(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties, parsed);
+        }
+
+        /// <summary> Initializes a new instance of SkillAnnotationV2Update. </summary>
+        /// <param name="id"></param>
+        /// <param name="rectangle"></param>
+        /// <param name="rectangles"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"> The overall confidence that the model&apos;s prediction is correct. </param>
+        /// <param name="classificationConfidence"> The model&apos;s confidence that the text has been classified correctly. </param>
+        /// <param name="textExtractionConfidence"> If the document was submitted as an image, this is the confidence that the text in the image has been correctly read by the model. </param>
+        /// <param name="isVerified"></param>
+        /// <param name="isClientVerified"></param>
+        /// <param name="isAutoVerified"></param>
+        /// <param name="dataPoint"></param>
+        /// <param name="contentType"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.SkillAnnotationV2Update"/> instance for mocking. </returns>
+        public static SkillAnnotationV2Update SkillAnnotationV2Update(int? id = null, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool? isVerified = null, bool? isClientVerified = null, bool? isAutoVerified = null, string dataPoint = null, string contentType = null, IDictionary<string, object> additionalProperties = null, string parsed = null)
+        {
+            rectangles ??= new List<Rectangle>();
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new SkillAnnotationV2Update(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties, parsed);
+        }
+
+        /// <summary> Initializes a new instance of LocationAnnotationV2Update. </summary>
+        /// <param name="id"></param>
+        /// <param name="rectangle"></param>
+        /// <param name="rectangles"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"> The overall confidence that the model&apos;s prediction is correct. </param>
+        /// <param name="classificationConfidence"> The model&apos;s confidence that the text has been classified correctly. </param>
+        /// <param name="textExtractionConfidence"> If the document was submitted as an image, this is the confidence that the text in the image has been correctly read by the model. </param>
+        /// <param name="isVerified"></param>
+        /// <param name="isClientVerified"></param>
+        /// <param name="isAutoVerified"></param>
+        /// <param name="dataPoint"></param>
+        /// <param name="contentType"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <param name="parsed"></param>
+        /// <returns> A new <see cref="Models.LocationAnnotationV2Update"/> instance for mocking. </returns>
+        public static LocationAnnotationV2Update LocationAnnotationV2Update(int? id = null, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool? isVerified = null, bool? isClientVerified = null, bool? isAutoVerified = null, string dataPoint = null, string contentType = null, IDictionary<string, object> additionalProperties = null, LocationAnnotationV2UpdateParsed parsed = null)
+        {
+            rectangles ??= new List<Rectangle>();
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new LocationAnnotationV2Update(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of JobDescriptionSearch. </summary>

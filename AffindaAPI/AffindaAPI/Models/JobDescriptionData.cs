@@ -14,7 +14,7 @@ namespace Affinda.API.Models
     public partial class JobDescriptionData
     {
         /// <summary> Initializes a new instance of JobDescriptionData. </summary>
-        public JobDescriptionData()
+        internal JobDescriptionData()
         {
             Languages = new ChangeTrackingList<LanguageAnnotation>();
             Skills = new ChangeTrackingList<SkillAnnotation>();
@@ -39,7 +39,7 @@ namespace Affinda.API.Models
         /// <param name="location"></param>
         /// <param name="certifications"></param>
         /// <param name="yearsExperience"></param>
-        internal JobDescriptionData(JobTitleAnnotation jobTitle, TextAnnotation contactEmail, TextAnnotation contactName, TextAnnotation contactPhone, DateAnnotation startDate, DateAnnotation endDate, TextAnnotation jobType, IList<LanguageAnnotation> languages, IList<SkillAnnotation> skills, TextAnnotation organizationName, TextAnnotation organizationWebsite, TextAnnotation educationLevel, TextAnnotation educationAccreditation, ExpectedRemunerationAnnotation expectedRemuneration, LocationAnnotation location, IList<TextAnnotation> certifications, YearsExperienceAnnotation yearsExperience)
+        internal JobDescriptionData(JobTitleAnnotation jobTitle, TextAnnotation contactEmail, TextAnnotation contactName, TextAnnotation contactPhone, DateAnnotation startDate, DateAnnotation endDate, TextAnnotation jobType, IReadOnlyList<LanguageAnnotation> languages, IReadOnlyList<SkillAnnotation> skills, TextAnnotation organizationName, TextAnnotation organizationWebsite, TextAnnotation educationLevel, TextAnnotation educationAccreditation, ExpectedRemunerationAnnotation expectedRemuneration, LocationAnnotation location, IReadOnlyList<TextAnnotation> certifications, YearsExperienceAnnotation yearsExperience)
         {
             JobTitle = jobTitle;
             ContactEmail = contactEmail;
@@ -60,39 +60,39 @@ namespace Affinda.API.Models
             YearsExperience = yearsExperience;
         }
 
-        /// <summary> Gets or sets the job title. </summary>
-        public JobTitleAnnotation JobTitle { get; set; }
-        /// <summary> Gets or sets the contact email. </summary>
-        public TextAnnotation ContactEmail { get; set; }
-        /// <summary> Gets or sets the contact name. </summary>
-        public TextAnnotation ContactName { get; set; }
-        /// <summary> Gets or sets the contact phone. </summary>
-        public TextAnnotation ContactPhone { get; set; }
-        /// <summary> Gets or sets the start date. </summary>
-        public DateAnnotation StartDate { get; set; }
-        /// <summary> Gets or sets the end date. </summary>
-        public DateAnnotation EndDate { get; set; }
-        /// <summary> Gets or sets the job type. </summary>
-        public TextAnnotation JobType { get; set; }
+        /// <summary> Gets the job title. </summary>
+        public JobTitleAnnotation JobTitle { get; }
+        /// <summary> Gets the contact email. </summary>
+        public TextAnnotation ContactEmail { get; }
+        /// <summary> Gets the contact name. </summary>
+        public TextAnnotation ContactName { get; }
+        /// <summary> Gets the contact phone. </summary>
+        public TextAnnotation ContactPhone { get; }
+        /// <summary> Gets the start date. </summary>
+        public DateAnnotation StartDate { get; }
+        /// <summary> Gets the end date. </summary>
+        public DateAnnotation EndDate { get; }
+        /// <summary> Gets the job type. </summary>
+        public TextAnnotation JobType { get; }
         /// <summary> Gets the languages. </summary>
-        public IList<LanguageAnnotation> Languages { get; }
+        public IReadOnlyList<LanguageAnnotation> Languages { get; }
         /// <summary> Gets the skills. </summary>
-        public IList<SkillAnnotation> Skills { get; }
-        /// <summary> Gets or sets the organization name. </summary>
-        public TextAnnotation OrganizationName { get; set; }
-        /// <summary> Gets or sets the organization website. </summary>
-        public TextAnnotation OrganizationWebsite { get; set; }
-        /// <summary> Gets or sets the education level. </summary>
-        public TextAnnotation EducationLevel { get; set; }
-        /// <summary> Gets or sets the education accreditation. </summary>
-        public TextAnnotation EducationAccreditation { get; set; }
-        /// <summary> Gets or sets the expected remuneration. </summary>
-        public ExpectedRemunerationAnnotation ExpectedRemuneration { get; set; }
-        /// <summary> Gets or sets the location. </summary>
-        public LocationAnnotation Location { get; set; }
+        public IReadOnlyList<SkillAnnotation> Skills { get; }
+        /// <summary> Gets the organization name. </summary>
+        public TextAnnotation OrganizationName { get; }
+        /// <summary> Gets the organization website. </summary>
+        public TextAnnotation OrganizationWebsite { get; }
+        /// <summary> Gets the education level. </summary>
+        public TextAnnotation EducationLevel { get; }
+        /// <summary> Gets the education accreditation. </summary>
+        public TextAnnotation EducationAccreditation { get; }
+        /// <summary> Gets the expected remuneration. </summary>
+        public ExpectedRemunerationAnnotation ExpectedRemuneration { get; }
+        /// <summary> Gets the location. </summary>
+        public LocationAnnotation Location { get; }
         /// <summary> Gets the certifications. </summary>
-        public IList<TextAnnotation> Certifications { get; }
-        /// <summary> Gets or sets the years experience. </summary>
-        public YearsExperienceAnnotation YearsExperience { get; set; }
+        public IReadOnlyList<TextAnnotation> Certifications { get; }
+        /// <summary> Gets the years experience. </summary>
+        public YearsExperienceAnnotation YearsExperience { get; }
     }
 }

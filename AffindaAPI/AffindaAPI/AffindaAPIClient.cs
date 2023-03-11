@@ -810,7 +810,7 @@ namespace Affinda.API
         /// Update data of a job description.
         /// The `identifier` is the unique ID returned after POST-ing the job description via the [/job_descriptions](#post-/job_descriptions) endpoint.
         /// </remarks>
-        public virtual async Task<Response<JobDescriptionData>> UpdateJobDescriptionDataAsync(string identifier, JobDescriptionData body, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<JobDescriptionData>> UpdateJobDescriptionDataAsync(string identifier, JobDescriptionDataUpdate body, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateJobDescriptionData");
             scope.Start();
@@ -833,7 +833,7 @@ namespace Affinda.API
         /// Update data of a job description.
         /// The `identifier` is the unique ID returned after POST-ing the job description via the [/job_descriptions](#post-/job_descriptions) endpoint.
         /// </remarks>
-        public virtual Response<JobDescriptionData> UpdateJobDescriptionData(string identifier, JobDescriptionData body, CancellationToken cancellationToken = default)
+        public virtual Response<JobDescriptionData> UpdateJobDescriptionData(string identifier, JobDescriptionDataUpdate body, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateJobDescriptionData");
             scope.Start();

@@ -1453,7 +1453,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateUpdateJobDescriptionDataRequest(string identifier, JobDescriptionData body)
+        internal HttpMessage CreateUpdateJobDescriptionDataRequest(string identifier, JobDescriptionDataUpdate body)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1485,7 +1485,7 @@ namespace Affinda.API
         /// Update data of a job description.
         /// The `identifier` is the unique ID returned after POST-ing the job description via the [/job_descriptions](#post-/job_descriptions) endpoint.
         /// </remarks>
-        public async Task<Response<JobDescriptionData>> UpdateJobDescriptionDataAsync(string identifier, JobDescriptionData body, CancellationToken cancellationToken = default)
+        public async Task<Response<JobDescriptionData>> UpdateJobDescriptionDataAsync(string identifier, JobDescriptionDataUpdate body, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
             {
@@ -1528,7 +1528,7 @@ namespace Affinda.API
         /// Update data of a job description.
         /// The `identifier` is the unique ID returned after POST-ing the job description via the [/job_descriptions](#post-/job_descriptions) endpoint.
         /// </remarks>
-        public Response<JobDescriptionData> UpdateJobDescriptionData(string identifier, JobDescriptionData body, CancellationToken cancellationToken = default)
+        public Response<JobDescriptionData> UpdateJobDescriptionData(string identifier, JobDescriptionDataUpdate body, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
             {
