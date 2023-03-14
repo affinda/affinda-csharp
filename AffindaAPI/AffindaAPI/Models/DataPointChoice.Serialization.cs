@@ -5,6 +5,7 @@
 
 #nullable disable
 
+using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
 
@@ -14,15 +15,16 @@ namespace Affinda.API.Models
     {
         internal static DataPointChoice DeserializeDataPointChoice(JsonElement element)
         {
-            float id = default;
+            int id = default;
             string label = default;
             string value = default;
+            Optional<IReadOnlyList<string>> synonyms = default;
             Optional<string> description = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("id"))
                 {
-                    id = property.Value.GetSingle();
+                    id = property.Value.GetInt32();
                     continue;
                 }
                 if (property.NameEquals("label"))
@@ -33,6 +35,21 @@ namespace Affinda.API.Models
                 if (property.NameEquals("value"))
                 {
                     value = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("synonyms"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        synonyms = null;
+                        continue;
+                    }
+                    List<string> array = new List<string>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(item.GetString());
+                    }
+                    synonyms = array;
                     continue;
                 }
                 if (property.NameEquals("description"))
@@ -46,7 +63,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new DataPointChoice(id, label, value, description.Value);
+            return new DataPointChoice(id, label, value, Optional.ToList(synonyms), description.Value);
         }
     }
 }

@@ -60,1900 +60,6 @@ namespace Affinda.API
             _pipeline = pipeline;
         }
 
-        /// <summary> Search through parsed resumes. </summary>
-        /// <param name="body"> Search parameters. </param>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Searches through parsed resumes. Users have 3 options to create a search:&lt;br /&gt;&lt;br /&gt; 1.	Match to a job description - a parsed job description is used to find candidates that suit it&lt;br /&gt; 2.	Match to a resume - a parsed resume is used to find other candidates that have similar attributes&lt;br /&gt; 3.	Search using custom criteria&lt;br /&gt;&lt;br /&gt; Users should only populate 1 of jobDescription, resume or the custom criteria. </remarks>
-        public virtual async Task<Response<ResumeSearch>> CreateResumeSearchAsync(ResumeSearchParameters body, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateResumeSearch");
-            scope.Start();
-            try
-            {
-                return await RestClient.CreateResumeSearchAsync(body, offset, limit, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Search through parsed resumes. </summary>
-        /// <param name="body"> Search parameters. </param>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Searches through parsed resumes. Users have 3 options to create a search:&lt;br /&gt;&lt;br /&gt; 1.	Match to a job description - a parsed job description is used to find candidates that suit it&lt;br /&gt; 2.	Match to a resume - a parsed resume is used to find other candidates that have similar attributes&lt;br /&gt; 3.	Search using custom criteria&lt;br /&gt;&lt;br /&gt; Users should only populate 1 of jobDescription, resume or the custom criteria. </remarks>
-        public virtual Response<ResumeSearch> CreateResumeSearch(ResumeSearchParameters body, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateResumeSearch");
-            scope.Start();
-            try
-            {
-                return RestClient.CreateResumeSearch(body, offset, limit, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get search result of specific resume. </summary>
-        /// <param name="identifier"> Resume identifier. </param>
-        /// <param name="body"> Search parameters. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks>
-        /// This contains more detailed information about the matching score of the search criteria, or which search criteria is missing in this resume.
-        /// The `identifier` is the unique ID returned via the [/resume_search](#post-/resume_search) endpoint.
-        /// </remarks>
-        public virtual async Task<Response<ResumeSearchDetail>> GetResumeSearchDetailAsync(string identifier, ResumeSearchParameters body, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResumeSearchDetail");
-            scope.Start();
-            try
-            {
-                return await RestClient.GetResumeSearchDetailAsync(identifier, body, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get search result of specific resume. </summary>
-        /// <param name="identifier"> Resume identifier. </param>
-        /// <param name="body"> Search parameters. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks>
-        /// This contains more detailed information about the matching score of the search criteria, or which search criteria is missing in this resume.
-        /// The `identifier` is the unique ID returned via the [/resume_search](#post-/resume_search) endpoint.
-        /// </remarks>
-        public virtual Response<ResumeSearchDetail> GetResumeSearchDetail(string identifier, ResumeSearchParameters body, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResumeSearchDetail");
-            scope.Start();
-            try
-            {
-                return RestClient.GetResumeSearchDetail(identifier, body, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Match a single resume and job description. </summary>
-        /// <param name="resume"> Identify the resume to match. </param>
-        /// <param name="jobDescription"> Identify the job description to match. </param>
-        /// <param name="index"> Optionally, specify an index to search in. If not specified, will search in all indexes. </param>
-        /// <param name="searchExpression"> Add keywords to the search criteria. </param>
-        /// <param name="jobTitlesWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
-        /// <param name="yearsExperienceWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
-        /// <param name="locationsWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
-        /// <param name="languagesWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
-        /// <param name="skillsWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
-        /// <param name="educationWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
-        /// <param name="searchExpressionWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
-        /// <param name="socCodesWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
-        /// <param name="managementLevelWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Get the matching score between a resume and a job description. The score ranges between 0 and 1, with 0 being not a match at all, and 1 being perfect match.&lt;br/&gt; Note, this score will not directly match the score returned from POST [/resume_search/details/{identifier}](#post-/resume_search/details/-identifier-). </remarks>
-        public virtual async Task<Response<ResumeSearchMatch>> GetResumeSearchMatchAsync(string resume, string jobDescription, string index = null, string searchExpression = null, float? jobTitlesWeight = null, float? yearsExperienceWeight = null, float? locationsWeight = null, float? languagesWeight = null, float? skillsWeight = null, float? educationWeight = null, float? searchExpressionWeight = null, float? socCodesWeight = null, float? managementLevelWeight = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResumeSearchMatch");
-            scope.Start();
-            try
-            {
-                return await RestClient.GetResumeSearchMatchAsync(resume, jobDescription, index, searchExpression, jobTitlesWeight, yearsExperienceWeight, locationsWeight, languagesWeight, skillsWeight, educationWeight, searchExpressionWeight, socCodesWeight, managementLevelWeight, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Match a single resume and job description. </summary>
-        /// <param name="resume"> Identify the resume to match. </param>
-        /// <param name="jobDescription"> Identify the job description to match. </param>
-        /// <param name="index"> Optionally, specify an index to search in. If not specified, will search in all indexes. </param>
-        /// <param name="searchExpression"> Add keywords to the search criteria. </param>
-        /// <param name="jobTitlesWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
-        /// <param name="yearsExperienceWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
-        /// <param name="locationsWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
-        /// <param name="languagesWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
-        /// <param name="skillsWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
-        /// <param name="educationWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
-        /// <param name="searchExpressionWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
-        /// <param name="socCodesWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
-        /// <param name="managementLevelWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Get the matching score between a resume and a job description. The score ranges between 0 and 1, with 0 being not a match at all, and 1 being perfect match.&lt;br/&gt; Note, this score will not directly match the score returned from POST [/resume_search/details/{identifier}](#post-/resume_search/details/-identifier-). </remarks>
-        public virtual Response<ResumeSearchMatch> GetResumeSearchMatch(string resume, string jobDescription, string index = null, string searchExpression = null, float? jobTitlesWeight = null, float? yearsExperienceWeight = null, float? locationsWeight = null, float? languagesWeight = null, float? skillsWeight = null, float? educationWeight = null, float? searchExpressionWeight = null, float? socCodesWeight = null, float? managementLevelWeight = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResumeSearchMatch");
-            scope.Start();
-            try
-            {
-                return RestClient.GetResumeSearchMatch(resume, jobDescription, index, searchExpression, jobTitlesWeight, yearsExperienceWeight, locationsWeight, languagesWeight, skillsWeight, educationWeight, searchExpressionWeight, socCodesWeight, managementLevelWeight, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get the config for the logged in user&apos;s embeddable resume search tool. </summary>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Return configurations such as which fields can be displayed in the logged in user&apos;s embeddable resume search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
-        public virtual async Task<Response<ResumeSearchConfig>> GetResumeSearchConfigAsync(CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResumeSearchConfig");
-            scope.Start();
-            try
-            {
-                return await RestClient.GetResumeSearchConfigAsync(cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get the config for the logged in user&apos;s embeddable resume search tool. </summary>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Return configurations such as which fields can be displayed in the logged in user&apos;s embeddable resume search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
-        public virtual Response<ResumeSearchConfig> GetResumeSearchConfig(CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResumeSearchConfig");
-            scope.Start();
-            try
-            {
-                return RestClient.GetResumeSearchConfig(cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Update the config for the logged in user&apos;s embeddable resume search tool. </summary>
-        /// <param name="body"> The ResumeSearchConfig to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Update configurations such as which fields can be displayed in the logged in user&apos;s embeddable resume search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
-        public virtual async Task<Response<ResumeSearchConfig>> UpdateResumeSearchConfigAsync(ResumeSearchConfig body, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateResumeSearchConfig");
-            scope.Start();
-            try
-            {
-                return await RestClient.UpdateResumeSearchConfigAsync(body, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Update the config for the logged in user&apos;s embeddable resume search tool. </summary>
-        /// <param name="body"> The ResumeSearchConfig to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Update configurations such as which fields can be displayed in the logged in user&apos;s embeddable resume search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
-        public virtual Response<ResumeSearchConfig> UpdateResumeSearchConfig(ResumeSearchConfig body, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateResumeSearchConfig");
-            scope.Start();
-            try
-            {
-                return RestClient.UpdateResumeSearchConfig(body, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Create a signed URL for the embeddable resume search tool. </summary>
-        /// <param name="body"> The Paths1Czpnk1V3ResumeSearchEmbedPostRequestbodyContentApplicationJsonSchema to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Create and return a signed URL of the resume search tool which then can be embedded on a web page. An optional parameter `config_override` can be passed to override the user-level configurations of the embeddable resume search tool. </remarks>
-        public virtual async Task<Response<ResumeSearchEmbed>> CreateResumeSearchEmbedUrlAsync(Paths1Czpnk1V3ResumeSearchEmbedPostRequestbodyContentApplicationJsonSchema body = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateResumeSearchEmbedUrl");
-            scope.Start();
-            try
-            {
-                return await RestClient.CreateResumeSearchEmbedUrlAsync(body, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Create a signed URL for the embeddable resume search tool. </summary>
-        /// <param name="body"> The Paths1Czpnk1V3ResumeSearchEmbedPostRequestbodyContentApplicationJsonSchema to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Create and return a signed URL of the resume search tool which then can be embedded on a web page. An optional parameter `config_override` can be passed to override the user-level configurations of the embeddable resume search tool. </remarks>
-        public virtual Response<ResumeSearchEmbed> CreateResumeSearchEmbedUrl(Paths1Czpnk1V3ResumeSearchEmbedPostRequestbodyContentApplicationJsonSchema body = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateResumeSearchEmbedUrl");
-            scope.Start();
-            try
-            {
-                return RestClient.CreateResumeSearchEmbedUrl(body, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get job title suggestions based on provided job title(s). </summary>
-        /// <param name="jobTitles"> Job title to query suggestions for. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Provided one or more job titles, get related suggestions for your search. </remarks>
-        public virtual async Task<Response<IReadOnlyList<string>>> GetResumeSearchSuggestionJobTitleAsync(IEnumerable<string> jobTitles, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResumeSearchSuggestionJobTitle");
-            scope.Start();
-            try
-            {
-                return await RestClient.GetResumeSearchSuggestionJobTitleAsync(jobTitles, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get job title suggestions based on provided job title(s). </summary>
-        /// <param name="jobTitles"> Job title to query suggestions for. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Provided one or more job titles, get related suggestions for your search. </remarks>
-        public virtual Response<IReadOnlyList<string>> GetResumeSearchSuggestionJobTitle(IEnumerable<string> jobTitles, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResumeSearchSuggestionJobTitle");
-            scope.Start();
-            try
-            {
-                return RestClient.GetResumeSearchSuggestionJobTitle(jobTitles, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get skill suggestions based on provided skill(s). </summary>
-        /// <param name="skills"> Skill to query suggestions for. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Provided one or more skills, get related suggestions for your search. </remarks>
-        public virtual async Task<Response<IReadOnlyList<string>>> GetResumeSearchSuggestionSkillAsync(IEnumerable<string> skills, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResumeSearchSuggestionSkill");
-            scope.Start();
-            try
-            {
-                return await RestClient.GetResumeSearchSuggestionSkillAsync(skills, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get skill suggestions based on provided skill(s). </summary>
-        /// <param name="skills"> Skill to query suggestions for. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Provided one or more skills, get related suggestions for your search. </remarks>
-        public virtual Response<IReadOnlyList<string>> GetResumeSearchSuggestionSkill(IEnumerable<string> skills, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResumeSearchSuggestionSkill");
-            scope.Start();
-            try
-            {
-                return RestClient.GetResumeSearchSuggestionSkill(skills, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Search through parsed job descriptions. </summary>
-        /// <param name="body"> Search parameters. </param>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Searches through parsed job descriptions. You can search with custom criterias or a resume. </remarks>
-        public virtual async Task<Response<JobDescriptionSearch>> CreateJobDescriptionSearchAsync(JobDescriptionSearchParameters body, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateJobDescriptionSearch");
-            scope.Start();
-            try
-            {
-                return await RestClient.CreateJobDescriptionSearchAsync(body, offset, limit, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Search through parsed job descriptions. </summary>
-        /// <param name="body"> Search parameters. </param>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Searches through parsed job descriptions. You can search with custom criterias or a resume. </remarks>
-        public virtual Response<JobDescriptionSearch> CreateJobDescriptionSearch(JobDescriptionSearchParameters body, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateJobDescriptionSearch");
-            scope.Start();
-            try
-            {
-                return RestClient.CreateJobDescriptionSearch(body, offset, limit, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get search result of specific job description. </summary>
-        /// <param name="identifier"> Job Description identifier. </param>
-        /// <param name="body"> Search parameters. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks>
-        /// This contains more detailed information about the matching score of the search criteria, or which search criteria is missing in this job description.
-        /// The `identifier` is the unique ID returned via the [/job_description_search](#post-/job_description_search) endpoint.
-        /// </remarks>
-        public virtual async Task<Response<JobDescriptionSearchDetail>> GetJobDescriptionSearchDetailAsync(string identifier, JobDescriptionSearchParameters body, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetJobDescriptionSearchDetail");
-            scope.Start();
-            try
-            {
-                return await RestClient.GetJobDescriptionSearchDetailAsync(identifier, body, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get search result of specific job description. </summary>
-        /// <param name="identifier"> Job Description identifier. </param>
-        /// <param name="body"> Search parameters. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks>
-        /// This contains more detailed information about the matching score of the search criteria, or which search criteria is missing in this job description.
-        /// The `identifier` is the unique ID returned via the [/job_description_search](#post-/job_description_search) endpoint.
-        /// </remarks>
-        public virtual Response<JobDescriptionSearchDetail> GetJobDescriptionSearchDetail(string identifier, JobDescriptionSearchParameters body, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetJobDescriptionSearchDetail");
-            scope.Start();
-            try
-            {
-                return RestClient.GetJobDescriptionSearchDetail(identifier, body, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get the config for the logged in user&apos;s embeddable job description search tool. </summary>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Return configurations such as which fields can be displayed in the logged in user&apos;s embeddable job description search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
-        public virtual async Task<Response<JobDescriptionSearchConfig>> GetJobDescriptionSearchConfigAsync(CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetJobDescriptionSearchConfig");
-            scope.Start();
-            try
-            {
-                return await RestClient.GetJobDescriptionSearchConfigAsync(cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get the config for the logged in user&apos;s embeddable job description search tool. </summary>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Return configurations such as which fields can be displayed in the logged in user&apos;s embeddable job description search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
-        public virtual Response<JobDescriptionSearchConfig> GetJobDescriptionSearchConfig(CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetJobDescriptionSearchConfig");
-            scope.Start();
-            try
-            {
-                return RestClient.GetJobDescriptionSearchConfig(cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Update the config for the logged in user&apos;s embeddable job description search tool. </summary>
-        /// <param name="body"> The JobDescriptionSearchConfig to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Update configurations such as which fields can be displayed in the logged in user&apos;s embeddable job description search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
-        public virtual async Task<Response<JobDescriptionSearchConfig>> UpdateJobDescriptionSearchConfigAsync(JobDescriptionSearchConfig body, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateJobDescriptionSearchConfig");
-            scope.Start();
-            try
-            {
-                return await RestClient.UpdateJobDescriptionSearchConfigAsync(body, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Update the config for the logged in user&apos;s embeddable job description search tool. </summary>
-        /// <param name="body"> The JobDescriptionSearchConfig to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Update configurations such as which fields can be displayed in the logged in user&apos;s embeddable job description search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
-        public virtual Response<JobDescriptionSearchConfig> UpdateJobDescriptionSearchConfig(JobDescriptionSearchConfig body, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateJobDescriptionSearchConfig");
-            scope.Start();
-            try
-            {
-                return RestClient.UpdateJobDescriptionSearchConfig(body, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Create a signed URL for the embeddable job description search tool. </summary>
-        /// <param name="body"> The PathsM3DzbgV3JobDescriptionSearchEmbedPostRequestbodyContentApplicationJsonSchema to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Create and return a signed URL of the job description search tool which then can be embedded on a web page. An optional parameter `config_override` can be passed to override the user-level configurations of the embeddable search tool. </remarks>
-        public virtual async Task<Response<JobDescriptionSearchEmbed>> CreateJobDescriptionSearchEmbedUrlAsync(PathsM3DzbgV3JobDescriptionSearchEmbedPostRequestbodyContentApplicationJsonSchema body = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateJobDescriptionSearchEmbedUrl");
-            scope.Start();
-            try
-            {
-                return await RestClient.CreateJobDescriptionSearchEmbedUrlAsync(body, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Create a signed URL for the embeddable job description search tool. </summary>
-        /// <param name="body"> The PathsM3DzbgV3JobDescriptionSearchEmbedPostRequestbodyContentApplicationJsonSchema to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Create and return a signed URL of the job description search tool which then can be embedded on a web page. An optional parameter `config_override` can be passed to override the user-level configurations of the embeddable search tool. </remarks>
-        public virtual Response<JobDescriptionSearchEmbed> CreateJobDescriptionSearchEmbedUrl(PathsM3DzbgV3JobDescriptionSearchEmbedPostRequestbodyContentApplicationJsonSchema body = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateJobDescriptionSearchEmbedUrl");
-            scope.Start();
-            try
-            {
-                return RestClient.CreateJobDescriptionSearchEmbedUrl(body, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get list of all indexes. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
-        /// <param name="documentType"> Filter indices by a document type. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns all the indexes. </remarks>
-        public virtual async Task<Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum3? documentType = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexes");
-            scope.Start();
-            try
-            {
-                return await RestClient.GetAllIndexesAsync(offset, limit, documentType, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get list of all indexes. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
-        /// <param name="documentType"> Filter indices by a document type. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns all the indexes. </remarks>
-        public virtual Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema> GetAllIndexes(int? offset = null, int? limit = null, Enum3? documentType = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexes");
-            scope.Start();
-            try
-            {
-                return RestClient.GetAllIndexes(offset, limit, documentType, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Create a new index. </summary>
-        /// <param name="name"> The String to use. </param>
-        /// <param name="documentType"> The String to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Create an index for the search tool. </remarks>
-        public virtual async Task<Response<Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema>> CreateIndexAsync(string name = null, string documentType = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateIndex");
-            scope.Start();
-            try
-            {
-                return await RestClient.CreateIndexAsync(name, documentType, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Create a new index. </summary>
-        /// <param name="name"> The String to use. </param>
-        /// <param name="documentType"> The String to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Create an index for the search tool. </remarks>
-        public virtual Response<Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema> CreateIndex(string name = null, string documentType = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateIndex");
-            scope.Start();
-            try
-            {
-                return RestClient.CreateIndex(name, documentType, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Delete an index. </summary>
-        /// <param name="name"> Index name. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Deletes the specified index from the database. </remarks>
-        public virtual async Task<Response> DeleteIndexAsync(string name, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteIndex");
-            scope.Start();
-            try
-            {
-                return await RestClient.DeleteIndexAsync(name, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Delete an index. </summary>
-        /// <param name="name"> Index name. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Deletes the specified index from the database. </remarks>
-        public virtual Response DeleteIndex(string name, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteIndex");
-            scope.Start();
-            try
-            {
-                return RestClient.DeleteIndex(name, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get indexed documents for a specific index. </summary>
-        /// <param name="name"> Index name. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns all the indexed documents for that index. </remarks>
-        public virtual async Task<Response<PathsO7SnenV3IndexNameDocumentsGetResponses200ContentApplicationJsonSchema>> GetAllIndexDocumentsAsync(string name, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexDocuments");
-            scope.Start();
-            try
-            {
-                return await RestClient.GetAllIndexDocumentsAsync(name, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get indexed documents for a specific index. </summary>
-        /// <param name="name"> Index name. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns all the indexed documents for that index. </remarks>
-        public virtual Response<PathsO7SnenV3IndexNameDocumentsGetResponses200ContentApplicationJsonSchema> GetAllIndexDocuments(string name, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexDocuments");
-            scope.Start();
-            try
-            {
-                return RestClient.GetAllIndexDocuments(name, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Index a new document. </summary>
-        /// <param name="name"> Index name. </param>
-        /// <param name="body"> Document to index. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Create an indexed document for the search tool. </remarks>
-        public virtual async Task<Response<PathsFte27NV3IndexNameDocumentsPostResponses201ContentApplicationJsonSchema>> CreateIndexDocumentAsync(string name, PathsCl024WV3IndexNameDocumentsPostRequestbodyContentApplicationJsonSchema body, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateIndexDocument");
-            scope.Start();
-            try
-            {
-                return await RestClient.CreateIndexDocumentAsync(name, body, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Index a new document. </summary>
-        /// <param name="name"> Index name. </param>
-        /// <param name="body"> Document to index. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Create an indexed document for the search tool. </remarks>
-        public virtual Response<PathsFte27NV3IndexNameDocumentsPostResponses201ContentApplicationJsonSchema> CreateIndexDocument(string name, PathsCl024WV3IndexNameDocumentsPostRequestbodyContentApplicationJsonSchema body, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateIndexDocument");
-            scope.Start();
-            try
-            {
-                return RestClient.CreateIndexDocument(name, body, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Delete an indexed document. </summary>
-        /// <param name="name"> Index name. </param>
-        /// <param name="identifier"> Document identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Delete the specified indexed document from the database. </remarks>
-        public virtual async Task<Response> DeleteIndexDocumentAsync(string name, string identifier, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteIndexDocument");
-            scope.Start();
-            try
-            {
-                return await RestClient.DeleteIndexDocumentAsync(name, identifier, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Delete an indexed document. </summary>
-        /// <param name="name"> Index name. </param>
-        /// <param name="identifier"> Document identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Delete the specified indexed document from the database. </remarks>
-        public virtual Response DeleteIndexDocument(string name, string identifier, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteIndexDocument");
-            scope.Start();
-            try
-            {
-                return RestClient.DeleteIndexDocument(name, identifier, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> List occupation groups. </summary>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns the list of searchable occupation groups. </remarks>
-        public virtual async Task<Response<IReadOnlyList<OccupationGroup>>> ListOccupationGroupsAsync(CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.ListOccupationGroups");
-            scope.Start();
-            try
-            {
-                return await RestClient.ListOccupationGroupsAsync(cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> List occupation groups. </summary>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns the list of searchable occupation groups. </remarks>
-        public virtual Response<IReadOnlyList<OccupationGroup>> ListOccupationGroups(CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.ListOccupationGroups");
-            scope.Start();
-            try
-            {
-                return RestClient.ListOccupationGroups(cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get list of all organizations. </summary>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns all the organizations. </remarks>
-        public virtual async Task<Response<IReadOnlyList<Organization>>> GetAllOrganizationsAsync(CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllOrganizations");
-            scope.Start();
-            try
-            {
-                return await RestClient.GetAllOrganizationsAsync(cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get list of all organizations. </summary>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns all the organizations. </remarks>
-        public virtual Response<IReadOnlyList<Organization>> GetAllOrganizations(CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllOrganizations");
-            scope.Start();
-            try
-            {
-                return RestClient.GetAllOrganizations(cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Create a new organization. </summary>
-        /// <param name="name"> The String to use. </param>
-        /// <param name="avatar"> Upload avatar for the organization. </param>
-        /// <param name="resthookSignatureKey"> The String to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Create a new organization. </remarks>
-        public virtual async Task<Response<Organization>> CreateOrganizationAsync(string name, Stream avatar = null, string resthookSignatureKey = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateOrganization");
-            scope.Start();
-            try
-            {
-                return await RestClient.CreateOrganizationAsync(name, avatar, resthookSignatureKey, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Create a new organization. </summary>
-        /// <param name="name"> The String to use. </param>
-        /// <param name="avatar"> Upload avatar for the organization. </param>
-        /// <param name="resthookSignatureKey"> The String to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Create a new organization. </remarks>
-        public virtual Response<Organization> CreateOrganization(string name, Stream avatar = null, string resthookSignatureKey = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateOrganization");
-            scope.Start();
-            try
-            {
-                return RestClient.CreateOrganization(name, avatar, resthookSignatureKey, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get detail of an organization. </summary>
-        /// <param name="identifier"> Organization identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Get detail of an organization. </remarks>
-        public virtual async Task<Response<Organization>> GetOrganizationAsync(string identifier, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetOrganization");
-            scope.Start();
-            try
-            {
-                return await RestClient.GetOrganizationAsync(identifier, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get detail of an organization. </summary>
-        /// <param name="identifier"> Organization identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Get detail of an organization. </remarks>
-        public virtual Response<Organization> GetOrganization(string identifier, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetOrganization");
-            scope.Start();
-            try
-            {
-                return RestClient.GetOrganization(identifier, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Update an organization. </summary>
-        /// <param name="identifier"> Organization identifier. </param>
-        /// <param name="name"> The String to use. </param>
-        /// <param name="avatar"> The Stream to use. </param>
-        /// <param name="resthookSignatureKey"> The String to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Update the detail of an organization. </remarks>
-        public virtual async Task<Response<Organization>> UpdateOrganizationAsync(string identifier, string name = null, Stream avatar = null, string resthookSignatureKey = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateOrganization");
-            scope.Start();
-            try
-            {
-                return await RestClient.UpdateOrganizationAsync(identifier, name, avatar, resthookSignatureKey, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Update an organization. </summary>
-        /// <param name="identifier"> Organization identifier. </param>
-        /// <param name="name"> The String to use. </param>
-        /// <param name="avatar"> The Stream to use. </param>
-        /// <param name="resthookSignatureKey"> The String to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Update the detail of an organization. </remarks>
-        public virtual Response<Organization> UpdateOrganization(string identifier, string name = null, Stream avatar = null, string resthookSignatureKey = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateOrganization");
-            scope.Start();
-            try
-            {
-                return RestClient.UpdateOrganization(identifier, name, avatar, resthookSignatureKey, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Delete an organization. </summary>
-        /// <param name="identifier"> Organization identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Delete the specified organization from the database. </remarks>
-        public virtual async Task<Response> DeleteOrganizationAsync(string identifier, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteOrganization");
-            scope.Start();
-            try
-            {
-                return await RestClient.DeleteOrganizationAsync(identifier, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Delete an organization. </summary>
-        /// <param name="identifier"> Organization identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Delete the specified organization from the database. </remarks>
-        public virtual Response DeleteOrganization(string identifier, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteOrganization");
-            scope.Start();
-            try
-            {
-                return RestClient.DeleteOrganization(identifier, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get list of all organization memberships. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
-        /// <param name="organization"> Filter by organization. </param>
-        /// <param name="role"> Filter by role. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns all the organization memberships. </remarks>
-        public virtual async Task<Response<PathsQ5Os5RV3OrganizationMembershipsGetResponses200ContentApplicationJsonSchema>> GetAllOrganizationMembershipsAsync(int? offset = null, int? limit = null, string organization = null, OrganizationRole? role = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllOrganizationMemberships");
-            scope.Start();
-            try
-            {
-                return await RestClient.GetAllOrganizationMembershipsAsync(offset, limit, organization, role, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get list of all organization memberships. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
-        /// <param name="organization"> Filter by organization. </param>
-        /// <param name="role"> Filter by role. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns all the organization memberships. </remarks>
-        public virtual Response<PathsQ5Os5RV3OrganizationMembershipsGetResponses200ContentApplicationJsonSchema> GetAllOrganizationMemberships(int? offset = null, int? limit = null, string organization = null, OrganizationRole? role = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllOrganizationMemberships");
-            scope.Start();
-            try
-            {
-                return RestClient.GetAllOrganizationMemberships(offset, limit, organization, role, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get detail of an organization membership. </summary>
-        /// <param name="identifier"> Membership identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Get detail of an organization membership. </remarks>
-        public virtual async Task<Response<OrganizationMembership>> GetOrganizationMembershipAsync(string identifier, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetOrganizationMembership");
-            scope.Start();
-            try
-            {
-                return await RestClient.GetOrganizationMembershipAsync(identifier, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get detail of an organization membership. </summary>
-        /// <param name="identifier"> Membership identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Get detail of an organization membership. </remarks>
-        public virtual Response<OrganizationMembership> GetOrganizationMembership(string identifier, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetOrganizationMembership");
-            scope.Start();
-            try
-            {
-                return RestClient.GetOrganizationMembership(identifier, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Update an organization membership. </summary>
-        /// <param name="identifier"> Membership identifier. </param>
-        /// <param name="body"> The OrganizationMembershipUpdate to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> The admin users can use this endpoint to update the role of the members within their organization. </remarks>
-        public virtual async Task<Response<OrganizationMembership>> UpdateOrganizationMembershipAsync(string identifier, OrganizationMembershipUpdate body, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateOrganizationMembership");
-            scope.Start();
-            try
-            {
-                return await RestClient.UpdateOrganizationMembershipAsync(identifier, body, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Update an organization membership. </summary>
-        /// <param name="identifier"> Membership identifier. </param>
-        /// <param name="body"> The OrganizationMembershipUpdate to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> The admin users can use this endpoint to update the role of the members within their organization. </remarks>
-        public virtual Response<OrganizationMembership> UpdateOrganizationMembership(string identifier, OrganizationMembershipUpdate body, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateOrganizationMembership");
-            scope.Start();
-            try
-            {
-                return RestClient.UpdateOrganizationMembership(identifier, body, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Delete an organization membership. </summary>
-        /// <param name="identifier"> Membership identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> The admin users can use this endpoint to remove member from their organization. Other users can also use this to leave their organization. </remarks>
-        public virtual async Task<Response> DeleteOrganizationMembershipAsync(string identifier, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteOrganizationMembership");
-            scope.Start();
-            try
-            {
-                return await RestClient.DeleteOrganizationMembershipAsync(identifier, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Delete an organization membership. </summary>
-        /// <param name="identifier"> Membership identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> The admin users can use this endpoint to remove member from their organization. Other users can also use this to leave their organization. </remarks>
-        public virtual Response DeleteOrganizationMembership(string identifier, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteOrganizationMembership");
-            scope.Start();
-            try
-            {
-                return RestClient.DeleteOrganizationMembership(identifier, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get list of all invitations. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
-        /// <param name="organization"> Filter by organization. </param>
-        /// <param name="status"> Filter by status. </param>
-        /// <param name="role"> Filter by role. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Get list of all invitations you created or sent to you. </remarks>
-        public virtual async Task<Response<Paths18Wh2VcV3InvitationsGetResponses200ContentApplicationJsonSchema>> GetAllInvitationsAsync(int? offset = null, int? limit = null, string organization = null, InvitationStatus? status = null, OrganizationRole? role = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllInvitations");
-            scope.Start();
-            try
-            {
-                return await RestClient.GetAllInvitationsAsync(offset, limit, organization, status, role, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get list of all invitations. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
-        /// <param name="organization"> Filter by organization. </param>
-        /// <param name="status"> Filter by status. </param>
-        /// <param name="role"> Filter by role. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Get list of all invitations you created or sent to you. </remarks>
-        public virtual Response<Paths18Wh2VcV3InvitationsGetResponses200ContentApplicationJsonSchema> GetAllInvitations(int? offset = null, int? limit = null, string organization = null, InvitationStatus? status = null, OrganizationRole? role = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllInvitations");
-            scope.Start();
-            try
-            {
-                return RestClient.GetAllInvitations(offset, limit, organization, status, role, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Create a new invitation. </summary>
-        /// <param name="body"> Invitation to create. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Create a new invitation. </remarks>
-        public virtual async Task<Response<Invitation>> CreateInvitationAsync(InvitationCreate body, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateInvitation");
-            scope.Start();
-            try
-            {
-                return await RestClient.CreateInvitationAsync(body, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Create a new invitation. </summary>
-        /// <param name="body"> Invitation to create. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Create a new invitation. </remarks>
-        public virtual Response<Invitation> CreateInvitation(InvitationCreate body, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateInvitation");
-            scope.Start();
-            try
-            {
-                return RestClient.CreateInvitation(body, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get detail of an invitation. </summary>
-        /// <param name="identifier"> Invitation identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Get detail of an invitation. </remarks>
-        public virtual async Task<Response<Invitation>> GetInvitationAsync(string identifier, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetInvitation");
-            scope.Start();
-            try
-            {
-                return await RestClient.GetInvitationAsync(identifier, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get detail of an invitation. </summary>
-        /// <param name="identifier"> Invitation identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Get detail of an invitation. </remarks>
-        public virtual Response<Invitation> GetInvitation(string identifier, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetInvitation");
-            scope.Start();
-            try
-            {
-                return RestClient.GetInvitation(identifier, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Update an invitation. </summary>
-        /// <param name="identifier"> Invitation identifier. </param>
-        /// <param name="body"> The InvitationUpdate to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Update the detail of an invitation. </remarks>
-        public virtual async Task<Response<Invitation>> UpdateInvitationAsync(string identifier, InvitationUpdate body, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateInvitation");
-            scope.Start();
-            try
-            {
-                return await RestClient.UpdateInvitationAsync(identifier, body, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Update an invitation. </summary>
-        /// <param name="identifier"> Invitation identifier. </param>
-        /// <param name="body"> The InvitationUpdate to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Update the detail of an invitation. </remarks>
-        public virtual Response<Invitation> UpdateInvitation(string identifier, InvitationUpdate body, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateInvitation");
-            scope.Start();
-            try
-            {
-                return RestClient.UpdateInvitation(identifier, body, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Delete an invitation. </summary>
-        /// <param name="identifier"> Invitation identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Delete the specified invitation from the database. </remarks>
-        public virtual async Task<Response> DeleteInvitationAsync(string identifier, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteInvitation");
-            scope.Start();
-            try
-            {
-                return await RestClient.DeleteInvitationAsync(identifier, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Delete an invitation. </summary>
-        /// <param name="identifier"> Invitation identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Delete the specified invitation from the database. </remarks>
-        public virtual Response DeleteInvitation(string identifier, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteInvitation");
-            scope.Start();
-            try
-            {
-                return RestClient.DeleteInvitation(identifier, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get detail of an invitation by token. </summary>
-        /// <param name="token"> Invitation token. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Get detail of an invitation using a secret token. This allows users who have not registered/logged in to view the invitation. </remarks>
-        public virtual async Task<Response<Invitation>> GetInvitationByTokenAsync(string token, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetInvitationByToken");
-            scope.Start();
-            try
-            {
-                return await RestClient.GetInvitationByTokenAsync(token, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get detail of an invitation by token. </summary>
-        /// <param name="token"> Invitation token. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Get detail of an invitation using a secret token. This allows users who have not registered/logged in to view the invitation. </remarks>
-        public virtual Response<Invitation> GetInvitationByToken(string token, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetInvitationByToken");
-            scope.Start();
-            try
-            {
-                return RestClient.GetInvitationByToken(token, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Respond to an invitation. </summary>
-        /// <param name="token"> Invitation token. </param>
-        /// <param name="body"> The InvitationResponse to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Choose to accept or decline an invitation. </remarks>
-        public virtual async Task<Response<Invitation>> RespondToInvitationAsync(string token, InvitationResponse body, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.RespondToInvitation");
-            scope.Start();
-            try
-            {
-                return await RestClient.RespondToInvitationAsync(token, body, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Respond to an invitation. </summary>
-        /// <param name="token"> Invitation token. </param>
-        /// <param name="body"> The InvitationResponse to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Choose to accept or decline an invitation. </remarks>
-        public virtual Response<Invitation> RespondToInvitation(string token, InvitationResponse body, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.RespondToInvitation");
-            scope.Start();
-            try
-            {
-                return RestClient.RespondToInvitation(token, body, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get list of all extractors. </summary>
-        /// <param name="organization"> Filter by organization. </param>
-        /// <param name="includePublicExtractors"> Whether to include Affinda&apos;s off-the-shelf extractors. </param>
-        /// <param name="name"> Filter by name. </param>
-        /// <param name="validatable"> Filter by validatable. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns your custom extractors as well as Affinda&apos;s off-the-shelf extractors. </remarks>
-        public virtual async Task<Response<IReadOnlyList<Extractor>>> GetAllExtractorsAsync(string organization, bool? includePublicExtractors = null, string name = null, bool? validatable = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllExtractors");
-            scope.Start();
-            try
-            {
-                return await RestClient.GetAllExtractorsAsync(organization, includePublicExtractors, name, validatable, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get list of all extractors. </summary>
-        /// <param name="organization"> Filter by organization. </param>
-        /// <param name="includePublicExtractors"> Whether to include Affinda&apos;s off-the-shelf extractors. </param>
-        /// <param name="name"> Filter by name. </param>
-        /// <param name="validatable"> Filter by validatable. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns your custom extractors as well as Affinda&apos;s off-the-shelf extractors. </remarks>
-        public virtual Response<IReadOnlyList<Extractor>> GetAllExtractors(string organization, bool? includePublicExtractors = null, string name = null, bool? validatable = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllExtractors");
-            scope.Start();
-            try
-            {
-                return RestClient.GetAllExtractors(organization, includePublicExtractors, name, validatable, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Create an extractor. </summary>
-        /// <param name="body"> The ExtractorCreate to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Create a custom extractor. </remarks>
-        public virtual async Task<Response<Extractor>> CreateExtractorAsync(ExtractorCreate body = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateExtractor");
-            scope.Start();
-            try
-            {
-                return await RestClient.CreateExtractorAsync(body, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Create an extractor. </summary>
-        /// <param name="body"> The ExtractorCreate to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Create a custom extractor. </remarks>
-        public virtual Response<Extractor> CreateExtractor(ExtractorCreate body = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateExtractor");
-            scope.Start();
-            try
-            {
-                return RestClient.CreateExtractor(body, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get specific extractor. </summary>
-        /// <param name="identifier"> Extractor&apos;s identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Return a specific extractor. </remarks>
-        public virtual async Task<Response<Extractor>> GetExtractorAsync(string identifier, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetExtractor");
-            scope.Start();
-            try
-            {
-                return await RestClient.GetExtractorAsync(identifier, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get specific extractor. </summary>
-        /// <param name="identifier"> Extractor&apos;s identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Return a specific extractor. </remarks>
-        public virtual Response<Extractor> GetExtractor(string identifier, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetExtractor");
-            scope.Start();
-            try
-            {
-                return RestClient.GetExtractor(identifier, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Update an extractor. </summary>
-        /// <param name="identifier"> Extractor&apos;s identifier. </param>
-        /// <param name="body"> Extractor data to update. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Update data of an extractor. </remarks>
-        public virtual async Task<Response<Extractor>> UpdateExtractorAsync(string identifier, ExtractorUpdate body, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateExtractor");
-            scope.Start();
-            try
-            {
-                return await RestClient.UpdateExtractorAsync(identifier, body, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Update an extractor. </summary>
-        /// <param name="identifier"> Extractor&apos;s identifier. </param>
-        /// <param name="body"> Extractor data to update. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Update data of an extractor. </remarks>
-        public virtual Response<Extractor> UpdateExtractor(string identifier, ExtractorUpdate body, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateExtractor");
-            scope.Start();
-            try
-            {
-                return RestClient.UpdateExtractor(identifier, body, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Delete an extractor. </summary>
-        /// <param name="identifier"> Extractor&apos;s identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Deletes the specified extractor from the database. </remarks>
-        public virtual async Task<Response> DeleteExtractorAsync(string identifier, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteExtractor");
-            scope.Start();
-            try
-            {
-                return await RestClient.DeleteExtractorAsync(identifier, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Delete an extractor. </summary>
-        /// <param name="identifier"> Extractor&apos;s identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Deletes the specified extractor from the database. </remarks>
-        public virtual Response DeleteExtractor(string identifier, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteExtractor");
-            scope.Start();
-            try
-            {
-                return RestClient.DeleteExtractor(identifier, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get list of all data points. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
-        /// <param name="organization"> Filter by organization. </param>
-        /// <param name="extractor"> Filter by extractor. </param>
-        /// <param name="slug"> Filter by slug. </param>
-        /// <param name="description"> Filter by description. </param>
-        /// <param name="annotationContentType"> Filter by annotation content type, e.g. text, integer, float, date, etc. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns your custom data points as well as Affinda&apos;s off-the-shelf data points. </remarks>
-        public virtual async Task<Response<IReadOnlyList<DataPoint>>> GetAllDataPointsAsync(int? offset = null, int? limit = null, string organization = null, string extractor = null, string slug = null, string description = null, string annotationContentType = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllDataPoints");
-            scope.Start();
-            try
-            {
-                return await RestClient.GetAllDataPointsAsync(offset, limit, organization, extractor, slug, description, annotationContentType, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get list of all data points. </summary>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
-        /// <param name="organization"> Filter by organization. </param>
-        /// <param name="extractor"> Filter by extractor. </param>
-        /// <param name="slug"> Filter by slug. </param>
-        /// <param name="description"> Filter by description. </param>
-        /// <param name="annotationContentType"> Filter by annotation content type, e.g. text, integer, float, date, etc. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns your custom data points as well as Affinda&apos;s off-the-shelf data points. </remarks>
-        public virtual Response<IReadOnlyList<DataPoint>> GetAllDataPoints(int? offset = null, int? limit = null, string organization = null, string extractor = null, string slug = null, string description = null, string annotationContentType = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllDataPoints");
-            scope.Start();
-            try
-            {
-                return RestClient.GetAllDataPoints(offset, limit, organization, extractor, slug, description, annotationContentType, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Create a data point. </summary>
-        /// <param name="body"> The DataPointCreate to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Create a custom data point. </remarks>
-        public virtual async Task<Response<DataPoint>> CreateDataPointAsync(DataPointCreate body = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateDataPoint");
-            scope.Start();
-            try
-            {
-                return await RestClient.CreateDataPointAsync(body, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Create a data point. </summary>
-        /// <param name="body"> The DataPointCreate to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Create a custom data point. </remarks>
-        public virtual Response<DataPoint> CreateDataPoint(DataPointCreate body = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateDataPoint");
-            scope.Start();
-            try
-            {
-                return RestClient.CreateDataPoint(body, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get specific data point. </summary>
-        /// <param name="identifier"> Data point&apos;s identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Return a specific data point. </remarks>
-        public virtual async Task<Response<DataPoint>> GetDataPointAsync(string identifier, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetDataPoint");
-            scope.Start();
-            try
-            {
-                return await RestClient.GetDataPointAsync(identifier, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get specific data point. </summary>
-        /// <param name="identifier"> Data point&apos;s identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Return a specific data point. </remarks>
-        public virtual Response<DataPoint> GetDataPoint(string identifier, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetDataPoint");
-            scope.Start();
-            try
-            {
-                return RestClient.GetDataPoint(identifier, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Update a data point. </summary>
-        /// <param name="identifier"> DataPoint&apos;s identifier. </param>
-        /// <param name="body"> Data point to update. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Update data of a data point. </remarks>
-        public virtual async Task<Response<DataPoint>> UpdateDataPointAsync(string identifier, DataPointUpdate body, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateDataPoint");
-            scope.Start();
-            try
-            {
-                return await RestClient.UpdateDataPointAsync(identifier, body, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Update a data point. </summary>
-        /// <param name="identifier"> DataPoint&apos;s identifier. </param>
-        /// <param name="body"> Data point to update. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Update data of a data point. </remarks>
-        public virtual Response<DataPoint> UpdateDataPoint(string identifier, DataPointUpdate body, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateDataPoint");
-            scope.Start();
-            try
-            {
-                return RestClient.UpdateDataPoint(identifier, body, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Delete a data point. </summary>
-        /// <param name="identifier"> DataPoint&apos;s identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Deletes the specified data point from the database. </remarks>
-        public virtual async Task<Response> DeleteDataPointAsync(string identifier, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteDataPoint");
-            scope.Start();
-            try
-            {
-                return await RestClient.DeleteDataPointAsync(identifier, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Delete a data point. </summary>
-        /// <param name="identifier"> DataPoint&apos;s identifier. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Deletes the specified data point from the database. </remarks>
-        public virtual Response DeleteDataPoint(string identifier, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteDataPoint");
-            scope.Start();
-            try
-            {
-                return RestClient.DeleteDataPoint(identifier, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get list of data point choices. </summary>
-        /// <param name="dataPoint"> The data point to get choices for. </param>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
-        /// <param name="search"> Filter choices by searching for a substring. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns available choices for a specific enum data point. </remarks>
-        public virtual async Task<Response<PathsMnwxgV3DataPointChoicesGetResponses200ContentApplicationJsonSchema>> GetDataPointChoicesAsync(string dataPoint, int? offset = null, int? limit = null, string search = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetDataPointChoices");
-            scope.Start();
-            try
-            {
-                return await RestClient.GetDataPointChoicesAsync(dataPoint, offset, limit, search, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get list of data point choices. </summary>
-        /// <param name="dataPoint"> The data point to get choices for. </param>
-        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
-        /// <param name="limit"> The numbers of results to return. </param>
-        /// <param name="search"> Filter choices by searching for a substring. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns available choices for a specific enum data point. </remarks>
-        public virtual Response<PathsMnwxgV3DataPointChoicesGetResponses200ContentApplicationJsonSchema> GetDataPointChoices(string dataPoint, int? offset = null, int? limit = null, string search = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetDataPointChoices");
-            scope.Start();
-            try
-            {
-                return RestClient.GetDataPointChoices(dataPoint, offset, limit, search, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
         /// <summary> Get list of all workspaces. </summary>
         /// <param name="organization"> Filter by organization. </param>
         /// <param name="name"> Filter by name. </param>
@@ -2732,6 +838,606 @@ namespace Affinda.API
             }
         }
 
+        /// <summary> Get list of all extractors. </summary>
+        /// <param name="organization"> Filter by organization. </param>
+        /// <param name="includePublicExtractors"> Whether to include Affinda&apos;s off-the-shelf extractors. </param>
+        /// <param name="name"> Filter by name. </param>
+        /// <param name="validatable"> Filter by validatable. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns your custom extractors as well as Affinda&apos;s off-the-shelf extractors. </remarks>
+        public virtual async Task<Response<IReadOnlyList<Extractor>>> GetAllExtractorsAsync(string organization, bool? includePublicExtractors = null, string name = null, bool? validatable = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllExtractors");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetAllExtractorsAsync(organization, includePublicExtractors, name, validatable, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get list of all extractors. </summary>
+        /// <param name="organization"> Filter by organization. </param>
+        /// <param name="includePublicExtractors"> Whether to include Affinda&apos;s off-the-shelf extractors. </param>
+        /// <param name="name"> Filter by name. </param>
+        /// <param name="validatable"> Filter by validatable. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns your custom extractors as well as Affinda&apos;s off-the-shelf extractors. </remarks>
+        public virtual Response<IReadOnlyList<Extractor>> GetAllExtractors(string organization, bool? includePublicExtractors = null, string name = null, bool? validatable = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllExtractors");
+            scope.Start();
+            try
+            {
+                return RestClient.GetAllExtractors(organization, includePublicExtractors, name, validatable, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create an extractor. </summary>
+        /// <param name="body"> The ExtractorCreate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create a custom extractor. </remarks>
+        public virtual async Task<Response<Extractor>> CreateExtractorAsync(ExtractorCreate body = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateExtractor");
+            scope.Start();
+            try
+            {
+                return await RestClient.CreateExtractorAsync(body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create an extractor. </summary>
+        /// <param name="body"> The ExtractorCreate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create a custom extractor. </remarks>
+        public virtual Response<Extractor> CreateExtractor(ExtractorCreate body = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateExtractor");
+            scope.Start();
+            try
+            {
+                return RestClient.CreateExtractor(body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get specific extractor. </summary>
+        /// <param name="identifier"> Extractor&apos;s identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return a specific extractor. </remarks>
+        public virtual async Task<Response<Extractor>> GetExtractorAsync(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetExtractor");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetExtractorAsync(identifier, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get specific extractor. </summary>
+        /// <param name="identifier"> Extractor&apos;s identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return a specific extractor. </remarks>
+        public virtual Response<Extractor> GetExtractor(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetExtractor");
+            scope.Start();
+            try
+            {
+                return RestClient.GetExtractor(identifier, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update an extractor. </summary>
+        /// <param name="identifier"> Extractor&apos;s identifier. </param>
+        /// <param name="body"> Extractor data to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Update data of an extractor. </remarks>
+        public virtual async Task<Response<Extractor>> UpdateExtractorAsync(string identifier, ExtractorUpdate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateExtractor");
+            scope.Start();
+            try
+            {
+                return await RestClient.UpdateExtractorAsync(identifier, body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update an extractor. </summary>
+        /// <param name="identifier"> Extractor&apos;s identifier. </param>
+        /// <param name="body"> Extractor data to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Update data of an extractor. </remarks>
+        public virtual Response<Extractor> UpdateExtractor(string identifier, ExtractorUpdate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateExtractor");
+            scope.Start();
+            try
+            {
+                return RestClient.UpdateExtractor(identifier, body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete an extractor. </summary>
+        /// <param name="identifier"> Extractor&apos;s identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Deletes the specified extractor from the database. </remarks>
+        public virtual async Task<Response> DeleteExtractorAsync(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteExtractor");
+            scope.Start();
+            try
+            {
+                return await RestClient.DeleteExtractorAsync(identifier, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete an extractor. </summary>
+        /// <param name="identifier"> Extractor&apos;s identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Deletes the specified extractor from the database. </remarks>
+        public virtual Response DeleteExtractor(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteExtractor");
+            scope.Start();
+            try
+            {
+                return RestClient.DeleteExtractor(identifier, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get list of all data points. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="organization"> Filter by organization. </param>
+        /// <param name="extractor"> Filter by extractor. </param>
+        /// <param name="slug"> Filter by slug. </param>
+        /// <param name="description"> Filter by description. </param>
+        /// <param name="annotationContentType"> Filter by annotation content type, e.g. text, integer, float, date, etc. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns your custom data points as well as Affinda&apos;s off-the-shelf data points. </remarks>
+        public virtual async Task<Response<IReadOnlyList<DataPoint>>> GetAllDataPointsAsync(int? offset = null, int? limit = null, string organization = null, string extractor = null, string slug = null, string description = null, string annotationContentType = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllDataPoints");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetAllDataPointsAsync(offset, limit, organization, extractor, slug, description, annotationContentType, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get list of all data points. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="organization"> Filter by organization. </param>
+        /// <param name="extractor"> Filter by extractor. </param>
+        /// <param name="slug"> Filter by slug. </param>
+        /// <param name="description"> Filter by description. </param>
+        /// <param name="annotationContentType"> Filter by annotation content type, e.g. text, integer, float, date, etc. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns your custom data points as well as Affinda&apos;s off-the-shelf data points. </remarks>
+        public virtual Response<IReadOnlyList<DataPoint>> GetAllDataPoints(int? offset = null, int? limit = null, string organization = null, string extractor = null, string slug = null, string description = null, string annotationContentType = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllDataPoints");
+            scope.Start();
+            try
+            {
+                return RestClient.GetAllDataPoints(offset, limit, organization, extractor, slug, description, annotationContentType, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create a data point. </summary>
+        /// <param name="body"> The DataPointCreate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create a custom data point. </remarks>
+        public virtual async Task<Response<DataPoint>> CreateDataPointAsync(DataPointCreate body = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateDataPoint");
+            scope.Start();
+            try
+            {
+                return await RestClient.CreateDataPointAsync(body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create a data point. </summary>
+        /// <param name="body"> The DataPointCreate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create a custom data point. </remarks>
+        public virtual Response<DataPoint> CreateDataPoint(DataPointCreate body = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateDataPoint");
+            scope.Start();
+            try
+            {
+                return RestClient.CreateDataPoint(body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get specific data point. </summary>
+        /// <param name="identifier"> Data point&apos;s identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return a specific data point. </remarks>
+        public virtual async Task<Response<DataPoint>> GetDataPointAsync(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetDataPoint");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetDataPointAsync(identifier, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get specific data point. </summary>
+        /// <param name="identifier"> Data point&apos;s identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return a specific data point. </remarks>
+        public virtual Response<DataPoint> GetDataPoint(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetDataPoint");
+            scope.Start();
+            try
+            {
+                return RestClient.GetDataPoint(identifier, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update a data point. </summary>
+        /// <param name="identifier"> DataPoint&apos;s identifier. </param>
+        /// <param name="body"> Data point to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Update data of a data point. </remarks>
+        public virtual async Task<Response<DataPoint>> UpdateDataPointAsync(string identifier, DataPointUpdate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateDataPoint");
+            scope.Start();
+            try
+            {
+                return await RestClient.UpdateDataPointAsync(identifier, body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update a data point. </summary>
+        /// <param name="identifier"> DataPoint&apos;s identifier. </param>
+        /// <param name="body"> Data point to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Update data of a data point. </remarks>
+        public virtual Response<DataPoint> UpdateDataPoint(string identifier, DataPointUpdate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateDataPoint");
+            scope.Start();
+            try
+            {
+                return RestClient.UpdateDataPoint(identifier, body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete a data point. </summary>
+        /// <param name="identifier"> DataPoint&apos;s identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Deletes the specified data point from the database. </remarks>
+        public virtual async Task<Response> DeleteDataPointAsync(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteDataPoint");
+            scope.Start();
+            try
+            {
+                return await RestClient.DeleteDataPointAsync(identifier, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete a data point. </summary>
+        /// <param name="identifier"> DataPoint&apos;s identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Deletes the specified data point from the database. </remarks>
+        public virtual Response DeleteDataPoint(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteDataPoint");
+            scope.Start();
+            try
+            {
+                return RestClient.DeleteDataPoint(identifier, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get list of data point choices. </summary>
+        /// <param name="dataPoint"> The data point to get choices for. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="search"> Filter choices by searching for a substring. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns available choices for a specific enum data point. </remarks>
+        public virtual async Task<Response<PathsMnwxgV3DataPointChoicesGetResponses200ContentApplicationJsonSchema>> GetDataPointChoicesAsync(string dataPoint, int? offset = null, int? limit = null, string search = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetDataPointChoices");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetDataPointChoicesAsync(dataPoint, offset, limit, search, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get list of data point choices. </summary>
+        /// <param name="dataPoint"> The data point to get choices for. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="search"> Filter choices by searching for a substring. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns available choices for a specific enum data point. </remarks>
+        public virtual Response<PathsMnwxgV3DataPointChoicesGetResponses200ContentApplicationJsonSchema> GetDataPointChoices(string dataPoint, int? offset = null, int? limit = null, string search = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetDataPointChoices");
+            scope.Start();
+            try
+            {
+                return RestClient.GetDataPointChoices(dataPoint, offset, limit, search, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create a data point choice. </summary>
+        /// <param name="body"> The DataPointChoiceCreate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create a custom data point choice. </remarks>
+        public virtual async Task<Response<DataPointChoice>> CreateDataPointChoiceAsync(DataPointChoiceCreate body = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateDataPointChoice");
+            scope.Start();
+            try
+            {
+                return await RestClient.CreateDataPointChoiceAsync(body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create a data point choice. </summary>
+        /// <param name="body"> The DataPointChoiceCreate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create a custom data point choice. </remarks>
+        public virtual Response<DataPointChoice> CreateDataPointChoice(DataPointChoiceCreate body = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateDataPointChoice");
+            scope.Start();
+            try
+            {
+                return RestClient.CreateDataPointChoice(body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get specific data point choice. </summary>
+        /// <param name="id"> Data point choice&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return a specific data point choice. </remarks>
+        public virtual async Task<Response<DataPointChoice>> GetDataPointChoiceAsync(int id, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetDataPointChoice");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetDataPointChoiceAsync(id, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get specific data point choice. </summary>
+        /// <param name="id"> Data point choice&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return a specific data point choice. </remarks>
+        public virtual Response<DataPointChoice> GetDataPointChoice(int id, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetDataPointChoice");
+            scope.Start();
+            try
+            {
+                return RestClient.GetDataPointChoice(id, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update a data point choice. </summary>
+        /// <param name="id"> Data point choice&apos;s ID. </param>
+        /// <param name="body"> Data point choice to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Update data of a data point choice. </remarks>
+        public virtual async Task<Response<DataPointChoice>> UpdateDataPointChoiceAsync(int id, DataPointChoiceUpdate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateDataPointChoice");
+            scope.Start();
+            try
+            {
+                return await RestClient.UpdateDataPointChoiceAsync(id, body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update a data point choice. </summary>
+        /// <param name="id"> Data point choice&apos;s ID. </param>
+        /// <param name="body"> Data point choice to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Update data of a data point choice. </remarks>
+        public virtual Response<DataPointChoice> UpdateDataPointChoice(int id, DataPointChoiceUpdate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateDataPointChoice");
+            scope.Start();
+            try
+            {
+                return RestClient.UpdateDataPointChoice(id, body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete a data point choice. </summary>
+        /// <param name="id"> Data point choice&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Deletes the specified data point choice from the database. </remarks>
+        public virtual async Task<Response> DeleteDataPointChoiceAsync(int id, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteDataPointChoice");
+            scope.Start();
+            try
+            {
+                return await RestClient.DeleteDataPointChoiceAsync(id, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete a data point choice. </summary>
+        /// <param name="id"> Data point choice&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Deletes the specified data point choice from the database. </remarks>
+        public virtual Response DeleteDataPointChoice(int id, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteDataPointChoice");
+            scope.Start();
+            try
+            {
+                return RestClient.DeleteDataPointChoice(id, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
         /// <summary> Get list of all tags. </summary>
         /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
@@ -2926,6 +1632,678 @@ namespace Affinda.API
             }
         }
 
+        /// <summary> Get list of all organizations. </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns all the organizations. </remarks>
+        public virtual async Task<Response<IReadOnlyList<Organization>>> GetAllOrganizationsAsync(CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllOrganizations");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetAllOrganizationsAsync(cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get list of all organizations. </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns all the organizations. </remarks>
+        public virtual Response<IReadOnlyList<Organization>> GetAllOrganizations(CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllOrganizations");
+            scope.Start();
+            try
+            {
+                return RestClient.GetAllOrganizations(cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create a new organization. </summary>
+        /// <param name="name"> The String to use. </param>
+        /// <param name="avatar"> Upload avatar for the organization. </param>
+        /// <param name="resthookSignatureKey"> The String to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create a new organization. </remarks>
+        public virtual async Task<Response<Organization>> CreateOrganizationAsync(string name, Stream avatar = null, string resthookSignatureKey = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateOrganization");
+            scope.Start();
+            try
+            {
+                return await RestClient.CreateOrganizationAsync(name, avatar, resthookSignatureKey, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create a new organization. </summary>
+        /// <param name="name"> The String to use. </param>
+        /// <param name="avatar"> Upload avatar for the organization. </param>
+        /// <param name="resthookSignatureKey"> The String to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create a new organization. </remarks>
+        public virtual Response<Organization> CreateOrganization(string name, Stream avatar = null, string resthookSignatureKey = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateOrganization");
+            scope.Start();
+            try
+            {
+                return RestClient.CreateOrganization(name, avatar, resthookSignatureKey, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get detail of an organization. </summary>
+        /// <param name="identifier"> Organization identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Get detail of an organization. </remarks>
+        public virtual async Task<Response<Organization>> GetOrganizationAsync(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetOrganization");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetOrganizationAsync(identifier, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get detail of an organization. </summary>
+        /// <param name="identifier"> Organization identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Get detail of an organization. </remarks>
+        public virtual Response<Organization> GetOrganization(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetOrganization");
+            scope.Start();
+            try
+            {
+                return RestClient.GetOrganization(identifier, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update an organization. </summary>
+        /// <param name="identifier"> Organization identifier. </param>
+        /// <param name="name"> The String to use. </param>
+        /// <param name="avatar"> The Stream to use. </param>
+        /// <param name="resthookSignatureKey"> The String to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Update the detail of an organization. </remarks>
+        public virtual async Task<Response<Organization>> UpdateOrganizationAsync(string identifier, string name = null, Stream avatar = null, string resthookSignatureKey = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateOrganization");
+            scope.Start();
+            try
+            {
+                return await RestClient.UpdateOrganizationAsync(identifier, name, avatar, resthookSignatureKey, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update an organization. </summary>
+        /// <param name="identifier"> Organization identifier. </param>
+        /// <param name="name"> The String to use. </param>
+        /// <param name="avatar"> The Stream to use. </param>
+        /// <param name="resthookSignatureKey"> The String to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Update the detail of an organization. </remarks>
+        public virtual Response<Organization> UpdateOrganization(string identifier, string name = null, Stream avatar = null, string resthookSignatureKey = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateOrganization");
+            scope.Start();
+            try
+            {
+                return RestClient.UpdateOrganization(identifier, name, avatar, resthookSignatureKey, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete an organization. </summary>
+        /// <param name="identifier"> Organization identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Delete the specified organization from the database. </remarks>
+        public virtual async Task<Response> DeleteOrganizationAsync(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteOrganization");
+            scope.Start();
+            try
+            {
+                return await RestClient.DeleteOrganizationAsync(identifier, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete an organization. </summary>
+        /// <param name="identifier"> Organization identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Delete the specified organization from the database. </remarks>
+        public virtual Response DeleteOrganization(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteOrganization");
+            scope.Start();
+            try
+            {
+                return RestClient.DeleteOrganization(identifier, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get list of all organization memberships. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="organization"> Filter by organization. </param>
+        /// <param name="role"> Filter by role. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns all the organization memberships. </remarks>
+        public virtual async Task<Response<PathsQ5Os5RV3OrganizationMembershipsGetResponses200ContentApplicationJsonSchema>> GetAllOrganizationMembershipsAsync(int? offset = null, int? limit = null, string organization = null, OrganizationRole? role = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllOrganizationMemberships");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetAllOrganizationMembershipsAsync(offset, limit, organization, role, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get list of all organization memberships. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="organization"> Filter by organization. </param>
+        /// <param name="role"> Filter by role. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns all the organization memberships. </remarks>
+        public virtual Response<PathsQ5Os5RV3OrganizationMembershipsGetResponses200ContentApplicationJsonSchema> GetAllOrganizationMemberships(int? offset = null, int? limit = null, string organization = null, OrganizationRole? role = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllOrganizationMemberships");
+            scope.Start();
+            try
+            {
+                return RestClient.GetAllOrganizationMemberships(offset, limit, organization, role, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get detail of an organization membership. </summary>
+        /// <param name="identifier"> Membership identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Get detail of an organization membership. </remarks>
+        public virtual async Task<Response<OrganizationMembership>> GetOrganizationMembershipAsync(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetOrganizationMembership");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetOrganizationMembershipAsync(identifier, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get detail of an organization membership. </summary>
+        /// <param name="identifier"> Membership identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Get detail of an organization membership. </remarks>
+        public virtual Response<OrganizationMembership> GetOrganizationMembership(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetOrganizationMembership");
+            scope.Start();
+            try
+            {
+                return RestClient.GetOrganizationMembership(identifier, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update an organization membership. </summary>
+        /// <param name="identifier"> Membership identifier. </param>
+        /// <param name="body"> The OrganizationMembershipUpdate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> The admin users can use this endpoint to update the role of the members within their organization. </remarks>
+        public virtual async Task<Response<OrganizationMembership>> UpdateOrganizationMembershipAsync(string identifier, OrganizationMembershipUpdate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateOrganizationMembership");
+            scope.Start();
+            try
+            {
+                return await RestClient.UpdateOrganizationMembershipAsync(identifier, body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update an organization membership. </summary>
+        /// <param name="identifier"> Membership identifier. </param>
+        /// <param name="body"> The OrganizationMembershipUpdate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> The admin users can use this endpoint to update the role of the members within their organization. </remarks>
+        public virtual Response<OrganizationMembership> UpdateOrganizationMembership(string identifier, OrganizationMembershipUpdate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateOrganizationMembership");
+            scope.Start();
+            try
+            {
+                return RestClient.UpdateOrganizationMembership(identifier, body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete an organization membership. </summary>
+        /// <param name="identifier"> Membership identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> The admin users can use this endpoint to remove member from their organization. Other users can also use this to leave their organization. </remarks>
+        public virtual async Task<Response> DeleteOrganizationMembershipAsync(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteOrganizationMembership");
+            scope.Start();
+            try
+            {
+                return await RestClient.DeleteOrganizationMembershipAsync(identifier, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete an organization membership. </summary>
+        /// <param name="identifier"> Membership identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> The admin users can use this endpoint to remove member from their organization. Other users can also use this to leave their organization. </remarks>
+        public virtual Response DeleteOrganizationMembership(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteOrganizationMembership");
+            scope.Start();
+            try
+            {
+                return RestClient.DeleteOrganizationMembership(identifier, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> List occupation groups. </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns the list of searchable occupation groups. </remarks>
+        public virtual async Task<Response<IReadOnlyList<OccupationGroup>>> ListOccupationGroupsAsync(CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.ListOccupationGroups");
+            scope.Start();
+            try
+            {
+                return await RestClient.ListOccupationGroupsAsync(cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> List occupation groups. </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns the list of searchable occupation groups. </remarks>
+        public virtual Response<IReadOnlyList<OccupationGroup>> ListOccupationGroups(CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.ListOccupationGroups");
+            scope.Start();
+            try
+            {
+                return RestClient.ListOccupationGroups(cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get list of all invitations. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="organization"> Filter by organization. </param>
+        /// <param name="status"> Filter by status. </param>
+        /// <param name="role"> Filter by role. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Get list of all invitations you created or sent to you. </remarks>
+        public virtual async Task<Response<Paths18Wh2VcV3InvitationsGetResponses200ContentApplicationJsonSchema>> GetAllInvitationsAsync(int? offset = null, int? limit = null, string organization = null, InvitationStatus? status = null, OrganizationRole? role = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllInvitations");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetAllInvitationsAsync(offset, limit, organization, status, role, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get list of all invitations. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="organization"> Filter by organization. </param>
+        /// <param name="status"> Filter by status. </param>
+        /// <param name="role"> Filter by role. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Get list of all invitations you created or sent to you. </remarks>
+        public virtual Response<Paths18Wh2VcV3InvitationsGetResponses200ContentApplicationJsonSchema> GetAllInvitations(int? offset = null, int? limit = null, string organization = null, InvitationStatus? status = null, OrganizationRole? role = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllInvitations");
+            scope.Start();
+            try
+            {
+                return RestClient.GetAllInvitations(offset, limit, organization, status, role, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create a new invitation. </summary>
+        /// <param name="body"> Invitation to create. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create a new invitation. </remarks>
+        public virtual async Task<Response<Invitation>> CreateInvitationAsync(InvitationCreate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateInvitation");
+            scope.Start();
+            try
+            {
+                return await RestClient.CreateInvitationAsync(body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create a new invitation. </summary>
+        /// <param name="body"> Invitation to create. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create a new invitation. </remarks>
+        public virtual Response<Invitation> CreateInvitation(InvitationCreate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateInvitation");
+            scope.Start();
+            try
+            {
+                return RestClient.CreateInvitation(body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get detail of an invitation. </summary>
+        /// <param name="identifier"> Invitation identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Get detail of an invitation. </remarks>
+        public virtual async Task<Response<Invitation>> GetInvitationAsync(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetInvitation");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetInvitationAsync(identifier, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get detail of an invitation. </summary>
+        /// <param name="identifier"> Invitation identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Get detail of an invitation. </remarks>
+        public virtual Response<Invitation> GetInvitation(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetInvitation");
+            scope.Start();
+            try
+            {
+                return RestClient.GetInvitation(identifier, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update an invitation. </summary>
+        /// <param name="identifier"> Invitation identifier. </param>
+        /// <param name="body"> The InvitationUpdate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Update the detail of an invitation. </remarks>
+        public virtual async Task<Response<Invitation>> UpdateInvitationAsync(string identifier, InvitationUpdate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateInvitation");
+            scope.Start();
+            try
+            {
+                return await RestClient.UpdateInvitationAsync(identifier, body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update an invitation. </summary>
+        /// <param name="identifier"> Invitation identifier. </param>
+        /// <param name="body"> The InvitationUpdate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Update the detail of an invitation. </remarks>
+        public virtual Response<Invitation> UpdateInvitation(string identifier, InvitationUpdate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateInvitation");
+            scope.Start();
+            try
+            {
+                return RestClient.UpdateInvitation(identifier, body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete an invitation. </summary>
+        /// <param name="identifier"> Invitation identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Delete the specified invitation from the database. </remarks>
+        public virtual async Task<Response> DeleteInvitationAsync(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteInvitation");
+            scope.Start();
+            try
+            {
+                return await RestClient.DeleteInvitationAsync(identifier, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete an invitation. </summary>
+        /// <param name="identifier"> Invitation identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Delete the specified invitation from the database. </remarks>
+        public virtual Response DeleteInvitation(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteInvitation");
+            scope.Start();
+            try
+            {
+                return RestClient.DeleteInvitation(identifier, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get detail of an invitation by token. </summary>
+        /// <param name="token"> Invitation token. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Get detail of an invitation using a secret token. This allows users who have not registered/logged in to view the invitation. </remarks>
+        public virtual async Task<Response<Invitation>> GetInvitationByTokenAsync(string token, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetInvitationByToken");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetInvitationByTokenAsync(token, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get detail of an invitation by token. </summary>
+        /// <param name="token"> Invitation token. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Get detail of an invitation using a secret token. This allows users who have not registered/logged in to view the invitation. </remarks>
+        public virtual Response<Invitation> GetInvitationByToken(string token, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetInvitationByToken");
+            scope.Start();
+            try
+            {
+                return RestClient.GetInvitationByToken(token, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Respond to an invitation. </summary>
+        /// <param name="token"> Invitation token. </param>
+        /// <param name="body"> The InvitationResponse to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Choose to accept or decline an invitation. </remarks>
+        public virtual async Task<Response<Invitation>> RespondToInvitationAsync(string token, InvitationResponse body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.RespondToInvitation");
+            scope.Start();
+            try
+            {
+                return await RestClient.RespondToInvitationAsync(token, body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Respond to an invitation. </summary>
+        /// <param name="token"> Invitation token. </param>
+        /// <param name="body"> The InvitationResponse to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Choose to accept or decline an invitation. </remarks>
+        public virtual Response<Invitation> RespondToInvitation(string token, InvitationResponse body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.RespondToInvitation");
+            scope.Start();
+            try
+            {
+                return RestClient.RespondToInvitation(token, body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
         /// <summary> Get list of all resthook subscriptions. </summary>
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
         /// <param name="limit"> The numbers of results to return. </param>
@@ -2970,9 +2348,9 @@ namespace Affinda.API
         /// <param name="body"> The ResthookSubscriptionCreate to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
-        /// After a subscription is sucessfully created, we&apos;ll send a POST request to your target URL with a `X-Hook-Secret` header.
-        /// You need to response to this request with a 200 status code to confirm your subscribe intention.
-        /// Then, you need to use the `X-Hook-Secret` to activate the subscription using the [/resthook_subscriptions/activate](#post-/v3/resthook_subscriptions/activate) endpoint.
+        /// After a subscription is sucessfully created, we&apos;ll send a POST request to your target URL with a `X-Hook-Secret` header. &lt;br /&gt;
+        /// You need to response to this request with a 200 status code to confirm your subscribe intention. &lt;br /&gt;
+        /// Then, you need to use the `X-Hook-Secret` to activate the subscription using the [/resthook_subscriptions/activate](#post-/v3/resthook_subscriptions/activate) endpoint. &lt;br /&gt;
         /// For more information, see our help article here - [How do I create a webhook?](https://help.affinda.com/hc/en-au/articles/11474095148569-How-do-I-create-a-webhook)
         /// </remarks>
         public virtual async Task<Response<ResthookSubscription>> CreateResthookSubscriptionAsync(ResthookSubscriptionCreate body, CancellationToken cancellationToken = default)
@@ -2994,9 +2372,9 @@ namespace Affinda.API
         /// <param name="body"> The ResthookSubscriptionCreate to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
-        /// After a subscription is sucessfully created, we&apos;ll send a POST request to your target URL with a `X-Hook-Secret` header.
-        /// You need to response to this request with a 200 status code to confirm your subscribe intention.
-        /// Then, you need to use the `X-Hook-Secret` to activate the subscription using the [/resthook_subscriptions/activate](#post-/v3/resthook_subscriptions/activate) endpoint.
+        /// After a subscription is sucessfully created, we&apos;ll send a POST request to your target URL with a `X-Hook-Secret` header. &lt;br /&gt;
+        /// You need to response to this request with a 200 status code to confirm your subscribe intention. &lt;br /&gt;
+        /// Then, you need to use the `X-Hook-Secret` to activate the subscription using the [/resthook_subscriptions/activate](#post-/v3/resthook_subscriptions/activate) endpoint. &lt;br /&gt;
         /// For more information, see our help article here - [How do I create a webhook?](https://help.affinda.com/hc/en-au/articles/11474095148569-How-do-I-create-a-webhook)
         /// </remarks>
         public virtual Response<ResthookSubscription> CreateResthookSubscription(ResthookSubscriptionCreate body, CancellationToken cancellationToken = default)
@@ -3134,7 +2512,7 @@ namespace Affinda.API
         /// <param name="xHookSecret"> The secret received when creating a subscription. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
-        /// After creating a subscription, we&apos;ll send a POST request to your target URL with a `X-Hook-Secret` header.
+        /// After creating a subscription, we&apos;ll send a POST request to your target URL with a `X-Hook-Secret` header. &lt;br /&gt;
         /// You should response to this with a 200 status code, and use the value of the `X-Hook-Secret` header that you received to activate the subscription using this endpoint.
         /// </remarks>
         public virtual async Task<Response<ResthookSubscription>> ActivateResthookSubscriptionAsync(string xHookSecret, CancellationToken cancellationToken = default)
@@ -3156,7 +2534,7 @@ namespace Affinda.API
         /// <param name="xHookSecret"> The secret received when creating a subscription. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
-        /// After creating a subscription, we&apos;ll send a POST request to your target URL with a `X-Hook-Secret` header.
+        /// After creating a subscription, we&apos;ll send a POST request to your target URL with a `X-Hook-Secret` header. &lt;br /&gt;
         /// You should response to this with a 200 status code, and use the value of the `X-Hook-Secret` header that you received to activate the subscription using this endpoint.
         /// </remarks>
         public virtual Response<ResthookSubscription> ActivateResthookSubscription(string xHookSecret, CancellationToken cancellationToken = default)
@@ -3166,6 +2544,782 @@ namespace Affinda.API
             try
             {
                 return RestClient.ActivateResthookSubscription(xHookSecret, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Search through parsed job descriptions. </summary>
+        /// <param name="body"> Search parameters. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Searches through parsed job descriptions. You can search with custom criterias or a resume. </remarks>
+        public virtual async Task<Response<JobDescriptionSearch>> CreateJobDescriptionSearchAsync(JobDescriptionSearchParameters body, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateJobDescriptionSearch");
+            scope.Start();
+            try
+            {
+                return await RestClient.CreateJobDescriptionSearchAsync(body, offset, limit, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Search through parsed job descriptions. </summary>
+        /// <param name="body"> Search parameters. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Searches through parsed job descriptions. You can search with custom criterias or a resume. </remarks>
+        public virtual Response<JobDescriptionSearch> CreateJobDescriptionSearch(JobDescriptionSearchParameters body, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateJobDescriptionSearch");
+            scope.Start();
+            try
+            {
+                return RestClient.CreateJobDescriptionSearch(body, offset, limit, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get search result of specific job description. </summary>
+        /// <param name="identifier"> Job Description identifier. </param>
+        /// <param name="body"> Search parameters. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks>
+        /// This contains more detailed information about the matching score of the search criteria, or which search criteria is missing in this job description.
+        /// The `identifier` is the unique ID returned via the [/job_description_search](#post-/job_description_search) endpoint.
+        /// </remarks>
+        public virtual async Task<Response<JobDescriptionSearchDetail>> GetJobDescriptionSearchDetailAsync(string identifier, JobDescriptionSearchParameters body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetJobDescriptionSearchDetail");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetJobDescriptionSearchDetailAsync(identifier, body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get search result of specific job description. </summary>
+        /// <param name="identifier"> Job Description identifier. </param>
+        /// <param name="body"> Search parameters. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks>
+        /// This contains more detailed information about the matching score of the search criteria, or which search criteria is missing in this job description.
+        /// The `identifier` is the unique ID returned via the [/job_description_search](#post-/job_description_search) endpoint.
+        /// </remarks>
+        public virtual Response<JobDescriptionSearchDetail> GetJobDescriptionSearchDetail(string identifier, JobDescriptionSearchParameters body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetJobDescriptionSearchDetail");
+            scope.Start();
+            try
+            {
+                return RestClient.GetJobDescriptionSearchDetail(identifier, body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get the config for the logged in user&apos;s embeddable job description search tool. </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return configurations such as which fields can be displayed in the logged in user&apos;s embeddable job description search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
+        public virtual async Task<Response<JobDescriptionSearchConfig>> GetJobDescriptionSearchConfigAsync(CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetJobDescriptionSearchConfig");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetJobDescriptionSearchConfigAsync(cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get the config for the logged in user&apos;s embeddable job description search tool. </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return configurations such as which fields can be displayed in the logged in user&apos;s embeddable job description search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
+        public virtual Response<JobDescriptionSearchConfig> GetJobDescriptionSearchConfig(CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetJobDescriptionSearchConfig");
+            scope.Start();
+            try
+            {
+                return RestClient.GetJobDescriptionSearchConfig(cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update the config for the logged in user&apos;s embeddable job description search tool. </summary>
+        /// <param name="body"> The JobDescriptionSearchConfig to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Update configurations such as which fields can be displayed in the logged in user&apos;s embeddable job description search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
+        public virtual async Task<Response<JobDescriptionSearchConfig>> UpdateJobDescriptionSearchConfigAsync(JobDescriptionSearchConfig body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateJobDescriptionSearchConfig");
+            scope.Start();
+            try
+            {
+                return await RestClient.UpdateJobDescriptionSearchConfigAsync(body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update the config for the logged in user&apos;s embeddable job description search tool. </summary>
+        /// <param name="body"> The JobDescriptionSearchConfig to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Update configurations such as which fields can be displayed in the logged in user&apos;s embeddable job description search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
+        public virtual Response<JobDescriptionSearchConfig> UpdateJobDescriptionSearchConfig(JobDescriptionSearchConfig body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateJobDescriptionSearchConfig");
+            scope.Start();
+            try
+            {
+                return RestClient.UpdateJobDescriptionSearchConfig(body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create a signed URL for the embeddable job description search tool. </summary>
+        /// <param name="body"> The PathsM3DzbgV3JobDescriptionSearchEmbedPostRequestbodyContentApplicationJsonSchema to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create and return a signed URL of the job description search tool which then can be embedded on a web page. An optional parameter `config_override` can be passed to override the user-level configurations of the embeddable search tool. </remarks>
+        public virtual async Task<Response<JobDescriptionSearchEmbed>> CreateJobDescriptionSearchEmbedUrlAsync(PathsM3DzbgV3JobDescriptionSearchEmbedPostRequestbodyContentApplicationJsonSchema body = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateJobDescriptionSearchEmbedUrl");
+            scope.Start();
+            try
+            {
+                return await RestClient.CreateJobDescriptionSearchEmbedUrlAsync(body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create a signed URL for the embeddable job description search tool. </summary>
+        /// <param name="body"> The PathsM3DzbgV3JobDescriptionSearchEmbedPostRequestbodyContentApplicationJsonSchema to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create and return a signed URL of the job description search tool which then can be embedded on a web page. An optional parameter `config_override` can be passed to override the user-level configurations of the embeddable search tool. </remarks>
+        public virtual Response<JobDescriptionSearchEmbed> CreateJobDescriptionSearchEmbedUrl(PathsM3DzbgV3JobDescriptionSearchEmbedPostRequestbodyContentApplicationJsonSchema body = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateJobDescriptionSearchEmbedUrl");
+            scope.Start();
+            try
+            {
+                return RestClient.CreateJobDescriptionSearchEmbedUrl(body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get list of all indexes. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="documentType"> Filter indices by a document type. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns all the indexes. </remarks>
+        public virtual async Task<Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum16? documentType = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexes");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetAllIndexesAsync(offset, limit, documentType, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get list of all indexes. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="documentType"> Filter indices by a document type. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns all the indexes. </remarks>
+        public virtual Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema> GetAllIndexes(int? offset = null, int? limit = null, Enum16? documentType = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexes");
+            scope.Start();
+            try
+            {
+                return RestClient.GetAllIndexes(offset, limit, documentType, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create a new index. </summary>
+        /// <param name="name"> The String to use. </param>
+        /// <param name="documentType"> The String to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create an index for the search tool. </remarks>
+        public virtual async Task<Response<Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema>> CreateIndexAsync(string name = null, string documentType = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateIndex");
+            scope.Start();
+            try
+            {
+                return await RestClient.CreateIndexAsync(name, documentType, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create a new index. </summary>
+        /// <param name="name"> The String to use. </param>
+        /// <param name="documentType"> The String to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create an index for the search tool. </remarks>
+        public virtual Response<Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema> CreateIndex(string name = null, string documentType = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateIndex");
+            scope.Start();
+            try
+            {
+                return RestClient.CreateIndex(name, documentType, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete an index. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Deletes the specified index from the database. </remarks>
+        public virtual async Task<Response> DeleteIndexAsync(string name, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteIndex");
+            scope.Start();
+            try
+            {
+                return await RestClient.DeleteIndexAsync(name, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete an index. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Deletes the specified index from the database. </remarks>
+        public virtual Response DeleteIndex(string name, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteIndex");
+            scope.Start();
+            try
+            {
+                return RestClient.DeleteIndex(name, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get indexed documents for a specific index. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns all the indexed documents for that index. </remarks>
+        public virtual async Task<Response<PathsO7SnenV3IndexNameDocumentsGetResponses200ContentApplicationJsonSchema>> GetAllIndexDocumentsAsync(string name, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexDocuments");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetAllIndexDocumentsAsync(name, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get indexed documents for a specific index. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns all the indexed documents for that index. </remarks>
+        public virtual Response<PathsO7SnenV3IndexNameDocumentsGetResponses200ContentApplicationJsonSchema> GetAllIndexDocuments(string name, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexDocuments");
+            scope.Start();
+            try
+            {
+                return RestClient.GetAllIndexDocuments(name, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Index a new document. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="body"> Document to index. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create an indexed document for the search tool. </remarks>
+        public virtual async Task<Response<PathsFte27NV3IndexNameDocumentsPostResponses201ContentApplicationJsonSchema>> CreateIndexDocumentAsync(string name, PathsCl024WV3IndexNameDocumentsPostRequestbodyContentApplicationJsonSchema body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateIndexDocument");
+            scope.Start();
+            try
+            {
+                return await RestClient.CreateIndexDocumentAsync(name, body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Index a new document. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="body"> Document to index. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create an indexed document for the search tool. </remarks>
+        public virtual Response<PathsFte27NV3IndexNameDocumentsPostResponses201ContentApplicationJsonSchema> CreateIndexDocument(string name, PathsCl024WV3IndexNameDocumentsPostRequestbodyContentApplicationJsonSchema body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateIndexDocument");
+            scope.Start();
+            try
+            {
+                return RestClient.CreateIndexDocument(name, body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete an indexed document. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="identifier"> Document identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Delete the specified indexed document from the database. </remarks>
+        public virtual async Task<Response> DeleteIndexDocumentAsync(string name, string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteIndexDocument");
+            scope.Start();
+            try
+            {
+                return await RestClient.DeleteIndexDocumentAsync(name, identifier, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete an indexed document. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="identifier"> Document identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Delete the specified indexed document from the database. </remarks>
+        public virtual Response DeleteIndexDocument(string name, string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteIndexDocument");
+            scope.Start();
+            try
+            {
+                return RestClient.DeleteIndexDocument(name, identifier, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Search through parsed resumes. </summary>
+        /// <param name="body"> Search parameters. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Searches through parsed resumes. Users have 3 options to create a search:&lt;br /&gt;&lt;br /&gt; 1.	Match to a job description - a parsed job description is used to find candidates that suit it&lt;br /&gt; 2.	Match to a resume - a parsed resume is used to find other candidates that have similar attributes&lt;br /&gt; 3.	Search using custom criteria&lt;br /&gt;&lt;br /&gt; Users should only populate 1 of jobDescription, resume or the custom criteria. </remarks>
+        public virtual async Task<Response<ResumeSearch>> CreateResumeSearchAsync(ResumeSearchParameters body, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateResumeSearch");
+            scope.Start();
+            try
+            {
+                return await RestClient.CreateResumeSearchAsync(body, offset, limit, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Search through parsed resumes. </summary>
+        /// <param name="body"> Search parameters. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Searches through parsed resumes. Users have 3 options to create a search:&lt;br /&gt;&lt;br /&gt; 1.	Match to a job description - a parsed job description is used to find candidates that suit it&lt;br /&gt; 2.	Match to a resume - a parsed resume is used to find other candidates that have similar attributes&lt;br /&gt; 3.	Search using custom criteria&lt;br /&gt;&lt;br /&gt; Users should only populate 1 of jobDescription, resume or the custom criteria. </remarks>
+        public virtual Response<ResumeSearch> CreateResumeSearch(ResumeSearchParameters body, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateResumeSearch");
+            scope.Start();
+            try
+            {
+                return RestClient.CreateResumeSearch(body, offset, limit, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get search result of specific resume. </summary>
+        /// <param name="identifier"> Resume identifier. </param>
+        /// <param name="body"> Search parameters. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks>
+        /// This contains more detailed information about the matching score of the search criteria, or which search criteria is missing in this resume.
+        /// The `identifier` is the unique ID returned via the [/resume_search](#post-/resume_search) endpoint.
+        /// </remarks>
+        public virtual async Task<Response<ResumeSearchDetail>> GetResumeSearchDetailAsync(string identifier, ResumeSearchParameters body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResumeSearchDetail");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetResumeSearchDetailAsync(identifier, body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get search result of specific resume. </summary>
+        /// <param name="identifier"> Resume identifier. </param>
+        /// <param name="body"> Search parameters. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks>
+        /// This contains more detailed information about the matching score of the search criteria, or which search criteria is missing in this resume.
+        /// The `identifier` is the unique ID returned via the [/resume_search](#post-/resume_search) endpoint.
+        /// </remarks>
+        public virtual Response<ResumeSearchDetail> GetResumeSearchDetail(string identifier, ResumeSearchParameters body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResumeSearchDetail");
+            scope.Start();
+            try
+            {
+                return RestClient.GetResumeSearchDetail(identifier, body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Match a single resume and job description. </summary>
+        /// <param name="resume"> Identify the resume to match. </param>
+        /// <param name="jobDescription"> Identify the job description to match. </param>
+        /// <param name="index"> Optionally, specify an index to search in. If not specified, will search in all indexes. </param>
+        /// <param name="searchExpression"> Add keywords to the search criteria. </param>
+        /// <param name="jobTitlesWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="yearsExperienceWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="locationsWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="languagesWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="skillsWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="educationWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="searchExpressionWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="socCodesWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="managementLevelWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Get the matching score between a resume and a job description. The score ranges between 0 and 1, with 0 being not a match at all, and 1 being perfect match.&lt;br/&gt; Note, this score will not directly match the score returned from POST [/resume_search/details/{identifier}](#post-/resume_search/details/-identifier-). </remarks>
+        public virtual async Task<Response<ResumeSearchMatch>> GetResumeSearchMatchAsync(string resume, string jobDescription, string index = null, string searchExpression = null, float? jobTitlesWeight = null, float? yearsExperienceWeight = null, float? locationsWeight = null, float? languagesWeight = null, float? skillsWeight = null, float? educationWeight = null, float? searchExpressionWeight = null, float? socCodesWeight = null, float? managementLevelWeight = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResumeSearchMatch");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetResumeSearchMatchAsync(resume, jobDescription, index, searchExpression, jobTitlesWeight, yearsExperienceWeight, locationsWeight, languagesWeight, skillsWeight, educationWeight, searchExpressionWeight, socCodesWeight, managementLevelWeight, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Match a single resume and job description. </summary>
+        /// <param name="resume"> Identify the resume to match. </param>
+        /// <param name="jobDescription"> Identify the job description to match. </param>
+        /// <param name="index"> Optionally, specify an index to search in. If not specified, will search in all indexes. </param>
+        /// <param name="searchExpression"> Add keywords to the search criteria. </param>
+        /// <param name="jobTitlesWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="yearsExperienceWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="locationsWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="languagesWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="skillsWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="educationWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="searchExpressionWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="socCodesWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="managementLevelWeight"> How important is this criteria to the matching score, range from 0 to 1. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Get the matching score between a resume and a job description. The score ranges between 0 and 1, with 0 being not a match at all, and 1 being perfect match.&lt;br/&gt; Note, this score will not directly match the score returned from POST [/resume_search/details/{identifier}](#post-/resume_search/details/-identifier-). </remarks>
+        public virtual Response<ResumeSearchMatch> GetResumeSearchMatch(string resume, string jobDescription, string index = null, string searchExpression = null, float? jobTitlesWeight = null, float? yearsExperienceWeight = null, float? locationsWeight = null, float? languagesWeight = null, float? skillsWeight = null, float? educationWeight = null, float? searchExpressionWeight = null, float? socCodesWeight = null, float? managementLevelWeight = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResumeSearchMatch");
+            scope.Start();
+            try
+            {
+                return RestClient.GetResumeSearchMatch(resume, jobDescription, index, searchExpression, jobTitlesWeight, yearsExperienceWeight, locationsWeight, languagesWeight, skillsWeight, educationWeight, searchExpressionWeight, socCodesWeight, managementLevelWeight, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get the config for the logged in user&apos;s embeddable resume search tool. </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return configurations such as which fields can be displayed in the logged in user&apos;s embeddable resume search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
+        public virtual async Task<Response<ResumeSearchConfig>> GetResumeSearchConfigAsync(CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResumeSearchConfig");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetResumeSearchConfigAsync(cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get the config for the logged in user&apos;s embeddable resume search tool. </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return configurations such as which fields can be displayed in the logged in user&apos;s embeddable resume search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
+        public virtual Response<ResumeSearchConfig> GetResumeSearchConfig(CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResumeSearchConfig");
+            scope.Start();
+            try
+            {
+                return RestClient.GetResumeSearchConfig(cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update the config for the logged in user&apos;s embeddable resume search tool. </summary>
+        /// <param name="body"> The ResumeSearchConfig to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Update configurations such as which fields can be displayed in the logged in user&apos;s embeddable resume search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
+        public virtual async Task<Response<ResumeSearchConfig>> UpdateResumeSearchConfigAsync(ResumeSearchConfig body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateResumeSearchConfig");
+            scope.Start();
+            try
+            {
+                return await RestClient.UpdateResumeSearchConfigAsync(body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update the config for the logged in user&apos;s embeddable resume search tool. </summary>
+        /// <param name="body"> The ResumeSearchConfig to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Update configurations such as which fields can be displayed in the logged in user&apos;s embeddable resume search tool, what are their weights, what is the maximum number of results that can be returned, etc. </remarks>
+        public virtual Response<ResumeSearchConfig> UpdateResumeSearchConfig(ResumeSearchConfig body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateResumeSearchConfig");
+            scope.Start();
+            try
+            {
+                return RestClient.UpdateResumeSearchConfig(body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create a signed URL for the embeddable resume search tool. </summary>
+        /// <param name="body"> The Paths1Czpnk1V3ResumeSearchEmbedPostRequestbodyContentApplicationJsonSchema to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create and return a signed URL of the resume search tool which then can be embedded on a web page. An optional parameter `config_override` can be passed to override the user-level configurations of the embeddable resume search tool. </remarks>
+        public virtual async Task<Response<ResumeSearchEmbed>> CreateResumeSearchEmbedUrlAsync(Paths1Czpnk1V3ResumeSearchEmbedPostRequestbodyContentApplicationJsonSchema body = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateResumeSearchEmbedUrl");
+            scope.Start();
+            try
+            {
+                return await RestClient.CreateResumeSearchEmbedUrlAsync(body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create a signed URL for the embeddable resume search tool. </summary>
+        /// <param name="body"> The Paths1Czpnk1V3ResumeSearchEmbedPostRequestbodyContentApplicationJsonSchema to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create and return a signed URL of the resume search tool which then can be embedded on a web page. An optional parameter `config_override` can be passed to override the user-level configurations of the embeddable resume search tool. </remarks>
+        public virtual Response<ResumeSearchEmbed> CreateResumeSearchEmbedUrl(Paths1Czpnk1V3ResumeSearchEmbedPostRequestbodyContentApplicationJsonSchema body = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateResumeSearchEmbedUrl");
+            scope.Start();
+            try
+            {
+                return RestClient.CreateResumeSearchEmbedUrl(body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get job title suggestions based on provided job title(s). </summary>
+        /// <param name="jobTitles"> Job title to query suggestions for. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Provided one or more job titles, get related suggestions for your search. </remarks>
+        public virtual async Task<Response<IReadOnlyList<string>>> GetResumeSearchSuggestionJobTitleAsync(IEnumerable<string> jobTitles, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResumeSearchSuggestionJobTitle");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetResumeSearchSuggestionJobTitleAsync(jobTitles, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get job title suggestions based on provided job title(s). </summary>
+        /// <param name="jobTitles"> Job title to query suggestions for. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Provided one or more job titles, get related suggestions for your search. </remarks>
+        public virtual Response<IReadOnlyList<string>> GetResumeSearchSuggestionJobTitle(IEnumerable<string> jobTitles, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResumeSearchSuggestionJobTitle");
+            scope.Start();
+            try
+            {
+                return RestClient.GetResumeSearchSuggestionJobTitle(jobTitles, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get skill suggestions based on provided skill(s). </summary>
+        /// <param name="skills"> Skill to query suggestions for. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Provided one or more skills, get related suggestions for your search. </remarks>
+        public virtual async Task<Response<IReadOnlyList<string>>> GetResumeSearchSuggestionSkillAsync(IEnumerable<string> skills, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResumeSearchSuggestionSkill");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetResumeSearchSuggestionSkillAsync(skills, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get skill suggestions based on provided skill(s). </summary>
+        /// <param name="skills"> Skill to query suggestions for. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Provided one or more skills, get related suggestions for your search. </remarks>
+        public virtual Response<IReadOnlyList<string>> GetResumeSearchSuggestionSkill(IEnumerable<string> skills, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResumeSearchSuggestionSkill");
+            scope.Start();
+            try
+            {
+                return RestClient.GetResumeSearchSuggestionSkill(skills, cancellationToken);
             }
             catch (Exception e)
             {
