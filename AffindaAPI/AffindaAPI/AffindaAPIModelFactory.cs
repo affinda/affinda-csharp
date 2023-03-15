@@ -99,6 +99,37 @@ namespace Affinda.API.Models
             return new User(id, name, username, email, avatar);
         }
 
+        /// <summary> Initializes a new instance of RequestError. </summary>
+        /// <param name="type"></param>
+        /// <param name="errors"></param>
+        /// <returns> A new <see cref="Models.RequestError"/> instance for mocking. </returns>
+        public static RequestError RequestError(string type = null, IEnumerable<RequestErrorErrorsItem> errors = null)
+        {
+            errors ??= new List<RequestErrorErrorsItem>();
+
+            return new RequestError(type, errors?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of RequestErrorErrorsItem. </summary>
+        /// <param name="attr"></param>
+        /// <param name="code"></param>
+        /// <param name="detail"></param>
+        /// <exception cref="ArgumentNullException"> <paramref name="code"/> or <paramref name="detail"/> is null. </exception>
+        /// <returns> A new <see cref="Models.RequestErrorErrorsItem"/> instance for mocking. </returns>
+        public static RequestErrorErrorsItem RequestErrorErrorsItem(string attr = null, string code = null, string detail = null)
+        {
+            if (code == null)
+            {
+                throw new ArgumentNullException(nameof(code));
+            }
+            if (detail == null)
+            {
+                throw new ArgumentNullException(nameof(detail));
+            }
+
+            return new RequestErrorErrorsItem(attr, code, detail);
+        }
+
         /// <summary> Initializes a new instance of PathsZ1JuagV3WorkspaceMembershipsGetResponses200ContentApplicationJsonSchema. </summary>
         /// <param name="count"> Number of items in results. </param>
         /// <param name="next"> URL to request next page of results. </param>
@@ -693,25 +724,19 @@ namespace Affinda.API.Models
             return new JobDescriptionSearchDetailOccupationGroup(missing?.ToList(), value);
         }
 
-        /// <summary> Initializes a new instance of JobDescriptionSearchDetailOccupationGroupValue. </summary>
+        /// <summary> Initializes a new instance of OccupationGroupSearchResult. </summary>
+        /// <param name="match"></param>
         /// <param name="code"></param>
         /// <param name="name"></param>
         /// <param name="children"></param>
-        /// <param name="match"></param>
-        /// <returns> A new <see cref="Models.JobDescriptionSearchDetailOccupationGroupValue"/> instance for mocking. </returns>
-        public static JobDescriptionSearchDetailOccupationGroupValue JobDescriptionSearchDetailOccupationGroupValue(int code = default, string name = null, IEnumerable<OccupationGroup> children = null, bool? match = null)
+        /// <param name="parents"></param>
+        /// <returns> A new <see cref="Models.OccupationGroupSearchResult"/> instance for mocking. </returns>
+        public static OccupationGroupSearchResult OccupationGroupSearchResult(bool? match = null, int code = default, string name = null, IEnumerable<OccupationGroup> children = null, IEnumerable<OccupationGroup> parents = null)
         {
             children ??= new List<OccupationGroup>();
+            parents ??= new List<OccupationGroup>();
 
-            return new JobDescriptionSearchDetailOccupationGroupValue(code, name, children?.ToList(), match);
-        }
-
-        /// <summary> Initializes a new instance of ComponentsRe6GnoSchemasJobdescriptionsearchdetailPropertiesOccupationgroupPropertiesValueAllof1. </summary>
-        /// <param name="match"></param>
-        /// <returns> A new <see cref="Models.ComponentsRe6GnoSchemasJobdescriptionsearchdetailPropertiesOccupationgroupPropertiesValueAllof1"/> instance for mocking. </returns>
-        public static ComponentsRe6GnoSchemasJobdescriptionsearchdetailPropertiesOccupationgroupPropertiesValueAllof1 ComponentsRe6GnoSchemasJobdescriptionsearchdetailPropertiesOccupationgroupPropertiesValueAllof1(bool? match = null)
-        {
-            return new ComponentsRe6GnoSchemasJobdescriptionsearchdetailPropertiesOccupationgroupPropertiesValueAllof1(match);
+            return new OccupationGroupSearchResult(match, code, name, children?.ToList(), parents?.ToList());
         }
 
         /// <summary> Initializes a new instance of JobDescriptionSearchDetailLanguages. </summary>

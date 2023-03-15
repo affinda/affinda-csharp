@@ -1365,7 +1365,7 @@ namespace Affinda.API
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
         /// <remarks> Return a specific document. </remarks>
-        public async Task<Response<Document>> GetDocumentAsync(string identifier, DocumentFormat? format = null, CancellationToken cancellationToken = default)
+        public async Task<Response<object>> GetDocumentAsync(string identifier, DocumentFormat? format = null, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
             {
@@ -1381,7 +1381,15 @@ namespace Affinda.API
                         Document value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
                         value = Document.DeserializeDocument(document.RootElement);
-                        return Response.FromValue(value, message.Response);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                    {
+                        RequestError value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
                     }
                 default:
                     throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
@@ -1394,7 +1402,7 @@ namespace Affinda.API
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
         /// <remarks> Return a specific document. </remarks>
-        public Response<Document> GetDocument(string identifier, DocumentFormat? format = null, CancellationToken cancellationToken = default)
+        public Response<object> GetDocument(string identifier, DocumentFormat? format = null, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
             {
@@ -1410,7 +1418,15 @@ namespace Affinda.API
                         Document value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
                         value = Document.DeserializeDocument(document.RootElement);
-                        return Response.FromValue(value, message.Response);
+                        return Response.FromValue<object>(value, message.Response);
+                    }
+                case 400:
+                case 401:
+                    {
+                        RequestError value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = RequestError.DeserializeRequestError(document.RootElement);
+                        return Response.FromValue<object>(value, message.Response);
                     }
                 default:
                     throw ClientDiagnostics.CreateRequestFailedException(message.Response);

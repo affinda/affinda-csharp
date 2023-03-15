@@ -11,7 +11,7 @@ using System.Collections.Generic;
 namespace Affinda.API.Models
 {
     /// <summary> The JobDescriptionSearchDetailOccupationGroupValue. </summary>
-    public partial class JobDescriptionSearchDetailOccupationGroupValue : OccupationGroup
+    public partial class JobDescriptionSearchDetailOccupationGroupValue : OccupationGroupSearchResult
     {
         /// <summary> Initializes a new instance of JobDescriptionSearchDetailOccupationGroupValue. </summary>
         /// <param name="code"></param>
@@ -31,16 +31,13 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of JobDescriptionSearchDetailOccupationGroupValue. </summary>
+        /// <param name="match"></param>
         /// <param name="code"></param>
         /// <param name="name"></param>
         /// <param name="children"></param>
-        /// <param name="match"></param>
-        internal JobDescriptionSearchDetailOccupationGroupValue(int code, string name, IReadOnlyList<OccupationGroup> children, bool? match) : base(code, name, children)
+        /// <param name="parents"></param>
+        internal JobDescriptionSearchDetailOccupationGroupValue(bool? match, int code, string name, IReadOnlyList<OccupationGroup> children, IReadOnlyList<OccupationGroup> parents) : base(match, code, name, children, parents)
         {
-            Match = match;
         }
-
-        /// <summary> Gets the match. </summary>
-        public bool? Match { get; }
     }
 }

@@ -10,7 +10,7 @@ using System;
 namespace Affinda.API.Models
 {
     /// <summary> The RequestErrorErrorsItem. </summary>
-    internal partial class RequestErrorErrorsItem
+    public partial class RequestErrorErrorsItem
     {
         /// <summary> Initializes a new instance of RequestErrorErrorsItem. </summary>
         /// <param name="attr"></param>

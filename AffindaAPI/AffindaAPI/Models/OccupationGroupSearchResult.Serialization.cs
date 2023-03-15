@@ -11,9 +11,9 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class JobDescriptionSearchDetailOccupationGroupValue
+    public partial class OccupationGroupSearchResult
     {
-        internal static JobDescriptionSearchDetailOccupationGroupValue DeserializeJobDescriptionSearchDetailOccupationGroupValue(JsonElement element)
+        internal static OccupationGroupSearchResult DeserializeOccupationGroupSearchResult(JsonElement element)
         {
             Optional<bool> match = default;
             int code = default;
@@ -68,7 +68,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new JobDescriptionSearchDetailOccupationGroupValue(Optional.ToNullable(match), code, name, children, Optional.ToList(parents));
+            return new OccupationGroupSearchResult(Optional.ToNullable(match), code, name, children, Optional.ToList(parents));
         }
     }
 }
