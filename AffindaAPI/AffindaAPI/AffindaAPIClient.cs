@@ -1990,42 +1990,6 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> List occupation groups. </summary>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns the list of searchable occupation groups. </remarks>
-        public virtual async Task<Response<IReadOnlyList<OccupationGroup>>> ListOccupationGroupsAsync(CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.ListOccupationGroups");
-            scope.Start();
-            try
-            {
-                return await RestClient.ListOccupationGroupsAsync(cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> List occupation groups. </summary>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns the list of searchable occupation groups. </remarks>
-        public virtual Response<IReadOnlyList<OccupationGroup>> ListOccupationGroups(CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.ListOccupationGroups");
-            scope.Start();
-            try
-            {
-                return RestClient.ListOccupationGroups(cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
         /// <summary> Get list of all invitations. </summary>
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
         /// <param name="limit"> The numbers of results to return. </param>
@@ -2544,6 +2508,42 @@ namespace Affinda.API
             try
             {
                 return RestClient.ActivateResthookSubscription(xHookSecret, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> List occupation groups. </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns the list of searchable occupation groups. </remarks>
+        public virtual async Task<Response<IReadOnlyList<OccupationGroup>>> ListOccupationGroupsAsync(CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.ListOccupationGroups");
+            scope.Start();
+            try
+            {
+                return await RestClient.ListOccupationGroupsAsync(cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> List occupation groups. </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns the list of searchable occupation groups. </remarks>
+        public virtual Response<IReadOnlyList<OccupationGroup>> ListOccupationGroups(CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.ListOccupationGroups");
+            scope.Start();
+            try
+            {
+                return RestClient.ListOccupationGroups(cancellationToken);
             }
             catch (Exception e)
             {

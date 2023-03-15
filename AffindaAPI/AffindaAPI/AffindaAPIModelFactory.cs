@@ -337,18 +337,6 @@ namespace Affinda.API.Models
             return new OrganizationMembership(identifier, organization, user, role);
         }
 
-        /// <summary> Initializes a new instance of OccupationGroup. </summary>
-        /// <param name="code"></param>
-        /// <param name="name"></param>
-        /// <param name="children"></param>
-        /// <returns> A new <see cref="Models.OccupationGroup"/> instance for mocking. </returns>
-        public static OccupationGroup OccupationGroup(int code = default, string name = null, IEnumerable<OccupationGroup> children = null)
-        {
-            children ??= new List<OccupationGroup>();
-
-            return new OccupationGroup(code, name, children?.ToList());
-        }
-
         /// <summary> Initializes a new instance of Paths18Wh2VcV3InvitationsGetResponses200ContentApplicationJsonSchema. </summary>
         /// <param name="count"> Number of items in results. </param>
         /// <param name="next"> URL to request next page of results. </param>
@@ -424,6 +412,18 @@ namespace Affinda.API.Models
         public static ResthookSubscription ResthookSubscription(int? id = null, ResthookEvent? @event = null, Organization organization = null, string targetUrl = null, bool? active = null, bool? autoDeactivated = null, string autoDeactivateReason = null, ResthookSubscriptionVersion? version = null)
         {
             return new ResthookSubscription(id, @event, organization, targetUrl, active, autoDeactivated, autoDeactivateReason, version);
+        }
+
+        /// <summary> Initializes a new instance of OccupationGroup. </summary>
+        /// <param name="code"></param>
+        /// <param name="name"></param>
+        /// <param name="children"></param>
+        /// <returns> A new <see cref="Models.OccupationGroup"/> instance for mocking. </returns>
+        public static OccupationGroup OccupationGroup(int code = default, string name = null, IEnumerable<OccupationGroup> children = null)
+        {
+            children ??= new List<OccupationGroup>();
+
+            return new OccupationGroup(code, name, children?.ToList());
         }
 
         /// <summary> Initializes a new instance of JobDescriptionSearch. </summary>

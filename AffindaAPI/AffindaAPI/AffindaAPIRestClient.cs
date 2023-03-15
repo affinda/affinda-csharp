@@ -3718,73 +3718,6 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateListOccupationGroupsRequest()
-        {
-            var message = _pipeline.CreateMessage();
-            var request = message.Request;
-            request.Method = RequestMethod.Get;
-            var uri = new RawRequestUriBuilder();
-            uri.AppendRaw("https://", false);
-            uri.AppendRaw(_region.Value.ToString(), true);
-            uri.AppendRaw(".affinda.com", false);
-            uri.AppendPath("/v3/occupation_groups", false);
-            request.Uri = uri;
-            request.Headers.Add("Accept", "application/json");
-            return message;
-        }
-
-        /// <summary> List occupation groups. </summary>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns the list of searchable occupation groups. </remarks>
-        public async Task<Response<IReadOnlyList<OccupationGroup>>> ListOccupationGroupsAsync(CancellationToken cancellationToken = default)
-        {
-            using var message = CreateListOccupationGroupsRequest();
-            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        IReadOnlyList<OccupationGroup> value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        List<OccupationGroup> array = new List<OccupationGroup>();
-                        foreach (var item in document.RootElement.EnumerateArray())
-                        {
-                            array.Add(OccupationGroup.DeserializeOccupationGroup(item));
-                        }
-                        value = array;
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
-            }
-        }
-
-        /// <summary> List occupation groups. </summary>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns the list of searchable occupation groups. </remarks>
-        public Response<IReadOnlyList<OccupationGroup>> ListOccupationGroups(CancellationToken cancellationToken = default)
-        {
-            using var message = CreateListOccupationGroupsRequest();
-            _pipeline.Send(message, cancellationToken);
-            switch (message.Response.Status)
-            {
-                case 200:
-                    {
-                        IReadOnlyList<OccupationGroup> value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        List<OccupationGroup> array = new List<OccupationGroup>();
-                        foreach (var item in document.RootElement.EnumerateArray())
-                        {
-                            array.Add(OccupationGroup.DeserializeOccupationGroup(item));
-                        }
-                        value = array;
-                        return Response.FromValue(value, message.Response);
-                    }
-                default:
-                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
-            }
-        }
-
         internal HttpMessage CreateGetAllInvitationsRequest(int? offset, int? limit, string organization, InvitationStatus? status, OrganizationRole? role)
         {
             var message = _pipeline.CreateMessage();
@@ -4738,6 +4671,73 @@ namespace Affinda.API
                         ResthookSubscription value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
                         value = ResthookSubscription.DeserializeResthookSubscription(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateListOccupationGroupsRequest()
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Get;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/occupation_groups", false);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> List occupation groups. </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns the list of searchable occupation groups. </remarks>
+        public async Task<Response<IReadOnlyList<OccupationGroup>>> ListOccupationGroupsAsync(CancellationToken cancellationToken = default)
+        {
+            using var message = CreateListOccupationGroupsRequest();
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        IReadOnlyList<OccupationGroup> value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        List<OccupationGroup> array = new List<OccupationGroup>();
+                        foreach (var item in document.RootElement.EnumerateArray())
+                        {
+                            array.Add(OccupationGroup.DeserializeOccupationGroup(item));
+                        }
+                        value = array;
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> List occupation groups. </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns the list of searchable occupation groups. </remarks>
+        public Response<IReadOnlyList<OccupationGroup>> ListOccupationGroups(CancellationToken cancellationToken = default)
+        {
+            using var message = CreateListOccupationGroupsRequest();
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        IReadOnlyList<OccupationGroup> value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        List<OccupationGroup> array = new List<OccupationGroup>();
+                        foreach (var item in document.RootElement.EnumerateArray())
+                        {
+                            array.Add(OccupationGroup.DeserializeOccupationGroup(item));
+                        }
+                        value = array;
                         return Response.FromValue(value, message.Response);
                     }
                 default:
