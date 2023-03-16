@@ -16,18 +16,13 @@ namespace Affinda.API.Models
     {
         /// <summary> Initializes a new instance of Field. </summary>
         /// <param name="label"></param>
-        /// <param name="slug"></param>
         /// <param name="dataPoint"></param>
-        /// <exception cref="ArgumentNullException"> <paramref name="label"/>, <paramref name="slug"/> or <paramref name="dataPoint"/> is null. </exception>
-        public Field(string label, string slug, string dataPoint)
+        /// <exception cref="ArgumentNullException"> <paramref name="label"/> or <paramref name="dataPoint"/> is null. </exception>
+        public Field(string label, string dataPoint)
         {
             if (label == null)
             {
                 throw new ArgumentNullException(nameof(label));
-            }
-            if (slug == null)
-            {
-                throw new ArgumentNullException(nameof(slug));
             }
             if (dataPoint == null)
             {
@@ -35,7 +30,6 @@ namespace Affinda.API.Models
             }
 
             Label = label;
-            Slug = slug;
             DataPoint = dataPoint;
             Fields = new ChangeTrackingList<Field>();
         }

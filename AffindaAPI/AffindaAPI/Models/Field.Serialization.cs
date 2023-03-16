@@ -18,8 +18,11 @@ namespace Affinda.API.Models
             writer.WriteStartObject();
             writer.WritePropertyName("label");
             writer.WriteStringValue(Label);
-            writer.WritePropertyName("slug");
-            writer.WriteStringValue(Slug);
+            if (Optional.IsDefined(Slug))
+            {
+                writer.WritePropertyName("slug");
+                writer.WriteStringValue(Slug);
+            }
             writer.WritePropertyName("dataPoint");
             writer.WriteStringValue(DataPoint);
             if (Optional.IsDefined(Mandatory))
@@ -53,7 +56,7 @@ namespace Affinda.API.Models
         internal static Field DeserializeField(JsonElement element)
         {
             string label = default;
-            string slug = default;
+            Optional<string> slug = default;
             string dataPoint = default;
             Optional<bool> mandatory = default;
             Optional<bool> disabled = default;
@@ -122,7 +125,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new Field(label, slug, dataPoint, Optional.ToNullable(mandatory), Optional.ToNullable(disabled), Optional.ToNullable(autoValidationThreshold), Optional.ToList(fields));
+            return new Field(label, slug.Value, dataPoint, Optional.ToNullable(mandatory), Optional.ToNullable(disabled), Optional.ToNullable(autoValidationThreshold), Optional.ToList(fields));
         }
     }
 }
