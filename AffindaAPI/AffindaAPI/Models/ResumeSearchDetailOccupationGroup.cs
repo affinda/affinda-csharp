@@ -17,13 +17,13 @@ namespace Affinda.API.Models
         internal ResumeSearchDetailOccupationGroup()
         {
             Missing = new ChangeTrackingList<int>();
-            Value = new ChangeTrackingList<ResumeSearchDetailOccupationGroupValueItem>();
+            Value = new ChangeTrackingList<OccupationGroupSearchResult>();
         }
 
         /// <summary> Initializes a new instance of ResumeSearchDetailOccupationGroup. </summary>
         /// <param name="missing"></param>
         /// <param name="value"></param>
-        internal ResumeSearchDetailOccupationGroup(IReadOnlyList<int> missing, IReadOnlyList<ResumeSearchDetailOccupationGroupValueItem> value)
+        internal ResumeSearchDetailOccupationGroup(IReadOnlyList<int> missing, IReadOnlyList<OccupationGroupSearchResult> value)
         {
             Missing = missing;
             Value = value;
@@ -32,6 +32,6 @@ namespace Affinda.API.Models
         /// <summary> Gets the missing. </summary>
         public IReadOnlyList<int> Missing { get; }
         /// <summary> Gets the value. </summary>
-        public IReadOnlyList<ResumeSearchDetailOccupationGroupValueItem> Value { get; }
+        public IReadOnlyList<OccupationGroupSearchResult> Value { get; }
     }
 }

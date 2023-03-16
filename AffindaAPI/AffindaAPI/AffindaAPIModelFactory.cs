@@ -1093,33 +1093,12 @@ namespace Affinda.API.Models
         /// <param name="missing"></param>
         /// <param name="value"></param>
         /// <returns> A new <see cref="Models.ResumeSearchDetailOccupationGroup"/> instance for mocking. </returns>
-        public static ResumeSearchDetailOccupationGroup ResumeSearchDetailOccupationGroup(IEnumerable<int> missing = null, IEnumerable<ResumeSearchDetailOccupationGroupValueItem> value = null)
+        public static ResumeSearchDetailOccupationGroup ResumeSearchDetailOccupationGroup(IEnumerable<int> missing = null, IEnumerable<OccupationGroupSearchResult> value = null)
         {
             missing ??= new List<int>();
-            value ??= new List<ResumeSearchDetailOccupationGroupValueItem>();
+            value ??= new List<OccupationGroupSearchResult>();
 
             return new ResumeSearchDetailOccupationGroup(missing?.ToList(), value?.ToList());
-        }
-
-        /// <summary> Initializes a new instance of ResumeSearchDetailOccupationGroupValueItem. </summary>
-        /// <param name="code"></param>
-        /// <param name="name"></param>
-        /// <param name="children"></param>
-        /// <param name="match"></param>
-        /// <returns> A new <see cref="Models.ResumeSearchDetailOccupationGroupValueItem"/> instance for mocking. </returns>
-        public static ResumeSearchDetailOccupationGroupValueItem ResumeSearchDetailOccupationGroupValueItem(int code = default, string name = null, IEnumerable<OccupationGroup> children = null, bool? match = null)
-        {
-            children ??= new List<OccupationGroup>();
-
-            return new ResumeSearchDetailOccupationGroupValueItem(code, name, children?.ToList(), match);
-        }
-
-        /// <summary> Initializes a new instance of ComponentsK7P1F5SchemasResumesearchdetailPropertiesOccupationgroupPropertiesValueItemsAllof1. </summary>
-        /// <param name="match"></param>
-        /// <returns> A new <see cref="Models.ComponentsK7P1F5SchemasResumesearchdetailPropertiesOccupationgroupPropertiesValueItemsAllof1"/> instance for mocking. </returns>
-        public static ComponentsK7P1F5SchemasResumesearchdetailPropertiesOccupationgroupPropertiesValueItemsAllof1 ComponentsK7P1F5SchemasResumesearchdetailPropertiesOccupationgroupPropertiesValueItemsAllof1(bool? match = null)
-        {
-            return new ComponentsK7P1F5SchemasResumesearchdetailPropertiesOccupationgroupPropertiesValueItemsAllof1(match);
         }
 
         /// <summary> Initializes a new instance of ResumeSearchDetailLanguages. </summary>
