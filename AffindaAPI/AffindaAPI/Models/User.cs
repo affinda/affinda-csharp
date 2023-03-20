@@ -21,7 +21,7 @@ namespace Affinda.API.Models
         /// <param name="username"></param>
         /// <param name="email"></param>
         /// <param name="avatar"> URL of the user&apos;s avatar. </param>
-        internal User(string id, string name, string username, string email, string avatar)
+        internal User(int? id, string name, string username, string email, string avatar)
         {
             Id = id;
             Name = name;
@@ -31,7 +31,7 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Uniquely identify a user. </summary>
-        public string Id { get; }
+        public int? Id { get; }
         /// <summary> Gets the name. </summary>
         public string Name { get; }
         /// <summary> Gets the username. </summary>

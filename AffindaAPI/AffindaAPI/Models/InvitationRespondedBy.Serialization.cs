@@ -14,7 +14,7 @@ namespace Affinda.API.Models
     {
         internal static InvitationRespondedBy DeserializeInvitationRespondedBy(JsonElement element)
         {
-            Optional<string> id = default;
+            Optional<int> id = default;
             Optional<string> name = default;
             Optional<string> username = default;
             Optional<string> email = default;
@@ -23,7 +23,12 @@ namespace Affinda.API.Models
             {
                 if (property.NameEquals("id"))
                 {
-                    id = property.Value.GetString();
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    id = property.Value.GetInt32();
                     continue;
                 }
                 if (property.NameEquals("name"))
@@ -52,7 +57,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new InvitationRespondedBy(id.Value, name.Value, username.Value, email.Value, avatar.Value);
+            return new InvitationRespondedBy(Optional.ToNullable(id), name.Value, username.Value, email.Value, avatar.Value);
         }
     }
 }

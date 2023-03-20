@@ -21,7 +21,7 @@ namespace Affinda.API.Models
         /// <param name="username"></param>
         /// <param name="email"></param>
         /// <param name="avatar"> URL of the user&apos;s avatar. </param>
-        internal InvitationRespondedBy(string id, string name, string username, string email, string avatar) : base(id, name, username, email, avatar)
+        internal InvitationRespondedBy(int? id, string name, string username, string email, string avatar) : base(id, name, username, email, avatar)
         {
         }
     }

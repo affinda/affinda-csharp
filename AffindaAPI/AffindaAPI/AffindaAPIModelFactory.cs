@@ -94,7 +94,7 @@ namespace Affinda.API.Models
         /// <param name="email"></param>
         /// <param name="avatar"> URL of the user&apos;s avatar. </param>
         /// <returns> A new <see cref="Models.User"/> instance for mocking. </returns>
-        public static User User(string id = null, string name = null, string username = null, string email = null, string avatar = null)
+        public static User User(int? id = null, string name = null, string username = null, string email = null, string avatar = null)
         {
             return new User(id, name, username, email, avatar);
         }
