@@ -11,14 +11,55 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class DataPointChoice
+    public partial class DataPointChoice : IUtf8JsonSerializable
     {
+        void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
+        {
+            writer.WriteStartObject();
+            writer.WritePropertyName("id");
+            writer.WriteNumberValue(Id);
+            writer.WritePropertyName("label");
+            writer.WriteStringValue(Label);
+            writer.WritePropertyName("value");
+            writer.WriteStringValue(Value);
+            if (Optional.IsCollectionDefined(Synonyms))
+            {
+                if (Synonyms != null)
+                {
+                    writer.WritePropertyName("synonyms");
+                    writer.WriteStartArray();
+                    foreach (var item in Synonyms)
+                    {
+                        writer.WriteStringValue(item);
+                    }
+                    writer.WriteEndArray();
+                }
+                else
+                {
+                    writer.WriteNull("synonyms");
+                }
+            }
+            if (Optional.IsDefined(Description))
+            {
+                if (Description != null)
+                {
+                    writer.WritePropertyName("description");
+                    writer.WriteStringValue(Description);
+                }
+                else
+                {
+                    writer.WriteNull("description");
+                }
+            }
+            writer.WriteEndObject();
+        }
+
         internal static DataPointChoice DeserializeDataPointChoice(JsonElement element)
         {
             int id = default;
             string label = default;
             string value = default;
-            Optional<IReadOnlyList<string>> synonyms = default;
+            Optional<IList<string>> synonyms = default;
             Optional<string> description = default;
             foreach (var property in element.EnumerateObject())
             {

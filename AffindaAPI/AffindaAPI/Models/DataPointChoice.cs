@@ -19,7 +19,7 @@ namespace Affinda.API.Models
         /// <param name="label"></param>
         /// <param name="value"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="label"/> or <paramref name="value"/> is null. </exception>
-        internal DataPointChoice(int id, string label, string value)
+        public DataPointChoice(int id, string label, string value)
         {
             if (label == null)
             {
@@ -42,7 +42,7 @@ namespace Affinda.API.Models
         /// <param name="value"></param>
         /// <param name="synonyms"></param>
         /// <param name="description"></param>
-        internal DataPointChoice(int id, string label, string value, IReadOnlyList<string> synonyms, string description)
+        internal DataPointChoice(int id, string label, string value, IList<string> synonyms, string description)
         {
             Id = id;
             Label = label;
@@ -52,14 +52,14 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Data point choice&apos;s ID. </summary>
-        public int Id { get; }
-        /// <summary> Gets the label. </summary>
-        public string Label { get; }
-        /// <summary> Gets the value. </summary>
-        public string Value { get; }
-        /// <summary> Gets the synonyms. </summary>
-        public IReadOnlyList<string> Synonyms { get; }
-        /// <summary> Gets the description. </summary>
-        public string Description { get; }
+        public int Id { get; set; }
+        /// <summary> Gets or sets the label. </summary>
+        public string Label { get; set; }
+        /// <summary> Gets or sets the value. </summary>
+        public string Value { get; set; }
+        /// <summary> Gets or sets the synonyms. </summary>
+        public IList<string> Synonyms { get; set; }
+        /// <summary> Gets or sets the description. </summary>
+        public string Description { get; set; }
     }
 }

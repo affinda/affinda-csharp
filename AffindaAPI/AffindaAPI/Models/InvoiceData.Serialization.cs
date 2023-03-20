@@ -517,7 +517,7 @@ namespace Affinda.API.Models
             Optional<InvoiceDataCustomerEmail> customerEmail = default;
             Optional<InvoiceDataSupplierEmail> supplierEmail = default;
             Optional<InvoiceDataSupplierWebsite> supplierWebsite = default;
-            Optional<TextAnnotation> currencyCode = default;
+            Optional<CurrencyCodeAnnotation> currencyCode = default;
             Optional<IDictionary<string, object>> customFields = default;
             foreach (var property in element.EnumerateObject())
             {
@@ -893,7 +893,7 @@ namespace Affinda.API.Models
                         currencyCode = null;
                         continue;
                     }
-                    currencyCode = TextAnnotation.DeserializeTextAnnotation(property.Value);
+                    currencyCode = CurrencyCodeAnnotation.DeserializeCurrencyCodeAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("customFields"))
