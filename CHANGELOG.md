@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Updated README with api v3 example
 
+### Added
+- Adding group annotation content type
+
 ## [5.2.0] - 2023-03-20
 ### Fixed
 - fixed - Use OccupationGroupResult for v3 SearchAndMatch detail
