@@ -39,5 +39,7 @@ namespace Affinda.API.Models
         public WorkspaceVisibility? Visibility { get; set; }
         /// <summary> If true, the uploaded document will be rejected if it&apos;s of the wrong document type, or if its document type cannot be determined. No credits will be consumed. </summary>
         public bool? RejectInvalidDocuments { get; set; }
+        /// <summary> If &quot;true&quot;, parsing will fail when the uploaded document is duplicate of an existing document, no credits will be consumed. If &quot;false&quot; (default), will parse the document normally whether its a duplicate or not. </summary>
+        public string RejectDuplicates { get; set; }
     }
 }

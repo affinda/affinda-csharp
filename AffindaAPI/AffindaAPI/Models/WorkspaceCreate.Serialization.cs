@@ -29,6 +29,11 @@ namespace Affinda.API.Models
                 writer.WritePropertyName("rejectInvalidDocuments");
                 writer.WriteBooleanValue(RejectInvalidDocuments.Value);
             }
+            if (Optional.IsDefined(RejectDuplicates))
+            {
+                writer.WritePropertyName("rejectDuplicates");
+                writer.WriteStringValue(RejectDuplicates);
+            }
             writer.WriteEndObject();
         }
     }

@@ -36,11 +36,12 @@ namespace Affinda.API.Models
         /// <param name="visibility"> Visibility &quot;organization&quot; means everyone in the organization can access the workspace. Visibility &quot;private&quot; means only people explicitly added can access the workspace. </param>
         /// <param name="collections"></param>
         /// <param name="rejectInvalidDocuments"> If true, the uploaded document will be rejected if it&apos;s of the wrong document type, or if its document type cannot be determined. No credits will be consumed. </param>
+        /// <param name="rejectDuplicates"> If &quot;true&quot;, parsing will fail when the uploaded document is duplicate of an existing document, no credits will be consumed. If &quot;false&quot; (default), will parse the document normally whether its a duplicate or not. </param>
         /// <param name="members"></param>
         /// <param name="unvalidatedDocsCount"> Number of unvalidated documents in the workspace. </param>
         /// <param name="confirmedDocsCount"> Number of validated documents in the workspace. </param>
         /// <param name="ingestEmail"></param>
-        internal Workspace(string identifier, Organization organization, string name, WorkspaceVisibility? visibility, IReadOnlyList<WorkspaceCollectionsItem> collections, bool? rejectInvalidDocuments, IReadOnlyList<User> members, int? unvalidatedDocsCount, int? confirmedDocsCount, string ingestEmail)
+        internal Workspace(string identifier, Organization organization, string name, WorkspaceVisibility? visibility, IReadOnlyList<WorkspaceCollectionsItem> collections, bool? rejectInvalidDocuments, string rejectDuplicates, IReadOnlyList<User> members, int? unvalidatedDocsCount, int? confirmedDocsCount, string ingestEmail)
         {
             Identifier = identifier;
             Organization = organization;
@@ -48,6 +49,7 @@ namespace Affinda.API.Models
             Visibility = visibility;
             Collections = collections;
             RejectInvalidDocuments = rejectInvalidDocuments;
+            RejectDuplicates = rejectDuplicates;
             Members = members;
             UnvalidatedDocsCount = unvalidatedDocsCount;
             ConfirmedDocsCount = confirmedDocsCount;
@@ -66,6 +68,8 @@ namespace Affinda.API.Models
         public IReadOnlyList<WorkspaceCollectionsItem> Collections { get; }
         /// <summary> If true, the uploaded document will be rejected if it&apos;s of the wrong document type, or if its document type cannot be determined. No credits will be consumed. </summary>
         public bool? RejectInvalidDocuments { get; }
+        /// <summary> If &quot;true&quot;, parsing will fail when the uploaded document is duplicate of an existing document, no credits will be consumed. If &quot;false&quot; (default), will parse the document normally whether its a duplicate or not. </summary>
+        public string RejectDuplicates { get; }
         /// <summary> Gets the members. </summary>
         public IReadOnlyList<User> Members { get; }
         /// <summary> Number of unvalidated documents in the workspace. </summary>

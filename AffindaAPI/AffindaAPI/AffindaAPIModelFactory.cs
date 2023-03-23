@@ -21,17 +21,18 @@ namespace Affinda.API.Models
         /// <param name="visibility"> Visibility &quot;organization&quot; means everyone in the organization can access the workspace. Visibility &quot;private&quot; means only people explicitly added can access the workspace. </param>
         /// <param name="collections"></param>
         /// <param name="rejectInvalidDocuments"> If true, the uploaded document will be rejected if it&apos;s of the wrong document type, or if its document type cannot be determined. No credits will be consumed. </param>
+        /// <param name="rejectDuplicates"> If &quot;true&quot;, parsing will fail when the uploaded document is duplicate of an existing document, no credits will be consumed. If &quot;false&quot; (default), will parse the document normally whether its a duplicate or not. </param>
         /// <param name="members"></param>
         /// <param name="unvalidatedDocsCount"> Number of unvalidated documents in the workspace. </param>
         /// <param name="confirmedDocsCount"> Number of validated documents in the workspace. </param>
         /// <param name="ingestEmail"></param>
         /// <returns> A new <see cref="Models.Workspace"/> instance for mocking. </returns>
-        public static Workspace Workspace(string identifier = null, Organization organization = null, string name = null, WorkspaceVisibility? visibility = null, IEnumerable<WorkspaceCollectionsItem> collections = null, bool? rejectInvalidDocuments = null, IEnumerable<User> members = null, int? unvalidatedDocsCount = null, int? confirmedDocsCount = null, string ingestEmail = null)
+        public static Workspace Workspace(string identifier = null, Organization organization = null, string name = null, WorkspaceVisibility? visibility = null, IEnumerable<WorkspaceCollectionsItem> collections = null, bool? rejectInvalidDocuments = null, string rejectDuplicates = null, IEnumerable<User> members = null, int? unvalidatedDocsCount = null, int? confirmedDocsCount = null, string ingestEmail = null)
         {
             collections ??= new List<WorkspaceCollectionsItem>();
             members ??= new List<User>();
 
-            return new Workspace(identifier, organization, name, visibility, collections?.ToList(), rejectInvalidDocuments, members?.ToList(), unvalidatedDocsCount, confirmedDocsCount, ingestEmail);
+            return new Workspace(identifier, organization, name, visibility, collections?.ToList(), rejectInvalidDocuments, rejectDuplicates, members?.ToList(), unvalidatedDocsCount, confirmedDocsCount, ingestEmail);
         }
 
         /// <summary> Initializes a new instance of Organization. </summary>
