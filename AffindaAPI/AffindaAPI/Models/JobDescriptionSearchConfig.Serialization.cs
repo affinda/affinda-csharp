@@ -180,6 +180,11 @@ namespace Affinda.API.Models
                     writer.WriteNull("actions");
                 }
             }
+            if (Optional.IsDefined(HideToolbar))
+            {
+                writer.WritePropertyName("hideToolbar");
+                writer.WriteBooleanValue(HideToolbar.Value);
+            }
             writer.WriteEndObject();
         }
 
@@ -211,6 +216,7 @@ namespace Affinda.API.Models
             Optional<int> userId = default;
             Optional<string> username = default;
             Optional<IList<JobDescriptionSearchConfigActionsItem>> actions = default;
+            Optional<bool> hideToolbar = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("allowPdfDownload"))
@@ -483,8 +489,18 @@ namespace Affinda.API.Models
                     actions = array;
                     continue;
                 }
+                if (property.NameEquals("hideToolbar"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    hideToolbar = property.Value.GetBoolean();
+                    continue;
+                }
             }
-            return new JobDescriptionSearchConfig(Optional.ToNullable(allowPdfDownload), Optional.ToNullable(maxResults), Optional.ToNullable(displayJobTitle), Optional.ToNullable(displayLocation), Optional.ToNullable(displayYearsExperience), Optional.ToNullable(displayOccupationGroup), Optional.ToNullable(displayEducation), Optional.ToNullable(displaySkills), Optional.ToNullable(displayLanguages), Optional.ToNullable(displayManagementLevel), Optional.ToNullable(displayKeywords), Optional.ToNullable(weightJobTitle), Optional.ToNullable(weightLocation), Optional.ToNullable(weightYearsExperience), Optional.ToNullable(weightOccupationGroup), Optional.ToNullable(weightEducation), Optional.ToNullable(weightSkills), Optional.ToNullable(weightLanguages), Optional.ToNullable(weightManagementLevel), Optional.ToNullable(weightKeywords), Optional.ToList(indices), Optional.ToNullable(showIndexDropdown), Optional.ToDictionary(searchToolTheme), Optional.ToNullable(userId), username.Value, Optional.ToList(actions));
+            return new JobDescriptionSearchConfig(Optional.ToNullable(allowPdfDownload), Optional.ToNullable(maxResults), Optional.ToNullable(displayJobTitle), Optional.ToNullable(displayLocation), Optional.ToNullable(displayYearsExperience), Optional.ToNullable(displayOccupationGroup), Optional.ToNullable(displayEducation), Optional.ToNullable(displaySkills), Optional.ToNullable(displayLanguages), Optional.ToNullable(displayManagementLevel), Optional.ToNullable(displayKeywords), Optional.ToNullable(weightJobTitle), Optional.ToNullable(weightLocation), Optional.ToNullable(weightYearsExperience), Optional.ToNullable(weightOccupationGroup), Optional.ToNullable(weightEducation), Optional.ToNullable(weightSkills), Optional.ToNullable(weightLanguages), Optional.ToNullable(weightManagementLevel), Optional.ToNullable(weightKeywords), Optional.ToList(indices), Optional.ToNullable(showIndexDropdown), Optional.ToDictionary(searchToolTheme), Optional.ToNullable(userId), username.Value, Optional.ToList(actions), Optional.ToNullable(hideToolbar));
         }
     }
 }
