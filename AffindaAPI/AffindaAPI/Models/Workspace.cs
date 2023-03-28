@@ -27,6 +27,7 @@ namespace Affinda.API.Models
             Identifier = identifier;
             Collections = new ChangeTrackingList<WorkspaceCollectionsItem>();
             Members = new ChangeTrackingList<User>();
+            WhitelistIngestAddresses = new ChangeTrackingList<string>();
         }
 
         /// <summary> Initializes a new instance of Workspace. </summary>
@@ -40,8 +41,9 @@ namespace Affinda.API.Models
         /// <param name="members"></param>
         /// <param name="unvalidatedDocsCount"> Number of unvalidated documents in the workspace. </param>
         /// <param name="confirmedDocsCount"> Number of validated documents in the workspace. </param>
-        /// <param name="ingestEmail"></param>
-        internal Workspace(string identifier, Organization organization, string name, WorkspaceVisibility? visibility, IReadOnlyList<WorkspaceCollectionsItem> collections, bool? rejectInvalidDocuments, string rejectDuplicates, IReadOnlyList<User> members, int? unvalidatedDocsCount, int? confirmedDocsCount, string ingestEmail)
+        /// <param name="ingestEmail"> When you send email to this address, any document attached in the body will be uploaded to this workspace. </param>
+        /// <param name="whitelistIngestAddresses"> If specified, only emails from these addresses will be ingested for parsing. Wild cards are allowed, e.g. &quot;*@eyefind.info&quot;. </param>
+        internal Workspace(string identifier, Organization organization, string name, WorkspaceVisibility? visibility, IReadOnlyList<WorkspaceCollectionsItem> collections, bool? rejectInvalidDocuments, string rejectDuplicates, IReadOnlyList<User> members, int? unvalidatedDocsCount, int? confirmedDocsCount, string ingestEmail, IReadOnlyList<string> whitelistIngestAddresses)
         {
             Identifier = identifier;
             Organization = organization;
@@ -54,6 +56,7 @@ namespace Affinda.API.Models
             UnvalidatedDocsCount = unvalidatedDocsCount;
             ConfirmedDocsCount = confirmedDocsCount;
             IngestEmail = ingestEmail;
+            WhitelistIngestAddresses = whitelistIngestAddresses;
         }
 
         /// <summary> Uniquely identify a workspace. </summary>
@@ -76,7 +79,9 @@ namespace Affinda.API.Models
         public int? UnvalidatedDocsCount { get; }
         /// <summary> Number of validated documents in the workspace. </summary>
         public int? ConfirmedDocsCount { get; }
-        /// <summary> Gets the ingest email. </summary>
+        /// <summary> When you send email to this address, any document attached in the body will be uploaded to this workspace. </summary>
         public string IngestEmail { get; }
+        /// <summary> If specified, only emails from these addresses will be ingested for parsing. Wild cards are allowed, e.g. &quot;*@eyefind.info&quot;. </summary>
+        public IReadOnlyList<string> WhitelistIngestAddresses { get; }
     }
 }

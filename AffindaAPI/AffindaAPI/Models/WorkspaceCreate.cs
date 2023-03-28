@@ -6,6 +6,8 @@
 #nullable disable
 
 using System;
+using System.Collections.Generic;
+using Azure.Core;
 
 namespace Affinda.API.Models
 {
@@ -29,6 +31,7 @@ namespace Affinda.API.Models
 
             Organization = organization;
             Name = name;
+            WhitelistIngestAddresses = new ChangeTrackingList<string>();
         }
 
         /// <summary> Uniquely identify an organization. </summary>
@@ -41,5 +44,7 @@ namespace Affinda.API.Models
         public bool? RejectInvalidDocuments { get; set; }
         /// <summary> If &quot;true&quot;, parsing will fail when the uploaded document is duplicate of an existing document, no credits will be consumed. If &quot;false&quot; (default), will parse the document normally whether its a duplicate or not. </summary>
         public string RejectDuplicates { get; set; }
+        /// <summary> If specified, only emails from these addresses will be ingested for parsing. Wild cards are allowed, e.g. &quot;*@eyefind.info&quot;. </summary>
+        public IList<string> WhitelistIngestAddresses { get; set; }
     }
 }

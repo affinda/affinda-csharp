@@ -25,14 +25,16 @@ namespace Affinda.API.Models
         /// <param name="members"></param>
         /// <param name="unvalidatedDocsCount"> Number of unvalidated documents in the workspace. </param>
         /// <param name="confirmedDocsCount"> Number of validated documents in the workspace. </param>
-        /// <param name="ingestEmail"></param>
+        /// <param name="ingestEmail"> When you send email to this address, any document attached in the body will be uploaded to this workspace. </param>
+        /// <param name="whitelistIngestAddresses"> If specified, only emails from these addresses will be ingested for parsing. Wild cards are allowed, e.g. &quot;*@eyefind.info&quot;. </param>
         /// <returns> A new <see cref="Models.Workspace"/> instance for mocking. </returns>
-        public static Workspace Workspace(string identifier = null, Organization organization = null, string name = null, WorkspaceVisibility? visibility = null, IEnumerable<WorkspaceCollectionsItem> collections = null, bool? rejectInvalidDocuments = null, string rejectDuplicates = null, IEnumerable<User> members = null, int? unvalidatedDocsCount = null, int? confirmedDocsCount = null, string ingestEmail = null)
+        public static Workspace Workspace(string identifier = null, Organization organization = null, string name = null, WorkspaceVisibility? visibility = null, IEnumerable<WorkspaceCollectionsItem> collections = null, bool? rejectInvalidDocuments = null, string rejectDuplicates = null, IEnumerable<User> members = null, int? unvalidatedDocsCount = null, int? confirmedDocsCount = null, string ingestEmail = null, IEnumerable<string> whitelistIngestAddresses = null)
         {
             collections ??= new List<WorkspaceCollectionsItem>();
             members ??= new List<User>();
+            whitelistIngestAddresses ??= new List<string>();
 
-            return new Workspace(identifier, organization, name, visibility, collections?.ToList(), rejectInvalidDocuments, rejectDuplicates, members?.ToList(), unvalidatedDocsCount, confirmedDocsCount, ingestEmail);
+            return new Workspace(identifier, organization, name, visibility, collections?.ToList(), rejectInvalidDocuments, rejectDuplicates, members?.ToList(), unvalidatedDocsCount, confirmedDocsCount, ingestEmail, whitelistIngestAddresses?.ToList());
         }
 
         /// <summary> Initializes a new instance of Organization. </summary>
@@ -187,7 +189,7 @@ namespace Affinda.API.Models
         /// <param name="extractorConfig"> Extra configurations specific to an extractor. </param>
         /// <param name="unvalidatedDocsCount"> Number of unvalidated documents in the collection. </param>
         /// <param name="confirmedDocsCount"> Number of validated documents in the collection. </param>
-        /// <param name="ingestEmail"></param>
+        /// <param name="ingestEmail"> When you send email to this address, any document attached in the body will be uploaded to this collection. </param>
         /// <returns> A new <see cref="Models.Collection"/> instance for mocking. </returns>
         public static Collection Collection(string identifier = null, string name = null, CollectionWorkspace workspace = null, Extractor extractor = null, float? autoValidationThreshold = null, IEnumerable<FieldGroup> fields = null, bool? fieldsConfigured = null, CollectionDateFormatPreference? dateFormatPreference = null, bool? dateFormatFromDocument = null, ExtractorConfig extractorConfig = null, int? unvalidatedDocsCount = null, int? confirmedDocsCount = null, string ingestEmail = null)
         {

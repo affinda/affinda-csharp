@@ -35,6 +35,23 @@ namespace Affinda.API.Models
                 writer.WritePropertyName("rejectDuplicates");
                 writer.WriteStringValue(RejectDuplicates);
             }
+            if (Optional.IsCollectionDefined(WhitelistIngestAddresses))
+            {
+                if (WhitelistIngestAddresses != null)
+                {
+                    writer.WritePropertyName("whitelistIngestAddresses");
+                    writer.WriteStartArray();
+                    foreach (var item in WhitelistIngestAddresses)
+                    {
+                        writer.WriteStringValue(item);
+                    }
+                    writer.WriteEndArray();
+                }
+                else
+                {
+                    writer.WriteNull("whitelistIngestAddresses");
+                }
+            }
             writer.WriteEndObject();
         }
     }
