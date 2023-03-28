@@ -24,7 +24,7 @@ namespace Affinda.API.Models
             Optional<bool> fieldsConfigured = default;
             Optional<CollectionDateFormatPreference?> dateFormatPreference = default;
             Optional<bool?> dateFormatFromDocument = default;
-            Optional<IReadOnlyDictionary<string, object>> extractorConfig = default;
+            Optional<ExtractorConfig> extractorConfig = default;
             Optional<int?> unvalidatedDocsCount = default;
             Optional<int?> confirmedDocsCount = default;
             Optional<string> ingestEmail = default;
@@ -122,12 +122,7 @@ namespace Affinda.API.Models
                         extractorConfig = null;
                         continue;
                     }
-                    Dictionary<string, object> dictionary = new Dictionary<string, object>();
-                    foreach (var property0 in property.Value.EnumerateObject())
-                    {
-                        dictionary.Add(property0.Name, property0.Value.GetObject());
-                    }
-                    extractorConfig = dictionary;
+                    extractorConfig = ExtractorConfig.DeserializeExtractorConfig(property.Value);
                     continue;
                 }
                 if (property.NameEquals("unvalidatedDocsCount"))
@@ -156,7 +151,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new Collection(identifier, name.Value, workspace.Value, extractor.Value, Optional.ToNullable(autoValidationThreshold), Optional.ToList(fields), Optional.ToNullable(fieldsConfigured), Optional.ToNullable(dateFormatPreference), Optional.ToNullable(dateFormatFromDocument), Optional.ToDictionary(extractorConfig), Optional.ToNullable(unvalidatedDocsCount), Optional.ToNullable(confirmedDocsCount), ingestEmail.Value);
+            return new Collection(identifier, name.Value, workspace.Value, extractor.Value, Optional.ToNullable(autoValidationThreshold), Optional.ToList(fields), Optional.ToNullable(fieldsConfigured), Optional.ToNullable(dateFormatPreference), Optional.ToNullable(dateFormatFromDocument), extractorConfig.Value, Optional.ToNullable(unvalidatedDocsCount), Optional.ToNullable(confirmedDocsCount), ingestEmail.Value);
         }
     }
 }

@@ -66,18 +66,12 @@ namespace Affinda.API.Models
                     writer.WriteNull("dateFormatFromDocument");
                 }
             }
-            if (Optional.IsCollectionDefined(ExtractorConfig))
+            if (Optional.IsDefined(ExtractorConfig))
             {
                 if (ExtractorConfig != null)
                 {
                     writer.WritePropertyName("extractorConfig");
-                    writer.WriteStartObject();
-                    foreach (var item in ExtractorConfig)
-                    {
-                        writer.WritePropertyName(item.Key);
-                        writer.WriteObjectValue(item.Value);
-                    }
-                    writer.WriteEndObject();
+                    writer.WriteObjectValue(ExtractorConfig);
                 }
                 else
                 {

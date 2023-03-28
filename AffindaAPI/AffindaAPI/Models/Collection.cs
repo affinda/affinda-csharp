@@ -26,7 +26,6 @@ namespace Affinda.API.Models
 
             Identifier = identifier;
             Fields = new ChangeTrackingList<FieldGroup>();
-            ExtractorConfig = new ChangeTrackingDictionary<string, object>();
         }
 
         /// <summary> Initializes a new instance of Collection. </summary>
@@ -43,7 +42,7 @@ namespace Affinda.API.Models
         /// <param name="unvalidatedDocsCount"> Number of unvalidated documents in the collection. </param>
         /// <param name="confirmedDocsCount"> Number of validated documents in the collection. </param>
         /// <param name="ingestEmail"></param>
-        internal Collection(string identifier, string name, CollectionWorkspace workspace, Extractor extractor, float? autoValidationThreshold, IReadOnlyList<FieldGroup> fields, bool? fieldsConfigured, CollectionDateFormatPreference? dateFormatPreference, bool? dateFormatFromDocument, IReadOnlyDictionary<string, object> extractorConfig, int? unvalidatedDocsCount, int? confirmedDocsCount, string ingestEmail)
+        internal Collection(string identifier, string name, CollectionWorkspace workspace, Extractor extractor, float? autoValidationThreshold, IReadOnlyList<FieldGroup> fields, bool? fieldsConfigured, CollectionDateFormatPreference? dateFormatPreference, bool? dateFormatFromDocument, ExtractorConfig extractorConfig, int? unvalidatedDocsCount, int? confirmedDocsCount, string ingestEmail)
         {
             Identifier = identifier;
             Name = name;
@@ -79,7 +78,7 @@ namespace Affinda.API.Models
         /// <summary> Predict the date format from any dates in the document that is not ambiguous. </summary>
         public bool? DateFormatFromDocument { get; }
         /// <summary> Extra configurations specific to an extractor. </summary>
-        public IReadOnlyDictionary<string, object> ExtractorConfig { get; }
+        public ExtractorConfig ExtractorConfig { get; }
         /// <summary> Number of unvalidated documents in the collection. </summary>
         public int? UnvalidatedDocsCount { get; }
         /// <summary> Number of validated documents in the collection. </summary>

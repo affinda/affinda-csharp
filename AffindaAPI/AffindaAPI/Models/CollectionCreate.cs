@@ -38,7 +38,6 @@ namespace Affinda.API.Models
             Workspace = workspace;
             Extractor = extractor;
             Fields = new ChangeTrackingList<FieldGroup>();
-            ExtractorConfig = new ChangeTrackingDictionary<string, object>();
         }
 
         /// <summary> Gets the name. </summary>
@@ -56,6 +55,6 @@ namespace Affinda.API.Models
         /// <summary> Predict the date format from any dates in the document that is not ambiguous. </summary>
         public bool? DateFormatFromDocument { get; set; }
         /// <summary> Extra configurations specific to an extractor. </summary>
-        public IDictionary<string, object> ExtractorConfig { get; set; }
+        public ExtractorConfig ExtractorConfig { get; set; }
     }
 }
