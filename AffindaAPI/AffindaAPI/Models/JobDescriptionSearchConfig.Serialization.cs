@@ -215,7 +215,7 @@ namespace Affinda.API.Models
             Optional<IDictionary<string, object>> searchToolTheme = default;
             Optional<int> userId = default;
             Optional<string> username = default;
-            Optional<IList<JobDescriptionSearchConfigActionsItem>> actions = default;
+            Optional<IList<SearchConfigAction>> actions = default;
             Optional<bool> hideToolbar = default;
             foreach (var property in element.EnumerateObject())
             {
@@ -481,10 +481,10 @@ namespace Affinda.API.Models
                         actions = null;
                         continue;
                     }
-                    List<JobDescriptionSearchConfigActionsItem> array = new List<JobDescriptionSearchConfigActionsItem>();
+                    List<SearchConfigAction> array = new List<SearchConfigAction>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(JobDescriptionSearchConfigActionsItem.DeserializeJobDescriptionSearchConfigActionsItem(item));
+                        array.Add(SearchConfigAction.DeserializeSearchConfigAction(item));
                     }
                     actions = array;
                     continue;

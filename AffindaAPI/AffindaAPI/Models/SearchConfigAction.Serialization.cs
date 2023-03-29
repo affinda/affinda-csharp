@@ -10,28 +10,22 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class ResumeSearchConfigActionsItem : IUtf8JsonSerializable
+    public partial class SearchConfigAction : IUtf8JsonSerializable
     {
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
         {
             writer.WriteStartObject();
-            if (Optional.IsDefined(Label))
-            {
-                writer.WritePropertyName("label");
-                writer.WriteStringValue(Label);
-            }
-            if (Optional.IsDefined(EventName))
-            {
-                writer.WritePropertyName("eventName");
-                writer.WriteStringValue(EventName);
-            }
+            writer.WritePropertyName("label");
+            writer.WriteStringValue(Label);
+            writer.WritePropertyName("eventName");
+            writer.WriteStringValue(EventName);
             writer.WriteEndObject();
         }
 
-        internal static ResumeSearchConfigActionsItem DeserializeResumeSearchConfigActionsItem(JsonElement element)
+        internal static SearchConfigAction DeserializeSearchConfigAction(JsonElement element)
         {
-            Optional<string> label = default;
-            Optional<string> eventName = default;
+            string label = default;
+            string eventName = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("label"))
@@ -45,7 +39,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new ResumeSearchConfigActionsItem(label.Value, eventName.Value);
+            return new SearchConfigAction(label, eventName);
         }
     }
 }

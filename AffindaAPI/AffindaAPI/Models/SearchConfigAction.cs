@@ -5,21 +5,28 @@
 
 #nullable disable
 
+using System;
+
 namespace Affinda.API.Models
 {
-    /// <summary> The ResumeSearchConfigActionsItem. </summary>
-    public partial class ResumeSearchConfigActionsItem
+    /// <summary> The SearchConfigAction. </summary>
+    public partial class SearchConfigAction
     {
-        /// <summary> Initializes a new instance of ResumeSearchConfigActionsItem. </summary>
-        public ResumeSearchConfigActionsItem()
-        {
-        }
-
-        /// <summary> Initializes a new instance of ResumeSearchConfigActionsItem. </summary>
+        /// <summary> Initializes a new instance of SearchConfigAction. </summary>
         /// <param name="label"> Human readable label to display in the UI. </param>
         /// <param name="eventName"> Name of the event to be triggered. </param>
-        internal ResumeSearchConfigActionsItem(string label, string eventName)
+        /// <exception cref="ArgumentNullException"> <paramref name="label"/> or <paramref name="eventName"/> is null. </exception>
+        public SearchConfigAction(string label, string eventName)
         {
+            if (label == null)
+            {
+                throw new ArgumentNullException(nameof(label));
+            }
+            if (eventName == null)
+            {
+                throw new ArgumentNullException(nameof(eventName));
+            }
+
             Label = label;
             EventName = eventName;
         }
