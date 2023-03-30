@@ -33,7 +33,7 @@ namespace Affinda.API.Models
         /// <param name="contentType"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"> Matching job title to extracted text. </param>
-        internal JobTitleAnnotationUpdate(int? id, Rectangle rectangle, IList<Rectangle> rectangles, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool? isVerified, bool? isClientVerified, bool? isAutoVerified, string dataPoint, string contentType, IDictionary<string, object> additionalProperties, JobTitleParsedParsed parsed) : base(id, rectangle, rectangles, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties)
+        internal JobTitleAnnotationUpdate(int? id, Rectangle rectangle, IReadOnlyList<Rectangle> rectangles, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool? isVerified, bool? isClientVerified, bool? isAutoVerified, string dataPoint, string contentType, IDictionary<string, object> additionalProperties, JobTitleParsedParsed parsed) : base(id, rectangle, rectangles, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties)
         {
             Parsed = parsed;
         }

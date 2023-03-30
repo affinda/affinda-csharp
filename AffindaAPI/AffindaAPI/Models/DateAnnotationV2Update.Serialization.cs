@@ -46,23 +46,6 @@ namespace Affinda.API.Models
                     writer.WriteNull("rectangle");
                 }
             }
-            if (Optional.IsCollectionDefined(Rectangles))
-            {
-                if (Rectangles != null)
-                {
-                    writer.WritePropertyName("rectangles");
-                    writer.WriteStartArray();
-                    foreach (var item in Rectangles)
-                    {
-                        writer.WriteObjectValue(item);
-                    }
-                    writer.WriteEndArray();
-                }
-                else
-                {
-                    writer.WriteNull("rectangles");
-                }
-            }
             if (Optional.IsDefined(PageIndex))
             {
                 if (PageIndex != null)
@@ -161,7 +144,7 @@ namespace Affinda.API.Models
             Optional<DateTimeOffset?> parsed = default;
             Optional<int> id = default;
             Optional<Rectangle> rectangle = default;
-            Optional<IList<Rectangle>> rectangles = default;
+            Optional<IReadOnlyList<Rectangle>> rectangles = default;
             Optional<int?> pageIndex = default;
             Optional<string> raw = default;
             Optional<float?> confidence = default;

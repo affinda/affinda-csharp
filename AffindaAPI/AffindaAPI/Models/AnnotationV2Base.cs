@@ -35,7 +35,7 @@ namespace Affinda.API.Models
         /// <param name="dataPoint"></param>
         /// <param name="contentType"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
-        internal AnnotationV2Base(int? id, Rectangle rectangle, IList<Rectangle> rectangles, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool? isVerified, bool? isClientVerified, bool? isAutoVerified, string dataPoint, string contentType, IDictionary<string, object> additionalProperties)
+        internal AnnotationV2Base(int? id, Rectangle rectangle, IReadOnlyList<Rectangle> rectangles, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool? isVerified, bool? isClientVerified, bool? isAutoVerified, string dataPoint, string contentType, IDictionary<string, object> additionalProperties)
         {
             Id = id;
             Rectangle = rectangle;
@@ -57,8 +57,8 @@ namespace Affinda.API.Models
         public int? Id { get; set; }
         /// <summary> Gets or sets the rectangle. </summary>
         public Rectangle Rectangle { get; set; }
-        /// <summary> Gets or sets the rectangles. </summary>
-        public IList<Rectangle> Rectangles { get; set; }
+        /// <summary> Gets the rectangles. </summary>
+        public IReadOnlyList<Rectangle> Rectangles { get; }
         /// <summary> Gets or sets the page index. </summary>
         public int? PageIndex { get; set; }
         /// <summary> Gets or sets the raw. </summary>

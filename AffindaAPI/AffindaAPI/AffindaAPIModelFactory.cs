@@ -649,6 +649,30 @@ namespace Affinda.API.Models
             return new JobTitleAnnotationUpdate(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties, parsed);
         }
 
+        /// <summary> Initializes a new instance of AnnotationV2Base. </summary>
+        /// <param name="id"></param>
+        /// <param name="rectangle"></param>
+        /// <param name="rectangles"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="raw"></param>
+        /// <param name="confidence"> The overall confidence that the model&apos;s prediction is correct. </param>
+        /// <param name="classificationConfidence"> The model&apos;s confidence that the text has been classified correctly. </param>
+        /// <param name="textExtractionConfidence"> If the document was submitted as an image, this is the confidence that the text in the image has been correctly read by the model. </param>
+        /// <param name="isVerified"></param>
+        /// <param name="isClientVerified"></param>
+        /// <param name="isAutoVerified"></param>
+        /// <param name="dataPoint"></param>
+        /// <param name="contentType"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <returns> A new <see cref="Models.AnnotationV2Base"/> instance for mocking. </returns>
+        public static AnnotationV2Base AnnotationV2Base(int? id = null, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool? isVerified = null, bool? isClientVerified = null, bool? isAutoVerified = null, string dataPoint = null, string contentType = null, IDictionary<string, object> additionalProperties = null)
+        {
+            rectangles ??= new List<Rectangle>();
+            additionalProperties ??= new Dictionary<string, object>();
+
+            return new AnnotationV2Base(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties);
+        }
+
         /// <summary> Initializes a new instance of LanguageAnnotationV2Update. </summary>
         /// <param name="id"></param>
         /// <param name="rectangle"></param>
