@@ -57,6 +57,11 @@ namespace Affinda.API.Models
                 writer.WritePropertyName("isCurrent");
                 writer.WriteBooleanValue(IsCurrent.Value);
             }
+            if (Optional.IsDefined(RawText))
+            {
+                writer.WritePropertyName("rawText");
+                writer.WriteStringValue(RawText);
+            }
             writer.WriteEndObject();
         }
 
@@ -66,6 +71,7 @@ namespace Affinda.API.Models
             Optional<DateTimeOffset?> endDate = default;
             Optional<int?> monthsInPosition = default;
             Optional<bool> isCurrent = default;
+            Optional<string> rawText = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("startDate"))
@@ -108,8 +114,13 @@ namespace Affinda.API.Models
                     isCurrent = property.Value.GetBoolean();
                     continue;
                 }
+                if (property.NameEquals("rawText"))
+                {
+                    rawText = property.Value.GetString();
+                    continue;
+                }
             }
-            return new ResumeDataWorkExperienceItemDates(Optional.ToNullable(startDate), Optional.ToNullable(endDate), Optional.ToNullable(monthsInPosition), Optional.ToNullable(isCurrent));
+            return new ResumeDataWorkExperienceItemDates(Optional.ToNullable(startDate), Optional.ToNullable(endDate), Optional.ToNullable(monthsInPosition), Optional.ToNullable(isCurrent), rawText.Value);
         }
     }
 }
