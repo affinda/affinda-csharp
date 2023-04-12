@@ -22,12 +22,14 @@ namespace Affinda.API.Models
         /// <param name="endDate"></param>
         /// <param name="monthsInPosition"></param>
         /// <param name="isCurrent"></param>
-        internal ResumeDataWorkExperienceItemDates(DateTimeOffset? startDate, DateTimeOffset? endDate, int? monthsInPosition, bool? isCurrent)
+        /// <param name="rawText"></param>
+        internal ResumeDataWorkExperienceItemDates(DateTimeOffset? startDate, DateTimeOffset? endDate, int? monthsInPosition, bool? isCurrent, string rawText)
         {
             StartDate = startDate;
             EndDate = endDate;
             MonthsInPosition = monthsInPosition;
             IsCurrent = isCurrent;
+            RawText = rawText;
         }
 
         /// <summary> Gets or sets the start date. </summary>
@@ -38,5 +40,7 @@ namespace Affinda.API.Models
         public int? MonthsInPosition { get; set; }
         /// <summary> Gets or sets the is current. </summary>
         public bool? IsCurrent { get; set; }
+        /// <summary> Gets or sets the raw text. </summary>
+        public string RawText { get; set; }
     }
 }

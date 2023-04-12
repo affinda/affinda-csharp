@@ -16,17 +16,12 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of JobDescriptionSearchDetailOccupationGroupValue. </summary>
         /// <param name="code"></param>
         /// <param name="name"></param>
-        /// <param name="children"></param>
-        /// <exception cref="ArgumentNullException"> <paramref name="name"/> or <paramref name="children"/> is null. </exception>
-        internal JobDescriptionSearchDetailOccupationGroupValue(int code, string name, IEnumerable<OccupationGroup> children) : base(code, name, children)
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/> is null. </exception>
+        internal JobDescriptionSearchDetailOccupationGroupValue(int code, string name) : base(code, name)
         {
             if (name == null)
             {
                 throw new ArgumentNullException(nameof(name));
-            }
-            if (children == null)
-            {
-                throw new ArgumentNullException(nameof(children));
             }
         }
 

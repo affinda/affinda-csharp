@@ -21,11 +21,13 @@ namespace Affinda.API.Models
         /// <param name="completionDate"></param>
         /// <param name="isCurrent"></param>
         /// <param name="startDate"></param>
-        internal EducationDates(DateTimeOffset? completionDate, bool? isCurrent, DateTimeOffset? startDate)
+        /// <param name="rawText"></param>
+        internal EducationDates(DateTimeOffset? completionDate, bool? isCurrent, DateTimeOffset? startDate, string rawText)
         {
             CompletionDate = completionDate;
             IsCurrent = isCurrent;
             StartDate = startDate;
+            RawText = rawText;
         }
 
         /// <summary> Gets or sets the completion date. </summary>
@@ -34,5 +36,7 @@ namespace Affinda.API.Models
         public bool? IsCurrent { get; set; }
         /// <summary> Gets or sets the start date. </summary>
         public DateTimeOffset? StartDate { get; set; }
+        /// <summary> Gets or sets the raw text. </summary>
+        public string RawText { get; set; }
     }
 }

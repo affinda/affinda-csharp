@@ -17,7 +17,7 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of DataPoint. </summary>
         /// <param name="identifier"> Uniquely identify a data point. </param>
         /// <param name="name"></param>
-        /// <param name="annotationContentType"></param>
+        /// <param name="annotationContentType"> The different data types of annotations. </param>
         /// <param name="extractor"> Uniquely identify an extractor. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="name"/> is null. </exception>
         internal DataPoint(string identifier, string name, AnnotationContentType annotationContentType, string extractor)
@@ -44,7 +44,7 @@ namespace Affinda.API.Models
         /// <param name="name"></param>
         /// <param name="slug"></param>
         /// <param name="description"></param>
-        /// <param name="annotationContentType"></param>
+        /// <param name="annotationContentType"> The different data types of annotations. </param>
         /// <param name="organization"></param>
         /// <param name="extractor"> Uniquely identify an extractor. </param>
         /// <param name="multiple"></param>
@@ -76,7 +76,7 @@ namespace Affinda.API.Models
         public string Slug { get; }
         /// <summary> Gets the description. </summary>
         public string Description { get; }
-        /// <summary> Gets the annotation content type. </summary>
+        /// <summary> The different data types of annotations. </summary>
         public AnnotationContentType AnnotationContentType { get; }
         /// <summary> Gets the organization. </summary>
         public Organization Organization { get; }

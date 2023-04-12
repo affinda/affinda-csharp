@@ -38,6 +38,11 @@ namespace Affinda.API.Models
                     writer.WriteNull("startDate");
                 }
             }
+            if (Optional.IsDefined(RawText))
+            {
+                writer.WritePropertyName("rawText");
+                writer.WriteStringValue(RawText);
+            }
             writer.WriteEndObject();
         }
 
@@ -46,6 +51,7 @@ namespace Affinda.API.Models
             Optional<DateTimeOffset> completionDate = default;
             Optional<bool> isCurrent = default;
             Optional<DateTimeOffset?> startDate = default;
+            Optional<string> rawText = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("completionDate"))
@@ -78,8 +84,13 @@ namespace Affinda.API.Models
                     startDate = property.Value.GetDateTimeOffset("D");
                     continue;
                 }
+                if (property.NameEquals("rawText"))
+                {
+                    rawText = property.Value.GetString();
+                    continue;
+                }
             }
-            return new EducationDates(Optional.ToNullable(completionDate), Optional.ToNullable(isCurrent), Optional.ToNullable(startDate));
+            return new EducationDates(Optional.ToNullable(completionDate), Optional.ToNullable(isCurrent), Optional.ToNullable(startDate), rawText.Value);
         }
     }
 }

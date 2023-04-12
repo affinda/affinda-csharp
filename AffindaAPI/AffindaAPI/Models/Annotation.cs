@@ -16,9 +16,9 @@ namespace Affinda.API.Models
     public partial class Annotation
     {
         /// <summary> Initializes a new instance of Annotation. </summary>
-        /// <param name="id"></param>
+        /// <param name="id"> Annotation&apos;s ID. </param>
         /// <param name="rectangle"> x/y coordinates for the rectangular bounding box containing the data. </param>
-        /// <param name="rectangles"></param>
+        /// <param name="rectangles"> x/y coordinates for the rectangles containing the data. An annotation can be contained within multiple rectangles. </param>
         /// <param name="pageIndex"> The page number within the document, starting from 0. </param>
         /// <param name="raw"> Raw data extracted from the before any post-processing. </param>
         /// <param name="confidence"> The overall confidence that the model&apos;s prediction is correct. </param>
@@ -27,18 +27,14 @@ namespace Affinda.API.Models
         /// <param name="isVerified"> Indicates whether the data has been validated, either by a human using our validation tool or through auto-validation rules. </param>
         /// <param name="isClientVerified"> Indicates whether the data has been validated by a human. </param>
         /// <param name="isAutoVerified"> Indicates whether the data has been auto-validated. </param>
-        /// <param name="dataPoint"></param>
-        /// <param name="contentType"></param>
-        /// <exception cref="ArgumentNullException"> <paramref name="dataPoint"/> or <paramref name="contentType"/> is null. </exception>
-        public Annotation(int id, Rectangle rectangle, IEnumerable<Rectangle> rectangles, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool isClientVerified, bool isAutoVerified, string dataPoint, string contentType)
+        /// <param name="dataPoint"> Data point&apos;s identifier. </param>
+        /// <param name="contentType"> The different data types of annotations. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="dataPoint"/> is null. </exception>
+        public Annotation(int id, Rectangle rectangle, IEnumerable<Rectangle> rectangles, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool isClientVerified, bool isAutoVerified, string dataPoint, AnnotationContentType contentType)
         {
             if (dataPoint == null)
             {
                 throw new ArgumentNullException(nameof(dataPoint));
-            }
-            if (contentType == null)
-            {
-                throw new ArgumentNullException(nameof(contentType));
             }
 
             Id = id;
@@ -58,9 +54,10 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of Annotation. </summary>
-        /// <param name="id"></param>
+        /// <param name="id"> Annotation&apos;s ID. </param>
         /// <param name="rectangle"> x/y coordinates for the rectangular bounding box containing the data. </param>
-        /// <param name="rectangles"></param>
+        /// <param name="rectangles"> x/y coordinates for the rectangles containing the data. An annotation can be contained within multiple rectangles. </param>
+        /// <param name="document"> Uniquely identify a document. </param>
         /// <param name="pageIndex"> The page number within the document, starting from 0. </param>
         /// <param name="raw"> Raw data extracted from the before any post-processing. </param>
         /// <param name="confidence"> The overall confidence that the model&apos;s prediction is correct. </param>
@@ -69,14 +66,15 @@ namespace Affinda.API.Models
         /// <param name="isVerified"> Indicates whether the data has been validated, either by a human using our validation tool or through auto-validation rules. </param>
         /// <param name="isClientVerified"> Indicates whether the data has been validated by a human. </param>
         /// <param name="isAutoVerified"> Indicates whether the data has been auto-validated. </param>
-        /// <param name="dataPoint"></param>
-        /// <param name="contentType"></param>
+        /// <param name="dataPoint"> Data point&apos;s identifier. </param>
+        /// <param name="contentType"> The different data types of annotations. </param>
         /// <param name="additionalProperties"> Additional Properties. </param>
-        internal Annotation(int id, Rectangle rectangle, IList<Rectangle> rectangles, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool isClientVerified, bool isAutoVerified, string dataPoint, string contentType, IDictionary<string, object> additionalProperties)
+        internal Annotation(int id, Rectangle rectangle, IList<Rectangle> rectangles, string document, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool isClientVerified, bool isAutoVerified, string dataPoint, AnnotationContentType contentType, IDictionary<string, object> additionalProperties)
         {
             Id = id;
             Rectangle = rectangle;
             Rectangles = rectangles;
+            Document = document;
             PageIndex = pageIndex;
             Raw = raw;
             Confidence = confidence;
@@ -90,12 +88,14 @@ namespace Affinda.API.Models
             AdditionalProperties = additionalProperties;
         }
 
-        /// <summary> Gets or sets the id. </summary>
+        /// <summary> Annotation&apos;s ID. </summary>
         public int Id { get; set; }
         /// <summary> x/y coordinates for the rectangular bounding box containing the data. </summary>
         public Rectangle Rectangle { get; set; }
-        /// <summary> Gets or sets the rectangles. </summary>
+        /// <summary> x/y coordinates for the rectangles containing the data. An annotation can be contained within multiple rectangles. </summary>
         public IList<Rectangle> Rectangles { get; set; }
+        /// <summary> Uniquely identify a document. </summary>
+        public string Document { get; set; }
         /// <summary> The page number within the document, starting from 0. </summary>
         public int? PageIndex { get; set; }
         /// <summary> Raw data extracted from the before any post-processing. </summary>
@@ -112,10 +112,10 @@ namespace Affinda.API.Models
         public bool IsClientVerified { get; set; }
         /// <summary> Indicates whether the data has been auto-validated. </summary>
         public bool IsAutoVerified { get; set; }
-        /// <summary> Gets or sets the data point. </summary>
+        /// <summary> Data point&apos;s identifier. </summary>
         public string DataPoint { get; set; }
-        /// <summary> Gets or sets the content type. </summary>
-        public string ContentType { get; set; }
+        /// <summary> The different data types of annotations. </summary>
+        public AnnotationContentType ContentType { get; set; }
         /// <summary> Additional Properties. </summary>
         public IDictionary<string, object> AdditionalProperties { get; }
     }

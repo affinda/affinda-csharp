@@ -10,7 +10,7 @@ using System.ComponentModel;
 
 namespace Affinda.API.Models
 {
-    /// <summary> The AnnotationContentType. </summary>
+    /// <summary> The different data types of annotations. </summary>
     public readonly partial struct AnnotationContentType : IEquatable<AnnotationContentType>
     {
         private readonly string _value;
@@ -40,6 +40,7 @@ namespace Affinda.API.Models
         private const string SkillValue = "skill";
         private const string YearsexperienceValue = "yearsexperience";
         private const string GroupValue = "group";
+        private const string TableDeprecatedValue = "table_deprecated";
 
         /// <summary> text. </summary>
         public static AnnotationContentType Text { get; } = new AnnotationContentType(TextValue);
@@ -77,6 +78,8 @@ namespace Affinda.API.Models
         public static AnnotationContentType Yearsexperience { get; } = new AnnotationContentType(YearsexperienceValue);
         /// <summary> group. </summary>
         public static AnnotationContentType Group { get; } = new AnnotationContentType(GroupValue);
+        /// <summary> table_deprecated. </summary>
+        public static AnnotationContentType TableDeprecated { get; } = new AnnotationContentType(TableDeprecatedValue);
         /// <summary> Determines if two <see cref="AnnotationContentType"/> values are the same. </summary>
         public static bool operator ==(AnnotationContentType left, AnnotationContentType right) => left.Equals(right);
         /// <summary> Determines if two <see cref="AnnotationContentType"/> values are not the same. </summary>

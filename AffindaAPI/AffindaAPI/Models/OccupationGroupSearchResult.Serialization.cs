@@ -18,7 +18,7 @@ namespace Affinda.API.Models
             Optional<bool> match = default;
             int code = default;
             string name = default;
-            IReadOnlyList<OccupationGroup> children = default;
+            Optional<IReadOnlyList<OccupationGroup>> children = default;
             Optional<IReadOnlyList<OccupationGroup>> parents = default;
             foreach (var property in element.EnumerateObject())
             {
@@ -44,6 +44,11 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("children"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
                     List<OccupationGroup> array = new List<OccupationGroup>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
@@ -68,7 +73,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new OccupationGroupSearchResult(Optional.ToNullable(match), code, name, children, Optional.ToList(parents));
+            return new OccupationGroupSearchResult(Optional.ToNullable(match), code, name, Optional.ToList(children), Optional.ToList(parents));
         }
     }
 }

@@ -838,6 +838,56 @@ namespace Affinda.API
             }
         }
 
+        /// <summary> Edit pages of a document. </summary>
+        /// <param name="identifier"> Document&apos;s identifier. </param>
+        /// <param name="body"> Describe how the pages should be edited. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks>
+        /// Split / merge / rotate / delete pages of a document.
+        /// Documents with multiple pages can be  into multiple documents, or merged into one document.
+        /// Each page can also be rotated. Edit operations will trigger re-parsing of the documents involved.
+        /// 
+        /// </remarks>
+        public virtual async Task<Response<IReadOnlyList<Meta>>> EditDocumentPagesAsync(string identifier, DocumentEditRequest body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.EditDocumentPages");
+            scope.Start();
+            try
+            {
+                return await RestClient.EditDocumentPagesAsync(identifier, body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Edit pages of a document. </summary>
+        /// <param name="identifier"> Document&apos;s identifier. </param>
+        /// <param name="body"> Describe how the pages should be edited. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks>
+        /// Split / merge / rotate / delete pages of a document.
+        /// Documents with multiple pages can be  into multiple documents, or merged into one document.
+        /// Each page can also be rotated. Edit operations will trigger re-parsing of the documents involved.
+        /// 
+        /// </remarks>
+        public virtual Response<IReadOnlyList<Meta>> EditDocumentPages(string identifier, DocumentEditRequest body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.EditDocumentPages");
+            scope.Start();
+            try
+            {
+                return RestClient.EditDocumentPages(identifier, body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
         /// <summary> Get list of all extractors. </summary>
         /// <param name="organization"> Filter by organization. </param>
         /// <param name="includePublicExtractors"> Whether to include Affinda&apos;s off-the-shelf extractors. </param>
@@ -1430,6 +1480,304 @@ namespace Affinda.API
             try
             {
                 return RestClient.DeleteDataPointChoice(id, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get list of all annotations. </summary>
+        /// <param name="document"> Filter by document. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns your annotations. </remarks>
+        public virtual async Task<Response<Paths1D5Zg6MV3AnnotationsGetResponses200ContentApplicationJsonSchema>> GetAllAnnotationsAsync(string document, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllAnnotations");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetAllAnnotationsAsync(document, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get list of all annotations. </summary>
+        /// <param name="document"> Filter by document. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns your annotations. </remarks>
+        public virtual Response<Paths1D5Zg6MV3AnnotationsGetResponses200ContentApplicationJsonSchema> GetAllAnnotations(string document, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllAnnotations");
+            scope.Start();
+            try
+            {
+                return RestClient.GetAllAnnotations(document, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create a annotation. </summary>
+        /// <param name="body"> The AnnotationCreate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<Annotation>> CreateAnnotationAsync(AnnotationCreate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateAnnotation");
+            scope.Start();
+            try
+            {
+                return await RestClient.CreateAnnotationAsync(body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create a annotation. </summary>
+        /// <param name="body"> The AnnotationCreate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<Annotation> CreateAnnotation(AnnotationCreate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateAnnotation");
+            scope.Start();
+            try
+            {
+                return RestClient.CreateAnnotation(body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get specific annotation. </summary>
+        /// <param name="id"> Annotation&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return a specific annotation. </remarks>
+        public virtual async Task<Response<Annotation>> GetAnnotationAsync(int id, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAnnotation");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetAnnotationAsync(id, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get specific annotation. </summary>
+        /// <param name="id"> Annotation&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return a specific annotation. </remarks>
+        public virtual Response<Annotation> GetAnnotation(int id, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAnnotation");
+            scope.Start();
+            try
+            {
+                return RestClient.GetAnnotation(id, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update a annotation. </summary>
+        /// <param name="id"> Annotation&apos;s ID. </param>
+        /// <param name="body"> Annotation data to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Update data of an annotation. </remarks>
+        public virtual async Task<Response<Annotation>> UpdateAnnotationAsync(int id, AnnotationUpdate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateAnnotation");
+            scope.Start();
+            try
+            {
+                return await RestClient.UpdateAnnotationAsync(id, body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update a annotation. </summary>
+        /// <param name="id"> Annotation&apos;s ID. </param>
+        /// <param name="body"> Annotation data to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Update data of an annotation. </remarks>
+        public virtual Response<Annotation> UpdateAnnotation(int id, AnnotationUpdate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateAnnotation");
+            scope.Start();
+            try
+            {
+                return RestClient.UpdateAnnotation(id, body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete an annotation. </summary>
+        /// <param name="id"> Annotation&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Deletes the specified annotation from the database. </remarks>
+        public virtual async Task<Response> DeleteAnnotationAsync(int id, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteAnnotation");
+            scope.Start();
+            try
+            {
+                return await RestClient.DeleteAnnotationAsync(id, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete an annotation. </summary>
+        /// <param name="id"> Annotation&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Deletes the specified annotation from the database. </remarks>
+        public virtual Response DeleteAnnotation(int id, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteAnnotation");
+            scope.Start();
+            try
+            {
+                return RestClient.DeleteAnnotation(id, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Batch create annotations. </summary>
+        /// <param name="body"> The BatchCreateAnnotationsRequest to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<IReadOnlyList<Annotation>>> BatchCreateAnnotationsAsync(IEnumerable<AnnotationCreate> body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.BatchCreateAnnotations");
+            scope.Start();
+            try
+            {
+                return await RestClient.BatchCreateAnnotationsAsync(body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Batch create annotations. </summary>
+        /// <param name="body"> The BatchCreateAnnotationsRequest to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<IReadOnlyList<Annotation>> BatchCreateAnnotations(IEnumerable<AnnotationCreate> body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.BatchCreateAnnotations");
+            scope.Start();
+            try
+            {
+                return RestClient.BatchCreateAnnotations(body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Batch update annotations. </summary>
+        /// <param name="body"> The BatchUpdateAnnotationsRequest to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<IReadOnlyList<Annotation>>> BatchUpdateAnnotationsAsync(IEnumerable<AnnotationBatchUpdate> body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.BatchUpdateAnnotations");
+            scope.Start();
+            try
+            {
+                return await RestClient.BatchUpdateAnnotationsAsync(body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Batch update annotations. </summary>
+        /// <param name="body"> The BatchUpdateAnnotationsRequest to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<IReadOnlyList<Annotation>> BatchUpdateAnnotations(IEnumerable<AnnotationBatchUpdate> body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.BatchUpdateAnnotations");
+            scope.Start();
+            try
+            {
+                return RestClient.BatchUpdateAnnotations(body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Batch delete annotations. </summary>
+        /// <param name="body"> The BatchDeleteAnnotationsRequest to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response> BatchDeleteAnnotationsAsync(IEnumerable<int> body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.BatchDeleteAnnotations");
+            scope.Start();
+            try
+            {
+                return await RestClient.BatchDeleteAnnotationsAsync(body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Batch delete annotations. </summary>
+        /// <param name="body"> The BatchDeleteAnnotationsRequest to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response BatchDeleteAnnotations(IEnumerable<int> body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.BatchDeleteAnnotations");
+            scope.Start();
+            try
+            {
+                return RestClient.BatchDeleteAnnotations(body, cancellationToken);
             }
             catch (Exception e)
             {

@@ -263,12 +263,54 @@ namespace Affinda.API.Models
             return new PathsL3R02CV3DocumentsGetResponses200ContentApplicationJsonSchemaAllof1(results?.ToList());
         }
 
+        /// <summary> Initializes a new instance of Meta. </summary>
+        /// <param name="identifier"> Uniquely identify a document. </param>
+        /// <param name="fileName"> Optional filename of the file. </param>
+        /// <param name="ready"> If true, the document has finished processing. Particularly useful if an endpoint request specified wait=False, when polling use this variable to determine when to stop polling. </param>
+        /// <param name="readyDt"> The datetime when the document was ready. </param>
+        /// <param name="failed"> If true, some exception was raised during processing. Check the &apos;error&apos; field of the main return object. </param>
+        /// <param name="expiryTime"> The date/time in ISO-8601 format when the document will be automatically deleted.  Defaults to no expiry. </param>
+        /// <param name="language"> The document&apos;s language. </param>
+        /// <param name="pdf"> The URL to the document&apos;s pdf (if the uploaded document is not already pdf, it&apos;s converted to pdf as part of the parsing process). </param>
+        /// <param name="parentDocument"> If this document is part of a splitted document, this attribute points to the original document that this document is splitted from. </param>
+        /// <param name="childDocuments"> If this document has been splitted into a number of child documents, this attribute points to those child documents. </param>
+        /// <param name="pages"> The document&apos;s pages. </param>
+        /// <param name="isVerified"> This is true if the &apos;confirm&apos; button has been clicked in the Affinda validation tool. </param>
+        /// <param name="reviewUrl"> Signed URL (valid for 60 minutes) to access the validation tool.  Not applicable for documents types such a resumes. </param>
+        /// <param name="ocrConfidence"> The overall confidence in the conversion of image to text.  (only applicable for images or PDF documents without a text layer). </param>
+        /// <param name="createdDt"></param>
+        /// <param name="documentType"></param>
+        /// <returns> A new <see cref="Models.Meta"/> instance for mocking. </returns>
+        public static Meta Meta(string identifier = null, string fileName = null, bool? ready = null, DateTimeOffset? readyDt = null, bool? failed = null, string expiryTime = null, string language = null, string pdf = null, MetaParentDocument parentDocument = null, IEnumerable<MetaChildDocumentsItem> childDocuments = null, IEnumerable<PageMeta> pages = null, bool? isVerified = null, string reviewUrl = null, float? ocrConfidence = null, DateTimeOffset? createdDt = null, string documentType = null)
+        {
+            childDocuments ??= new List<MetaChildDocumentsItem>();
+            pages ??= new List<PageMeta>();
+
+            return new Meta(identifier, fileName, ready, readyDt, failed, expiryTime, language, pdf, parentDocument, childDocuments?.ToList(), pages?.ToList(), isVerified, reviewUrl, ocrConfidence, createdDt, documentType);
+        }
+
+        /// <summary> Initializes a new instance of MetaParentDocument. </summary>
+        /// <param name="identifier"> Uniquely identify a document. </param>
+        /// <returns> A new <see cref="Models.MetaParentDocument"/> instance for mocking. </returns>
+        public static MetaParentDocument MetaParentDocument(string identifier = null)
+        {
+            return new MetaParentDocument(identifier);
+        }
+
+        /// <summary> Initializes a new instance of MetaChildDocumentsItem. </summary>
+        /// <param name="identifier"> Uniquely identify a document. </param>
+        /// <returns> A new <see cref="Models.MetaChildDocumentsItem"/> instance for mocking. </returns>
+        public static MetaChildDocumentsItem MetaChildDocumentsItem(string identifier = null)
+        {
+            return new MetaChildDocumentsItem(identifier);
+        }
+
         /// <summary> Initializes a new instance of DataPoint. </summary>
         /// <param name="identifier"> Uniquely identify a data point. </param>
         /// <param name="name"></param>
         /// <param name="slug"></param>
         /// <param name="description"></param>
-        /// <param name="annotationContentType"></param>
+        /// <param name="annotationContentType"> The different data types of annotations. </param>
         /// <param name="organization"></param>
         /// <param name="extractor"> Uniquely identify an extractor. </param>
         /// <param name="multiple"></param>
@@ -306,6 +348,29 @@ namespace Affinda.API.Models
             results ??= new List<DataPointChoice>();
 
             return new Paths4K6IzqV3DataPointChoicesGetResponses200ContentApplicationJsonSchemaAllof1(results?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of Paths1D5Zg6MV3AnnotationsGetResponses200ContentApplicationJsonSchema. </summary>
+        /// <param name="count"> Number of items in results. </param>
+        /// <param name="next"> URL to request next page of results. </param>
+        /// <param name="previous"> URL to request previous page of results. </param>
+        /// <param name="results"></param>
+        /// <returns> A new <see cref="Models.Paths1D5Zg6MV3AnnotationsGetResponses200ContentApplicationJsonSchema"/> instance for mocking. </returns>
+        public static Paths1D5Zg6MV3AnnotationsGetResponses200ContentApplicationJsonSchema Paths1D5Zg6MV3AnnotationsGetResponses200ContentApplicationJsonSchema(int count = default, string next = null, string previous = null, IEnumerable<Annotation> results = null)
+        {
+            results ??= new List<Annotation>();
+
+            return new Paths1D5Zg6MV3AnnotationsGetResponses200ContentApplicationJsonSchema(count, next, previous, results?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of Paths1Dgz0V9V3AnnotationsGetResponses200ContentApplicationJsonSchemaAllof1. </summary>
+        /// <param name="results"></param>
+        /// <returns> A new <see cref="Models.Paths1Dgz0V9V3AnnotationsGetResponses200ContentApplicationJsonSchemaAllof1"/> instance for mocking. </returns>
+        public static Paths1Dgz0V9V3AnnotationsGetResponses200ContentApplicationJsonSchemaAllof1 Paths1Dgz0V9V3AnnotationsGetResponses200ContentApplicationJsonSchemaAllof1(IEnumerable<Annotation> results = null)
+        {
+            results ??= new List<Annotation>();
+
+            return new Paths1Dgz0V9V3AnnotationsGetResponses200ContentApplicationJsonSchemaAllof1(results?.ToList());
         }
 
         /// <summary> Initializes a new instance of PathsQ5Os5RV3OrganizationMembershipsGetResponses200ContentApplicationJsonSchema. </summary>
@@ -1345,9 +1410,10 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of LanguageAnnotation. </summary>
-        /// <param name="id"></param>
+        /// <param name="id"> Annotation&apos;s ID. </param>
         /// <param name="rectangle"> x/y coordinates for the rectangular bounding box containing the data. </param>
-        /// <param name="rectangles"></param>
+        /// <param name="rectangles"> x/y coordinates for the rectangles containing the data. An annotation can be contained within multiple rectangles. </param>
+        /// <param name="document"> Uniquely identify a document. </param>
         /// <param name="pageIndex"> The page number within the document, starting from 0. </param>
         /// <param name="raw"> Raw data extracted from the before any post-processing. </param>
         /// <param name="confidence"> The overall confidence that the model&apos;s prediction is correct. </param>
@@ -1356,23 +1422,24 @@ namespace Affinda.API.Models
         /// <param name="isVerified"> Indicates whether the data has been validated, either by a human using our validation tool or through auto-validation rules. </param>
         /// <param name="isClientVerified"> Indicates whether the data has been validated by a human. </param>
         /// <param name="isAutoVerified"> Indicates whether the data has been auto-validated. </param>
-        /// <param name="dataPoint"></param>
-        /// <param name="contentType"></param>
+        /// <param name="dataPoint"> Data point&apos;s identifier. </param>
+        /// <param name="contentType"> The different data types of annotations. </param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.LanguageAnnotation"/> instance for mocking. </returns>
-        public static LanguageAnnotation LanguageAnnotation(int id = default, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool isClientVerified = default, bool isAutoVerified = default, string dataPoint = null, string contentType = null, IDictionary<string, object> additionalProperties = null, string parsed = null)
+        public static LanguageAnnotation LanguageAnnotation(int id = default, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, string document = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool isClientVerified = default, bool isAutoVerified = default, string dataPoint = null, AnnotationContentType contentType = default, IDictionary<string, object> additionalProperties = null, string parsed = null)
         {
             rectangles ??= new List<Rectangle>();
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new LanguageAnnotation(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties, parsed);
+            return new LanguageAnnotation(id, rectangle, rectangles?.ToList(), document, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of SkillAnnotation. </summary>
-        /// <param name="id"></param>
+        /// <param name="id"> Annotation&apos;s ID. </param>
         /// <param name="rectangle"> x/y coordinates for the rectangular bounding box containing the data. </param>
-        /// <param name="rectangles"></param>
+        /// <param name="rectangles"> x/y coordinates for the rectangles containing the data. An annotation can be contained within multiple rectangles. </param>
+        /// <param name="document"> Uniquely identify a document. </param>
         /// <param name="pageIndex"> The page number within the document, starting from 0. </param>
         /// <param name="raw"> Raw data extracted from the before any post-processing. </param>
         /// <param name="confidence"> The overall confidence that the model&apos;s prediction is correct. </param>
@@ -1381,17 +1448,17 @@ namespace Affinda.API.Models
         /// <param name="isVerified"> Indicates whether the data has been validated, either by a human using our validation tool or through auto-validation rules. </param>
         /// <param name="isClientVerified"> Indicates whether the data has been validated by a human. </param>
         /// <param name="isAutoVerified"> Indicates whether the data has been auto-validated. </param>
-        /// <param name="dataPoint"></param>
-        /// <param name="contentType"></param>
+        /// <param name="dataPoint"> Data point&apos;s identifier. </param>
+        /// <param name="contentType"> The different data types of annotations. </param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.SkillAnnotation"/> instance for mocking. </returns>
-        public static SkillAnnotation SkillAnnotation(int id = default, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool isClientVerified = default, bool isAutoVerified = default, string dataPoint = null, string contentType = null, IDictionary<string, object> additionalProperties = null, string parsed = null)
+        public static SkillAnnotation SkillAnnotation(int id = default, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, string document = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool isClientVerified = default, bool isAutoVerified = default, string dataPoint = null, AnnotationContentType contentType = default, IDictionary<string, object> additionalProperties = null, string parsed = null)
         {
             rectangles ??= new List<Rectangle>();
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new SkillAnnotation(id, rectangle, rectangles?.ToList(), pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties, parsed);
+            return new SkillAnnotation(id, rectangle, rectangles?.ToList(), document, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties, parsed);
         }
     }
 }

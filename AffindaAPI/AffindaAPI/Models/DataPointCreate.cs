@@ -14,7 +14,7 @@ namespace Affinda.API.Models
     {
         /// <summary> Initializes a new instance of DataPointCreate. </summary>
         /// <param name="slug"></param>
-        /// <param name="annotationContentType"></param>
+        /// <param name="annotationContentType"> The different data types of annotations. </param>
         /// <param name="organization"> Uniquely identify an organization. </param>
         /// <param name="extractor"> Uniquely identify an extractor. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="slug"/>, <paramref name="organization"/> or <paramref name="extractor"/> is null. </exception>
@@ -45,7 +45,7 @@ namespace Affinda.API.Models
         public string Slug { get; }
         /// <summary> Gets or sets the description. </summary>
         public string Description { get; set; }
-        /// <summary> Gets the annotation content type. </summary>
+        /// <summary> The different data types of annotations. </summary>
         public AnnotationContentType AnnotationContentType { get; }
         /// <summary> Uniquely identify an organization. </summary>
         public string Organization { get; }

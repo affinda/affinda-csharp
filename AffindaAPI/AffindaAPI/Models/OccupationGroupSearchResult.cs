@@ -7,7 +7,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Azure.Core;
 
 namespace Affinda.API.Models
@@ -18,22 +17,17 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of OccupationGroupSearchResult. </summary>
         /// <param name="code"></param>
         /// <param name="name"></param>
-        /// <param name="children"></param>
-        /// <exception cref="ArgumentNullException"> <paramref name="name"/> or <paramref name="children"/> is null. </exception>
-        internal OccupationGroupSearchResult(int code, string name, IEnumerable<OccupationGroup> children)
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/> is null. </exception>
+        internal OccupationGroupSearchResult(int code, string name)
         {
             if (name == null)
             {
                 throw new ArgumentNullException(nameof(name));
             }
-            if (children == null)
-            {
-                throw new ArgumentNullException(nameof(children));
-            }
 
             Code = code;
             Name = name;
-            Children = children.ToList();
+            Children = new ChangeTrackingList<OccupationGroup>();
             Parents = new ChangeTrackingList<OccupationGroup>();
         }
 

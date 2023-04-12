@@ -41,6 +41,11 @@ namespace Affinda.API.Models
             {
                 writer.WriteNull("rectangles");
             }
+            if (Optional.IsDefined(Document))
+            {
+                writer.WritePropertyName("document");
+                writer.WriteStringValue(Document);
+            }
             if (PageIndex != null)
             {
                 writer.WritePropertyName("pageIndex");
@@ -95,7 +100,7 @@ namespace Affinda.API.Models
             writer.WritePropertyName("dataPoint");
             writer.WriteStringValue(DataPoint);
             writer.WritePropertyName("contentType");
-            writer.WriteStringValue(ContentType);
+            writer.WriteStringValue(ContentType.ToString());
             foreach (var item in AdditionalProperties)
             {
                 writer.WritePropertyName(item.Key);
@@ -110,6 +115,7 @@ namespace Affinda.API.Models
             int id = default;
             Rectangle rectangle = default;
             IList<Rectangle> rectangles = default;
+            Optional<string> document = default;
             int? pageIndex = default;
             string raw = default;
             float? confidence = default;
@@ -119,7 +125,7 @@ namespace Affinda.API.Models
             bool isClientVerified = default;
             bool isAutoVerified = default;
             string dataPoint = default;
-            string contentType = default;
+            AnnotationContentType contentType = default;
             IDictionary<string, object> additionalProperties = default;
             Dictionary<string, object> additionalPropertiesDictionary = new Dictionary<string, object>();
             foreach (var property in element.EnumerateObject())
@@ -162,6 +168,11 @@ namespace Affinda.API.Models
                         array.Add(Rectangle.DeserializeRectangle(item));
                     }
                     rectangles = array;
+                    continue;
+                }
+                if (property.NameEquals("document"))
+                {
+                    document = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("pageIndex"))
@@ -236,13 +247,13 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("contentType"))
                 {
-                    contentType = property.Value.GetString();
+                    contentType = new AnnotationContentType(property.Value.GetString());
                     continue;
                 }
                 additionalPropertiesDictionary.Add(property.Name, property.Value.GetObject());
             }
             additionalProperties = additionalPropertiesDictionary;
-            return new SkillAnnotation(id, rectangle, rectangles, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties, parsed.Value);
+            return new SkillAnnotation(id, rectangle, rectangles, document.Value, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties, parsed.Value);
         }
     }
 }
