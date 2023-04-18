@@ -26,17 +26,13 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of Invoice. </summary>
+        /// <param name="data"> Any object. </param>
         /// <param name="extractor"></param>
         /// <param name="meta"></param>
         /// <param name="error"></param>
-        /// <param name="data"></param>
-        internal Invoice(string extractor, DocumentMeta meta, DocumentError error, InvoiceData data) : base(extractor, meta, error)
+        internal Invoice(object data, string extractor, DocumentMeta meta, DocumentError error) : base(data, extractor, meta, error)
         {
-            Data = data;
             Extractor = extractor ?? "invoice";
         }
-
-        /// <summary> Gets or sets the data. </summary>
-        public InvoiceData Data { get; set; }
     }
 }

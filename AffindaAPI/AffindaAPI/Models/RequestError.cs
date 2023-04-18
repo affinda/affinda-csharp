@@ -12,7 +12,7 @@ using System.Linq;
 namespace Affinda.API.Models
 {
     /// <summary> The RequestError. </summary>
-    public partial class RequestError
+    internal partial class RequestError
     {
         /// <summary> Initializes a new instance of RequestError. </summary>
         /// <param name="type"></param>

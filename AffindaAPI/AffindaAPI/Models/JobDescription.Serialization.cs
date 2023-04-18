@@ -17,15 +17,8 @@ namespace Affinda.API.Models
             writer.WriteStartObject();
             if (Optional.IsDefined(Data))
             {
-                if (Data != null)
-                {
-                    writer.WritePropertyName("data");
-                    writer.WriteObjectValue(Data);
-                }
-                else
-                {
-                    writer.WriteNull("data");
-                }
+                writer.WritePropertyName("data");
+                writer.WriteObjectValue(Data);
             }
             writer.WritePropertyName("extractor");
             writer.WriteStringValue(Extractor);
@@ -41,7 +34,7 @@ namespace Affinda.API.Models
 
         internal static JobDescription DeserializeJobDescription(JsonElement element)
         {
-            Optional<JobDescriptionData> data = default;
+            Optional<object> data = default;
             string extractor = default;
             DocumentMeta meta = default;
             Optional<DocumentError> error = default;
@@ -51,10 +44,10 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        data = null;
+                        property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    data = JobDescriptionData.DeserializeJobDescriptionData(property.Value);
+                    data = property.Value.GetObject();
                     continue;
                 }
                 if (property.NameEquals("extractor"))
@@ -78,7 +71,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new JobDescription(extractor, meta, error.Value, data.Value);
+            return new JobDescription(data.Value, extractor, meta, error.Value);
         }
     }
 }

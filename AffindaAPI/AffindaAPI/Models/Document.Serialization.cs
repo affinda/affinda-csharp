@@ -15,6 +15,11 @@ namespace Affinda.API.Models
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
         {
             writer.WriteStartObject();
+            if (Optional.IsDefined(Data))
+            {
+                writer.WritePropertyName("data");
+                writer.WriteObjectValue(Data);
+            }
             writer.WritePropertyName("extractor");
             writer.WriteStringValue(Extractor);
             writer.WritePropertyName("meta");
@@ -38,11 +43,22 @@ namespace Affinda.API.Models
                     case "resume": return Resume.DeserializeResume(element);
                 }
             }
+            Optional<object> data = default;
             string extractor = default;
             DocumentMeta meta = default;
             Optional<DocumentError> error = default;
             foreach (var property in element.EnumerateObject())
             {
+                if (property.NameEquals("data"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    data = property.Value.GetObject();
+                    continue;
+                }
                 if (property.NameEquals("extractor"))
                 {
                     extractor = property.Value.GetString();
@@ -64,7 +80,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new Document(extractor, meta, error.Value);
+            return new Document(data.Value, extractor, meta, error.Value);
         }
     }
 }

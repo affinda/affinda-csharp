@@ -26,16 +26,20 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of Document. </summary>
+        /// <param name="data"> Any object. </param>
         /// <param name="extractor"></param>
         /// <param name="meta"></param>
         /// <param name="error"></param>
-        internal Document(string extractor, DocumentMeta meta, DocumentError error)
+        internal Document(object data, string extractor, DocumentMeta meta, DocumentError error)
         {
+            Data = data;
             Extractor = extractor;
             Meta = meta;
             Error = error;
         }
 
+        /// <summary> Any object. </summary>
+        public object Data { get; set; }
         /// <summary> Gets or sets the extractor. </summary>
         internal string Extractor { get; set; }
         /// <summary> Gets or sets the meta. </summary>

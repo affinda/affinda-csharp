@@ -26,17 +26,13 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of Resume. </summary>
+        /// <param name="data"> Any object. </param>
         /// <param name="extractor"></param>
         /// <param name="meta"></param>
         /// <param name="error"></param>
-        /// <param name="data"> A JSON-encoded string of the `ResumeData` object. </param>
-        internal Resume(string extractor, DocumentMeta meta, DocumentError error, ResumeData data) : base(extractor, meta, error)
+        internal Resume(object data, string extractor, DocumentMeta meta, DocumentError error) : base(data, extractor, meta, error)
         {
-            Data = data;
             Extractor = extractor ?? "resume";
         }
-
-        /// <summary> A JSON-encoded string of the `ResumeData` object. </summary>
-        public ResumeData Data { get; set; }
     }
 }

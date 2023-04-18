@@ -34,7 +34,7 @@ namespace Affinda.API.Models
 
         internal static Invoice DeserializeInvoice(JsonElement element)
         {
-            Optional<InvoiceData> data = default;
+            Optional<object> data = default;
             string extractor = default;
             DocumentMeta meta = default;
             Optional<DocumentError> error = default;
@@ -47,7 +47,7 @@ namespace Affinda.API.Models
                         property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    data = InvoiceData.DeserializeInvoiceData(property.Value);
+                    data = property.Value.GetObject();
                     continue;
                 }
                 if (property.NameEquals("extractor"))
@@ -71,7 +71,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new Invoice(extractor, meta, error.Value, data.Value);
+            return new Invoice(data.Value, extractor, meta, error.Value);
         }
     }
 }

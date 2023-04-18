@@ -725,7 +725,7 @@ namespace Affinda.API
         /// <param name="format"> Specify which format you want the response to be. Default is &quot;json&quot;. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Return a specific document. </remarks>
-        public virtual async Task<Response<object>> GetDocumentAsync(string identifier, DocumentFormat? format = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<Document>> GetDocumentAsync(string identifier, DocumentFormat? format = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetDocument");
             scope.Start();
@@ -745,7 +745,7 @@ namespace Affinda.API
         /// <param name="format"> Specify which format you want the response to be. Default is &quot;json&quot;. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Return a specific document. </remarks>
-        public virtual Response<object> GetDocument(string identifier, DocumentFormat? format = null, CancellationToken cancellationToken = default)
+        public virtual Response<Document> GetDocument(string identifier, DocumentFormat? format = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetDocument");
             scope.Start();
