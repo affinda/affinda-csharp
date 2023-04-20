@@ -10,7 +10,7 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class RequestErrorErrorsItem
+    internal partial class RequestErrorErrorsItem
     {
         internal static RequestErrorErrorsItem DeserializeRequestErrorErrorsItem(JsonElement element)
         {

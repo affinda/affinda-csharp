@@ -258,7 +258,7 @@ namespace Affinda.API
         /// Returns all the parse results for that resume if processing is completed.
         /// The `identifier` is the unique ID returned after POST-ing the resume via the [/resumes](#post-/resumes) endpoint.
         /// </remarks>
-        public async Task<Response<object>> GetResumeAsync(string identifier, string format = null, CancellationToken cancellationToken = default)
+        public async Task<Response<Resume>> GetResumeAsync(string identifier, string format = null, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
             {
@@ -274,16 +274,7 @@ namespace Affinda.API
                         Resume value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
                         value = Resume.DeserializeResume(document.RootElement);
-                        return Response.FromValue<object>(value, message.Response);
-                    }
-                case 400:
-                case 401:
-                case 404:
-                    {
-                        RequestError value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = RequestError.DeserializeRequestError(document.RootElement);
-                        return Response.FromValue<object>(value, message.Response);
+                        return Response.FromValue(value, message.Response);
                     }
                 default:
                     throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
@@ -299,7 +290,7 @@ namespace Affinda.API
         /// Returns all the parse results for that resume if processing is completed.
         /// The `identifier` is the unique ID returned after POST-ing the resume via the [/resumes](#post-/resumes) endpoint.
         /// </remarks>
-        public Response<object> GetResume(string identifier, string format = null, CancellationToken cancellationToken = default)
+        public Response<Resume> GetResume(string identifier, string format = null, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
             {
@@ -315,16 +306,7 @@ namespace Affinda.API
                         Resume value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
                         value = Resume.DeserializeResume(document.RootElement);
-                        return Response.FromValue<object>(value, message.Response);
-                    }
-                case 400:
-                case 401:
-                case 404:
-                    {
-                        RequestError value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = RequestError.DeserializeRequestError(document.RootElement);
-                        return Response.FromValue<object>(value, message.Response);
+                        return Response.FromValue(value, message.Response);
                     }
                 default:
                     throw ClientDiagnostics.CreateRequestFailedException(message.Response);

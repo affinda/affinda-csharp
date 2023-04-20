@@ -29,7 +29,7 @@ namespace Affinda.API.Models
         public string FileName { get; }
         /// <summary> If &quot;true&quot; (default), will return a response only after processing has completed. If &quot;false&quot;, will return an empty data object which can be polled at the GET endpoint until processing is complete. </summary>
         public string Wait { get; }
-        /// <summary> If &quot;true&quot;, parsing will fail when the uploaded document is duplicate of an existing document. If &quot;false&quot; (default), will parse the document normally whether its a duplicate or not. </summary>
+        /// <summary> If &quot;true&quot;, parsing will fail when the uploaded document is duplicate of an existing document. If &quot;false&quot;, will parse the document normally whether its a duplicate or not. If not provided, will fallback to the workspace settings. </summary>
         public string RejectDuplicates { get; }
         /// <summary> Language code in ISO 639-1 format. Must specify zh-cn or zh-tw for Chinese. </summary>
         public string Language { get; }

@@ -19,6 +19,7 @@ namespace Affinda.API.Models
             Indices = new ChangeTrackingList<string>();
             SearchToolTheme = new ChangeTrackingDictionary<string, object>();
             Actions = new ChangeTrackingList<ResumeSearchConfigActionsItem>();
+            CustomFieldsConfig = new ChangeTrackingList<CustomFieldConfig>();
         }
 
         /// <summary> Initializes a new instance of ResumeSearchConfig. </summary>
@@ -48,7 +49,8 @@ namespace Affinda.API.Models
         /// <param name="userId"> ID of the logged in user. </param>
         /// <param name="username"> Username of the logged in user. </param>
         /// <param name="actions"> A list of actions to show in the dropdown in the embedded search tool. </param>
-        internal ResumeSearchConfig(bool? allowPdfDownload, int? maxResults, bool? displayJobTitle, bool? displayLocation, bool? displayYearsExperience, bool? displayOccupationGroup, bool? displayEducation, bool? displaySkills, bool? displayLanguages, bool? displayManagementLevel, bool? displayKeywords, float? weightJobTitle, float? weightLocation, float? weightYearsExperience, float? weightOccupationGroup, float? weightEducation, float? weightSkills, float? weightLanguages, float? weightManagementLevel, float? weightKeywords, IList<string> indices, bool? showIndexDropdown, IDictionary<string, object> searchToolTheme, int? userId, string username, IList<ResumeSearchConfigActionsItem> actions)
+        /// <param name="customFieldsConfig"></param>
+        internal ResumeSearchConfig(bool? allowPdfDownload, int? maxResults, bool? displayJobTitle, bool? displayLocation, bool? displayYearsExperience, bool? displayOccupationGroup, bool? displayEducation, bool? displaySkills, bool? displayLanguages, bool? displayManagementLevel, bool? displayKeywords, float? weightJobTitle, float? weightLocation, float? weightYearsExperience, float? weightOccupationGroup, float? weightEducation, float? weightSkills, float? weightLanguages, float? weightManagementLevel, float? weightKeywords, IList<string> indices, bool? showIndexDropdown, IDictionary<string, object> searchToolTheme, int? userId, string username, IList<ResumeSearchConfigActionsItem> actions, IList<CustomFieldConfig> customFieldsConfig)
         {
             AllowPdfDownload = allowPdfDownload;
             MaxResults = maxResults;
@@ -76,6 +78,7 @@ namespace Affinda.API.Models
             UserId = userId;
             Username = username;
             Actions = actions;
+            CustomFieldsConfig = customFieldsConfig;
         }
 
         /// <summary> Gets or sets the allow pdf download. </summary>
@@ -130,5 +133,7 @@ namespace Affinda.API.Models
         public string Username { get; }
         /// <summary> A list of actions to show in the dropdown in the embedded search tool. </summary>
         public IList<ResumeSearchConfigActionsItem> Actions { get; set; }
+        /// <summary> Gets or sets the custom fields config. </summary>
+        public IList<CustomFieldConfig> CustomFieldsConfig { get; set; }
     }
 }

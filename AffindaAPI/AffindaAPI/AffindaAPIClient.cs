@@ -168,7 +168,7 @@ namespace Affinda.API
         /// Returns all the parse results for that resume if processing is completed.
         /// The `identifier` is the unique ID returned after POST-ing the resume via the [/resumes](#post-/resumes) endpoint.
         /// </remarks>
-        public virtual async Task<Response<object>> GetResumeAsync(string identifier, string format = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<Resume>> GetResumeAsync(string identifier, string format = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResume");
             scope.Start();
@@ -191,7 +191,7 @@ namespace Affinda.API
         /// Returns all the parse results for that resume if processing is completed.
         /// The `identifier` is the unique ID returned after POST-ing the resume via the [/resumes](#post-/resumes) endpoint.
         /// </remarks>
-        public virtual Response<object> GetResume(string identifier, string format = null, CancellationToken cancellationToken = default)
+        public virtual Response<Resume> GetResume(string identifier, string format = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResume");
             scope.Start();

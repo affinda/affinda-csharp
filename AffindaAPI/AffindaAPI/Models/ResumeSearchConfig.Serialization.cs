@@ -180,6 +180,23 @@ namespace Affinda.API.Models
                     writer.WriteNull("actions");
                 }
             }
+            if (Optional.IsCollectionDefined(CustomFieldsConfig))
+            {
+                if (CustomFieldsConfig != null)
+                {
+                    writer.WritePropertyName("customFieldsConfig");
+                    writer.WriteStartArray();
+                    foreach (var item in CustomFieldsConfig)
+                    {
+                        writer.WriteObjectValue(item);
+                    }
+                    writer.WriteEndArray();
+                }
+                else
+                {
+                    writer.WriteNull("customFieldsConfig");
+                }
+            }
             writer.WriteEndObject();
         }
 
@@ -211,6 +228,7 @@ namespace Affinda.API.Models
             Optional<int> userId = default;
             Optional<string> username = default;
             Optional<IList<ResumeSearchConfigActionsItem>> actions = default;
+            Optional<IList<CustomFieldConfig>> customFieldsConfig = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("allowPdfDownload"))
@@ -483,8 +501,23 @@ namespace Affinda.API.Models
                     actions = array;
                     continue;
                 }
+                if (property.NameEquals("customFieldsConfig"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        customFieldsConfig = null;
+                        continue;
+                    }
+                    List<CustomFieldConfig> array = new List<CustomFieldConfig>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(CustomFieldConfig.DeserializeCustomFieldConfig(item));
+                    }
+                    customFieldsConfig = array;
+                    continue;
+                }
             }
-            return new ResumeSearchConfig(Optional.ToNullable(allowPdfDownload), Optional.ToNullable(maxResults), Optional.ToNullable(displayJobTitle), Optional.ToNullable(displayLocation), Optional.ToNullable(displayYearsExperience), Optional.ToNullable(displayOccupationGroup), Optional.ToNullable(displayEducation), Optional.ToNullable(displaySkills), Optional.ToNullable(displayLanguages), Optional.ToNullable(displayManagementLevel), Optional.ToNullable(displayKeywords), Optional.ToNullable(weightJobTitle), Optional.ToNullable(weightLocation), Optional.ToNullable(weightYearsExperience), Optional.ToNullable(weightOccupationGroup), Optional.ToNullable(weightEducation), Optional.ToNullable(weightSkills), Optional.ToNullable(weightLanguages), Optional.ToNullable(weightManagementLevel), Optional.ToNullable(weightKeywords), Optional.ToList(indices), Optional.ToNullable(showIndexDropdown), Optional.ToDictionary(searchToolTheme), Optional.ToNullable(userId), username.Value, Optional.ToList(actions));
+            return new ResumeSearchConfig(Optional.ToNullable(allowPdfDownload), Optional.ToNullable(maxResults), Optional.ToNullable(displayJobTitle), Optional.ToNullable(displayLocation), Optional.ToNullable(displayYearsExperience), Optional.ToNullable(displayOccupationGroup), Optional.ToNullable(displayEducation), Optional.ToNullable(displaySkills), Optional.ToNullable(displayLanguages), Optional.ToNullable(displayManagementLevel), Optional.ToNullable(displayKeywords), Optional.ToNullable(weightJobTitle), Optional.ToNullable(weightLocation), Optional.ToNullable(weightYearsExperience), Optional.ToNullable(weightOccupationGroup), Optional.ToNullable(weightEducation), Optional.ToNullable(weightSkills), Optional.ToNullable(weightLanguages), Optional.ToNullable(weightManagementLevel), Optional.ToNullable(weightKeywords), Optional.ToList(indices), Optional.ToNullable(showIndexDropdown), Optional.ToDictionary(searchToolTheme), Optional.ToNullable(userId), username.Value, Optional.ToList(actions), Optional.ToList(customFieldsConfig));
         }
     }
 }
