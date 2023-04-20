@@ -86,6 +86,11 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("rejectDuplicates"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        rejectDuplicates = null;
+                        continue;
+                    }
                     rejectDuplicates = property.Value.GetString();
                     continue;
                 }

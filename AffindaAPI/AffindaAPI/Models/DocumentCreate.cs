@@ -35,7 +35,7 @@ namespace Affinda.API.Models
         public string ExpiryTime { get; }
         /// <summary> Language code in ISO 639-1 format. Must specify zh-cn or zh-tw for Chinese. </summary>
         public string Language { get; }
-        /// <summary> If &quot;true&quot;, parsing will fail when the uploaded document is duplicate of an existing document, no credits will be consumed. If &quot;false&quot; (default), will parse the document normally whether its a duplicate or not. </summary>
+        /// <summary> If &quot;true&quot;, parsing will fail when the uploaded document is duplicate of an existing document, no credits will be consumed. If &quot;false&quot;, will parse the document normally whether its a duplicate or not. If not provided, will fallback to the workspace settings. </summary>
         public string RejectDuplicates { get; }
     }
 }

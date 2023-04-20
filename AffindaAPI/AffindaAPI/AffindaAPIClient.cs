@@ -1094,15 +1094,17 @@ namespace Affinda.API
         /// <param name="slug"> Filter by slug. </param>
         /// <param name="description"> Filter by description. </param>
         /// <param name="annotationContentType"> Filter by annotation content type, e.g. text, integer, float, date, etc. </param>
+        /// <param name="includeChild"> Whether to show child data points at the top level. &lt;br /&gt; By default child data points are shown nested inside their parent so they are excluded from the top level. </param>
+        /// <param name="identifier"> Filter by specific identifiers. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns your custom data points as well as Affinda&apos;s off-the-shelf data points. </remarks>
-        public virtual async Task<Response<IReadOnlyList<DataPoint>>> GetAllDataPointsAsync(int? offset = null, int? limit = null, string organization = null, string extractor = null, string slug = null, string description = null, string annotationContentType = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<IReadOnlyList<DataPoint>>> GetAllDataPointsAsync(int? offset = null, int? limit = null, string organization = null, string extractor = null, string slug = null, string description = null, string annotationContentType = null, bool? includeChild = null, IEnumerable<string> identifier = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllDataPoints");
             scope.Start();
             try
             {
-                return await RestClient.GetAllDataPointsAsync(offset, limit, organization, extractor, slug, description, annotationContentType, cancellationToken).ConfigureAwait(false);
+                return await RestClient.GetAllDataPointsAsync(offset, limit, organization, extractor, slug, description, annotationContentType, includeChild, identifier, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -1119,15 +1121,17 @@ namespace Affinda.API
         /// <param name="slug"> Filter by slug. </param>
         /// <param name="description"> Filter by description. </param>
         /// <param name="annotationContentType"> Filter by annotation content type, e.g. text, integer, float, date, etc. </param>
+        /// <param name="includeChild"> Whether to show child data points at the top level. &lt;br /&gt; By default child data points are shown nested inside their parent so they are excluded from the top level. </param>
+        /// <param name="identifier"> Filter by specific identifiers. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns your custom data points as well as Affinda&apos;s off-the-shelf data points. </remarks>
-        public virtual Response<IReadOnlyList<DataPoint>> GetAllDataPoints(int? offset = null, int? limit = null, string organization = null, string extractor = null, string slug = null, string description = null, string annotationContentType = null, CancellationToken cancellationToken = default)
+        public virtual Response<IReadOnlyList<DataPoint>> GetAllDataPoints(int? offset = null, int? limit = null, string organization = null, string extractor = null, string slug = null, string description = null, string annotationContentType = null, bool? includeChild = null, IEnumerable<string> identifier = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllDataPoints");
             scope.Start();
             try
             {
-                return RestClient.GetAllDataPoints(offset, limit, organization, extractor, slug, description, annotationContentType, cancellationToken);
+                return RestClient.GetAllDataPoints(offset, limit, organization, extractor, slug, description, annotationContentType, includeChild, identifier, cancellationToken);
             }
             catch (Exception e)
             {

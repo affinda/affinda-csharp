@@ -2058,7 +2058,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllDataPointsRequest(int? offset, int? limit, string organization, string extractor, string slug, string description, string annotationContentType)
+        internal HttpMessage CreateGetAllDataPointsRequest(int? offset, int? limit, string organization, string extractor, string slug, string description, string annotationContentType, bool? includeChild, IEnumerable<string> identifier)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -2096,6 +2096,14 @@ namespace Affinda.API
             {
                 uri.AppendQuery("annotation_content_type", annotationContentType, true);
             }
+            if (includeChild != null)
+            {
+                uri.AppendQuery("include_child", includeChild.Value, true);
+            }
+            if (identifier != null)
+            {
+                uri.AppendQueryDelimited("identifier", identifier, ",", true);
+            }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -2109,11 +2117,13 @@ namespace Affinda.API
         /// <param name="slug"> Filter by slug. </param>
         /// <param name="description"> Filter by description. </param>
         /// <param name="annotationContentType"> Filter by annotation content type, e.g. text, integer, float, date, etc. </param>
+        /// <param name="includeChild"> Whether to show child data points at the top level. &lt;br /&gt; By default child data points are shown nested inside their parent so they are excluded from the top level. </param>
+        /// <param name="identifier"> Filter by specific identifiers. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns your custom data points as well as Affinda&apos;s off-the-shelf data points. </remarks>
-        public async Task<Response<IReadOnlyList<DataPoint>>> GetAllDataPointsAsync(int? offset = null, int? limit = null, string organization = null, string extractor = null, string slug = null, string description = null, string annotationContentType = null, CancellationToken cancellationToken = default)
+        public async Task<Response<IReadOnlyList<DataPoint>>> GetAllDataPointsAsync(int? offset = null, int? limit = null, string organization = null, string extractor = null, string slug = null, string description = null, string annotationContentType = null, bool? includeChild = null, IEnumerable<string> identifier = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllDataPointsRequest(offset, limit, organization, extractor, slug, description, annotationContentType);
+            using var message = CreateGetAllDataPointsRequest(offset, limit, organization, extractor, slug, description, annotationContentType, includeChild, identifier);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -2142,11 +2152,13 @@ namespace Affinda.API
         /// <param name="slug"> Filter by slug. </param>
         /// <param name="description"> Filter by description. </param>
         /// <param name="annotationContentType"> Filter by annotation content type, e.g. text, integer, float, date, etc. </param>
+        /// <param name="includeChild"> Whether to show child data points at the top level. &lt;br /&gt; By default child data points are shown nested inside their parent so they are excluded from the top level. </param>
+        /// <param name="identifier"> Filter by specific identifiers. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns your custom data points as well as Affinda&apos;s off-the-shelf data points. </remarks>
-        public Response<IReadOnlyList<DataPoint>> GetAllDataPoints(int? offset = null, int? limit = null, string organization = null, string extractor = null, string slug = null, string description = null, string annotationContentType = null, CancellationToken cancellationToken = default)
+        public Response<IReadOnlyList<DataPoint>> GetAllDataPoints(int? offset = null, int? limit = null, string organization = null, string extractor = null, string slug = null, string description = null, string annotationContentType = null, bool? includeChild = null, IEnumerable<string> identifier = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllDataPointsRequest(offset, limit, organization, extractor, slug, description, annotationContentType);
+            using var message = CreateGetAllDataPointsRequest(offset, limit, organization, extractor, slug, description, annotationContentType, includeChild, identifier);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
