@@ -39,6 +39,16 @@ namespace Affinda.API.Models
                 }
                 writer.WriteEndArray();
             }
+            if (Optional.IsCollectionDefined(PhoneNumberDetails))
+            {
+                writer.WritePropertyName("phoneNumberDetails");
+                writer.WriteStartArray();
+                foreach (var item in PhoneNumberDetails)
+                {
+                    writer.WriteObjectValue(item);
+                }
+                writer.WriteEndArray();
+            }
             if (Optional.IsCollectionDefined(Websites))
             {
                 writer.WritePropertyName("websites");
@@ -201,6 +211,7 @@ namespace Affinda.API.Models
         {
             Optional<ResumeDataName> name = default;
             Optional<IList<string>> phoneNumbers = default;
+            Optional<IList<ResumeDataPhoneNumberDetailsItem>> phoneNumberDetails = default;
             Optional<IList<string>> websites = default;
             Optional<IList<string>> emails = default;
             Optional<string> dateOfBirth = default;
@@ -250,6 +261,21 @@ namespace Affinda.API.Models
                         array.Add(item.GetString());
                     }
                     phoneNumbers = array;
+                    continue;
+                }
+                if (property.NameEquals("phoneNumberDetails"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    List<ResumeDataPhoneNumberDetailsItem> array = new List<ResumeDataPhoneNumberDetailsItem>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(ResumeDataPhoneNumberDetailsItem.DeserializeResumeDataPhoneNumberDetailsItem(item));
+                    }
+                    phoneNumberDetails = array;
                     continue;
                 }
                 if (property.NameEquals("websites"))
@@ -520,7 +546,7 @@ namespace Affinda.API.Models
                 additionalPropertiesDictionary.Add(property.Name, ComponentsEyyf0ZSchemasResumedataAdditionalproperties.DeserializeComponentsEyyf0ZSchemasResumedataAdditionalproperties(property.Value));
             }
             additionalProperties = additionalPropertiesDictionary;
-            return new ResumeData(name.Value, Optional.ToList(phoneNumbers), Optional.ToList(websites), Optional.ToList(emails), dateOfBirth.Value, location.Value, objective.Value, Optional.ToList(languages), Optional.ToList(languageCodes), summary.Value, Optional.ToNullable(totalYearsExperience), headShot.Value, Optional.ToList(education), profession.Value, linkedin.Value, Optional.ToList(workExperience), Optional.ToList(skills), Optional.ToList(certifications), Optional.ToList(publications), Optional.ToList(referees), Optional.ToList(sections), Optional.ToNullable(isResumeProbability), rawText.Value, redactedText.Value, additionalProperties);
+            return new ResumeData(name.Value, Optional.ToList(phoneNumbers), Optional.ToList(phoneNumberDetails), Optional.ToList(websites), Optional.ToList(emails), dateOfBirth.Value, location.Value, objective.Value, Optional.ToList(languages), Optional.ToList(languageCodes), summary.Value, Optional.ToNullable(totalYearsExperience), headShot.Value, Optional.ToList(education), profession.Value, linkedin.Value, Optional.ToList(workExperience), Optional.ToList(skills), Optional.ToList(certifications), Optional.ToList(publications), Optional.ToList(referees), Optional.ToList(sections), Optional.ToNullable(isResumeProbability), rawText.Value, redactedText.Value, additionalProperties);
         }
     }
 }

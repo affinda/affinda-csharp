@@ -701,6 +701,7 @@ namespace Affinda.API
         /// <summary> Upload a job description for parsing. </summary>
         /// <param name="file"> The Stream to use. </param>
         /// <param name="url"> URL to download the job description. </param>
+        /// <param name="data"> The String to use. </param>
         /// <param name="identifier"> The String to use. </param>
         /// <param name="fileName"> The String to use. </param>
         /// <param name="wait"> The String to use. </param>
@@ -713,13 +714,13 @@ namespace Affinda.API
         /// When successful, returns an `identifier` in the response for subsequent use with the [/job_descriptions/{identifier}](#get-/job_descriptions/-identifier-) endpoint to check processing status and retrieve results.
         /// Job Descriptions can be uploaded as a file or a URL. In addition, data can be added directly if users want to upload directly without parsing any resume file. For uploading resume data, the `data` argument provided must be a JSON-encoded string. Data uploads will not impact upon parsing credits.
         /// </remarks>
-        public virtual async Task<Response<JobDescription>> CreateJobDescriptionAsync(Stream file = null, string url = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<JobDescription>> CreateJobDescriptionAsync(Stream file = null, string url = null, string data = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateJobDescription");
             scope.Start();
             try
             {
-                return await RestClient.CreateJobDescriptionAsync(file, url, identifier, fileName, wait, rejectDuplicates, language, expiryTime, cancellationToken).ConfigureAwait(false);
+                return await RestClient.CreateJobDescriptionAsync(file, url, data, identifier, fileName, wait, rejectDuplicates, language, expiryTime, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -731,6 +732,7 @@ namespace Affinda.API
         /// <summary> Upload a job description for parsing. </summary>
         /// <param name="file"> The Stream to use. </param>
         /// <param name="url"> URL to download the job description. </param>
+        /// <param name="data"> The String to use. </param>
         /// <param name="identifier"> The String to use. </param>
         /// <param name="fileName"> The String to use. </param>
         /// <param name="wait"> The String to use. </param>
@@ -743,13 +745,13 @@ namespace Affinda.API
         /// When successful, returns an `identifier` in the response for subsequent use with the [/job_descriptions/{identifier}](#get-/job_descriptions/-identifier-) endpoint to check processing status and retrieve results.
         /// Job Descriptions can be uploaded as a file or a URL. In addition, data can be added directly if users want to upload directly without parsing any resume file. For uploading resume data, the `data` argument provided must be a JSON-encoded string. Data uploads will not impact upon parsing credits.
         /// </remarks>
-        public virtual Response<JobDescription> CreateJobDescription(Stream file = null, string url = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public virtual Response<JobDescription> CreateJobDescription(Stream file = null, string url = null, string data = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateJobDescription");
             scope.Start();
             try
             {
-                return RestClient.CreateJobDescription(file, url, identifier, fileName, wait, rejectDuplicates, language, expiryTime, cancellationToken);
+                return RestClient.CreateJobDescription(file, url, data, identifier, fileName, wait, rejectDuplicates, language, expiryTime, cancellationToken);
             }
             catch (Exception e)
             {

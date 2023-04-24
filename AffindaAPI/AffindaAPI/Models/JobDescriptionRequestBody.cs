@@ -21,6 +21,8 @@ namespace Affinda.API.Models
         public Stream File { get; }
         /// <summary> URL to download the job description. </summary>
         public string Url { get; }
+        /// <summary> Gets the data. </summary>
+        public string Data { get; }
         /// <summary> A random string that uniquely identify the resource. </summary>
         public string Identifier { get; }
         /// <summary> Optional filename of the file. </summary>

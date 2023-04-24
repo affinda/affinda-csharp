@@ -1239,7 +1239,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateCreateJobDescriptionRequest(Stream file, string url, string identifier, string fileName, string wait, string rejectDuplicates, string language, string expiryTime)
+        internal HttpMessage CreateCreateJobDescriptionRequest(Stream file, string url, string data, string identifier, string fileName, string wait, string rejectDuplicates, string language, string expiryTime)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1260,6 +1260,10 @@ namespace Affinda.API
             if (url != null)
             {
                 content.Add(new StringRequestContent(url), "url", null);
+            }
+            if (data != null)
+            {
+                content.Add(new StringRequestContent(data), "data", null);
             }
             if (identifier != null)
             {
@@ -1292,6 +1296,7 @@ namespace Affinda.API
         /// <summary> Upload a job description for parsing. </summary>
         /// <param name="file"> The Stream to use. </param>
         /// <param name="url"> URL to download the job description. </param>
+        /// <param name="data"> The String to use. </param>
         /// <param name="identifier"> The String to use. </param>
         /// <param name="fileName"> The String to use. </param>
         /// <param name="wait"> The String to use. </param>
@@ -1304,9 +1309,9 @@ namespace Affinda.API
         /// When successful, returns an `identifier` in the response for subsequent use with the [/job_descriptions/{identifier}](#get-/job_descriptions/-identifier-) endpoint to check processing status and retrieve results.
         /// Job Descriptions can be uploaded as a file or a URL. In addition, data can be added directly if users want to upload directly without parsing any resume file. For uploading resume data, the `data` argument provided must be a JSON-encoded string. Data uploads will not impact upon parsing credits.
         /// </remarks>
-        public async Task<Response<JobDescription>> CreateJobDescriptionAsync(Stream file = null, string url = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public async Task<Response<JobDescription>> CreateJobDescriptionAsync(Stream file = null, string url = null, string data = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateJobDescriptionRequest(file, url, identifier, fileName, wait, rejectDuplicates, language, expiryTime);
+            using var message = CreateCreateJobDescriptionRequest(file, url, data, identifier, fileName, wait, rejectDuplicates, language, expiryTime);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1326,6 +1331,7 @@ namespace Affinda.API
         /// <summary> Upload a job description for parsing. </summary>
         /// <param name="file"> The Stream to use. </param>
         /// <param name="url"> URL to download the job description. </param>
+        /// <param name="data"> The String to use. </param>
         /// <param name="identifier"> The String to use. </param>
         /// <param name="fileName"> The String to use. </param>
         /// <param name="wait"> The String to use. </param>
@@ -1338,9 +1344,9 @@ namespace Affinda.API
         /// When successful, returns an `identifier` in the response for subsequent use with the [/job_descriptions/{identifier}](#get-/job_descriptions/-identifier-) endpoint to check processing status and retrieve results.
         /// Job Descriptions can be uploaded as a file or a URL. In addition, data can be added directly if users want to upload directly without parsing any resume file. For uploading resume data, the `data` argument provided must be a JSON-encoded string. Data uploads will not impact upon parsing credits.
         /// </remarks>
-        public Response<JobDescription> CreateJobDescription(Stream file = null, string url = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public Response<JobDescription> CreateJobDescription(Stream file = null, string url = null, string data = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateJobDescriptionRequest(file, url, identifier, fileName, wait, rejectDuplicates, language, expiryTime);
+            using var message = CreateCreateJobDescriptionRequest(file, url, data, identifier, fileName, wait, rejectDuplicates, language, expiryTime);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
