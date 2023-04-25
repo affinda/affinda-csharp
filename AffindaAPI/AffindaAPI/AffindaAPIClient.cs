@@ -613,15 +613,18 @@ namespace Affinda.API
         /// <param name="includeData"> By default, this endpoint returns only the meta data of the documents. Set this to `true` will return the detailed data that was parsed, at a performance cost. </param>
         /// <param name="exclude"> Exclude some documents from the result. </param>
         /// <param name="inReview"> Exclude documents that are currently being reviewed. </param>
+        /// <param name="failed"> Filter by failed status. </param>
+        /// <param name="ready"> Filter by ready status. </param>
+        /// <param name="validatable"> Filter for validatable documents. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the document summaries for that user, limited to 300 per page. </remarks>
-        public virtual async Task<Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema>> GetAllDocumentsAsync(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema>> GetAllDocumentsAsync(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, bool? failed = null, bool? ready = null, bool? validatable = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllDocuments");
             scope.Start();
             try
             {
-                return await RestClient.GetAllDocumentsAsync(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview, cancellationToken).ConfigureAwait(false);
+                return await RestClient.GetAllDocumentsAsync(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview, failed, ready, validatable, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -643,15 +646,18 @@ namespace Affinda.API
         /// <param name="includeData"> By default, this endpoint returns only the meta data of the documents. Set this to `true` will return the detailed data that was parsed, at a performance cost. </param>
         /// <param name="exclude"> Exclude some documents from the result. </param>
         /// <param name="inReview"> Exclude documents that are currently being reviewed. </param>
+        /// <param name="failed"> Filter by failed status. </param>
+        /// <param name="ready"> Filter by ready status. </param>
+        /// <param name="validatable"> Filter for validatable documents. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the document summaries for that user, limited to 300 per page. </remarks>
-        public virtual Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema> GetAllDocuments(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, CancellationToken cancellationToken = default)
+        public virtual Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema> GetAllDocuments(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, bool? failed = null, bool? ready = null, bool? validatable = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllDocuments");
             scope.Start();
             try
             {
-                return RestClient.GetAllDocuments(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview, cancellationToken);
+                return RestClient.GetAllDocuments(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview, failed, ready, validatable, cancellationToken);
             }
             catch (Exception e)
             {

@@ -5,6 +5,7 @@
 
 #nullable disable
 
+using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
 
@@ -29,6 +30,16 @@ namespace Affinda.API.Models
                 writer.WritePropertyName("error");
                 writer.WriteObjectValue(Error);
             }
+            if (Optional.IsCollectionDefined(Warnings))
+            {
+                writer.WritePropertyName("warnings");
+                writer.WriteStartArray();
+                foreach (var item in Warnings)
+                {
+                    writer.WriteObjectValue(item);
+                }
+                writer.WriteEndArray();
+            }
             writer.WriteEndObject();
         }
 
@@ -38,6 +49,7 @@ namespace Affinda.API.Models
             string extractor = default;
             DocumentMeta meta = default;
             Optional<DocumentError> error = default;
+            Optional<IList<DocumentWarning>> warnings = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("data"))
@@ -70,8 +82,23 @@ namespace Affinda.API.Models
                     error = DocumentError.DeserializeDocumentError(property.Value);
                     continue;
                 }
+                if (property.NameEquals("warnings"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    List<DocumentWarning> array = new List<DocumentWarning>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(DocumentWarning.DeserializeDocumentWarning(item));
+                    }
+                    warnings = array;
+                    continue;
+                }
             }
-            return new Resume(data.Value, extractor, meta, error.Value);
+            return new Resume(data.Value, extractor, meta, error.Value, Optional.ToList(warnings));
         }
     }
 }

@@ -6,6 +6,7 @@
 #nullable disable
 
 using System;
+using System.Collections.Generic;
 
 namespace Affinda.API.Models
 {
@@ -30,7 +31,8 @@ namespace Affinda.API.Models
         /// <param name="extractor"></param>
         /// <param name="meta"></param>
         /// <param name="error"></param>
-        internal Invoice(object data, string extractor, DocumentMeta meta, DocumentError error) : base(data, extractor, meta, error)
+        /// <param name="warnings"></param>
+        internal Invoice(object data, string extractor, DocumentMeta meta, DocumentError error, IList<DocumentWarning> warnings) : base(data, extractor, meta, error, warnings)
         {
             Extractor = extractor ?? "invoice";
         }

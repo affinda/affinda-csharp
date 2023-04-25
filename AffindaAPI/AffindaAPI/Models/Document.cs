@@ -6,6 +6,8 @@
 #nullable disable
 
 using System;
+using System.Collections.Generic;
+using Azure.Core;
 
 namespace Affinda.API.Models
 {
@@ -23,6 +25,7 @@ namespace Affinda.API.Models
             }
 
             Meta = meta;
+            Warnings = new ChangeTrackingList<DocumentWarning>();
         }
 
         /// <summary> Initializes a new instance of Document. </summary>
@@ -30,12 +33,14 @@ namespace Affinda.API.Models
         /// <param name="extractor"></param>
         /// <param name="meta"></param>
         /// <param name="error"></param>
-        internal Document(object data, string extractor, DocumentMeta meta, DocumentError error)
+        /// <param name="warnings"></param>
+        internal Document(object data, string extractor, DocumentMeta meta, DocumentError error, IList<DocumentWarning> warnings)
         {
             Data = data;
             Extractor = extractor;
             Meta = meta;
             Error = error;
+            Warnings = warnings;
         }
 
         /// <summary> Any object. </summary>
@@ -46,5 +51,7 @@ namespace Affinda.API.Models
         public DocumentMeta Meta { get; set; }
         /// <summary> Gets or sets the error. </summary>
         public DocumentError Error { get; set; }
+        /// <summary> Gets the warnings. </summary>
+        public IList<DocumentWarning> Warnings { get; }
     }
 }

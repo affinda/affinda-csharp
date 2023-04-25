@@ -1084,7 +1084,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllDocumentsRequest(int? offset, int? limit, string workspace, string collection, DocumentState? state, IEnumerable<int> tags, DateRange? createdDt, string search, IEnumerable<Get8ItemsItem> ordering, bool? includeData, IEnumerable<string> exclude, bool? inReview)
+        internal HttpMessage CreateGetAllDocumentsRequest(int? offset, int? limit, string workspace, string collection, DocumentState? state, IEnumerable<int> tags, DateRange? createdDt, string search, IEnumerable<Get8ItemsItem> ordering, bool? includeData, IEnumerable<string> exclude, bool? inReview, bool? failed, bool? ready, bool? validatable)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1142,6 +1142,18 @@ namespace Affinda.API
             {
                 uri.AppendQuery("in_review", inReview.Value, true);
             }
+            if (failed != null)
+            {
+                uri.AppendQuery("failed", failed.Value, true);
+            }
+            if (ready != null)
+            {
+                uri.AppendQuery("ready", ready.Value, true);
+            }
+            if (validatable != null)
+            {
+                uri.AppendQuery("validatable", validatable.Value, true);
+            }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -1160,11 +1172,14 @@ namespace Affinda.API
         /// <param name="includeData"> By default, this endpoint returns only the meta data of the documents. Set this to `true` will return the detailed data that was parsed, at a performance cost. </param>
         /// <param name="exclude"> Exclude some documents from the result. </param>
         /// <param name="inReview"> Exclude documents that are currently being reviewed. </param>
+        /// <param name="failed"> Filter by failed status. </param>
+        /// <param name="ready"> Filter by ready status. </param>
+        /// <param name="validatable"> Filter for validatable documents. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the document summaries for that user, limited to 300 per page. </remarks>
-        public async Task<Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema>> GetAllDocumentsAsync(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, CancellationToken cancellationToken = default)
+        public async Task<Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema>> GetAllDocumentsAsync(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, bool? failed = null, bool? ready = null, bool? validatable = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllDocumentsRequest(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview);
+            using var message = CreateGetAllDocumentsRequest(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview, failed, ready, validatable);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1193,11 +1208,14 @@ namespace Affinda.API
         /// <param name="includeData"> By default, this endpoint returns only the meta data of the documents. Set this to `true` will return the detailed data that was parsed, at a performance cost. </param>
         /// <param name="exclude"> Exclude some documents from the result. </param>
         /// <param name="inReview"> Exclude documents that are currently being reviewed. </param>
+        /// <param name="failed"> Filter by failed status. </param>
+        /// <param name="ready"> Filter by ready status. </param>
+        /// <param name="validatable"> Filter for validatable documents. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the document summaries for that user, limited to 300 per page. </remarks>
-        public Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema> GetAllDocuments(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, CancellationToken cancellationToken = default)
+        public Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema> GetAllDocuments(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, bool? failed = null, bool? ready = null, bool? validatable = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllDocumentsRequest(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview);
+            using var message = CreateGetAllDocumentsRequest(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview, failed, ready, validatable);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
