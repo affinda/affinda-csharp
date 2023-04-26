@@ -17,6 +17,16 @@ namespace Affinda.API.Models
             writer.WriteStartObject();
             writer.WritePropertyName("dataPoint");
             writer.WriteStringValue(DataPoint);
+            if (Optional.IsDefined(Organization))
+            {
+                writer.WritePropertyName("organization");
+                writer.WriteStringValue(Organization);
+            }
+            if (Optional.IsDefined(Collection))
+            {
+                writer.WritePropertyName("collection");
+                writer.WriteStringValue(Collection);
+            }
             writer.WritePropertyName("label");
             writer.WriteStringValue(Label);
             writer.WritePropertyName("value");

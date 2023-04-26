@@ -2483,7 +2483,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetDataPointChoicesRequest(string dataPoint, int? offset, int? limit, string search)
+        internal HttpMessage CreateGetDataPointChoicesRequest(string dataPoint, string collection, int? offset, int? limit, string search)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -2502,6 +2502,7 @@ namespace Affinda.API
                 uri.AppendQuery("limit", limit.Value, true);
             }
             uri.AppendQuery("data_point", dataPoint, true);
+            uri.AppendQuery("collection", collection, true);
             if (search != null)
             {
                 uri.AppendQuery("search", search, true);
@@ -2513,20 +2514,25 @@ namespace Affinda.API
 
         /// <summary> Get list of data point choices. </summary>
         /// <param name="dataPoint"> The data point to get choices for. </param>
+        /// <param name="collection"> The collection to get choices for. </param>
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
         /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="search"> Filter choices by searching for a substring. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="dataPoint"/> is null. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="dataPoint"/> or <paramref name="collection"/> is null. </exception>
         /// <remarks> Returns available choices for a specific enum data point. </remarks>
-        public async Task<Response<PathsMnwxgV3DataPointChoicesGetResponses200ContentApplicationJsonSchema>> GetDataPointChoicesAsync(string dataPoint, int? offset = null, int? limit = null, string search = null, CancellationToken cancellationToken = default)
+        public async Task<Response<PathsMnwxgV3DataPointChoicesGetResponses200ContentApplicationJsonSchema>> GetDataPointChoicesAsync(string dataPoint, string collection, int? offset = null, int? limit = null, string search = null, CancellationToken cancellationToken = default)
         {
             if (dataPoint == null)
             {
                 throw new ArgumentNullException(nameof(dataPoint));
             }
+            if (collection == null)
+            {
+                throw new ArgumentNullException(nameof(collection));
+            }
 
-            using var message = CreateGetDataPointChoicesRequest(dataPoint, offset, limit, search);
+            using var message = CreateGetDataPointChoicesRequest(dataPoint, collection, offset, limit, search);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -2544,20 +2550,25 @@ namespace Affinda.API
 
         /// <summary> Get list of data point choices. </summary>
         /// <param name="dataPoint"> The data point to get choices for. </param>
+        /// <param name="collection"> The collection to get choices for. </param>
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
         /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="search"> Filter choices by searching for a substring. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="dataPoint"/> is null. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="dataPoint"/> or <paramref name="collection"/> is null. </exception>
         /// <remarks> Returns available choices for a specific enum data point. </remarks>
-        public Response<PathsMnwxgV3DataPointChoicesGetResponses200ContentApplicationJsonSchema> GetDataPointChoices(string dataPoint, int? offset = null, int? limit = null, string search = null, CancellationToken cancellationToken = default)
+        public Response<PathsMnwxgV3DataPointChoicesGetResponses200ContentApplicationJsonSchema> GetDataPointChoices(string dataPoint, string collection, int? offset = null, int? limit = null, string search = null, CancellationToken cancellationToken = default)
         {
             if (dataPoint == null)
             {
                 throw new ArgumentNullException(nameof(dataPoint));
             }
+            if (collection == null)
+            {
+                throw new ArgumentNullException(nameof(collection));
+            }
 
-            using var message = CreateGetDataPointChoicesRequest(dataPoint, offset, limit, search);
+            using var message = CreateGetDataPointChoicesRequest(dataPoint, collection, offset, limit, search);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {

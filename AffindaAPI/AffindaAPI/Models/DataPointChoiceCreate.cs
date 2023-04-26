@@ -42,6 +42,10 @@ namespace Affinda.API.Models
 
         /// <summary> Uniquely identify a data point. </summary>
         public string DataPoint { get; }
+        /// <summary> Uniquely identify an organization. </summary>
+        public string Organization { get; set; }
+        /// <summary> Uniquely identify a collection. </summary>
+        public string Collection { get; set; }
         /// <summary> Gets the label. </summary>
         public string Label { get; }
         /// <summary> Gets the value. </summary>

@@ -41,8 +41,9 @@ namespace Affinda.API.Models
         /// <param name="mandatory"></param>
         /// <param name="disabled"></param>
         /// <param name="autoValidationThreshold"></param>
+        /// <param name="showDropdown"></param>
         /// <param name="fields"></param>
-        internal Field(string label, string slug, string dataPoint, bool? mandatory, bool? disabled, float? autoValidationThreshold, IList<Field> fields)
+        internal Field(string label, string slug, string dataPoint, bool? mandatory, bool? disabled, float? autoValidationThreshold, bool? showDropdown, IList<Field> fields)
         {
             Label = label;
             Slug = slug;
@@ -50,6 +51,7 @@ namespace Affinda.API.Models
             Mandatory = mandatory;
             Disabled = disabled;
             AutoValidationThreshold = autoValidationThreshold;
+            ShowDropdown = showDropdown;
             Fields = fields;
         }
 
@@ -65,6 +67,8 @@ namespace Affinda.API.Models
         public bool? Disabled { get; set; }
         /// <summary> Gets or sets the auto validation threshold. </summary>
         public float? AutoValidationThreshold { get; set; }
+        /// <summary> Gets or sets the show dropdown. </summary>
+        public bool? ShowDropdown { get; set; }
         /// <summary> Gets the fields. </summary>
         public IList<Field> Fields { get; }
     }
