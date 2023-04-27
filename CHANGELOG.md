@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Changed
 - Allow custom resume fields to be nullable
+- Allow custom job description fields to be nullable
 
 ### Added
 - Custom fields to Job Descriptions
