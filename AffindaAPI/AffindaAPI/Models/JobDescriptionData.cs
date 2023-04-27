@@ -19,6 +19,7 @@ namespace Affinda.API.Models
             Languages = new ChangeTrackingList<LanguageAnnotation>();
             Skills = new ChangeTrackingList<SkillAnnotation>();
             Certifications = new ChangeTrackingList<TextAnnotation>();
+            AdditionalProperties = new ChangeTrackingDictionary<string, ComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties>();
         }
 
         /// <summary> Initializes a new instance of JobDescriptionData. </summary>
@@ -39,7 +40,8 @@ namespace Affinda.API.Models
         /// <param name="location"></param>
         /// <param name="certifications"></param>
         /// <param name="yearsExperience"></param>
-        internal JobDescriptionData(JobTitleAnnotation jobTitle, TextAnnotation contactEmail, TextAnnotation contactName, TextAnnotation contactPhone, DateAnnotation startDate, DateAnnotation endDate, TextAnnotation jobType, IList<LanguageAnnotation> languages, IList<SkillAnnotation> skills, TextAnnotation organizationName, TextAnnotation organizationWebsite, TextAnnotation educationLevel, TextAnnotation educationAccreditation, ExpectedRemunerationAnnotation expectedRemuneration, LocationAnnotation location, IList<TextAnnotation> certifications, YearsExperienceAnnotation yearsExperience)
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        internal JobDescriptionData(JobTitleAnnotation jobTitle, TextAnnotation contactEmail, TextAnnotation contactName, TextAnnotation contactPhone, DateAnnotation startDate, DateAnnotation endDate, TextAnnotation jobType, IList<LanguageAnnotation> languages, IList<SkillAnnotation> skills, TextAnnotation organizationName, TextAnnotation organizationWebsite, TextAnnotation educationLevel, TextAnnotation educationAccreditation, ExpectedRemunerationAnnotation expectedRemuneration, LocationAnnotation location, IList<TextAnnotation> certifications, YearsExperienceAnnotation yearsExperience, IDictionary<string, ComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties> additionalProperties)
         {
             JobTitle = jobTitle;
             ContactEmail = contactEmail;
@@ -58,6 +60,7 @@ namespace Affinda.API.Models
             Location = location;
             Certifications = certifications;
             YearsExperience = yearsExperience;
+            AdditionalProperties = additionalProperties;
         }
 
         /// <summary> Gets or sets the job title. </summary>
@@ -94,5 +97,7 @@ namespace Affinda.API.Models
         public IList<TextAnnotation> Certifications { get; }
         /// <summary> Gets or sets the years experience. </summary>
         public YearsExperienceAnnotation YearsExperience { get; set; }
+        /// <summary> Additional Properties. </summary>
+        public IDictionary<string, ComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties> AdditionalProperties { get; }
     }
 }

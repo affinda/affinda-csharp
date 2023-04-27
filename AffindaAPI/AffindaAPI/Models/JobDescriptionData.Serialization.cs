@@ -214,6 +214,11 @@ namespace Affinda.API.Models
                     writer.WriteNull("yearsExperience");
                 }
             }
+            foreach (var item in AdditionalProperties)
+            {
+                writer.WritePropertyName(item.Key);
+                writer.WriteObjectValue(item.Value);
+            }
             writer.WriteEndObject();
         }
 
@@ -236,6 +241,8 @@ namespace Affinda.API.Models
             Optional<LocationAnnotation> location = default;
             Optional<IList<TextAnnotation>> certifications = default;
             Optional<YearsExperienceAnnotation> yearsExperience = default;
+            IDictionary<string, ComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties> additionalProperties = default;
+            Dictionary<string, ComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties> additionalPropertiesDictionary = new Dictionary<string, ComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties>();
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("jobTitle"))
@@ -444,8 +451,10 @@ namespace Affinda.API.Models
                     yearsExperience = YearsExperienceAnnotation.DeserializeYearsExperienceAnnotation(property.Value);
                     continue;
                 }
+                additionalPropertiesDictionary.Add(property.Name, ComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties.DeserializeComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties(property.Value));
             }
-            return new JobDescriptionData(jobTitle.Value, contactEmail.Value, contactName.Value, contactPhone.Value, startDate.Value, endDate.Value, jobType.Value, Optional.ToList(languages), Optional.ToList(skills), organizationName.Value, organizationWebsite.Value, educationLevel.Value, educationAccreditation.Value, expectedRemuneration.Value, location.Value, Optional.ToList(certifications), yearsExperience.Value);
+            additionalProperties = additionalPropertiesDictionary;
+            return new JobDescriptionData(jobTitle.Value, contactEmail.Value, contactName.Value, contactPhone.Value, startDate.Value, endDate.Value, jobType.Value, Optional.ToList(languages), Optional.ToList(skills), organizationName.Value, organizationWebsite.Value, educationLevel.Value, educationAccreditation.Value, expectedRemuneration.Value, location.Value, Optional.ToList(certifications), yearsExperience.Value, additionalProperties);
         }
     }
 }
