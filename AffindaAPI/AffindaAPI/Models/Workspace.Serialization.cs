@@ -21,7 +21,7 @@ namespace Affinda.API.Models
             Optional<WorkspaceVisibility> visibility = default;
             Optional<IReadOnlyList<WorkspaceCollectionsItem>> collections = default;
             Optional<bool> rejectInvalidDocuments = default;
-            Optional<string> rejectDuplicates = default;
+            Optional<bool?> rejectDuplicates = default;
             Optional<IReadOnlyList<User>> members = default;
             Optional<int> unvalidatedDocsCount = default;
             Optional<int> confirmedDocsCount = default;
@@ -91,7 +91,7 @@ namespace Affinda.API.Models
                         rejectDuplicates = null;
                         continue;
                     }
-                    rejectDuplicates = property.Value.GetString();
+                    rejectDuplicates = property.Value.GetBoolean();
                     continue;
                 }
                 if (property.NameEquals("members"))
@@ -150,7 +150,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new Workspace(identifier, organization.Value, name.Value, Optional.ToNullable(visibility), Optional.ToList(collections), Optional.ToNullable(rejectInvalidDocuments), rejectDuplicates.Value, Optional.ToList(members), Optional.ToNullable(unvalidatedDocsCount), Optional.ToNullable(confirmedDocsCount), ingestEmail.Value, Optional.ToList(whitelistIngestAddresses));
+            return new Workspace(identifier, organization.Value, name.Value, Optional.ToNullable(visibility), Optional.ToList(collections), Optional.ToNullable(rejectInvalidDocuments), Optional.ToNullable(rejectDuplicates), Optional.ToList(members), Optional.ToNullable(unvalidatedDocsCount), Optional.ToNullable(confirmedDocsCount), ingestEmail.Value, Optional.ToList(whitelistIngestAddresses));
         }
     }
 }

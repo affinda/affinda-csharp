@@ -43,7 +43,7 @@ namespace Affinda.API.Models
         /// <param name="confirmedDocsCount"> Number of validated documents in the workspace. </param>
         /// <param name="ingestEmail"> When you send email to this address, any document attached in the body will be uploaded to this workspace. </param>
         /// <param name="whitelistIngestAddresses"> If specified, only emails from these addresses will be ingested for parsing. Wild cards are allowed, e.g. &quot;*@eyefind.info&quot;. </param>
-        internal Workspace(string identifier, Organization organization, string name, WorkspaceVisibility? visibility, IReadOnlyList<WorkspaceCollectionsItem> collections, bool? rejectInvalidDocuments, string rejectDuplicates, IReadOnlyList<User> members, int? unvalidatedDocsCount, int? confirmedDocsCount, string ingestEmail, IReadOnlyList<string> whitelistIngestAddresses)
+        internal Workspace(string identifier, Organization organization, string name, WorkspaceVisibility? visibility, IReadOnlyList<WorkspaceCollectionsItem> collections, bool? rejectInvalidDocuments, bool? rejectDuplicates, IReadOnlyList<User> members, int? unvalidatedDocsCount, int? confirmedDocsCount, string ingestEmail, IReadOnlyList<string> whitelistIngestAddresses)
         {
             Identifier = identifier;
             Organization = organization;
@@ -72,7 +72,7 @@ namespace Affinda.API.Models
         /// <summary> If true, the uploaded document will be rejected if it&apos;s of the wrong document type, or if its document type cannot be determined. No credits will be consumed. </summary>
         public bool? RejectInvalidDocuments { get; }
         /// <summary> If &quot;true&quot;, parsing will fail when the uploaded document is duplicate of an existing document, no credits will be consumed. If &quot;false&quot;, will parse the document normally whether its a duplicate or not. If not provided, will fallback to the workspace settings. </summary>
-        public string RejectDuplicates { get; }
+        public bool? RejectDuplicates { get; }
         /// <summary> Gets the members. </summary>
         public IReadOnlyList<User> Members { get; }
         /// <summary> Number of unvalidated documents in the workspace. </summary>

@@ -28,7 +28,7 @@ namespace Affinda.API.Models
         /// <param name="ingestEmail"> When you send email to this address, any document attached in the body will be uploaded to this workspace. </param>
         /// <param name="whitelistIngestAddresses"> If specified, only emails from these addresses will be ingested for parsing. Wild cards are allowed, e.g. &quot;*@eyefind.info&quot;. </param>
         /// <returns> A new <see cref="Models.Workspace"/> instance for mocking. </returns>
-        public static Workspace Workspace(string identifier = null, Organization organization = null, string name = null, WorkspaceVisibility? visibility = null, IEnumerable<WorkspaceCollectionsItem> collections = null, bool? rejectInvalidDocuments = null, string rejectDuplicates = null, IEnumerable<User> members = null, int? unvalidatedDocsCount = null, int? confirmedDocsCount = null, string ingestEmail = null, IEnumerable<string> whitelistIngestAddresses = null)
+        public static Workspace Workspace(string identifier = null, Organization organization = null, string name = null, WorkspaceVisibility? visibility = null, IEnumerable<WorkspaceCollectionsItem> collections = null, bool? rejectInvalidDocuments = null, bool? rejectDuplicates = null, IEnumerable<User> members = null, int? unvalidatedDocsCount = null, int? confirmedDocsCount = null, string ingestEmail = null, IEnumerable<string> whitelistIngestAddresses = null)
         {
             collections ??= new List<WorkspaceCollectionsItem>();
             members ??= new List<User>();

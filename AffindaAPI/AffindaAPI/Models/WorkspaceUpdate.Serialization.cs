@@ -35,7 +35,7 @@ namespace Affinda.API.Models
                 if (RejectDuplicates != null)
                 {
                     writer.WritePropertyName("rejectDuplicates");
-                    writer.WriteStringValue(RejectDuplicates);
+                    writer.WriteBooleanValue(RejectDuplicates.Value);
                 }
                 else
                 {
