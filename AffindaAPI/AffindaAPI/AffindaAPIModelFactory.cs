@@ -530,14 +530,16 @@ namespace Affinda.API.Models
         /// <param name="location"></param>
         /// <param name="certifications"></param>
         /// <param name="yearsExperience"></param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
         /// <returns> A new <see cref="Models.JobDescriptionData"/> instance for mocking. </returns>
-        public static JobDescriptionData JobDescriptionData(JobTitleAnnotation jobTitle = null, TextAnnotation contactEmail = null, TextAnnotation contactName = null, TextAnnotation contactPhone = null, DateAnnotation startDate = null, DateAnnotation endDate = null, TextAnnotation jobType = null, IEnumerable<LanguageAnnotation> languages = null, IEnumerable<SkillAnnotation> skills = null, TextAnnotation organizationName = null, TextAnnotation organizationWebsite = null, TextAnnotation educationLevel = null, TextAnnotation educationAccreditation = null, ExpectedRemunerationAnnotation expectedRemuneration = null, LocationAnnotation location = null, IEnumerable<TextAnnotation> certifications = null, YearsExperienceAnnotation yearsExperience = null)
+        public static JobDescriptionData JobDescriptionData(JobTitleAnnotation jobTitle = null, TextAnnotation contactEmail = null, TextAnnotation contactName = null, TextAnnotation contactPhone = null, DateAnnotation startDate = null, DateAnnotation endDate = null, TextAnnotation jobType = null, IEnumerable<LanguageAnnotation> languages = null, IEnumerable<SkillAnnotation> skills = null, TextAnnotation organizationName = null, TextAnnotation organizationWebsite = null, TextAnnotation educationLevel = null, TextAnnotation educationAccreditation = null, ExpectedRemunerationAnnotation expectedRemuneration = null, LocationAnnotation location = null, IEnumerable<TextAnnotation> certifications = null, YearsExperienceAnnotation yearsExperience = null, IReadOnlyDictionary<string, ComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties> additionalProperties = null)
         {
             languages ??= new List<LanguageAnnotation>();
             skills ??= new List<SkillAnnotation>();
             certifications ??= new List<TextAnnotation>();
+            additionalProperties ??= new Dictionary<string, ComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties>();
 
-            return new JobDescriptionData(jobTitle, contactEmail, contactName, contactPhone, startDate, endDate, jobType, languages?.ToList(), skills?.ToList(), organizationName, organizationWebsite, educationLevel, educationAccreditation, expectedRemuneration, location, certifications?.ToList(), yearsExperience);
+            return new JobDescriptionData(jobTitle, contactEmail, contactName, contactPhone, startDate, endDate, jobType, languages?.ToList(), skills?.ToList(), organizationName, organizationWebsite, educationLevel, educationAccreditation, expectedRemuneration, location, certifications?.ToList(), yearsExperience, additionalProperties);
         }
 
         /// <summary> Initializes a new instance of JobTitleAnnotation. </summary>

@@ -10,7 +10,7 @@ using System.ComponentModel;
 
 namespace Affinda.API.Models
 {
-    /// <summary> The ResumeSearchParametersCustomDataFilterType. </summary>
+    /// <summary> Data points of &quot;text&quot; type support only &quot;equals&quot; filterType, others support both &quot;equals&quot; and &quot;range&quot;. </summary>
     public readonly partial struct ResumeSearchParametersCustomDataFilterType : IEquatable<ResumeSearchParametersCustomDataFilterType>
     {
         private readonly string _value;
