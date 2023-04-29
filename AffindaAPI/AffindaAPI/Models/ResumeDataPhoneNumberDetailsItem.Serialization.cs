@@ -44,6 +44,18 @@ namespace Affinda.API.Models
                     writer.WriteNull("countryCode");
                 }
             }
+            if (Optional.IsDefined(InternationalCountryCode))
+            {
+                if (InternationalCountryCode != null)
+                {
+                    writer.WritePropertyName("internationalCountryCode");
+                    writer.WriteNumberValue(InternationalCountryCode.Value);
+                }
+                else
+                {
+                    writer.WriteNull("internationalCountryCode");
+                }
+            }
             if (Optional.IsDefined(NationalNumber))
             {
                 if (NationalNumber != null)
@@ -64,6 +76,7 @@ namespace Affinda.API.Models
             Optional<string> rawText = default;
             Optional<string> formattedNumber = default;
             Optional<string> countryCode = default;
+            Optional<int?> internationalCountryCode = default;
             Optional<string> nationalNumber = default;
             foreach (var property in element.EnumerateObject())
             {
@@ -92,6 +105,16 @@ namespace Affinda.API.Models
                     countryCode = property.Value.GetString();
                     continue;
                 }
+                if (property.NameEquals("internationalCountryCode"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        internationalCountryCode = null;
+                        continue;
+                    }
+                    internationalCountryCode = property.Value.GetInt32();
+                    continue;
+                }
                 if (property.NameEquals("nationalNumber"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
@@ -103,7 +126,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new ResumeDataPhoneNumberDetailsItem(rawText.Value, formattedNumber.Value, countryCode.Value, nationalNumber.Value);
+            return new ResumeDataPhoneNumberDetailsItem(rawText.Value, formattedNumber.Value, countryCode.Value, Optional.ToNullable(internationalCountryCode), nationalNumber.Value);
         }
     }
 }
