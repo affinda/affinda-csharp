@@ -616,15 +616,16 @@ namespace Affinda.API
         /// <param name="failed"> Filter by failed status. </param>
         /// <param name="ready"> Filter by ready status. </param>
         /// <param name="validatable"> Filter for validatable documents. </param>
+        /// <param name="hasChallenges"> Filter for documents with challenges. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the document summaries for that user, limited to 300 per page. </remarks>
-        public virtual async Task<Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema>> GetAllDocumentsAsync(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, bool? failed = null, bool? ready = null, bool? validatable = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema>> GetAllDocumentsAsync(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, bool? failed = null, bool? ready = null, bool? validatable = null, bool? hasChallenges = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllDocuments");
             scope.Start();
             try
             {
-                return await RestClient.GetAllDocumentsAsync(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview, failed, ready, validatable, cancellationToken).ConfigureAwait(false);
+                return await RestClient.GetAllDocumentsAsync(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview, failed, ready, validatable, hasChallenges, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -649,15 +650,16 @@ namespace Affinda.API
         /// <param name="failed"> Filter by failed status. </param>
         /// <param name="ready"> Filter by ready status. </param>
         /// <param name="validatable"> Filter for validatable documents. </param>
+        /// <param name="hasChallenges"> Filter for documents with challenges. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the document summaries for that user, limited to 300 per page. </remarks>
-        public virtual Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema> GetAllDocuments(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, bool? failed = null, bool? ready = null, bool? validatable = null, CancellationToken cancellationToken = default)
+        public virtual Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema> GetAllDocuments(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, bool? failed = null, bool? ready = null, bool? validatable = null, bool? hasChallenges = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllDocuments");
             scope.Start();
             try
             {
-                return RestClient.GetAllDocuments(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview, failed, ready, validatable, cancellationToken);
+                return RestClient.GetAllDocuments(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview, failed, ready, validatable, hasChallenges, cancellationToken);
             }
             catch (Exception e)
             {
@@ -3116,7 +3118,7 @@ namespace Affinda.API
         /// <param name="documentType"> Filter indices by a document type. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public virtual async Task<Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum16? documentType = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum17? documentType = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexes");
             scope.Start();
@@ -3137,7 +3139,7 @@ namespace Affinda.API
         /// <param name="documentType"> Filter indices by a document type. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public virtual Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema> GetAllIndexes(int? offset = null, int? limit = null, Enum16? documentType = null, CancellationToken cancellationToken = default)
+        public virtual Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema> GetAllIndexes(int? offset = null, int? limit = null, Enum17? documentType = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexes");
             scope.Start();

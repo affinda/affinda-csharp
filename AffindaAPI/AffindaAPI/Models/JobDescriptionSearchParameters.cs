@@ -33,6 +33,7 @@ namespace Affinda.API.Models
             Degrees = new ChangeTrackingList<string>();
             DegreeTypes = new ChangeTrackingList<EducationLevel?>();
             SocCodes = new ChangeTrackingList<int>();
+            CustomData = new ChangeTrackingList<SearchParametersCustomData>();
         }
 
         /// <summary> Initializes a new instance of JobDescriptionSearchParameters. </summary>
@@ -65,7 +66,8 @@ namespace Affinda.API.Models
         /// <param name="managementLevel"></param>
         /// <param name="managementLevelRequired"></param>
         /// <param name="managementLevelWeight"></param>
-        internal JobDescriptionSearchParameters(IList<string> indices, string resume, IList<string> jobTitles, bool? jobTitlesRequired, float? jobTitlesWeight, float? totalYearsExperience, bool? yearsExperienceRequired, float? yearsExperienceWeight, IList<ResumeSearchParametersLocation> locations, float? locationsWeight, bool? locationsRequired, IList<ResumeSearchParametersSkill> skills, float? skillsWeight, IList<ResumeSearchParametersSkill> languages, float? languagesWeight, IList<string> degrees, bool? degreesRequired, IList<EducationLevel?> degreeTypes, bool? degreeTypesRequired, float? educationWeight, string searchExpression, bool? searchExpressionRequired, float? searchExpressionWeight, IList<int> socCodes, float? socCodesWeight, bool? socCodesRequired, ManagementLevel? managementLevel, bool? managementLevelRequired, float? managementLevelWeight)
+        /// <param name="customData"></param>
+        internal JobDescriptionSearchParameters(IList<string> indices, string resume, IList<string> jobTitles, bool? jobTitlesRequired, float? jobTitlesWeight, float? totalYearsExperience, bool? yearsExperienceRequired, float? yearsExperienceWeight, IList<ResumeSearchParametersLocation> locations, float? locationsWeight, bool? locationsRequired, IList<ResumeSearchParametersSkill> skills, float? skillsWeight, IList<ResumeSearchParametersSkill> languages, float? languagesWeight, IList<string> degrees, bool? degreesRequired, IList<EducationLevel?> degreeTypes, bool? degreeTypesRequired, float? educationWeight, string searchExpression, bool? searchExpressionRequired, float? searchExpressionWeight, IList<int> socCodes, float? socCodesWeight, bool? socCodesRequired, ManagementLevel? managementLevel, bool? managementLevelRequired, float? managementLevelWeight, IList<SearchParametersCustomData> customData)
         {
             Indices = indices;
             Resume = resume;
@@ -96,6 +98,7 @@ namespace Affinda.API.Models
             ManagementLevel = managementLevel;
             ManagementLevelRequired = managementLevelRequired;
             ManagementLevelWeight = managementLevelWeight;
+            CustomData = customData;
         }
 
         /// <summary> Gets the indices. </summary>
@@ -156,5 +159,7 @@ namespace Affinda.API.Models
         public bool? ManagementLevelRequired { get; set; }
         /// <summary> Gets or sets the management level weight. </summary>
         public float? ManagementLevelWeight { get; set; }
+        /// <summary> Gets the custom data. </summary>
+        public IList<SearchParametersCustomData> CustomData { get; }
     }
 }

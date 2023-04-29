@@ -10,7 +10,7 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class ResumeSearchParametersCustomData : IUtf8JsonSerializable
+    public partial class SearchParametersCustomData : IUtf8JsonSerializable
     {
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
         {
@@ -34,7 +34,7 @@ namespace Affinda.API.Models
             writer.WriteEndObject();
         }
 
-        internal static ResumeSearchParametersCustomData DeserializeResumeSearchParametersCustomData(JsonElement element)
+        internal static SearchParametersCustomData DeserializeSearchParametersCustomData(JsonElement element)
         {
             SearchParametersCustomDataFilterType filterType = default;
             string dataPoint = default;
@@ -79,7 +79,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new ResumeSearchParametersCustomData(filterType, dataPoint, query, Optional.ToNullable(required), Optional.ToNullable(weight));
+            return new SearchParametersCustomData(filterType, dataPoint, query, Optional.ToNullable(required), Optional.ToNullable(weight));
         }
     }
 }
