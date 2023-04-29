@@ -7,7 +7,6 @@
 
 using System;
 using System.Collections.Generic;
-using Azure.Core;
 
 namespace Affinda.API.Models
 {
@@ -27,8 +26,9 @@ namespace Affinda.API.Models
         /// <param name="education"></param>
         /// <param name="searchExpression"></param>
         /// <param name="organizationName"></param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/>, <paramref name="pdf"/>, <paramref name="jobTitle"/>, <paramref name="managementLevel"/>, <paramref name="experience"/>, <paramref name="skills"/>, <paramref name="languages"/>, <paramref name="location"/>, <paramref name="education"/> or <paramref name="searchExpression"/> is null. </exception>
-        internal JobDescriptionSearchResult(string identifier, float score, string pdf, JobTitleSearchScoreComponent jobTitle, ManagementLevelSearchScoreComponent managementLevel, ExperienceSearchScoreComponent experience, SkillsSearchScoreComponent skills, LanguagesSearchScoreComponent languages, LocationSearchScoreComponent location, EducationSearchScoreComponent education, SearchExpressionSearchScoreComponent searchExpression, string organizationName)
+        /// <param name="customData"> Dictionary of &lt;components·nqbw24·schemas·customdatasearchscorecomponent·additionalproperties&gt;. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/>, <paramref name="pdf"/>, <paramref name="jobTitle"/>, <paramref name="managementLevel"/>, <paramref name="experience"/>, <paramref name="skills"/>, <paramref name="languages"/>, <paramref name="location"/>, <paramref name="education"/>, <paramref name="searchExpression"/> or <paramref name="customData"/> is null. </exception>
+        internal JobDescriptionSearchResult(string identifier, float score, string pdf, JobTitleSearchScoreComponent jobTitle, ManagementLevelSearchScoreComponent managementLevel, ExperienceSearchScoreComponent experience, SkillsSearchScoreComponent skills, LanguagesSearchScoreComponent languages, LocationSearchScoreComponent location, EducationSearchScoreComponent education, SearchExpressionSearchScoreComponent searchExpression, string organizationName, IReadOnlyDictionary<string, ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties> customData)
         {
             if (identifier == null)
             {
@@ -70,6 +70,10 @@ namespace Affinda.API.Models
             {
                 throw new ArgumentNullException(nameof(searchExpression));
             }
+            if (customData == null)
+            {
+                throw new ArgumentNullException(nameof(customData));
+            }
 
             Identifier = identifier;
             Score = score;
@@ -83,7 +87,7 @@ namespace Affinda.API.Models
             Education = education;
             SearchExpression = searchExpression;
             OrganizationName = organizationName;
-            CustomData = new ChangeTrackingDictionary<string, ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties>();
+            CustomData = customData;
         }
 
         /// <summary> Initializes a new instance of JobDescriptionSearchResult. </summary>

@@ -28,7 +28,7 @@ namespace Affinda.API.Models
             Optional<OccupationGroupSearchScoreComponent> occupationGroup = default;
             SearchExpressionSearchScoreComponent searchExpression = default;
             string organizationName = default;
-            Optional<IReadOnlyDictionary<string, ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties>> customData = default;
+            IReadOnlyDictionary<string, ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties> customData = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("identifier"))
@@ -108,11 +108,6 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("customData"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        property.ThrowNonNullablePropertyIsNull();
-                        continue;
-                    }
                     Dictionary<string, ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties> dictionary = new Dictionary<string, ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties>();
                     foreach (var property0 in property.Value.EnumerateObject())
                     {
@@ -122,7 +117,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new JobDescriptionSearchResult(identifier, score, pdf, jobTitle, managementLevel, experience, skills, languages, location, education, occupationGroup.Value, searchExpression, organizationName, Optional.ToDictionary(customData));
+            return new JobDescriptionSearchResult(identifier, score, pdf, jobTitle, managementLevel, experience, skills, languages, location, education, occupationGroup.Value, searchExpression, organizationName, customData);
         }
     }
 }

@@ -9,15 +9,15 @@ using System;
 
 namespace Affinda.API.Models
 {
-    /// <summary> The ResumeSearchParametersCustomData. </summary>
-    public partial class ResumeSearchParametersCustomData : SearchParametersCustomData
+    /// <summary> The SearchParametersCustomData. </summary>
+    public partial class SearchParametersCustomData
     {
-        /// <summary> Initializes a new instance of ResumeSearchParametersCustomData. </summary>
+        /// <summary> Initializes a new instance of SearchParametersCustomData. </summary>
         /// <param name="filterType"> Data points of &quot;text&quot; type support only &quot;equals&quot; filterType, others support both &quot;equals&quot; and &quot;range&quot;. </param>
         /// <param name="dataPoint"> The data point&apos;s slug. </param>
         /// <param name="query"> &quot;equals&quot; searches require the &quot;value&quot; key inside the query, and &quot;range&quot; searches require at least one of &quot;gte&quot; (greater than or equal) and &quot;lte&quot; (less than or equal). </param>
         /// <exception cref="ArgumentNullException"> <paramref name="dataPoint"/> or <paramref name="query"/> is null. </exception>
-        public ResumeSearchParametersCustomData(SearchParametersCustomDataFilterType filterType, string dataPoint, object query) : base(filterType, dataPoint, query)
+        public SearchParametersCustomData(SearchParametersCustomDataFilterType filterType, string dataPoint, object query)
         {
             if (dataPoint == null)
             {
@@ -27,16 +27,36 @@ namespace Affinda.API.Models
             {
                 throw new ArgumentNullException(nameof(query));
             }
+
+            FilterType = filterType;
+            DataPoint = dataPoint;
+            Query = query;
         }
 
-        /// <summary> Initializes a new instance of ResumeSearchParametersCustomData. </summary>
+        /// <summary> Initializes a new instance of SearchParametersCustomData. </summary>
         /// <param name="filterType"> Data points of &quot;text&quot; type support only &quot;equals&quot; filterType, others support both &quot;equals&quot; and &quot;range&quot;. </param>
         /// <param name="dataPoint"> The data point&apos;s slug. </param>
         /// <param name="query"> &quot;equals&quot; searches require the &quot;value&quot; key inside the query, and &quot;range&quot; searches require at least one of &quot;gte&quot; (greater than or equal) and &quot;lte&quot; (less than or equal). </param>
         /// <param name="required"></param>
         /// <param name="weight"></param>
-        internal ResumeSearchParametersCustomData(SearchParametersCustomDataFilterType filterType, string dataPoint, object query, bool? required, float? weight) : base(filterType, dataPoint, query, required, weight)
+        internal SearchParametersCustomData(SearchParametersCustomDataFilterType filterType, string dataPoint, object query, bool? required, float? weight)
         {
+            FilterType = filterType;
+            DataPoint = dataPoint;
+            Query = query;
+            Required = required;
+            Weight = weight;
         }
+
+        /// <summary> Data points of &quot;text&quot; type support only &quot;equals&quot; filterType, others support both &quot;equals&quot; and &quot;range&quot;. </summary>
+        public SearchParametersCustomDataFilterType FilterType { get; set; }
+        /// <summary> The data point&apos;s slug. </summary>
+        public string DataPoint { get; set; }
+        /// <summary> &quot;equals&quot; searches require the &quot;value&quot; key inside the query, and &quot;range&quot; searches require at least one of &quot;gte&quot; (greater than or equal) and &quot;lte&quot; (less than or equal). </summary>
+        public object Query { get; set; }
+        /// <summary> Gets or sets the required. </summary>
+        public bool? Required { get; set; }
+        /// <summary> Gets or sets the weight. </summary>
+        public float? Weight { get; set; }
     }
 }
