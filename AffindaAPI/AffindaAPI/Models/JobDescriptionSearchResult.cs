@@ -6,6 +6,8 @@
 #nullable disable
 
 using System;
+using System.Collections.Generic;
+using Azure.Core;
 
 namespace Affinda.API.Models
 {
@@ -81,6 +83,7 @@ namespace Affinda.API.Models
             Education = education;
             SearchExpression = searchExpression;
             OrganizationName = organizationName;
+            CustomData = new ChangeTrackingDictionary<string, ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties>();
         }
 
         /// <summary> Initializes a new instance of JobDescriptionSearchResult. </summary>
@@ -97,7 +100,8 @@ namespace Affinda.API.Models
         /// <param name="occupationGroup"></param>
         /// <param name="searchExpression"></param>
         /// <param name="organizationName"></param>
-        internal JobDescriptionSearchResult(string identifier, float score, string pdf, JobTitleSearchScoreComponent jobTitle, ManagementLevelSearchScoreComponent managementLevel, ExperienceSearchScoreComponent experience, SkillsSearchScoreComponent skills, LanguagesSearchScoreComponent languages, LocationSearchScoreComponent location, EducationSearchScoreComponent education, OccupationGroupSearchScoreComponent occupationGroup, SearchExpressionSearchScoreComponent searchExpression, string organizationName)
+        /// <param name="customData"> Dictionary of &lt;components·nqbw24·schemas·customdatasearchscorecomponent·additionalproperties&gt;. </param>
+        internal JobDescriptionSearchResult(string identifier, float score, string pdf, JobTitleSearchScoreComponent jobTitle, ManagementLevelSearchScoreComponent managementLevel, ExperienceSearchScoreComponent experience, SkillsSearchScoreComponent skills, LanguagesSearchScoreComponent languages, LocationSearchScoreComponent location, EducationSearchScoreComponent education, OccupationGroupSearchScoreComponent occupationGroup, SearchExpressionSearchScoreComponent searchExpression, string organizationName, IReadOnlyDictionary<string, ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties> customData)
         {
             Identifier = identifier;
             Score = score;
@@ -112,6 +116,7 @@ namespace Affinda.API.Models
             OccupationGroup = occupationGroup;
             SearchExpression = searchExpression;
             OrganizationName = organizationName;
+            CustomData = customData;
         }
 
         /// <summary> A random string that uniquely identify the resource. </summary>
@@ -140,5 +145,7 @@ namespace Affinda.API.Models
         public SearchExpressionSearchScoreComponent SearchExpression { get; }
         /// <summary> Gets the organization name. </summary>
         public string OrganizationName { get; }
+        /// <summary> Dictionary of &lt;components·nqbw24·schemas·customdatasearchscorecomponent·additionalproperties&gt;. </summary>
+        public IReadOnlyDictionary<string, ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties> CustomData { get; }
     }
 }

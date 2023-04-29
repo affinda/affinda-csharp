@@ -749,10 +749,13 @@ namespace Affinda.API.Models
         /// <param name="occupationGroup"></param>
         /// <param name="searchExpression"></param>
         /// <param name="organizationName"></param>
+        /// <param name="customData"> Dictionary of &lt;components·nqbw24·schemas·customdatasearchscorecomponent·additionalproperties&gt;. </param>
         /// <returns> A new <see cref="Models.JobDescriptionSearchResult"/> instance for mocking. </returns>
-        public static JobDescriptionSearchResult JobDescriptionSearchResult(string identifier = null, float score = default, string pdf = null, JobTitleSearchScoreComponent jobTitle = null, ManagementLevelSearchScoreComponent managementLevel = null, ExperienceSearchScoreComponent experience = null, SkillsSearchScoreComponent skills = null, LanguagesSearchScoreComponent languages = null, LocationSearchScoreComponent location = null, EducationSearchScoreComponent education = null, OccupationGroupSearchScoreComponent occupationGroup = null, SearchExpressionSearchScoreComponent searchExpression = null, string organizationName = null)
+        public static JobDescriptionSearchResult JobDescriptionSearchResult(string identifier = null, float score = default, string pdf = null, JobTitleSearchScoreComponent jobTitle = null, ManagementLevelSearchScoreComponent managementLevel = null, ExperienceSearchScoreComponent experience = null, SkillsSearchScoreComponent skills = null, LanguagesSearchScoreComponent languages = null, LocationSearchScoreComponent location = null, EducationSearchScoreComponent education = null, OccupationGroupSearchScoreComponent occupationGroup = null, SearchExpressionSearchScoreComponent searchExpression = null, string organizationName = null, IReadOnlyDictionary<string, ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties> customData = null)
         {
-            return new JobDescriptionSearchResult(identifier, score, pdf, jobTitle, managementLevel, experience, skills, languages, location, education, occupationGroup, searchExpression, organizationName);
+            customData ??= new Dictionary<string, ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties>();
+
+            return new JobDescriptionSearchResult(identifier, score, pdf, jobTitle, managementLevel, experience, skills, languages, location, education, occupationGroup, searchExpression, organizationName, customData);
         }
 
         /// <summary> Initializes a new instance of JobTitleSearchScoreComponent. </summary>
@@ -843,6 +846,16 @@ namespace Affinda.API.Models
         public static SearchExpressionSearchScoreComponent SearchExpressionSearchScoreComponent(string label = null, string value = null, float? score = null)
         {
             return new SearchExpressionSearchScoreComponent(label, value, score);
+        }
+
+        /// <summary> Initializes a new instance of ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties. </summary>
+        /// <param name="value"></param>
+        /// <param name="label"></param>
+        /// <param name="score"></param>
+        /// <returns> A new <see cref="Models.ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties"/> instance for mocking. </returns>
+        public static ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties(string value = null, string label = null, float? score = null)
+        {
+            return new ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties(value, label, score);
         }
 
         /// <summary> Initializes a new instance of JobDescriptionSearchDetail. </summary>
@@ -1130,16 +1143,6 @@ namespace Affinda.API.Models
             customData ??= new Dictionary<string, ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties>();
 
             return new ResumeSearchResult(identifier, score, pdf, name, jobTitle, managementLevel, experience, skills, languages, location, education, occupationGroup, searchExpression, customData);
-        }
-
-        /// <summary> Initializes a new instance of ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties. </summary>
-        /// <param name="value"></param>
-        /// <param name="label"></param>
-        /// <param name="score"></param>
-        /// <returns> A new <see cref="Models.ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties"/> instance for mocking. </returns>
-        public static ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties(string value = null, string label = null, float? score = null)
-        {
-            return new ComponentsNqbw24SchemasCustomdatasearchscorecomponentAdditionalproperties(value, label, score);
         }
 
         /// <summary> Initializes a new instance of ResumeSearchDetail. </summary>
