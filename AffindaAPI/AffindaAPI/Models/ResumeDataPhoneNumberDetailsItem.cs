@@ -19,12 +19,14 @@ namespace Affinda.API.Models
         /// <param name="rawText"></param>
         /// <param name="formattedNumber"></param>
         /// <param name="countryCode"></param>
+        /// <param name="internationalCountryCode"></param>
         /// <param name="nationalNumber"></param>
-        internal ResumeDataPhoneNumberDetailsItem(string rawText, string formattedNumber, string countryCode, string nationalNumber)
+        internal ResumeDataPhoneNumberDetailsItem(string rawText, string formattedNumber, string countryCode, int? internationalCountryCode, string nationalNumber)
         {
             RawText = rawText;
             FormattedNumber = formattedNumber;
             CountryCode = countryCode;
+            InternationalCountryCode = internationalCountryCode;
             NationalNumber = nationalNumber;
         }
 
@@ -34,6 +36,8 @@ namespace Affinda.API.Models
         public string FormattedNumber { get; set; }
         /// <summary> Gets or sets the country code. </summary>
         public string CountryCode { get; set; }
+        /// <summary> Gets or sets the international country code. </summary>
+        public int? InternationalCountryCode { get; set; }
         /// <summary> Gets or sets the national number. </summary>
         public string NationalNumber { get; set; }
     }
