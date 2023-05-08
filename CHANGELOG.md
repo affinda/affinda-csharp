@@ -16,6 +16,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add international_country_code to phone number details
 - Add customData field to JD search param/result serializers
 
+### Fixed
+- Update python_requires to be PEP compliant
+
 ## [4.3.0] - 2023-04-27
 ### Changed
 - rawText is now not nullable
