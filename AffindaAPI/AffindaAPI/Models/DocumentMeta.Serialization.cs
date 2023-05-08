@@ -275,6 +275,11 @@ namespace Affinda.API.Models
                     writer.WriteNull("confirmedBy");
                 }
             }
+            if (Optional.IsDefined(CreatedBy))
+            {
+                writer.WritePropertyName("createdBy");
+                writer.WriteObjectValue(CreatedBy);
+            }
             if (Optional.IsDefined(SourceEmail))
             {
                 if (SourceEmail != null)
@@ -320,6 +325,7 @@ namespace Affinda.API.Models
             Optional<string> file = default;
             Optional<IList<Tag>> tags = default;
             Optional<UserNullable> confirmedBy = default;
+            Optional<User> createdBy = default;
             Optional<string> sourceEmail = default;
             foreach (var property in element.EnumerateObject())
             {
@@ -603,6 +609,16 @@ namespace Affinda.API.Models
                     confirmedBy = UserNullable.DeserializeUserNullable(property.Value);
                     continue;
                 }
+                if (property.NameEquals("createdBy"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    createdBy = User.DeserializeUser(property.Value);
+                    continue;
+                }
                 if (property.NameEquals("sourceEmail"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
@@ -614,7 +630,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new DocumentMeta(identifier, fileName.Value, Optional.ToNullable(ready), Optional.ToNullable(readyDt), Optional.ToNullable(failed), expiryTime.Value, language.Value, pdf.Value, parentDocument.Value, Optional.ToList(childDocuments), pages, Optional.ToNullable(isOcrd), Optional.ToNullable(ocrConfidence), reviewUrl.Value, collection.Value, workspace, Optional.ToNullable(archivedDt), Optional.ToNullable(isArchived), Optional.ToNullable(confirmedDt), Optional.ToNullable(isConfirmed), Optional.ToNullable(rejectedDt), Optional.ToNullable(isRejected), Optional.ToNullable(createdDt), errorCode.Value, errorDetail.Value, file.Value, Optional.ToList(tags), confirmedBy.Value, sourceEmail.Value);
+            return new DocumentMeta(identifier, fileName.Value, Optional.ToNullable(ready), Optional.ToNullable(readyDt), Optional.ToNullable(failed), expiryTime.Value, language.Value, pdf.Value, parentDocument.Value, Optional.ToList(childDocuments), pages, Optional.ToNullable(isOcrd), Optional.ToNullable(ocrConfidence), reviewUrl.Value, collection.Value, workspace, Optional.ToNullable(archivedDt), Optional.ToNullable(isArchived), Optional.ToNullable(confirmedDt), Optional.ToNullable(isConfirmed), Optional.ToNullable(rejectedDt), Optional.ToNullable(isRejected), Optional.ToNullable(createdDt), errorCode.Value, errorDetail.Value, file.Value, Optional.ToList(tags), confirmedBy.Value, createdBy.Value, sourceEmail.Value);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Affinda.API.Models
     public partial class InvitationRespondedBy : User
     {
         /// <summary> Initializes a new instance of InvitationRespondedBy. </summary>
-        internal InvitationRespondedBy()
+        public InvitationRespondedBy()
         {
         }
 

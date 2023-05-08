@@ -90,18 +90,6 @@ namespace Affinda.API.Models
             return new BaseExtractor(identifier, name, namePlural, validatable, isCustom, createdDt);
         }
 
-        /// <summary> Initializes a new instance of User. </summary>
-        /// <param name="id"> Uniquely identify a user. </param>
-        /// <param name="name"></param>
-        /// <param name="username"></param>
-        /// <param name="email"></param>
-        /// <param name="avatar"> URL of the user&apos;s avatar. </param>
-        /// <returns> A new <see cref="Models.User"/> instance for mocking. </returns>
-        public static User User(int? id = null, string name = null, string username = null, string email = null, string avatar = null)
-        {
-            return new User(id, name, username, email, avatar);
-        }
-
         /// <summary> Initializes a new instance of PathsZ1JuagV3WorkspaceMembershipsGetResponses200ContentApplicationJsonSchema. </summary>
         /// <param name="count"> Number of items in results. </param>
         /// <param name="next"> URL to request next page of results. </param>
