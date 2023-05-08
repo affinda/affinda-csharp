@@ -43,6 +43,11 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("pdf"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        pdf = null;
+                        continue;
+                    }
                     pdf = property.Value.GetString();
                     continue;
                 }
