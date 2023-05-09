@@ -11,16 +11,16 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class InvoiceDataTablesItem : IUtf8JsonSerializable
+    public partial class InvoiceDataTablesPropertiesItemsItem : IUtf8JsonSerializable
     {
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
         {
             writer.WriteStartObject();
-            if (Optional.IsCollectionDefined(Parsed))
+            if (Optional.IsCollectionDefined(Rows))
             {
-                writer.WritePropertyName("parsed");
+                writer.WritePropertyName("rows");
                 writer.WriteStartArray();
-                foreach (var item in Parsed)
+                foreach (var item in Rows)
                 {
                     writer.WriteObjectValue(item);
                 }
@@ -29,28 +29,35 @@ namespace Affinda.API.Models
             writer.WriteEndObject();
         }
 
-        internal static InvoiceDataTablesItem DeserializeInvoiceDataTablesItem(JsonElement element)
+        internal static InvoiceDataTablesPropertiesItemsItem DeserializeInvoiceDataTablesPropertiesItemsItem(JsonElement element)
         {
-            Optional<IList<InvoiceDataTablesPropertiesItemsItem>> parsed = default;
+            Optional<IList<RowAnnotation>> rows = default;
             foreach (var property in element.EnumerateObject())
             {
-                if (property.NameEquals("parsed"))
+                if (property.NameEquals("rows"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
                         property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    List<InvoiceDataTablesPropertiesItemsItem> array = new List<InvoiceDataTablesPropertiesItemsItem>();
+                    List<RowAnnotation> array = new List<RowAnnotation>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(InvoiceDataTablesPropertiesItemsItem.DeserializeInvoiceDataTablesPropertiesItemsItem(item));
+                        if (item.ValueKind == JsonValueKind.Null)
+                        {
+                            array.Add(null);
+                        }
+                        else
+                        {
+                            array.Add(RowAnnotation.DeserializeRowAnnotation(item));
+                        }
                     }
-                    parsed = array;
+                    rows = array;
                     continue;
                 }
             }
-            return new InvoiceDataTablesItem(Optional.ToList(parsed));
+            return new InvoiceDataTablesPropertiesItemsItem(Optional.ToList(rows));
         }
     }
 }

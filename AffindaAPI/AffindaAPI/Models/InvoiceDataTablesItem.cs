@@ -16,17 +16,17 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of InvoiceDataTablesItem. </summary>
         public InvoiceDataTablesItem()
         {
-            Rows = new ChangeTrackingList<RowAnnotation>();
+            Parsed = new ChangeTrackingList<InvoiceDataTablesPropertiesItemsItem>();
         }
 
         /// <summary> Initializes a new instance of InvoiceDataTablesItem. </summary>
-        /// <param name="rows"></param>
-        internal InvoiceDataTablesItem(IList<RowAnnotation> rows)
+        /// <param name="parsed"></param>
+        internal InvoiceDataTablesItem(IList<InvoiceDataTablesPropertiesItemsItem> parsed)
         {
-            Rows = rows;
+            Parsed = parsed;
         }
 
-        /// <summary> Gets the rows. </summary>
-        public IList<RowAnnotation> Rows { get; }
+        /// <summary> Gets the parsed. </summary>
+        public IList<InvoiceDataTablesPropertiesItemsItem> Parsed { get; }
     }
 }
