@@ -846,13 +846,99 @@ namespace Affinda.API
             }
         }
 
+        /// <summary> Add a tag to documents. </summary>
+        /// <param name="body"> Specify the tag and the documents to tag. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks>
+        /// Add a tag to documents.
+        /// Tags are used to group documents together.
+        /// Tags can be used to filter documents.
+        /// 
+        /// </remarks>
+        public virtual async Task<Response> BatchAddTagAsync(BatchAddTagRequest body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.BatchAddTag");
+            scope.Start();
+            try
+            {
+                return await RestClient.BatchAddTagAsync(body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Add a tag to documents. </summary>
+        /// <param name="body"> Specify the tag and the documents to tag. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks>
+        /// Add a tag to documents.
+        /// Tags are used to group documents together.
+        /// Tags can be used to filter documents.
+        /// 
+        /// </remarks>
+        public virtual Response BatchAddTag(BatchAddTagRequest body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.BatchAddTag");
+            scope.Start();
+            try
+            {
+                return RestClient.BatchAddTag(body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Remove a tag from documents. </summary>
+        /// <param name="body"> Specify the tag and the documents to remove the tag from. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Remove a tag from documents. </remarks>
+        public virtual async Task<Response> BatchRemoveTagAsync(BatchRemoveTagRequest body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.BatchRemoveTag");
+            scope.Start();
+            try
+            {
+                return await RestClient.BatchRemoveTagAsync(body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Remove a tag from documents. </summary>
+        /// <param name="body"> Specify the tag and the documents to remove the tag from. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Remove a tag from documents. </remarks>
+        public virtual Response BatchRemoveTag(BatchRemoveTagRequest body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.BatchRemoveTag");
+            scope.Start();
+            try
+            {
+                return RestClient.BatchRemoveTag(body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
         /// <summary> Edit pages of a document. </summary>
         /// <param name="identifier"> Document&apos;s identifier. </param>
         /// <param name="body"> Describe how the pages should be edited. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
         /// Split / merge / rotate / delete pages of a document.
-        /// Documents with multiple pages can be  into multiple documents, or merged into one document.
+        /// Documents with multiple pages can be splitted into multiple documents, or merged into one document.
         /// Each page can also be rotated. Edit operations will trigger re-parsing of the documents involved.
         /// 
         /// </remarks>
@@ -877,7 +963,7 @@ namespace Affinda.API
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
         /// Split / merge / rotate / delete pages of a document.
-        /// Documents with multiple pages can be  into multiple documents, or merged into one document.
+        /// Documents with multiple pages can be splitted into multiple documents, or merged into one document.
         /// Each page can also be rotated. Edit operations will trigger re-parsing of the documents involved.
         /// 
         /// </remarks>

@@ -481,7 +481,7 @@ namespace Affinda.API.Models
 
         internal static InvoiceData DeserializeInvoiceData(JsonElement element)
         {
-            Optional<IList<InvoiceDataTablesItem>> tables = default;
+            Optional<IList<TableAnnotation>> tables = default;
             Optional<DateAnnotation> invoiceDate = default;
             Optional<DateAnnotation> invoiceOrderDate = default;
             Optional<DateAnnotation> paymentDateDue = default;
@@ -528,10 +528,17 @@ namespace Affinda.API.Models
                         property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    List<InvoiceDataTablesItem> array = new List<InvoiceDataTablesItem>();
+                    List<TableAnnotation> array = new List<TableAnnotation>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(InvoiceDataTablesItem.DeserializeInvoiceDataTablesItem(item));
+                        if (item.ValueKind == JsonValueKind.Null)
+                        {
+                            array.Add(null);
+                        }
+                        else
+                        {
+                            array.Add(TableAnnotation.DeserializeTableAnnotation(item));
+                        }
                     }
                     tables = array;
                     continue;

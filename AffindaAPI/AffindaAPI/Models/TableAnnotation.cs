@@ -10,10 +10,10 @@ using System.Collections.Generic;
 
 namespace Affinda.API.Models
 {
-    /// <summary> The RowAnnotation. </summary>
-    public partial class RowAnnotation : Annotation
+    /// <summary> The TableAnnotation. </summary>
+    public partial class TableAnnotation : Annotation
     {
-        /// <summary> Initializes a new instance of RowAnnotation. </summary>
+        /// <summary> Initializes a new instance of TableAnnotation. </summary>
         /// <param name="id"> Annotation&apos;s ID. </param>
         /// <param name="rectangle"> x/y coordinates for the rectangular bounding box containing the data. </param>
         /// <param name="rectangles"> x/y coordinates for the rectangles containing the data. An annotation can be contained within multiple rectangles. </param>
@@ -28,7 +28,7 @@ namespace Affinda.API.Models
         /// <param name="dataPoint"> Data point&apos;s identifier. </param>
         /// <param name="contentType"> The different data types of annotations. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="dataPoint"/> is null. </exception>
-        public RowAnnotation(int id, Rectangle rectangle, IEnumerable<Rectangle> rectangles, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool isClientVerified, bool isAutoVerified, string dataPoint, AnnotationContentType contentType) : base(id, rectangle, rectangles, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType)
+        public TableAnnotation(int id, Rectangle rectangle, IEnumerable<Rectangle> rectangles, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool isClientVerified, bool isAutoVerified, string dataPoint, AnnotationContentType contentType) : base(id, rectangle, rectangles, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType)
         {
             if (dataPoint == null)
             {
@@ -36,7 +36,7 @@ namespace Affinda.API.Models
             }
         }
 
-        /// <summary> Initializes a new instance of RowAnnotation. </summary>
+        /// <summary> Initializes a new instance of TableAnnotation. </summary>
         /// <param name="id"> Annotation&apos;s ID. </param>
         /// <param name="rectangle"> x/y coordinates for the rectangular bounding box containing the data. </param>
         /// <param name="rectangles"> x/y coordinates for the rectangles containing the data. An annotation can be contained within multiple rectangles. </param>
@@ -53,12 +53,12 @@ namespace Affinda.API.Models
         /// <param name="contentType"> The different data types of annotations. </param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
-        internal RowAnnotation(int id, Rectangle rectangle, IList<Rectangle> rectangles, string document, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool isClientVerified, bool isAutoVerified, string dataPoint, AnnotationContentType contentType, IDictionary<string, object> additionalProperties, RowAnnotationParsed parsed) : base(id, rectangle, rectangles, document, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties)
+        internal TableAnnotation(int id, Rectangle rectangle, IList<Rectangle> rectangles, string document, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool isClientVerified, bool isAutoVerified, string dataPoint, AnnotationContentType contentType, IDictionary<string, object> additionalProperties, TableAnnotationParsed parsed) : base(id, rectangle, rectangles, document, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties)
         {
             Parsed = parsed;
         }
 
         /// <summary> Gets or sets the parsed. </summary>
-        public RowAnnotationParsed Parsed { get; set; }
+        public TableAnnotationParsed Parsed { get; set; }
     }
 }

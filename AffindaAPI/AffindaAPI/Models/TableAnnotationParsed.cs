@@ -10,18 +10,18 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    /// <summary> The InvoiceDataTablesPropertiesItemsItem. </summary>
-    public partial class InvoiceDataTablesPropertiesItemsItem
+    /// <summary> The TableAnnotationParsed. </summary>
+    public partial class TableAnnotationParsed
     {
-        /// <summary> Initializes a new instance of InvoiceDataTablesPropertiesItemsItem. </summary>
-        public InvoiceDataTablesPropertiesItemsItem()
+        /// <summary> Initializes a new instance of TableAnnotationParsed. </summary>
+        public TableAnnotationParsed()
         {
             Rows = new ChangeTrackingList<RowAnnotation>();
         }
 
-        /// <summary> Initializes a new instance of InvoiceDataTablesPropertiesItemsItem. </summary>
+        /// <summary> Initializes a new instance of TableAnnotationParsed. </summary>
         /// <param name="rows"></param>
-        internal InvoiceDataTablesPropertiesItemsItem(IList<RowAnnotation> rows)
+        internal TableAnnotationParsed(IList<RowAnnotation> rows)
         {
             Rows = rows;
         }

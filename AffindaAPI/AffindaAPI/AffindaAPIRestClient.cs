@@ -1589,6 +1589,146 @@ namespace Affinda.API
             }
         }
 
+        internal HttpMessage CreateBatchAddTagRequest(BatchAddTagRequest body)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/documents/batch_add_tag", false);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Content-Type", "application/json");
+            var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(body);
+            request.Content = content;
+            return message;
+        }
+
+        /// <summary> Add a tag to documents. </summary>
+        /// <param name="body"> Specify the tag and the documents to tag. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        /// <remarks>
+        /// Add a tag to documents.
+        /// Tags are used to group documents together.
+        /// Tags can be used to filter documents.
+        /// 
+        /// </remarks>
+        public async Task<Response> BatchAddTagAsync(BatchAddTagRequest body, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateBatchAddTagRequest(body);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 204:
+                    return message.Response;
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Add a tag to documents. </summary>
+        /// <param name="body"> Specify the tag and the documents to tag. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        /// <remarks>
+        /// Add a tag to documents.
+        /// Tags are used to group documents together.
+        /// Tags can be used to filter documents.
+        /// 
+        /// </remarks>
+        public Response BatchAddTag(BatchAddTagRequest body, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateBatchAddTagRequest(body);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 204:
+                    return message.Response;
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateBatchRemoveTagRequest(BatchRemoveTagRequest body)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/documents/batch_remove_tag", false);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Content-Type", "application/json");
+            var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(body);
+            request.Content = content;
+            return message;
+        }
+
+        /// <summary> Remove a tag from documents. </summary>
+        /// <param name="body"> Specify the tag and the documents to remove the tag from. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        /// <remarks> Remove a tag from documents. </remarks>
+        public async Task<Response> BatchRemoveTagAsync(BatchRemoveTagRequest body, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateBatchRemoveTagRequest(body);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 204:
+                    return message.Response;
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Remove a tag from documents. </summary>
+        /// <param name="body"> Specify the tag and the documents to remove the tag from. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        /// <remarks> Remove a tag from documents. </remarks>
+        public Response BatchRemoveTag(BatchRemoveTagRequest body, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateBatchRemoveTagRequest(body);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 204:
+                    return message.Response;
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
         internal HttpMessage CreateEditDocumentPagesRequest(string identifier, DocumentEditRequest body)
         {
             var message = _pipeline.CreateMessage();
@@ -1617,7 +1757,7 @@ namespace Affinda.API
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
         /// <remarks>
         /// Split / merge / rotate / delete pages of a document.
-        /// Documents with multiple pages can be  into multiple documents, or merged into one document.
+        /// Documents with multiple pages can be splitted into multiple documents, or merged into one document.
         /// Each page can also be rotated. Edit operations will trigger re-parsing of the documents involved.
         /// 
         /// </remarks>
@@ -1660,7 +1800,7 @@ namespace Affinda.API
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
         /// <remarks>
         /// Split / merge / rotate / delete pages of a document.
-        /// Documents with multiple pages can be  into multiple documents, or merged into one document.
+        /// Documents with multiple pages can be splitted into multiple documents, or merged into one document.
         /// Each page can also be rotated. Edit operations will trigger re-parsing of the documents involved.
         /// 
         /// </remarks>

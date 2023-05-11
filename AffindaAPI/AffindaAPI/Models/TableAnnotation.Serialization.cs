@@ -11,7 +11,7 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class RowAnnotation : IUtf8JsonSerializable
+    public partial class TableAnnotation : IUtf8JsonSerializable
     {
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
         {
@@ -114,9 +114,9 @@ namespace Affinda.API.Models
             writer.WriteEndObject();
         }
 
-        internal static RowAnnotation DeserializeRowAnnotation(JsonElement element)
+        internal static TableAnnotation DeserializeTableAnnotation(JsonElement element)
         {
-            Optional<RowAnnotationParsed> parsed = default;
+            Optional<TableAnnotationParsed> parsed = default;
             int id = default;
             Rectangle rectangle = default;
             IList<Rectangle> rectangles = default;
@@ -142,7 +142,7 @@ namespace Affinda.API.Models
                         property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    parsed = RowAnnotationParsed.DeserializeRowAnnotationParsed(property.Value);
+                    parsed = TableAnnotationParsed.DeserializeTableAnnotationParsed(property.Value);
                     continue;
                 }
                 if (property.NameEquals("id"))
@@ -258,7 +258,7 @@ namespace Affinda.API.Models
                 additionalPropertiesDictionary.Add(property.Name, property.Value.GetObject());
             }
             additionalProperties = additionalPropertiesDictionary;
-            return new RowAnnotation(id, rectangle, rectangles, document.Value, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties, parsed.Value);
+            return new TableAnnotation(id, rectangle, rectangles, document.Value, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties, parsed.Value);
         }
     }
 }
