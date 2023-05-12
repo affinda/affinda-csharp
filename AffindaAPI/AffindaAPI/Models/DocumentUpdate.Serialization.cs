@@ -71,6 +71,11 @@ namespace Affinda.API.Models
                     writer.WriteNull("language");
                 }
             }
+            if (Optional.IsDefined(Identifier))
+            {
+                writer.WritePropertyName("identifier");
+                writer.WriteStringValue(Identifier);
+            }
             writer.WriteEndObject();
         }
     }
