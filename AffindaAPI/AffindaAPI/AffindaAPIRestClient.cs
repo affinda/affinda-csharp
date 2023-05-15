@@ -1237,7 +1237,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateCreateDocumentRequest(Stream file, string url, string collection, string workspace, string wait, string identifier, string fileName, string expiryTime, string language, string rejectDuplicates)
+        internal HttpMessage CreateCreateDocumentRequest(Stream file, string url, string collection, string workspace, string wait, string identifier, string fileName, string expiryTime, string language, string rejectDuplicates, string regionBias)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1291,6 +1291,10 @@ namespace Affinda.API
             {
                 content.Add(new StringRequestContent(rejectDuplicates), "rejectDuplicates", null);
             }
+            if (regionBias != null)
+            {
+                content.Add(new StringRequestContent(regionBias), "regionBias", null);
+            }
             content.ApplyToRequest(request);
             return message;
         }
@@ -1306,13 +1310,14 @@ namespace Affinda.API
         /// <param name="expiryTime"> The String to use. </param>
         /// <param name="language"> The String to use. </param>
         /// <param name="rejectDuplicates"> The String to use. </param>
+        /// <param name="regionBias"> A JSON representation of the RegionBias object. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
         /// Uploads a document for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/documents/{identifier}](#get-/v3/documents/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
         /// </remarks>
-        public async Task<Response<Document>> CreateDocumentAsync(Stream file = null, string url = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, CancellationToken cancellationToken = default)
+        public async Task<Response<Document>> CreateDocumentAsync(Stream file = null, string url = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, string regionBias = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateDocumentRequest(file, url, collection, workspace, wait, identifier, fileName, expiryTime, language, rejectDuplicates);
+            using var message = CreateCreateDocumentRequest(file, url, collection, workspace, wait, identifier, fileName, expiryTime, language, rejectDuplicates, regionBias);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1340,13 +1345,14 @@ namespace Affinda.API
         /// <param name="expiryTime"> The String to use. </param>
         /// <param name="language"> The String to use. </param>
         /// <param name="rejectDuplicates"> The String to use. </param>
+        /// <param name="regionBias"> A JSON representation of the RegionBias object. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
         /// Uploads a document for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/documents/{identifier}](#get-/v3/documents/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
         /// </remarks>
-        public Response<Document> CreateDocument(Stream file = null, string url = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, CancellationToken cancellationToken = default)
+        public Response<Document> CreateDocument(Stream file = null, string url = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, string regionBias = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateDocumentRequest(file, url, collection, workspace, wait, identifier, fileName, expiryTime, language, rejectDuplicates);
+            using var message = CreateCreateDocumentRequest(file, url, collection, workspace, wait, identifier, fileName, expiryTime, language, rejectDuplicates, regionBias);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
