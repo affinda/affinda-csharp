@@ -214,6 +214,11 @@ namespace Affinda.API.Models
                     writer.WriteNull("yearsExperience");
                 }
             }
+            if (Optional.IsDefined(RawText))
+            {
+                writer.WritePropertyName("rawText");
+                writer.WriteStringValue(RawText);
+            }
             foreach (var item in AdditionalProperties)
             {
                 writer.WritePropertyName(item.Key);
@@ -241,6 +246,7 @@ namespace Affinda.API.Models
             Optional<LocationAnnotation> location = default;
             Optional<IList<TextAnnotation>> certifications = default;
             Optional<YearsExperienceAnnotation> yearsExperience = default;
+            Optional<string> rawText = default;
             IDictionary<string, ComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties> additionalProperties = default;
             Dictionary<string, ComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties> additionalPropertiesDictionary = new Dictionary<string, ComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties>();
             foreach (var property in element.EnumerateObject())
@@ -451,10 +457,15 @@ namespace Affinda.API.Models
                     yearsExperience = YearsExperienceAnnotation.DeserializeYearsExperienceAnnotation(property.Value);
                     continue;
                 }
+                if (property.NameEquals("rawText"))
+                {
+                    rawText = property.Value.GetString();
+                    continue;
+                }
                 additionalPropertiesDictionary.Add(property.Name, ComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties.DeserializeComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties(property.Value));
             }
             additionalProperties = additionalPropertiesDictionary;
-            return new JobDescriptionData(jobTitle.Value, contactEmail.Value, contactName.Value, contactPhone.Value, startDate.Value, endDate.Value, jobType.Value, Optional.ToList(languages), Optional.ToList(skills), organizationName.Value, organizationWebsite.Value, educationLevel.Value, educationAccreditation.Value, expectedRemuneration.Value, location.Value, Optional.ToList(certifications), yearsExperience.Value, additionalProperties);
+            return new JobDescriptionData(jobTitle.Value, contactEmail.Value, contactName.Value, contactPhone.Value, startDate.Value, endDate.Value, jobType.Value, Optional.ToList(languages), Optional.ToList(skills), organizationName.Value, organizationWebsite.Value, educationLevel.Value, educationAccreditation.Value, expectedRemuneration.Value, location.Value, Optional.ToList(certifications), yearsExperience.Value, rawText.Value, additionalProperties);
         }
     }
 }

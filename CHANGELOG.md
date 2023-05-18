@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Endpoints for add/remove tag for documents
 - Identifier field in DocumentUpdate model
 - Allow setting `region_bias` when uploading document
+- rawText field to JobDescription Model
 
 ### Fixed
 - Update python_requires to be PEP compliant
