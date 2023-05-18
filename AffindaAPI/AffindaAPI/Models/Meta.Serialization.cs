@@ -32,6 +32,7 @@ namespace Affinda.API.Models
             Optional<float?> ocrConfidence = default;
             Optional<DateTimeOffset> createdDt = default;
             Optional<string> documentType = default;
+            Optional<RegionBias> regionBias = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("identifier"))
@@ -194,8 +195,18 @@ namespace Affinda.API.Models
                     documentType = property.Value.GetString();
                     continue;
                 }
+                if (property.NameEquals("regionBias"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        regionBias = null;
+                        continue;
+                    }
+                    regionBias = RegionBias.DeserializeRegionBias(property.Value);
+                    continue;
+                }
             }
-            return new Meta(identifier.Value, fileName.Value, Optional.ToNullable(ready), Optional.ToNullable(readyDt), Optional.ToNullable(failed), expiryTime.Value, language.Value, pdf.Value, parentDocument.Value, Optional.ToList(childDocuments), Optional.ToList(pages), Optional.ToNullable(isVerified), reviewUrl.Value, Optional.ToNullable(ocrConfidence), Optional.ToNullable(createdDt), documentType.Value);
+            return new Meta(identifier.Value, fileName.Value, Optional.ToNullable(ready), Optional.ToNullable(readyDt), Optional.ToNullable(failed), expiryTime.Value, language.Value, pdf.Value, parentDocument.Value, Optional.ToList(childDocuments), Optional.ToList(pages), Optional.ToNullable(isVerified), reviewUrl.Value, Optional.ToNullable(ocrConfidence), Optional.ToNullable(createdDt), documentType.Value, regionBias.Value);
         }
     }
 }

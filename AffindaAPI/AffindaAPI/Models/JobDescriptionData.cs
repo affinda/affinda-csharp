@@ -40,8 +40,9 @@ namespace Affinda.API.Models
         /// <param name="location"></param>
         /// <param name="certifications"></param>
         /// <param name="yearsExperience"></param>
+        /// <param name="rawText"> All of the raw text of the parsed job description, example is shortened for readability. </param>
         /// <param name="additionalProperties"> Additional Properties. </param>
-        internal JobDescriptionData(JobTitleAnnotation jobTitle, TextAnnotation contactEmail, TextAnnotation contactName, TextAnnotation contactPhone, DateAnnotation startDate, DateAnnotation endDate, TextAnnotation jobType, IReadOnlyList<LanguageAnnotation> languages, IReadOnlyList<SkillAnnotation> skills, TextAnnotation organizationName, TextAnnotation organizationWebsite, TextAnnotation educationLevel, TextAnnotation educationAccreditation, ExpectedRemunerationAnnotation expectedRemuneration, LocationAnnotation location, IReadOnlyList<TextAnnotation> certifications, YearsExperienceAnnotation yearsExperience, IReadOnlyDictionary<string, ComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties> additionalProperties)
+        internal JobDescriptionData(JobTitleAnnotation jobTitle, TextAnnotation contactEmail, TextAnnotation contactName, TextAnnotation contactPhone, DateAnnotation startDate, DateAnnotation endDate, TextAnnotation jobType, IReadOnlyList<LanguageAnnotation> languages, IReadOnlyList<SkillAnnotation> skills, TextAnnotation organizationName, TextAnnotation organizationWebsite, TextAnnotation educationLevel, TextAnnotation educationAccreditation, ExpectedRemunerationAnnotation expectedRemuneration, LocationAnnotation location, IReadOnlyList<TextAnnotation> certifications, YearsExperienceAnnotation yearsExperience, string rawText, IReadOnlyDictionary<string, ComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties> additionalProperties)
         {
             JobTitle = jobTitle;
             ContactEmail = contactEmail;
@@ -60,6 +61,7 @@ namespace Affinda.API.Models
             Location = location;
             Certifications = certifications;
             YearsExperience = yearsExperience;
+            RawText = rawText;
             AdditionalProperties = additionalProperties;
         }
 
@@ -97,6 +99,8 @@ namespace Affinda.API.Models
         public IReadOnlyList<TextAnnotation> Certifications { get; }
         /// <summary> Gets the years experience. </summary>
         public YearsExperienceAnnotation YearsExperience { get; }
+        /// <summary> All of the raw text of the parsed job description, example is shortened for readability. </summary>
+        public string RawText { get; }
         /// <summary> Additional Properties. </summary>
         public IReadOnlyDictionary<string, ComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties> AdditionalProperties { get; }
     }

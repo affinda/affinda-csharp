@@ -64,13 +64,14 @@ namespace Affinda.API.Models
         /// <param name="ocrConfidence"> The overall confidence in the conversion of image to text.  (only applicable for images or PDF documents without a text layer). </param>
         /// <param name="createdDt"></param>
         /// <param name="documentType"></param>
+        /// <param name="regionBias"></param>
         /// <returns> A new <see cref="Models.Meta"/> instance for mocking. </returns>
-        public static Meta Meta(string identifier = null, string fileName = null, bool? ready = null, DateTimeOffset? readyDt = null, bool? failed = null, string expiryTime = null, string language = null, string pdf = null, MetaParentDocument parentDocument = null, IEnumerable<MetaChildDocumentsItem> childDocuments = null, IEnumerable<PageMeta> pages = null, bool? isVerified = null, string reviewUrl = null, float? ocrConfidence = null, DateTimeOffset? createdDt = null, string documentType = null)
+        public static Meta Meta(string identifier = null, string fileName = null, bool? ready = null, DateTimeOffset? readyDt = null, bool? failed = null, string expiryTime = null, string language = null, string pdf = null, MetaParentDocument parentDocument = null, IEnumerable<MetaChildDocumentsItem> childDocuments = null, IEnumerable<PageMeta> pages = null, bool? isVerified = null, string reviewUrl = null, float? ocrConfidence = null, DateTimeOffset? createdDt = null, string documentType = null, RegionBias regionBias = null)
         {
             childDocuments ??= new List<MetaChildDocumentsItem>();
             pages ??= new List<PageMeta>();
 
-            return new Meta(identifier, fileName, ready, readyDt, failed, expiryTime, language, pdf, parentDocument, childDocuments?.ToList(), pages?.ToList(), isVerified, reviewUrl, ocrConfidence, createdDt, documentType);
+            return new Meta(identifier, fileName, ready, readyDt, failed, expiryTime, language, pdf, parentDocument, childDocuments?.ToList(), pages?.ToList(), isVerified, reviewUrl, ocrConfidence, createdDt, documentType, regionBias);
         }
 
         /// <summary> Initializes a new instance of MetaParentDocument. </summary>
@@ -100,6 +101,19 @@ namespace Affinda.API.Models
         public static PageMeta PageMeta(int id = default, int pageIndex = default, string image = null, float height = default, float width = default, int rotation = default)
         {
             return new PageMeta(id, pageIndex, image, height, width, rotation);
+        }
+
+        /// <summary> Initializes a new instance of RegionBias. </summary>
+        /// <param name="country"> A single alpha-2 country code (e.g. AU) used by google geocoding service. </param>
+        /// <param name="countries"> A list of alpha-2 country codes used by Pelias. </param>
+        /// <param name="squareCoordinates"> A list of coordinates used by Pelias in the shape of [min_lon, min_lat, max_lon, max_lat]. </param>
+        /// <returns> A new <see cref="Models.RegionBias"/> instance for mocking. </returns>
+        public static RegionBias RegionBias(string country = null, IEnumerable<string> countries = null, IEnumerable<float> squareCoordinates = null)
+        {
+            countries ??= new List<string>();
+            squareCoordinates ??= new List<float>();
+
+            return new RegionBias(country, countries?.ToList(), squareCoordinates?.ToList());
         }
 
         /// <summary> Initializes a new instance of Resume. </summary>
@@ -530,16 +544,17 @@ namespace Affinda.API.Models
         /// <param name="location"></param>
         /// <param name="certifications"></param>
         /// <param name="yearsExperience"></param>
+        /// <param name="rawText"> All of the raw text of the parsed job description, example is shortened for readability. </param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <returns> A new <see cref="Models.JobDescriptionData"/> instance for mocking. </returns>
-        public static JobDescriptionData JobDescriptionData(JobTitleAnnotation jobTitle = null, TextAnnotation contactEmail = null, TextAnnotation contactName = null, TextAnnotation contactPhone = null, DateAnnotation startDate = null, DateAnnotation endDate = null, TextAnnotation jobType = null, IEnumerable<LanguageAnnotation> languages = null, IEnumerable<SkillAnnotation> skills = null, TextAnnotation organizationName = null, TextAnnotation organizationWebsite = null, TextAnnotation educationLevel = null, TextAnnotation educationAccreditation = null, ExpectedRemunerationAnnotation expectedRemuneration = null, LocationAnnotation location = null, IEnumerable<TextAnnotation> certifications = null, YearsExperienceAnnotation yearsExperience = null, IReadOnlyDictionary<string, ComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties> additionalProperties = null)
+        public static JobDescriptionData JobDescriptionData(JobTitleAnnotation jobTitle = null, TextAnnotation contactEmail = null, TextAnnotation contactName = null, TextAnnotation contactPhone = null, DateAnnotation startDate = null, DateAnnotation endDate = null, TextAnnotation jobType = null, IEnumerable<LanguageAnnotation> languages = null, IEnumerable<SkillAnnotation> skills = null, TextAnnotation organizationName = null, TextAnnotation organizationWebsite = null, TextAnnotation educationLevel = null, TextAnnotation educationAccreditation = null, ExpectedRemunerationAnnotation expectedRemuneration = null, LocationAnnotation location = null, IEnumerable<TextAnnotation> certifications = null, YearsExperienceAnnotation yearsExperience = null, string rawText = null, IReadOnlyDictionary<string, ComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties> additionalProperties = null)
         {
             languages ??= new List<LanguageAnnotation>();
             skills ??= new List<SkillAnnotation>();
             certifications ??= new List<TextAnnotation>();
             additionalProperties ??= new Dictionary<string, ComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties>();
 
-            return new JobDescriptionData(jobTitle, contactEmail, contactName, contactPhone, startDate, endDate, jobType, languages?.ToList(), skills?.ToList(), organizationName, organizationWebsite, educationLevel, educationAccreditation, expectedRemuneration, location, certifications?.ToList(), yearsExperience, additionalProperties);
+            return new JobDescriptionData(jobTitle, contactEmail, contactName, contactPhone, startDate, endDate, jobType, languages?.ToList(), skills?.ToList(), organizationName, organizationWebsite, educationLevel, educationAccreditation, expectedRemuneration, location, certifications?.ToList(), yearsExperience, rawText, additionalProperties);
         }
 
         /// <summary> Initializes a new instance of JobTitleAnnotation. </summary>

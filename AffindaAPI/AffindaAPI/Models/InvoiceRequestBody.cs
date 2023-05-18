@@ -33,5 +33,7 @@ namespace Affinda.API.Models
         public string Language { get; }
         /// <summary> The date/time in ISO-8601 format when the document will be automatically deleted.  Defaults to no expiry. </summary>
         public string ExpiryTime { get; }
+        /// <summary> A JSON representation of the RegionBias object. </summary>
+        public string RegionBias { get; }
     }
 }

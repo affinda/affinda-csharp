@@ -38,7 +38,8 @@ namespace Affinda.API.Models
         /// <param name="ocrConfidence"> The overall confidence in the conversion of image to text.  (only applicable for images or PDF documents without a text layer). </param>
         /// <param name="createdDt"></param>
         /// <param name="documentType"></param>
-        internal Meta(string identifier, string fileName, bool? ready, DateTimeOffset? readyDt, bool? failed, string expiryTime, string language, string pdf, MetaParentDocument parentDocument, IReadOnlyList<MetaChildDocumentsItem> childDocuments, IReadOnlyList<PageMeta> pages, bool? isVerified, string reviewUrl, float? ocrConfidence, DateTimeOffset? createdDt, string documentType)
+        /// <param name="regionBias"></param>
+        internal Meta(string identifier, string fileName, bool? ready, DateTimeOffset? readyDt, bool? failed, string expiryTime, string language, string pdf, MetaParentDocument parentDocument, IReadOnlyList<MetaChildDocumentsItem> childDocuments, IReadOnlyList<PageMeta> pages, bool? isVerified, string reviewUrl, float? ocrConfidence, DateTimeOffset? createdDt, string documentType, RegionBias regionBias)
         {
             Identifier = identifier;
             FileName = fileName;
@@ -56,6 +57,7 @@ namespace Affinda.API.Models
             OcrConfidence = ocrConfidence;
             CreatedDt = createdDt;
             DocumentType = documentType;
+            RegionBias = regionBias;
         }
 
         /// <summary> Uniquely identify a document. </summary>
@@ -90,5 +92,7 @@ namespace Affinda.API.Models
         public DateTimeOffset? CreatedDt { get; }
         /// <summary> Gets the document type. </summary>
         public string DocumentType { get; }
+        /// <summary> Gets the region bias. </summary>
+        public RegionBias RegionBias { get; }
     }
 }

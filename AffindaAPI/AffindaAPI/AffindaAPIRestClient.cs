@@ -107,7 +107,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateCreateResumeRequest(Stream file, string url, string data, string identifier, string fileName, string wait, string rejectDuplicates, string language, string expiryTime)
+        internal HttpMessage CreateCreateResumeRequest(Stream file, string url, string data, string identifier, string fileName, string wait, string rejectDuplicates, string language, string expiryTime, string regionBias)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -157,6 +157,10 @@ namespace Affinda.API
             {
                 content.Add(new StringRequestContent(expiryTime), "expiryTime", null);
             }
+            if (regionBias != null)
+            {
+                content.Add(new StringRequestContent(regionBias), "regionBias", null);
+            }
             content.ApplyToRequest(request);
             return message;
         }
@@ -171,14 +175,15 @@ namespace Affinda.API
         /// <param name="rejectDuplicates"> The String to use. </param>
         /// <param name="language"> The String to use. </param>
         /// <param name="expiryTime"> The String to use. </param>
+        /// <param name="regionBias"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
         /// Uploads a resume for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/resumes/{identifier}](#get-/resumes/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
         /// Resumes can be uploaded as a file or a URL. In addition, data can be added directly if users want to upload directly without parsing any resume file. For uploading resume data, the `data` argument provided must be a JSON-encoded string. Data uploads will not impact upon parsing credits.
         /// </remarks>
-        public async Task<Response<Resume>> CreateResumeAsync(Stream file = null, string url = null, string data = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public async Task<Response<Resume>> CreateResumeAsync(Stream file = null, string url = null, string data = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, string regionBias = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateResumeRequest(file, url, data, identifier, fileName, wait, rejectDuplicates, language, expiryTime);
+            using var message = CreateCreateResumeRequest(file, url, data, identifier, fileName, wait, rejectDuplicates, language, expiryTime, regionBias);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -205,14 +210,15 @@ namespace Affinda.API
         /// <param name="rejectDuplicates"> The String to use. </param>
         /// <param name="language"> The String to use. </param>
         /// <param name="expiryTime"> The String to use. </param>
+        /// <param name="regionBias"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
         /// Uploads a resume for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/resumes/{identifier}](#get-/resumes/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
         /// Resumes can be uploaded as a file or a URL. In addition, data can be added directly if users want to upload directly without parsing any resume file. For uploading resume data, the `data` argument provided must be a JSON-encoded string. Data uploads will not impact upon parsing credits.
         /// </remarks>
-        public Response<Resume> CreateResume(Stream file = null, string url = null, string data = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public Response<Resume> CreateResume(Stream file = null, string url = null, string data = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, string regionBias = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateResumeRequest(file, url, data, identifier, fileName, wait, rejectDuplicates, language, expiryTime);
+            using var message = CreateCreateResumeRequest(file, url, data, identifier, fileName, wait, rejectDuplicates, language, expiryTime, regionBias);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -914,7 +920,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateCreateInvoiceRequest(Stream file, string url, string identifier, string fileName, string wait, string rejectDuplicates, string language, string expiryTime)
+        internal HttpMessage CreateCreateInvoiceRequest(Stream file, string url, string identifier, string fileName, string wait, string rejectDuplicates, string language, string expiryTime, string regionBias)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -960,6 +966,10 @@ namespace Affinda.API
             {
                 content.Add(new StringRequestContent(expiryTime), "expiryTime", null);
             }
+            if (regionBias != null)
+            {
+                content.Add(new StringRequestContent(regionBias), "regionBias", null);
+            }
             content.ApplyToRequest(request);
             return message;
         }
@@ -973,14 +983,15 @@ namespace Affinda.API
         /// <param name="rejectDuplicates"> The String to use. </param>
         /// <param name="language"> The String to use. </param>
         /// <param name="expiryTime"> The String to use. </param>
+        /// <param name="regionBias"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
         /// Uploads an invoice for parsing.
         /// When successful, returns an `identifier` in the response for subsequent use with the [/invoices/{identifier}](#get-/invoices/-identifier-) endpoint to check processing status and retrieve results.
         /// </remarks>
-        public async Task<Response<Invoice>> CreateInvoiceAsync(Stream file = null, string url = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public async Task<Response<Invoice>> CreateInvoiceAsync(Stream file = null, string url = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, string regionBias = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateInvoiceRequest(file, url, identifier, fileName, wait, rejectDuplicates, language, expiryTime);
+            using var message = CreateCreateInvoiceRequest(file, url, identifier, fileName, wait, rejectDuplicates, language, expiryTime, regionBias);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1006,14 +1017,15 @@ namespace Affinda.API
         /// <param name="rejectDuplicates"> The String to use. </param>
         /// <param name="language"> The String to use. </param>
         /// <param name="expiryTime"> The String to use. </param>
+        /// <param name="regionBias"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
         /// Uploads an invoice for parsing.
         /// When successful, returns an `identifier` in the response for subsequent use with the [/invoices/{identifier}](#get-/invoices/-identifier-) endpoint to check processing status and retrieve results.
         /// </remarks>
-        public Response<Invoice> CreateInvoice(Stream file = null, string url = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public Response<Invoice> CreateInvoice(Stream file = null, string url = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, string regionBias = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateInvoiceRequest(file, url, identifier, fileName, wait, rejectDuplicates, language, expiryTime);
+            using var message = CreateCreateInvoiceRequest(file, url, identifier, fileName, wait, rejectDuplicates, language, expiryTime, regionBias);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -1239,7 +1251,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateCreateJobDescriptionRequest(Stream file, string url, string data, string identifier, string fileName, string wait, string rejectDuplicates, string language, string expiryTime)
+        internal HttpMessage CreateCreateJobDescriptionRequest(Stream file, string url, string data, string identifier, string fileName, string wait, string rejectDuplicates, string language, string expiryTime, string regionBias)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1289,6 +1301,10 @@ namespace Affinda.API
             {
                 content.Add(new StringRequestContent(expiryTime), "expiryTime", null);
             }
+            if (regionBias != null)
+            {
+                content.Add(new StringRequestContent(regionBias), "regionBias", null);
+            }
             content.ApplyToRequest(request);
             return message;
         }
@@ -1303,15 +1319,16 @@ namespace Affinda.API
         /// <param name="rejectDuplicates"> The String to use. </param>
         /// <param name="language"> The String to use. </param>
         /// <param name="expiryTime"> The String to use. </param>
+        /// <param name="regionBias"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
         /// Uploads a job description for parsing.
         /// When successful, returns an `identifier` in the response for subsequent use with the [/job_descriptions/{identifier}](#get-/job_descriptions/-identifier-) endpoint to check processing status and retrieve results.
         /// Job Descriptions can be uploaded as a file or a URL. In addition, data can be added directly if users want to upload directly without parsing any resume file. For uploading resume data, the `data` argument provided must be a JSON-encoded string. Data uploads will not impact upon parsing credits.
         /// </remarks>
-        public async Task<Response<JobDescription>> CreateJobDescriptionAsync(Stream file = null, string url = null, string data = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public async Task<Response<JobDescription>> CreateJobDescriptionAsync(Stream file = null, string url = null, string data = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, string regionBias = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateJobDescriptionRequest(file, url, data, identifier, fileName, wait, rejectDuplicates, language, expiryTime);
+            using var message = CreateCreateJobDescriptionRequest(file, url, data, identifier, fileName, wait, rejectDuplicates, language, expiryTime, regionBias);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1338,15 +1355,16 @@ namespace Affinda.API
         /// <param name="rejectDuplicates"> The String to use. </param>
         /// <param name="language"> The String to use. </param>
         /// <param name="expiryTime"> The String to use. </param>
+        /// <param name="regionBias"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
         /// Uploads a job description for parsing.
         /// When successful, returns an `identifier` in the response for subsequent use with the [/job_descriptions/{identifier}](#get-/job_descriptions/-identifier-) endpoint to check processing status and retrieve results.
         /// Job Descriptions can be uploaded as a file or a URL. In addition, data can be added directly if users want to upload directly without parsing any resume file. For uploading resume data, the `data` argument provided must be a JSON-encoded string. Data uploads will not impact upon parsing credits.
         /// </remarks>
-        public Response<JobDescription> CreateJobDescription(Stream file = null, string url = null, string data = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public Response<JobDescription> CreateJobDescription(Stream file = null, string url = null, string data = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, string regionBias = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateJobDescriptionRequest(file, url, data, identifier, fileName, wait, rejectDuplicates, language, expiryTime);
+            using var message = CreateCreateJobDescriptionRequest(file, url, data, identifier, fileName, wait, rejectDuplicates, language, expiryTime, regionBias);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {

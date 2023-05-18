@@ -110,18 +110,19 @@ namespace Affinda.API
         /// <param name="rejectDuplicates"> The String to use. </param>
         /// <param name="language"> The String to use. </param>
         /// <param name="expiryTime"> The String to use. </param>
+        /// <param name="regionBias"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
         /// Uploads a resume for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/resumes/{identifier}](#get-/resumes/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
         /// Resumes can be uploaded as a file or a URL. In addition, data can be added directly if users want to upload directly without parsing any resume file. For uploading resume data, the `data` argument provided must be a JSON-encoded string. Data uploads will not impact upon parsing credits.
         /// </remarks>
-        public virtual async Task<Response<Resume>> CreateResumeAsync(Stream file = null, string url = null, string data = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<Resume>> CreateResumeAsync(Stream file = null, string url = null, string data = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, string regionBias = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateResume");
             scope.Start();
             try
             {
-                return await RestClient.CreateResumeAsync(file, url, data, identifier, fileName, wait, rejectDuplicates, language, expiryTime, cancellationToken).ConfigureAwait(false);
+                return await RestClient.CreateResumeAsync(file, url, data, identifier, fileName, wait, rejectDuplicates, language, expiryTime, regionBias, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -140,18 +141,19 @@ namespace Affinda.API
         /// <param name="rejectDuplicates"> The String to use. </param>
         /// <param name="language"> The String to use. </param>
         /// <param name="expiryTime"> The String to use. </param>
+        /// <param name="regionBias"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
         /// Uploads a resume for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/resumes/{identifier}](#get-/resumes/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
         /// Resumes can be uploaded as a file or a URL. In addition, data can be added directly if users want to upload directly without parsing any resume file. For uploading resume data, the `data` argument provided must be a JSON-encoded string. Data uploads will not impact upon parsing credits.
         /// </remarks>
-        public virtual Response<Resume> CreateResume(Stream file = null, string url = null, string data = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public virtual Response<Resume> CreateResume(Stream file = null, string url = null, string data = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, string regionBias = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateResume");
             scope.Start();
             try
             {
-                return RestClient.CreateResume(file, url, data, identifier, fileName, wait, rejectDuplicates, language, expiryTime, cancellationToken);
+                return RestClient.CreateResume(file, url, data, identifier, fileName, wait, rejectDuplicates, language, expiryTime, regionBias, cancellationToken);
             }
             catch (Exception e)
             {
@@ -527,18 +529,19 @@ namespace Affinda.API
         /// <param name="rejectDuplicates"> The String to use. </param>
         /// <param name="language"> The String to use. </param>
         /// <param name="expiryTime"> The String to use. </param>
+        /// <param name="regionBias"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
         /// Uploads an invoice for parsing.
         /// When successful, returns an `identifier` in the response for subsequent use with the [/invoices/{identifier}](#get-/invoices/-identifier-) endpoint to check processing status and retrieve results.
         /// </remarks>
-        public virtual async Task<Response<Invoice>> CreateInvoiceAsync(Stream file = null, string url = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<Invoice>> CreateInvoiceAsync(Stream file = null, string url = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, string regionBias = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateInvoice");
             scope.Start();
             try
             {
-                return await RestClient.CreateInvoiceAsync(file, url, identifier, fileName, wait, rejectDuplicates, language, expiryTime, cancellationToken).ConfigureAwait(false);
+                return await RestClient.CreateInvoiceAsync(file, url, identifier, fileName, wait, rejectDuplicates, language, expiryTime, regionBias, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -556,18 +559,19 @@ namespace Affinda.API
         /// <param name="rejectDuplicates"> The String to use. </param>
         /// <param name="language"> The String to use. </param>
         /// <param name="expiryTime"> The String to use. </param>
+        /// <param name="regionBias"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
         /// Uploads an invoice for parsing.
         /// When successful, returns an `identifier` in the response for subsequent use with the [/invoices/{identifier}](#get-/invoices/-identifier-) endpoint to check processing status and retrieve results.
         /// </remarks>
-        public virtual Response<Invoice> CreateInvoice(Stream file = null, string url = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public virtual Response<Invoice> CreateInvoice(Stream file = null, string url = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, string regionBias = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateInvoice");
             scope.Start();
             try
             {
-                return RestClient.CreateInvoice(file, url, identifier, fileName, wait, rejectDuplicates, language, expiryTime, cancellationToken);
+                return RestClient.CreateInvoice(file, url, identifier, fileName, wait, rejectDuplicates, language, expiryTime, regionBias, cancellationToken);
             }
             catch (Exception e)
             {
@@ -708,19 +712,20 @@ namespace Affinda.API
         /// <param name="rejectDuplicates"> The String to use. </param>
         /// <param name="language"> The String to use. </param>
         /// <param name="expiryTime"> The String to use. </param>
+        /// <param name="regionBias"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
         /// Uploads a job description for parsing.
         /// When successful, returns an `identifier` in the response for subsequent use with the [/job_descriptions/{identifier}](#get-/job_descriptions/-identifier-) endpoint to check processing status and retrieve results.
         /// Job Descriptions can be uploaded as a file or a URL. In addition, data can be added directly if users want to upload directly without parsing any resume file. For uploading resume data, the `data` argument provided must be a JSON-encoded string. Data uploads will not impact upon parsing credits.
         /// </remarks>
-        public virtual async Task<Response<JobDescription>> CreateJobDescriptionAsync(Stream file = null, string url = null, string data = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<JobDescription>> CreateJobDescriptionAsync(Stream file = null, string url = null, string data = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, string regionBias = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateJobDescription");
             scope.Start();
             try
             {
-                return await RestClient.CreateJobDescriptionAsync(file, url, data, identifier, fileName, wait, rejectDuplicates, language, expiryTime, cancellationToken).ConfigureAwait(false);
+                return await RestClient.CreateJobDescriptionAsync(file, url, data, identifier, fileName, wait, rejectDuplicates, language, expiryTime, regionBias, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -739,19 +744,20 @@ namespace Affinda.API
         /// <param name="rejectDuplicates"> The String to use. </param>
         /// <param name="language"> The String to use. </param>
         /// <param name="expiryTime"> The String to use. </param>
+        /// <param name="regionBias"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
         /// Uploads a job description for parsing.
         /// When successful, returns an `identifier` in the response for subsequent use with the [/job_descriptions/{identifier}](#get-/job_descriptions/-identifier-) endpoint to check processing status and retrieve results.
         /// Job Descriptions can be uploaded as a file or a URL. In addition, data can be added directly if users want to upload directly without parsing any resume file. For uploading resume data, the `data` argument provided must be a JSON-encoded string. Data uploads will not impact upon parsing credits.
         /// </remarks>
-        public virtual Response<JobDescription> CreateJobDescription(Stream file = null, string url = null, string data = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public virtual Response<JobDescription> CreateJobDescription(Stream file = null, string url = null, string data = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, string regionBias = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateJobDescription");
             scope.Start();
             try
             {
-                return RestClient.CreateJobDescription(file, url, data, identifier, fileName, wait, rejectDuplicates, language, expiryTime, cancellationToken);
+                return RestClient.CreateJobDescription(file, url, data, identifier, fileName, wait, rejectDuplicates, language, expiryTime, regionBias, cancellationToken);
             }
             catch (Exception e)
             {
