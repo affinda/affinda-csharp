@@ -31,7 +31,7 @@ namespace Affinda.API.Models
         internal static FieldGroup DeserializeFieldGroup(JsonElement element)
         {
             string label = default;
-            IList<Field> fields = default;
+            IList<FieldDeprecated> fields = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("label"))
@@ -41,10 +41,10 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("fields"))
                 {
-                    List<Field> array = new List<Field>();
+                    List<FieldDeprecated> array = new List<FieldDeprecated>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(Field.DeserializeField(item));
+                        array.Add(FieldDeprecated.DeserializeFieldDeprecated(item));
                     }
                     fields = array;
                     continue;

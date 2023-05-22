@@ -22,10 +22,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Endpoints for add/remove tag for documents
 - Identifier field in DocumentUpdate model
 - Allow setting `region_bias` when uploading document
-- rawText field to JobDescription Model
+- Add `fieldsLayout` to `Collection` schema
 
 ### Fixed
 - Update python_requires to be PEP compliant
+
+### Deprecated
+- Deprecate `Collection.fields` in favor of `Collection.fieldsLayout`
 
 ## [5.6.0] - 2023-04-27
 ### Added

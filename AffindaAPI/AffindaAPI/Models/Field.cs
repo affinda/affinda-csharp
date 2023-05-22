@@ -16,9 +16,9 @@ namespace Affinda.API.Models
     {
         /// <summary> Initializes a new instance of Field. </summary>
         /// <param name="label"></param>
-        /// <param name="dataPoint"></param>
+        /// <param name="dataPoint"> Data point identifier. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="label"/> or <paramref name="dataPoint"/> is null. </exception>
-        public Field(string label, string dataPoint)
+        internal Field(string label, string dataPoint)
         {
             if (label == null)
             {
@@ -36,40 +36,32 @@ namespace Affinda.API.Models
 
         /// <summary> Initializes a new instance of Field. </summary>
         /// <param name="label"></param>
-        /// <param name="slug"></param>
-        /// <param name="dataPoint"></param>
+        /// <param name="dataPoint"> Data point identifier. </param>
         /// <param name="mandatory"></param>
-        /// <param name="disabled"></param>
         /// <param name="autoValidationThreshold"></param>
         /// <param name="showDropdown"></param>
         /// <param name="fields"></param>
-        internal Field(string label, string slug, string dataPoint, bool? mandatory, bool? disabled, float? autoValidationThreshold, bool? showDropdown, IList<Field> fields)
+        internal Field(string label, string dataPoint, bool? mandatory, float? autoValidationThreshold, bool? showDropdown, IReadOnlyList<Field> fields)
         {
             Label = label;
-            Slug = slug;
             DataPoint = dataPoint;
             Mandatory = mandatory;
-            Disabled = disabled;
             AutoValidationThreshold = autoValidationThreshold;
             ShowDropdown = showDropdown;
             Fields = fields;
         }
 
-        /// <summary> Gets or sets the label. </summary>
-        public string Label { get; set; }
-        /// <summary> Gets or sets the slug. </summary>
-        public string Slug { get; set; }
-        /// <summary> Gets or sets the data point. </summary>
-        public string DataPoint { get; set; }
-        /// <summary> Gets or sets the mandatory. </summary>
-        public bool? Mandatory { get; set; }
-        /// <summary> Gets or sets the disabled. </summary>
-        public bool? Disabled { get; set; }
-        /// <summary> Gets or sets the auto validation threshold. </summary>
-        public float? AutoValidationThreshold { get; set; }
-        /// <summary> Gets or sets the show dropdown. </summary>
-        public bool? ShowDropdown { get; set; }
+        /// <summary> Gets the label. </summary>
+        public string Label { get; }
+        /// <summary> Data point identifier. </summary>
+        public string DataPoint { get; }
+        /// <summary> Gets the mandatory. </summary>
+        public bool? Mandatory { get; }
+        /// <summary> Gets the auto validation threshold. </summary>
+        public float? AutoValidationThreshold { get; }
+        /// <summary> Gets the show dropdown. </summary>
+        public bool? ShowDropdown { get; }
         /// <summary> Gets the fields. </summary>
-        public IList<Field> Fields { get; }
+        public IReadOnlyList<Field> Fields { get; }
     }
 }
