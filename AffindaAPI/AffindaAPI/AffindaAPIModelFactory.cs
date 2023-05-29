@@ -1551,9 +1551,19 @@ namespace Affinda.API.Models
         /// <param name="autoDeactivated"> Resthook subscriptions can be auto deactivated if the receiver continuously returns error status code over a period of time. </param>
         /// <param name="autoDeactivateReason"> The reason for the subscription being auto deactivated. May contains the error response that the receiver returned. </param>
         /// <param name="version"> Version of the resthook subscription. Determines the resthook body being fired. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="targetUrl"/> or <paramref name="autoDeactivateReason"/> is null. </exception>
         /// <returns> A new <see cref="Models.ResthookSubscription"/> instance for mocking. </returns>
-        public static ResthookSubscription ResthookSubscription(int? id = null, ResthookEvent? @event = null, string targetUrl = null, bool? active = null, bool? autoDeactivated = null, string autoDeactivateReason = null, ResthookSubscriptionVersion? version = null)
+        public static ResthookSubscription ResthookSubscription(int id = default, ResthookEvent @event = default, string targetUrl = null, bool active = default, bool autoDeactivated = default, string autoDeactivateReason = null, ResthookSubscriptionVersion version = default)
         {
+            if (targetUrl == null)
+            {
+                throw new ArgumentNullException(nameof(targetUrl));
+            }
+            if (autoDeactivateReason == null)
+            {
+                throw new ArgumentNullException(nameof(autoDeactivateReason));
+            }
+
             return new ResthookSubscription(id, @event, targetUrl, active, autoDeactivated, autoDeactivateReason, version);
         }
     }
