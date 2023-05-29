@@ -14,43 +14,28 @@ namespace Affinda.API.Models
     {
         internal static ResthookSubscription DeserializeResthookSubscription(JsonElement element)
         {
-            Optional<int> id = default;
-            Optional<ResthookEvent> @event = default;
-            Optional<Organization> organization = default;
-            Optional<string> targetUrl = default;
-            Optional<bool> active = default;
-            Optional<bool> autoDeactivated = default;
-            Optional<string> autoDeactivateReason = default;
-            Optional<ResthookSubscriptionVersion> version = default;
+            int id = default;
+            ResthookEvent @event = default;
+            Organization organization = default;
+            string targetUrl = default;
+            bool active = default;
+            bool autoDeactivated = default;
+            string autoDeactivateReason = default;
+            ResthookSubscriptionVersion version = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("id"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        property.ThrowNonNullablePropertyIsNull();
-                        continue;
-                    }
                     id = property.Value.GetInt32();
                     continue;
                 }
                 if (property.NameEquals("event"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        property.ThrowNonNullablePropertyIsNull();
-                        continue;
-                    }
                     @event = new ResthookEvent(property.Value.GetString());
                     continue;
                 }
                 if (property.NameEquals("organization"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        property.ThrowNonNullablePropertyIsNull();
-                        continue;
-                    }
                     organization = Organization.DeserializeOrganization(property.Value);
                     continue;
                 }
@@ -61,21 +46,11 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("active"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        property.ThrowNonNullablePropertyIsNull();
-                        continue;
-                    }
                     active = property.Value.GetBoolean();
                     continue;
                 }
                 if (property.NameEquals("autoDeactivated"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        property.ThrowNonNullablePropertyIsNull();
-                        continue;
-                    }
                     autoDeactivated = property.Value.GetBoolean();
                     continue;
                 }
@@ -86,16 +61,11 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("version"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        property.ThrowNonNullablePropertyIsNull();
-                        continue;
-                    }
                     version = new ResthookSubscriptionVersion(property.Value.GetString());
                     continue;
                 }
             }
-            return new ResthookSubscription(Optional.ToNullable(id), Optional.ToNullable(@event), organization.Value, targetUrl.Value, Optional.ToNullable(active), Optional.ToNullable(autoDeactivated), autoDeactivateReason.Value, Optional.ToNullable(version));
+            return new ResthookSubscription(id, @event, organization, targetUrl, active, autoDeactivated, autoDeactivateReason, version);
         }
     }
 }

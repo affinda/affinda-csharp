@@ -140,7 +140,6 @@ namespace Affinda.API.Models
         /// <param name="extractor"></param>
         /// <param name="autoValidationThreshold"></param>
         /// <param name="fields"></param>
-        /// <param name="fieldsLayout"></param>
         /// <param name="fieldsConfigured"></param>
         /// <param name="dateFormatPreference"></param>
         /// <param name="dateFormatFromDocument"> Predict the date format from any dates in the document that is not ambiguous. </param>
@@ -149,11 +148,11 @@ namespace Affinda.API.Models
         /// <param name="confirmedDocsCount"> Number of validated documents in the collection. </param>
         /// <param name="ingestEmail"> When you send email to this address, any document attached in the body will be uploaded to this collection. </param>
         /// <returns> A new <see cref="Models.Collection"/> instance for mocking. </returns>
-        public static Collection Collection(string identifier = null, string name = null, CollectionWorkspace workspace = null, Extractor extractor = null, float? autoValidationThreshold = null, IEnumerable<FieldGroup> fields = null, FieldsLayout fieldsLayout = null, bool? fieldsConfigured = null, CollectionDateFormatPreference? dateFormatPreference = null, bool? dateFormatFromDocument = null, ExtractorConfig extractorConfig = null, int? unvalidatedDocsCount = null, int? confirmedDocsCount = null, string ingestEmail = null)
+        public static Collection Collection(string identifier = null, string name = null, CollectionWorkspace workspace = null, Extractor extractor = null, float? autoValidationThreshold = null, IEnumerable<FieldGroup> fields = null, bool? fieldsConfigured = null, CollectionDateFormatPreference? dateFormatPreference = null, bool? dateFormatFromDocument = null, ExtractorConfig extractorConfig = null, int? unvalidatedDocsCount = null, int? confirmedDocsCount = null, string ingestEmail = null)
         {
             fields ??= new List<FieldGroup>();
 
-            return new Collection(identifier, name, workspace, extractor, autoValidationThreshold, fields?.ToList(), fieldsLayout, fieldsConfigured, dateFormatPreference, dateFormatFromDocument, extractorConfig, unvalidatedDocsCount, confirmedDocsCount, ingestEmail);
+            return new Collection(identifier, name, workspace, extractor, autoValidationThreshold, fields?.ToList(), fieldsConfigured, dateFormatPreference, dateFormatFromDocument, extractorConfig, unvalidatedDocsCount, confirmedDocsCount, ingestEmail);
         }
 
         /// <summary> Initializes a new instance of CollectionWorkspace. </summary>
@@ -196,44 +195,6 @@ namespace Affinda.API.Models
         public static ExtractorBaseExtractor ExtractorBaseExtractor(string identifier = null, string name = null, string namePlural = null, bool validatable = default, bool? isCustom = null, DateTimeOffset? createdDt = null)
         {
             return new ExtractorBaseExtractor(identifier, name, namePlural, validatable, isCustom, createdDt);
-        }
-
-        /// <summary> Initializes a new instance of FieldsLayout. </summary>
-        /// <param name="defaultCategory"></param>
-        /// <param name="categories"></param>
-        /// <returns> A new <see cref="Models.FieldsLayout"/> instance for mocking. </returns>
-        public static FieldsLayout FieldsLayout(FieldCategory defaultCategory = null, IEnumerable<FieldCategory> categories = null)
-        {
-            categories ??= new List<FieldCategory>();
-
-            return new FieldsLayout(defaultCategory, categories?.ToList());
-        }
-
-        /// <summary> Initializes a new instance of FieldCategory. </summary>
-        /// <param name="enabledFields"></param>
-        /// <param name="disabledFields"></param>
-        /// <returns> A new <see cref="Models.FieldCategory"/> instance for mocking. </returns>
-        public static FieldCategory FieldCategory(IEnumerable<Field> enabledFields = null, IEnumerable<Field> disabledFields = null)
-        {
-            enabledFields ??= new List<Field>();
-            disabledFields ??= new List<Field>();
-
-            return new FieldCategory(enabledFields?.ToList(), disabledFields?.ToList());
-        }
-
-        /// <summary> Initializes a new instance of Field. </summary>
-        /// <param name="label"></param>
-        /// <param name="dataPoint"> Data point identifier. </param>
-        /// <param name="mandatory"></param>
-        /// <param name="autoValidationThreshold"></param>
-        /// <param name="showDropdown"></param>
-        /// <param name="fields"></param>
-        /// <returns> A new <see cref="Models.Field"/> instance for mocking. </returns>
-        public static Field Field(string label = null, string dataPoint = null, bool? mandatory = null, float? autoValidationThreshold = null, bool? showDropdown = null, IEnumerable<Field> fields = null)
-        {
-            fields ??= new List<Field>();
-
-            return new Field(label, dataPoint, mandatory, autoValidationThreshold, showDropdown, fields?.ToList());
         }
 
         /// <summary> Initializes a new instance of PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema. </summary>
@@ -489,9 +450,23 @@ namespace Affinda.API.Models
         /// <param name="autoDeactivated"> Resthook subscriptions can be auto deactivated if the receiver continuously returns error status code over a period of time. </param>
         /// <param name="autoDeactivateReason"> The reason for the subscription being auto deactivated. May contains the error response that the receiver returned. </param>
         /// <param name="version"> Version of the resthook subscription. Determines the resthook body being fired. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="organization"/>, <paramref name="targetUrl"/> or <paramref name="autoDeactivateReason"/> is null. </exception>
         /// <returns> A new <see cref="Models.ResthookSubscription"/> instance for mocking. </returns>
-        public static ResthookSubscription ResthookSubscription(int? id = null, ResthookEvent? @event = null, Organization organization = null, string targetUrl = null, bool? active = null, bool? autoDeactivated = null, string autoDeactivateReason = null, ResthookSubscriptionVersion? version = null)
+        public static ResthookSubscription ResthookSubscription(int id = default, ResthookEvent @event = default, Organization organization = null, string targetUrl = null, bool active = default, bool autoDeactivated = default, string autoDeactivateReason = null, ResthookSubscriptionVersion version = default)
         {
+            if (organization == null)
+            {
+                throw new ArgumentNullException(nameof(organization));
+            }
+            if (targetUrl == null)
+            {
+                throw new ArgumentNullException(nameof(targetUrl));
+            }
+            if (autoDeactivateReason == null)
+            {
+                throw new ArgumentNullException(nameof(autoDeactivateReason));
+            }
+
             return new ResthookSubscription(id, @event, organization, targetUrl, active, autoDeactivated, autoDeactivateReason, version);
         }
 

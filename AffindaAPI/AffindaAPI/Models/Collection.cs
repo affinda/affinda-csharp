@@ -35,7 +35,6 @@ namespace Affinda.API.Models
         /// <param name="extractor"></param>
         /// <param name="autoValidationThreshold"></param>
         /// <param name="fields"></param>
-        /// <param name="fieldsLayout"></param>
         /// <param name="fieldsConfigured"></param>
         /// <param name="dateFormatPreference"></param>
         /// <param name="dateFormatFromDocument"> Predict the date format from any dates in the document that is not ambiguous. </param>
@@ -43,7 +42,7 @@ namespace Affinda.API.Models
         /// <param name="unvalidatedDocsCount"> Number of unvalidated documents in the collection. </param>
         /// <param name="confirmedDocsCount"> Number of validated documents in the collection. </param>
         /// <param name="ingestEmail"> When you send email to this address, any document attached in the body will be uploaded to this collection. </param>
-        internal Collection(string identifier, string name, CollectionWorkspace workspace, Extractor extractor, float? autoValidationThreshold, IReadOnlyList<FieldGroup> fields, FieldsLayout fieldsLayout, bool? fieldsConfigured, CollectionDateFormatPreference? dateFormatPreference, bool? dateFormatFromDocument, ExtractorConfig extractorConfig, int? unvalidatedDocsCount, int? confirmedDocsCount, string ingestEmail)
+        internal Collection(string identifier, string name, CollectionWorkspace workspace, Extractor extractor, float? autoValidationThreshold, IReadOnlyList<FieldGroup> fields, bool? fieldsConfigured, CollectionDateFormatPreference? dateFormatPreference, bool? dateFormatFromDocument, ExtractorConfig extractorConfig, int? unvalidatedDocsCount, int? confirmedDocsCount, string ingestEmail)
         {
             Identifier = identifier;
             Name = name;
@@ -51,7 +50,6 @@ namespace Affinda.API.Models
             Extractor = extractor;
             AutoValidationThreshold = autoValidationThreshold;
             Fields = fields;
-            FieldsLayout = fieldsLayout;
             FieldsConfigured = fieldsConfigured;
             DateFormatPreference = dateFormatPreference;
             DateFormatFromDocument = dateFormatFromDocument;
@@ -73,8 +71,6 @@ namespace Affinda.API.Models
         public float? AutoValidationThreshold { get; }
         /// <summary> Gets the fields. </summary>
         public IReadOnlyList<FieldGroup> Fields { get; }
-        /// <summary> Gets the fields layout. </summary>
-        public FieldsLayout FieldsLayout { get; }
         /// <summary> Gets the fields configured. </summary>
         public bool? FieldsConfigured { get; }
         /// <summary> Gets the date format preference. </summary>
