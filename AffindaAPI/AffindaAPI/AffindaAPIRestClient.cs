@@ -1084,6 +1084,91 @@ namespace Affinda.API
             }
         }
 
+        internal HttpMessage CreateCreateDataFieldForCollectionRequest(string identifier, DataFieldCreate body)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/collections/", false);
+            uri.AppendPath(identifier, true);
+            uri.AppendPath("/create_data_field", false);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Content-Type", "application/json");
+            var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(body);
+            request.Content = content;
+            return message;
+        }
+
+        /// <summary> Create data field for a collection along with a new data point. </summary>
+        /// <param name="identifier"> Collection&apos;s identifier. </param>
+        /// <param name="body"> The data field and data point to be created. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
+        public async Task<Response<DataField>> CreateDataFieldForCollectionAsync(string identifier, DataFieldCreate body, CancellationToken cancellationToken = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateCreateDataFieldForCollectionRequest(identifier, body);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        DataField value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = DataField.DeserializeDataField(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Create data field for a collection along with a new data point. </summary>
+        /// <param name="identifier"> Collection&apos;s identifier. </param>
+        /// <param name="body"> The data field and data point to be created. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
+        public Response<DataField> CreateDataFieldForCollection(string identifier, DataFieldCreate body, CancellationToken cancellationToken = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateCreateDataFieldForCollectionRequest(identifier, body);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        DataField value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = DataField.DeserializeDataField(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
         internal HttpMessage CreateGetAllDocumentsRequest(int? offset, int? limit, string workspace, string collection, DocumentState? state, IEnumerable<int> tags, DateRange? createdDt, string search, IEnumerable<Get8ItemsItem> ordering, bool? includeData, IEnumerable<string> exclude, bool? inReview, bool? failed, bool? ready, bool? validatable, bool? hasChallenges)
         {
             var message = _pipeline.CreateMessage();
@@ -7201,6 +7286,391 @@ namespace Affinda.API
                             array.Add(item.GetString());
                         }
                         value = array;
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateGetAllApiUsersRequest(string organization)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Get;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/api_users", false);
+            if (organization != null)
+            {
+                uri.AppendQuery("organization", organization, true);
+            }
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Get list of all API users. </summary>
+        /// <param name="organization"> Filter by organization. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns your API users. </remarks>
+        public async Task<Response<Paths26Civ0V3ApiUsersGetResponses200ContentApplicationJsonSchema>> GetAllApiUsersAsync(string organization = null, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateGetAllApiUsersRequest(organization);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        Paths26Civ0V3ApiUsersGetResponses200ContentApplicationJsonSchema value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = Paths26Civ0V3ApiUsersGetResponses200ContentApplicationJsonSchema.DeserializePaths26Civ0V3ApiUsersGetResponses200ContentApplicationJsonSchema(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Get list of all API users. </summary>
+        /// <param name="organization"> Filter by organization. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns your API users. </remarks>
+        public Response<Paths26Civ0V3ApiUsersGetResponses200ContentApplicationJsonSchema> GetAllApiUsers(string organization = null, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateGetAllApiUsersRequest(organization);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        Paths26Civ0V3ApiUsersGetResponses200ContentApplicationJsonSchema value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = Paths26Civ0V3ApiUsersGetResponses200ContentApplicationJsonSchema.DeserializePaths26Civ0V3ApiUsersGetResponses200ContentApplicationJsonSchema(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateCreateApiUserRequest(ApiUserCreate body)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/api_users", false);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Content-Type", "application/json");
+            var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(body);
+            request.Content = content;
+            return message;
+        }
+
+        /// <summary> Create an API user. </summary>
+        /// <param name="body"> The ApiUserCreate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        public async Task<Response<ApiUserWithKey>> CreateApiUserAsync(ApiUserCreate body, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateCreateApiUserRequest(body);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 201:
+                    {
+                        ApiUserWithKey value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = ApiUserWithKey.DeserializeApiUserWithKey(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Create an API user. </summary>
+        /// <param name="body"> The ApiUserCreate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        public Response<ApiUserWithKey> CreateApiUser(ApiUserCreate body, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateCreateApiUserRequest(body);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 201:
+                    {
+                        ApiUserWithKey value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = ApiUserWithKey.DeserializeApiUserWithKey(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateGetApiUserRequest(int id)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Get;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/api_users/", false);
+            uri.AppendPath(id, true);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Get specific API user. </summary>
+        /// <param name="id"> API user&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return a specific API user. </remarks>
+        public async Task<Response<ApiUserWithoutKey>> GetApiUserAsync(int id, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateGetApiUserRequest(id);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ApiUserWithoutKey value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = ApiUserWithoutKey.DeserializeApiUserWithoutKey(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Get specific API user. </summary>
+        /// <param name="id"> API user&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return a specific API user. </remarks>
+        public Response<ApiUserWithoutKey> GetApiUser(int id, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateGetApiUserRequest(id);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ApiUserWithoutKey value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = ApiUserWithoutKey.DeserializeApiUserWithoutKey(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateUpdateApiUserRequest(int id, ApiUserUpdate body)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Patch;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/api_users/", false);
+            uri.AppendPath(id, true);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Content-Type", "application/json");
+            var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(body);
+            request.Content = content;
+            return message;
+        }
+
+        /// <summary> Update an API user. </summary>
+        /// <param name="id"> API user&apos;s ID. </param>
+        /// <param name="body"> API user to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        /// <remarks> Update data of an API user. </remarks>
+        public async Task<Response<ApiUserWithoutKey>> UpdateApiUserAsync(int id, ApiUserUpdate body, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateUpdateApiUserRequest(id, body);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ApiUserWithoutKey value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = ApiUserWithoutKey.DeserializeApiUserWithoutKey(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Update an API user. </summary>
+        /// <param name="id"> API user&apos;s ID. </param>
+        /// <param name="body"> API user to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        /// <remarks> Update data of an API user. </remarks>
+        public Response<ApiUserWithoutKey> UpdateApiUser(int id, ApiUserUpdate body, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateUpdateApiUserRequest(id, body);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ApiUserWithoutKey value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = ApiUserWithoutKey.DeserializeApiUserWithoutKey(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateDeleteApiUserRequest(int id)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Delete;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/api_users/", false);
+            uri.AppendPath(id, true);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Delete an API user. </summary>
+        /// <param name="id"> API user&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Deletes the specified API user from the database. </remarks>
+        public async Task<Response> DeleteApiUserAsync(int id, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateDeleteApiUserRequest(id);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 204:
+                    return message.Response;
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Delete an API user. </summary>
+        /// <param name="id"> API user&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Deletes the specified API user from the database. </remarks>
+        public Response DeleteApiUser(int id, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateDeleteApiUserRequest(id);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 204:
+                    return message.Response;
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateRegenerateApiKeyForApiUserRequest(int id)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/api_users/", false);
+            uri.AppendPath(id, true);
+            uri.AppendPath("/regenerate_api_key", false);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Regenerate API key for an API user. </summary>
+        /// <param name="id"> API user&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Regenerate API key for an API user. </remarks>
+        public async Task<Response<ApiUserWithKey>> RegenerateApiKeyForApiUserAsync(int id, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateRegenerateApiKeyForApiUserRequest(id);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ApiUserWithKey value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = ApiUserWithKey.DeserializeApiUserWithKey(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Regenerate API key for an API user. </summary>
+        /// <param name="id"> API user&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Regenerate API key for an API user. </remarks>
+        public Response<ApiUserWithKey> RegenerateApiKeyForApiUser(int id, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateRegenerateApiKeyForApiUserRequest(id);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ApiUserWithKey value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = ApiUserWithKey.DeserializeApiUserWithKey(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:

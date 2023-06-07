@@ -42,6 +42,11 @@ namespace Affinda.API.Models
                     writer.WriteNull("fields");
                 }
             }
+            if (Optional.IsDefined(FieldsLayout))
+            {
+                writer.WritePropertyName("fieldsLayout");
+                writer.WriteObjectValue(FieldsLayout);
+            }
             if (Optional.IsDefined(DateFormatPreference))
             {
                 if (DateFormatPreference != null)

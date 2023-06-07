@@ -11,16 +11,16 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class FieldGroup : IUtf8JsonSerializable
+    public partial class FieldsLayout : IUtf8JsonSerializable
     {
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
         {
             writer.WriteStartObject();
-            writer.WritePropertyName("label");
-            writer.WriteStringValue(Label);
-            writer.WritePropertyName("fields");
+            writer.WritePropertyName("defaultCategory");
+            writer.WriteObjectValue(DefaultCategory);
+            writer.WritePropertyName("categories");
             writer.WriteStartArray();
-            foreach (var item in Fields)
+            foreach (var item in Categories)
             {
                 writer.WriteObjectValue(item);
             }
@@ -28,29 +28,29 @@ namespace Affinda.API.Models
             writer.WriteEndObject();
         }
 
-        internal static FieldGroup DeserializeFieldGroup(JsonElement element)
+        internal static FieldsLayout DeserializeFieldsLayout(JsonElement element)
         {
-            string label = default;
-            IList<FieldDeprecated> fields = default;
+            FieldCategory defaultCategory = default;
+            IList<FieldCategory> categories = default;
             foreach (var property in element.EnumerateObject())
             {
-                if (property.NameEquals("label"))
+                if (property.NameEquals("defaultCategory"))
                 {
-                    label = property.Value.GetString();
+                    defaultCategory = FieldCategory.DeserializeFieldCategory(property.Value);
                     continue;
                 }
-                if (property.NameEquals("fields"))
+                if (property.NameEquals("categories"))
                 {
-                    List<FieldDeprecated> array = new List<FieldDeprecated>();
+                    List<FieldCategory> array = new List<FieldCategory>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(FieldDeprecated.DeserializeFieldDeprecated(item));
+                        array.Add(FieldCategory.DeserializeFieldCategory(item));
                     }
-                    fields = array;
+                    categories = array;
                     continue;
                 }
             }
-            return new FieldGroup(label, fields);
+            return new FieldsLayout(defaultCategory, categories);
         }
     }
 }

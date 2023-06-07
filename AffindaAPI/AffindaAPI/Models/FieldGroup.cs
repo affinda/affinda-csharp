@@ -18,7 +18,7 @@ namespace Affinda.API.Models
         /// <param name="label"></param>
         /// <param name="fields"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="label"/> or <paramref name="fields"/> is null. </exception>
-        public FieldGroup(string label, IEnumerable<Field> fields)
+        public FieldGroup(string label, IEnumerable<FieldDeprecated> fields)
         {
             if (label == null)
             {
@@ -36,7 +36,7 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of FieldGroup. </summary>
         /// <param name="label"></param>
         /// <param name="fields"></param>
-        internal FieldGroup(string label, IList<Field> fields)
+        internal FieldGroup(string label, IList<FieldDeprecated> fields)
         {
             Label = label;
             Fields = fields;
@@ -45,6 +45,6 @@ namespace Affinda.API.Models
         /// <summary> Gets or sets the label. </summary>
         public string Label { get; set; }
         /// <summary> Gets the fields. </summary>
-        public IList<Field> Fields { get; }
+        public IList<FieldDeprecated> Fields { get; }
     }
 }

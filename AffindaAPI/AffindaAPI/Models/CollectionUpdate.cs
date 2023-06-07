@@ -25,6 +25,8 @@ namespace Affinda.API.Models
         public float? AutoValidationThreshold { get; set; }
         /// <summary> Gets or sets the fields. </summary>
         public IList<FieldGroup> Fields { get; set; }
+        /// <summary> Gets or sets the fields layout. </summary>
+        public FieldsLayout FieldsLayout { get; set; }
         /// <summary> Gets or sets the date format preference. </summary>
         public DateFormatPreference? DateFormatPreference { get; set; }
         /// <summary> Predict the date format from any dates in the document that is not ambiguous. </summary>

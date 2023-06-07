@@ -140,6 +140,7 @@ namespace Affinda.API.Models
         /// <param name="extractor"></param>
         /// <param name="autoValidationThreshold"></param>
         /// <param name="fields"></param>
+        /// <param name="fieldsLayout"></param>
         /// <param name="fieldsConfigured"></param>
         /// <param name="dateFormatPreference"></param>
         /// <param name="dateFormatFromDocument"> Predict the date format from any dates in the document that is not ambiguous. </param>
@@ -148,11 +149,11 @@ namespace Affinda.API.Models
         /// <param name="confirmedDocsCount"> Number of validated documents in the collection. </param>
         /// <param name="ingestEmail"> When you send email to this address, any document attached in the body will be uploaded to this collection. </param>
         /// <returns> A new <see cref="Models.Collection"/> instance for mocking. </returns>
-        public static Collection Collection(string identifier = null, string name = null, CollectionWorkspace workspace = null, Extractor extractor = null, float? autoValidationThreshold = null, IEnumerable<FieldGroup> fields = null, bool? fieldsConfigured = null, CollectionDateFormatPreference? dateFormatPreference = null, bool? dateFormatFromDocument = null, ExtractorConfig extractorConfig = null, int? unvalidatedDocsCount = null, int? confirmedDocsCount = null, string ingestEmail = null)
+        public static Collection Collection(string identifier = null, string name = null, CollectionWorkspace workspace = null, Extractor extractor = null, float? autoValidationThreshold = null, IEnumerable<FieldGroup> fields = null, FieldsLayout fieldsLayout = null, bool? fieldsConfigured = null, CollectionDateFormatPreference? dateFormatPreference = null, bool? dateFormatFromDocument = null, ExtractorConfig extractorConfig = null, int? unvalidatedDocsCount = null, int? confirmedDocsCount = null, string ingestEmail = null)
         {
             fields ??= new List<FieldGroup>();
 
-            return new Collection(identifier, name, workspace, extractor, autoValidationThreshold, fields?.ToList(), fieldsConfigured, dateFormatPreference, dateFormatFromDocument, extractorConfig, unvalidatedDocsCount, confirmedDocsCount, ingestEmail);
+            return new Collection(identifier, name, workspace, extractor, autoValidationThreshold, fields?.ToList(), fieldsLayout, fieldsConfigured, dateFormatPreference, dateFormatFromDocument, extractorConfig, unvalidatedDocsCount, confirmedDocsCount, ingestEmail);
         }
 
         /// <summary> Initializes a new instance of CollectionWorkspace. </summary>
@@ -195,6 +196,61 @@ namespace Affinda.API.Models
         public static ExtractorBaseExtractor ExtractorBaseExtractor(string identifier = null, string name = null, string namePlural = null, bool validatable = default, bool? isCustom = null, DateTimeOffset? createdDt = null)
         {
             return new ExtractorBaseExtractor(identifier, name, namePlural, validatable, isCustom, createdDt);
+        }
+
+        /// <summary> Initializes a new instance of DataField. </summary>
+        /// <param name="categoryLabel"> The label of the category that this field will be put into. If not provided, the field will be put into the default category. If no category exists with the specified label, a new category will be created. </param>
+        /// <param name="field"> The field to be created. </param>
+        /// <param name="dataPoint"> The data point to be created for this field. If a data point with the same slug and collection already exists, it will be reused. </param>
+        /// <returns> A new <see cref="Models.DataField"/> instance for mocking. </returns>
+        public static DataField DataField(string categoryLabel = null, DataFieldField field = null, DataFieldDataPoint dataPoint = null)
+        {
+            return new DataField(categoryLabel, field, dataPoint);
+        }
+
+        /// <summary> Initializes a new instance of DataFieldField. </summary>
+        /// <param name="label"></param>
+        /// <param name="mandatory"></param>
+        /// <param name="showDropdown"></param>
+        /// <param name="autoValidationThreshold"></param>
+        /// <exception cref="ArgumentNullException"> <paramref name="label"/> is null. </exception>
+        /// <returns> A new <see cref="Models.DataFieldField"/> instance for mocking. </returns>
+        public static DataFieldField DataFieldField(string label = null, bool mandatory = default, bool showDropdown = default, float? autoValidationThreshold = null)
+        {
+            if (label == null)
+            {
+                throw new ArgumentNullException(nameof(label));
+            }
+
+            return new DataFieldField(label, mandatory, showDropdown, autoValidationThreshold);
+        }
+
+        /// <summary> Initializes a new instance of DataFieldDataPoint. </summary>
+        /// <param name="identifier"> Uniquely identify a data point. </param>
+        /// <param name="name"></param>
+        /// <param name="slug"></param>
+        /// <param name="description"></param>
+        /// <param name="type"> The different data types of annotations. </param>
+        /// <param name="multiple"></param>
+        /// <param name="noRect"></param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/>, <paramref name="name"/> or <paramref name="slug"/> is null. </exception>
+        /// <returns> A new <see cref="Models.DataFieldDataPoint"/> instance for mocking. </returns>
+        public static DataFieldDataPoint DataFieldDataPoint(string identifier = null, string name = null, string slug = null, string description = null, AnnotationContentType type = default, bool multiple = default, bool noRect = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+            if (slug == null)
+            {
+                throw new ArgumentNullException(nameof(slug));
+            }
+
+            return new DataFieldDataPoint(identifier, name, slug, description, type, multiple, noRect);
         }
 
         /// <summary> Initializes a new instance of PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema. </summary>
@@ -1259,6 +1315,98 @@ namespace Affinda.API.Models
         public static ResumeSearchEmbed ResumeSearchEmbed(string url = null)
         {
             return new ResumeSearchEmbed(url);
+        }
+
+        /// <summary> Initializes a new instance of Paths26Civ0V3ApiUsersGetResponses200ContentApplicationJsonSchema. </summary>
+        /// <param name="count"> Number of items in results. </param>
+        /// <param name="next"> URL to request next page of results. </param>
+        /// <param name="previous"> URL to request previous page of results. </param>
+        /// <param name="results"></param>
+        /// <returns> A new <see cref="Models.Paths26Civ0V3ApiUsersGetResponses200ContentApplicationJsonSchema"/> instance for mocking. </returns>
+        public static Paths26Civ0V3ApiUsersGetResponses200ContentApplicationJsonSchema Paths26Civ0V3ApiUsersGetResponses200ContentApplicationJsonSchema(int count = default, string next = null, string previous = null, IEnumerable<ApiUserWithoutKey> results = null)
+        {
+            results ??= new List<ApiUserWithoutKey>();
+
+            return new Paths26Civ0V3ApiUsersGetResponses200ContentApplicationJsonSchema(count, next, previous, results?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of Paths11PzrpaV3ApiUsersGetResponses200ContentApplicationJsonSchemaAllof1. </summary>
+        /// <param name="results"></param>
+        /// <returns> A new <see cref="Models.Paths11PzrpaV3ApiUsersGetResponses200ContentApplicationJsonSchemaAllof1"/> instance for mocking. </returns>
+        public static Paths11PzrpaV3ApiUsersGetResponses200ContentApplicationJsonSchemaAllof1 Paths11PzrpaV3ApiUsersGetResponses200ContentApplicationJsonSchemaAllof1(IEnumerable<ApiUserWithoutKey> results = null)
+        {
+            results ??= new List<ApiUserWithoutKey>();
+
+            return new Paths11PzrpaV3ApiUsersGetResponses200ContentApplicationJsonSchemaAllof1(results?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of ApiUserWithoutKey. </summary>
+        /// <param name="id"> Uniquely identify a user. </param>
+        /// <param name="name"></param>
+        /// <param name="username"></param>
+        /// <param name="email"></param>
+        /// <param name="avatar"> URL of the user&apos;s avatar. </param>
+        /// <param name="organizations"></param>
+        /// <returns> A new <see cref="Models.ApiUserWithoutKey"/> instance for mocking. </returns>
+        public static ApiUserWithoutKey ApiUserWithoutKey(int id = default, string name = null, string username = null, string email = null, string avatar = null, IEnumerable<ApiUserWithoutKeyOrganizationsItem> organizations = null)
+        {
+            organizations ??= new List<ApiUserWithoutKeyOrganizationsItem>();
+
+            return new ApiUserWithoutKey(id, name, username, email, avatar, organizations?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of ApiUserWithoutKeyOrganizationsItem. </summary>
+        /// <param name="identifier"> Uniquely identify an organization. </param>
+        /// <param name="name"></param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="name"/> is null. </exception>
+        /// <returns> A new <see cref="Models.ApiUserWithoutKeyOrganizationsItem"/> instance for mocking. </returns>
+        public static ApiUserWithoutKeyOrganizationsItem ApiUserWithoutKeyOrganizationsItem(string identifier = null, string name = null)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            return new ApiUserWithoutKeyOrganizationsItem(identifier, name);
+        }
+
+        /// <summary> Initializes a new instance of ApiUserWithKey. </summary>
+        /// <param name="id"> Uniquely identify a user. </param>
+        /// <param name="name"></param>
+        /// <param name="username"></param>
+        /// <param name="email"></param>
+        /// <param name="avatar"> URL of the user&apos;s avatar. </param>
+        /// <param name="organizations"></param>
+        /// <param name="apiKey"> Use this key to authenticate with the API. </param>
+        /// <returns> A new <see cref="Models.ApiUserWithKey"/> instance for mocking. </returns>
+        public static ApiUserWithKey ApiUserWithKey(int id = default, string name = null, string username = null, string email = null, string avatar = null, IEnumerable<ApiUserWithKeyOrganizationsItem> organizations = null, string apiKey = null)
+        {
+            organizations ??= new List<ApiUserWithKeyOrganizationsItem>();
+
+            return new ApiUserWithKey(id, name, username, email, avatar, organizations?.ToList(), apiKey);
+        }
+
+        /// <summary> Initializes a new instance of ApiUserWithKeyOrganizationsItem. </summary>
+        /// <param name="identifier"> Uniquely identify an organization. </param>
+        /// <param name="name"></param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="name"/> is null. </exception>
+        /// <returns> A new <see cref="Models.ApiUserWithKeyOrganizationsItem"/> instance for mocking. </returns>
+        public static ApiUserWithKeyOrganizationsItem ApiUserWithKeyOrganizationsItem(string identifier = null, string name = null)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            return new ApiUserWithKeyOrganizationsItem(identifier, name);
         }
 
         /// <summary> Initializes a new instance of ResumeData. </summary>
