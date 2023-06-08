@@ -2313,7 +2313,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllDataPointsRequest(int? offset, int? limit, string organization, string extractor, string slug, string description, string annotationContentType, IEnumerable<string> identifier)
+        internal HttpMessage CreateGetAllDataPointsRequest(int? offset, int? limit, string organization, bool? includePublic, string extractor, string slug, string description, string annotationContentType, IEnumerable<string> identifier)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -2334,6 +2334,10 @@ namespace Affinda.API
             if (organization != null)
             {
                 uri.AppendQuery("organization", organization, true);
+            }
+            if (includePublic != null)
+            {
+                uri.AppendQuery("include_public", includePublic.Value, true);
             }
             if (extractor != null)
             {
@@ -2364,6 +2368,7 @@ namespace Affinda.API
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
         /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="organization"> Filter by organization. </param>
+        /// <param name="includePublic"> Allows you to include public data points in the response when you&apos;re filtering by organization. </param>
         /// <param name="extractor"> Filter by extractor. </param>
         /// <param name="slug"> Filter by slug. </param>
         /// <param name="description"> Filter by description. </param>
@@ -2371,9 +2376,9 @@ namespace Affinda.API
         /// <param name="identifier"> Filter by specific identifiers. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns your custom data points as well as Affinda&apos;s off-the-shelf data points. </remarks>
-        public async Task<Response<IReadOnlyList<DataPoint>>> GetAllDataPointsAsync(int? offset = null, int? limit = null, string organization = null, string extractor = null, string slug = null, string description = null, string annotationContentType = null, IEnumerable<string> identifier = null, CancellationToken cancellationToken = default)
+        public async Task<Response<IReadOnlyList<DataPoint>>> GetAllDataPointsAsync(int? offset = null, int? limit = null, string organization = null, bool? includePublic = null, string extractor = null, string slug = null, string description = null, string annotationContentType = null, IEnumerable<string> identifier = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllDataPointsRequest(offset, limit, organization, extractor, slug, description, annotationContentType, identifier);
+            using var message = CreateGetAllDataPointsRequest(offset, limit, organization, includePublic, extractor, slug, description, annotationContentType, identifier);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -2398,6 +2403,7 @@ namespace Affinda.API
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
         /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="organization"> Filter by organization. </param>
+        /// <param name="includePublic"> Allows you to include public data points in the response when you&apos;re filtering by organization. </param>
         /// <param name="extractor"> Filter by extractor. </param>
         /// <param name="slug"> Filter by slug. </param>
         /// <param name="description"> Filter by description. </param>
@@ -2405,9 +2411,9 @@ namespace Affinda.API
         /// <param name="identifier"> Filter by specific identifiers. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns your custom data points as well as Affinda&apos;s off-the-shelf data points. </remarks>
-        public Response<IReadOnlyList<DataPoint>> GetAllDataPoints(int? offset = null, int? limit = null, string organization = null, string extractor = null, string slug = null, string description = null, string annotationContentType = null, IEnumerable<string> identifier = null, CancellationToken cancellationToken = default)
+        public Response<IReadOnlyList<DataPoint>> GetAllDataPoints(int? offset = null, int? limit = null, string organization = null, bool? includePublic = null, string extractor = null, string slug = null, string description = null, string annotationContentType = null, IEnumerable<string> identifier = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllDataPointsRequest(offset, limit, organization, extractor, slug, description, annotationContentType, identifier);
+            using var message = CreateGetAllDataPointsRequest(offset, limit, organization, includePublic, extractor, slug, description, annotationContentType, identifier);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
