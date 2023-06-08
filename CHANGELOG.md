@@ -18,9 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add customData field to JD search param/result serializers
 - rawText field to JobDescription Model
 - Required fields for resthook subscriptions
+- Ability to post/patch languages for resumes in v2
 
 ### Fixed
-- Update python_requires to be PEP compliant
+- Set resumes GET document format to be an enum
 
 ## [4.3.0] - 2023-04-27
 ### Changed

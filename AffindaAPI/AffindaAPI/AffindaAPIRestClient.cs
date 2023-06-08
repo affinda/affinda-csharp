@@ -235,7 +235,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetResumeRequest(string identifier, string format)
+        internal HttpMessage CreateGetResumeRequest(string identifier, Enum2? format)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -248,7 +248,7 @@ namespace Affinda.API
             uri.AppendPath(identifier, true);
             if (format != null)
             {
-                uri.AppendQuery("format", format, true);
+                uri.AppendQuery("format", format.Value.ToString(), true);
             }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -264,7 +264,7 @@ namespace Affinda.API
         /// Returns all the parse results for that resume if processing is completed.
         /// The `identifier` is the unique ID returned after POST-ing the resume via the [/resumes](#post-/resumes) endpoint.
         /// </remarks>
-        public async Task<Response<Resume>> GetResumeAsync(string identifier, string format = null, CancellationToken cancellationToken = default)
+        public async Task<Response<Resume>> GetResumeAsync(string identifier, Enum2? format = null, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
             {
@@ -296,7 +296,7 @@ namespace Affinda.API
         /// Returns all the parse results for that resume if processing is completed.
         /// The `identifier` is the unique ID returned after POST-ing the resume via the [/resumes](#post-/resumes) endpoint.
         /// </remarks>
-        public Response<Resume> GetResume(string identifier, string format = null, CancellationToken cancellationToken = default)
+        public Response<Resume> GetResume(string identifier, Enum2? format = null, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
             {
@@ -2709,7 +2709,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllIndexesRequest(int? offset, int? limit, Enum3? documentType)
+        internal HttpMessage CreateGetAllIndexesRequest(int? offset, int? limit, Enum5? documentType)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -2742,7 +2742,7 @@ namespace Affinda.API
         /// <param name="documentType"> Filter indices by a document type. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public async Task<Response<Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum3? documentType = null, CancellationToken cancellationToken = default)
+        public async Task<Response<Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum5? documentType = null, CancellationToken cancellationToken = default)
         {
             using var message = CreateGetAllIndexesRequest(offset, limit, documentType);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
@@ -2766,7 +2766,7 @@ namespace Affinda.API
         /// <param name="documentType"> Filter indices by a document type. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public Response<Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema> GetAllIndexes(int? offset = null, int? limit = null, Enum3? documentType = null, CancellationToken cancellationToken = default)
+        public Response<Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema> GetAllIndexes(int? offset = null, int? limit = null, Enum5? documentType = null, CancellationToken cancellationToken = default)
         {
             using var message = CreateGetAllIndexesRequest(offset, limit, documentType);
             _pipeline.Send(message, cancellationToken);

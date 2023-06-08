@@ -170,7 +170,7 @@ namespace Affinda.API
         /// Returns all the parse results for that resume if processing is completed.
         /// The `identifier` is the unique ID returned after POST-ing the resume via the [/resumes](#post-/resumes) endpoint.
         /// </remarks>
-        public virtual async Task<Response<Resume>> GetResumeAsync(string identifier, string format = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<Resume>> GetResumeAsync(string identifier, Enum2? format = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResume");
             scope.Start();
@@ -193,7 +193,7 @@ namespace Affinda.API
         /// Returns all the parse results for that resume if processing is completed.
         /// The `identifier` is the unique ID returned after POST-ing the resume via the [/resumes](#post-/resumes) endpoint.
         /// </remarks>
-        public virtual Response<Resume> GetResume(string identifier, string format = null, CancellationToken cancellationToken = default)
+        public virtual Response<Resume> GetResume(string identifier, Enum2? format = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetResume");
             scope.Start();
@@ -1438,7 +1438,7 @@ namespace Affinda.API
         /// <param name="documentType"> Filter indices by a document type. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public virtual async Task<Response<Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum3? documentType = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum5? documentType = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexes");
             scope.Start();
@@ -1459,7 +1459,7 @@ namespace Affinda.API
         /// <param name="documentType"> Filter indices by a document type. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public virtual Response<Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema> GetAllIndexes(int? offset = null, int? limit = null, Enum3? documentType = null, CancellationToken cancellationToken = default)
+        public virtual Response<Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema> GetAllIndexes(int? offset = null, int? limit = null, Enum5? documentType = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexes");
             scope.Start();

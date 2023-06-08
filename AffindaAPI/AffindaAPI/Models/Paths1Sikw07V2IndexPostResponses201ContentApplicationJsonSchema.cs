@@ -18,7 +18,7 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of Paths1Sikw07V2IndexPostResponses201ContentApplicationJsonSchema. </summary>
         /// <param name="name"></param>
         /// <param name="documentType"></param>
-        internal Paths1Sikw07V2IndexPostResponses201ContentApplicationJsonSchema(string name, Enum5? documentType)
+        internal Paths1Sikw07V2IndexPostResponses201ContentApplicationJsonSchema(string name, Enum7? documentType)
         {
             Name = name;
             DocumentType = documentType;
@@ -27,6 +27,6 @@ namespace Affinda.API.Models
         /// <summary> Gets the name. </summary>
         public string Name { get; }
         /// <summary> Gets the document type. </summary>
-        public Enum5? DocumentType { get; }
+        public Enum7? DocumentType { get; }
     }
 }
