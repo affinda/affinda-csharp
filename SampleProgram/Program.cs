@@ -21,7 +21,8 @@ namespace AffindaAPISample
             var workspaceBody = new WorkspaceCreate(myOrganisation.Identifier, "My Workspace");
             var recruitmentWorkspace = client.CreateWorkspace(workspaceBody).Value;
 
-            var collectionBody = new CollectionCreate("Resumes", recruitmentWorkspace.Identifier, "resume");
+            var collectionBody = new CollectionCreate("Resumes", recruitmentWorkspace.Identifier);
+            collectionBody.Extractor = "resume";
             var resumeCollection = client.CreateCollection(collectionBody).Value;
 
             using (FileStream fs = File.OpenRead(documentPath))

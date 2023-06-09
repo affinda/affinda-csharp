@@ -474,6 +474,98 @@ namespace Affinda.API.Models
             return new Invitation(identifier, organization, email, role, status, expiryDate, invitedBy, respondedBy, createdDt);
         }
 
+        /// <summary> Initializes a new instance of Paths26Civ0V3ApiUsersGetResponses200ContentApplicationJsonSchema. </summary>
+        /// <param name="count"> Number of items in results. </param>
+        /// <param name="next"> URL to request next page of results. </param>
+        /// <param name="previous"> URL to request previous page of results. </param>
+        /// <param name="results"></param>
+        /// <returns> A new <see cref="Models.Paths26Civ0V3ApiUsersGetResponses200ContentApplicationJsonSchema"/> instance for mocking. </returns>
+        public static Paths26Civ0V3ApiUsersGetResponses200ContentApplicationJsonSchema Paths26Civ0V3ApiUsersGetResponses200ContentApplicationJsonSchema(int count = default, string next = null, string previous = null, IEnumerable<ApiUserWithoutKey> results = null)
+        {
+            results ??= new List<ApiUserWithoutKey>();
+
+            return new Paths26Civ0V3ApiUsersGetResponses200ContentApplicationJsonSchema(count, next, previous, results?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of Paths11PzrpaV3ApiUsersGetResponses200ContentApplicationJsonSchemaAllof1. </summary>
+        /// <param name="results"></param>
+        /// <returns> A new <see cref="Models.Paths11PzrpaV3ApiUsersGetResponses200ContentApplicationJsonSchemaAllof1"/> instance for mocking. </returns>
+        public static Paths11PzrpaV3ApiUsersGetResponses200ContentApplicationJsonSchemaAllof1 Paths11PzrpaV3ApiUsersGetResponses200ContentApplicationJsonSchemaAllof1(IEnumerable<ApiUserWithoutKey> results = null)
+        {
+            results ??= new List<ApiUserWithoutKey>();
+
+            return new Paths11PzrpaV3ApiUsersGetResponses200ContentApplicationJsonSchemaAllof1(results?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of ApiUserWithoutKey. </summary>
+        /// <param name="id"> Uniquely identify a user. </param>
+        /// <param name="name"></param>
+        /// <param name="username"></param>
+        /// <param name="email"></param>
+        /// <param name="avatar"> URL of the user&apos;s avatar. </param>
+        /// <param name="organizations"></param>
+        /// <returns> A new <see cref="Models.ApiUserWithoutKey"/> instance for mocking. </returns>
+        public static ApiUserWithoutKey ApiUserWithoutKey(int id = default, string name = null, string username = null, string email = null, string avatar = null, IEnumerable<ApiUserWithoutKeyOrganizationsItem> organizations = null)
+        {
+            organizations ??= new List<ApiUserWithoutKeyOrganizationsItem>();
+
+            return new ApiUserWithoutKey(id, name, username, email, avatar, organizations?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of ApiUserWithoutKeyOrganizationsItem. </summary>
+        /// <param name="identifier"> Uniquely identify an organization. </param>
+        /// <param name="name"></param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="name"/> is null. </exception>
+        /// <returns> A new <see cref="Models.ApiUserWithoutKeyOrganizationsItem"/> instance for mocking. </returns>
+        public static ApiUserWithoutKeyOrganizationsItem ApiUserWithoutKeyOrganizationsItem(string identifier = null, string name = null)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            return new ApiUserWithoutKeyOrganizationsItem(identifier, name);
+        }
+
+        /// <summary> Initializes a new instance of ApiUserWithKey. </summary>
+        /// <param name="id"> Uniquely identify a user. </param>
+        /// <param name="name"></param>
+        /// <param name="username"></param>
+        /// <param name="email"></param>
+        /// <param name="avatar"> URL of the user&apos;s avatar. </param>
+        /// <param name="organizations"></param>
+        /// <param name="apiKey"> Use this key to authenticate with the API. </param>
+        /// <returns> A new <see cref="Models.ApiUserWithKey"/> instance for mocking. </returns>
+        public static ApiUserWithKey ApiUserWithKey(int id = default, string name = null, string username = null, string email = null, string avatar = null, IEnumerable<ApiUserWithKeyOrganizationsItem> organizations = null, string apiKey = null)
+        {
+            organizations ??= new List<ApiUserWithKeyOrganizationsItem>();
+
+            return new ApiUserWithKey(id, name, username, email, avatar, organizations?.ToList(), apiKey);
+        }
+
+        /// <summary> Initializes a new instance of ApiUserWithKeyOrganizationsItem. </summary>
+        /// <param name="identifier"> Uniquely identify an organization. </param>
+        /// <param name="name"></param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="name"/> is null. </exception>
+        /// <returns> A new <see cref="Models.ApiUserWithKeyOrganizationsItem"/> instance for mocking. </returns>
+        public static ApiUserWithKeyOrganizationsItem ApiUserWithKeyOrganizationsItem(string identifier = null, string name = null)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            return new ApiUserWithKeyOrganizationsItem(identifier, name);
+        }
+
         /// <summary> Initializes a new instance of PathsVz5Kj2V3ResthookSubscriptionsGetResponses200ContentApplicationJsonSchema. </summary>
         /// <param name="count"> Number of items in results. </param>
         /// <param name="next"> URL to request next page of results. </param>
@@ -1317,98 +1409,6 @@ namespace Affinda.API.Models
             return new ResumeSearchEmbed(url);
         }
 
-        /// <summary> Initializes a new instance of Paths26Civ0V3ApiUsersGetResponses200ContentApplicationJsonSchema. </summary>
-        /// <param name="count"> Number of items in results. </param>
-        /// <param name="next"> URL to request next page of results. </param>
-        /// <param name="previous"> URL to request previous page of results. </param>
-        /// <param name="results"></param>
-        /// <returns> A new <see cref="Models.Paths26Civ0V3ApiUsersGetResponses200ContentApplicationJsonSchema"/> instance for mocking. </returns>
-        public static Paths26Civ0V3ApiUsersGetResponses200ContentApplicationJsonSchema Paths26Civ0V3ApiUsersGetResponses200ContentApplicationJsonSchema(int count = default, string next = null, string previous = null, IEnumerable<ApiUserWithoutKey> results = null)
-        {
-            results ??= new List<ApiUserWithoutKey>();
-
-            return new Paths26Civ0V3ApiUsersGetResponses200ContentApplicationJsonSchema(count, next, previous, results?.ToList());
-        }
-
-        /// <summary> Initializes a new instance of Paths11PzrpaV3ApiUsersGetResponses200ContentApplicationJsonSchemaAllof1. </summary>
-        /// <param name="results"></param>
-        /// <returns> A new <see cref="Models.Paths11PzrpaV3ApiUsersGetResponses200ContentApplicationJsonSchemaAllof1"/> instance for mocking. </returns>
-        public static Paths11PzrpaV3ApiUsersGetResponses200ContentApplicationJsonSchemaAllof1 Paths11PzrpaV3ApiUsersGetResponses200ContentApplicationJsonSchemaAllof1(IEnumerable<ApiUserWithoutKey> results = null)
-        {
-            results ??= new List<ApiUserWithoutKey>();
-
-            return new Paths11PzrpaV3ApiUsersGetResponses200ContentApplicationJsonSchemaAllof1(results?.ToList());
-        }
-
-        /// <summary> Initializes a new instance of ApiUserWithoutKey. </summary>
-        /// <param name="id"> Uniquely identify a user. </param>
-        /// <param name="name"></param>
-        /// <param name="username"></param>
-        /// <param name="email"></param>
-        /// <param name="avatar"> URL of the user&apos;s avatar. </param>
-        /// <param name="organizations"></param>
-        /// <returns> A new <see cref="Models.ApiUserWithoutKey"/> instance for mocking. </returns>
-        public static ApiUserWithoutKey ApiUserWithoutKey(int id = default, string name = null, string username = null, string email = null, string avatar = null, IEnumerable<ApiUserWithoutKeyOrganizationsItem> organizations = null)
-        {
-            organizations ??= new List<ApiUserWithoutKeyOrganizationsItem>();
-
-            return new ApiUserWithoutKey(id, name, username, email, avatar, organizations?.ToList());
-        }
-
-        /// <summary> Initializes a new instance of ApiUserWithoutKeyOrganizationsItem. </summary>
-        /// <param name="identifier"> Uniquely identify an organization. </param>
-        /// <param name="name"></param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="name"/> is null. </exception>
-        /// <returns> A new <see cref="Models.ApiUserWithoutKeyOrganizationsItem"/> instance for mocking. </returns>
-        public static ApiUserWithoutKeyOrganizationsItem ApiUserWithoutKeyOrganizationsItem(string identifier = null, string name = null)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-            if (name == null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-
-            return new ApiUserWithoutKeyOrganizationsItem(identifier, name);
-        }
-
-        /// <summary> Initializes a new instance of ApiUserWithKey. </summary>
-        /// <param name="id"> Uniquely identify a user. </param>
-        /// <param name="name"></param>
-        /// <param name="username"></param>
-        /// <param name="email"></param>
-        /// <param name="avatar"> URL of the user&apos;s avatar. </param>
-        /// <param name="organizations"></param>
-        /// <param name="apiKey"> Use this key to authenticate with the API. </param>
-        /// <returns> A new <see cref="Models.ApiUserWithKey"/> instance for mocking. </returns>
-        public static ApiUserWithKey ApiUserWithKey(int id = default, string name = null, string username = null, string email = null, string avatar = null, IEnumerable<ApiUserWithKeyOrganizationsItem> organizations = null, string apiKey = null)
-        {
-            organizations ??= new List<ApiUserWithKeyOrganizationsItem>();
-
-            return new ApiUserWithKey(id, name, username, email, avatar, organizations?.ToList(), apiKey);
-        }
-
-        /// <summary> Initializes a new instance of ApiUserWithKeyOrganizationsItem. </summary>
-        /// <param name="identifier"> Uniquely identify an organization. </param>
-        /// <param name="name"></param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="name"/> is null. </exception>
-        /// <returns> A new <see cref="Models.ApiUserWithKeyOrganizationsItem"/> instance for mocking. </returns>
-        public static ApiUserWithKeyOrganizationsItem ApiUserWithKeyOrganizationsItem(string identifier = null, string name = null)
-        {
-            if (identifier == null)
-            {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-            if (name == null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-
-            return new ApiUserWithKeyOrganizationsItem(identifier, name);
-        }
-
         /// <summary> Initializes a new instance of ResumeData. </summary>
         /// <param name="name"></param>
         /// <param name="phoneNumbers"></param>
@@ -1437,13 +1437,13 @@ namespace Affinda.API.Models
         /// <param name="redactedText"> Redacted version of the text in the resume, removing PII. </param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <returns> A new <see cref="Models.ResumeData"/> instance for mocking. </returns>
-        public static ResumeData ResumeData(ResumeDataName name = null, IEnumerable<string> phoneNumbers = null, IEnumerable<ResumeDataPhoneNumberDetailsItem> phoneNumberDetails = null, IEnumerable<string> websites = null, IEnumerable<string> emails = null, string dateOfBirth = null, Location location = null, string objective = null, IEnumerable<ResumeDataLanguagesItem> languages = null, IEnumerable<string> languageCodes = null, string summary = null, int? totalYearsExperience = null, byte[] headShot = null, IEnumerable<Education> education = null, string profession = null, string linkedin = null, IEnumerable<ResumeDataWorkExperienceItem> workExperience = null, IEnumerable<ResumeDataSkillsItem> skills = null, IEnumerable<string> certifications = null, IEnumerable<string> publications = null, IEnumerable<ResumeDataRefereesItem> referees = null, IEnumerable<ResumeDataSectionsItem> sections = null, int? isResumeProbability = null, string rawText = null, string redactedText = null, IDictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties> additionalProperties = null)
+        public static ResumeData ResumeData(ResumeDataName name = null, IEnumerable<string> phoneNumbers = null, IEnumerable<ResumeDataPhoneNumberDetailsItem> phoneNumberDetails = null, IEnumerable<string> websites = null, IEnumerable<string> emails = null, string dateOfBirth = null, Location location = null, string objective = null, IEnumerable<string> languages = null, IEnumerable<string> languageCodes = null, string summary = null, int? totalYearsExperience = null, byte[] headShot = null, IEnumerable<Education> education = null, string profession = null, string linkedin = null, IEnumerable<ResumeDataWorkExperienceItem> workExperience = null, IEnumerable<ResumeDataSkillsItem> skills = null, IEnumerable<string> certifications = null, IEnumerable<string> publications = null, IEnumerable<ResumeDataRefereesItem> referees = null, IEnumerable<ResumeDataSectionsItem> sections = null, int? isResumeProbability = null, string rawText = null, string redactedText = null, IDictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties> additionalProperties = null)
         {
             phoneNumbers ??= new List<string>();
             phoneNumberDetails ??= new List<ResumeDataPhoneNumberDetailsItem>();
             websites ??= new List<string>();
             emails ??= new List<string>();
-            languages ??= new List<ResumeDataLanguagesItem>();
+            languages ??= new List<string>();
             languageCodes ??= new List<string>();
             education ??= new List<Education>();
             workExperience ??= new List<ResumeDataWorkExperienceItem>();

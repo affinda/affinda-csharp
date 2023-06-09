@@ -19,8 +19,16 @@ namespace Affinda.API.Models
             writer.WriteStringValue(Name);
             writer.WritePropertyName("workspace");
             writer.WriteStringValue(Workspace);
-            writer.WritePropertyName("extractor");
-            writer.WriteStringValue(Extractor);
+            if (Optional.IsDefined(Extractor))
+            {
+                writer.WritePropertyName("extractor");
+                writer.WriteStringValue(Extractor);
+            }
+            if (Optional.IsDefined(BaseExtractor))
+            {
+                writer.WritePropertyName("baseExtractor");
+                writer.WriteStringValue(BaseExtractor);
+            }
             if (Optional.IsDefined(AutoValidationThreshold))
             {
                 writer.WritePropertyName("autoValidationThreshold");

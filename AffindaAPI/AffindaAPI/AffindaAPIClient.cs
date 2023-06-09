@@ -2756,6 +2756,234 @@ namespace Affinda.API
             }
         }
 
+        /// <summary> Get list of all API users. </summary>
+        /// <param name="organization"> Filter by organization. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns your API users. </remarks>
+        public virtual async Task<Response<Paths26Civ0V3ApiUsersGetResponses200ContentApplicationJsonSchema>> GetAllApiUsersAsync(string organization = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllApiUsers");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetAllApiUsersAsync(organization, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get list of all API users. </summary>
+        /// <param name="organization"> Filter by organization. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns your API users. </remarks>
+        public virtual Response<Paths26Civ0V3ApiUsersGetResponses200ContentApplicationJsonSchema> GetAllApiUsers(string organization = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllApiUsers");
+            scope.Start();
+            try
+            {
+                return RestClient.GetAllApiUsers(organization, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create an API user. </summary>
+        /// <param name="body"> The ApiUserCreate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<ApiUserWithKey>> CreateApiUserAsync(ApiUserCreate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateApiUser");
+            scope.Start();
+            try
+            {
+                return await RestClient.CreateApiUserAsync(body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create an API user. </summary>
+        /// <param name="body"> The ApiUserCreate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<ApiUserWithKey> CreateApiUser(ApiUserCreate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateApiUser");
+            scope.Start();
+            try
+            {
+                return RestClient.CreateApiUser(body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get specific API user. </summary>
+        /// <param name="id"> API user&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return a specific API user. </remarks>
+        public virtual async Task<Response<ApiUserWithoutKey>> GetApiUserAsync(int id, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetApiUser");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetApiUserAsync(id, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get specific API user. </summary>
+        /// <param name="id"> API user&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return a specific API user. </remarks>
+        public virtual Response<ApiUserWithoutKey> GetApiUser(int id, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetApiUser");
+            scope.Start();
+            try
+            {
+                return RestClient.GetApiUser(id, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update an API user. </summary>
+        /// <param name="id"> API user&apos;s ID. </param>
+        /// <param name="body"> API user to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Update data of an API user. </remarks>
+        public virtual async Task<Response<ApiUserWithoutKey>> UpdateApiUserAsync(int id, ApiUserUpdate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateApiUser");
+            scope.Start();
+            try
+            {
+                return await RestClient.UpdateApiUserAsync(id, body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update an API user. </summary>
+        /// <param name="id"> API user&apos;s ID. </param>
+        /// <param name="body"> API user to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Update data of an API user. </remarks>
+        public virtual Response<ApiUserWithoutKey> UpdateApiUser(int id, ApiUserUpdate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateApiUser");
+            scope.Start();
+            try
+            {
+                return RestClient.UpdateApiUser(id, body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete an API user. </summary>
+        /// <param name="id"> API user&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Deletes the specified API user from the database. </remarks>
+        public virtual async Task<Response> DeleteApiUserAsync(int id, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteApiUser");
+            scope.Start();
+            try
+            {
+                return await RestClient.DeleteApiUserAsync(id, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete an API user. </summary>
+        /// <param name="id"> API user&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Deletes the specified API user from the database. </remarks>
+        public virtual Response DeleteApiUser(int id, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteApiUser");
+            scope.Start();
+            try
+            {
+                return RestClient.DeleteApiUser(id, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Regenerate API key for an API user. </summary>
+        /// <param name="id"> API user&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Regenerate API key for an API user. </remarks>
+        public virtual async Task<Response<ApiUserWithKey>> RegenerateApiKeyForApiUserAsync(int id, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.RegenerateApiKeyForApiUser");
+            scope.Start();
+            try
+            {
+                return await RestClient.RegenerateApiKeyForApiUserAsync(id, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Regenerate API key for an API user. </summary>
+        /// <param name="id"> API user&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Regenerate API key for an API user. </remarks>
+        public virtual Response<ApiUserWithKey> RegenerateApiKeyForApiUser(int id, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.RegenerateApiKeyForApiUser");
+            scope.Start();
+            try
+            {
+                return RestClient.RegenerateApiKeyForApiUser(id, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
         /// <summary> Get list of all resthook subscriptions. </summary>
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
         /// <param name="limit"> The numbers of results to return. </param>
@@ -3808,234 +4036,6 @@ namespace Affinda.API
             try
             {
                 return RestClient.GetResumeSearchSuggestionSkill(skills, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get list of all API users. </summary>
-        /// <param name="organization"> Filter by organization. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns your API users. </remarks>
-        public virtual async Task<Response<Paths26Civ0V3ApiUsersGetResponses200ContentApplicationJsonSchema>> GetAllApiUsersAsync(string organization = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllApiUsers");
-            scope.Start();
-            try
-            {
-                return await RestClient.GetAllApiUsersAsync(organization, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get list of all API users. </summary>
-        /// <param name="organization"> Filter by organization. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Returns your API users. </remarks>
-        public virtual Response<Paths26Civ0V3ApiUsersGetResponses200ContentApplicationJsonSchema> GetAllApiUsers(string organization = null, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllApiUsers");
-            scope.Start();
-            try
-            {
-                return RestClient.GetAllApiUsers(organization, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Create an API user. </summary>
-        /// <param name="body"> The ApiUserCreate to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response<ApiUserWithKey>> CreateApiUserAsync(ApiUserCreate body, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateApiUser");
-            scope.Start();
-            try
-            {
-                return await RestClient.CreateApiUserAsync(body, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Create an API user. </summary>
-        /// <param name="body"> The ApiUserCreate to use. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response<ApiUserWithKey> CreateApiUser(ApiUserCreate body, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateApiUser");
-            scope.Start();
-            try
-            {
-                return RestClient.CreateApiUser(body, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get specific API user. </summary>
-        /// <param name="id"> API user&apos;s ID. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Return a specific API user. </remarks>
-        public virtual async Task<Response<ApiUserWithoutKey>> GetApiUserAsync(int id, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetApiUser");
-            scope.Start();
-            try
-            {
-                return await RestClient.GetApiUserAsync(id, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Get specific API user. </summary>
-        /// <param name="id"> API user&apos;s ID. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Return a specific API user. </remarks>
-        public virtual Response<ApiUserWithoutKey> GetApiUser(int id, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetApiUser");
-            scope.Start();
-            try
-            {
-                return RestClient.GetApiUser(id, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Update an API user. </summary>
-        /// <param name="id"> API user&apos;s ID. </param>
-        /// <param name="body"> API user to update. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Update data of an API user. </remarks>
-        public virtual async Task<Response<ApiUserWithoutKey>> UpdateApiUserAsync(int id, ApiUserUpdate body, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateApiUser");
-            scope.Start();
-            try
-            {
-                return await RestClient.UpdateApiUserAsync(id, body, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Update an API user. </summary>
-        /// <param name="id"> API user&apos;s ID. </param>
-        /// <param name="body"> API user to update. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Update data of an API user. </remarks>
-        public virtual Response<ApiUserWithoutKey> UpdateApiUser(int id, ApiUserUpdate body, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateApiUser");
-            scope.Start();
-            try
-            {
-                return RestClient.UpdateApiUser(id, body, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Delete an API user. </summary>
-        /// <param name="id"> API user&apos;s ID. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Deletes the specified API user from the database. </remarks>
-        public virtual async Task<Response> DeleteApiUserAsync(int id, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteApiUser");
-            scope.Start();
-            try
-            {
-                return await RestClient.DeleteApiUserAsync(id, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Delete an API user. </summary>
-        /// <param name="id"> API user&apos;s ID. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Deletes the specified API user from the database. </remarks>
-        public virtual Response DeleteApiUser(int id, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteApiUser");
-            scope.Start();
-            try
-            {
-                return RestClient.DeleteApiUser(id, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Regenerate API key for an API user. </summary>
-        /// <param name="id"> API user&apos;s ID. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Regenerate API key for an API user. </remarks>
-        public virtual async Task<Response<ApiUserWithKey>> RegenerateApiKeyForApiUserAsync(int id, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.RegenerateApiKeyForApiUser");
-            scope.Start();
-            try
-            {
-                return await RestClient.RegenerateApiKeyForApiUserAsync(id, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Regenerate API key for an API user. </summary>
-        /// <param name="id"> API user&apos;s ID. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks> Regenerate API key for an API user. </remarks>
-        public virtual Response<ApiUserWithKey> RegenerateApiKeyForApiUser(int id, CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.RegenerateApiKeyForApiUser");
-            scope.Start();
-            try
-            {
-                return RestClient.RegenerateApiKeyForApiUser(id, cancellationToken);
             }
             catch (Exception e)
             {
