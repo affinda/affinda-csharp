@@ -105,6 +105,16 @@ namespace Affinda.API.Models
                     writer.WriteNull("objective");
                 }
             }
+            if (Optional.IsCollectionDefined(Languages))
+            {
+                writer.WritePropertyName("languages");
+                writer.WriteStartArray();
+                foreach (var item in Languages)
+                {
+                    writer.WriteStringValue(item.ToString());
+                }
+                writer.WriteEndArray();
+            }
             if (Optional.IsDefined(Summary))
             {
                 if (Summary != null)
@@ -217,7 +227,7 @@ namespace Affinda.API.Models
             Optional<string> dateOfBirth = default;
             Optional<Location> location = default;
             Optional<string> objective = default;
-            Optional<IReadOnlyList<string>> languages = default;
+            Optional<IList<ResumeDataLanguagesItem>> languages = default;
             Optional<IReadOnlyList<string>> languageCodes = default;
             Optional<string> summary = default;
             Optional<int?> totalYearsExperience = default;
@@ -345,10 +355,10 @@ namespace Affinda.API.Models
                         property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    List<string> array = new List<string>();
+                    List<ResumeDataLanguagesItem> array = new List<ResumeDataLanguagesItem>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(item.GetString());
+                        array.Add(new ResumeDataLanguagesItem(item.GetString()));
                     }
                     languages = array;
                     continue;

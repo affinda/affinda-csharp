@@ -59,7 +59,8 @@ namespace Affinda.API.Models
         /// <param name="supplierWebsite"></param>
         /// <param name="currencyCode"></param>
         /// <param name="customFields"> Dictionary of &lt;any&gt;. </param>
-        internal InvoiceData(IList<TableAnnotation> tables, DateAnnotation invoiceDate, DateAnnotation invoiceOrderDate, DateAnnotation paymentDateDue, InvoiceDataPaymentAmountBase paymentAmountBase, InvoiceDataPaymentAmountTax paymentAmountTax, InvoiceDataPaymentAmountTotal paymentAmountTotal, InvoiceDataPaymentAmountPaid paymentAmountPaid, InvoiceDataPaymentAmountDue paymentAmountDue, InvoiceDataInvoiceNumber invoiceNumber, InvoiceDataInvoicePurchaseOrderNumber invoicePurchaseOrderNumber, InvoiceDataSupplierBusinessNumber supplierBusinessNumber, InvoiceDataCustomerNumber customerNumber, InvoiceDataCustomerBusinessNumber customerBusinessNumber, InvoiceDataPaymentReference paymentReference, InvoiceDataBankAccountNumber bankAccountNumber, InvoiceDataSupplierVat supplierVat, InvoiceDataCustomerVat customerVat, InvoiceDataBpayBillerCode bpayBillerCode, InvoiceDataBpayReference bpayReference, InvoiceDataBankSortCode bankSortCode, InvoiceDataBankIban bankIban, InvoiceDataBankSwift bankSwift, InvoiceDataBankBsb bankBsb, InvoiceDataCustomerContactName customerContactName, InvoiceDataCustomerCompanyName customerCompanyName, InvoiceDataSupplierCompanyName supplierCompanyName, LocationAnnotation customerBillingAddress, LocationAnnotation customerDeliveryAddress, LocationAnnotation supplierAddress, InvoiceDataCustomerPhoneNumber customerPhoneNumber, InvoiceDataSupplierPhoneNumber supplierPhoneNumber, InvoiceDataSupplierFax supplierFax, InvoiceDataCustomerEmail customerEmail, InvoiceDataSupplierEmail supplierEmail, InvoiceDataSupplierWebsite supplierWebsite, CurrencyCodeAnnotation currencyCode, IDictionary<string, object> customFields)
+        /// <param name="rawText"> All of the raw text of the parsed invoice. </param>
+        internal InvoiceData(IList<TableAnnotation> tables, DateAnnotation invoiceDate, DateAnnotation invoiceOrderDate, DateAnnotation paymentDateDue, InvoiceDataPaymentAmountBase paymentAmountBase, InvoiceDataPaymentAmountTax paymentAmountTax, InvoiceDataPaymentAmountTotal paymentAmountTotal, InvoiceDataPaymentAmountPaid paymentAmountPaid, InvoiceDataPaymentAmountDue paymentAmountDue, InvoiceDataInvoiceNumber invoiceNumber, InvoiceDataInvoicePurchaseOrderNumber invoicePurchaseOrderNumber, InvoiceDataSupplierBusinessNumber supplierBusinessNumber, InvoiceDataCustomerNumber customerNumber, InvoiceDataCustomerBusinessNumber customerBusinessNumber, InvoiceDataPaymentReference paymentReference, InvoiceDataBankAccountNumber bankAccountNumber, InvoiceDataSupplierVat supplierVat, InvoiceDataCustomerVat customerVat, InvoiceDataBpayBillerCode bpayBillerCode, InvoiceDataBpayReference bpayReference, InvoiceDataBankSortCode bankSortCode, InvoiceDataBankIban bankIban, InvoiceDataBankSwift bankSwift, InvoiceDataBankBsb bankBsb, InvoiceDataCustomerContactName customerContactName, InvoiceDataCustomerCompanyName customerCompanyName, InvoiceDataSupplierCompanyName supplierCompanyName, LocationAnnotation customerBillingAddress, LocationAnnotation customerDeliveryAddress, LocationAnnotation supplierAddress, InvoiceDataCustomerPhoneNumber customerPhoneNumber, InvoiceDataSupplierPhoneNumber supplierPhoneNumber, InvoiceDataSupplierFax supplierFax, InvoiceDataCustomerEmail customerEmail, InvoiceDataSupplierEmail supplierEmail, InvoiceDataSupplierWebsite supplierWebsite, CurrencyCodeAnnotation currencyCode, IDictionary<string, object> customFields, string rawText)
         {
             Tables = tables;
             InvoiceDate = invoiceDate;
@@ -99,6 +100,7 @@ namespace Affinda.API.Models
             SupplierWebsite = supplierWebsite;
             CurrencyCode = currencyCode;
             CustomFields = customFields;
+            RawText = rawText;
         }
 
         /// <summary> Gets the tables. </summary>
@@ -177,5 +179,7 @@ namespace Affinda.API.Models
         public CurrencyCodeAnnotation CurrencyCode { get; set; }
         /// <summary> Dictionary of &lt;any&gt;. </summary>
         public IDictionary<string, object> CustomFields { get; set; }
+        /// <summary> All of the raw text of the parsed invoice. </summary>
+        public string RawText { get; set; }
     }
 }

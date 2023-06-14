@@ -476,6 +476,11 @@ namespace Affinda.API.Models
                     writer.WriteNull("customFields");
                 }
             }
+            if (Optional.IsDefined(RawText))
+            {
+                writer.WritePropertyName("rawText");
+                writer.WriteStringValue(RawText);
+            }
             writer.WriteEndObject();
         }
 
@@ -519,6 +524,7 @@ namespace Affinda.API.Models
             Optional<InvoiceDataSupplierWebsite> supplierWebsite = default;
             Optional<CurrencyCodeAnnotation> currencyCode = default;
             Optional<IDictionary<string, object>> customFields = default;
+            Optional<string> rawText = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("tables"))
@@ -918,8 +924,13 @@ namespace Affinda.API.Models
                     customFields = dictionary;
                     continue;
                 }
+                if (property.NameEquals("rawText"))
+                {
+                    rawText = property.Value.GetString();
+                    continue;
+                }
             }
-            return new InvoiceData(Optional.ToList(tables), invoiceDate.Value, invoiceOrderDate.Value, paymentDateDue.Value, paymentAmountBase.Value, paymentAmountTax.Value, paymentAmountTotal.Value, paymentAmountPaid.Value, paymentAmountDue.Value, invoiceNumber.Value, invoicePurchaseOrderNumber.Value, supplierBusinessNumber.Value, customerNumber.Value, customerBusinessNumber.Value, paymentReference.Value, bankAccountNumber.Value, supplierVat.Value, customerVat.Value, bpayBillerCode.Value, bpayReference.Value, bankSortCode.Value, bankIban.Value, bankSwift.Value, bankBsb.Value, customerContactName.Value, customerCompanyName.Value, supplierCompanyName.Value, customerBillingAddress.Value, customerDeliveryAddress.Value, supplierAddress.Value, customerPhoneNumber.Value, supplierPhoneNumber.Value, supplierFax.Value, customerEmail.Value, supplierEmail.Value, supplierWebsite.Value, currencyCode.Value, Optional.ToDictionary(customFields));
+            return new InvoiceData(Optional.ToList(tables), invoiceDate.Value, invoiceOrderDate.Value, paymentDateDue.Value, paymentAmountBase.Value, paymentAmountTax.Value, paymentAmountTotal.Value, paymentAmountPaid.Value, paymentAmountDue.Value, invoiceNumber.Value, invoicePurchaseOrderNumber.Value, supplierBusinessNumber.Value, customerNumber.Value, customerBusinessNumber.Value, paymentReference.Value, bankAccountNumber.Value, supplierVat.Value, customerVat.Value, bpayBillerCode.Value, bpayReference.Value, bankSortCode.Value, bankIban.Value, bankSwift.Value, bankBsb.Value, customerContactName.Value, customerCompanyName.Value, supplierCompanyName.Value, customerBillingAddress.Value, customerDeliveryAddress.Value, supplierAddress.Value, customerPhoneNumber.Value, supplierPhoneNumber.Value, supplierFax.Value, customerEmail.Value, supplierEmail.Value, supplierWebsite.Value, currencyCode.Value, Optional.ToDictionary(customFields), rawText.Value);
         }
     }
 }
