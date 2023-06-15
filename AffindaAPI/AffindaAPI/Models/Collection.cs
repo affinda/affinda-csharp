@@ -43,7 +43,8 @@ namespace Affinda.API.Models
         /// <param name="unvalidatedDocsCount"> Number of unvalidated documents in the collection. </param>
         /// <param name="confirmedDocsCount"> Number of validated documents in the collection. </param>
         /// <param name="ingestEmail"> When you send email to this address, any document attached in the body will be uploaded to this collection. </param>
-        internal Collection(string identifier, string name, CollectionWorkspace workspace, Extractor extractor, float? autoValidationThreshold, IReadOnlyList<FieldGroup> fields, FieldsLayout fieldsLayout, bool? fieldsConfigured, CollectionDateFormatPreference? dateFormatPreference, bool? dateFormatFromDocument, ExtractorConfig extractorConfig, int? unvalidatedDocsCount, int? confirmedDocsCount, string ingestEmail)
+        /// <param name="tailoredExtractorRequested"> Whether a tailored extractor has been requested for this collection. </param>
+        internal Collection(string identifier, string name, CollectionWorkspace workspace, Extractor extractor, float? autoValidationThreshold, IReadOnlyList<FieldGroup> fields, FieldsLayout fieldsLayout, bool? fieldsConfigured, CollectionDateFormatPreference? dateFormatPreference, bool? dateFormatFromDocument, ExtractorConfig extractorConfig, int? unvalidatedDocsCount, int? confirmedDocsCount, string ingestEmail, bool? tailoredExtractorRequested)
         {
             Identifier = identifier;
             Name = name;
@@ -59,6 +60,7 @@ namespace Affinda.API.Models
             UnvalidatedDocsCount = unvalidatedDocsCount;
             ConfirmedDocsCount = confirmedDocsCount;
             IngestEmail = ingestEmail;
+            TailoredExtractorRequested = tailoredExtractorRequested;
         }
 
         /// <summary> Uniquely identify a collection. </summary>
@@ -89,5 +91,7 @@ namespace Affinda.API.Models
         public int? ConfirmedDocsCount { get; }
         /// <summary> When you send email to this address, any document attached in the body will be uploaded to this collection. </summary>
         public string IngestEmail { get; }
+        /// <summary> Whether a tailored extractor has been requested for this collection. </summary>
+        public bool? TailoredExtractorRequested { get; }
     }
 }
