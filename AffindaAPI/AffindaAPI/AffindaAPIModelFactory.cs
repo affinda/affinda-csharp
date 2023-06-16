@@ -228,8 +228,8 @@ namespace Affinda.API.Models
 
         /// <summary> Initializes a new instance of DataFieldDataPoint. </summary>
         /// <param name="identifier"> Uniquely identify a data point. </param>
-        /// <param name="name"></param>
-        /// <param name="slug"></param>
+        /// <param name="name"> Name of the data point. </param>
+        /// <param name="slug"> A camelCase string that will be used as the key in the API response. </param>
         /// <param name="description"></param>
         /// <param name="type"> The different data types of annotations. </param>
         /// <param name="multiple"></param>
@@ -482,24 +482,23 @@ namespace Affinda.API.Models
 
         /// <summary> Initializes a new instance of DataPoint. </summary>
         /// <param name="identifier"> Uniquely identify a data point. </param>
-        /// <param name="name"></param>
-        /// <param name="slug"></param>
+        /// <param name="name"> Name of the data point. </param>
+        /// <param name="slug"> A camelCase string that will be used as the key in the API response. </param>
         /// <param name="description"></param>
         /// <param name="annotationContentType"> The different data types of annotations. </param>
         /// <param name="organization"></param>
         /// <param name="extractor"> Uniquely identify an extractor. </param>
         /// <param name="multiple"></param>
         /// <param name="noRect"></param>
-        /// <param name="similarTo"></param>
-        /// <param name="displayEnumValue"></param>
+        /// <param name="displayEnumValue"> If true, both the value and the label for the enums will appear in the dropdown in the validation tool. </param>
+        /// <param name="parent"> The identifier of the parent data point if applicable. </param>
         /// <param name="children"></param>
         /// <returns> A new <see cref="Models.DataPoint"/> instance for mocking. </returns>
-        public static DataPoint DataPoint(string identifier = null, string name = null, string slug = null, string description = null, AnnotationContentType annotationContentType = default, Organization organization = null, string extractor = null, bool? multiple = null, bool? noRect = null, IEnumerable<string> similarTo = null, bool? displayEnumValue = null, IEnumerable<DataPoint> children = null)
+        public static DataPoint DataPoint(string identifier = null, string name = null, string slug = null, string description = null, AnnotationContentType annotationContentType = default, Organization organization = null, string extractor = null, bool? multiple = null, bool? noRect = null, bool? displayEnumValue = null, string parent = null, IEnumerable<DataPoint> children = null)
         {
-            similarTo ??= new List<string>();
             children ??= new List<DataPoint>();
 
-            return new DataPoint(identifier, name, slug, description, annotationContentType, organization, extractor, multiple, noRect, similarTo?.ToList(), displayEnumValue, children?.ToList());
+            return new DataPoint(identifier, name, slug, description, annotationContentType, organization, extractor, multiple, noRect, displayEnumValue, parent, children?.ToList());
         }
 
         /// <summary> Initializes a new instance of PathsMnwxgV3DataPointChoicesGetResponses200ContentApplicationJsonSchema. </summary>

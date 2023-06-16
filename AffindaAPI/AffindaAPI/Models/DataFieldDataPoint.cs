@@ -14,8 +14,8 @@ namespace Affinda.API.Models
     {
         /// <summary> Initializes a new instance of DataFieldDataPoint. </summary>
         /// <param name="identifier"> Uniquely identify a data point. </param>
-        /// <param name="name"></param>
-        /// <param name="slug"></param>
+        /// <param name="name"> Name of the data point. </param>
+        /// <param name="slug"> A camelCase string that will be used as the key in the API response. </param>
         /// <param name="description"></param>
         /// <param name="type"> The different data types of annotations. </param>
         /// <param name="multiple"></param>
@@ -47,9 +47,9 @@ namespace Affinda.API.Models
 
         /// <summary> Uniquely identify a data point. </summary>
         public string Identifier { get; }
-        /// <summary> Gets the name. </summary>
+        /// <summary> Name of the data point. </summary>
         public string Name { get; }
-        /// <summary> Gets the slug. </summary>
+        /// <summary> A camelCase string that will be used as the key in the API response. </summary>
         public string Slug { get; }
         /// <summary> Gets the description. </summary>
         public string Description { get; }

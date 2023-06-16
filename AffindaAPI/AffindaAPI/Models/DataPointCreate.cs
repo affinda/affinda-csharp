@@ -13,13 +13,18 @@ namespace Affinda.API.Models
     public partial class DataPointCreate
     {
         /// <summary> Initializes a new instance of DataPointCreate. </summary>
-        /// <param name="slug"></param>
+        /// <param name="name"> Name of the data point. </param>
+        /// <param name="slug"> A camelCase string that will be used as the key in the API response. </param>
         /// <param name="annotationContentType"> The different data types of annotations. </param>
         /// <param name="organization"> Uniquely identify an organization. </param>
         /// <param name="extractor"> Uniquely identify an extractor. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="slug"/>, <paramref name="organization"/> or <paramref name="extractor"/> is null. </exception>
-        public DataPointCreate(string slug, AnnotationContentType annotationContentType, string organization, string extractor)
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/>, <paramref name="slug"/>, <paramref name="organization"/> or <paramref name="extractor"/> is null. </exception>
+        public DataPointCreate(string name, string slug, AnnotationContentType annotationContentType, string organization, string extractor)
         {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
             if (slug == null)
             {
                 throw new ArgumentNullException(nameof(slug));
@@ -33,15 +38,16 @@ namespace Affinda.API.Models
                 throw new ArgumentNullException(nameof(extractor));
             }
 
+            Name = name;
             Slug = slug;
             AnnotationContentType = annotationContentType;
             Organization = organization;
             Extractor = extractor;
         }
 
-        /// <summary> Gets or sets the name. </summary>
-        public string Name { get; set; }
-        /// <summary> Gets the slug. </summary>
+        /// <summary> Name of the data point. </summary>
+        public string Name { get; }
+        /// <summary> A camelCase string that will be used as the key in the API response. </summary>
         public string Slug { get; }
         /// <summary> Gets or sets the description. </summary>
         public string Description { get; set; }
@@ -55,5 +61,9 @@ namespace Affinda.API.Models
         public bool? Multiple { get; set; }
         /// <summary> Gets or sets the no rect. </summary>
         public bool? NoRect { get; set; }
+        /// <summary> If true, both the value and the label for the enums will appear in the dropdown in the validation tool. </summary>
+        public bool? DisplayEnumValue { get; set; }
+        /// <summary> The identifier of the parent data point if applicable. </summary>
+        public string Parent { get; set; }
     }
 }

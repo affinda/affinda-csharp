@@ -17,15 +17,15 @@ namespace Affinda.API.Models
         {
             string identifier = default;
             string name = default;
-            Optional<string> slug = default;
+            string slug = default;
             Optional<string> description = default;
             AnnotationContentType annotationContentType = default;
-            Optional<Organization> organization = default;
+            Organization organization = default;
             string extractor = default;
             Optional<bool> multiple = default;
             Optional<bool> noRect = default;
-            Optional<IReadOnlyList<string>> similarTo = default;
             Optional<bool> displayEnumValue = default;
+            Optional<string> parent = default;
             Optional<IReadOnlyList<DataPoint>> children = default;
             foreach (var property in element.EnumerateObject())
             {
@@ -99,21 +99,6 @@ namespace Affinda.API.Models
                     noRect = property.Value.GetBoolean();
                     continue;
                 }
-                if (property.NameEquals("similarTo"))
-                {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        property.ThrowNonNullablePropertyIsNull();
-                        continue;
-                    }
-                    List<string> array = new List<string>();
-                    foreach (var item in property.Value.EnumerateArray())
-                    {
-                        array.Add(item.GetString());
-                    }
-                    similarTo = array;
-                    continue;
-                }
                 if (property.NameEquals("displayEnumValue"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
@@ -122,6 +107,16 @@ namespace Affinda.API.Models
                         continue;
                     }
                     displayEnumValue = property.Value.GetBoolean();
+                    continue;
+                }
+                if (property.NameEquals("parent"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        parent = null;
+                        continue;
+                    }
+                    parent = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("children"))
@@ -140,7 +135,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new DataPoint(identifier, name, slug.Value, description.Value, annotationContentType, organization.Value, extractor, Optional.ToNullable(multiple), Optional.ToNullable(noRect), Optional.ToList(similarTo), Optional.ToNullable(displayEnumValue), Optional.ToList(children));
+            return new DataPoint(identifier, name, slug, description.Value, annotationContentType, organization, extractor, Optional.ToNullable(multiple), Optional.ToNullable(noRect), Optional.ToNullable(displayEnumValue), parent.Value, Optional.ToList(children));
         }
     }
 }

@@ -15,11 +15,8 @@ namespace Affinda.API.Models
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
         {
             writer.WriteStartObject();
-            if (Optional.IsDefined(Name))
-            {
-                writer.WritePropertyName("name");
-                writer.WriteStringValue(Name);
-            }
+            writer.WritePropertyName("name");
+            writer.WriteStringValue(Name);
             writer.WritePropertyName("slug");
             writer.WriteStringValue(Slug);
             if (Optional.IsDefined(Description))
@@ -49,6 +46,23 @@ namespace Affinda.API.Models
             {
                 writer.WritePropertyName("noRect");
                 writer.WriteBooleanValue(NoRect.Value);
+            }
+            if (Optional.IsDefined(DisplayEnumValue))
+            {
+                writer.WritePropertyName("displayEnumValue");
+                writer.WriteBooleanValue(DisplayEnumValue.Value);
+            }
+            if (Optional.IsDefined(Parent))
+            {
+                if (Parent != null)
+                {
+                    writer.WritePropertyName("parent");
+                    writer.WriteStringValue(Parent);
+                }
+                else
+                {
+                    writer.WriteNull("parent");
+                }
             }
             writer.WriteEndObject();
         }

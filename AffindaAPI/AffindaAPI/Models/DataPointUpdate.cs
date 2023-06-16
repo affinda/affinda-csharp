@@ -15,11 +15,15 @@ namespace Affinda.API.Models
         {
         }
 
-        /// <summary> Gets or sets the name. </summary>
+        /// <summary> Name of the data point. </summary>
         public string Name { get; set; }
-        /// <summary> Gets or sets the slug. </summary>
+        /// <summary> A camelCase string that will be used as the key in the API response. </summary>
         public string Slug { get; set; }
         /// <summary> Gets or sets the description. </summary>
         public string Description { get; set; }
+        /// <summary> If true, both the value and the label for the enums will appear in the dropdown in the validation tool. </summary>
+        public bool? DisplayEnumValue { get; set; }
+        /// <summary> The identifier of the parent data point if applicable. </summary>
+        public string Parent { get; set; }
     }
 }

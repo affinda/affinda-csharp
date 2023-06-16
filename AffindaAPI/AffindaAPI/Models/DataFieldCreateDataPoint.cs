@@ -13,8 +13,8 @@ namespace Affinda.API.Models
     public partial class DataFieldCreateDataPoint
     {
         /// <summary> Initializes a new instance of DataFieldCreateDataPoint. </summary>
-        /// <param name="name"></param>
-        /// <param name="slug"></param>
+        /// <param name="name"> Name of the data point. </param>
+        /// <param name="slug"> A camelCase string that will be used as the key in the API response. </param>
         /// <param name="type"> The different data types of annotations. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="name"/> or <paramref name="slug"/> is null. </exception>
         public DataFieldCreateDataPoint(string name, string slug, AnnotationContentType type)
@@ -33,9 +33,9 @@ namespace Affinda.API.Models
             Type = type;
         }
 
-        /// <summary> Gets the name. </summary>
+        /// <summary> Name of the data point. </summary>
         public string Name { get; }
-        /// <summary> Gets the slug. </summary>
+        /// <summary> A camelCase string that will be used as the key in the API response. </summary>
         public string Slug { get; }
         /// <summary> Gets or sets the description. </summary>
         public string Description { get; set; }
