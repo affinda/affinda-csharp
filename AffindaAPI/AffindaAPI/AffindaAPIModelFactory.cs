@@ -277,6 +277,166 @@ namespace Affinda.API.Models
             return new PathsL3R02CV3DocumentsGetResponses200ContentApplicationJsonSchemaAllof1(results?.ToList());
         }
 
+        /// <summary> Initializes a new instance of ResumeData. </summary>
+        /// <param name="name"></param>
+        /// <param name="phoneNumbers"></param>
+        /// <param name="phoneNumberDetails"></param>
+        /// <param name="websites"></param>
+        /// <param name="emails"></param>
+        /// <param name="dateOfBirth"></param>
+        /// <param name="location"></param>
+        /// <param name="objective"></param>
+        /// <param name="languages"></param>
+        /// <param name="languageCodes"></param>
+        /// <param name="summary"></param>
+        /// <param name="totalYearsExperience"></param>
+        /// <param name="headShot"> base64 encoded string. </param>
+        /// <param name="education"></param>
+        /// <param name="profession"> Prediction of the candidate&apos;s profession based on recent work experience. </param>
+        /// <param name="linkedin"> Linkedin account associated with the candidate. </param>
+        /// <param name="workExperience"></param>
+        /// <param name="skills"></param>
+        /// <param name="certifications"></param>
+        /// <param name="publications"></param>
+        /// <param name="referees"></param>
+        /// <param name="sections"></param>
+        /// <param name="isResumeProbability"> Probability that the given document is a resume. Values below 30 suggest that the document is not a resume. </param>
+        /// <param name="rawText"> All of the raw text of the parsed resume, example is shortened for readability. </param>
+        /// <param name="redactedText"> Redacted version of the text in the resume, removing PII. </param>
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        /// <returns> A new <see cref="Models.ResumeData"/> instance for mocking. </returns>
+        public static ResumeData ResumeData(ResumeDataName name = null, IEnumerable<string> phoneNumbers = null, IEnumerable<ResumeDataPhoneNumberDetailsItem> phoneNumberDetails = null, IEnumerable<string> websites = null, IEnumerable<string> emails = null, string dateOfBirth = null, Location location = null, string objective = null, IEnumerable<ResumeDataLanguagesItem> languages = null, IEnumerable<string> languageCodes = null, string summary = null, int? totalYearsExperience = null, byte[] headShot = null, IEnumerable<Education> education = null, string profession = null, string linkedin = null, IEnumerable<ResumeDataWorkExperienceItem> workExperience = null, IEnumerable<ResumeDataSkillsItem> skills = null, IEnumerable<string> certifications = null, IEnumerable<string> publications = null, IEnumerable<ResumeDataRefereesItem> referees = null, IEnumerable<ResumeDataSectionsItem> sections = null, int? isResumeProbability = null, string rawText = null, string redactedText = null, IDictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties> additionalProperties = null)
+        {
+            phoneNumbers ??= new List<string>();
+            phoneNumberDetails ??= new List<ResumeDataPhoneNumberDetailsItem>();
+            websites ??= new List<string>();
+            emails ??= new List<string>();
+            languages ??= new List<ResumeDataLanguagesItem>();
+            languageCodes ??= new List<string>();
+            education ??= new List<Education>();
+            workExperience ??= new List<ResumeDataWorkExperienceItem>();
+            skills ??= new List<ResumeDataSkillsItem>();
+            certifications ??= new List<string>();
+            publications ??= new List<string>();
+            referees ??= new List<ResumeDataRefereesItem>();
+            sections ??= new List<ResumeDataSectionsItem>();
+            additionalProperties ??= new Dictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties>();
+
+            return new ResumeData(name, phoneNumbers?.ToList(), phoneNumberDetails?.ToList(), websites?.ToList(), emails?.ToList(), dateOfBirth, location, objective, languages?.ToList(), languageCodes?.ToList(), summary, totalYearsExperience, headShot, education?.ToList(), profession, linkedin, workExperience?.ToList(), skills?.ToList(), certifications?.ToList(), publications?.ToList(), referees?.ToList(), sections?.ToList(), isResumeProbability, rawText, redactedText, additionalProperties);
+        }
+
+        /// <summary> Initializes a new instance of Location. </summary>
+        /// <param name="formatted"></param>
+        /// <param name="postalCode"></param>
+        /// <param name="state"></param>
+        /// <param name="country"></param>
+        /// <param name="countryCode"> Two letter country code (ISO 3166-1 alpha-2). </param>
+        /// <param name="rawInput"></param>
+        /// <param name="streetNumber"></param>
+        /// <param name="street"></param>
+        /// <param name="apartmentNumber"></param>
+        /// <param name="city"></param>
+        /// <param name="latitude"></param>
+        /// <param name="longitude"></param>
+        /// <returns> A new <see cref="Models.Location"/> instance for mocking. </returns>
+        public static Location Location(string formatted = null, string postalCode = null, string state = null, string country = null, string countryCode = null, string rawInput = null, string streetNumber = null, string street = null, string apartmentNumber = null, string city = null, float? latitude = null, float? longitude = null)
+        {
+            return new Location(formatted, postalCode, state, country, countryCode, rawInput, streetNumber, street, apartmentNumber, city, latitude, longitude);
+        }
+
+        /// <summary> Initializes a new instance of Accreditation. </summary>
+        /// <param name="education"></param>
+        /// <param name="inputStr"></param>
+        /// <param name="matchStr"></param>
+        /// <param name="educationLevel"></param>
+        /// <returns> A new <see cref="Models.Accreditation"/> instance for mocking. </returns>
+        public static Accreditation Accreditation(string education = null, string inputStr = null, string matchStr = null, string educationLevel = null)
+        {
+            return new Accreditation(education, inputStr, matchStr, educationLevel);
+        }
+
+        /// <summary> Initializes a new instance of ResumeDataWorkExperienceItem. </summary>
+        /// <param name="id"></param>
+        /// <param name="jobTitle"></param>
+        /// <param name="socCode"></param>
+        /// <param name="socName"></param>
+        /// <param name="organization"></param>
+        /// <param name="industry"></param>
+        /// <param name="location"></param>
+        /// <param name="jobDescription"></param>
+        /// <param name="dates"></param>
+        /// <param name="occupation"></param>
+        /// <returns> A new <see cref="Models.ResumeDataWorkExperienceItem"/> instance for mocking. </returns>
+        public static ResumeDataWorkExperienceItem ResumeDataWorkExperienceItem(int? id = null, string jobTitle = null, string socCode = null, string socName = null, string organization = null, string industry = null, Location location = null, string jobDescription = null, ResumeDataWorkExperienceItemDates dates = null, ResumeDataWorkExperienceItemOccupation occupation = null)
+        {
+            return new ResumeDataWorkExperienceItem(id, jobTitle, socCode, socName, organization, industry, location, jobDescription, dates, occupation);
+        }
+
+        /// <summary> Initializes a new instance of ResumeDataWorkExperienceItemOccupation. </summary>
+        /// <param name="jobTitle"> The raw (not normalized) job title pulled from the work experience entry. </param>
+        /// <param name="jobTitleNormalized"> Mapped onto the EMSI job title taxonomy if a sufficiently close match exists. </param>
+        /// <param name="emsiId"> EMSI id of the normalised job title. </param>
+        /// <param name="managementLevel"></param>
+        /// <param name="classification"></param>
+        /// <returns> A new <see cref="Models.ResumeDataWorkExperienceItemOccupation"/> instance for mocking. </returns>
+        public static ResumeDataWorkExperienceItemOccupation ResumeDataWorkExperienceItemOccupation(string jobTitle = null, string jobTitleNormalized = null, string emsiId = null, ManagementLevel? managementLevel = null, Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification classification = null)
+        {
+            return new ResumeDataWorkExperienceItemOccupation(jobTitle, jobTitleNormalized, emsiId, managementLevel, classification);
+        }
+
+        /// <summary> Initializes a new instance of Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification. </summary>
+        /// <param name="title"> SOC2020 classification for this job title. </param>
+        /// <param name="minorGroup"> SOC2020 minor group. </param>
+        /// <param name="subMajorGroup"> SOC2020 sub major group. </param>
+        /// <param name="majorGroup"> SOC2020 major group. </param>
+        /// <param name="socCode"> The 4 digit code representing the SOC2020 classification for this job title. </param>
+        /// <returns> A new <see cref="Models.Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification"/> instance for mocking. </returns>
+        public static Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification(string title = null, string minorGroup = null, string subMajorGroup = null, string majorGroup = null, int? socCode = null)
+        {
+            return new Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification(title, minorGroup, subMajorGroup, majorGroup, socCode);
+        }
+
+        /// <summary> Initializes a new instance of ResumeDataSkillsItem. </summary>
+        /// <param name="id"></param>
+        /// <param name="emsiId"> EMSI id of this skill. </param>
+        /// <param name="name"></param>
+        /// <param name="lastUsed"></param>
+        /// <param name="numberOfMonths"></param>
+        /// <param name="type"></param>
+        /// <param name="count"></param>
+        /// <param name="weighting"></param>
+        /// <param name="sources"></param>
+        /// <returns> A new <see cref="Models.ResumeDataSkillsItem"/> instance for mocking. </returns>
+        public static ResumeDataSkillsItem ResumeDataSkillsItem(int? id = null, string emsiId = null, string name = null, string lastUsed = null, int? numberOfMonths = null, string type = null, int? count = null, float? weighting = null, IEnumerable<ResumeDataSkillsPropertiesItemsItem> sources = null)
+        {
+            sources ??= new List<ResumeDataSkillsPropertiesItemsItem>();
+
+            return new ResumeDataSkillsItem(id, emsiId, name, lastUsed, numberOfMonths, type, count, weighting, sources?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of ResumeDataSkillsPropertiesItemsItem. </summary>
+        /// <param name="section"></param>
+        /// <param name="position"> If this skill is extracted from a &quot;workExperience&quot; section, the &quot;position&quot; is the index of the work experience where this skill is found, with 0 being the first work experience, 1 being the second work experience, and so on. </param>
+        /// <param name="workExperienceId"> If this skill is extracted from a &quot;workExperience&quot; section, the &quot;workExperienceId&quot; is the id of the work experience where this skill is found. </param>
+        /// <returns> A new <see cref="Models.ResumeDataSkillsPropertiesItemsItem"/> instance for mocking. </returns>
+        public static ResumeDataSkillsPropertiesItemsItem ResumeDataSkillsPropertiesItemsItem(string section = null, int? position = null, int? workExperienceId = null)
+        {
+            return new ResumeDataSkillsPropertiesItemsItem(section, position, workExperienceId);
+        }
+
+        /// <summary> Initializes a new instance of ResumeDataSectionsItem. </summary>
+        /// <param name="sectionType"></param>
+        /// <param name="bbox"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="text"></param>
+        /// <returns> A new <see cref="Models.ResumeDataSectionsItem"/> instance for mocking. </returns>
+        public static ResumeDataSectionsItem ResumeDataSectionsItem(string sectionType = null, IEnumerable<float> bbox = null, int? pageIndex = null, string text = null)
+        {
+            bbox ??= new List<float>();
+
+            return new ResumeDataSectionsItem(sectionType, bbox?.ToList(), pageIndex, text);
+        }
+
         /// <summary> Initializes a new instance of Meta. </summary>
         /// <param name="identifier"> Uniquely identify a document. </param>
         /// <param name="fileName"> Optional filename of the file. </param>
@@ -816,25 +976,6 @@ namespace Affinda.API.Models
             return new JobDescriptionSearchDetailLocation(missing?.ToList(), value);
         }
 
-        /// <summary> Initializes a new instance of Location. </summary>
-        /// <param name="formatted"></param>
-        /// <param name="postalCode"></param>
-        /// <param name="state"></param>
-        /// <param name="country"></param>
-        /// <param name="countryCode"> Two letter country code (ISO 3166-1 alpha-2). </param>
-        /// <param name="rawInput"></param>
-        /// <param name="streetNumber"></param>
-        /// <param name="street"></param>
-        /// <param name="apartmentNumber"></param>
-        /// <param name="city"></param>
-        /// <param name="latitude"></param>
-        /// <param name="longitude"></param>
-        /// <returns> A new <see cref="Models.Location"/> instance for mocking. </returns>
-        public static Location Location(string formatted = null, string postalCode = null, string state = null, string country = null, string countryCode = null, string rawInput = null, string streetNumber = null, string street = null, string apartmentNumber = null, string city = null, float? latitude = null, float? longitude = null)
-        {
-            return new Location(formatted, postalCode, state, country, countryCode, rawInput, streetNumber, street, apartmentNumber, city, latitude, longitude);
-        }
-
         /// <summary> Initializes a new instance of JobDescriptionSearchDetailEducation. </summary>
         /// <param name="missing"></param>
         /// <param name="value"></param>
@@ -1042,7 +1183,7 @@ namespace Affinda.API.Models
         /// <param name="name"></param>
         /// <param name="documentType"></param>
         /// <returns> A new <see cref="Models.Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema"/> instance for mocking. </returns>
-        public static Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema(string name = null, Enum19? documentType = null)
+        public static Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema(string name = null, Enum20? documentType = null)
         {
             return new Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema(name, documentType);
         }
@@ -1189,17 +1330,6 @@ namespace Affinda.API.Models
             institutions ??= new List<string>();
 
             return new ResumeSearchDetailEducationMissing(degrees?.ToList(), highestDegreeTypes?.ToList(), institutions?.ToList(), currentStudent, recentGraduate);
-        }
-
-        /// <summary> Initializes a new instance of Accreditation. </summary>
-        /// <param name="education"></param>
-        /// <param name="inputStr"></param>
-        /// <param name="matchStr"></param>
-        /// <param name="educationLevel"></param>
-        /// <returns> A new <see cref="Models.Accreditation"/> instance for mocking. </returns>
-        public static Accreditation Accreditation(string education = null, string inputStr = null, string matchStr = null, string educationLevel = null)
-        {
-            return new Accreditation(education, inputStr, matchStr, educationLevel);
         }
 
         /// <summary> Initializes a new instance of ResumeSearchDetailSkills. </summary>
@@ -1408,135 +1538,6 @@ namespace Affinda.API.Models
         public static ResumeSearchEmbed ResumeSearchEmbed(string url = null)
         {
             return new ResumeSearchEmbed(url);
-        }
-
-        /// <summary> Initializes a new instance of ResumeData. </summary>
-        /// <param name="name"></param>
-        /// <param name="phoneNumbers"></param>
-        /// <param name="phoneNumberDetails"></param>
-        /// <param name="websites"></param>
-        /// <param name="emails"></param>
-        /// <param name="dateOfBirth"></param>
-        /// <param name="location"></param>
-        /// <param name="objective"></param>
-        /// <param name="languages"></param>
-        /// <param name="languageCodes"></param>
-        /// <param name="summary"></param>
-        /// <param name="totalYearsExperience"></param>
-        /// <param name="headShot"> base64 encoded string. </param>
-        /// <param name="education"></param>
-        /// <param name="profession"> Prediction of the candidate&apos;s profession based on recent work experience. </param>
-        /// <param name="linkedin"> Linkedin account associated with the candidate. </param>
-        /// <param name="workExperience"></param>
-        /// <param name="skills"></param>
-        /// <param name="certifications"></param>
-        /// <param name="publications"></param>
-        /// <param name="referees"></param>
-        /// <param name="sections"></param>
-        /// <param name="isResumeProbability"> Probability that the given document is a resume. Values below 30 suggest that the document is not a resume. </param>
-        /// <param name="rawText"> All of the raw text of the parsed resume, example is shortened for readability. </param>
-        /// <param name="redactedText"> Redacted version of the text in the resume, removing PII. </param>
-        /// <param name="additionalProperties"> Additional Properties. </param>
-        /// <returns> A new <see cref="Models.ResumeData"/> instance for mocking. </returns>
-        public static ResumeData ResumeData(ResumeDataName name = null, IEnumerable<string> phoneNumbers = null, IEnumerable<ResumeDataPhoneNumberDetailsItem> phoneNumberDetails = null, IEnumerable<string> websites = null, IEnumerable<string> emails = null, string dateOfBirth = null, Location location = null, string objective = null, IEnumerable<ResumeDataLanguagesItem> languages = null, IEnumerable<string> languageCodes = null, string summary = null, int? totalYearsExperience = null, byte[] headShot = null, IEnumerable<Education> education = null, string profession = null, string linkedin = null, IEnumerable<ResumeDataWorkExperienceItem> workExperience = null, IEnumerable<ResumeDataSkillsItem> skills = null, IEnumerable<string> certifications = null, IEnumerable<string> publications = null, IEnumerable<ResumeDataRefereesItem> referees = null, IEnumerable<ResumeDataSectionsItem> sections = null, int? isResumeProbability = null, string rawText = null, string redactedText = null, IDictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties> additionalProperties = null)
-        {
-            phoneNumbers ??= new List<string>();
-            phoneNumberDetails ??= new List<ResumeDataPhoneNumberDetailsItem>();
-            websites ??= new List<string>();
-            emails ??= new List<string>();
-            languages ??= new List<ResumeDataLanguagesItem>();
-            languageCodes ??= new List<string>();
-            education ??= new List<Education>();
-            workExperience ??= new List<ResumeDataWorkExperienceItem>();
-            skills ??= new List<ResumeDataSkillsItem>();
-            certifications ??= new List<string>();
-            publications ??= new List<string>();
-            referees ??= new List<ResumeDataRefereesItem>();
-            sections ??= new List<ResumeDataSectionsItem>();
-            additionalProperties ??= new Dictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties>();
-
-            return new ResumeData(name, phoneNumbers?.ToList(), phoneNumberDetails?.ToList(), websites?.ToList(), emails?.ToList(), dateOfBirth, location, objective, languages?.ToList(), languageCodes?.ToList(), summary, totalYearsExperience, headShot, education?.ToList(), profession, linkedin, workExperience?.ToList(), skills?.ToList(), certifications?.ToList(), publications?.ToList(), referees?.ToList(), sections?.ToList(), isResumeProbability, rawText, redactedText, additionalProperties);
-        }
-
-        /// <summary> Initializes a new instance of ResumeDataWorkExperienceItem. </summary>
-        /// <param name="id"></param>
-        /// <param name="jobTitle"></param>
-        /// <param name="socCode"></param>
-        /// <param name="socName"></param>
-        /// <param name="organization"></param>
-        /// <param name="industry"></param>
-        /// <param name="location"></param>
-        /// <param name="jobDescription"></param>
-        /// <param name="dates"></param>
-        /// <param name="occupation"></param>
-        /// <returns> A new <see cref="Models.ResumeDataWorkExperienceItem"/> instance for mocking. </returns>
-        public static ResumeDataWorkExperienceItem ResumeDataWorkExperienceItem(int? id = null, string jobTitle = null, string socCode = null, string socName = null, string organization = null, string industry = null, Location location = null, string jobDescription = null, ResumeDataWorkExperienceItemDates dates = null, ResumeDataWorkExperienceItemOccupation occupation = null)
-        {
-            return new ResumeDataWorkExperienceItem(id, jobTitle, socCode, socName, organization, industry, location, jobDescription, dates, occupation);
-        }
-
-        /// <summary> Initializes a new instance of ResumeDataWorkExperienceItemOccupation. </summary>
-        /// <param name="jobTitle"> The raw (not normalized) job title pulled from the work experience entry. </param>
-        /// <param name="jobTitleNormalized"> Mapped onto the EMSI job title taxonomy if a sufficiently close match exists. </param>
-        /// <param name="managementLevel"></param>
-        /// <param name="classification"></param>
-        /// <returns> A new <see cref="Models.ResumeDataWorkExperienceItemOccupation"/> instance for mocking. </returns>
-        public static ResumeDataWorkExperienceItemOccupation ResumeDataWorkExperienceItemOccupation(string jobTitle = null, string jobTitleNormalized = null, ManagementLevel? managementLevel = null, Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification classification = null)
-        {
-            return new ResumeDataWorkExperienceItemOccupation(jobTitle, jobTitleNormalized, managementLevel, classification);
-        }
-
-        /// <summary> Initializes a new instance of Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification. </summary>
-        /// <param name="title"> SOC2020 classification for this job title. </param>
-        /// <param name="minorGroup"> SOC2020 minor group. </param>
-        /// <param name="subMajorGroup"> SOC2020 sub major group. </param>
-        /// <param name="majorGroup"> SOC2020 major group. </param>
-        /// <param name="socCode"> The 4 digit code representing the SOC2020 classification for this job title. </param>
-        /// <returns> A new <see cref="Models.Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification"/> instance for mocking. </returns>
-        public static Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification(string title = null, string minorGroup = null, string subMajorGroup = null, string majorGroup = null, int? socCode = null)
-        {
-            return new Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification(title, minorGroup, subMajorGroup, majorGroup, socCode);
-        }
-
-        /// <summary> Initializes a new instance of ResumeDataSkillsItem. </summary>
-        /// <param name="id"></param>
-        /// <param name="emsiId"> EMSI id of this skill. </param>
-        /// <param name="name"></param>
-        /// <param name="lastUsed"></param>
-        /// <param name="numberOfMonths"></param>
-        /// <param name="type"></param>
-        /// <param name="count"></param>
-        /// <param name="weighting"></param>
-        /// <param name="sources"></param>
-        /// <returns> A new <see cref="Models.ResumeDataSkillsItem"/> instance for mocking. </returns>
-        public static ResumeDataSkillsItem ResumeDataSkillsItem(int? id = null, string emsiId = null, string name = null, string lastUsed = null, int? numberOfMonths = null, string type = null, int? count = null, float? weighting = null, IEnumerable<ResumeDataSkillsPropertiesItemsItem> sources = null)
-        {
-            sources ??= new List<ResumeDataSkillsPropertiesItemsItem>();
-
-            return new ResumeDataSkillsItem(id, emsiId, name, lastUsed, numberOfMonths, type, count, weighting, sources?.ToList());
-        }
-
-        /// <summary> Initializes a new instance of ResumeDataSkillsPropertiesItemsItem. </summary>
-        /// <param name="section"></param>
-        /// <param name="position"> If this skill is extracted from a &quot;workExperience&quot; section, the &quot;position&quot; is the index of the work experience where this skill is found, with 0 being the first work experience, 1 being the second work experience, and so on. </param>
-        /// <param name="workExperienceId"> If this skill is extracted from a &quot;workExperience&quot; section, the &quot;workExperienceId&quot; is the id of the work experience where this skill is found. </param>
-        /// <returns> A new <see cref="Models.ResumeDataSkillsPropertiesItemsItem"/> instance for mocking. </returns>
-        public static ResumeDataSkillsPropertiesItemsItem ResumeDataSkillsPropertiesItemsItem(string section = null, int? position = null, int? workExperienceId = null)
-        {
-            return new ResumeDataSkillsPropertiesItemsItem(section, position, workExperienceId);
-        }
-
-        /// <summary> Initializes a new instance of ResumeDataSectionsItem. </summary>
-        /// <param name="sectionType"></param>
-        /// <param name="bbox"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="text"></param>
-        /// <returns> A new <see cref="Models.ResumeDataSectionsItem"/> instance for mocking. </returns>
-        public static ResumeDataSectionsItem ResumeDataSectionsItem(string sectionType = null, IEnumerable<float> bbox = null, int? pageIndex = null, string text = null)
-        {
-            bbox ??= new List<float>();
-
-            return new ResumeDataSectionsItem(sectionType, bbox?.ToList(), pageIndex, text);
         }
 
         /// <summary> Initializes a new instance of LanguageAnnotation. </summary>

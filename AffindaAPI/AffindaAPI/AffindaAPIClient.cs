@@ -886,6 +886,52 @@ namespace Affinda.API
             }
         }
 
+        /// <summary> Update a document&apos;s data. </summary>
+        /// <param name="identifier"> Resume or Job Description identifier. </param>
+        /// <param name="body"> Resume data to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks>
+        /// Update data of a document.
+        /// Only applicable for resumes and job descriptions. For other document types, please use the `PATCH /annotations/{id}` endpoint or the `POST /annotations/batch_update` endpoint.
+        /// </remarks>
+        public virtual async Task<Response<Document>> UpdateDocumentDataAsync(string identifier, PathsO1OmciV3DocumentsIdentifierUpdateDataPostRequestbodyContentApplicationJsonSchema body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateDocumentData");
+            scope.Start();
+            try
+            {
+                return await RestClient.UpdateDocumentDataAsync(identifier, body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update a document&apos;s data. </summary>
+        /// <param name="identifier"> Resume or Job Description identifier. </param>
+        /// <param name="body"> Resume data to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks>
+        /// Update data of a document.
+        /// Only applicable for resumes and job descriptions. For other document types, please use the `PATCH /annotations/{id}` endpoint or the `POST /annotations/batch_update` endpoint.
+        /// </remarks>
+        public virtual Response<Document> UpdateDocumentData(string identifier, PathsO1OmciV3DocumentsIdentifierUpdateDataPostRequestbodyContentApplicationJsonSchema body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateDocumentData");
+            scope.Start();
+            try
+            {
+                return RestClient.UpdateDocumentData(identifier, body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
         /// <summary> Add a tag to documents. </summary>
         /// <param name="body"> Specify the tag and the documents to tag. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
@@ -1740,7 +1786,7 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Update a annotation. </summary>
+        /// <summary> Update an annotation. </summary>
         /// <param name="id"> Annotation&apos;s ID. </param>
         /// <param name="body"> Annotation data to update. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
@@ -1760,7 +1806,7 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Update a annotation. </summary>
+        /// <summary> Update an annotation. </summary>
         /// <param name="id"> Annotation&apos;s ID. </param>
         /// <param name="body"> Annotation data to update. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
@@ -3474,7 +3520,7 @@ namespace Affinda.API
         /// <param name="documentType"> Filter indices by a document type. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public virtual async Task<Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum17? documentType = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum18? documentType = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexes");
             scope.Start();
@@ -3495,7 +3541,7 @@ namespace Affinda.API
         /// <param name="documentType"> Filter indices by a document type. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public virtual Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema> GetAllIndexes(int? offset = null, int? limit = null, Enum17? documentType = null, CancellationToken cancellationToken = default)
+        public virtual Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema> GetAllIndexes(int? offset = null, int? limit = null, Enum18? documentType = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexes");
             scope.Start();

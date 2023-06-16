@@ -1680,6 +1680,99 @@ namespace Affinda.API
             }
         }
 
+        internal HttpMessage CreateUpdateDocumentDataRequest(string identifier, PathsO1OmciV3DocumentsIdentifierUpdateDataPostRequestbodyContentApplicationJsonSchema body)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/documents/", false);
+            uri.AppendPath(identifier, true);
+            uri.AppendPath("/update_data", false);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Content-Type", "application/json");
+            var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(body);
+            request.Content = content;
+            return message;
+        }
+
+        /// <summary> Update a document&apos;s data. </summary>
+        /// <param name="identifier"> Resume or Job Description identifier. </param>
+        /// <param name="body"> Resume data to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
+        /// <remarks>
+        /// Update data of a document.
+        /// Only applicable for resumes and job descriptions. For other document types, please use the `PATCH /annotations/{id}` endpoint or the `POST /annotations/batch_update` endpoint.
+        /// </remarks>
+        public async Task<Response<Document>> UpdateDocumentDataAsync(string identifier, PathsO1OmciV3DocumentsIdentifierUpdateDataPostRequestbodyContentApplicationJsonSchema body, CancellationToken cancellationToken = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateUpdateDocumentDataRequest(identifier, body);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        Document value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = Document.DeserializeDocument(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Update a document&apos;s data. </summary>
+        /// <param name="identifier"> Resume or Job Description identifier. </param>
+        /// <param name="body"> Resume data to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
+        /// <remarks>
+        /// Update data of a document.
+        /// Only applicable for resumes and job descriptions. For other document types, please use the `PATCH /annotations/{id}` endpoint or the `POST /annotations/batch_update` endpoint.
+        /// </remarks>
+        public Response<Document> UpdateDocumentData(string identifier, PathsO1OmciV3DocumentsIdentifierUpdateDataPostRequestbodyContentApplicationJsonSchema body, CancellationToken cancellationToken = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateUpdateDocumentDataRequest(identifier, body);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        Document value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = Document.DeserializeDocument(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
         internal HttpMessage CreateBatchAddTagRequest(BatchAddTagRequest body)
         {
             var message = _pipeline.CreateMessage();
@@ -3328,7 +3421,7 @@ namespace Affinda.API
             return message;
         }
 
-        /// <summary> Update a annotation. </summary>
+        /// <summary> Update an annotation. </summary>
         /// <param name="id"> Annotation&apos;s ID. </param>
         /// <param name="body"> Annotation data to update. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
@@ -3364,7 +3457,7 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Update a annotation. </summary>
+        /// <summary> Update an annotation. </summary>
         /// <param name="id"> Annotation&apos;s ID. </param>
         /// <param name="body"> Annotation data to update. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
@@ -6545,7 +6638,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllIndexesRequest(int? offset, int? limit, Enum17? documentType)
+        internal HttpMessage CreateGetAllIndexesRequest(int? offset, int? limit, Enum18? documentType)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -6578,7 +6671,7 @@ namespace Affinda.API
         /// <param name="documentType"> Filter indices by a document type. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public async Task<Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum17? documentType = null, CancellationToken cancellationToken = default)
+        public async Task<Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum18? documentType = null, CancellationToken cancellationToken = default)
         {
             using var message = CreateGetAllIndexesRequest(offset, limit, documentType);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
@@ -6602,7 +6695,7 @@ namespace Affinda.API
         /// <param name="documentType"> Filter indices by a document type. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema> GetAllIndexes(int? offset = null, int? limit = null, Enum17? documentType = null, CancellationToken cancellationToken = default)
+        public Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema> GetAllIndexes(int? offset = null, int? limit = null, Enum18? documentType = null, CancellationToken cancellationToken = default)
         {
             using var message = CreateGetAllIndexesRequest(offset, limit, documentType);
             _pipeline.Send(message, cancellationToken);

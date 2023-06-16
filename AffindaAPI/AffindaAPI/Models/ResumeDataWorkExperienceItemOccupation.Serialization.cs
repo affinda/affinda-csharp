@@ -16,6 +16,7 @@ namespace Affinda.API.Models
         {
             Optional<string> jobTitle = default;
             Optional<string> jobTitleNormalized = default;
+            Optional<string> emsiId = default;
             Optional<ManagementLevel?> managementLevel = default;
             Optional<Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification> classification = default;
             foreach (var property in element.EnumerateObject())
@@ -40,6 +41,16 @@ namespace Affinda.API.Models
                     jobTitleNormalized = property.Value.GetString();
                     continue;
                 }
+                if (property.NameEquals("emsiId"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        emsiId = null;
+                        continue;
+                    }
+                    emsiId = property.Value.GetString();
+                    continue;
+                }
                 if (property.NameEquals("managementLevel"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
@@ -61,7 +72,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new ResumeDataWorkExperienceItemOccupation(jobTitle.Value, jobTitleNormalized.Value, Optional.ToNullable(managementLevel), classification.Value);
+            return new ResumeDataWorkExperienceItemOccupation(jobTitle.Value, jobTitleNormalized.Value, emsiId.Value, Optional.ToNullable(managementLevel), classification.Value);
         }
     }
 }
