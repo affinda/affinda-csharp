@@ -22,615 +22,615 @@ namespace Affinda.API.Models
             _value = value ?? throw new ArgumentNullException(nameof(value));
         }
 
-        private const string AinuValue = "ainu";
-        private const string AkanValue = "akan";
-        private const string AkkadianValue = "akkadian";
-        private const string AmharicValue = "amharic";
-        private const string AnamValue = "anam";
-        private const string ArabicValue = "arabic";
-        private const string AramaicValue = "aramaic";
-        private const string AremValue = "arem";
-        private const string ArmenianValue = "armenian";
-        private const string AwadhiValue = "awadhi";
-        private const string AymaraValue = "aymara";
-        private const string AzariValue = "azari";
-        private const string BagheliValue = "bagheli";
-        private const string BagriValue = "bagri";
-        private const string BahasaValue = "bahasa";
-        private const string BambaraValue = "bambara";
-        private const string BangalaValue = "bangala";
-        private const string BardiValue = "bardi";
-        private const string BassaValue = "bassa";
-        private const string BatakValue = "batak";
-        private const string BelarusianValue = "belarusian";
-        private const string BembaValue = "bemba";
-        private const string BengaValue = "benga";
-        private const string BengaliValue = "bengali";
-        private const string BerberValue = "berber";
-        private const string BhojpuriValue = "bhojpuri";
-        private const string BislamaValue = "bislama";
-        private const string BrahuiValue = "brahui";
-        private const string BulgarianValue = "bulgarian";
-        private const string BunuValue = "bunu";
-        private const string CambodianValue = "cambodian";
-        private const string CarewValue = "carew";
-        private const string CaribValue = "carib";
-        private const string CatalanValue = "catalan";
-        private const string CebuanoValue = "cebuano";
-        private const string ChakmaValue = "chakma";
-        private const string ChamorroValue = "chamorro";
-        private const string ChangoValue = "chango";
-        private const string ChewaValue = "chewa";
-        private const string CroatianValue = "croatian";
-        private const string CzechValue = "czech";
-        private const string DagbaniValue = "dagbani";
-        private const string DanishValue = "danish";
-        private const string DariValue = "dari";
-        private const string DayiValue = "dayi";
-        private const string DhatkiValue = "dhatki";
-        private const string DhivehiValue = "dhivehi";
-        private const string DinkaValue = "dinka";
-        private const string DogriValue = "dogri";
-        private const string DualaValue = "duala";
-        private const string DutchValue = "dutch";
-        private const string EnglishValue = "english";
-        private const string EsperantoValue = "esperanto";
-        private const string EstonianValue = "estonian";
-        private const string EwondoValue = "ewondo";
-        private const string FaroeseValue = "faroese";
-        private const string FilipinoValue = "filipino";
-        private const string FinnishValue = "finnish";
-        private const string FormulaValue = "formula";
-        private const string FrenchValue = "french";
-        private const string FrisianValue = "frisian";
-        private const string FriulianValue = "friulian";
-        private const string FulaValue = "fula";
-        private const string GaelicValue = "gaelic";
-        private const string GaloValue = "galo";
-        private const string GarhwaliValue = "garhwali";
-        private const string GarifunaValue = "garifuna";
-        private const string GermanValue = "german";
-        private const string GikuyuValue = "gikuyu";
-        private const string GujaratiValue = "gujarati";
-        private const string GujeratiValue = "gujerati";
-        private const string GwereValue = "gwere";
-        private const string HawaiianValue = "hawaiian";
-        private const string HayaValue = "haya";
-        private const string HebrewValue = "hebrew";
-        private const string HindiValue = "hindi";
-        private const string HmuValue = "hmu";
-        private const string HokkienValue = "hokkien";
-        private const string HopiValue = "hopi";
-        private const string HungarianValue = "hungarian";
-        private const string HupValue = "hup";
-        private const string IbanagValue = "ibanag";
-        private const string IgboValue = "igbo";
-        private const string IlokanoValue = "ilokano";
-        private const string IndonesianValue = "indonesian";
-        private const string IntermediateValue = "intermediate";
-        private const string IrishValue = "irish";
-        private const string ItalianValue = "italian";
-        private const string JapaneseValue = "japanese";
-        private const string JibaValue = "jiba";
-        private const string KachinValue = "kachin";
-        private const string KalenjinValue = "kalenjin";
-        private const string KamayoValue = "kamayo";
-        private const string KannadaValue = "kannada";
-        private const string KaondeValue = "kaonde";
-        private const string KayanValue = "kayan";
-        private const string KhandeshiValue = "khandeshi";
-        private const string KhmerValue = "khmer";
-        private const string KikuyuValue = "kikuyu";
-        private const string KodavaValue = "kodava";
-        private const string KomaValue = "koma";
-        private const string KongoValue = "kongo";
-        private const string KonkaniValue = "konkani";
-        private const string KoreanValue = "korean";
-        private const string KorwaValue = "korwa";
-        private const string KreyolValue = "kreyol";
-        private const string KrioValue = "krio";
-        private const string KumaoniValue = "kumaoni";
-        private const string KurdishValue = "kurdish";
-        private const string KurukhValue = "kurukh";
-        private const string KwaValue = "kwa";
-        private const string LadinoValue = "ladino";
-        private const string LangoValue = "lango";
-        private const string LatvianValue = "latvian";
-        private const string LawaValue = "lawa";
-        private const string LingalaValue = "lingala";
-        private const string LithuanianValue = "lithuanian";
-        private const string LuleValue = "lule";
-        private const string LuxembourgishValue = "luxembourgish";
-        private const string MagahiValue = "magahi";
-        private const string MaithiliValue = "maithili";
-        private const string MalayValue = "malay";
-        private const string MalayalamValue = "malayalam";
-        private const string MalaysianValue = "malaysian";
-        private const string MalviValue = "malvi";
-        private const string ManinkaValue = "maninka";
-        private const string ManipuriValue = "manipuri";
-        private const string ManxValue = "manx";
-        private const string MarathiValue = "marathi";
-        private const string MayanValue = "mayan";
-        private const string MedumbaValue = "medumba";
-        private const string MemoniValue = "memoni";
-        private const string MewariValue = "mewari";
-        private const string MizoValue = "mizo";
-        private const string MontenegrinValue = "montenegrin";
-        private const string MwanValue = "mwan";
-        private const string MwangaValue = "mwanga";
-        private const string NdebeleValue = "ndebele";
-        private const string NepaliValue = "nepali";
-        private const string NimadiValue = "nimadi";
-        private const string OriyaValue = "oriya";
-        private const string OromoValue = "oromo";
-        private const string OvamboValue = "ovambo";
-        private const string PamonaValue = "pamona";
-        private const string PangasinanValue = "pangasinan";
-        private const string PashtoValue = "pashto";
-        private const string PhoenicianValue = "phoenician";
-        private const string PolishValue = "polish";
-        private const string PortugueseValue = "portuguese";
-        private const string PulaarValue = "pulaar";
-        private const string PularValue = "pular";
-        private const string PunjabiValue = "punjabi";
-        private const string QuechaValue = "quecha";
-        private const string RajasthaniValue = "rajasthani";
-        private const string RomanianValue = "romanian";
-        private const string RussianValue = "russian";
-        private const string SakhaValue = "sakha";
-        private const string SangoValue = "sango";
-        private const string SanthaliValue = "santhali";
-        private const string SaraikiValue = "saraiki";
-        private const string SeimValue = "seim";
-        private const string ShadingValue = "shading";
-        private const string ShamaValue = "shama";
-        private const string ShanValue = "shan";
-        private const string ShonaValue = "shona";
-        private const string SilesianValue = "silesian";
-        private const string SindhiValue = "sindhi";
-        private const string SlovakValue = "slovak";
-        private const string SloveneValue = "slovene";
-        private const string SogaValue = "soga";
-        private const string SogdianValue = "sogdian";
-        private const string SothoValue = "sotho";
-        private const string SpanishValue = "spanish";
-        private const string SudaneseValue = "sudanese";
-        private const string SumerianValue = "sumerian";
-        private const string SurajpuriValue = "surajpuri";
-        private const string SurigaononValue = "surigaonon";
-        private const string SwatiValue = "swati";
-        private const string SwaziValue = "swazi";
-        private const string SwedishValue = "swedish";
-        private const string TagalogValue = "tagalog";
-        private const string TamilValue = "tamil";
-        private const string TausugValue = "tausug";
-        private const string TeluguValue = "telugu";
-        private const string TetumValue = "tetum";
-        private const string TharuValue = "tharu";
-        private const string TibetanValue = "tibetan";
-        private const string TigrinyaValue = "tigrinya";
-        private const string TripuriValue = "tripuri";
-        private const string TswanaValue = "tswana";
-        private const string TuluValue = "tulu";
-        private const string TurkishValue = "turkish";
-        private const string TuwaliValue = "tuwali";
-        private const string UbiValue = "ubi";
-        private const string UkrainianValue = "ukrainian";
-        private const string UrduValue = "urdu";
-        private const string VepsValue = "veps";
-        private const string VietnameseValue = "vietnamese";
-        private const string WagdiValue = "wagdi";
-        private const string WaziriValue = "waziri";
-        private const string XhosaValue = "xhosa";
-        private const string YiddishValue = "yiddish";
-        private const string YorubaValue = "yoruba";
+        private const string AinuValue = "Ainu";
+        private const string AkanValue = "Akan";
+        private const string AkkadianValue = "Akkadian";
+        private const string AmharicValue = "Amharic";
+        private const string AnamValue = "Anam";
+        private const string ArabicValue = "Arabic";
+        private const string AramaicValue = "Aramaic";
+        private const string AremValue = "Arem";
+        private const string ArmenianValue = "Armenian";
+        private const string AwadhiValue = "Awadhi";
+        private const string AymaraValue = "Aymara";
+        private const string AzariValue = "Azari";
+        private const string BagheliValue = "Bagheli";
+        private const string BagriValue = "Bagri";
+        private const string BahasaValue = "Bahasa";
+        private const string BambaraValue = "Bambara";
+        private const string BangalaValue = "Bangala";
+        private const string BardiValue = "Bardi";
+        private const string BassaValue = "Bassa";
+        private const string BatakValue = "Batak";
+        private const string BelarusianValue = "Belarusian";
+        private const string BembaValue = "Bemba";
+        private const string BengaValue = "Benga";
+        private const string BengaliValue = "Bengali";
+        private const string BerberValue = "Berber";
+        private const string BhojpuriValue = "Bhojpuri";
+        private const string BislamaValue = "Bislama";
+        private const string BrahuiValue = "Brahui";
+        private const string BulgarianValue = "Bulgarian";
+        private const string BunuValue = "Bunu";
+        private const string CambodianValue = "Cambodian";
+        private const string CarewValue = "Carew";
+        private const string CaribValue = "Carib";
+        private const string CatalanValue = "Catalan";
+        private const string CebuanoValue = "Cebuano";
+        private const string ChakmaValue = "Chakma";
+        private const string ChamorroValue = "Chamorro";
+        private const string ChangoValue = "Chango";
+        private const string ChewaValue = "Chewa";
+        private const string CroatianValue = "Croatian";
+        private const string CzechValue = "Czech";
+        private const string DagbaniValue = "Dagbani";
+        private const string DanishValue = "Danish";
+        private const string DariValue = "Dari";
+        private const string DayiValue = "Dayi";
+        private const string DhatkiValue = "Dhatki";
+        private const string DhivehiValue = "Dhivehi";
+        private const string DinkaValue = "Dinka";
+        private const string DogriValue = "Dogri";
+        private const string DualaValue = "Duala";
+        private const string DutchValue = "Dutch";
+        private const string EnglishValue = "English";
+        private const string EsperantoValue = "Esperanto";
+        private const string EstonianValue = "Estonian";
+        private const string EwondoValue = "Ewondo";
+        private const string FaroeseValue = "Faroese";
+        private const string FilipinoValue = "Filipino";
+        private const string FinnishValue = "Finnish";
+        private const string FormulaValue = "Formula";
+        private const string FrenchValue = "French";
+        private const string FrisianValue = "Frisian";
+        private const string FriulianValue = "Friulian";
+        private const string FulaValue = "Fula";
+        private const string GaelicValue = "Gaelic";
+        private const string GaloValue = "Galo";
+        private const string GarhwaliValue = "Garhwali";
+        private const string GarifunaValue = "Garifuna";
+        private const string GermanValue = "German";
+        private const string GikuyuValue = "Gikuyu";
+        private const string GujaratiValue = "Gujarati";
+        private const string GujeratiValue = "Gujerati";
+        private const string GwereValue = "Gwere";
+        private const string HawaiianValue = "Hawaiian";
+        private const string HayaValue = "Haya";
+        private const string HebrewValue = "Hebrew";
+        private const string HindiValue = "Hindi";
+        private const string HmuValue = "Hmu";
+        private const string HokkienValue = "Hokkien";
+        private const string HopiValue = "Hopi";
+        private const string HungarianValue = "Hungarian";
+        private const string HupValue = "Hup";
+        private const string IbanagValue = "Ibanag";
+        private const string IgboValue = "Igbo";
+        private const string IlokanoValue = "Ilokano";
+        private const string IndonesianValue = "Indonesian";
+        private const string IntermediateValue = "Intermediate";
+        private const string IrishValue = "Irish";
+        private const string ItalianValue = "Italian";
+        private const string JapaneseValue = "Japanese";
+        private const string JibaValue = "Jiba";
+        private const string KachinValue = "Kachin";
+        private const string KalenjinValue = "Kalenjin";
+        private const string KamayoValue = "Kamayo";
+        private const string KannadaValue = "Kannada";
+        private const string KaondeValue = "Kaonde";
+        private const string KayanValue = "Kayan";
+        private const string KhandeshiValue = "Khandeshi";
+        private const string KhmerValue = "Khmer";
+        private const string KikuyuValue = "Kikuyu";
+        private const string KodavaValue = "Kodava";
+        private const string KomaValue = "Koma";
+        private const string KongoValue = "Kongo";
+        private const string KonkaniValue = "Konkani";
+        private const string KoreanValue = "Korean";
+        private const string KorwaValue = "Korwa";
+        private const string KreyolValue = "Kreyol";
+        private const string KrioValue = "Krio";
+        private const string KumaoniValue = "Kumaoni";
+        private const string KurdishValue = "Kurdish";
+        private const string KurukhValue = "Kurukh";
+        private const string KwaValue = "Kwa";
+        private const string LadinoValue = "Ladino";
+        private const string LangoValue = "Lango";
+        private const string LatvianValue = "Latvian";
+        private const string LawaValue = "Lawa";
+        private const string LingalaValue = "Lingala";
+        private const string LithuanianValue = "Lithuanian";
+        private const string LuleValue = "Lule";
+        private const string LuxembourgishValue = "Luxembourgish";
+        private const string MagahiValue = "Magahi";
+        private const string MaithiliValue = "Maithili";
+        private const string MalayValue = "Malay";
+        private const string MalayalamValue = "Malayalam";
+        private const string MalaysianValue = "Malaysian";
+        private const string MalviValue = "Malvi";
+        private const string ManinkaValue = "Maninka";
+        private const string ManipuriValue = "Manipuri";
+        private const string ManxValue = "Manx";
+        private const string MarathiValue = "Marathi";
+        private const string MayanValue = "Mayan";
+        private const string MedumbaValue = "Medumba";
+        private const string MemoniValue = "Memoni";
+        private const string MewariValue = "Mewari";
+        private const string MizoValue = "Mizo";
+        private const string MontenegrinValue = "Montenegrin";
+        private const string MwanValue = "Mwan";
+        private const string MwangaValue = "Mwanga";
+        private const string NdebeleValue = "Ndebele";
+        private const string NepaliValue = "Nepali";
+        private const string NimadiValue = "Nimadi";
+        private const string OriyaValue = "Oriya";
+        private const string OromoValue = "Oromo";
+        private const string OvamboValue = "Ovambo";
+        private const string PamonaValue = "Pamona";
+        private const string PangasinanValue = "Pangasinan";
+        private const string PashtoValue = "Pashto";
+        private const string PhoenicianValue = "Phoenician";
+        private const string PolishValue = "Polish";
+        private const string PortugueseValue = "Portuguese";
+        private const string PulaarValue = "Pulaar";
+        private const string PularValue = "Pular";
+        private const string PunjabiValue = "Punjabi";
+        private const string QuechaValue = "Quecha";
+        private const string RajasthaniValue = "Rajasthani";
+        private const string RomanianValue = "Romanian";
+        private const string RussianValue = "Russian";
+        private const string SakhaValue = "Sakha";
+        private const string SangoValue = "Sango";
+        private const string SanthaliValue = "Santhali";
+        private const string SaraikiValue = "Saraiki";
+        private const string SeimValue = "Seim";
+        private const string ShadingValue = "Shading";
+        private const string ShamaValue = "Shama";
+        private const string ShanValue = "Shan";
+        private const string ShonaValue = "Shona";
+        private const string SilesianValue = "Silesian";
+        private const string SindhiValue = "Sindhi";
+        private const string SlovakValue = "Slovak";
+        private const string SloveneValue = "Slovene";
+        private const string SogaValue = "Soga";
+        private const string SogdianValue = "Sogdian";
+        private const string SothoValue = "Sotho";
+        private const string SpanishValue = "Spanish";
+        private const string SudaneseValue = "Sudanese";
+        private const string SumerianValue = "Sumerian";
+        private const string SurajpuriValue = "Surajpuri";
+        private const string SurigaononValue = "Surigaonon";
+        private const string SwatiValue = "Swati";
+        private const string SwaziValue = "Swazi";
+        private const string SwedishValue = "Swedish";
+        private const string TagalogValue = "Tagalog";
+        private const string TamilValue = "Tamil";
+        private const string TausugValue = "Tausug";
+        private const string TeluguValue = "Telugu";
+        private const string TetumValue = "Tetum";
+        private const string TharuValue = "Tharu";
+        private const string TibetanValue = "Tibetan";
+        private const string TigrinyaValue = "Tigrinya";
+        private const string TripuriValue = "Tripuri";
+        private const string TswanaValue = "Tswana";
+        private const string TuluValue = "Tulu";
+        private const string TurkishValue = "Turkish";
+        private const string TuwaliValue = "Tuwali";
+        private const string UbiValue = "Ubi";
+        private const string UkrainianValue = "Ukrainian";
+        private const string UrduValue = "Urdu";
+        private const string VepsValue = "Veps";
+        private const string VietnameseValue = "Vietnamese";
+        private const string WagdiValue = "Wagdi";
+        private const string WaziriValue = "Waziri";
+        private const string XhosaValue = "Xhosa";
+        private const string YiddishValue = "Yiddish";
+        private const string YorubaValue = "Yoruba";
 
-        /// <summary> ainu. </summary>
+        /// <summary> Ainu. </summary>
         public static ResumeDataLanguagesItem Ainu { get; } = new ResumeDataLanguagesItem(AinuValue);
-        /// <summary> akan. </summary>
+        /// <summary> Akan. </summary>
         public static ResumeDataLanguagesItem Akan { get; } = new ResumeDataLanguagesItem(AkanValue);
-        /// <summary> akkadian. </summary>
+        /// <summary> Akkadian. </summary>
         public static ResumeDataLanguagesItem Akkadian { get; } = new ResumeDataLanguagesItem(AkkadianValue);
-        /// <summary> amharic. </summary>
+        /// <summary> Amharic. </summary>
         public static ResumeDataLanguagesItem Amharic { get; } = new ResumeDataLanguagesItem(AmharicValue);
-        /// <summary> anam. </summary>
+        /// <summary> Anam. </summary>
         public static ResumeDataLanguagesItem Anam { get; } = new ResumeDataLanguagesItem(AnamValue);
-        /// <summary> arabic. </summary>
+        /// <summary> Arabic. </summary>
         public static ResumeDataLanguagesItem Arabic { get; } = new ResumeDataLanguagesItem(ArabicValue);
-        /// <summary> aramaic. </summary>
+        /// <summary> Aramaic. </summary>
         public static ResumeDataLanguagesItem Aramaic { get; } = new ResumeDataLanguagesItem(AramaicValue);
-        /// <summary> arem. </summary>
+        /// <summary> Arem. </summary>
         public static ResumeDataLanguagesItem Arem { get; } = new ResumeDataLanguagesItem(AremValue);
-        /// <summary> armenian. </summary>
+        /// <summary> Armenian. </summary>
         public static ResumeDataLanguagesItem Armenian { get; } = new ResumeDataLanguagesItem(ArmenianValue);
-        /// <summary> awadhi. </summary>
+        /// <summary> Awadhi. </summary>
         public static ResumeDataLanguagesItem Awadhi { get; } = new ResumeDataLanguagesItem(AwadhiValue);
-        /// <summary> aymara. </summary>
+        /// <summary> Aymara. </summary>
         public static ResumeDataLanguagesItem Aymara { get; } = new ResumeDataLanguagesItem(AymaraValue);
-        /// <summary> azari. </summary>
+        /// <summary> Azari. </summary>
         public static ResumeDataLanguagesItem Azari { get; } = new ResumeDataLanguagesItem(AzariValue);
-        /// <summary> bagheli. </summary>
+        /// <summary> Bagheli. </summary>
         public static ResumeDataLanguagesItem Bagheli { get; } = new ResumeDataLanguagesItem(BagheliValue);
-        /// <summary> bagri. </summary>
+        /// <summary> Bagri. </summary>
         public static ResumeDataLanguagesItem Bagri { get; } = new ResumeDataLanguagesItem(BagriValue);
-        /// <summary> bahasa. </summary>
+        /// <summary> Bahasa. </summary>
         public static ResumeDataLanguagesItem Bahasa { get; } = new ResumeDataLanguagesItem(BahasaValue);
-        /// <summary> bambara. </summary>
+        /// <summary> Bambara. </summary>
         public static ResumeDataLanguagesItem Bambara { get; } = new ResumeDataLanguagesItem(BambaraValue);
-        /// <summary> bangala. </summary>
+        /// <summary> Bangala. </summary>
         public static ResumeDataLanguagesItem Bangala { get; } = new ResumeDataLanguagesItem(BangalaValue);
-        /// <summary> bardi. </summary>
+        /// <summary> Bardi. </summary>
         public static ResumeDataLanguagesItem Bardi { get; } = new ResumeDataLanguagesItem(BardiValue);
-        /// <summary> bassa. </summary>
+        /// <summary> Bassa. </summary>
         public static ResumeDataLanguagesItem Bassa { get; } = new ResumeDataLanguagesItem(BassaValue);
-        /// <summary> batak. </summary>
+        /// <summary> Batak. </summary>
         public static ResumeDataLanguagesItem Batak { get; } = new ResumeDataLanguagesItem(BatakValue);
-        /// <summary> belarusian. </summary>
+        /// <summary> Belarusian. </summary>
         public static ResumeDataLanguagesItem Belarusian { get; } = new ResumeDataLanguagesItem(BelarusianValue);
-        /// <summary> bemba. </summary>
+        /// <summary> Bemba. </summary>
         public static ResumeDataLanguagesItem Bemba { get; } = new ResumeDataLanguagesItem(BembaValue);
-        /// <summary> benga. </summary>
+        /// <summary> Benga. </summary>
         public static ResumeDataLanguagesItem Benga { get; } = new ResumeDataLanguagesItem(BengaValue);
-        /// <summary> bengali. </summary>
+        /// <summary> Bengali. </summary>
         public static ResumeDataLanguagesItem Bengali { get; } = new ResumeDataLanguagesItem(BengaliValue);
-        /// <summary> berber. </summary>
+        /// <summary> Berber. </summary>
         public static ResumeDataLanguagesItem Berber { get; } = new ResumeDataLanguagesItem(BerberValue);
-        /// <summary> bhojpuri. </summary>
+        /// <summary> Bhojpuri. </summary>
         public static ResumeDataLanguagesItem Bhojpuri { get; } = new ResumeDataLanguagesItem(BhojpuriValue);
-        /// <summary> bislama. </summary>
+        /// <summary> Bislama. </summary>
         public static ResumeDataLanguagesItem Bislama { get; } = new ResumeDataLanguagesItem(BislamaValue);
-        /// <summary> brahui. </summary>
+        /// <summary> Brahui. </summary>
         public static ResumeDataLanguagesItem Brahui { get; } = new ResumeDataLanguagesItem(BrahuiValue);
-        /// <summary> bulgarian. </summary>
+        /// <summary> Bulgarian. </summary>
         public static ResumeDataLanguagesItem Bulgarian { get; } = new ResumeDataLanguagesItem(BulgarianValue);
-        /// <summary> bunu. </summary>
+        /// <summary> Bunu. </summary>
         public static ResumeDataLanguagesItem Bunu { get; } = new ResumeDataLanguagesItem(BunuValue);
-        /// <summary> cambodian. </summary>
+        /// <summary> Cambodian. </summary>
         public static ResumeDataLanguagesItem Cambodian { get; } = new ResumeDataLanguagesItem(CambodianValue);
-        /// <summary> carew. </summary>
+        /// <summary> Carew. </summary>
         public static ResumeDataLanguagesItem Carew { get; } = new ResumeDataLanguagesItem(CarewValue);
-        /// <summary> carib. </summary>
+        /// <summary> Carib. </summary>
         public static ResumeDataLanguagesItem Carib { get; } = new ResumeDataLanguagesItem(CaribValue);
-        /// <summary> catalan. </summary>
+        /// <summary> Catalan. </summary>
         public static ResumeDataLanguagesItem Catalan { get; } = new ResumeDataLanguagesItem(CatalanValue);
-        /// <summary> cebuano. </summary>
+        /// <summary> Cebuano. </summary>
         public static ResumeDataLanguagesItem Cebuano { get; } = new ResumeDataLanguagesItem(CebuanoValue);
-        /// <summary> chakma. </summary>
+        /// <summary> Chakma. </summary>
         public static ResumeDataLanguagesItem Chakma { get; } = new ResumeDataLanguagesItem(ChakmaValue);
-        /// <summary> chamorro. </summary>
+        /// <summary> Chamorro. </summary>
         public static ResumeDataLanguagesItem Chamorro { get; } = new ResumeDataLanguagesItem(ChamorroValue);
-        /// <summary> chango. </summary>
+        /// <summary> Chango. </summary>
         public static ResumeDataLanguagesItem Chango { get; } = new ResumeDataLanguagesItem(ChangoValue);
-        /// <summary> chewa. </summary>
+        /// <summary> Chewa. </summary>
         public static ResumeDataLanguagesItem Chewa { get; } = new ResumeDataLanguagesItem(ChewaValue);
-        /// <summary> croatian. </summary>
+        /// <summary> Croatian. </summary>
         public static ResumeDataLanguagesItem Croatian { get; } = new ResumeDataLanguagesItem(CroatianValue);
-        /// <summary> czech. </summary>
+        /// <summary> Czech. </summary>
         public static ResumeDataLanguagesItem Czech { get; } = new ResumeDataLanguagesItem(CzechValue);
-        /// <summary> dagbani. </summary>
+        /// <summary> Dagbani. </summary>
         public static ResumeDataLanguagesItem Dagbani { get; } = new ResumeDataLanguagesItem(DagbaniValue);
-        /// <summary> danish. </summary>
+        /// <summary> Danish. </summary>
         public static ResumeDataLanguagesItem Danish { get; } = new ResumeDataLanguagesItem(DanishValue);
-        /// <summary> dari. </summary>
+        /// <summary> Dari. </summary>
         public static ResumeDataLanguagesItem Dari { get; } = new ResumeDataLanguagesItem(DariValue);
-        /// <summary> dayi. </summary>
+        /// <summary> Dayi. </summary>
         public static ResumeDataLanguagesItem Dayi { get; } = new ResumeDataLanguagesItem(DayiValue);
-        /// <summary> dhatki. </summary>
+        /// <summary> Dhatki. </summary>
         public static ResumeDataLanguagesItem Dhatki { get; } = new ResumeDataLanguagesItem(DhatkiValue);
-        /// <summary> dhivehi. </summary>
+        /// <summary> Dhivehi. </summary>
         public static ResumeDataLanguagesItem Dhivehi { get; } = new ResumeDataLanguagesItem(DhivehiValue);
-        /// <summary> dinka. </summary>
+        /// <summary> Dinka. </summary>
         public static ResumeDataLanguagesItem Dinka { get; } = new ResumeDataLanguagesItem(DinkaValue);
-        /// <summary> dogri. </summary>
+        /// <summary> Dogri. </summary>
         public static ResumeDataLanguagesItem Dogri { get; } = new ResumeDataLanguagesItem(DogriValue);
-        /// <summary> duala. </summary>
+        /// <summary> Duala. </summary>
         public static ResumeDataLanguagesItem Duala { get; } = new ResumeDataLanguagesItem(DualaValue);
-        /// <summary> dutch. </summary>
+        /// <summary> Dutch. </summary>
         public static ResumeDataLanguagesItem Dutch { get; } = new ResumeDataLanguagesItem(DutchValue);
-        /// <summary> english. </summary>
+        /// <summary> English. </summary>
         public static ResumeDataLanguagesItem English { get; } = new ResumeDataLanguagesItem(EnglishValue);
-        /// <summary> esperanto. </summary>
+        /// <summary> Esperanto. </summary>
         public static ResumeDataLanguagesItem Esperanto { get; } = new ResumeDataLanguagesItem(EsperantoValue);
-        /// <summary> estonian. </summary>
+        /// <summary> Estonian. </summary>
         public static ResumeDataLanguagesItem Estonian { get; } = new ResumeDataLanguagesItem(EstonianValue);
-        /// <summary> ewondo. </summary>
+        /// <summary> Ewondo. </summary>
         public static ResumeDataLanguagesItem Ewondo { get; } = new ResumeDataLanguagesItem(EwondoValue);
-        /// <summary> faroese. </summary>
+        /// <summary> Faroese. </summary>
         public static ResumeDataLanguagesItem Faroese { get; } = new ResumeDataLanguagesItem(FaroeseValue);
-        /// <summary> filipino. </summary>
+        /// <summary> Filipino. </summary>
         public static ResumeDataLanguagesItem Filipino { get; } = new ResumeDataLanguagesItem(FilipinoValue);
-        /// <summary> finnish. </summary>
+        /// <summary> Finnish. </summary>
         public static ResumeDataLanguagesItem Finnish { get; } = new ResumeDataLanguagesItem(FinnishValue);
-        /// <summary> formula. </summary>
+        /// <summary> Formula. </summary>
         public static ResumeDataLanguagesItem Formula { get; } = new ResumeDataLanguagesItem(FormulaValue);
-        /// <summary> french. </summary>
+        /// <summary> French. </summary>
         public static ResumeDataLanguagesItem French { get; } = new ResumeDataLanguagesItem(FrenchValue);
-        /// <summary> frisian. </summary>
+        /// <summary> Frisian. </summary>
         public static ResumeDataLanguagesItem Frisian { get; } = new ResumeDataLanguagesItem(FrisianValue);
-        /// <summary> friulian. </summary>
+        /// <summary> Friulian. </summary>
         public static ResumeDataLanguagesItem Friulian { get; } = new ResumeDataLanguagesItem(FriulianValue);
-        /// <summary> fula. </summary>
+        /// <summary> Fula. </summary>
         public static ResumeDataLanguagesItem Fula { get; } = new ResumeDataLanguagesItem(FulaValue);
-        /// <summary> gaelic. </summary>
+        /// <summary> Gaelic. </summary>
         public static ResumeDataLanguagesItem Gaelic { get; } = new ResumeDataLanguagesItem(GaelicValue);
-        /// <summary> galo. </summary>
+        /// <summary> Galo. </summary>
         public static ResumeDataLanguagesItem Galo { get; } = new ResumeDataLanguagesItem(GaloValue);
-        /// <summary> garhwali. </summary>
+        /// <summary> Garhwali. </summary>
         public static ResumeDataLanguagesItem Garhwali { get; } = new ResumeDataLanguagesItem(GarhwaliValue);
-        /// <summary> garifuna. </summary>
+        /// <summary> Garifuna. </summary>
         public static ResumeDataLanguagesItem Garifuna { get; } = new ResumeDataLanguagesItem(GarifunaValue);
-        /// <summary> german. </summary>
+        /// <summary> German. </summary>
         public static ResumeDataLanguagesItem German { get; } = new ResumeDataLanguagesItem(GermanValue);
-        /// <summary> gikuyu. </summary>
+        /// <summary> Gikuyu. </summary>
         public static ResumeDataLanguagesItem Gikuyu { get; } = new ResumeDataLanguagesItem(GikuyuValue);
-        /// <summary> gujarati. </summary>
+        /// <summary> Gujarati. </summary>
         public static ResumeDataLanguagesItem Gujarati { get; } = new ResumeDataLanguagesItem(GujaratiValue);
-        /// <summary> gujerati. </summary>
+        /// <summary> Gujerati. </summary>
         public static ResumeDataLanguagesItem Gujerati { get; } = new ResumeDataLanguagesItem(GujeratiValue);
-        /// <summary> gwere. </summary>
+        /// <summary> Gwere. </summary>
         public static ResumeDataLanguagesItem Gwere { get; } = new ResumeDataLanguagesItem(GwereValue);
-        /// <summary> hawaiian. </summary>
+        /// <summary> Hawaiian. </summary>
         public static ResumeDataLanguagesItem Hawaiian { get; } = new ResumeDataLanguagesItem(HawaiianValue);
-        /// <summary> haya. </summary>
+        /// <summary> Haya. </summary>
         public static ResumeDataLanguagesItem Haya { get; } = new ResumeDataLanguagesItem(HayaValue);
-        /// <summary> hebrew. </summary>
+        /// <summary> Hebrew. </summary>
         public static ResumeDataLanguagesItem Hebrew { get; } = new ResumeDataLanguagesItem(HebrewValue);
-        /// <summary> hindi. </summary>
+        /// <summary> Hindi. </summary>
         public static ResumeDataLanguagesItem Hindi { get; } = new ResumeDataLanguagesItem(HindiValue);
-        /// <summary> hmu. </summary>
+        /// <summary> Hmu. </summary>
         public static ResumeDataLanguagesItem Hmu { get; } = new ResumeDataLanguagesItem(HmuValue);
-        /// <summary> hokkien. </summary>
+        /// <summary> Hokkien. </summary>
         public static ResumeDataLanguagesItem Hokkien { get; } = new ResumeDataLanguagesItem(HokkienValue);
-        /// <summary> hopi. </summary>
+        /// <summary> Hopi. </summary>
         public static ResumeDataLanguagesItem Hopi { get; } = new ResumeDataLanguagesItem(HopiValue);
-        /// <summary> hungarian. </summary>
+        /// <summary> Hungarian. </summary>
         public static ResumeDataLanguagesItem Hungarian { get; } = new ResumeDataLanguagesItem(HungarianValue);
-        /// <summary> hup. </summary>
+        /// <summary> Hup. </summary>
         public static ResumeDataLanguagesItem Hup { get; } = new ResumeDataLanguagesItem(HupValue);
-        /// <summary> ibanag. </summary>
+        /// <summary> Ibanag. </summary>
         public static ResumeDataLanguagesItem Ibanag { get; } = new ResumeDataLanguagesItem(IbanagValue);
-        /// <summary> igbo. </summary>
+        /// <summary> Igbo. </summary>
         public static ResumeDataLanguagesItem Igbo { get; } = new ResumeDataLanguagesItem(IgboValue);
-        /// <summary> ilokano. </summary>
+        /// <summary> Ilokano. </summary>
         public static ResumeDataLanguagesItem Ilokano { get; } = new ResumeDataLanguagesItem(IlokanoValue);
-        /// <summary> indonesian. </summary>
+        /// <summary> Indonesian. </summary>
         public static ResumeDataLanguagesItem Indonesian { get; } = new ResumeDataLanguagesItem(IndonesianValue);
-        /// <summary> intermediate. </summary>
+        /// <summary> Intermediate. </summary>
         public static ResumeDataLanguagesItem Intermediate { get; } = new ResumeDataLanguagesItem(IntermediateValue);
-        /// <summary> irish. </summary>
+        /// <summary> Irish. </summary>
         public static ResumeDataLanguagesItem Irish { get; } = new ResumeDataLanguagesItem(IrishValue);
-        /// <summary> italian. </summary>
+        /// <summary> Italian. </summary>
         public static ResumeDataLanguagesItem Italian { get; } = new ResumeDataLanguagesItem(ItalianValue);
-        /// <summary> japanese. </summary>
+        /// <summary> Japanese. </summary>
         public static ResumeDataLanguagesItem Japanese { get; } = new ResumeDataLanguagesItem(JapaneseValue);
-        /// <summary> jiba. </summary>
+        /// <summary> Jiba. </summary>
         public static ResumeDataLanguagesItem Jiba { get; } = new ResumeDataLanguagesItem(JibaValue);
-        /// <summary> kachin. </summary>
+        /// <summary> Kachin. </summary>
         public static ResumeDataLanguagesItem Kachin { get; } = new ResumeDataLanguagesItem(KachinValue);
-        /// <summary> kalenjin. </summary>
+        /// <summary> Kalenjin. </summary>
         public static ResumeDataLanguagesItem Kalenjin { get; } = new ResumeDataLanguagesItem(KalenjinValue);
-        /// <summary> kamayo. </summary>
+        /// <summary> Kamayo. </summary>
         public static ResumeDataLanguagesItem Kamayo { get; } = new ResumeDataLanguagesItem(KamayoValue);
-        /// <summary> kannada. </summary>
+        /// <summary> Kannada. </summary>
         public static ResumeDataLanguagesItem Kannada { get; } = new ResumeDataLanguagesItem(KannadaValue);
-        /// <summary> kaonde. </summary>
+        /// <summary> Kaonde. </summary>
         public static ResumeDataLanguagesItem Kaonde { get; } = new ResumeDataLanguagesItem(KaondeValue);
-        /// <summary> kayan. </summary>
+        /// <summary> Kayan. </summary>
         public static ResumeDataLanguagesItem Kayan { get; } = new ResumeDataLanguagesItem(KayanValue);
-        /// <summary> khandeshi. </summary>
+        /// <summary> Khandeshi. </summary>
         public static ResumeDataLanguagesItem Khandeshi { get; } = new ResumeDataLanguagesItem(KhandeshiValue);
-        /// <summary> khmer. </summary>
+        /// <summary> Khmer. </summary>
         public static ResumeDataLanguagesItem Khmer { get; } = new ResumeDataLanguagesItem(KhmerValue);
-        /// <summary> kikuyu. </summary>
+        /// <summary> Kikuyu. </summary>
         public static ResumeDataLanguagesItem Kikuyu { get; } = new ResumeDataLanguagesItem(KikuyuValue);
-        /// <summary> kodava. </summary>
+        /// <summary> Kodava. </summary>
         public static ResumeDataLanguagesItem Kodava { get; } = new ResumeDataLanguagesItem(KodavaValue);
-        /// <summary> koma. </summary>
+        /// <summary> Koma. </summary>
         public static ResumeDataLanguagesItem Koma { get; } = new ResumeDataLanguagesItem(KomaValue);
-        /// <summary> kongo. </summary>
+        /// <summary> Kongo. </summary>
         public static ResumeDataLanguagesItem Kongo { get; } = new ResumeDataLanguagesItem(KongoValue);
-        /// <summary> konkani. </summary>
+        /// <summary> Konkani. </summary>
         public static ResumeDataLanguagesItem Konkani { get; } = new ResumeDataLanguagesItem(KonkaniValue);
-        /// <summary> korean. </summary>
+        /// <summary> Korean. </summary>
         public static ResumeDataLanguagesItem Korean { get; } = new ResumeDataLanguagesItem(KoreanValue);
-        /// <summary> korwa. </summary>
+        /// <summary> Korwa. </summary>
         public static ResumeDataLanguagesItem Korwa { get; } = new ResumeDataLanguagesItem(KorwaValue);
-        /// <summary> kreyol. </summary>
+        /// <summary> Kreyol. </summary>
         public static ResumeDataLanguagesItem Kreyol { get; } = new ResumeDataLanguagesItem(KreyolValue);
-        /// <summary> krio. </summary>
+        /// <summary> Krio. </summary>
         public static ResumeDataLanguagesItem Krio { get; } = new ResumeDataLanguagesItem(KrioValue);
-        /// <summary> kumaoni. </summary>
+        /// <summary> Kumaoni. </summary>
         public static ResumeDataLanguagesItem Kumaoni { get; } = new ResumeDataLanguagesItem(KumaoniValue);
-        /// <summary> kurdish. </summary>
+        /// <summary> Kurdish. </summary>
         public static ResumeDataLanguagesItem Kurdish { get; } = new ResumeDataLanguagesItem(KurdishValue);
-        /// <summary> kurukh. </summary>
+        /// <summary> Kurukh. </summary>
         public static ResumeDataLanguagesItem Kurukh { get; } = new ResumeDataLanguagesItem(KurukhValue);
-        /// <summary> kwa. </summary>
+        /// <summary> Kwa. </summary>
         public static ResumeDataLanguagesItem Kwa { get; } = new ResumeDataLanguagesItem(KwaValue);
-        /// <summary> ladino. </summary>
+        /// <summary> Ladino. </summary>
         public static ResumeDataLanguagesItem Ladino { get; } = new ResumeDataLanguagesItem(LadinoValue);
-        /// <summary> lango. </summary>
+        /// <summary> Lango. </summary>
         public static ResumeDataLanguagesItem Lango { get; } = new ResumeDataLanguagesItem(LangoValue);
-        /// <summary> latvian. </summary>
+        /// <summary> Latvian. </summary>
         public static ResumeDataLanguagesItem Latvian { get; } = new ResumeDataLanguagesItem(LatvianValue);
-        /// <summary> lawa. </summary>
+        /// <summary> Lawa. </summary>
         public static ResumeDataLanguagesItem Lawa { get; } = new ResumeDataLanguagesItem(LawaValue);
-        /// <summary> lingala. </summary>
+        /// <summary> Lingala. </summary>
         public static ResumeDataLanguagesItem Lingala { get; } = new ResumeDataLanguagesItem(LingalaValue);
-        /// <summary> lithuanian. </summary>
+        /// <summary> Lithuanian. </summary>
         public static ResumeDataLanguagesItem Lithuanian { get; } = new ResumeDataLanguagesItem(LithuanianValue);
-        /// <summary> lule. </summary>
+        /// <summary> Lule. </summary>
         public static ResumeDataLanguagesItem Lule { get; } = new ResumeDataLanguagesItem(LuleValue);
-        /// <summary> luxembourgish. </summary>
+        /// <summary> Luxembourgish. </summary>
         public static ResumeDataLanguagesItem Luxembourgish { get; } = new ResumeDataLanguagesItem(LuxembourgishValue);
-        /// <summary> magahi. </summary>
+        /// <summary> Magahi. </summary>
         public static ResumeDataLanguagesItem Magahi { get; } = new ResumeDataLanguagesItem(MagahiValue);
-        /// <summary> maithili. </summary>
+        /// <summary> Maithili. </summary>
         public static ResumeDataLanguagesItem Maithili { get; } = new ResumeDataLanguagesItem(MaithiliValue);
-        /// <summary> malay. </summary>
+        /// <summary> Malay. </summary>
         public static ResumeDataLanguagesItem Malay { get; } = new ResumeDataLanguagesItem(MalayValue);
-        /// <summary> malayalam. </summary>
+        /// <summary> Malayalam. </summary>
         public static ResumeDataLanguagesItem Malayalam { get; } = new ResumeDataLanguagesItem(MalayalamValue);
-        /// <summary> malaysian. </summary>
+        /// <summary> Malaysian. </summary>
         public static ResumeDataLanguagesItem Malaysian { get; } = new ResumeDataLanguagesItem(MalaysianValue);
-        /// <summary> malvi. </summary>
+        /// <summary> Malvi. </summary>
         public static ResumeDataLanguagesItem Malvi { get; } = new ResumeDataLanguagesItem(MalviValue);
-        /// <summary> maninka. </summary>
+        /// <summary> Maninka. </summary>
         public static ResumeDataLanguagesItem Maninka { get; } = new ResumeDataLanguagesItem(ManinkaValue);
-        /// <summary> manipuri. </summary>
+        /// <summary> Manipuri. </summary>
         public static ResumeDataLanguagesItem Manipuri { get; } = new ResumeDataLanguagesItem(ManipuriValue);
-        /// <summary> manx. </summary>
+        /// <summary> Manx. </summary>
         public static ResumeDataLanguagesItem Manx { get; } = new ResumeDataLanguagesItem(ManxValue);
-        /// <summary> marathi. </summary>
+        /// <summary> Marathi. </summary>
         public static ResumeDataLanguagesItem Marathi { get; } = new ResumeDataLanguagesItem(MarathiValue);
-        /// <summary> mayan. </summary>
+        /// <summary> Mayan. </summary>
         public static ResumeDataLanguagesItem Mayan { get; } = new ResumeDataLanguagesItem(MayanValue);
-        /// <summary> medumba. </summary>
+        /// <summary> Medumba. </summary>
         public static ResumeDataLanguagesItem Medumba { get; } = new ResumeDataLanguagesItem(MedumbaValue);
-        /// <summary> memoni. </summary>
+        /// <summary> Memoni. </summary>
         public static ResumeDataLanguagesItem Memoni { get; } = new ResumeDataLanguagesItem(MemoniValue);
-        /// <summary> mewari. </summary>
+        /// <summary> Mewari. </summary>
         public static ResumeDataLanguagesItem Mewari { get; } = new ResumeDataLanguagesItem(MewariValue);
-        /// <summary> mizo. </summary>
+        /// <summary> Mizo. </summary>
         public static ResumeDataLanguagesItem Mizo { get; } = new ResumeDataLanguagesItem(MizoValue);
-        /// <summary> montenegrin. </summary>
+        /// <summary> Montenegrin. </summary>
         public static ResumeDataLanguagesItem Montenegrin { get; } = new ResumeDataLanguagesItem(MontenegrinValue);
-        /// <summary> mwan. </summary>
+        /// <summary> Mwan. </summary>
         public static ResumeDataLanguagesItem Mwan { get; } = new ResumeDataLanguagesItem(MwanValue);
-        /// <summary> mwanga. </summary>
+        /// <summary> Mwanga. </summary>
         public static ResumeDataLanguagesItem Mwanga { get; } = new ResumeDataLanguagesItem(MwangaValue);
-        /// <summary> ndebele. </summary>
+        /// <summary> Ndebele. </summary>
         public static ResumeDataLanguagesItem Ndebele { get; } = new ResumeDataLanguagesItem(NdebeleValue);
-        /// <summary> nepali. </summary>
+        /// <summary> Nepali. </summary>
         public static ResumeDataLanguagesItem Nepali { get; } = new ResumeDataLanguagesItem(NepaliValue);
-        /// <summary> nimadi. </summary>
+        /// <summary> Nimadi. </summary>
         public static ResumeDataLanguagesItem Nimadi { get; } = new ResumeDataLanguagesItem(NimadiValue);
-        /// <summary> oriya. </summary>
+        /// <summary> Oriya. </summary>
         public static ResumeDataLanguagesItem Oriya { get; } = new ResumeDataLanguagesItem(OriyaValue);
-        /// <summary> oromo. </summary>
+        /// <summary> Oromo. </summary>
         public static ResumeDataLanguagesItem Oromo { get; } = new ResumeDataLanguagesItem(OromoValue);
-        /// <summary> ovambo. </summary>
+        /// <summary> Ovambo. </summary>
         public static ResumeDataLanguagesItem Ovambo { get; } = new ResumeDataLanguagesItem(OvamboValue);
-        /// <summary> pamona. </summary>
+        /// <summary> Pamona. </summary>
         public static ResumeDataLanguagesItem Pamona { get; } = new ResumeDataLanguagesItem(PamonaValue);
-        /// <summary> pangasinan. </summary>
+        /// <summary> Pangasinan. </summary>
         public static ResumeDataLanguagesItem Pangasinan { get; } = new ResumeDataLanguagesItem(PangasinanValue);
-        /// <summary> pashto. </summary>
+        /// <summary> Pashto. </summary>
         public static ResumeDataLanguagesItem Pashto { get; } = new ResumeDataLanguagesItem(PashtoValue);
-        /// <summary> phoenician. </summary>
+        /// <summary> Phoenician. </summary>
         public static ResumeDataLanguagesItem Phoenician { get; } = new ResumeDataLanguagesItem(PhoenicianValue);
-        /// <summary> polish. </summary>
+        /// <summary> Polish. </summary>
         public static ResumeDataLanguagesItem Polish { get; } = new ResumeDataLanguagesItem(PolishValue);
-        /// <summary> portuguese. </summary>
+        /// <summary> Portuguese. </summary>
         public static ResumeDataLanguagesItem Portuguese { get; } = new ResumeDataLanguagesItem(PortugueseValue);
-        /// <summary> pulaar. </summary>
+        /// <summary> Pulaar. </summary>
         public static ResumeDataLanguagesItem Pulaar { get; } = new ResumeDataLanguagesItem(PulaarValue);
-        /// <summary> pular. </summary>
+        /// <summary> Pular. </summary>
         public static ResumeDataLanguagesItem Pular { get; } = new ResumeDataLanguagesItem(PularValue);
-        /// <summary> punjabi. </summary>
+        /// <summary> Punjabi. </summary>
         public static ResumeDataLanguagesItem Punjabi { get; } = new ResumeDataLanguagesItem(PunjabiValue);
-        /// <summary> quecha. </summary>
+        /// <summary> Quecha. </summary>
         public static ResumeDataLanguagesItem Quecha { get; } = new ResumeDataLanguagesItem(QuechaValue);
-        /// <summary> rajasthani. </summary>
+        /// <summary> Rajasthani. </summary>
         public static ResumeDataLanguagesItem Rajasthani { get; } = new ResumeDataLanguagesItem(RajasthaniValue);
-        /// <summary> romanian. </summary>
+        /// <summary> Romanian. </summary>
         public static ResumeDataLanguagesItem Romanian { get; } = new ResumeDataLanguagesItem(RomanianValue);
-        /// <summary> russian. </summary>
+        /// <summary> Russian. </summary>
         public static ResumeDataLanguagesItem Russian { get; } = new ResumeDataLanguagesItem(RussianValue);
-        /// <summary> sakha. </summary>
+        /// <summary> Sakha. </summary>
         public static ResumeDataLanguagesItem Sakha { get; } = new ResumeDataLanguagesItem(SakhaValue);
-        /// <summary> sango. </summary>
+        /// <summary> Sango. </summary>
         public static ResumeDataLanguagesItem Sango { get; } = new ResumeDataLanguagesItem(SangoValue);
-        /// <summary> santhali. </summary>
+        /// <summary> Santhali. </summary>
         public static ResumeDataLanguagesItem Santhali { get; } = new ResumeDataLanguagesItem(SanthaliValue);
-        /// <summary> saraiki. </summary>
+        /// <summary> Saraiki. </summary>
         public static ResumeDataLanguagesItem Saraiki { get; } = new ResumeDataLanguagesItem(SaraikiValue);
-        /// <summary> seim. </summary>
+        /// <summary> Seim. </summary>
         public static ResumeDataLanguagesItem Seim { get; } = new ResumeDataLanguagesItem(SeimValue);
-        /// <summary> shading. </summary>
+        /// <summary> Shading. </summary>
         public static ResumeDataLanguagesItem Shading { get; } = new ResumeDataLanguagesItem(ShadingValue);
-        /// <summary> shama. </summary>
+        /// <summary> Shama. </summary>
         public static ResumeDataLanguagesItem Shama { get; } = new ResumeDataLanguagesItem(ShamaValue);
-        /// <summary> shan. </summary>
+        /// <summary> Shan. </summary>
         public static ResumeDataLanguagesItem Shan { get; } = new ResumeDataLanguagesItem(ShanValue);
-        /// <summary> shona. </summary>
+        /// <summary> Shona. </summary>
         public static ResumeDataLanguagesItem Shona { get; } = new ResumeDataLanguagesItem(ShonaValue);
-        /// <summary> silesian. </summary>
+        /// <summary> Silesian. </summary>
         public static ResumeDataLanguagesItem Silesian { get; } = new ResumeDataLanguagesItem(SilesianValue);
-        /// <summary> sindhi. </summary>
+        /// <summary> Sindhi. </summary>
         public static ResumeDataLanguagesItem Sindhi { get; } = new ResumeDataLanguagesItem(SindhiValue);
-        /// <summary> slovak. </summary>
+        /// <summary> Slovak. </summary>
         public static ResumeDataLanguagesItem Slovak { get; } = new ResumeDataLanguagesItem(SlovakValue);
-        /// <summary> slovene. </summary>
+        /// <summary> Slovene. </summary>
         public static ResumeDataLanguagesItem Slovene { get; } = new ResumeDataLanguagesItem(SloveneValue);
-        /// <summary> soga. </summary>
+        /// <summary> Soga. </summary>
         public static ResumeDataLanguagesItem Soga { get; } = new ResumeDataLanguagesItem(SogaValue);
-        /// <summary> sogdian. </summary>
+        /// <summary> Sogdian. </summary>
         public static ResumeDataLanguagesItem Sogdian { get; } = new ResumeDataLanguagesItem(SogdianValue);
-        /// <summary> sotho. </summary>
+        /// <summary> Sotho. </summary>
         public static ResumeDataLanguagesItem Sotho { get; } = new ResumeDataLanguagesItem(SothoValue);
-        /// <summary> spanish. </summary>
+        /// <summary> Spanish. </summary>
         public static ResumeDataLanguagesItem Spanish { get; } = new ResumeDataLanguagesItem(SpanishValue);
-        /// <summary> sudanese. </summary>
+        /// <summary> Sudanese. </summary>
         public static ResumeDataLanguagesItem Sudanese { get; } = new ResumeDataLanguagesItem(SudaneseValue);
-        /// <summary> sumerian. </summary>
+        /// <summary> Sumerian. </summary>
         public static ResumeDataLanguagesItem Sumerian { get; } = new ResumeDataLanguagesItem(SumerianValue);
-        /// <summary> surajpuri. </summary>
+        /// <summary> Surajpuri. </summary>
         public static ResumeDataLanguagesItem Surajpuri { get; } = new ResumeDataLanguagesItem(SurajpuriValue);
-        /// <summary> surigaonon. </summary>
+        /// <summary> Surigaonon. </summary>
         public static ResumeDataLanguagesItem Surigaonon { get; } = new ResumeDataLanguagesItem(SurigaononValue);
-        /// <summary> swati. </summary>
+        /// <summary> Swati. </summary>
         public static ResumeDataLanguagesItem Swati { get; } = new ResumeDataLanguagesItem(SwatiValue);
-        /// <summary> swazi. </summary>
+        /// <summary> Swazi. </summary>
         public static ResumeDataLanguagesItem Swazi { get; } = new ResumeDataLanguagesItem(SwaziValue);
-        /// <summary> swedish. </summary>
+        /// <summary> Swedish. </summary>
         public static ResumeDataLanguagesItem Swedish { get; } = new ResumeDataLanguagesItem(SwedishValue);
-        /// <summary> tagalog. </summary>
+        /// <summary> Tagalog. </summary>
         public static ResumeDataLanguagesItem Tagalog { get; } = new ResumeDataLanguagesItem(TagalogValue);
-        /// <summary> tamil. </summary>
+        /// <summary> Tamil. </summary>
         public static ResumeDataLanguagesItem Tamil { get; } = new ResumeDataLanguagesItem(TamilValue);
-        /// <summary> tausug. </summary>
+        /// <summary> Tausug. </summary>
         public static ResumeDataLanguagesItem Tausug { get; } = new ResumeDataLanguagesItem(TausugValue);
-        /// <summary> telugu. </summary>
+        /// <summary> Telugu. </summary>
         public static ResumeDataLanguagesItem Telugu { get; } = new ResumeDataLanguagesItem(TeluguValue);
-        /// <summary> tetum. </summary>
+        /// <summary> Tetum. </summary>
         public static ResumeDataLanguagesItem Tetum { get; } = new ResumeDataLanguagesItem(TetumValue);
-        /// <summary> tharu. </summary>
+        /// <summary> Tharu. </summary>
         public static ResumeDataLanguagesItem Tharu { get; } = new ResumeDataLanguagesItem(TharuValue);
-        /// <summary> tibetan. </summary>
+        /// <summary> Tibetan. </summary>
         public static ResumeDataLanguagesItem Tibetan { get; } = new ResumeDataLanguagesItem(TibetanValue);
-        /// <summary> tigrinya. </summary>
+        /// <summary> Tigrinya. </summary>
         public static ResumeDataLanguagesItem Tigrinya { get; } = new ResumeDataLanguagesItem(TigrinyaValue);
-        /// <summary> tripuri. </summary>
+        /// <summary> Tripuri. </summary>
         public static ResumeDataLanguagesItem Tripuri { get; } = new ResumeDataLanguagesItem(TripuriValue);
-        /// <summary> tswana. </summary>
+        /// <summary> Tswana. </summary>
         public static ResumeDataLanguagesItem Tswana { get; } = new ResumeDataLanguagesItem(TswanaValue);
-        /// <summary> tulu. </summary>
+        /// <summary> Tulu. </summary>
         public static ResumeDataLanguagesItem Tulu { get; } = new ResumeDataLanguagesItem(TuluValue);
-        /// <summary> turkish. </summary>
+        /// <summary> Turkish. </summary>
         public static ResumeDataLanguagesItem Turkish { get; } = new ResumeDataLanguagesItem(TurkishValue);
-        /// <summary> tuwali. </summary>
+        /// <summary> Tuwali. </summary>
         public static ResumeDataLanguagesItem Tuwali { get; } = new ResumeDataLanguagesItem(TuwaliValue);
-        /// <summary> ubi. </summary>
+        /// <summary> Ubi. </summary>
         public static ResumeDataLanguagesItem Ubi { get; } = new ResumeDataLanguagesItem(UbiValue);
-        /// <summary> ukrainian. </summary>
+        /// <summary> Ukrainian. </summary>
         public static ResumeDataLanguagesItem Ukrainian { get; } = new ResumeDataLanguagesItem(UkrainianValue);
-        /// <summary> urdu. </summary>
+        /// <summary> Urdu. </summary>
         public static ResumeDataLanguagesItem Urdu { get; } = new ResumeDataLanguagesItem(UrduValue);
-        /// <summary> veps. </summary>
+        /// <summary> Veps. </summary>
         public static ResumeDataLanguagesItem Veps { get; } = new ResumeDataLanguagesItem(VepsValue);
-        /// <summary> vietnamese. </summary>
+        /// <summary> Vietnamese. </summary>
         public static ResumeDataLanguagesItem Vietnamese { get; } = new ResumeDataLanguagesItem(VietnameseValue);
-        /// <summary> wagdi. </summary>
+        /// <summary> Wagdi. </summary>
         public static ResumeDataLanguagesItem Wagdi { get; } = new ResumeDataLanguagesItem(WagdiValue);
-        /// <summary> waziri. </summary>
+        /// <summary> Waziri. </summary>
         public static ResumeDataLanguagesItem Waziri { get; } = new ResumeDataLanguagesItem(WaziriValue);
-        /// <summary> xhosa. </summary>
+        /// <summary> Xhosa. </summary>
         public static ResumeDataLanguagesItem Xhosa { get; } = new ResumeDataLanguagesItem(XhosaValue);
-        /// <summary> yiddish. </summary>
+        /// <summary> Yiddish. </summary>
         public static ResumeDataLanguagesItem Yiddish { get; } = new ResumeDataLanguagesItem(YiddishValue);
-        /// <summary> yoruba. </summary>
+        /// <summary> Yoruba. </summary>
         public static ResumeDataLanguagesItem Yoruba { get; } = new ResumeDataLanguagesItem(YorubaValue);
         /// <summary> Determines if two <see cref="ResumeDataLanguagesItem"/> values are the same. </summary>
         public static bool operator ==(ResumeDataLanguagesItem left, ResumeDataLanguagesItem right) => left.Equals(right);

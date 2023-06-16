@@ -17,17 +17,21 @@ namespace Affinda.API.Models
 
         /// <summary> Initializes a new instance of JobTitleParsedParsed. </summary>
         /// <param name="name"></param>
+        /// <param name="emsiId"> EMSI id of the normalised job title. </param>
         /// <param name="managementLevel"></param>
         /// <param name="classification"></param>
-        internal JobTitleParsedParsed(string name, string managementLevel, JobTitleParsedClassification classification)
+        internal JobTitleParsedParsed(string name, string emsiId, string managementLevel, JobTitleParsedClassification classification)
         {
             Name = name;
+            EmsiId = emsiId;
             ManagementLevel = managementLevel;
             Classification = classification;
         }
 
         /// <summary> Gets the name. </summary>
         public string Name { get; }
+        /// <summary> EMSI id of the normalised job title. </summary>
+        public string EmsiId { get; }
         /// <summary> Gets the management level. </summary>
         public string ManagementLevel { get; }
         /// <summary> Gets the classification. </summary>

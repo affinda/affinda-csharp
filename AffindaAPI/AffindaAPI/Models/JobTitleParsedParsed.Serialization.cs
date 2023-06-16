@@ -15,6 +15,7 @@ namespace Affinda.API.Models
         internal static JobTitleParsedParsed DeserializeJobTitleParsedParsed(JsonElement element)
         {
             Optional<string> name = default;
+            Optional<string> emsiId = default;
             Optional<string> managementLevel = default;
             Optional<JobTitleParsedClassification> classification = default;
             foreach (var property in element.EnumerateObject())
@@ -27,6 +28,16 @@ namespace Affinda.API.Models
                         continue;
                     }
                     name = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("emsiId"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        emsiId = null;
+                        continue;
+                    }
+                    emsiId = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("managementLevel"))
@@ -50,7 +61,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new JobTitleParsedParsed(name.Value, managementLevel.Value, classification.Value);
+            return new JobTitleParsedParsed(name.Value, emsiId.Value, managementLevel.Value, classification.Value);
         }
     }
 }

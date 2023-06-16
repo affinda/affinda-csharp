@@ -234,12 +234,13 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of ResumeDataWorkExperienceItemOccupation. </summary>
         /// <param name="jobTitle"> The raw (not normalized) job title pulled from the work experience entry. </param>
         /// <param name="jobTitleNormalized"> Mapped onto the EMSI job title taxonomy if a sufficiently close match exists. </param>
+        /// <param name="emsiId"> EMSI id of the normalised job title. </param>
         /// <param name="managementLevel"></param>
         /// <param name="classification"></param>
         /// <returns> A new <see cref="Models.ResumeDataWorkExperienceItemOccupation"/> instance for mocking. </returns>
-        public static ResumeDataWorkExperienceItemOccupation ResumeDataWorkExperienceItemOccupation(string jobTitle = null, string jobTitleNormalized = null, ManagementLevel? managementLevel = null, Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification classification = null)
+        public static ResumeDataWorkExperienceItemOccupation ResumeDataWorkExperienceItemOccupation(string jobTitle = null, string jobTitleNormalized = null, string emsiId = null, ManagementLevel? managementLevel = null, Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification classification = null)
         {
-            return new ResumeDataWorkExperienceItemOccupation(jobTitle, jobTitleNormalized, managementLevel, classification);
+            return new ResumeDataWorkExperienceItemOccupation(jobTitle, jobTitleNormalized, emsiId, managementLevel, classification);
         }
 
         /// <summary> Initializes a new instance of Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification. </summary>
@@ -592,12 +593,13 @@ namespace Affinda.API.Models
 
         /// <summary> Initializes a new instance of JobTitleParsedParsed. </summary>
         /// <param name="name"></param>
+        /// <param name="emsiId"> EMSI id of the normalised job title. </param>
         /// <param name="managementLevel"></param>
         /// <param name="classification"></param>
         /// <returns> A new <see cref="Models.JobTitleParsedParsed"/> instance for mocking. </returns>
-        public static JobTitleParsedParsed JobTitleParsedParsed(string name = null, string managementLevel = null, JobTitleParsedClassification classification = null)
+        public static JobTitleParsedParsed JobTitleParsedParsed(string name = null, string emsiId = null, string managementLevel = null, JobTitleParsedClassification classification = null)
         {
-            return new JobTitleParsedParsed(name, managementLevel, classification);
+            return new JobTitleParsedParsed(name, emsiId, managementLevel, classification);
         }
 
         /// <summary> Initializes a new instance of JobTitleParsedClassification. </summary>
