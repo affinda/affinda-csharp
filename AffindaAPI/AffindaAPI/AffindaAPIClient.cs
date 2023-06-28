@@ -718,17 +718,18 @@ namespace Affinda.API
         /// <param name="language"> The String to use. </param>
         /// <param name="rejectDuplicates"> The String to use. </param>
         /// <param name="regionBias"> A JSON representation of the RegionBias object. </param>
+        /// <param name="lowPriority"> Explicitly mark this document as low priority. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
         /// Uploads a document for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/documents/{identifier}](#get-/v3/documents/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
         /// </remarks>
-        public virtual async Task<Response<Document>> CreateDocumentAsync(Stream file = null, string url = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, string regionBias = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<Document>> CreateDocumentAsync(Stream file = null, string url = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, string regionBias = null, string lowPriority = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateDocument");
             scope.Start();
             try
             {
-                return await RestClient.CreateDocumentAsync(file, url, collection, workspace, wait, identifier, fileName, expiryTime, language, rejectDuplicates, regionBias, cancellationToken).ConfigureAwait(false);
+                return await RestClient.CreateDocumentAsync(file, url, collection, workspace, wait, identifier, fileName, expiryTime, language, rejectDuplicates, regionBias, lowPriority, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -749,17 +750,18 @@ namespace Affinda.API
         /// <param name="language"> The String to use. </param>
         /// <param name="rejectDuplicates"> The String to use. </param>
         /// <param name="regionBias"> A JSON representation of the RegionBias object. </param>
+        /// <param name="lowPriority"> Explicitly mark this document as low priority. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
         /// Uploads a document for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/documents/{identifier}](#get-/v3/documents/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
         /// </remarks>
-        public virtual Response<Document> CreateDocument(Stream file = null, string url = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, string regionBias = null, CancellationToken cancellationToken = default)
+        public virtual Response<Document> CreateDocument(Stream file = null, string url = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, string regionBias = null, string lowPriority = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateDocument");
             scope.Start();
             try
             {
-                return RestClient.CreateDocument(file, url, collection, workspace, wait, identifier, fileName, expiryTime, language, rejectDuplicates, regionBias, cancellationToken);
+                return RestClient.CreateDocument(file, url, collection, workspace, wait, identifier, fileName, expiryTime, language, rejectDuplicates, regionBias, lowPriority, cancellationToken);
             }
             catch (Exception e)
             {

@@ -39,5 +39,7 @@ namespace Affinda.API.Models
         public string RejectDuplicates { get; }
         /// <summary> A JSON representation of the RegionBias object. </summary>
         public string RegionBias { get; }
+        /// <summary> Explicitly mark this document as low priority. </summary>
+        public string LowPriority { get; }
     }
 }
