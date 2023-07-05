@@ -52,11 +52,6 @@ namespace Affinda.API.Models
                 }
                 writer.WriteEndArray();
             }
-            foreach (var item in AdditionalProperties)
-            {
-                writer.WritePropertyName(item.Key);
-                writer.WriteObjectValue(item.Value);
-            }
             writer.WriteEndObject();
         }
 
@@ -68,8 +63,6 @@ namespace Affinda.API.Models
             Optional<float?> autoValidationThreshold = default;
             Optional<bool> showDropdown = default;
             Optional<IList<Field>> fields = default;
-            IDictionary<string, object> additionalProperties = default;
-            Dictionary<string, object> additionalPropertiesDictionary = new Dictionary<string, object>();
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("label"))
@@ -127,10 +120,8 @@ namespace Affinda.API.Models
                     fields = array;
                     continue;
                 }
-                additionalPropertiesDictionary.Add(property.Name, property.Value.GetObject());
             }
-            additionalProperties = additionalPropertiesDictionary;
-            return new Field(label, dataPoint, Optional.ToNullable(mandatory), Optional.ToNullable(autoValidationThreshold), Optional.ToNullable(showDropdown), Optional.ToList(fields), additionalProperties);
+            return new Field(label, dataPoint, Optional.ToNullable(mandatory), Optional.ToNullable(autoValidationThreshold), Optional.ToNullable(showDropdown), Optional.ToList(fields));
         }
     }
 }

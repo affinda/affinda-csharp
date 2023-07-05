@@ -32,7 +32,6 @@ namespace Affinda.API.Models
             Label = label;
             DataPoint = dataPoint;
             Fields = new ChangeTrackingList<Field>();
-            AdditionalProperties = new ChangeTrackingDictionary<string, object>();
         }
 
         /// <summary> Initializes a new instance of Field. </summary>
@@ -42,8 +41,7 @@ namespace Affinda.API.Models
         /// <param name="autoValidationThreshold"></param>
         /// <param name="showDropdown"></param>
         /// <param name="fields"></param>
-        /// <param name="additionalProperties"> Additional Properties. </param>
-        internal Field(string label, string dataPoint, bool? mandatory, float? autoValidationThreshold, bool? showDropdown, IList<Field> fields, IDictionary<string, object> additionalProperties)
+        internal Field(string label, string dataPoint, bool? mandatory, float? autoValidationThreshold, bool? showDropdown, IList<Field> fields)
         {
             Label = label;
             DataPoint = dataPoint;
@@ -51,7 +49,6 @@ namespace Affinda.API.Models
             AutoValidationThreshold = autoValidationThreshold;
             ShowDropdown = showDropdown;
             Fields = fields;
-            AdditionalProperties = additionalProperties;
         }
 
         /// <summary> Gets or sets the label. </summary>
@@ -66,7 +63,5 @@ namespace Affinda.API.Models
         public bool? ShowDropdown { get; set; }
         /// <summary> Gets the fields. </summary>
         public IList<Field> Fields { get; }
-        /// <summary> Additional Properties. </summary>
-        public IDictionary<string, object> AdditionalProperties { get; }
     }
 }
