@@ -20,8 +20,15 @@ namespace Affinda.API.Models
             writer.WriteStringValue(Label);
             if (Optional.IsDefined(Slug))
             {
-                writer.WritePropertyName("slug");
-                writer.WriteStringValue(Slug);
+                if (Slug != null)
+                {
+                    writer.WritePropertyName("slug");
+                    writer.WriteStringValue(Slug);
+                }
+                else
+                {
+                    writer.WriteNull("slug");
+                }
             }
             writer.WritePropertyName("dataPoint");
             writer.WriteStringValue(DataPoint);
@@ -37,8 +44,15 @@ namespace Affinda.API.Models
             }
             if (Optional.IsDefined(AutoValidationThreshold))
             {
-                writer.WritePropertyName("autoValidationThreshold");
-                writer.WriteNumberValue(AutoValidationThreshold.Value);
+                if (AutoValidationThreshold != null)
+                {
+                    writer.WritePropertyName("autoValidationThreshold");
+                    writer.WriteNumberValue(AutoValidationThreshold.Value);
+                }
+                else
+                {
+                    writer.WriteNull("autoValidationThreshold");
+                }
             }
             if (Optional.IsDefined(ShowDropdown))
             {
@@ -65,7 +79,7 @@ namespace Affinda.API.Models
             string dataPoint = default;
             Optional<bool> mandatory = default;
             Optional<bool> disabled = default;
-            Optional<float> autoValidationThreshold = default;
+            Optional<float?> autoValidationThreshold = default;
             Optional<bool> showDropdown = default;
             Optional<IList<FieldDeprecated>> fields = default;
             foreach (var property in element.EnumerateObject())
@@ -77,6 +91,11 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("slug"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        slug = null;
+                        continue;
+                    }
                     slug = property.Value.GetString();
                     continue;
                 }
@@ -109,7 +128,7 @@ namespace Affinda.API.Models
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
-                        property.ThrowNonNullablePropertyIsNull();
+                        autoValidationThreshold = null;
                         continue;
                     }
                     autoValidationThreshold = property.Value.GetSingle();
