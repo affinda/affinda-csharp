@@ -54,5 +54,7 @@ namespace Affinda.API.Models
         public bool? DateFormatFromDocument { get; set; }
         /// <summary> Extra configurations specific to an extractor. </summary>
         public ExtractorConfig ExtractorConfig { get; set; }
+        /// <summary> Whether to allow OpenAI API to be used to assist in creating a model for this collection. </summary>
+        public bool? AllowOpenai { get; set; }
     }
 }

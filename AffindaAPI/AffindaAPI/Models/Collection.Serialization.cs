@@ -30,6 +30,7 @@ namespace Affinda.API.Models
             Optional<int?> confirmedDocsCount = default;
             Optional<string> ingestEmail = default;
             Optional<bool> tailoredExtractorRequested = default;
+            Optional<bool> allowOpenai = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("identifier"))
@@ -172,8 +173,18 @@ namespace Affinda.API.Models
                     tailoredExtractorRequested = property.Value.GetBoolean();
                     continue;
                 }
+                if (property.NameEquals("allowOpenai"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    allowOpenai = property.Value.GetBoolean();
+                    continue;
+                }
             }
-            return new Collection(identifier, name.Value, workspace.Value, extractor.Value, Optional.ToNullable(autoValidationThreshold), Optional.ToList(fields), fieldsLayout.Value, Optional.ToNullable(fieldsConfigured), Optional.ToNullable(dateFormatPreference), Optional.ToNullable(dateFormatFromDocument), extractorConfig.Value, Optional.ToNullable(unvalidatedDocsCount), Optional.ToNullable(confirmedDocsCount), ingestEmail.Value, Optional.ToNullable(tailoredExtractorRequested));
+            return new Collection(identifier, name.Value, workspace.Value, extractor.Value, Optional.ToNullable(autoValidationThreshold), Optional.ToList(fields), fieldsLayout.Value, Optional.ToNullable(fieldsConfigured), Optional.ToNullable(dateFormatPreference), Optional.ToNullable(dateFormatFromDocument), extractorConfig.Value, Optional.ToNullable(unvalidatedDocsCount), Optional.ToNullable(confirmedDocsCount), ingestEmail.Value, Optional.ToNullable(tailoredExtractorRequested), Optional.ToNullable(allowOpenai));
         }
     }
 }

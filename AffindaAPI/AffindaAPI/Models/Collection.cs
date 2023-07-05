@@ -44,7 +44,8 @@ namespace Affinda.API.Models
         /// <param name="confirmedDocsCount"> Number of validated documents in the collection. </param>
         /// <param name="ingestEmail"> When you send email to this address, any document attached in the body will be uploaded to this collection. </param>
         /// <param name="tailoredExtractorRequested"> Whether a tailored extractor has been requested for this collection. </param>
-        internal Collection(string identifier, string name, CollectionWorkspace workspace, Extractor extractor, float? autoValidationThreshold, IReadOnlyList<FieldGroup> fields, FieldsLayout fieldsLayout, bool? fieldsConfigured, CollectionDateFormatPreference? dateFormatPreference, bool? dateFormatFromDocument, ExtractorConfig extractorConfig, int? unvalidatedDocsCount, int? confirmedDocsCount, string ingestEmail, bool? tailoredExtractorRequested)
+        /// <param name="allowOpenai"> Whether to allow OpenAI API to be used to assist in creating a model for this collection. </param>
+        internal Collection(string identifier, string name, CollectionWorkspace workspace, Extractor extractor, float? autoValidationThreshold, IReadOnlyList<FieldGroup> fields, FieldsLayout fieldsLayout, bool? fieldsConfigured, CollectionDateFormatPreference? dateFormatPreference, bool? dateFormatFromDocument, ExtractorConfig extractorConfig, int? unvalidatedDocsCount, int? confirmedDocsCount, string ingestEmail, bool? tailoredExtractorRequested, bool? allowOpenai)
         {
             Identifier = identifier;
             Name = name;
@@ -61,6 +62,7 @@ namespace Affinda.API.Models
             ConfirmedDocsCount = confirmedDocsCount;
             IngestEmail = ingestEmail;
             TailoredExtractorRequested = tailoredExtractorRequested;
+            AllowOpenai = allowOpenai;
         }
 
         /// <summary> Uniquely identify a collection. </summary>
@@ -93,5 +95,7 @@ namespace Affinda.API.Models
         public string IngestEmail { get; }
         /// <summary> Whether a tailored extractor has been requested for this collection. </summary>
         public bool? TailoredExtractorRequested { get; }
+        /// <summary> Whether to allow OpenAI API to be used to assist in creating a model for this collection. </summary>
+        public bool? AllowOpenai { get; }
     }
 }

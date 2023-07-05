@@ -83,6 +83,11 @@ namespace Affinda.API.Models
                     writer.WriteNull("extractorConfig");
                 }
             }
+            if (Optional.IsDefined(AllowOpenai))
+            {
+                writer.WritePropertyName("allowOpenai");
+                writer.WriteBooleanValue(AllowOpenai.Value);
+            }
             writer.WriteEndObject();
         }
     }

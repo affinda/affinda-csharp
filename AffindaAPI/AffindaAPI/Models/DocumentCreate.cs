@@ -21,6 +21,8 @@ namespace Affinda.API.Models
         public Stream File { get; }
         /// <summary> URL to download the document. </summary>
         public string Url { get; }
+        /// <summary> Create resume or job description directly from data. </summary>
+        public string Data { get; }
         /// <summary> Uniquely identify a collection. </summary>
         public string Collection { get; }
         /// <summary> Uniquely identify a workspace. </summary>

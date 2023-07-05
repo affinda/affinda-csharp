@@ -709,6 +709,7 @@ namespace Affinda.API
         /// <summary> Upload a document for parsing. </summary>
         /// <param name="file"> The Stream to use. </param>
         /// <param name="url"> URL to download the document. </param>
+        /// <param name="data"> Create resume or job description directly from data. </param>
         /// <param name="collection"> The String to use. </param>
         /// <param name="workspace"> The String to use. </param>
         /// <param name="wait"> The String to use. </param>
@@ -723,13 +724,13 @@ namespace Affinda.API
         /// <remarks>
         /// Uploads a document for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/documents/{identifier}](#get-/v3/documents/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
         /// </remarks>
-        public virtual async Task<Response<Document>> CreateDocumentAsync(Stream file = null, string url = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, string regionBias = null, string lowPriority = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<Document>> CreateDocumentAsync(Stream file = null, string url = null, string data = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, string regionBias = null, string lowPriority = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateDocument");
             scope.Start();
             try
             {
-                return await RestClient.CreateDocumentAsync(file, url, collection, workspace, wait, identifier, fileName, expiryTime, language, rejectDuplicates, regionBias, lowPriority, cancellationToken).ConfigureAwait(false);
+                return await RestClient.CreateDocumentAsync(file, url, data, collection, workspace, wait, identifier, fileName, expiryTime, language, rejectDuplicates, regionBias, lowPriority, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -741,6 +742,7 @@ namespace Affinda.API
         /// <summary> Upload a document for parsing. </summary>
         /// <param name="file"> The Stream to use. </param>
         /// <param name="url"> URL to download the document. </param>
+        /// <param name="data"> Create resume or job description directly from data. </param>
         /// <param name="collection"> The String to use. </param>
         /// <param name="workspace"> The String to use. </param>
         /// <param name="wait"> The String to use. </param>
@@ -755,13 +757,13 @@ namespace Affinda.API
         /// <remarks>
         /// Uploads a document for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/documents/{identifier}](#get-/v3/documents/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
         /// </remarks>
-        public virtual Response<Document> CreateDocument(Stream file = null, string url = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, string regionBias = null, string lowPriority = null, CancellationToken cancellationToken = default)
+        public virtual Response<Document> CreateDocument(Stream file = null, string url = null, string data = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, string regionBias = null, string lowPriority = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateDocument");
             scope.Start();
             try
             {
-                return RestClient.CreateDocument(file, url, collection, workspace, wait, identifier, fileName, expiryTime, language, rejectDuplicates, regionBias, lowPriority, cancellationToken);
+                return RestClient.CreateDocument(file, url, data, collection, workspace, wait, identifier, fileName, expiryTime, language, rejectDuplicates, regionBias, lowPriority, cancellationToken);
             }
             catch (Exception e)
             {

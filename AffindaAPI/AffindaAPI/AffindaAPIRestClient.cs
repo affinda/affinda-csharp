@@ -1322,7 +1322,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateCreateDocumentRequest(Stream file, string url, string collection, string workspace, string wait, string identifier, string fileName, string expiryTime, string language, string rejectDuplicates, string regionBias, string lowPriority)
+        internal HttpMessage CreateCreateDocumentRequest(Stream file, string url, string data, string collection, string workspace, string wait, string identifier, string fileName, string expiryTime, string language, string rejectDuplicates, string regionBias, string lowPriority)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1343,6 +1343,10 @@ namespace Affinda.API
             if (url != null)
             {
                 content.Add(new StringRequestContent(url), "url", null);
+            }
+            if (data != null)
+            {
+                content.Add(new StringRequestContent(data), "data", null);
             }
             if (collection != null)
             {
@@ -1391,6 +1395,7 @@ namespace Affinda.API
         /// <summary> Upload a document for parsing. </summary>
         /// <param name="file"> The Stream to use. </param>
         /// <param name="url"> URL to download the document. </param>
+        /// <param name="data"> Create resume or job description directly from data. </param>
         /// <param name="collection"> The String to use. </param>
         /// <param name="workspace"> The String to use. </param>
         /// <param name="wait"> The String to use. </param>
@@ -1405,9 +1410,9 @@ namespace Affinda.API
         /// <remarks>
         /// Uploads a document for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/documents/{identifier}](#get-/v3/documents/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
         /// </remarks>
-        public async Task<Response<Document>> CreateDocumentAsync(Stream file = null, string url = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, string regionBias = null, string lowPriority = null, CancellationToken cancellationToken = default)
+        public async Task<Response<Document>> CreateDocumentAsync(Stream file = null, string url = null, string data = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, string regionBias = null, string lowPriority = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateDocumentRequest(file, url, collection, workspace, wait, identifier, fileName, expiryTime, language, rejectDuplicates, regionBias, lowPriority);
+            using var message = CreateCreateDocumentRequest(file, url, data, collection, workspace, wait, identifier, fileName, expiryTime, language, rejectDuplicates, regionBias, lowPriority);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1427,6 +1432,7 @@ namespace Affinda.API
         /// <summary> Upload a document for parsing. </summary>
         /// <param name="file"> The Stream to use. </param>
         /// <param name="url"> URL to download the document. </param>
+        /// <param name="data"> Create resume or job description directly from data. </param>
         /// <param name="collection"> The String to use. </param>
         /// <param name="workspace"> The String to use. </param>
         /// <param name="wait"> The String to use. </param>
@@ -1441,9 +1447,9 @@ namespace Affinda.API
         /// <remarks>
         /// Uploads a document for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/documents/{identifier}](#get-/v3/documents/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
         /// </remarks>
-        public Response<Document> CreateDocument(Stream file = null, string url = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, string regionBias = null, string lowPriority = null, CancellationToken cancellationToken = default)
+        public Response<Document> CreateDocument(Stream file = null, string url = null, string data = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, string regionBias = null, string lowPriority = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateDocumentRequest(file, url, collection, workspace, wait, identifier, fileName, expiryTime, language, rejectDuplicates, regionBias, lowPriority);
+            using var message = CreateCreateDocumentRequest(file, url, data, collection, workspace, wait, identifier, fileName, expiryTime, language, rejectDuplicates, regionBias, lowPriority);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
