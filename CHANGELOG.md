@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Make "pdf" property in SearchResults nullable
 - Nest line item table rows correctly.
 - Make `slug` and `organization` required when creating data point
+- Set CustomFieldConfig default to 0.5
 
 ### Added
 - Custom fields to Job Descriptions
