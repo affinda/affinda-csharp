@@ -31,7 +31,8 @@ namespace Affinda.API.Models
 
             Label = label;
             DataPoint = dataPoint;
-            Fields = new ChangeTrackingList<Field>();
+            EnabledChildFields = new ChangeTrackingList<Field>();
+            DisabledChildFields = new ChangeTrackingList<Field>();
         }
 
         /// <summary> Initializes a new instance of Field. </summary>
@@ -40,15 +41,19 @@ namespace Affinda.API.Models
         /// <param name="mandatory"></param>
         /// <param name="autoValidationThreshold"></param>
         /// <param name="showDropdown"></param>
-        /// <param name="fields"></param>
-        internal Field(string label, string dataPoint, bool? mandatory, float? autoValidationThreshold, bool? showDropdown, IList<Field> fields)
+        /// <param name="enabledChildFields"></param>
+        /// <param name="disabledChildFields"></param>
+        /// <param name="slug"></param>
+        internal Field(string label, string dataPoint, bool? mandatory, float? autoValidationThreshold, bool? showDropdown, IList<Field> enabledChildFields, IList<Field> disabledChildFields, string slug)
         {
             Label = label;
             DataPoint = dataPoint;
             Mandatory = mandatory;
             AutoValidationThreshold = autoValidationThreshold;
             ShowDropdown = showDropdown;
-            Fields = fields;
+            EnabledChildFields = enabledChildFields;
+            DisabledChildFields = disabledChildFields;
+            Slug = slug;
         }
 
         /// <summary> Gets or sets the label. </summary>
@@ -61,7 +66,11 @@ namespace Affinda.API.Models
         public float? AutoValidationThreshold { get; set; }
         /// <summary> Gets or sets the show dropdown. </summary>
         public bool? ShowDropdown { get; set; }
-        /// <summary> Gets the fields. </summary>
-        public IList<Field> Fields { get; }
+        /// <summary> Gets the enabled child fields. </summary>
+        public IList<Field> EnabledChildFields { get; }
+        /// <summary> Gets the disabled child fields. </summary>
+        public IList<Field> DisabledChildFields { get; }
+        /// <summary> Gets or sets the slug. </summary>
+        public string Slug { get; set; }
     }
 }

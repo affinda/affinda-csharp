@@ -45,5 +45,7 @@ namespace Affinda.API.Models
         public bool? Multiple { get; set; }
         /// <summary> Gets or sets the no rect. </summary>
         public bool? NoRect { get; set; }
+        /// <summary> The identifier of the parent data point if applicable. </summary>
+        public string Parent { get; set; }
     }
 }

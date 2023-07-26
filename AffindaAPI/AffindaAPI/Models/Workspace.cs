@@ -43,7 +43,8 @@ namespace Affinda.API.Models
         /// <param name="confirmedDocsCount"> Number of validated documents in the workspace. </param>
         /// <param name="ingestEmail"> When you send email to this address, any document attached in the body will be uploaded to this workspace. </param>
         /// <param name="whitelistIngestAddresses"> If specified, only emails from these addresses will be ingested for parsing. Wild cards are allowed, e.g. &quot;*@eyefind.info&quot;. </param>
-        internal Workspace(string identifier, Organization organization, string name, WorkspaceVisibility? visibility, IReadOnlyList<WorkspaceCollectionsItem> collections, bool? rejectInvalidDocuments, bool? rejectDuplicates, IReadOnlyList<User> members, int? unvalidatedDocsCount, int? confirmedDocsCount, string ingestEmail, IReadOnlyList<string> whitelistIngestAddresses)
+        /// <param name="splitDocuments"> If true, attempt to split documents if multiple documents are detected in a single file. </param>
+        internal Workspace(string identifier, Organization organization, string name, WorkspaceVisibility? visibility, IReadOnlyList<WorkspaceCollectionsItem> collections, bool? rejectInvalidDocuments, bool? rejectDuplicates, IReadOnlyList<User> members, int? unvalidatedDocsCount, int? confirmedDocsCount, string ingestEmail, IReadOnlyList<string> whitelistIngestAddresses, bool? splitDocuments)
         {
             Identifier = identifier;
             Organization = organization;
@@ -57,6 +58,7 @@ namespace Affinda.API.Models
             ConfirmedDocsCount = confirmedDocsCount;
             IngestEmail = ingestEmail;
             WhitelistIngestAddresses = whitelistIngestAddresses;
+            SplitDocuments = splitDocuments;
         }
 
         /// <summary> Uniquely identify a workspace. </summary>
@@ -83,5 +85,7 @@ namespace Affinda.API.Models
         public string IngestEmail { get; }
         /// <summary> If specified, only emails from these addresses will be ingested for parsing. Wild cards are allowed, e.g. &quot;*@eyefind.info&quot;. </summary>
         public IReadOnlyList<string> WhitelistIngestAddresses { get; }
+        /// <summary> If true, attempt to split documents if multiple documents are detected in a single file. </summary>
+        public bool? SplitDocuments { get; }
     }
 }

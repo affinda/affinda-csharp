@@ -252,6 +252,56 @@ namespace Affinda.API
             }
         }
 
+        /// <summary> Get specific workspace. </summary>
+        /// <param name="identifier"> Workspace&apos;s identifier. </param>
+        /// <param name="start"> Start date of the period to retrieve. Format: YYYY-MM. </param>
+        /// <param name="end"> End date of the period to retrieve. Format: YYYY-MM. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks>
+        /// Return monthly credits consumption of a workspace.
+        /// The data is updated daily.
+        /// 
+        /// </remarks>
+        public virtual async Task<Response<IReadOnlyList<UsageByWorkspace>>> GetUsageByWorkspaceAsync(string identifier, string start = null, string end = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetUsageByWorkspace");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetUsageByWorkspaceAsync(identifier, start, end, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get specific workspace. </summary>
+        /// <param name="identifier"> Workspace&apos;s identifier. </param>
+        /// <param name="start"> Start date of the period to retrieve. Format: YYYY-MM. </param>
+        /// <param name="end"> End date of the period to retrieve. Format: YYYY-MM. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks>
+        /// Return monthly credits consumption of a workspace.
+        /// The data is updated daily.
+        /// 
+        /// </remarks>
+        public virtual Response<IReadOnlyList<UsageByWorkspace>> GetUsageByWorkspace(string identifier, string start = null, string end = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetUsageByWorkspace");
+            scope.Start();
+            try
+            {
+                return RestClient.GetUsageByWorkspace(identifier, start, end, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
         /// <summary> Get list of all workspace memberships. </summary>
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
         /// <param name="limit"> The numbers of results to return. </param>
@@ -630,6 +680,56 @@ namespace Affinda.API
             try
             {
                 return RestClient.CreateDataFieldForCollection(identifier, body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get specific collection. </summary>
+        /// <param name="identifier"> Collection&apos;s identifier. </param>
+        /// <param name="start"> Start date of the period to retrieve. Format: YYYY-MM. </param>
+        /// <param name="end"> End date of the period to retrieve. Format: YYYY-MM. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks>
+        /// Return monthly credits consumption of a collection.
+        /// The data is updated daily.
+        /// 
+        /// </remarks>
+        public virtual async Task<Response<IReadOnlyList<UsageByCollection>>> GetUsageByCollectionAsync(string identifier, string start = null, string end = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetUsageByCollection");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetUsageByCollectionAsync(identifier, start, end, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get specific collection. </summary>
+        /// <param name="identifier"> Collection&apos;s identifier. </param>
+        /// <param name="start"> Start date of the period to retrieve. Format: YYYY-MM. </param>
+        /// <param name="end"> End date of the period to retrieve. Format: YYYY-MM. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks>
+        /// Return monthly credits consumption of a collection.
+        /// The data is updated daily.
+        /// 
+        /// </remarks>
+        public virtual Response<IReadOnlyList<UsageByCollection>> GetUsageByCollection(string identifier, string start = null, string end = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetUsageByCollection");
+            scope.Start();
+            try
+            {
+                return RestClient.GetUsageByCollection(identifier, start, end, cancellationToken);
             }
             catch (Exception e)
             {

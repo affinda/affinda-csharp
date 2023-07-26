@@ -5,6 +5,7 @@
 
 #nullable disable
 
+using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
 
@@ -21,6 +22,8 @@ namespace Affinda.API.Models
             AnnotationContentType type = default;
             bool multiple = default;
             bool noRect = default;
+            string parent = default;
+            IReadOnlyList<DataPoint> children = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("identifier"))
@@ -63,8 +66,28 @@ namespace Affinda.API.Models
                     noRect = property.Value.GetBoolean();
                     continue;
                 }
+                if (property.NameEquals("parent"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        parent = null;
+                        continue;
+                    }
+                    parent = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("children"))
+                {
+                    List<DataPoint> array = new List<DataPoint>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(DataPoint.DeserializeDataPoint(item));
+                    }
+                    children = array;
+                    continue;
+                }
             }
-            return new DataFieldDataPoint(identifier, name, slug, description, type, multiple, noRect);
+            return new DataFieldDataPoint(identifier, name, slug, description, type, multiple, noRect, parent, children);
         }
     }
 }

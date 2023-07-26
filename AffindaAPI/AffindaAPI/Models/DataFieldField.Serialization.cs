@@ -5,6 +5,7 @@
 
 #nullable disable
 
+using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
 
@@ -18,6 +19,8 @@ namespace Affinda.API.Models
             bool mandatory = default;
             bool showDropdown = default;
             float? autoValidationThreshold = default;
+            IReadOnlyList<Field> enabledChildFields = default;
+            IReadOnlyList<Field> disabledChildFields = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("label"))
@@ -45,8 +48,28 @@ namespace Affinda.API.Models
                     autoValidationThreshold = property.Value.GetSingle();
                     continue;
                 }
+                if (property.NameEquals("enabledChildFields"))
+                {
+                    List<Field> array = new List<Field>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(Field.DeserializeField(item));
+                    }
+                    enabledChildFields = array;
+                    continue;
+                }
+                if (property.NameEquals("disabledChildFields"))
+                {
+                    List<Field> array = new List<Field>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(Field.DeserializeField(item));
+                    }
+                    disabledChildFields = array;
+                    continue;
+                }
             }
-            return new DataFieldField(label, mandatory, showDropdown, autoValidationThreshold);
+            return new DataFieldField(label, mandatory, showDropdown, autoValidationThreshold, enabledChildFields, disabledChildFields);
         }
     }
 }

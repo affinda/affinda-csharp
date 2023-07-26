@@ -6,6 +6,8 @@
 #nullable disable
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Affinda.API.Models
 {
@@ -20,8 +22,10 @@ namespace Affinda.API.Models
         /// <param name="type"> The different data types of annotations. </param>
         /// <param name="multiple"></param>
         /// <param name="noRect"></param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/>, <paramref name="name"/> or <paramref name="slug"/> is null. </exception>
-        internal DataFieldDataPoint(string identifier, string name, string slug, string description, AnnotationContentType type, bool multiple, bool noRect)
+        /// <param name="parent"> The identifier of the parent data point if applicable. </param>
+        /// <param name="children"></param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/>, <paramref name="name"/>, <paramref name="slug"/> or <paramref name="children"/> is null. </exception>
+        internal DataFieldDataPoint(string identifier, string name, string slug, string description, AnnotationContentType type, bool multiple, bool noRect, string parent, IEnumerable<DataPoint> children)
         {
             if (identifier == null)
             {
@@ -35,6 +39,10 @@ namespace Affinda.API.Models
             {
                 throw new ArgumentNullException(nameof(slug));
             }
+            if (children == null)
+            {
+                throw new ArgumentNullException(nameof(children));
+            }
 
             Identifier = identifier;
             Name = name;
@@ -43,6 +51,31 @@ namespace Affinda.API.Models
             Type = type;
             Multiple = multiple;
             NoRect = noRect;
+            Parent = parent;
+            Children = children.ToList();
+        }
+
+        /// <summary> Initializes a new instance of DataFieldDataPoint. </summary>
+        /// <param name="identifier"> Uniquely identify a data point. </param>
+        /// <param name="name"> Name of the data point. </param>
+        /// <param name="slug"> A camelCase string that will be used as the key in the API response. </param>
+        /// <param name="description"></param>
+        /// <param name="type"> The different data types of annotations. </param>
+        /// <param name="multiple"></param>
+        /// <param name="noRect"></param>
+        /// <param name="parent"> The identifier of the parent data point if applicable. </param>
+        /// <param name="children"></param>
+        internal DataFieldDataPoint(string identifier, string name, string slug, string description, AnnotationContentType type, bool multiple, bool noRect, string parent, IReadOnlyList<DataPoint> children)
+        {
+            Identifier = identifier;
+            Name = name;
+            Slug = slug;
+            Description = description;
+            Type = type;
+            Multiple = multiple;
+            NoRect = noRect;
+            Parent = parent;
+            Children = children;
         }
 
         /// <summary> Uniquely identify a data point. </summary>
@@ -59,5 +92,9 @@ namespace Affinda.API.Models
         public bool Multiple { get; }
         /// <summary> Gets the no rect. </summary>
         public bool NoRect { get; }
+        /// <summary> The identifier of the parent data point if applicable. </summary>
+        public string Parent { get; }
+        /// <summary> Gets the children. </summary>
+        public IReadOnlyList<DataPoint> Children { get; }
     }
 }

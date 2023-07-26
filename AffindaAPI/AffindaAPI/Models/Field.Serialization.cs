@@ -42,15 +42,37 @@ namespace Affinda.API.Models
                 writer.WritePropertyName("showDropdown");
                 writer.WriteBooleanValue(ShowDropdown.Value);
             }
-            if (Optional.IsCollectionDefined(Fields))
+            if (Optional.IsCollectionDefined(EnabledChildFields))
             {
-                writer.WritePropertyName("fields");
+                writer.WritePropertyName("enabledChildFields");
                 writer.WriteStartArray();
-                foreach (var item in Fields)
+                foreach (var item in EnabledChildFields)
                 {
                     writer.WriteObjectValue(item);
                 }
                 writer.WriteEndArray();
+            }
+            if (Optional.IsCollectionDefined(DisabledChildFields))
+            {
+                writer.WritePropertyName("disabledChildFields");
+                writer.WriteStartArray();
+                foreach (var item in DisabledChildFields)
+                {
+                    writer.WriteObjectValue(item);
+                }
+                writer.WriteEndArray();
+            }
+            if (Optional.IsDefined(Slug))
+            {
+                if (Slug != null)
+                {
+                    writer.WritePropertyName("slug");
+                    writer.WriteStringValue(Slug);
+                }
+                else
+                {
+                    writer.WriteNull("slug");
+                }
             }
             writer.WriteEndObject();
         }
@@ -62,7 +84,9 @@ namespace Affinda.API.Models
             Optional<bool> mandatory = default;
             Optional<float?> autoValidationThreshold = default;
             Optional<bool> showDropdown = default;
-            Optional<IList<Field>> fields = default;
+            Optional<IList<Field>> enabledChildFields = default;
+            Optional<IList<Field>> disabledChildFields = default;
+            Optional<string> slug = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("label"))
@@ -105,7 +129,7 @@ namespace Affinda.API.Models
                     showDropdown = property.Value.GetBoolean();
                     continue;
                 }
-                if (property.NameEquals("fields"))
+                if (property.NameEquals("enabledChildFields"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
@@ -117,11 +141,36 @@ namespace Affinda.API.Models
                     {
                         array.Add(DeserializeField(item));
                     }
-                    fields = array;
+                    enabledChildFields = array;
+                    continue;
+                }
+                if (property.NameEquals("disabledChildFields"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    List<Field> array = new List<Field>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(DeserializeField(item));
+                    }
+                    disabledChildFields = array;
+                    continue;
+                }
+                if (property.NameEquals("slug"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        slug = null;
+                        continue;
+                    }
+                    slug = property.Value.GetString();
                     continue;
                 }
             }
-            return new Field(label, dataPoint, Optional.ToNullable(mandatory), Optional.ToNullable(autoValidationThreshold), Optional.ToNullable(showDropdown), Optional.ToList(fields));
+            return new Field(label, dataPoint, Optional.ToNullable(mandatory), Optional.ToNullable(autoValidationThreshold), Optional.ToNullable(showDropdown), Optional.ToList(enabledChildFields), Optional.ToList(disabledChildFields), slug.Value);
         }
     }
 }

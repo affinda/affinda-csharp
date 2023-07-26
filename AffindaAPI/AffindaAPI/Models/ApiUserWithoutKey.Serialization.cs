@@ -21,6 +21,7 @@ namespace Affinda.API.Models
             string email = default;
             string avatar = default;
             IReadOnlyList<ApiUserWithoutKeyOrganizationsItem> organizations = default;
+            Optional<string> apiKeyLastChars = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("id"))
@@ -63,8 +64,13 @@ namespace Affinda.API.Models
                     organizations = array;
                     continue;
                 }
+                if (property.NameEquals("apiKeyLastChars"))
+                {
+                    apiKeyLastChars = property.Value.GetString();
+                    continue;
+                }
             }
-            return new ApiUserWithoutKey(id, name, username, email, avatar, organizations);
+            return new ApiUserWithoutKey(id, name, username, email, avatar, organizations, apiKeyLastChars.Value);
         }
     }
 }

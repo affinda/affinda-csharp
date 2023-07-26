@@ -22,6 +22,7 @@ namespace Affinda.API.Models
             string avatar = default;
             IReadOnlyList<ApiUserWithKeyOrganizationsItem> organizations = default;
             string apiKey = default;
+            Optional<string> apiKeyLastChars = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("id"))
@@ -69,8 +70,13 @@ namespace Affinda.API.Models
                     apiKey = property.Value.GetString();
                     continue;
                 }
+                if (property.NameEquals("apiKeyLastChars"))
+                {
+                    apiKeyLastChars = property.Value.GetString();
+                    continue;
+                }
             }
-            return new ApiUserWithKey(id, name, username, email, avatar, organizations, apiKey);
+            return new ApiUserWithKey(id, name, username, email, avatar, organizations, apiKey, apiKeyLastChars.Value);
         }
     }
 }

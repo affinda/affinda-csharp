@@ -419,6 +419,109 @@ namespace Affinda.API
             }
         }
 
+        internal HttpMessage CreateGetUsageByWorkspaceRequest(string identifier, string start, string end)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Get;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/workspaces/", false);
+            uri.AppendPath(identifier, true);
+            uri.AppendPath("/usage", false);
+            if (start != null)
+            {
+                uri.AppendQuery("start", start, true);
+            }
+            if (end != null)
+            {
+                uri.AppendQuery("end", end, true);
+            }
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Get specific workspace. </summary>
+        /// <param name="identifier"> Workspace&apos;s identifier. </param>
+        /// <param name="start"> Start date of the period to retrieve. Format: YYYY-MM. </param>
+        /// <param name="end"> End date of the period to retrieve. Format: YYYY-MM. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
+        /// <remarks>
+        /// Return monthly credits consumption of a workspace.
+        /// The data is updated daily.
+        /// 
+        /// </remarks>
+        public async Task<Response<IReadOnlyList<UsageByWorkspace>>> GetUsageByWorkspaceAsync(string identifier, string start = null, string end = null, CancellationToken cancellationToken = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            using var message = CreateGetUsageByWorkspaceRequest(identifier, start, end);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        IReadOnlyList<UsageByWorkspace> value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        List<UsageByWorkspace> array = new List<UsageByWorkspace>();
+                        foreach (var item in document.RootElement.EnumerateArray())
+                        {
+                            array.Add(UsageByWorkspace.DeserializeUsageByWorkspace(item));
+                        }
+                        value = array;
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Get specific workspace. </summary>
+        /// <param name="identifier"> Workspace&apos;s identifier. </param>
+        /// <param name="start"> Start date of the period to retrieve. Format: YYYY-MM. </param>
+        /// <param name="end"> End date of the period to retrieve. Format: YYYY-MM. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
+        /// <remarks>
+        /// Return monthly credits consumption of a workspace.
+        /// The data is updated daily.
+        /// 
+        /// </remarks>
+        public Response<IReadOnlyList<UsageByWorkspace>> GetUsageByWorkspace(string identifier, string start = null, string end = null, CancellationToken cancellationToken = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            using var message = CreateGetUsageByWorkspaceRequest(identifier, start, end);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        IReadOnlyList<UsageByWorkspace> value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        List<UsageByWorkspace> array = new List<UsageByWorkspace>();
+                        foreach (var item in document.RootElement.EnumerateArray())
+                        {
+                            array.Add(UsageByWorkspace.DeserializeUsageByWorkspace(item));
+                        }
+                        value = array;
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
         internal HttpMessage CreateGetAllWorkspaceMembershipsRequest(int? offset, int? limit, string workspace, string user)
         {
             var message = _pipeline.CreateMessage();
@@ -1162,6 +1265,109 @@ namespace Affinda.API
                         DataField value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
                         value = DataField.DeserializeDataField(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateGetUsageByCollectionRequest(string identifier, string start, string end)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Get;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/collections/", false);
+            uri.AppendPath(identifier, true);
+            uri.AppendPath("/usage", false);
+            if (start != null)
+            {
+                uri.AppendQuery("start", start, true);
+            }
+            if (end != null)
+            {
+                uri.AppendQuery("end", end, true);
+            }
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Get specific collection. </summary>
+        /// <param name="identifier"> Collection&apos;s identifier. </param>
+        /// <param name="start"> Start date of the period to retrieve. Format: YYYY-MM. </param>
+        /// <param name="end"> End date of the period to retrieve. Format: YYYY-MM. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
+        /// <remarks>
+        /// Return monthly credits consumption of a collection.
+        /// The data is updated daily.
+        /// 
+        /// </remarks>
+        public async Task<Response<IReadOnlyList<UsageByCollection>>> GetUsageByCollectionAsync(string identifier, string start = null, string end = null, CancellationToken cancellationToken = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            using var message = CreateGetUsageByCollectionRequest(identifier, start, end);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        IReadOnlyList<UsageByCollection> value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        List<UsageByCollection> array = new List<UsageByCollection>();
+                        foreach (var item in document.RootElement.EnumerateArray())
+                        {
+                            array.Add(UsageByCollection.DeserializeUsageByCollection(item));
+                        }
+                        value = array;
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Get specific collection. </summary>
+        /// <param name="identifier"> Collection&apos;s identifier. </param>
+        /// <param name="start"> Start date of the period to retrieve. Format: YYYY-MM. </param>
+        /// <param name="end"> End date of the period to retrieve. Format: YYYY-MM. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
+        /// <remarks>
+        /// Return monthly credits consumption of a collection.
+        /// The data is updated daily.
+        /// 
+        /// </remarks>
+        public Response<IReadOnlyList<UsageByCollection>> GetUsageByCollection(string identifier, string start = null, string end = null, CancellationToken cancellationToken = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            using var message = CreateGetUsageByCollectionRequest(identifier, start, end);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        IReadOnlyList<UsageByCollection> value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        List<UsageByCollection> array = new List<UsageByCollection>();
+                        foreach (var item in document.RootElement.EnumerateArray())
+                        {
+                            array.Add(UsageByCollection.DeserializeUsageByCollection(item));
+                        }
+                        value = array;
                         return Response.FromValue(value, message.Response);
                     }
                 default:

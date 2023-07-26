@@ -27,6 +27,7 @@ namespace Affinda.API.Models
             Optional<int> confirmedDocsCount = default;
             Optional<string> ingestEmail = default;
             Optional<IReadOnlyList<string>> whitelistIngestAddresses = default;
+            Optional<bool> splitDocuments = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("identifier"))
@@ -149,8 +150,18 @@ namespace Affinda.API.Models
                     whitelistIngestAddresses = array;
                     continue;
                 }
+                if (property.NameEquals("splitDocuments"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    splitDocuments = property.Value.GetBoolean();
+                    continue;
+                }
             }
-            return new Workspace(identifier, organization.Value, name.Value, Optional.ToNullable(visibility), Optional.ToList(collections), Optional.ToNullable(rejectInvalidDocuments), Optional.ToNullable(rejectDuplicates), Optional.ToList(members), Optional.ToNullable(unvalidatedDocsCount), Optional.ToNullable(confirmedDocsCount), ingestEmail.Value, Optional.ToList(whitelistIngestAddresses));
+            return new Workspace(identifier, organization.Value, name.Value, Optional.ToNullable(visibility), Optional.ToList(collections), Optional.ToNullable(rejectInvalidDocuments), Optional.ToNullable(rejectDuplicates), Optional.ToList(members), Optional.ToNullable(unvalidatedDocsCount), Optional.ToNullable(confirmedDocsCount), ingestEmail.Value, Optional.ToList(whitelistIngestAddresses), Optional.ToNullable(splitDocuments));
         }
     }
 }

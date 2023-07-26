@@ -6,6 +6,8 @@
 #nullable disable
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Affinda.API.Models
 {
@@ -17,18 +19,47 @@ namespace Affinda.API.Models
         /// <param name="mandatory"></param>
         /// <param name="showDropdown"></param>
         /// <param name="autoValidationThreshold"></param>
-        /// <exception cref="ArgumentNullException"> <paramref name="label"/> is null. </exception>
-        internal DataFieldField(string label, bool mandatory, bool showDropdown, float? autoValidationThreshold)
+        /// <param name="enabledChildFields"></param>
+        /// <param name="disabledChildFields"></param>
+        /// <exception cref="ArgumentNullException"> <paramref name="label"/>, <paramref name="enabledChildFields"/> or <paramref name="disabledChildFields"/> is null. </exception>
+        internal DataFieldField(string label, bool mandatory, bool showDropdown, float? autoValidationThreshold, IEnumerable<Field> enabledChildFields, IEnumerable<Field> disabledChildFields)
         {
             if (label == null)
             {
                 throw new ArgumentNullException(nameof(label));
+            }
+            if (enabledChildFields == null)
+            {
+                throw new ArgumentNullException(nameof(enabledChildFields));
+            }
+            if (disabledChildFields == null)
+            {
+                throw new ArgumentNullException(nameof(disabledChildFields));
             }
 
             Label = label;
             Mandatory = mandatory;
             ShowDropdown = showDropdown;
             AutoValidationThreshold = autoValidationThreshold;
+            EnabledChildFields = enabledChildFields.ToList();
+            DisabledChildFields = disabledChildFields.ToList();
+        }
+
+        /// <summary> Initializes a new instance of DataFieldField. </summary>
+        /// <param name="label"></param>
+        /// <param name="mandatory"></param>
+        /// <param name="showDropdown"></param>
+        /// <param name="autoValidationThreshold"></param>
+        /// <param name="enabledChildFields"></param>
+        /// <param name="disabledChildFields"></param>
+        internal DataFieldField(string label, bool mandatory, bool showDropdown, float? autoValidationThreshold, IReadOnlyList<Field> enabledChildFields, IReadOnlyList<Field> disabledChildFields)
+        {
+            Label = label;
+            Mandatory = mandatory;
+            ShowDropdown = showDropdown;
+            AutoValidationThreshold = autoValidationThreshold;
+            EnabledChildFields = enabledChildFields;
+            DisabledChildFields = disabledChildFields;
         }
 
         /// <summary> Gets the label. </summary>
@@ -39,5 +70,9 @@ namespace Affinda.API.Models
         public bool ShowDropdown { get; }
         /// <summary> Gets the auto validation threshold. </summary>
         public float? AutoValidationThreshold { get; }
+        /// <summary> Gets the enabled child fields. </summary>
+        public IReadOnlyList<Field> EnabledChildFields { get; }
+        /// <summary> Gets the disabled child fields. </summary>
+        public IReadOnlyList<Field> DisabledChildFields { get; }
     }
 }

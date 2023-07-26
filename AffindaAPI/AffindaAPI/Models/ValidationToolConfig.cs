@@ -19,5 +19,15 @@ namespace Affinda.API.Models
         public ThemeConfig Theme { get; }
         /// <summary> Hide the confirm document button and other actions. </summary>
         public bool? HideActions { get; }
+        /// <summary> Hide the collection selector. </summary>
+        public bool? HideCollection { get; }
+        /// <summary> Hide the export menu. </summary>
+        public bool? HideExport { get; }
+        /// <summary> Hide the filename input. </summary>
+        public bool? HideFilename { get; }
+        /// <summary> Hide the tags editor. </summary>
+        public bool? HideTags { get; }
+        /// <summary> Hide the warnings panel. </summary>
+        public bool? HideWarnings { get; }
     }
 }

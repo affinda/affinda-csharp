@@ -56,7 +56,8 @@ namespace Affinda.API.Models
         /// <param name="email"></param>
         /// <param name="avatar"> URL of the user&apos;s avatar. </param>
         /// <param name="organizations"></param>
-        internal ApiUserWithoutKey(int id, string name, string username, string email, string avatar, IReadOnlyList<ApiUserWithoutKeyOrganizationsItem> organizations)
+        /// <param name="apiKeyLastChars"> The last 4 characters of the API key. </param>
+        internal ApiUserWithoutKey(int id, string name, string username, string email, string avatar, IReadOnlyList<ApiUserWithoutKeyOrganizationsItem> organizations, string apiKeyLastChars)
         {
             Id = id;
             Name = name;
@@ -64,6 +65,7 @@ namespace Affinda.API.Models
             Email = email;
             Avatar = avatar;
             Organizations = organizations;
+            ApiKeyLastChars = apiKeyLastChars;
         }
 
         /// <summary> Uniquely identify a user. </summary>
@@ -78,5 +80,7 @@ namespace Affinda.API.Models
         public string Avatar { get; }
         /// <summary> Gets the organizations. </summary>
         public IReadOnlyList<ApiUserWithoutKeyOrganizationsItem> Organizations { get; }
+        /// <summary> The last 4 characters of the API key. </summary>
+        public string ApiKeyLastChars { get; }
     }
 }

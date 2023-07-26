@@ -29,5 +29,7 @@ namespace Affinda.API.Models
         public bool? RejectDuplicates { get; set; }
         /// <summary> If specified, only emails from these addresses will be ingested for parsing. Wild cards are allowed, e.g. &quot;*@eyefind.info&quot;. </summary>
         public IList<string> WhitelistIngestAddresses { get; set; }
+        /// <summary> If true, attempt to split documents if multiple documents are detected in a single file. </summary>
+        public bool? SplitDocuments { get; set; }
     }
 }

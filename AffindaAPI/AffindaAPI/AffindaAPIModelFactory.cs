@@ -27,14 +27,15 @@ namespace Affinda.API.Models
         /// <param name="confirmedDocsCount"> Number of validated documents in the workspace. </param>
         /// <param name="ingestEmail"> When you send email to this address, any document attached in the body will be uploaded to this workspace. </param>
         /// <param name="whitelistIngestAddresses"> If specified, only emails from these addresses will be ingested for parsing. Wild cards are allowed, e.g. &quot;*@eyefind.info&quot;. </param>
+        /// <param name="splitDocuments"> If true, attempt to split documents if multiple documents are detected in a single file. </param>
         /// <returns> A new <see cref="Models.Workspace"/> instance for mocking. </returns>
-        public static Workspace Workspace(string identifier = null, Organization organization = null, string name = null, WorkspaceVisibility? visibility = null, IEnumerable<WorkspaceCollectionsItem> collections = null, bool? rejectInvalidDocuments = null, bool? rejectDuplicates = null, IEnumerable<User> members = null, int? unvalidatedDocsCount = null, int? confirmedDocsCount = null, string ingestEmail = null, IEnumerable<string> whitelistIngestAddresses = null)
+        public static Workspace Workspace(string identifier = null, Organization organization = null, string name = null, WorkspaceVisibility? visibility = null, IEnumerable<WorkspaceCollectionsItem> collections = null, bool? rejectInvalidDocuments = null, bool? rejectDuplicates = null, IEnumerable<User> members = null, int? unvalidatedDocsCount = null, int? confirmedDocsCount = null, string ingestEmail = null, IEnumerable<string> whitelistIngestAddresses = null, bool? splitDocuments = null)
         {
             collections ??= new List<WorkspaceCollectionsItem>();
             members ??= new List<User>();
             whitelistIngestAddresses ??= new List<string>();
 
-            return new Workspace(identifier, organization, name, visibility, collections?.ToList(), rejectInvalidDocuments, rejectDuplicates, members?.ToList(), unvalidatedDocsCount, confirmedDocsCount, ingestEmail, whitelistIngestAddresses?.ToList());
+            return new Workspace(identifier, organization, name, visibility, collections?.ToList(), rejectInvalidDocuments, rejectDuplicates, members?.ToList(), unvalidatedDocsCount, confirmedDocsCount, ingestEmail, whitelistIngestAddresses?.ToList(), splitDocuments);
         }
 
         /// <summary> Initializes a new instance of Organization. </summary>
@@ -88,6 +89,21 @@ namespace Affinda.API.Models
         public static BaseExtractor BaseExtractor(string identifier = null, string name = null, string namePlural = null, bool validatable = default, bool? isCustom = null, DateTimeOffset? createdDt = null)
         {
             return new BaseExtractor(identifier, name, namePlural, validatable, isCustom, createdDt);
+        }
+
+        /// <summary> Initializes a new instance of UsageByWorkspace. </summary>
+        /// <param name="month"> Month of the usage. </param>
+        /// <param name="count"> Usage count. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="month"/> is null. </exception>
+        /// <returns> A new <see cref="Models.UsageByWorkspace"/> instance for mocking. </returns>
+        public static UsageByWorkspace UsageByWorkspace(string month = null, int count = default)
+        {
+            if (month == null)
+            {
+                throw new ArgumentNullException(nameof(month));
+            }
+
+            return new UsageByWorkspace(month, count);
         }
 
         /// <summary> Initializes a new instance of PathsZ1JuagV3WorkspaceMembershipsGetResponses200ContentApplicationJsonSchema. </summary>
@@ -215,16 +231,15 @@ namespace Affinda.API.Models
         /// <param name="mandatory"></param>
         /// <param name="showDropdown"></param>
         /// <param name="autoValidationThreshold"></param>
-        /// <exception cref="ArgumentNullException"> <paramref name="label"/> is null. </exception>
+        /// <param name="enabledChildFields"></param>
+        /// <param name="disabledChildFields"></param>
         /// <returns> A new <see cref="Models.DataFieldField"/> instance for mocking. </returns>
-        public static DataFieldField DataFieldField(string label = null, bool mandatory = default, bool showDropdown = default, float? autoValidationThreshold = null)
+        public static DataFieldField DataFieldField(string label = null, bool mandatory = default, bool showDropdown = default, float? autoValidationThreshold = null, IEnumerable<Field> enabledChildFields = null, IEnumerable<Field> disabledChildFields = null)
         {
-            if (label == null)
-            {
-                throw new ArgumentNullException(nameof(label));
-            }
+            enabledChildFields ??= new List<Field>();
+            disabledChildFields ??= new List<Field>();
 
-            return new DataFieldField(label, mandatory, showDropdown, autoValidationThreshold);
+            return new DataFieldField(label, mandatory, showDropdown, autoValidationThreshold, enabledChildFields?.ToList(), disabledChildFields?.ToList());
         }
 
         /// <summary> Initializes a new instance of DataFieldDataPoint. </summary>
@@ -235,24 +250,50 @@ namespace Affinda.API.Models
         /// <param name="type"> The different data types of annotations. </param>
         /// <param name="multiple"></param>
         /// <param name="noRect"></param>
-        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/>, <paramref name="name"/> or <paramref name="slug"/> is null. </exception>
+        /// <param name="parent"> The identifier of the parent data point if applicable. </param>
+        /// <param name="children"></param>
         /// <returns> A new <see cref="Models.DataFieldDataPoint"/> instance for mocking. </returns>
-        public static DataFieldDataPoint DataFieldDataPoint(string identifier = null, string name = null, string slug = null, string description = null, AnnotationContentType type = default, bool multiple = default, bool noRect = default)
+        public static DataFieldDataPoint DataFieldDataPoint(string identifier = null, string name = null, string slug = null, string description = null, AnnotationContentType type = default, bool multiple = default, bool noRect = default, string parent = null, IEnumerable<DataPoint> children = null)
         {
-            if (identifier == null)
+            children ??= new List<DataPoint>();
+
+            return new DataFieldDataPoint(identifier, name, slug, description, type, multiple, noRect, parent, children?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of DataPoint. </summary>
+        /// <param name="identifier"> Uniquely identify a data point. </param>
+        /// <param name="name"> Name of the data point. </param>
+        /// <param name="slug"> A camelCase string that will be used as the key in the API response. </param>
+        /// <param name="description"></param>
+        /// <param name="annotationContentType"> The different data types of annotations. </param>
+        /// <param name="organization"></param>
+        /// <param name="extractor"> Uniquely identify an extractor. </param>
+        /// <param name="multiple"></param>
+        /// <param name="noRect"></param>
+        /// <param name="displayEnumValue"> If true, both the value and the label for the enums will appear in the dropdown in the validation tool. </param>
+        /// <param name="parent"> The identifier of the parent data point if applicable. </param>
+        /// <param name="children"></param>
+        /// <returns> A new <see cref="Models.DataPoint"/> instance for mocking. </returns>
+        public static DataPoint DataPoint(string identifier = null, string name = null, string slug = null, string description = null, AnnotationContentType annotationContentType = default, Organization organization = null, string extractor = null, bool? multiple = null, bool? noRect = null, bool? displayEnumValue = null, string parent = null, IEnumerable<DataPoint> children = null)
+        {
+            children ??= new List<DataPoint>();
+
+            return new DataPoint(identifier, name, slug, description, annotationContentType, organization, extractor, multiple, noRect, displayEnumValue, parent, children?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of UsageByCollection. </summary>
+        /// <param name="month"> Month of the usage. </param>
+        /// <param name="count"> Usage count. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="month"/> is null. </exception>
+        /// <returns> A new <see cref="Models.UsageByCollection"/> instance for mocking. </returns>
+        public static UsageByCollection UsageByCollection(string month = null, int count = default)
+        {
+            if (month == null)
             {
-                throw new ArgumentNullException(nameof(identifier));
-            }
-            if (name == null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-            if (slug == null)
-            {
-                throw new ArgumentNullException(nameof(slug));
+                throw new ArgumentNullException(nameof(month));
             }
 
-            return new DataFieldDataPoint(identifier, name, slug, description, type, multiple, noRect);
+            return new UsageByCollection(month, count);
         }
 
         /// <summary> Initializes a new instance of PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema. </summary>
@@ -481,27 +522,6 @@ namespace Affinda.API.Models
             return new MetaChildDocumentsItem(identifier);
         }
 
-        /// <summary> Initializes a new instance of DataPoint. </summary>
-        /// <param name="identifier"> Uniquely identify a data point. </param>
-        /// <param name="name"> Name of the data point. </param>
-        /// <param name="slug"> A camelCase string that will be used as the key in the API response. </param>
-        /// <param name="description"></param>
-        /// <param name="annotationContentType"> The different data types of annotations. </param>
-        /// <param name="organization"></param>
-        /// <param name="extractor"> Uniquely identify an extractor. </param>
-        /// <param name="multiple"></param>
-        /// <param name="noRect"></param>
-        /// <param name="displayEnumValue"> If true, both the value and the label for the enums will appear in the dropdown in the validation tool. </param>
-        /// <param name="parent"> The identifier of the parent data point if applicable. </param>
-        /// <param name="children"></param>
-        /// <returns> A new <see cref="Models.DataPoint"/> instance for mocking. </returns>
-        public static DataPoint DataPoint(string identifier = null, string name = null, string slug = null, string description = null, AnnotationContentType annotationContentType = default, Organization organization = null, string extractor = null, bool? multiple = null, bool? noRect = null, bool? displayEnumValue = null, string parent = null, IEnumerable<DataPoint> children = null)
-        {
-            children ??= new List<DataPoint>();
-
-            return new DataPoint(identifier, name, slug, description, annotationContentType, organization, extractor, multiple, noRect, displayEnumValue, parent, children?.ToList());
-        }
-
         /// <summary> Initializes a new instance of PathsMnwxgV3DataPointChoicesGetResponses200ContentApplicationJsonSchema. </summary>
         /// <param name="count"> Number of items in results. </param>
         /// <param name="next"> URL to request next page of results. </param>
@@ -665,12 +685,13 @@ namespace Affinda.API.Models
         /// <param name="email"></param>
         /// <param name="avatar"> URL of the user&apos;s avatar. </param>
         /// <param name="organizations"></param>
+        /// <param name="apiKeyLastChars"> The last 4 characters of the API key. </param>
         /// <returns> A new <see cref="Models.ApiUserWithoutKey"/> instance for mocking. </returns>
-        public static ApiUserWithoutKey ApiUserWithoutKey(int id = default, string name = null, string username = null, string email = null, string avatar = null, IEnumerable<ApiUserWithoutKeyOrganizationsItem> organizations = null)
+        public static ApiUserWithoutKey ApiUserWithoutKey(int id = default, string name = null, string username = null, string email = null, string avatar = null, IEnumerable<ApiUserWithoutKeyOrganizationsItem> organizations = null, string apiKeyLastChars = null)
         {
             organizations ??= new List<ApiUserWithoutKeyOrganizationsItem>();
 
-            return new ApiUserWithoutKey(id, name, username, email, avatar, organizations?.ToList());
+            return new ApiUserWithoutKey(id, name, username, email, avatar, organizations?.ToList(), apiKeyLastChars);
         }
 
         /// <summary> Initializes a new instance of ApiUserWithoutKeyOrganizationsItem. </summary>
@@ -700,12 +721,13 @@ namespace Affinda.API.Models
         /// <param name="avatar"> URL of the user&apos;s avatar. </param>
         /// <param name="organizations"></param>
         /// <param name="apiKey"> Use this key to authenticate with the API. </param>
+        /// <param name="apiKeyLastChars"> The last 4 characters of the API key. </param>
         /// <returns> A new <see cref="Models.ApiUserWithKey"/> instance for mocking. </returns>
-        public static ApiUserWithKey ApiUserWithKey(int id = default, string name = null, string username = null, string email = null, string avatar = null, IEnumerable<ApiUserWithKeyOrganizationsItem> organizations = null, string apiKey = null)
+        public static ApiUserWithKey ApiUserWithKey(int id = default, string name = null, string username = null, string email = null, string avatar = null, IEnumerable<ApiUserWithKeyOrganizationsItem> organizations = null, string apiKey = null, string apiKeyLastChars = null)
         {
             organizations ??= new List<ApiUserWithKeyOrganizationsItem>();
 
-            return new ApiUserWithKey(id, name, username, email, avatar, organizations?.ToList(), apiKey);
+            return new ApiUserWithKey(id, name, username, email, avatar, organizations?.ToList(), apiKey, apiKeyLastChars);
         }
 
         /// <summary> Initializes a new instance of ApiUserWithKeyOrganizationsItem. </summary>
