@@ -17,6 +17,7 @@ namespace Affinda.API.Models
             int id = default;
             ResthookEvent @event = default;
             Organization organization = default;
+            ResthookSubscriptionWorkspace workspace = default;
             string targetUrl = default;
             bool active = default;
             bool autoDeactivated = default;
@@ -36,7 +37,22 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("organization"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        organization = null;
+                        continue;
+                    }
                     organization = Organization.DeserializeOrganization(property.Value);
+                    continue;
+                }
+                if (property.NameEquals("workspace"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        workspace = null;
+                        continue;
+                    }
+                    workspace = ResthookSubscriptionWorkspace.DeserializeResthookSubscriptionWorkspace(property.Value);
                     continue;
                 }
                 if (property.NameEquals("targetUrl"))
@@ -65,7 +81,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new ResthookSubscription(id, @event, organization, targetUrl, active, autoDeactivated, autoDeactivateReason, version);
+            return new ResthookSubscription(id, @event, organization, workspace, targetUrl, active, autoDeactivated, autoDeactivateReason, version);
         }
     }
 }

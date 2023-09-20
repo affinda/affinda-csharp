@@ -26,6 +26,7 @@ namespace Affinda.API.Models
             Optional<bool> isCustom = default;
             Optional<IReadOnlyList<FieldGroup>> fieldGroups = default;
             Optional<DateTimeOffset> createdDt = default;
+            Optional<DateTimeOffset?> lastTrainedDt = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("identifier"))
@@ -113,8 +114,18 @@ namespace Affinda.API.Models
                     createdDt = property.Value.GetDateTimeOffset("O");
                     continue;
                 }
+                if (property.NameEquals("lastTrainedDt"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        lastTrainedDt = null;
+                        continue;
+                    }
+                    lastTrainedDt = property.Value.GetDateTimeOffset("O");
+                    continue;
+                }
             }
-            return new Extractor(identifier, name, namePlural, baseExtractor.Value, organization.Value, category.Value, validatable, Optional.ToNullable(isCustom), Optional.ToList(fieldGroups), Optional.ToNullable(createdDt));
+            return new Extractor(identifier, name, namePlural, baseExtractor.Value, organization.Value, category.Value, validatable, Optional.ToNullable(isCustom), Optional.ToList(fieldGroups), Optional.ToNullable(createdDt), Optional.ToNullable(lastTrainedDt));
         }
     }
 }

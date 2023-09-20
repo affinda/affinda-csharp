@@ -58,10 +58,10 @@ namespace Affinda.API.Models
                     writer.WriteNull("whitelistIngestAddresses");
                 }
             }
-            if (Optional.IsDefined(SplitDocuments))
+            if (Optional.IsDefined(DocumentSplitter))
             {
-                writer.WritePropertyName("splitDocuments");
-                writer.WriteBooleanValue(SplitDocuments.Value);
+                writer.WritePropertyName("documentSplitter");
+                writer.WriteStringValue(DocumentSplitter.Value.ToString());
             }
             writer.WriteEndObject();
         }

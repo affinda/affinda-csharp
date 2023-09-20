@@ -45,7 +45,8 @@ namespace Affinda.API.Models
         /// <param name="ingestEmail"> When you send email to this address, any document attached in the body will be uploaded to this collection. </param>
         /// <param name="tailoredExtractorRequested"> Whether a tailored extractor has been requested for this collection. </param>
         /// <param name="allowOpenai"> Whether to allow OpenAI API to be used to assist in creating a model for this collection. </param>
-        internal Collection(string identifier, string name, CollectionWorkspace workspace, Extractor extractor, float? autoValidationThreshold, IReadOnlyList<FieldGroup> fields, FieldsLayout fieldsLayout, bool? fieldsConfigured, CollectionDateFormatPreference? dateFormatPreference, bool? dateFormatFromDocument, ExtractorConfig extractorConfig, int? unvalidatedDocsCount, int? confirmedDocsCount, string ingestEmail, bool? tailoredExtractorRequested, bool? allowOpenai)
+        /// <param name="trainsExtractor"> Whether this collection feeds documents into the extractor&apos;s training queue. This setting can only be toggled for custom extractors. </param>
+        internal Collection(string identifier, string name, CollectionWorkspace workspace, Extractor extractor, float? autoValidationThreshold, IReadOnlyList<FieldGroup> fields, FieldsLayout fieldsLayout, bool? fieldsConfigured, CollectionDateFormatPreference? dateFormatPreference, bool? dateFormatFromDocument, ExtractorConfig extractorConfig, int? unvalidatedDocsCount, int? confirmedDocsCount, string ingestEmail, bool? tailoredExtractorRequested, bool? allowOpenai, bool? trainsExtractor)
         {
             Identifier = identifier;
             Name = name;
@@ -63,6 +64,7 @@ namespace Affinda.API.Models
             IngestEmail = ingestEmail;
             TailoredExtractorRequested = tailoredExtractorRequested;
             AllowOpenai = allowOpenai;
+            TrainsExtractor = trainsExtractor;
         }
 
         /// <summary> Uniquely identify a collection. </summary>
@@ -97,5 +99,7 @@ namespace Affinda.API.Models
         public bool? TailoredExtractorRequested { get; }
         /// <summary> Whether to allow OpenAI API to be used to assist in creating a model for this collection. </summary>
         public bool? AllowOpenai { get; }
+        /// <summary> Whether this collection feeds documents into the extractor&apos;s training queue. This setting can only be toggled for custom extractors. </summary>
+        public bool? TrainsExtractor { get; }
     }
 }

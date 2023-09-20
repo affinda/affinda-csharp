@@ -53,7 +53,8 @@ namespace Affinda.API.Models
         /// <param name="isCustom"></param>
         /// <param name="fieldGroups"></param>
         /// <param name="createdDt"></param>
-        internal Extractor(string identifier, string name, string namePlural, ExtractorBaseExtractor baseExtractor, Organization organization, string category, bool validatable, bool? isCustom, IReadOnlyList<FieldGroup> fieldGroups, DateTimeOffset? createdDt)
+        /// <param name="lastTrainedDt"></param>
+        internal Extractor(string identifier, string name, string namePlural, ExtractorBaseExtractor baseExtractor, Organization organization, string category, bool validatable, bool? isCustom, IReadOnlyList<FieldGroup> fieldGroups, DateTimeOffset? createdDt, DateTimeOffset? lastTrainedDt)
         {
             Identifier = identifier;
             Name = name;
@@ -65,6 +66,7 @@ namespace Affinda.API.Models
             IsCustom = isCustom;
             FieldGroups = fieldGroups;
             CreatedDt = createdDt;
+            LastTrainedDt = lastTrainedDt;
         }
 
         /// <summary> Uniquely identify an extractor. </summary>
@@ -87,5 +89,7 @@ namespace Affinda.API.Models
         public IReadOnlyList<FieldGroup> FieldGroups { get; }
         /// <summary> Gets the created dt. </summary>
         public DateTimeOffset? CreatedDt { get; }
+        /// <summary> Gets the last trained dt. </summary>
+        public DateTimeOffset? LastTrainedDt { get; }
     }
 }

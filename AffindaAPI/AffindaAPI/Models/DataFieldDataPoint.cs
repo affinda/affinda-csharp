@@ -65,7 +65,8 @@ namespace Affinda.API.Models
         /// <param name="noRect"></param>
         /// <param name="parent"> The identifier of the parent data point if applicable. </param>
         /// <param name="children"></param>
-        internal DataFieldDataPoint(string identifier, string name, string slug, string description, AnnotationContentType type, bool multiple, bool noRect, string parent, IReadOnlyList<DataPoint> children)
+        /// <param name="manualEntry"> If true, the model will not be used to predict this data point. Instead, the user will be able to manually enter the value in the validation tool. </param>
+        internal DataFieldDataPoint(string identifier, string name, string slug, string description, AnnotationContentType type, bool multiple, bool noRect, string parent, IReadOnlyList<DataPoint> children, bool? manualEntry)
         {
             Identifier = identifier;
             Name = name;
@@ -76,6 +77,7 @@ namespace Affinda.API.Models
             NoRect = noRect;
             Parent = parent;
             Children = children;
+            ManualEntry = manualEntry;
         }
 
         /// <summary> Uniquely identify a data point. </summary>
@@ -96,5 +98,7 @@ namespace Affinda.API.Models
         public string Parent { get; }
         /// <summary> Gets the children. </summary>
         public IReadOnlyList<DataPoint> Children { get; }
+        /// <summary> If true, the model will not be used to predict this data point. Instead, the user will be able to manually enter the value in the validation tool. </summary>
+        public bool? ManualEntry { get; }
     }
 }

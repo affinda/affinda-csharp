@@ -35,5 +35,7 @@ namespace Affinda.API.Models
         public ExtractorConfig ExtractorConfig { get; set; }
         /// <summary> Whether to allow OpenAI API to be used to assist in creating a model for this collection. </summary>
         public bool? AllowOpenai { get; set; }
+        /// <summary> Whether this collection feeds documents into the extractor&apos;s training queue. This setting can only be toggled for custom extractors. </summary>
+        public bool? TrainsExtractor { get; set; }
     }
 }

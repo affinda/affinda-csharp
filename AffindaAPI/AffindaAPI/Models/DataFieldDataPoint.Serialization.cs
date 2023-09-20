@@ -24,6 +24,7 @@ namespace Affinda.API.Models
             bool noRect = default;
             string parent = default;
             IReadOnlyList<DataPoint> children = default;
+            Optional<bool> manualEntry = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("identifier"))
@@ -86,8 +87,18 @@ namespace Affinda.API.Models
                     children = array;
                     continue;
                 }
+                if (property.NameEquals("manualEntry"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    manualEntry = property.Value.GetBoolean();
+                    continue;
+                }
             }
-            return new DataFieldDataPoint(identifier, name, slug, description, type, multiple, noRect, parent, children);
+            return new DataFieldDataPoint(identifier, name, slug, description, type, multiple, noRect, parent, children, Optional.ToNullable(manualEntry));
         }
     }
 }

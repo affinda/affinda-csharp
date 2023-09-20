@@ -74,6 +74,23 @@ namespace Affinda.API.Models
                     writer.WriteNull("slug");
                 }
             }
+            if (Optional.IsCollectionDefined(Fields))
+            {
+                if (Fields != null)
+                {
+                    writer.WritePropertyName("fields");
+                    writer.WriteStartArray();
+                    foreach (var item in Fields)
+                    {
+                        writer.WriteObjectValue(item);
+                    }
+                    writer.WriteEndArray();
+                }
+                else
+                {
+                    writer.WriteNull("fields");
+                }
+            }
             writer.WriteEndObject();
         }
 
@@ -87,6 +104,7 @@ namespace Affinda.API.Models
             Optional<IList<Field>> enabledChildFields = default;
             Optional<IList<Field>> disabledChildFields = default;
             Optional<string> slug = default;
+            Optional<IList<object>> fields = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("label"))
@@ -169,8 +187,23 @@ namespace Affinda.API.Models
                     slug = property.Value.GetString();
                     continue;
                 }
+                if (property.NameEquals("fields"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        fields = null;
+                        continue;
+                    }
+                    List<object> array = new List<object>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(item.GetObject());
+                    }
+                    fields = array;
+                    continue;
+                }
             }
-            return new Field(label, dataPoint, Optional.ToNullable(mandatory), Optional.ToNullable(autoValidationThreshold), Optional.ToNullable(showDropdown), Optional.ToList(enabledChildFields), Optional.ToList(disabledChildFields), slug.Value);
+            return new Field(label, dataPoint, Optional.ToNullable(mandatory), Optional.ToNullable(autoValidationThreshold), Optional.ToNullable(showDropdown), Optional.ToList(enabledChildFields), Optional.ToList(disabledChildFields), slug.Value, Optional.ToList(fields));
         }
     }
 }

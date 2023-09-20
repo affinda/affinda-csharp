@@ -59,7 +59,8 @@ namespace Affinda.API.Models
         /// <param name="displayEnumValue"> If true, both the value and the label for the enums will appear in the dropdown in the validation tool. </param>
         /// <param name="parent"> The identifier of the parent data point if applicable. </param>
         /// <param name="children"></param>
-        internal DataPoint(string identifier, string name, string slug, string description, AnnotationContentType annotationContentType, Organization organization, string extractor, bool? multiple, bool? noRect, bool? displayEnumValue, string parent, IReadOnlyList<DataPoint> children)
+        /// <param name="manualEntry"> If true, the model will not be used to predict this data point. Instead, the user will be able to manually enter the value in the validation tool. </param>
+        internal DataPoint(string identifier, string name, string slug, string description, AnnotationContentType annotationContentType, Organization organization, string extractor, bool? multiple, bool? noRect, bool? displayEnumValue, string parent, IReadOnlyList<DataPoint> children, bool? manualEntry)
         {
             Identifier = identifier;
             Name = name;
@@ -73,6 +74,7 @@ namespace Affinda.API.Models
             DisplayEnumValue = displayEnumValue;
             Parent = parent;
             Children = children;
+            ManualEntry = manualEntry;
         }
 
         /// <summary> Uniquely identify a data point. </summary>
@@ -99,5 +101,7 @@ namespace Affinda.API.Models
         public string Parent { get; }
         /// <summary> Gets the children. </summary>
         public IReadOnlyList<DataPoint> Children { get; }
+        /// <summary> If true, the model will not be used to predict this data point. Instead, the user will be able to manually enter the value in the validation tool. </summary>
+        public bool? ManualEntry { get; }
     }
 }

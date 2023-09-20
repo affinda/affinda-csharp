@@ -19,6 +19,8 @@ namespace Affinda.API.Models
         public ResthookEvent? Event { get; set; }
         /// <summary> Uniquely identify an organization. </summary>
         public string Organization { get; set; }
+        /// <summary> Uniquely identify a workspace. </summary>
+        public string Workspace { get; set; }
         /// <summary> Version of the resthook subscription. Determines the resthook body being fired. </summary>
         public Version? Version { get; set; }
     }

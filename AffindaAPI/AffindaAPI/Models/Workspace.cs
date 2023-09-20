@@ -43,8 +43,8 @@ namespace Affinda.API.Models
         /// <param name="confirmedDocsCount"> Number of validated documents in the workspace. </param>
         /// <param name="ingestEmail"> When you send email to this address, any document attached in the body will be uploaded to this workspace. </param>
         /// <param name="whitelistIngestAddresses"> If specified, only emails from these addresses will be ingested for parsing. Wild cards are allowed, e.g. &quot;*@eyefind.info&quot;. </param>
-        /// <param name="splitDocuments"> If true, attempt to split documents if multiple documents are detected in a single file. </param>
-        internal Workspace(string identifier, Organization organization, string name, WorkspaceVisibility? visibility, IReadOnlyList<WorkspaceCollectionsItem> collections, bool? rejectInvalidDocuments, bool? rejectDuplicates, IReadOnlyList<User> members, int? unvalidatedDocsCount, int? confirmedDocsCount, string ingestEmail, IReadOnlyList<string> whitelistIngestAddresses, bool? splitDocuments)
+        /// <param name="documentSplitter"> Option &quot;leave&quot; means no document splitting at all. Option &quot;conservative&quot; means we don&apos;t actually split documents the documents, but will add a warning to documents that may require a split. Option &quot;recommended&quot; means we split documents that are highly likely to require a split, and add warnings to documents that might require one. Option &quot;aggressive&quot; means we split all documents that are likely to require a split. </param>
+        internal Workspace(string identifier, Organization organization, string name, WorkspaceVisibility? visibility, IReadOnlyList<WorkspaceCollectionsItem> collections, bool? rejectInvalidDocuments, bool? rejectDuplicates, IReadOnlyList<User> members, int? unvalidatedDocsCount, int? confirmedDocsCount, string ingestEmail, IReadOnlyList<string> whitelistIngestAddresses, WorkspaceSplitDocumentsOptions? documentSplitter)
         {
             Identifier = identifier;
             Organization = organization;
@@ -58,7 +58,7 @@ namespace Affinda.API.Models
             ConfirmedDocsCount = confirmedDocsCount;
             IngestEmail = ingestEmail;
             WhitelistIngestAddresses = whitelistIngestAddresses;
-            SplitDocuments = splitDocuments;
+            DocumentSplitter = documentSplitter;
         }
 
         /// <summary> Uniquely identify a workspace. </summary>
@@ -85,7 +85,7 @@ namespace Affinda.API.Models
         public string IngestEmail { get; }
         /// <summary> If specified, only emails from these addresses will be ingested for parsing. Wild cards are allowed, e.g. &quot;*@eyefind.info&quot;. </summary>
         public IReadOnlyList<string> WhitelistIngestAddresses { get; }
-        /// <summary> If true, attempt to split documents if multiple documents are detected in a single file. </summary>
-        public bool? SplitDocuments { get; }
+        /// <summary> Option &quot;leave&quot; means no document splitting at all. Option &quot;conservative&quot; means we don&apos;t actually split documents the documents, but will add a warning to documents that may require a split. Option &quot;recommended&quot; means we split documents that are highly likely to require a split, and add warnings to documents that might require one. Option &quot;aggressive&quot; means we split all documents that are likely to require a split. </summary>
+        public WorkspaceSplitDocumentsOptions? DocumentSplitter { get; }
     }
 }

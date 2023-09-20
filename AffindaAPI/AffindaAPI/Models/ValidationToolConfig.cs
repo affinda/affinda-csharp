@@ -29,5 +29,9 @@ namespace Affinda.API.Models
         public bool? HideTags { get; }
         /// <summary> Hide the warnings panel. </summary>
         public bool? HideWarnings { get; }
+        /// <summary> Disables the page editor after a document has been split once. </summary>
+        public bool? RestrictDocumentSplitting { get; }
+        /// <summary> Disables currency formatting of decimals values. </summary>
+        public bool? DisableCurrencyFormatting { get; }
     }
 }

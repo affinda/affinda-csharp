@@ -252,16 +252,12 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Get specific workspace. </summary>
+        /// <summary> Get usage by workspace. </summary>
         /// <param name="identifier"> Workspace&apos;s identifier. </param>
         /// <param name="start"> Start date of the period to retrieve. Format: YYYY-MM. </param>
         /// <param name="end"> End date of the period to retrieve. Format: YYYY-MM. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks>
-        /// Return monthly credits consumption of a workspace.
-        /// The data is updated daily.
-        /// 
-        /// </remarks>
+        /// <remarks> Return monthly credits consumption of a workspace. </remarks>
         public virtual async Task<Response<IReadOnlyList<UsageByWorkspace>>> GetUsageByWorkspaceAsync(string identifier, string start = null, string end = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetUsageByWorkspace");
@@ -277,16 +273,12 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Get specific workspace. </summary>
+        /// <summary> Get usage by workspace. </summary>
         /// <param name="identifier"> Workspace&apos;s identifier. </param>
         /// <param name="start"> Start date of the period to retrieve. Format: YYYY-MM. </param>
         /// <param name="end"> End date of the period to retrieve. Format: YYYY-MM. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks>
-        /// Return monthly credits consumption of a workspace.
-        /// The data is updated daily.
-        /// 
-        /// </remarks>
+        /// <remarks> Return monthly credits consumption of a workspace. </remarks>
         public virtual Response<IReadOnlyList<UsageByWorkspace>> GetUsageByWorkspace(string identifier, string start = null, string end = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetUsageByWorkspace");
@@ -688,16 +680,12 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Get specific collection. </summary>
+        /// <summary> Get usage by collection. </summary>
         /// <param name="identifier"> Collection&apos;s identifier. </param>
         /// <param name="start"> Start date of the period to retrieve. Format: YYYY-MM. </param>
         /// <param name="end"> End date of the period to retrieve. Format: YYYY-MM. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks>
-        /// Return monthly credits consumption of a collection.
-        /// The data is updated daily.
-        /// 
-        /// </remarks>
+        /// <remarks> Return monthly credits consumption of a collection. </remarks>
         public virtual async Task<Response<IReadOnlyList<UsageByCollection>>> GetUsageByCollectionAsync(string identifier, string start = null, string end = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetUsageByCollection");
@@ -713,16 +701,12 @@ namespace Affinda.API
             }
         }
 
-        /// <summary> Get specific collection. </summary>
+        /// <summary> Get usage by collection. </summary>
         /// <param name="identifier"> Collection&apos;s identifier. </param>
         /// <param name="start"> Start date of the period to retrieve. Format: YYYY-MM. </param>
         /// <param name="end"> End date of the period to retrieve. Format: YYYY-MM. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <remarks>
-        /// Return monthly credits consumption of a collection.
-        /// The data is updated daily.
-        /// 
-        /// </remarks>
+        /// <remarks> Return monthly credits consumption of a collection. </remarks>
         public virtual Response<IReadOnlyList<UsageByCollection>> GetUsageByCollection(string identifier, string start = null, string end = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetUsageByCollection");
@@ -3624,7 +3608,7 @@ namespace Affinda.API
         /// <param name="documentType"> Filter indices by a document type. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public virtual async Task<Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum18? documentType = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum19? documentType = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexes");
             scope.Start();
@@ -3645,7 +3629,7 @@ namespace Affinda.API
         /// <param name="documentType"> Filter indices by a document type. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public virtual Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema> GetAllIndexes(int? offset = null, int? limit = null, Enum18? documentType = null, CancellationToken cancellationToken = default)
+        public virtual Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema> GetAllIndexes(int? offset = null, int? limit = null, Enum19? documentType = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexes");
             scope.Start();

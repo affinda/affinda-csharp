@@ -64,6 +64,11 @@ namespace Affinda.API.Models
                     writer.WriteNull("parent");
                 }
             }
+            if (Optional.IsDefined(ManualEntry))
+            {
+                writer.WritePropertyName("manualEntry");
+                writer.WriteBooleanValue(ManualEntry.Value);
+            }
             writer.WriteEndObject();
         }
     }

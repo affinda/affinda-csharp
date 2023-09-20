@@ -97,6 +97,11 @@ namespace Affinda.API.Models
                 writer.WritePropertyName("allowOpenai");
                 writer.WriteBooleanValue(AllowOpenai.Value);
             }
+            if (Optional.IsDefined(TrainsExtractor))
+            {
+                writer.WritePropertyName("trainsExtractor");
+                writer.WriteBooleanValue(TrainsExtractor.Value);
+            }
             writer.WriteEndObject();
         }
     }

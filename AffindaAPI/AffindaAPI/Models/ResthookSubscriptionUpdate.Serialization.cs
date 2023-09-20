@@ -25,6 +25,11 @@ namespace Affinda.API.Models
                 writer.WritePropertyName("organization");
                 writer.WriteStringValue(Organization);
             }
+            if (Optional.IsDefined(Workspace))
+            {
+                writer.WritePropertyName("workspace");
+                writer.WriteStringValue(Workspace);
+            }
             if (Optional.IsDefined(Version))
             {
                 writer.WritePropertyName("version");

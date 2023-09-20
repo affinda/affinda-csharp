@@ -47,5 +47,7 @@ namespace Affinda.API.Models
         public bool? NoRect { get; set; }
         /// <summary> The identifier of the parent data point if applicable. </summary>
         public string Parent { get; set; }
+        /// <summary> If true, the model will not be used to predict this data point. Instead, the user will be able to manually enter the value in the validation tool. </summary>
+        public bool? ManualEntry { get; set; }
     }
 }

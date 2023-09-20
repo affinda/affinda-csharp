@@ -27,15 +27,15 @@ namespace Affinda.API.Models
         /// <param name="confirmedDocsCount"> Number of validated documents in the workspace. </param>
         /// <param name="ingestEmail"> When you send email to this address, any document attached in the body will be uploaded to this workspace. </param>
         /// <param name="whitelistIngestAddresses"> If specified, only emails from these addresses will be ingested for parsing. Wild cards are allowed, e.g. &quot;*@eyefind.info&quot;. </param>
-        /// <param name="splitDocuments"> If true, attempt to split documents if multiple documents are detected in a single file. </param>
+        /// <param name="documentSplitter"> Option &quot;leave&quot; means no document splitting at all. Option &quot;conservative&quot; means we don&apos;t actually split documents the documents, but will add a warning to documents that may require a split. Option &quot;recommended&quot; means we split documents that are highly likely to require a split, and add warnings to documents that might require one. Option &quot;aggressive&quot; means we split all documents that are likely to require a split. </param>
         /// <returns> A new <see cref="Models.Workspace"/> instance for mocking. </returns>
-        public static Workspace Workspace(string identifier = null, Organization organization = null, string name = null, WorkspaceVisibility? visibility = null, IEnumerable<WorkspaceCollectionsItem> collections = null, bool? rejectInvalidDocuments = null, bool? rejectDuplicates = null, IEnumerable<User> members = null, int? unvalidatedDocsCount = null, int? confirmedDocsCount = null, string ingestEmail = null, IEnumerable<string> whitelistIngestAddresses = null, bool? splitDocuments = null)
+        public static Workspace Workspace(string identifier = null, Organization organization = null, string name = null, WorkspaceVisibility? visibility = null, IEnumerable<WorkspaceCollectionsItem> collections = null, bool? rejectInvalidDocuments = null, bool? rejectDuplicates = null, IEnumerable<User> members = null, int? unvalidatedDocsCount = null, int? confirmedDocsCount = null, string ingestEmail = null, IEnumerable<string> whitelistIngestAddresses = null, WorkspaceSplitDocumentsOptions? documentSplitter = null)
         {
             collections ??= new List<WorkspaceCollectionsItem>();
             members ??= new List<User>();
             whitelistIngestAddresses ??= new List<string>();
 
-            return new Workspace(identifier, organization, name, visibility, collections?.ToList(), rejectInvalidDocuments, rejectDuplicates, members?.ToList(), unvalidatedDocsCount, confirmedDocsCount, ingestEmail, whitelistIngestAddresses?.ToList(), splitDocuments);
+            return new Workspace(identifier, organization, name, visibility, collections?.ToList(), rejectInvalidDocuments, rejectDuplicates, members?.ToList(), unvalidatedDocsCount, confirmedDocsCount, ingestEmail, whitelistIngestAddresses?.ToList(), documentSplitter);
         }
 
         /// <summary> Initializes a new instance of Organization. </summary>
@@ -166,12 +166,13 @@ namespace Affinda.API.Models
         /// <param name="ingestEmail"> When you send email to this address, any document attached in the body will be uploaded to this collection. </param>
         /// <param name="tailoredExtractorRequested"> Whether a tailored extractor has been requested for this collection. </param>
         /// <param name="allowOpenai"> Whether to allow OpenAI API to be used to assist in creating a model for this collection. </param>
+        /// <param name="trainsExtractor"> Whether this collection feeds documents into the extractor&apos;s training queue. This setting can only be toggled for custom extractors. </param>
         /// <returns> A new <see cref="Models.Collection"/> instance for mocking. </returns>
-        public static Collection Collection(string identifier = null, string name = null, CollectionWorkspace workspace = null, Extractor extractor = null, float? autoValidationThreshold = null, IEnumerable<FieldGroup> fields = null, FieldsLayout fieldsLayout = null, bool? fieldsConfigured = null, CollectionDateFormatPreference? dateFormatPreference = null, bool? dateFormatFromDocument = null, ExtractorConfig extractorConfig = null, int? unvalidatedDocsCount = null, int? confirmedDocsCount = null, string ingestEmail = null, bool? tailoredExtractorRequested = null, bool? allowOpenai = null)
+        public static Collection Collection(string identifier = null, string name = null, CollectionWorkspace workspace = null, Extractor extractor = null, float? autoValidationThreshold = null, IEnumerable<FieldGroup> fields = null, FieldsLayout fieldsLayout = null, bool? fieldsConfigured = null, CollectionDateFormatPreference? dateFormatPreference = null, bool? dateFormatFromDocument = null, ExtractorConfig extractorConfig = null, int? unvalidatedDocsCount = null, int? confirmedDocsCount = null, string ingestEmail = null, bool? tailoredExtractorRequested = null, bool? allowOpenai = null, bool? trainsExtractor = null)
         {
             fields ??= new List<FieldGroup>();
 
-            return new Collection(identifier, name, workspace, extractor, autoValidationThreshold, fields?.ToList(), fieldsLayout, fieldsConfigured, dateFormatPreference, dateFormatFromDocument, extractorConfig, unvalidatedDocsCount, confirmedDocsCount, ingestEmail, tailoredExtractorRequested, allowOpenai);
+            return new Collection(identifier, name, workspace, extractor, autoValidationThreshold, fields?.ToList(), fieldsLayout, fieldsConfigured, dateFormatPreference, dateFormatFromDocument, extractorConfig, unvalidatedDocsCount, confirmedDocsCount, ingestEmail, tailoredExtractorRequested, allowOpenai, trainsExtractor);
         }
 
         /// <summary> Initializes a new instance of CollectionWorkspace. </summary>
@@ -195,12 +196,13 @@ namespace Affinda.API.Models
         /// <param name="isCustom"></param>
         /// <param name="fieldGroups"></param>
         /// <param name="createdDt"></param>
+        /// <param name="lastTrainedDt"></param>
         /// <returns> A new <see cref="Models.Extractor"/> instance for mocking. </returns>
-        public static Extractor Extractor(string identifier = null, string name = null, string namePlural = null, ExtractorBaseExtractor baseExtractor = null, Organization organization = null, string category = null, bool validatable = default, bool? isCustom = null, IEnumerable<FieldGroup> fieldGroups = null, DateTimeOffset? createdDt = null)
+        public static Extractor Extractor(string identifier = null, string name = null, string namePlural = null, ExtractorBaseExtractor baseExtractor = null, Organization organization = null, string category = null, bool validatable = default, bool? isCustom = null, IEnumerable<FieldGroup> fieldGroups = null, DateTimeOffset? createdDt = null, DateTimeOffset? lastTrainedDt = null)
         {
             fieldGroups ??= new List<FieldGroup>();
 
-            return new Extractor(identifier, name, namePlural, baseExtractor, organization, category, validatable, isCustom, fieldGroups?.ToList(), createdDt);
+            return new Extractor(identifier, name, namePlural, baseExtractor, organization, category, validatable, isCustom, fieldGroups?.ToList(), createdDt, lastTrainedDt);
         }
 
         /// <summary> Initializes a new instance of ExtractorBaseExtractor. </summary>
@@ -252,12 +254,13 @@ namespace Affinda.API.Models
         /// <param name="noRect"></param>
         /// <param name="parent"> The identifier of the parent data point if applicable. </param>
         /// <param name="children"></param>
+        /// <param name="manualEntry"> If true, the model will not be used to predict this data point. Instead, the user will be able to manually enter the value in the validation tool. </param>
         /// <returns> A new <see cref="Models.DataFieldDataPoint"/> instance for mocking. </returns>
-        public static DataFieldDataPoint DataFieldDataPoint(string identifier = null, string name = null, string slug = null, string description = null, AnnotationContentType type = default, bool multiple = default, bool noRect = default, string parent = null, IEnumerable<DataPoint> children = null)
+        public static DataFieldDataPoint DataFieldDataPoint(string identifier = null, string name = null, string slug = null, string description = null, AnnotationContentType type = default, bool multiple = default, bool noRect = default, string parent = null, IEnumerable<DataPoint> children = null, bool? manualEntry = null)
         {
             children ??= new List<DataPoint>();
 
-            return new DataFieldDataPoint(identifier, name, slug, description, type, multiple, noRect, parent, children?.ToList());
+            return new DataFieldDataPoint(identifier, name, slug, description, type, multiple, noRect, parent, children?.ToList(), manualEntry);
         }
 
         /// <summary> Initializes a new instance of DataPoint. </summary>
@@ -273,12 +276,13 @@ namespace Affinda.API.Models
         /// <param name="displayEnumValue"> If true, both the value and the label for the enums will appear in the dropdown in the validation tool. </param>
         /// <param name="parent"> The identifier of the parent data point if applicable. </param>
         /// <param name="children"></param>
+        /// <param name="manualEntry"> If true, the model will not be used to predict this data point. Instead, the user will be able to manually enter the value in the validation tool. </param>
         /// <returns> A new <see cref="Models.DataPoint"/> instance for mocking. </returns>
-        public static DataPoint DataPoint(string identifier = null, string name = null, string slug = null, string description = null, AnnotationContentType annotationContentType = default, Organization organization = null, string extractor = null, bool? multiple = null, bool? noRect = null, bool? displayEnumValue = null, string parent = null, IEnumerable<DataPoint> children = null)
+        public static DataPoint DataPoint(string identifier = null, string name = null, string slug = null, string description = null, AnnotationContentType annotationContentType = default, Organization organization = null, string extractor = null, bool? multiple = null, bool? noRect = null, bool? displayEnumValue = null, string parent = null, IEnumerable<DataPoint> children = null, bool? manualEntry = null)
         {
             children ??= new List<DataPoint>();
 
-            return new DataPoint(identifier, name, slug, description, annotationContentType, organization, extractor, multiple, noRect, displayEnumValue, parent, children?.ToList());
+            return new DataPoint(identifier, name, slug, description, annotationContentType, organization, extractor, multiple, noRect, displayEnumValue, parent, children?.ToList(), manualEntry);
         }
 
         /// <summary> Initializes a new instance of UsageByCollection. </summary>
@@ -776,19 +780,16 @@ namespace Affinda.API.Models
         /// <param name="id"> Resthook subscription&apos;s ID. </param>
         /// <param name="event"> The event name to subscribe to. </param>
         /// <param name="organization"></param>
+        /// <param name="workspace"></param>
         /// <param name="targetUrl"> URL of the resthook&apos;s receiver. </param>
         /// <param name="active"> Resthooks only fire for active subscriptions. </param>
         /// <param name="autoDeactivated"> Resthook subscriptions can be auto deactivated if the receiver continuously returns error status code over a period of time. </param>
         /// <param name="autoDeactivateReason"> The reason for the subscription being auto deactivated. May contains the error response that the receiver returned. </param>
         /// <param name="version"> Version of the resthook subscription. Determines the resthook body being fired. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="organization"/>, <paramref name="targetUrl"/> or <paramref name="autoDeactivateReason"/> is null. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="targetUrl"/> or <paramref name="autoDeactivateReason"/> is null. </exception>
         /// <returns> A new <see cref="Models.ResthookSubscription"/> instance for mocking. </returns>
-        public static ResthookSubscription ResthookSubscription(int id = default, ResthookEvent @event = default, Organization organization = null, string targetUrl = null, bool active = default, bool autoDeactivated = default, string autoDeactivateReason = null, ResthookSubscriptionVersion version = default)
+        public static ResthookSubscription ResthookSubscription(int id = default, ResthookEvent @event = default, Organization organization = null, ResthookSubscriptionWorkspace workspace = null, string targetUrl = null, bool active = default, bool autoDeactivated = default, string autoDeactivateReason = null, ResthookSubscriptionVersion version = default)
         {
-            if (organization == null)
-            {
-                throw new ArgumentNullException(nameof(organization));
-            }
             if (targetUrl == null)
             {
                 throw new ArgumentNullException(nameof(targetUrl));
@@ -798,7 +799,31 @@ namespace Affinda.API.Models
                 throw new ArgumentNullException(nameof(autoDeactivateReason));
             }
 
-            return new ResthookSubscription(id, @event, organization, targetUrl, active, autoDeactivated, autoDeactivateReason, version);
+            return new ResthookSubscription(id, @event, organization, workspace, targetUrl, active, autoDeactivated, autoDeactivateReason, version);
+        }
+
+        /// <summary> Initializes a new instance of ResthookSubscriptionWorkspace. </summary>
+        /// <param name="identifier"> Uniquely identify a workspace. </param>
+        /// <param name="name"></param>
+        /// <param name="organization"></param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/>, <paramref name="name"/> or <paramref name="organization"/> is null. </exception>
+        /// <returns> A new <see cref="Models.ResthookSubscriptionWorkspace"/> instance for mocking. </returns>
+        public static ResthookSubscriptionWorkspace ResthookSubscriptionWorkspace(string identifier = null, string name = null, Organization organization = null)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+            if (organization == null)
+            {
+                throw new ArgumentNullException(nameof(organization));
+            }
+
+            return new ResthookSubscriptionWorkspace(identifier, name, organization);
         }
 
         /// <summary> Initializes a new instance of OccupationGroup. </summary>
@@ -1205,7 +1230,7 @@ namespace Affinda.API.Models
         /// <param name="name"></param>
         /// <param name="documentType"></param>
         /// <returns> A new <see cref="Models.Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema"/> instance for mocking. </returns>
-        public static Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema(string name = null, Enum20? documentType = null)
+        public static Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema(string name = null, Enum21? documentType = null)
         {
             return new Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema(name, documentType);
         }

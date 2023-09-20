@@ -33,6 +33,7 @@ namespace Affinda.API.Models
             DataPoint = dataPoint;
             EnabledChildFields = new ChangeTrackingList<Field>();
             DisabledChildFields = new ChangeTrackingList<Field>();
+            Fields = new ChangeTrackingList<object>();
         }
 
         /// <summary> Initializes a new instance of Field. </summary>
@@ -44,7 +45,8 @@ namespace Affinda.API.Models
         /// <param name="enabledChildFields"></param>
         /// <param name="disabledChildFields"></param>
         /// <param name="slug"></param>
-        internal Field(string label, string dataPoint, bool? mandatory, float? autoValidationThreshold, bool? showDropdown, IList<Field> enabledChildFields, IList<Field> disabledChildFields, string slug)
+        /// <param name="fields"></param>
+        internal Field(string label, string dataPoint, bool? mandatory, float? autoValidationThreshold, bool? showDropdown, IList<Field> enabledChildFields, IList<Field> disabledChildFields, string slug, IList<object> fields)
         {
             Label = label;
             DataPoint = dataPoint;
@@ -54,6 +56,7 @@ namespace Affinda.API.Models
             EnabledChildFields = enabledChildFields;
             DisabledChildFields = disabledChildFields;
             Slug = slug;
+            Fields = fields;
         }
 
         /// <summary> Gets or sets the label. </summary>
@@ -72,5 +75,7 @@ namespace Affinda.API.Models
         public IList<Field> DisabledChildFields { get; }
         /// <summary> Gets or sets the slug. </summary>
         public string Slug { get; set; }
+        /// <summary> Gets or sets the fields. </summary>
+        public IList<object> Fields { get; set; }
     }
 }

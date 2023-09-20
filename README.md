@@ -1,7 +1,6 @@
-.NET / C# Client Library for Affinda Resume Parser API
-======================================================
+# .NET / C# Client Library for Affinda Resume Parser API
 
-![affinda logo](https://raw.githubusercontent.com/affinda/affinda-dotnet/master/affinda_logo.png)
+![affinda logo](https://api.affinda.com/static/documentation/affinda_logo_light.png)
 [![license](https://img.shields.io/github/license/affinda/affinda-dotnet)](https://choosealicense.com/licenses/mit/)
 
 [![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/affinda/affinda-dotnet)
@@ -12,8 +11,7 @@
 Generated using [autorest](https://github.com/Azure/autorest)
 and [autorest.csharp](https://github.com/Azure/autorest.csharp).
 
-Installation
-------------
+## Installation
 
 Install from NuGet via the Visual Studio NuGet GUI or from the terminal:
 
@@ -21,19 +19,17 @@ Install from NuGet via the Visual Studio NuGet GUI or from the terminal:
 dotnet add package Affinda.API
 ```
 
-API Version Compatibility
--------------------------
+## API Version Compatibility
 
 The Affinda API is currently on `v3`, with breaking changes meant the release of new versions of the client library.
 Please see below for which versions are compatible with which API version.
 
 | Affinda API version | `affinda-dotnet` versions |
-|---------------------|---------------------------|
+| ------------------- | ------------------------- |
 | v2                  | 0.1.0 - 4.x.x             |
 | v3                  | \>= 5.x.x                 |
 
-Quickstart
-----------
+## Quickstart
 
 ```C#
 using System;
