@@ -6,12 +6,33 @@
 #nullable disable
 
 using System.Text.Json;
+using System.Xml.Linq;
 using Azure.Core;
 
 namespace Affinda.API.Models
 {
     internal partial class RequestErrorErrorsItem
     {
+        internal static RequestErrorErrorsItem DeserializeRequestErrorErrorsItem(XElement element)
+        {
+            string attr = default;
+            string code = default;
+            string detail = default;
+            if (element.Element("attr") is XElement attrElement)
+            {
+                attr = (string)attrElement;
+            }
+            if (element.Element("code") is XElement codeElement)
+            {
+                code = (string)codeElement;
+            }
+            if (element.Element("detail") is XElement detailElement)
+            {
+                detail = (string)detailElement;
+            }
+            return new RequestErrorErrorsItem(attr, code, detail);
+        }
+
         internal static RequestErrorErrorsItem DeserializeRequestErrorErrorsItem(JsonElement element)
         {
             string attr = default;

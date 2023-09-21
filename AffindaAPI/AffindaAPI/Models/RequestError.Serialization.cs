@@ -7,12 +7,30 @@
 
 using System.Collections.Generic;
 using System.Text.Json;
+using System.Xml.Linq;
 using Azure.Core;
 
 namespace Affinda.API.Models
 {
     internal partial class RequestError
     {
+        internal static RequestError DeserializeRequestError(XElement element)
+        {
+            string type = default;
+            IReadOnlyList<RequestErrorErrorsItem> errors = default;
+            if (element.Element("type") is XElement typeElement)
+            {
+                type = (string)typeElement;
+            }
+            var array = new List<RequestErrorErrorsItem>();
+            foreach (var e in element.Elements("RequestErrorErrorsItem"))
+            {
+                array.Add(RequestErrorErrorsItem.DeserializeRequestErrorErrorsItem(e));
+            }
+            errors = array;
+            return new RequestError(type, errors);
+        }
+
         internal static RequestError DeserializeRequestError(JsonElement element)
         {
             string type = default;
