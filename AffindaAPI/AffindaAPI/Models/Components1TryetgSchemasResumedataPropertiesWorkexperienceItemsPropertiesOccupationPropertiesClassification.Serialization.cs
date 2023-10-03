@@ -19,6 +19,9 @@ namespace Affinda.API.Models
             Optional<string> subMajorGroup = default;
             Optional<string> majorGroup = default;
             Optional<int> socCode = default;
+            Optional<int> minorGroupCode = default;
+            Optional<int> subMajorGroupCode = default;
+            Optional<int> majorGroupCode = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("title"))
@@ -51,8 +54,38 @@ namespace Affinda.API.Models
                     socCode = property.Value.GetInt32();
                     continue;
                 }
+                if (property.NameEquals("minorGroupCode"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    minorGroupCode = property.Value.GetInt32();
+                    continue;
+                }
+                if (property.NameEquals("subMajorGroupCode"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    subMajorGroupCode = property.Value.GetInt32();
+                    continue;
+                }
+                if (property.NameEquals("majorGroupCode"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    majorGroupCode = property.Value.GetInt32();
+                    continue;
+                }
             }
-            return new Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification(title.Value, minorGroup.Value, subMajorGroup.Value, majorGroup.Value, Optional.ToNullable(socCode));
+            return new Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification(title.Value, minorGroup.Value, subMajorGroup.Value, majorGroup.Value, Optional.ToNullable(socCode), Optional.ToNullable(minorGroupCode), Optional.ToNullable(subMajorGroupCode), Optional.ToNullable(majorGroupCode));
         }
     }
 }

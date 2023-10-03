@@ -249,10 +249,13 @@ namespace Affinda.API.Models
         /// <param name="subMajorGroup"> SOC2020 sub major group. </param>
         /// <param name="majorGroup"> SOC2020 major group. </param>
         /// <param name="socCode"> The 4 digit code representing the SOC2020 classification for this job title. </param>
+        /// <param name="minorGroupCode"> The 4 digit code representing the SOC2020 classification for this job title. </param>
+        /// <param name="subMajorGroupCode"> The 4 digit code representing the SOC2020 classification for this job title. </param>
+        /// <param name="majorGroupCode"> The 4 digit code representing the SOC2020 classification for this job title. </param>
         /// <returns> A new <see cref="Models.Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification"/> instance for mocking. </returns>
-        public static Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification(string title = null, string minorGroup = null, string subMajorGroup = null, string majorGroup = null, int? socCode = null)
+        public static Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification(string title = null, string minorGroup = null, string subMajorGroup = null, string majorGroup = null, int? socCode = null, int? minorGroupCode = null, int? subMajorGroupCode = null, int? majorGroupCode = null)
         {
-            return new Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification(title, minorGroup, subMajorGroup, majorGroup, socCode);
+            return new Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification(title, minorGroup, subMajorGroup, majorGroup, socCode, minorGroupCode, subMajorGroupCode, majorGroupCode);
         }
 
         /// <summary> Initializes a new instance of ResumeDataSkillsItem. </summary>
@@ -608,10 +611,13 @@ namespace Affinda.API.Models
         /// <param name="minorGroup"></param>
         /// <param name="subMajorGroup"></param>
         /// <param name="majorGroup"></param>
+        /// <param name="minorGroupCode"> The 4 digit code representing the SOC2020 classification for this job title. </param>
+        /// <param name="subMajorGroupCode"> The 4 digit code representing the SOC2020 classification for this job title. </param>
+        /// <param name="majorGroupCode"> The 4 digit code representing the SOC2020 classification for this job title. </param>
         /// <returns> A new <see cref="Models.JobTitleParsedClassification"/> instance for mocking. </returns>
-        public static JobTitleParsedClassification JobTitleParsedClassification(float? socCode = null, string title = null, string minorGroup = null, string subMajorGroup = null, string majorGroup = null)
+        public static JobTitleParsedClassification JobTitleParsedClassification(float? socCode = null, string title = null, string minorGroup = null, string subMajorGroup = null, string majorGroup = null, int? minorGroupCode = null, int? subMajorGroupCode = null, int? majorGroupCode = null)
         {
-            return new JobTitleParsedClassification(socCode, title, minorGroup, subMajorGroup, majorGroup);
+            return new JobTitleParsedClassification(socCode, title, minorGroup, subMajorGroup, majorGroup, minorGroupCode, subMajorGroupCode, majorGroupCode);
         }
 
         /// <summary> Initializes a new instance of JobTitleAnnotationUpdate. </summary>

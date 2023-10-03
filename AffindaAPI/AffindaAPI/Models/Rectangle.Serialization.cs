@@ -15,6 +15,11 @@ namespace Affinda.API.Models
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
         {
             writer.WriteStartObject();
+            if (Optional.IsDefined(PageIndex))
+            {
+                writer.WritePropertyName("pageIndex");
+                writer.WriteNumberValue(PageIndex.Value);
+            }
             writer.WritePropertyName("x0");
             writer.WriteNumberValue(X0);
             writer.WritePropertyName("y0");
@@ -28,12 +33,23 @@ namespace Affinda.API.Models
 
         internal static Rectangle DeserializeRectangle(JsonElement element)
         {
+            Optional<int> pageIndex = default;
             float x0 = default;
             float y0 = default;
             float x1 = default;
             float y1 = default;
             foreach (var property in element.EnumerateObject())
             {
+                if (property.NameEquals("pageIndex"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    pageIndex = property.Value.GetInt32();
+                    continue;
+                }
                 if (property.NameEquals("x0"))
                 {
                     x0 = property.Value.GetSingle();
@@ -55,7 +71,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new Rectangle(x0, y0, x1, y1);
+            return new Rectangle(Optional.ToNullable(pageIndex), x0, y0, x1, y1);
         }
     }
 }
