@@ -3370,6 +3370,72 @@ namespace Affinda.API
             }
         }
 
+        internal HttpMessage CreateReplaceDataPointChoicesRequest(DataPointChoiceReplaceRequest body)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/data_point_choices/replace", false);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            if (body != null)
+            {
+                request.Headers.Add("Content-Type", "application/json");
+                var content = new Utf8JsonRequestContent();
+                content.JsonWriter.WriteObjectValue(body);
+                request.Content = content;
+            }
+            return message;
+        }
+
+        /// <summary> Replace choices of a data point. </summary>
+        /// <param name="body"> The DataPointChoiceReplaceRequest to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Replace choices of a data point. Existing choices and incoming choices are matched base on their `value`. New `value` will be created, existing `value` will be updated, and `value` not in incoming choices will be deleted. </remarks>
+        public async Task<Response<DataPointChoiceReplaceResponse>> ReplaceDataPointChoicesAsync(DataPointChoiceReplaceRequest body = null, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateReplaceDataPointChoicesRequest(body);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        DataPointChoiceReplaceResponse value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = DataPointChoiceReplaceResponse.DeserializeDataPointChoiceReplaceResponse(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Replace choices of a data point. </summary>
+        /// <param name="body"> The DataPointChoiceReplaceRequest to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Replace choices of a data point. Existing choices and incoming choices are matched base on their `value`. New `value` will be created, existing `value` will be updated, and `value` not in incoming choices will be deleted. </remarks>
+        public Response<DataPointChoiceReplaceResponse> ReplaceDataPointChoices(DataPointChoiceReplaceRequest body = null, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateReplaceDataPointChoicesRequest(body);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        DataPointChoiceReplaceResponse value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = DataPointChoiceReplaceResponse.DeserializeDataPointChoiceReplaceResponse(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
         internal HttpMessage CreateGetAllAnnotationsRequest(string document)
         {
             var message = _pipeline.CreateMessage();

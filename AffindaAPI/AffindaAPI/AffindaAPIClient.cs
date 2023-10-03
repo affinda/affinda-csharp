@@ -1762,6 +1762,44 @@ namespace Affinda.API
             }
         }
 
+        /// <summary> Replace choices of a data point. </summary>
+        /// <param name="body"> The DataPointChoiceReplaceRequest to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Replace choices of a data point. Existing choices and incoming choices are matched base on their `value`. New `value` will be created, existing `value` will be updated, and `value` not in incoming choices will be deleted. </remarks>
+        public virtual async Task<Response<DataPointChoiceReplaceResponse>> ReplaceDataPointChoicesAsync(DataPointChoiceReplaceRequest body = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.ReplaceDataPointChoices");
+            scope.Start();
+            try
+            {
+                return await RestClient.ReplaceDataPointChoicesAsync(body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Replace choices of a data point. </summary>
+        /// <param name="body"> The DataPointChoiceReplaceRequest to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Replace choices of a data point. Existing choices and incoming choices are matched base on their `value`. New `value` will be created, existing `value` will be updated, and `value` not in incoming choices will be deleted. </remarks>
+        public virtual Response<DataPointChoiceReplaceResponse> ReplaceDataPointChoices(DataPointChoiceReplaceRequest body = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.ReplaceDataPointChoices");
+            scope.Start();
+            try
+            {
+                return RestClient.ReplaceDataPointChoices(body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
         /// <summary> Get list of all annotations. </summary>
         /// <param name="document"> Filter by document. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>

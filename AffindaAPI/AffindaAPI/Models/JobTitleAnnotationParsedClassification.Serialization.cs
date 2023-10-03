@@ -40,6 +40,21 @@ namespace Affinda.API.Models
                 writer.WritePropertyName("majorGroup");
                 writer.WriteStringValue(MajorGroup);
             }
+            if (Optional.IsDefined(MinorGroupCode))
+            {
+                writer.WritePropertyName("minorGroupCode");
+                writer.WriteNumberValue(MinorGroupCode.Value);
+            }
+            if (Optional.IsDefined(SubMajorGroupCode))
+            {
+                writer.WritePropertyName("subMajorGroupCode");
+                writer.WriteNumberValue(SubMajorGroupCode.Value);
+            }
+            if (Optional.IsDefined(MajorGroupCode))
+            {
+                writer.WritePropertyName("majorGroupCode");
+                writer.WriteNumberValue(MajorGroupCode.Value);
+            }
             writer.WriteEndObject();
         }
 
@@ -50,6 +65,9 @@ namespace Affinda.API.Models
             Optional<string> minorGroup = default;
             Optional<string> subMajorGroup = default;
             Optional<string> majorGroup = default;
+            Optional<int> minorGroupCode = default;
+            Optional<int> subMajorGroupCode = default;
+            Optional<int> majorGroupCode = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("socCode"))
@@ -82,8 +100,38 @@ namespace Affinda.API.Models
                     majorGroup = property.Value.GetString();
                     continue;
                 }
+                if (property.NameEquals("minorGroupCode"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    minorGroupCode = property.Value.GetInt32();
+                    continue;
+                }
+                if (property.NameEquals("subMajorGroupCode"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    subMajorGroupCode = property.Value.GetInt32();
+                    continue;
+                }
+                if (property.NameEquals("majorGroupCode"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    majorGroupCode = property.Value.GetInt32();
+                    continue;
+                }
             }
-            return new JobTitleAnnotationParsedClassification(Optional.ToNullable(socCode), title.Value, minorGroup.Value, subMajorGroup.Value, majorGroup.Value);
+            return new JobTitleAnnotationParsedClassification(Optional.ToNullable(socCode), title.Value, minorGroup.Value, subMajorGroup.Value, majorGroup.Value, Optional.ToNullable(minorGroupCode), Optional.ToNullable(subMajorGroupCode), Optional.ToNullable(majorGroupCode));
         }
     }
 }

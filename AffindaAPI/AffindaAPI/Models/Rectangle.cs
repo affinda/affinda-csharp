@@ -23,6 +23,23 @@ namespace Affinda.API.Models
             Y1 = y1;
         }
 
+        /// <summary> Initializes a new instance of Rectangle. </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="x0"></param>
+        /// <param name="y0"></param>
+        /// <param name="x1"></param>
+        /// <param name="y1"></param>
+        internal Rectangle(int? pageIndex, float x0, float y0, float x1, float y1)
+        {
+            PageIndex = pageIndex;
+            X0 = x0;
+            Y0 = y0;
+            X1 = x1;
+            Y1 = y1;
+        }
+
+        /// <summary> Gets or sets the page index. </summary>
+        public int? PageIndex { get; set; }
         /// <summary> Gets or sets the x 0. </summary>
         public float X0 { get; set; }
         /// <summary> Gets or sets the y 0. </summary>

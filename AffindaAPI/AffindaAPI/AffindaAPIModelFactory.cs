@@ -436,10 +436,13 @@ namespace Affinda.API.Models
         /// <param name="subMajorGroup"> SOC2020 sub major group. </param>
         /// <param name="majorGroup"> SOC2020 major group. </param>
         /// <param name="socCode"> The 4 digit code representing the SOC2020 classification for this job title. </param>
+        /// <param name="minorGroupCode"> The 4 digit code representing the SOC2020 classification for this job title. </param>
+        /// <param name="subMajorGroupCode"> The 4 digit code representing the SOC2020 classification for this job title. </param>
+        /// <param name="majorGroupCode"> The 4 digit code representing the SOC2020 classification for this job title. </param>
         /// <returns> A new <see cref="Models.Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification"/> instance for mocking. </returns>
-        public static Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification(string title = null, string minorGroup = null, string subMajorGroup = null, string majorGroup = null, int? socCode = null)
+        public static Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification(string title = null, string minorGroup = null, string subMajorGroup = null, string majorGroup = null, int? socCode = null, int? minorGroupCode = null, int? subMajorGroupCode = null, int? majorGroupCode = null)
         {
-            return new Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification(title, minorGroup, subMajorGroup, majorGroup, socCode);
+            return new Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification(title, minorGroup, subMajorGroup, majorGroup, socCode, minorGroupCode, subMajorGroupCode, majorGroupCode);
         }
 
         /// <summary> Initializes a new instance of ResumeDataSkillsItem. </summary>
@@ -547,6 +550,33 @@ namespace Affinda.API.Models
             results ??= new List<DataPointChoice>();
 
             return new Paths4K6IzqV3DataPointChoicesGetResponses200ContentApplicationJsonSchemaAllof1(results?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of DataPointChoiceReplaceResponse. </summary>
+        /// <param name="dataPoint"> Uniquely identify a data point. </param>
+        /// <param name="collection"> Uniquely identify a collection. </param>
+        /// <param name="organization"> Uniquely identify an organization. </param>
+        /// <param name="choices"></param>
+        /// <returns> A new <see cref="Models.DataPointChoiceReplaceResponse"/> instance for mocking. </returns>
+        public static DataPointChoiceReplaceResponse DataPointChoiceReplaceResponse(string dataPoint = null, string collection = null, string organization = null, IEnumerable<DataPointChoiceReplaceResponseChoicesItem> choices = null)
+        {
+            choices ??= new List<DataPointChoiceReplaceResponseChoicesItem>();
+
+            return new DataPointChoiceReplaceResponse(dataPoint, collection, organization, choices?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of DataPointChoiceReplaceResponseChoicesItem. </summary>
+        /// <param name="id"> Data point choice&apos;s ID. </param>
+        /// <param name="value"></param>
+        /// <param name="label"></param>
+        /// <param name="synonyms"></param>
+        /// <param name="description"></param>
+        /// <returns> A new <see cref="Models.DataPointChoiceReplaceResponseChoicesItem"/> instance for mocking. </returns>
+        public static DataPointChoiceReplaceResponseChoicesItem DataPointChoiceReplaceResponseChoicesItem(int id = default, string value = null, string label = null, IEnumerable<string> synonyms = null, string description = null)
+        {
+            synonyms ??= new List<string>();
+
+            return new DataPointChoiceReplaceResponseChoicesItem(id, value, label, synonyms?.ToList(), description);
         }
 
         /// <summary> Initializes a new instance of Paths1D5Zg6MV3AnnotationsGetResponses200ContentApplicationJsonSchema. </summary>

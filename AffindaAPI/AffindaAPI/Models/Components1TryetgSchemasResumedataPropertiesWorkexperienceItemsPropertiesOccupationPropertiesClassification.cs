@@ -21,13 +21,19 @@ namespace Affinda.API.Models
         /// <param name="subMajorGroup"> SOC2020 sub major group. </param>
         /// <param name="majorGroup"> SOC2020 major group. </param>
         /// <param name="socCode"> The 4 digit code representing the SOC2020 classification for this job title. </param>
-        internal Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification(string title, string minorGroup, string subMajorGroup, string majorGroup, int? socCode)
+        /// <param name="minorGroupCode"> The 4 digit code representing the SOC2020 classification for this job title. </param>
+        /// <param name="subMajorGroupCode"> The 4 digit code representing the SOC2020 classification for this job title. </param>
+        /// <param name="majorGroupCode"> The 4 digit code representing the SOC2020 classification for this job title. </param>
+        internal Components1TryetgSchemasResumedataPropertiesWorkexperienceItemsPropertiesOccupationPropertiesClassification(string title, string minorGroup, string subMajorGroup, string majorGroup, int? socCode, int? minorGroupCode, int? subMajorGroupCode, int? majorGroupCode)
         {
             Title = title;
             MinorGroup = minorGroup;
             SubMajorGroup = subMajorGroup;
             MajorGroup = majorGroup;
             SocCode = socCode;
+            MinorGroupCode = minorGroupCode;
+            SubMajorGroupCode = subMajorGroupCode;
+            MajorGroupCode = majorGroupCode;
         }
 
         /// <summary> SOC2020 classification for this job title. </summary>
@@ -40,5 +46,11 @@ namespace Affinda.API.Models
         public string MajorGroup { get; }
         /// <summary> The 4 digit code representing the SOC2020 classification for this job title. </summary>
         public int? SocCode { get; }
+        /// <summary> The 4 digit code representing the SOC2020 classification for this job title. </summary>
+        public int? MinorGroupCode { get; }
+        /// <summary> The 4 digit code representing the SOC2020 classification for this job title. </summary>
+        public int? SubMajorGroupCode { get; }
+        /// <summary> The 4 digit code representing the SOC2020 classification for this job title. </summary>
+        public int? MajorGroupCode { get; }
     }
 }

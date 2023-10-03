@@ -21,13 +21,19 @@ namespace Affinda.API.Models
         /// <param name="minorGroup"></param>
         /// <param name="subMajorGroup"></param>
         /// <param name="majorGroup"></param>
-        internal JobTitleAnnotationParsedClassification(float? socCode, string title, string minorGroup, string subMajorGroup, string majorGroup)
+        /// <param name="minorGroupCode"> The 4 digit code representing the SOC2020 classification for this job title. </param>
+        /// <param name="subMajorGroupCode"> The 4 digit code representing the SOC2020 classification for this job title. </param>
+        /// <param name="majorGroupCode"> The 4 digit code representing the SOC2020 classification for this job title. </param>
+        internal JobTitleAnnotationParsedClassification(float? socCode, string title, string minorGroup, string subMajorGroup, string majorGroup, int? minorGroupCode, int? subMajorGroupCode, int? majorGroupCode)
         {
             SocCode = socCode;
             Title = title;
             MinorGroup = minorGroup;
             SubMajorGroup = subMajorGroup;
             MajorGroup = majorGroup;
+            MinorGroupCode = minorGroupCode;
+            SubMajorGroupCode = subMajorGroupCode;
+            MajorGroupCode = majorGroupCode;
         }
 
         /// <summary> Gets or sets the soc code. </summary>
@@ -40,5 +46,11 @@ namespace Affinda.API.Models
         public string SubMajorGroup { get; set; }
         /// <summary> Gets or sets the major group. </summary>
         public string MajorGroup { get; set; }
+        /// <summary> The 4 digit code representing the SOC2020 classification for this job title. </summary>
+        public int? MinorGroupCode { get; set; }
+        /// <summary> The 4 digit code representing the SOC2020 classification for this job title. </summary>
+        public int? SubMajorGroupCode { get; set; }
+        /// <summary> The 4 digit code representing the SOC2020 classification for this job title. </summary>
+        public int? MajorGroupCode { get; set; }
     }
 }

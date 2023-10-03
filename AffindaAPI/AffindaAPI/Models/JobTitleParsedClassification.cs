@@ -21,13 +21,19 @@ namespace Affinda.API.Models
         /// <param name="minorGroup"></param>
         /// <param name="subMajorGroup"></param>
         /// <param name="majorGroup"></param>
-        internal JobTitleParsedClassification(float? socCode, string title, string minorGroup, string subMajorGroup, string majorGroup)
+        /// <param name="minorGroupCode"> The 4 digit code representing the SOC2020 classification for this job title. </param>
+        /// <param name="subMajorGroupCode"> The 4 digit code representing the SOC2020 classification for this job title. </param>
+        /// <param name="majorGroupCode"> The 4 digit code representing the SOC2020 classification for this job title. </param>
+        internal JobTitleParsedClassification(float? socCode, string title, string minorGroup, string subMajorGroup, string majorGroup, int? minorGroupCode, int? subMajorGroupCode, int? majorGroupCode)
         {
             SocCode = socCode;
             Title = title;
             MinorGroup = minorGroup;
             SubMajorGroup = subMajorGroup;
             MajorGroup = majorGroup;
+            MinorGroupCode = minorGroupCode;
+            SubMajorGroupCode = subMajorGroupCode;
+            MajorGroupCode = majorGroupCode;
         }
 
         /// <summary> Gets the soc code. </summary>
@@ -40,5 +46,11 @@ namespace Affinda.API.Models
         public string SubMajorGroup { get; }
         /// <summary> Gets the major group. </summary>
         public string MajorGroup { get; }
+        /// <summary> The 4 digit code representing the SOC2020 classification for this job title. </summary>
+        public int? MinorGroupCode { get; }
+        /// <summary> The 4 digit code representing the SOC2020 classification for this job title. </summary>
+        public int? SubMajorGroupCode { get; }
+        /// <summary> The 4 digit code representing the SOC2020 classification for this job title. </summary>
+        public int? MajorGroupCode { get; }
     }
 }
