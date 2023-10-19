@@ -38,7 +38,7 @@ namespace Affinda.API
             _region = region ?? Region.Api;
         }
 
-        internal HttpMessage CreateGetAllResumesRequest(int? offset, int? limit)
+        internal HttpMessage CreateGetAllResumesRequest(int? offset, int? limit, string customIdentifier)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -56,6 +56,10 @@ namespace Affinda.API
             {
                 uri.AppendQuery("limit", limit.Value, true);
             }
+            if (customIdentifier != null)
+            {
+                uri.AppendQuery("custom_identifier", customIdentifier, true);
+            }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -64,11 +68,12 @@ namespace Affinda.API
         /// <summary> Get list of all resumes. </summary>
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
         /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="customIdentifier"> Filter for documents with this custom identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the resume summaries for that user, limited to 300 per page. </remarks>
-        public async Task<Response<Paths14VxierV2ResumesGetResponses200ContentApplicationJsonSchema>> GetAllResumesAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public async Task<Response<Paths14VxierV2ResumesGetResponses200ContentApplicationJsonSchema>> GetAllResumesAsync(int? offset = null, int? limit = null, string customIdentifier = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllResumesRequest(offset, limit);
+            using var message = CreateGetAllResumesRequest(offset, limit, customIdentifier);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -87,11 +92,12 @@ namespace Affinda.API
         /// <summary> Get list of all resumes. </summary>
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
         /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="customIdentifier"> Filter for documents with this custom identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the resume summaries for that user, limited to 300 per page. </remarks>
-        public Response<Paths14VxierV2ResumesGetResponses200ContentApplicationJsonSchema> GetAllResumes(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public Response<Paths14VxierV2ResumesGetResponses200ContentApplicationJsonSchema> GetAllResumes(int? offset = null, int? limit = null, string customIdentifier = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllResumesRequest(offset, limit);
+            using var message = CreateGetAllResumesRequest(offset, limit, customIdentifier);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -107,7 +113,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateCreateResumeRequest(Stream file, string url, string data, string identifier, string fileName, string wait, string rejectDuplicates, string language, string expiryTime, string regionBias, string lowPriority)
+        internal HttpMessage CreateCreateResumeRequest(Stream file, string url, string data, string identifier, string customIdentifier, string fileName, string wait, string rejectDuplicates, string language, string expiryTime, string regionBias, string lowPriority)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -136,6 +142,10 @@ namespace Affinda.API
             if (identifier != null)
             {
                 content.Add(new StringRequestContent(identifier), "identifier", null);
+            }
+            if (customIdentifier != null)
+            {
+                content.Add(new StringRequestContent(customIdentifier), "customIdentifier", null);
             }
             if (fileName != null)
             {
@@ -173,7 +183,8 @@ namespace Affinda.API
         /// <param name="file"> The Stream to use. </param>
         /// <param name="url"> URL to download the resume. </param>
         /// <param name="data"> The String to use. </param>
-        /// <param name="identifier"> The String to use. </param>
+        /// <param name="identifier"> Deprecated in favor of `customIdentifier`. </param>
+        /// <param name="customIdentifier"> Specify a custom identifier for the document if you need one, not required to be unique. </param>
         /// <param name="fileName"> The String to use. </param>
         /// <param name="wait"> The String to use. </param>
         /// <param name="rejectDuplicates"> The String to use. </param>
@@ -186,9 +197,9 @@ namespace Affinda.API
         /// Uploads a resume for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/resumes/{identifier}](#get-/resumes/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
         /// Resumes can be uploaded as a file or a URL. In addition, data can be added directly if users want to upload directly without parsing any resume file. For uploading resume data, the `data` argument provided must be a JSON-encoded string. Data uploads will not impact upon parsing credits.
         /// </remarks>
-        public async Task<Response<Resume>> CreateResumeAsync(Stream file = null, string url = null, string data = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, string regionBias = null, string lowPriority = null, CancellationToken cancellationToken = default)
+        public async Task<Response<Resume>> CreateResumeAsync(Stream file = null, string url = null, string data = null, string identifier = null, string customIdentifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, string regionBias = null, string lowPriority = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateResumeRequest(file, url, data, identifier, fileName, wait, rejectDuplicates, language, expiryTime, regionBias, lowPriority);
+            using var message = CreateCreateResumeRequest(file, url, data, identifier, customIdentifier, fileName, wait, rejectDuplicates, language, expiryTime, regionBias, lowPriority);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -209,7 +220,8 @@ namespace Affinda.API
         /// <param name="file"> The Stream to use. </param>
         /// <param name="url"> URL to download the resume. </param>
         /// <param name="data"> The String to use. </param>
-        /// <param name="identifier"> The String to use. </param>
+        /// <param name="identifier"> Deprecated in favor of `customIdentifier`. </param>
+        /// <param name="customIdentifier"> Specify a custom identifier for the document if you need one, not required to be unique. </param>
         /// <param name="fileName"> The String to use. </param>
         /// <param name="wait"> The String to use. </param>
         /// <param name="rejectDuplicates"> The String to use. </param>
@@ -222,9 +234,9 @@ namespace Affinda.API
         /// Uploads a resume for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/resumes/{identifier}](#get-/resumes/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
         /// Resumes can be uploaded as a file or a URL. In addition, data can be added directly if users want to upload directly without parsing any resume file. For uploading resume data, the `data` argument provided must be a JSON-encoded string. Data uploads will not impact upon parsing credits.
         /// </remarks>
-        public Response<Resume> CreateResume(Stream file = null, string url = null, string data = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, string regionBias = null, string lowPriority = null, CancellationToken cancellationToken = default)
+        public Response<Resume> CreateResume(Stream file = null, string url = null, string data = null, string identifier = null, string customIdentifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, string regionBias = null, string lowPriority = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateResumeRequest(file, url, data, identifier, fileName, wait, rejectDuplicates, language, expiryTime, regionBias, lowPriority);
+            using var message = CreateCreateResumeRequest(file, url, data, identifier, customIdentifier, fileName, wait, rejectDuplicates, language, expiryTime, regionBias, lowPriority);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -496,7 +508,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllRedactedResumesRequest(int? offset, int? limit)
+        internal HttpMessage CreateGetAllRedactedResumesRequest(int? offset, int? limit, string customIdentifier)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -514,6 +526,10 @@ namespace Affinda.API
             {
                 uri.AppendQuery("limit", limit.Value, true);
             }
+            if (customIdentifier != null)
+            {
+                uri.AppendQuery("custom_identifier", customIdentifier, true);
+            }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -522,11 +538,12 @@ namespace Affinda.API
         /// <summary> Get list of all redacted resumes. </summary>
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
         /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="customIdentifier"> Filter for documents with this custom identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the redacted resume information for that resume. </remarks>
-        public async Task<Response<Paths1D957B5V2RedactedResumesGetResponses200ContentApplicationJsonSchema>> GetAllRedactedResumesAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public async Task<Response<Paths1D957B5V2RedactedResumesGetResponses200ContentApplicationJsonSchema>> GetAllRedactedResumesAsync(int? offset = null, int? limit = null, string customIdentifier = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllRedactedResumesRequest(offset, limit);
+            using var message = CreateGetAllRedactedResumesRequest(offset, limit, customIdentifier);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -545,11 +562,12 @@ namespace Affinda.API
         /// <summary> Get list of all redacted resumes. </summary>
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
         /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="customIdentifier"> Filter for documents with this custom identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the redacted resume information for that resume. </remarks>
-        public Response<Paths1D957B5V2RedactedResumesGetResponses200ContentApplicationJsonSchema> GetAllRedactedResumes(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public Response<Paths1D957B5V2RedactedResumesGetResponses200ContentApplicationJsonSchema> GetAllRedactedResumes(int? offset = null, int? limit = null, string customIdentifier = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllRedactedResumesRequest(offset, limit);
+            using var message = CreateGetAllRedactedResumesRequest(offset, limit, customIdentifier);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -565,7 +583,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateCreateRedactedResumeRequest(Stream file, string identifier, string fileName, string url, string language, string wait, string redactHeadshot, string redactPersonalDetails, string redactWorkDetails, string redactEducationDetails, string redactReferees, string redactLocations, string redactDates, string redactGender, string expiryTime)
+        internal HttpMessage CreateCreateRedactedResumeRequest(Stream file, string identifier, string customIdentifier, string fileName, string url, string language, string wait, string redactHeadshot, string redactPersonalDetails, string redactWorkDetails, string redactEducationDetails, string redactReferees, string redactLocations, string redactDates, string redactGender, string expiryTime)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -586,6 +604,10 @@ namespace Affinda.API
             if (identifier != null)
             {
                 content.Add(new StringRequestContent(identifier), "identifier", null);
+            }
+            if (customIdentifier != null)
+            {
+                content.Add(new StringRequestContent(customIdentifier), "customIdentifier", null);
             }
             if (fileName != null)
             {
@@ -645,7 +667,8 @@ namespace Affinda.API
 
         /// <summary> Upload a resume for redacting. </summary>
         /// <param name="file"> The Stream to use. </param>
-        /// <param name="identifier"> The String to use. </param>
+        /// <param name="identifier"> Deprecated in favor of `customIdentifier`. </param>
+        /// <param name="customIdentifier"> Specify a custom identifier for the document if you need one, not required to be unique. </param>
         /// <param name="fileName"> The String to use. </param>
         /// <param name="url"> URL to download the resume. </param>
         /// <param name="language"> The String to use. </param>
@@ -661,9 +684,9 @@ namespace Affinda.API
         /// <param name="expiryTime"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Uploads a resume for redacting. </remarks>
-        public async Task<Response<RedactedResume>> CreateRedactedResumeAsync(Stream file = null, string identifier = null, string fileName = null, string url = null, string language = null, string wait = null, string redactHeadshot = null, string redactPersonalDetails = null, string redactWorkDetails = null, string redactEducationDetails = null, string redactReferees = null, string redactLocations = null, string redactDates = null, string redactGender = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public async Task<Response<RedactedResume>> CreateRedactedResumeAsync(Stream file = null, string identifier = null, string customIdentifier = null, string fileName = null, string url = null, string language = null, string wait = null, string redactHeadshot = null, string redactPersonalDetails = null, string redactWorkDetails = null, string redactEducationDetails = null, string redactReferees = null, string redactLocations = null, string redactDates = null, string redactGender = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateRedactedResumeRequest(file, identifier, fileName, url, language, wait, redactHeadshot, redactPersonalDetails, redactWorkDetails, redactEducationDetails, redactReferees, redactLocations, redactDates, redactGender, expiryTime);
+            using var message = CreateCreateRedactedResumeRequest(file, identifier, customIdentifier, fileName, url, language, wait, redactHeadshot, redactPersonalDetails, redactWorkDetails, redactEducationDetails, redactReferees, redactLocations, redactDates, redactGender, expiryTime);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -682,7 +705,8 @@ namespace Affinda.API
 
         /// <summary> Upload a resume for redacting. </summary>
         /// <param name="file"> The Stream to use. </param>
-        /// <param name="identifier"> The String to use. </param>
+        /// <param name="identifier"> Deprecated in favor of `customIdentifier`. </param>
+        /// <param name="customIdentifier"> Specify a custom identifier for the document if you need one, not required to be unique. </param>
         /// <param name="fileName"> The String to use. </param>
         /// <param name="url"> URL to download the resume. </param>
         /// <param name="language"> The String to use. </param>
@@ -698,9 +722,9 @@ namespace Affinda.API
         /// <param name="expiryTime"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Uploads a resume for redacting. </remarks>
-        public Response<RedactedResume> CreateRedactedResume(Stream file = null, string identifier = null, string fileName = null, string url = null, string language = null, string wait = null, string redactHeadshot = null, string redactPersonalDetails = null, string redactWorkDetails = null, string redactEducationDetails = null, string redactReferees = null, string redactLocations = null, string redactDates = null, string redactGender = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public Response<RedactedResume> CreateRedactedResume(Stream file = null, string identifier = null, string customIdentifier = null, string fileName = null, string url = null, string language = null, string wait = null, string redactHeadshot = null, string redactPersonalDetails = null, string redactWorkDetails = null, string redactEducationDetails = null, string redactReferees = null, string redactLocations = null, string redactDates = null, string redactGender = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateRedactedResumeRequest(file, identifier, fileName, url, language, wait, redactHeadshot, redactPersonalDetails, redactWorkDetails, redactEducationDetails, redactReferees, redactLocations, redactDates, redactGender, expiryTime);
+            using var message = CreateCreateRedactedResumeRequest(file, identifier, customIdentifier, fileName, url, language, wait, redactHeadshot, redactPersonalDetails, redactWorkDetails, redactEducationDetails, redactReferees, redactLocations, redactDates, redactGender, expiryTime);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -857,7 +881,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllInvoicesRequest(int? offset, int? limit)
+        internal HttpMessage CreateGetAllInvoicesRequest(int? offset, int? limit, string customIdentifier)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -875,6 +899,10 @@ namespace Affinda.API
             {
                 uri.AppendQuery("limit", limit.Value, true);
             }
+            if (customIdentifier != null)
+            {
+                uri.AppendQuery("custom_identifier", customIdentifier, true);
+            }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -883,11 +911,12 @@ namespace Affinda.API
         /// <summary> Get list of all invoices. </summary>
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
         /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="customIdentifier"> Filter for documents with this custom identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the invoice summaries for that user, limited to 300 per page. </remarks>
-        public async Task<Response<PathsGfm23QV2InvoicesGetResponses200ContentApplicationJsonSchema>> GetAllInvoicesAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public async Task<Response<PathsGfm23QV2InvoicesGetResponses200ContentApplicationJsonSchema>> GetAllInvoicesAsync(int? offset = null, int? limit = null, string customIdentifier = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllInvoicesRequest(offset, limit);
+            using var message = CreateGetAllInvoicesRequest(offset, limit, customIdentifier);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -906,11 +935,12 @@ namespace Affinda.API
         /// <summary> Get list of all invoices. </summary>
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
         /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="customIdentifier"> Filter for documents with this custom identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the invoice summaries for that user, limited to 300 per page. </remarks>
-        public Response<PathsGfm23QV2InvoicesGetResponses200ContentApplicationJsonSchema> GetAllInvoices(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public Response<PathsGfm23QV2InvoicesGetResponses200ContentApplicationJsonSchema> GetAllInvoices(int? offset = null, int? limit = null, string customIdentifier = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllInvoicesRequest(offset, limit);
+            using var message = CreateGetAllInvoicesRequest(offset, limit, customIdentifier);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -926,7 +956,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateCreateInvoiceRequest(Stream file, string url, string identifier, string fileName, string wait, string rejectDuplicates, string language, string expiryTime, string regionBias, string lowPriority)
+        internal HttpMessage CreateCreateInvoiceRequest(Stream file, string url, string identifier, string customIdentifier, string fileName, string wait, string rejectDuplicates, string language, string expiryTime, string regionBias, string lowPriority)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -951,6 +981,10 @@ namespace Affinda.API
             if (identifier != null)
             {
                 content.Add(new StringRequestContent(identifier), "identifier", null);
+            }
+            if (customIdentifier != null)
+            {
+                content.Add(new StringRequestContent(customIdentifier), "customIdentifier", null);
             }
             if (fileName != null)
             {
@@ -987,7 +1021,8 @@ namespace Affinda.API
         /// <summary> Upload an invoice for parsing. </summary>
         /// <param name="file"> The Stream to use. </param>
         /// <param name="url"> URL to download the invoice. </param>
-        /// <param name="identifier"> The String to use. </param>
+        /// <param name="identifier"> Deprecated in favor of `customIdentifier`. </param>
+        /// <param name="customIdentifier"> Specify a custom identifier for the document if you need one, not required to be unique. </param>
         /// <param name="fileName"> The String to use. </param>
         /// <param name="wait"> The String to use. </param>
         /// <param name="rejectDuplicates"> The String to use. </param>
@@ -1000,9 +1035,9 @@ namespace Affinda.API
         /// Uploads an invoice for parsing.
         /// When successful, returns an `identifier` in the response for subsequent use with the [/invoices/{identifier}](#get-/invoices/-identifier-) endpoint to check processing status and retrieve results.
         /// </remarks>
-        public async Task<Response<Invoice>> CreateInvoiceAsync(Stream file = null, string url = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, string regionBias = null, string lowPriority = null, CancellationToken cancellationToken = default)
+        public async Task<Response<Invoice>> CreateInvoiceAsync(Stream file = null, string url = null, string identifier = null, string customIdentifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, string regionBias = null, string lowPriority = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateInvoiceRequest(file, url, identifier, fileName, wait, rejectDuplicates, language, expiryTime, regionBias, lowPriority);
+            using var message = CreateCreateInvoiceRequest(file, url, identifier, customIdentifier, fileName, wait, rejectDuplicates, language, expiryTime, regionBias, lowPriority);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1022,7 +1057,8 @@ namespace Affinda.API
         /// <summary> Upload an invoice for parsing. </summary>
         /// <param name="file"> The Stream to use. </param>
         /// <param name="url"> URL to download the invoice. </param>
-        /// <param name="identifier"> The String to use. </param>
+        /// <param name="identifier"> Deprecated in favor of `customIdentifier`. </param>
+        /// <param name="customIdentifier"> Specify a custom identifier for the document if you need one, not required to be unique. </param>
         /// <param name="fileName"> The String to use. </param>
         /// <param name="wait"> The String to use. </param>
         /// <param name="rejectDuplicates"> The String to use. </param>
@@ -1035,9 +1071,9 @@ namespace Affinda.API
         /// Uploads an invoice for parsing.
         /// When successful, returns an `identifier` in the response for subsequent use with the [/invoices/{identifier}](#get-/invoices/-identifier-) endpoint to check processing status and retrieve results.
         /// </remarks>
-        public Response<Invoice> CreateInvoice(Stream file = null, string url = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, string regionBias = null, string lowPriority = null, CancellationToken cancellationToken = default)
+        public Response<Invoice> CreateInvoice(Stream file = null, string url = null, string identifier = null, string customIdentifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, string regionBias = null, string lowPriority = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateInvoiceRequest(file, url, identifier, fileName, wait, rejectDuplicates, language, expiryTime, regionBias, lowPriority);
+            using var message = CreateCreateInvoiceRequest(file, url, identifier, customIdentifier, fileName, wait, rejectDuplicates, language, expiryTime, regionBias, lowPriority);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -1194,7 +1230,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllJobDescriptionsRequest(int? offset, int? limit)
+        internal HttpMessage CreateGetAllJobDescriptionsRequest(int? offset, int? limit, string customIdentifier)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1212,6 +1248,10 @@ namespace Affinda.API
             {
                 uri.AppendQuery("limit", limit.Value, true);
             }
+            if (customIdentifier != null)
+            {
+                uri.AppendQuery("custom_identifier", customIdentifier, true);
+            }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -1220,11 +1260,12 @@ namespace Affinda.API
         /// <summary> Get list of all job descriptions. </summary>
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
         /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="customIdentifier"> Filter for documents with this custom identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the job descriptions for that user, limited to 300 per page. </remarks>
-        public async Task<Response<PathsChbpqfV2JobDescriptionsGetResponses200ContentApplicationJsonSchema>> GetAllJobDescriptionsAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public async Task<Response<PathsChbpqfV2JobDescriptionsGetResponses200ContentApplicationJsonSchema>> GetAllJobDescriptionsAsync(int? offset = null, int? limit = null, string customIdentifier = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllJobDescriptionsRequest(offset, limit);
+            using var message = CreateGetAllJobDescriptionsRequest(offset, limit, customIdentifier);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1243,11 +1284,12 @@ namespace Affinda.API
         /// <summary> Get list of all job descriptions. </summary>
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
         /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="customIdentifier"> Filter for documents with this custom identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the job descriptions for that user, limited to 300 per page. </remarks>
-        public Response<PathsChbpqfV2JobDescriptionsGetResponses200ContentApplicationJsonSchema> GetAllJobDescriptions(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public Response<PathsChbpqfV2JobDescriptionsGetResponses200ContentApplicationJsonSchema> GetAllJobDescriptions(int? offset = null, int? limit = null, string customIdentifier = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllJobDescriptionsRequest(offset, limit);
+            using var message = CreateGetAllJobDescriptionsRequest(offset, limit, customIdentifier);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -1263,7 +1305,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateCreateJobDescriptionRequest(Stream file, string url, string data, string identifier, string fileName, string wait, string rejectDuplicates, string language, string expiryTime, string regionBias, string lowPriority)
+        internal HttpMessage CreateCreateJobDescriptionRequest(Stream file, string url, string data, string identifier, string customIdentifier, string fileName, string wait, string rejectDuplicates, string language, string expiryTime, string regionBias, string lowPriority)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1292,6 +1334,10 @@ namespace Affinda.API
             if (identifier != null)
             {
                 content.Add(new StringRequestContent(identifier), "identifier", null);
+            }
+            if (customIdentifier != null)
+            {
+                content.Add(new StringRequestContent(customIdentifier), "customIdentifier", null);
             }
             if (fileName != null)
             {
@@ -1329,7 +1375,8 @@ namespace Affinda.API
         /// <param name="file"> The Stream to use. </param>
         /// <param name="url"> URL to download the job description. </param>
         /// <param name="data"> The String to use. </param>
-        /// <param name="identifier"> The String to use. </param>
+        /// <param name="identifier"> Deprecated in favor of `customIdentifier`. </param>
+        /// <param name="customIdentifier"> Specify a custom identifier for the document if you need one, not required to be unique. </param>
         /// <param name="fileName"> The String to use. </param>
         /// <param name="wait"> The String to use. </param>
         /// <param name="rejectDuplicates"> The String to use. </param>
@@ -1343,9 +1390,9 @@ namespace Affinda.API
         /// When successful, returns an `identifier` in the response for subsequent use with the [/job_descriptions/{identifier}](#get-/job_descriptions/-identifier-) endpoint to check processing status and retrieve results.
         /// Job Descriptions can be uploaded as a file or a URL. In addition, data can be added directly if users want to upload directly without parsing any resume file. For uploading resume data, the `data` argument provided must be a JSON-encoded string. Data uploads will not impact upon parsing credits.
         /// </remarks>
-        public async Task<Response<JobDescription>> CreateJobDescriptionAsync(Stream file = null, string url = null, string data = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, string regionBias = null, string lowPriority = null, CancellationToken cancellationToken = default)
+        public async Task<Response<JobDescription>> CreateJobDescriptionAsync(Stream file = null, string url = null, string data = null, string identifier = null, string customIdentifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, string regionBias = null, string lowPriority = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateJobDescriptionRequest(file, url, data, identifier, fileName, wait, rejectDuplicates, language, expiryTime, regionBias, lowPriority);
+            using var message = CreateCreateJobDescriptionRequest(file, url, data, identifier, customIdentifier, fileName, wait, rejectDuplicates, language, expiryTime, regionBias, lowPriority);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1366,7 +1413,8 @@ namespace Affinda.API
         /// <param name="file"> The Stream to use. </param>
         /// <param name="url"> URL to download the job description. </param>
         /// <param name="data"> The String to use. </param>
-        /// <param name="identifier"> The String to use. </param>
+        /// <param name="identifier"> Deprecated in favor of `customIdentifier`. </param>
+        /// <param name="customIdentifier"> Specify a custom identifier for the document if you need one, not required to be unique. </param>
         /// <param name="fileName"> The String to use. </param>
         /// <param name="wait"> The String to use. </param>
         /// <param name="rejectDuplicates"> The String to use. </param>
@@ -1380,9 +1428,9 @@ namespace Affinda.API
         /// When successful, returns an `identifier` in the response for subsequent use with the [/job_descriptions/{identifier}](#get-/job_descriptions/-identifier-) endpoint to check processing status and retrieve results.
         /// Job Descriptions can be uploaded as a file or a URL. In addition, data can be added directly if users want to upload directly without parsing any resume file. For uploading resume data, the `data` argument provided must be a JSON-encoded string. Data uploads will not impact upon parsing credits.
         /// </remarks>
-        public Response<JobDescription> CreateJobDescription(Stream file = null, string url = null, string data = null, string identifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, string regionBias = null, string lowPriority = null, CancellationToken cancellationToken = default)
+        public Response<JobDescription> CreateJobDescription(Stream file = null, string url = null, string data = null, string identifier = null, string customIdentifier = null, string fileName = null, string wait = null, string rejectDuplicates = null, string language = null, string expiryTime = null, string regionBias = null, string lowPriority = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateJobDescriptionRequest(file, url, data, identifier, fileName, wait, rejectDuplicates, language, expiryTime, regionBias, lowPriority);
+            using var message = CreateCreateJobDescriptionRequest(file, url, data, identifier, customIdentifier, fileName, wait, rejectDuplicates, language, expiryTime, regionBias, lowPriority);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {

@@ -17,6 +17,7 @@ namespace Affinda.API.Models
             int id = default;
             int pageIndex = default;
             string image = default;
+            Optional<string> imageTranslated = default;
             float height = default;
             float width = default;
             int rotation = default;
@@ -42,6 +43,16 @@ namespace Affinda.API.Models
                     image = property.Value.GetString();
                     continue;
                 }
+                if (property.NameEquals("imageTranslated"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        imageTranslated = null;
+                        continue;
+                    }
+                    imageTranslated = property.Value.GetString();
+                    continue;
+                }
                 if (property.NameEquals("height"))
                 {
                     height = property.Value.GetSingle();
@@ -58,7 +69,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new PageMeta(id, pageIndex, image, height, width, rotation);
+            return new PageMeta(id, pageIndex, image, imageTranslated.Value, height, width, rotation);
         }
     }
 }

@@ -48,7 +48,8 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of Meta. </summary>
-        /// <param name="identifier"> Uniquely identify a document. </param>
+        /// <param name="identifier"> Unique identifier for the document. </param>
+        /// <param name="customIdentifier"> Optional identifier for the document that you can set to track the document in the Affinda system.  Is not required to be unique. </param>
         /// <param name="fileName"> Optional filename of the file. </param>
         /// <param name="ready"> If true, the document has finished processing. Particularly useful if an endpoint request specified wait=False, when polling use this variable to determine when to stop polling. </param>
         /// <param name="readyDt"> The datetime when the document was ready. </param>
@@ -66,16 +67,16 @@ namespace Affinda.API.Models
         /// <param name="documentType"></param>
         /// <param name="regionBias"></param>
         /// <returns> A new <see cref="Models.Meta"/> instance for mocking. </returns>
-        public static Meta Meta(string identifier = null, string fileName = null, bool? ready = null, DateTimeOffset? readyDt = null, bool? failed = null, string expiryTime = null, string language = null, string pdf = null, MetaParentDocument parentDocument = null, IEnumerable<MetaChildDocumentsItem> childDocuments = null, IEnumerable<PageMeta> pages = null, bool? isVerified = null, string reviewUrl = null, float? ocrConfidence = null, DateTimeOffset? createdDt = null, string documentType = null, RegionBias regionBias = null)
+        public static Meta Meta(string identifier = null, string customIdentifier = null, string fileName = null, bool? ready = null, DateTimeOffset? readyDt = null, bool? failed = null, string expiryTime = null, string language = null, string pdf = null, MetaParentDocument parentDocument = null, IEnumerable<MetaChildDocumentsItem> childDocuments = null, IEnumerable<PageMeta> pages = null, bool? isVerified = null, string reviewUrl = null, float? ocrConfidence = null, DateTimeOffset? createdDt = null, string documentType = null, RegionBias regionBias = null)
         {
             childDocuments ??= new List<MetaChildDocumentsItem>();
             pages ??= new List<PageMeta>();
 
-            return new Meta(identifier, fileName, ready, readyDt, failed, expiryTime, language, pdf, parentDocument, childDocuments?.ToList(), pages?.ToList(), isVerified, reviewUrl, ocrConfidence, createdDt, documentType, regionBias);
+            return new Meta(identifier, customIdentifier, fileName, ready, readyDt, failed, expiryTime, language, pdf, parentDocument, childDocuments?.ToList(), pages?.ToList(), isVerified, reviewUrl, ocrConfidence, createdDt, documentType, regionBias);
         }
 
         /// <summary> Initializes a new instance of MetaParentDocument. </summary>
-        /// <param name="identifier"> Uniquely identify a document. </param>
+        /// <param name="identifier"> Unique identifier for the document. </param>
         /// <returns> A new <see cref="Models.MetaParentDocument"/> instance for mocking. </returns>
         public static MetaParentDocument MetaParentDocument(string identifier = null)
         {
@@ -83,7 +84,7 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of MetaChildDocumentsItem. </summary>
-        /// <param name="identifier"> Uniquely identify a document. </param>
+        /// <param name="identifier"> Unique identifier for the document. </param>
         /// <returns> A new <see cref="Models.MetaChildDocumentsItem"/> instance for mocking. </returns>
         public static MetaChildDocumentsItem MetaChildDocumentsItem(string identifier = null)
         {
@@ -94,13 +95,14 @@ namespace Affinda.API.Models
         /// <param name="id"></param>
         /// <param name="pageIndex"> Page number within the document, starts from 0. </param>
         /// <param name="image"> The URL to the image of the page. </param>
+        /// <param name="imageTranslated"> The URL to the translated image of the page. </param>
         /// <param name="height"> Height of the page&apos;s image in px. </param>
         /// <param name="width"> Width of the page&apos;s image in px. </param>
         /// <param name="rotation"> The degree of rotation applied to the page. Greater than 0 indicates clockwise rotation. Less than 0 indicates counter-clockwise rotation. </param>
         /// <returns> A new <see cref="Models.PageMeta"/> instance for mocking. </returns>
-        public static PageMeta PageMeta(int id = default, int pageIndex = default, string image = null, float height = default, float width = default, int rotation = default)
+        public static PageMeta PageMeta(int id = default, int pageIndex = default, string image = null, string imageTranslated = null, float height = default, float width = default, int rotation = default)
         {
-            return new PageMeta(id, pageIndex, image, height, width, rotation);
+            return new PageMeta(id, pageIndex, image, imageTranslated, height, width, rotation);
         }
 
         /// <summary> Initializes a new instance of RegionBias. </summary>

@@ -17,6 +17,7 @@ namespace Affinda.API.Models
         internal static Meta DeserializeMeta(JsonElement element)
         {
             Optional<string> identifier = default;
+            Optional<string> customIdentifier = default;
             Optional<string> fileName = default;
             Optional<bool> ready = default;
             Optional<DateTimeOffset?> readyDt = default;
@@ -38,6 +39,16 @@ namespace Affinda.API.Models
                 if (property.NameEquals("identifier"))
                 {
                     identifier = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("customIdentifier"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        customIdentifier = null;
+                        continue;
+                    }
+                    customIdentifier = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("fileName"))
@@ -206,7 +217,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new Meta(identifier.Value, fileName.Value, Optional.ToNullable(ready), Optional.ToNullable(readyDt), Optional.ToNullable(failed), expiryTime.Value, language.Value, pdf.Value, parentDocument.Value, Optional.ToList(childDocuments), Optional.ToList(pages), Optional.ToNullable(isVerified), reviewUrl.Value, Optional.ToNullable(ocrConfidence), Optional.ToNullable(createdDt), documentType.Value, regionBias.Value);
+            return new Meta(identifier.Value, customIdentifier.Value, fileName.Value, Optional.ToNullable(ready), Optional.ToNullable(readyDt), Optional.ToNullable(failed), expiryTime.Value, language.Value, pdf.Value, parentDocument.Value, Optional.ToList(childDocuments), Optional.ToList(pages), Optional.ToNullable(isVerified), reviewUrl.Value, Optional.ToNullable(ocrConfidence), Optional.ToNullable(createdDt), documentType.Value, regionBias.Value);
         }
     }
 }

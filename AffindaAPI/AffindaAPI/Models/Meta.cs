@@ -22,7 +22,8 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of Meta. </summary>
-        /// <param name="identifier"> Uniquely identify a document. </param>
+        /// <param name="identifier"> Unique identifier for the document. </param>
+        /// <param name="customIdentifier"> Optional identifier for the document that you can set to track the document in the Affinda system.  Is not required to be unique. </param>
         /// <param name="fileName"> Optional filename of the file. </param>
         /// <param name="ready"> If true, the document has finished processing. Particularly useful if an endpoint request specified wait=False, when polling use this variable to determine when to stop polling. </param>
         /// <param name="readyDt"> The datetime when the document was ready. </param>
@@ -39,9 +40,10 @@ namespace Affinda.API.Models
         /// <param name="createdDt"></param>
         /// <param name="documentType"></param>
         /// <param name="regionBias"></param>
-        internal Meta(string identifier, string fileName, bool? ready, DateTimeOffset? readyDt, bool? failed, string expiryTime, string language, string pdf, MetaParentDocument parentDocument, IReadOnlyList<MetaChildDocumentsItem> childDocuments, IReadOnlyList<PageMeta> pages, bool? isVerified, string reviewUrl, float? ocrConfidence, DateTimeOffset? createdDt, string documentType, RegionBias regionBias)
+        internal Meta(string identifier, string customIdentifier, string fileName, bool? ready, DateTimeOffset? readyDt, bool? failed, string expiryTime, string language, string pdf, MetaParentDocument parentDocument, IReadOnlyList<MetaChildDocumentsItem> childDocuments, IReadOnlyList<PageMeta> pages, bool? isVerified, string reviewUrl, float? ocrConfidence, DateTimeOffset? createdDt, string documentType, RegionBias regionBias)
         {
             Identifier = identifier;
+            CustomIdentifier = customIdentifier;
             FileName = fileName;
             Ready = ready;
             ReadyDt = readyDt;
@@ -60,8 +62,10 @@ namespace Affinda.API.Models
             RegionBias = regionBias;
         }
 
-        /// <summary> Uniquely identify a document. </summary>
+        /// <summary> Unique identifier for the document. </summary>
         public string Identifier { get; }
+        /// <summary> Optional identifier for the document that you can set to track the document in the Affinda system.  Is not required to be unique. </summary>
+        public string CustomIdentifier { get; }
         /// <summary> Optional filename of the file. </summary>
         public string FileName { get; }
         /// <summary> If true, the document has finished processing. Particularly useful if an endpoint request specified wait=False, when polling use this variable to determine when to stop polling. </summary>

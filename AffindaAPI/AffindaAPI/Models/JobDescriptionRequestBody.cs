@@ -23,8 +23,10 @@ namespace Affinda.API.Models
         public string Url { get; }
         /// <summary> Gets the data. </summary>
         public string Data { get; }
-        /// <summary> A random string that uniquely identify the resource. </summary>
+        /// <summary> Deprecated in favor of `customIdentifier`. </summary>
         public string Identifier { get; }
+        /// <summary> Specify a custom identifier for the document if you need one, not required to be unique. </summary>
+        public string CustomIdentifier { get; }
         /// <summary> Optional filename of the file. </summary>
         public string FileName { get; }
         /// <summary> If &quot;true&quot; (default), will return a response only after processing has completed. If &quot;false&quot;, will return an empty data object which can be polled at the GET endpoint until processing is complete. </summary>

@@ -19,8 +19,10 @@ namespace Affinda.API.Models
 
         /// <summary> File as binary data blob. Supported formats: PDF, DOC, DOCX, TXT, RTF, HTML, PNG, JPG. </summary>
         public Stream File { get; }
-        /// <summary> A random string that uniquely identify the resource. </summary>
+        /// <summary> Deprecated in favor of `customIdentifier`. </summary>
         public string Identifier { get; }
+        /// <summary> Specify a custom identifier for the document if you need one, not required to be unique. </summary>
+        public string CustomIdentifier { get; }
         /// <summary> Optional filename of the file. </summary>
         public string FileName { get; }
         /// <summary> URL to download the resume. </summary>
