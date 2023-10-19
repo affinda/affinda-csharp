@@ -29,9 +29,11 @@ namespace Affinda.API.Models
         public bool? HideTags { get; }
         /// <summary> Hide the warnings panel. </summary>
         public bool? HideWarnings { get; }
-        /// <summary> Disables the page editor after a document has been split once. </summary>
+        /// <summary> Disable the page editor after a document has been split once. </summary>
         public bool? RestrictDocumentSplitting { get; }
-        /// <summary> Disables currency formatting of decimals values. </summary>
+        /// <summary> Disable currency formatting of decimals values. </summary>
         public bool? DisableCurrencyFormatting { get; }
+        /// <summary> Disable editing document metadata. Makes the collection selector, filename input and tags editor read only. </summary>
+        public bool? DisableEditDocumentMetadata { get; }
     }
 }

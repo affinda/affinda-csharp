@@ -185,6 +185,11 @@ namespace Affinda.API.Models
                 writer.WritePropertyName("hideToolbar");
                 writer.WriteBooleanValue(HideToolbar.Value);
             }
+            if (Optional.IsDefined(HideSidePanel))
+            {
+                writer.WritePropertyName("hideSidePanel");
+                writer.WriteBooleanValue(HideSidePanel.Value);
+            }
             if (Optional.IsCollectionDefined(CustomFieldsConfig))
             {
                 if (CustomFieldsConfig != null)
@@ -234,6 +239,7 @@ namespace Affinda.API.Models
             Optional<string> username = default;
             Optional<IList<SearchConfigAction>> actions = default;
             Optional<bool> hideToolbar = default;
+            Optional<bool> hideSidePanel = default;
             Optional<IList<CustomFieldConfig>> customFieldsConfig = default;
             foreach (var property in element.EnumerateObject())
             {
@@ -517,6 +523,16 @@ namespace Affinda.API.Models
                     hideToolbar = property.Value.GetBoolean();
                     continue;
                 }
+                if (property.NameEquals("hideSidePanel"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    hideSidePanel = property.Value.GetBoolean();
+                    continue;
+                }
                 if (property.NameEquals("customFieldsConfig"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
@@ -533,7 +549,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new ResumeSearchConfig(Optional.ToNullable(allowPdfDownload), Optional.ToNullable(maxResults), Optional.ToNullable(displayJobTitle), Optional.ToNullable(displayLocation), Optional.ToNullable(displayYearsExperience), Optional.ToNullable(displayOccupationGroup), Optional.ToNullable(displayEducation), Optional.ToNullable(displaySkills), Optional.ToNullable(displayLanguages), Optional.ToNullable(displayManagementLevel), Optional.ToNullable(displayKeywords), Optional.ToNullable(weightJobTitle), Optional.ToNullable(weightLocation), Optional.ToNullable(weightYearsExperience), Optional.ToNullable(weightOccupationGroup), Optional.ToNullable(weightEducation), Optional.ToNullable(weightSkills), Optional.ToNullable(weightLanguages), Optional.ToNullable(weightManagementLevel), Optional.ToNullable(weightKeywords), Optional.ToList(indices), Optional.ToNullable(showIndexDropdown), Optional.ToDictionary(searchToolTheme), Optional.ToNullable(userId), username.Value, Optional.ToList(actions), Optional.ToNullable(hideToolbar), Optional.ToList(customFieldsConfig));
+            return new ResumeSearchConfig(Optional.ToNullable(allowPdfDownload), Optional.ToNullable(maxResults), Optional.ToNullable(displayJobTitle), Optional.ToNullable(displayLocation), Optional.ToNullable(displayYearsExperience), Optional.ToNullable(displayOccupationGroup), Optional.ToNullable(displayEducation), Optional.ToNullable(displaySkills), Optional.ToNullable(displayLanguages), Optional.ToNullable(displayManagementLevel), Optional.ToNullable(displayKeywords), Optional.ToNullable(weightJobTitle), Optional.ToNullable(weightLocation), Optional.ToNullable(weightYearsExperience), Optional.ToNullable(weightOccupationGroup), Optional.ToNullable(weightEducation), Optional.ToNullable(weightSkills), Optional.ToNullable(weightLanguages), Optional.ToNullable(weightManagementLevel), Optional.ToNullable(weightKeywords), Optional.ToList(indices), Optional.ToNullable(showIndexDropdown), Optional.ToDictionary(searchToolTheme), Optional.ToNullable(userId), username.Value, Optional.ToList(actions), Optional.ToNullable(hideToolbar), Optional.ToNullable(hideSidePanel), Optional.ToList(customFieldsConfig));
         }
     }
 }

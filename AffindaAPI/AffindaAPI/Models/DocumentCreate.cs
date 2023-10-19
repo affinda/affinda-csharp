@@ -29,8 +29,10 @@ namespace Affinda.API.Models
         public string Workspace { get; }
         /// <summary> If &quot;true&quot; (default), will return a response only after processing has completed. If &quot;false&quot;, will return an empty data object which can be polled at the GET endpoint until processing is complete. </summary>
         public string Wait { get; }
-        /// <summary> Specify a custom identifier for the document. </summary>
+        /// <summary> Deprecated in favor of `customIdentifier`. </summary>
         public string Identifier { get; }
+        /// <summary> Specify a custom identifier for the document if you need one, not required to be unique. </summary>
+        public string CustomIdentifier { get; }
         /// <summary> Optional filename of the file. </summary>
         public string FileName { get; }
         /// <summary> The date/time in ISO-8601 format when the document will be automatically deleted.  Defaults to no expiry. </summary>

@@ -50,8 +50,9 @@ namespace Affinda.API.Models
         /// <param name="username"> Username of the logged in user. </param>
         /// <param name="actions"> A list of actions to show in the dropdown in the embedded search tool. </param>
         /// <param name="hideToolbar"> Hide the reset/import toolbar. </param>
+        /// <param name="hideSidePanel"> Hide the entire side panel. </param>
         /// <param name="customFieldsConfig"></param>
-        internal JobDescriptionSearchConfig(bool? allowPdfDownload, int? maxResults, bool? displayJobTitle, bool? displayLocation, bool? displayYearsExperience, bool? displayOccupationGroup, bool? displayEducation, bool? displaySkills, bool? displayLanguages, bool? displayManagementLevel, bool? displayKeywords, float? weightJobTitle, float? weightLocation, float? weightYearsExperience, float? weightOccupationGroup, float? weightEducation, float? weightSkills, float? weightLanguages, float? weightManagementLevel, float? weightKeywords, IList<string> indices, bool? showIndexDropdown, IDictionary<string, object> searchToolTheme, int? userId, string username, IList<SearchConfigAction> actions, bool? hideToolbar, IList<CustomFieldConfig> customFieldsConfig)
+        internal JobDescriptionSearchConfig(bool? allowPdfDownload, int? maxResults, bool? displayJobTitle, bool? displayLocation, bool? displayYearsExperience, bool? displayOccupationGroup, bool? displayEducation, bool? displaySkills, bool? displayLanguages, bool? displayManagementLevel, bool? displayKeywords, float? weightJobTitle, float? weightLocation, float? weightYearsExperience, float? weightOccupationGroup, float? weightEducation, float? weightSkills, float? weightLanguages, float? weightManagementLevel, float? weightKeywords, IList<string> indices, bool? showIndexDropdown, IDictionary<string, object> searchToolTheme, int? userId, string username, IList<SearchConfigAction> actions, bool? hideToolbar, bool? hideSidePanel, IList<CustomFieldConfig> customFieldsConfig)
         {
             AllowPdfDownload = allowPdfDownload;
             MaxResults = maxResults;
@@ -80,6 +81,7 @@ namespace Affinda.API.Models
             Username = username;
             Actions = actions;
             HideToolbar = hideToolbar;
+            HideSidePanel = hideSidePanel;
             CustomFieldsConfig = customFieldsConfig;
         }
 
@@ -137,6 +139,8 @@ namespace Affinda.API.Models
         public IList<SearchConfigAction> Actions { get; set; }
         /// <summary> Hide the reset/import toolbar. </summary>
         public bool? HideToolbar { get; set; }
+        /// <summary> Hide the entire side panel. </summary>
+        public bool? HideSidePanel { get; set; }
         /// <summary> Gets or sets the custom fields config. </summary>
         public IList<CustomFieldConfig> CustomFieldsConfig { get; set; }
     }

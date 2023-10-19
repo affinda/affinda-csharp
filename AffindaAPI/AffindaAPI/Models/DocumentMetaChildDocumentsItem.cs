@@ -16,13 +16,13 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of DocumentMetaChildDocumentsItem. </summary>
-        /// <param name="identifier"> Uniquely identify a document. </param>
+        /// <param name="identifier"> Unique identifier for the document. </param>
         internal DocumentMetaChildDocumentsItem(string identifier)
         {
             Identifier = identifier;
         }
 
-        /// <summary> Uniquely identify a document. </summary>
+        /// <summary> Unique identifier for the document. </summary>
         public string Identifier { get; set; }
     }
 }

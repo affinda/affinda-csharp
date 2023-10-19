@@ -21,7 +21,7 @@ namespace Affinda.API.Models
 
         /// <summary> x/y coordinates for the rectangles containing the data. An annotation can be contained within multiple rectangles. </summary>
         public IList<Rectangle> Rectangles { get; set; }
-        /// <summary> Uniquely identify a document. </summary>
+        /// <summary> Unique identifier for the document. </summary>
         public string Document { get; set; }
         /// <summary> The page number within the document, starting from 0. </summary>
         public int? PageIndex { get; set; }

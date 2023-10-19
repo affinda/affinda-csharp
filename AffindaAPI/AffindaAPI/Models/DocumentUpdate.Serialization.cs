@@ -76,6 +76,11 @@ namespace Affinda.API.Models
                 writer.WritePropertyName("identifier");
                 writer.WriteStringValue(Identifier);
             }
+            if (Optional.IsDefined(CustomIdentifier))
+            {
+                writer.WritePropertyName("customIdentifier");
+                writer.WriteStringValue(CustomIdentifier);
+            }
             writer.WriteEndObject();
         }
     }

@@ -11,7 +11,7 @@ using Azure.Core;
 
 namespace Affinda.API.Models
 {
-    public partial class Document : IUtf8JsonSerializable
+    public partial class ResumeRedact : IUtf8JsonSerializable
     {
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
         {
@@ -43,18 +43,8 @@ namespace Affinda.API.Models
             writer.WriteEndObject();
         }
 
-        internal static Document DeserializeDocument(JsonElement element)
+        internal static ResumeRedact DeserializeResumeRedact(JsonElement element)
         {
-            if (element.TryGetProperty("extractor", out JsonElement discriminator))
-            {
-                switch (discriminator.GetString())
-                {
-                    case "invoice": return Invoice.DeserializeInvoice(element);
-                    case "job-description": return JobDescription.DeserializeJobDescription(element);
-                    case "resume": return Resume.DeserializeResume(element);
-                    case "resume-redact": return ResumeRedact.DeserializeResumeRedact(element);
-                }
-            }
             Optional<object> data = default;
             string extractor = default;
             DocumentMeta meta = default;
@@ -108,7 +98,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new Document(data.Value, extractor, meta, error.Value, Optional.ToList(warnings));
+            return new ResumeRedact(data.Value, extractor, meta, error.Value, Optional.ToList(warnings));
         }
     }
 }

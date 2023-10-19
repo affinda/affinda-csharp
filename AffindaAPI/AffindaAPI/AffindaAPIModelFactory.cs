@@ -487,7 +487,8 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of Meta. </summary>
-        /// <param name="identifier"> Uniquely identify a document. </param>
+        /// <param name="identifier"> Unique identifier for the document. </param>
+        /// <param name="customIdentifier"> Optional identifier for the document that you can set to track the document in the Affinda system.  Is not required to be unique. </param>
         /// <param name="fileName"> Optional filename of the file. </param>
         /// <param name="ready"> If true, the document has finished processing. Particularly useful if an endpoint request specified wait=False, when polling use this variable to determine when to stop polling. </param>
         /// <param name="readyDt"> The datetime when the document was ready. </param>
@@ -505,16 +506,16 @@ namespace Affinda.API.Models
         /// <param name="documentType"></param>
         /// <param name="regionBias"></param>
         /// <returns> A new <see cref="Models.Meta"/> instance for mocking. </returns>
-        public static Meta Meta(string identifier = null, string fileName = null, bool? ready = null, DateTimeOffset? readyDt = null, bool? failed = null, string expiryTime = null, string language = null, string pdf = null, MetaParentDocument parentDocument = null, IEnumerable<MetaChildDocumentsItem> childDocuments = null, IEnumerable<PageMeta> pages = null, bool? isVerified = null, string reviewUrl = null, float? ocrConfidence = null, DateTimeOffset? createdDt = null, string documentType = null, RegionBias regionBias = null)
+        public static Meta Meta(string identifier = null, string customIdentifier = null, string fileName = null, bool? ready = null, DateTimeOffset? readyDt = null, bool? failed = null, string expiryTime = null, string language = null, string pdf = null, MetaParentDocument parentDocument = null, IEnumerable<MetaChildDocumentsItem> childDocuments = null, IEnumerable<PageMeta> pages = null, bool? isVerified = null, string reviewUrl = null, float? ocrConfidence = null, DateTimeOffset? createdDt = null, string documentType = null, RegionBias regionBias = null)
         {
             childDocuments ??= new List<MetaChildDocumentsItem>();
             pages ??= new List<PageMeta>();
 
-            return new Meta(identifier, fileName, ready, readyDt, failed, expiryTime, language, pdf, parentDocument, childDocuments?.ToList(), pages?.ToList(), isVerified, reviewUrl, ocrConfidence, createdDt, documentType, regionBias);
+            return new Meta(identifier, customIdentifier, fileName, ready, readyDt, failed, expiryTime, language, pdf, parentDocument, childDocuments?.ToList(), pages?.ToList(), isVerified, reviewUrl, ocrConfidence, createdDt, documentType, regionBias);
         }
 
         /// <summary> Initializes a new instance of MetaParentDocument. </summary>
-        /// <param name="identifier"> Uniquely identify a document. </param>
+        /// <param name="identifier"> Unique identifier for the document. </param>
         /// <returns> A new <see cref="Models.MetaParentDocument"/> instance for mocking. </returns>
         public static MetaParentDocument MetaParentDocument(string identifier = null)
         {
@@ -522,7 +523,7 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of MetaChildDocumentsItem. </summary>
-        /// <param name="identifier"> Uniquely identify a document. </param>
+        /// <param name="identifier"> Unique identifier for the document. </param>
         /// <returns> A new <see cref="Models.MetaChildDocumentsItem"/> instance for mocking. </returns>
         public static MetaChildDocumentsItem MetaChildDocumentsItem(string identifier = null)
         {
@@ -1214,16 +1215,17 @@ namespace Affinda.API.Models
         /// <param name="username"> Username of the logged in user. </param>
         /// <param name="actions"> A list of actions to show in the dropdown in the embedded search tool. </param>
         /// <param name="hideToolbar"> Hide the reset/import toolbar. </param>
+        /// <param name="hideSidePanel"> Hide the entire side panel. </param>
         /// <param name="customFieldsConfig"></param>
         /// <returns> A new <see cref="Models.JobDescriptionSearchConfig"/> instance for mocking. </returns>
-        public static JobDescriptionSearchConfig JobDescriptionSearchConfig(bool? allowPdfDownload = null, int? maxResults = null, bool? displayJobTitle = null, bool? displayLocation = null, bool? displayYearsExperience = null, bool? displayOccupationGroup = null, bool? displayEducation = null, bool? displaySkills = null, bool? displayLanguages = null, bool? displayManagementLevel = null, bool? displayKeywords = null, float? weightJobTitle = null, float? weightLocation = null, float? weightYearsExperience = null, float? weightOccupationGroup = null, float? weightEducation = null, float? weightSkills = null, float? weightLanguages = null, float? weightManagementLevel = null, float? weightKeywords = null, IEnumerable<string> indices = null, bool? showIndexDropdown = null, IDictionary<string, object> searchToolTheme = null, int? userId = null, string username = null, IEnumerable<SearchConfigAction> actions = null, bool? hideToolbar = null, IEnumerable<CustomFieldConfig> customFieldsConfig = null)
+        public static JobDescriptionSearchConfig JobDescriptionSearchConfig(bool? allowPdfDownload = null, int? maxResults = null, bool? displayJobTitle = null, bool? displayLocation = null, bool? displayYearsExperience = null, bool? displayOccupationGroup = null, bool? displayEducation = null, bool? displaySkills = null, bool? displayLanguages = null, bool? displayManagementLevel = null, bool? displayKeywords = null, float? weightJobTitle = null, float? weightLocation = null, float? weightYearsExperience = null, float? weightOccupationGroup = null, float? weightEducation = null, float? weightSkills = null, float? weightLanguages = null, float? weightManagementLevel = null, float? weightKeywords = null, IEnumerable<string> indices = null, bool? showIndexDropdown = null, IDictionary<string, object> searchToolTheme = null, int? userId = null, string username = null, IEnumerable<SearchConfigAction> actions = null, bool? hideToolbar = null, bool? hideSidePanel = null, IEnumerable<CustomFieldConfig> customFieldsConfig = null)
         {
             indices ??= new List<string>();
             searchToolTheme ??= new Dictionary<string, object>();
             actions ??= new List<SearchConfigAction>();
             customFieldsConfig ??= new List<CustomFieldConfig>();
 
-            return new JobDescriptionSearchConfig(allowPdfDownload, maxResults, displayJobTitle, displayLocation, displayYearsExperience, displayOccupationGroup, displayEducation, displaySkills, displayLanguages, displayManagementLevel, displayKeywords, weightJobTitle, weightLocation, weightYearsExperience, weightOccupationGroup, weightEducation, weightSkills, weightLanguages, weightManagementLevel, weightKeywords, indices?.ToList(), showIndexDropdown, searchToolTheme, userId, username, actions?.ToList(), hideToolbar, customFieldsConfig?.ToList());
+            return new JobDescriptionSearchConfig(allowPdfDownload, maxResults, displayJobTitle, displayLocation, displayYearsExperience, displayOccupationGroup, displayEducation, displaySkills, displayLanguages, displayManagementLevel, displayKeywords, weightJobTitle, weightLocation, weightYearsExperience, weightOccupationGroup, weightEducation, weightSkills, weightLanguages, weightManagementLevel, weightKeywords, indices?.ToList(), showIndexDropdown, searchToolTheme, userId, username, actions?.ToList(), hideToolbar, hideSidePanel, customFieldsConfig?.ToList());
         }
 
         /// <summary> Initializes a new instance of JobDescriptionSearchEmbed. </summary>
@@ -1597,16 +1599,17 @@ namespace Affinda.API.Models
         /// <param name="username"> Username of the logged in user. </param>
         /// <param name="actions"> A list of actions to show in the dropdown in the embedded search tool. </param>
         /// <param name="hideToolbar"> Hide the reset/import toolbar. </param>
+        /// <param name="hideSidePanel"> Hide the entire side panel. </param>
         /// <param name="customFieldsConfig"></param>
         /// <returns> A new <see cref="Models.ResumeSearchConfig"/> instance for mocking. </returns>
-        public static ResumeSearchConfig ResumeSearchConfig(bool? allowPdfDownload = null, int? maxResults = null, bool? displayJobTitle = null, bool? displayLocation = null, bool? displayYearsExperience = null, bool? displayOccupationGroup = null, bool? displayEducation = null, bool? displaySkills = null, bool? displayLanguages = null, bool? displayManagementLevel = null, bool? displayKeywords = null, float? weightJobTitle = null, float? weightLocation = null, float? weightYearsExperience = null, float? weightOccupationGroup = null, float? weightEducation = null, float? weightSkills = null, float? weightLanguages = null, float? weightManagementLevel = null, float? weightKeywords = null, IEnumerable<string> indices = null, bool? showIndexDropdown = null, IDictionary<string, object> searchToolTheme = null, int? userId = null, string username = null, IEnumerable<SearchConfigAction> actions = null, bool? hideToolbar = null, IEnumerable<CustomFieldConfig> customFieldsConfig = null)
+        public static ResumeSearchConfig ResumeSearchConfig(bool? allowPdfDownload = null, int? maxResults = null, bool? displayJobTitle = null, bool? displayLocation = null, bool? displayYearsExperience = null, bool? displayOccupationGroup = null, bool? displayEducation = null, bool? displaySkills = null, bool? displayLanguages = null, bool? displayManagementLevel = null, bool? displayKeywords = null, float? weightJobTitle = null, float? weightLocation = null, float? weightYearsExperience = null, float? weightOccupationGroup = null, float? weightEducation = null, float? weightSkills = null, float? weightLanguages = null, float? weightManagementLevel = null, float? weightKeywords = null, IEnumerable<string> indices = null, bool? showIndexDropdown = null, IDictionary<string, object> searchToolTheme = null, int? userId = null, string username = null, IEnumerable<SearchConfigAction> actions = null, bool? hideToolbar = null, bool? hideSidePanel = null, IEnumerable<CustomFieldConfig> customFieldsConfig = null)
         {
             indices ??= new List<string>();
             searchToolTheme ??= new Dictionary<string, object>();
             actions ??= new List<SearchConfigAction>();
             customFieldsConfig ??= new List<CustomFieldConfig>();
 
-            return new ResumeSearchConfig(allowPdfDownload, maxResults, displayJobTitle, displayLocation, displayYearsExperience, displayOccupationGroup, displayEducation, displaySkills, displayLanguages, displayManagementLevel, displayKeywords, weightJobTitle, weightLocation, weightYearsExperience, weightOccupationGroup, weightEducation, weightSkills, weightLanguages, weightManagementLevel, weightKeywords, indices?.ToList(), showIndexDropdown, searchToolTheme, userId, username, actions?.ToList(), hideToolbar, customFieldsConfig?.ToList());
+            return new ResumeSearchConfig(allowPdfDownload, maxResults, displayJobTitle, displayLocation, displayYearsExperience, displayOccupationGroup, displayEducation, displaySkills, displayLanguages, displayManagementLevel, displayKeywords, weightJobTitle, weightLocation, weightYearsExperience, weightOccupationGroup, weightEducation, weightSkills, weightLanguages, weightManagementLevel, weightKeywords, indices?.ToList(), showIndexDropdown, searchToolTheme, userId, username, actions?.ToList(), hideToolbar, hideSidePanel, customFieldsConfig?.ToList());
         }
 
         /// <summary> Initializes a new instance of ResumeSearchEmbed. </summary>
@@ -1621,7 +1624,7 @@ namespace Affinda.API.Models
         /// <param name="id"> Annotation&apos;s ID. </param>
         /// <param name="rectangle"> x/y coordinates for the rectangular bounding box containing the data. </param>
         /// <param name="rectangles"> x/y coordinates for the rectangles containing the data. An annotation can be contained within multiple rectangles. </param>
-        /// <param name="document"> Uniquely identify a document. </param>
+        /// <param name="document"> Unique identifier for the document. </param>
         /// <param name="pageIndex"> The page number within the document, starting from 0. </param>
         /// <param name="raw"> Raw data extracted from the before any post-processing. </param>
         /// <param name="confidence"> The overall confidence that the model&apos;s prediction is correct. </param>
@@ -1647,7 +1650,7 @@ namespace Affinda.API.Models
         /// <param name="id"> Annotation&apos;s ID. </param>
         /// <param name="rectangle"> x/y coordinates for the rectangular bounding box containing the data. </param>
         /// <param name="rectangles"> x/y coordinates for the rectangles containing the data. An annotation can be contained within multiple rectangles. </param>
-        /// <param name="document"> Uniquely identify a document. </param>
+        /// <param name="document"> Unique identifier for the document. </param>
         /// <param name="pageIndex"> The page number within the document, starting from 0. </param>
         /// <param name="raw"> Raw data extracted from the before any post-processing. </param>
         /// <param name="confidence"> The overall confidence that the model&apos;s prediction is correct. </param>

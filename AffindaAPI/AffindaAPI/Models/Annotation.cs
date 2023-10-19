@@ -57,7 +57,7 @@ namespace Affinda.API.Models
         /// <param name="id"> Annotation&apos;s ID. </param>
         /// <param name="rectangle"> x/y coordinates for the rectangular bounding box containing the data. </param>
         /// <param name="rectangles"> x/y coordinates for the rectangles containing the data. An annotation can be contained within multiple rectangles. </param>
-        /// <param name="document"> Uniquely identify a document. </param>
+        /// <param name="document"> Unique identifier for the document. </param>
         /// <param name="pageIndex"> The page number within the document, starting from 0. </param>
         /// <param name="raw"> Raw data extracted from the before any post-processing. </param>
         /// <param name="confidence"> The overall confidence that the model&apos;s prediction is correct. </param>
@@ -94,7 +94,7 @@ namespace Affinda.API.Models
         public Rectangle Rectangle { get; set; }
         /// <summary> x/y coordinates for the rectangles containing the data. An annotation can be contained within multiple rectangles. </summary>
         public IList<Rectangle> Rectangles { get; set; }
-        /// <summary> Uniquely identify a document. </summary>
+        /// <summary> Unique identifier for the document. </summary>
         public string Document { get; set; }
         /// <summary> The page number within the document, starting from 0. </summary>
         public int? PageIndex { get; set; }

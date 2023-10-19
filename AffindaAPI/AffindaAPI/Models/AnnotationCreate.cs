@@ -15,7 +15,7 @@ namespace Affinda.API.Models
     public partial class AnnotationCreate
     {
         /// <summary> Initializes a new instance of AnnotationCreate. </summary>
-        /// <param name="document"> Uniquely identify a document. </param>
+        /// <param name="document"> Unique identifier for the document. </param>
         /// <param name="pageIndex"> The page number within the document, starting from 0. </param>
         /// <param name="dataPoint"> Data point&apos;s identifier. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="document"/> or <paramref name="dataPoint"/> is null. </exception>
@@ -38,7 +38,7 @@ namespace Affinda.API.Models
 
         /// <summary> x/y coordinates for the rectangles containing the data. An annotation can be contained within multiple rectangles. </summary>
         public IList<Rectangle> Rectangles { get; set; }
-        /// <summary> Uniquely identify a document. </summary>
+        /// <summary> Unique identifier for the document. </summary>
         public string Document { get; }
         /// <summary> The page number within the document, starting from 0. </summary>
         public int? PageIndex { get; }

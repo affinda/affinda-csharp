@@ -1359,7 +1359,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllDocumentsRequest(int? offset, int? limit, string workspace, string collection, DocumentState? state, IEnumerable<int> tags, DateRange? createdDt, string search, IEnumerable<Get8ItemsItem> ordering, bool? includeData, IEnumerable<string> exclude, bool? inReview, bool? failed, bool? ready, bool? validatable, bool? hasChallenges)
+        internal HttpMessage CreateGetAllDocumentsRequest(int? offset, int? limit, string workspace, string collection, DocumentState? state, IEnumerable<int> tags, DateRange? createdDt, string search, IEnumerable<Get8ItemsItem> ordering, bool? includeData, IEnumerable<string> exclude, bool? inReview, bool? failed, bool? ready, bool? validatable, bool? hasChallenges, string customIdentifier)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1433,6 +1433,10 @@ namespace Affinda.API
             {
                 uri.AppendQuery("has_challenges", hasChallenges.Value, true);
             }
+            if (customIdentifier != null)
+            {
+                uri.AppendQuery("custom_identifier", customIdentifier, true);
+            }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -1455,11 +1459,12 @@ namespace Affinda.API
         /// <param name="ready"> Filter by ready status. </param>
         /// <param name="validatable"> Filter for validatable documents. </param>
         /// <param name="hasChallenges"> Filter for documents with challenges. </param>
+        /// <param name="customIdentifier"> Filter for documents with this custom identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the document summaries for that user, limited to 300 per page. </remarks>
-        public async Task<Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema>> GetAllDocumentsAsync(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, bool? failed = null, bool? ready = null, bool? validatable = null, bool? hasChallenges = null, CancellationToken cancellationToken = default)
+        public async Task<Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema>> GetAllDocumentsAsync(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, bool? failed = null, bool? ready = null, bool? validatable = null, bool? hasChallenges = null, string customIdentifier = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllDocumentsRequest(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview, failed, ready, validatable, hasChallenges);
+            using var message = CreateGetAllDocumentsRequest(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview, failed, ready, validatable, hasChallenges, customIdentifier);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1492,11 +1497,12 @@ namespace Affinda.API
         /// <param name="ready"> Filter by ready status. </param>
         /// <param name="validatable"> Filter for validatable documents. </param>
         /// <param name="hasChallenges"> Filter for documents with challenges. </param>
+        /// <param name="customIdentifier"> Filter for documents with this custom identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the document summaries for that user, limited to 300 per page. </remarks>
-        public Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema> GetAllDocuments(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, bool? failed = null, bool? ready = null, bool? validatable = null, bool? hasChallenges = null, CancellationToken cancellationToken = default)
+        public Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema> GetAllDocuments(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<Get8ItemsItem> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, bool? failed = null, bool? ready = null, bool? validatable = null, bool? hasChallenges = null, string customIdentifier = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllDocumentsRequest(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview, failed, ready, validatable, hasChallenges);
+            using var message = CreateGetAllDocumentsRequest(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview, failed, ready, validatable, hasChallenges, customIdentifier);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -1512,7 +1518,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateCreateDocumentRequest(Stream file, string url, string data, string collection, string workspace, string wait, string identifier, string fileName, string expiryTime, string language, string rejectDuplicates, string regionBias, string lowPriority)
+        internal HttpMessage CreateCreateDocumentRequest(Stream file, string url, string data, string collection, string workspace, string wait, string identifier, string customIdentifier, string fileName, string expiryTime, string language, string rejectDuplicates, string regionBias, string lowPriority)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1554,6 +1560,10 @@ namespace Affinda.API
             {
                 content.Add(new StringRequestContent(identifier), "identifier", null);
             }
+            if (customIdentifier != null)
+            {
+                content.Add(new StringRequestContent(customIdentifier), "customIdentifier", null);
+            }
             if (fileName != null)
             {
                 content.Add(new StringRequestContent(fileName), "fileName", null);
@@ -1589,7 +1599,8 @@ namespace Affinda.API
         /// <param name="collection"> The String to use. </param>
         /// <param name="workspace"> The String to use. </param>
         /// <param name="wait"> The String to use. </param>
-        /// <param name="identifier"> Specify a custom identifier for the document. </param>
+        /// <param name="identifier"> Deprecated in favor of `customIdentifier`. </param>
+        /// <param name="customIdentifier"> Specify a custom identifier for the document if you need one, not required to be unique. </param>
         /// <param name="fileName"> The String to use. </param>
         /// <param name="expiryTime"> The String to use. </param>
         /// <param name="language"> The String to use. </param>
@@ -1600,9 +1611,9 @@ namespace Affinda.API
         /// <remarks>
         /// Uploads a document for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/documents/{identifier}](#get-/v3/documents/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
         /// </remarks>
-        public async Task<Response<Document>> CreateDocumentAsync(Stream file = null, string url = null, string data = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, string regionBias = null, string lowPriority = null, CancellationToken cancellationToken = default)
+        public async Task<Response<Document>> CreateDocumentAsync(Stream file = null, string url = null, string data = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string customIdentifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, string regionBias = null, string lowPriority = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateDocumentRequest(file, url, data, collection, workspace, wait, identifier, fileName, expiryTime, language, rejectDuplicates, regionBias, lowPriority);
+            using var message = CreateCreateDocumentRequest(file, url, data, collection, workspace, wait, identifier, customIdentifier, fileName, expiryTime, language, rejectDuplicates, regionBias, lowPriority);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1626,7 +1637,8 @@ namespace Affinda.API
         /// <param name="collection"> The String to use. </param>
         /// <param name="workspace"> The String to use. </param>
         /// <param name="wait"> The String to use. </param>
-        /// <param name="identifier"> Specify a custom identifier for the document. </param>
+        /// <param name="identifier"> Deprecated in favor of `customIdentifier`. </param>
+        /// <param name="customIdentifier"> Specify a custom identifier for the document if you need one, not required to be unique. </param>
         /// <param name="fileName"> The String to use. </param>
         /// <param name="expiryTime"> The String to use. </param>
         /// <param name="language"> The String to use. </param>
@@ -1637,9 +1649,9 @@ namespace Affinda.API
         /// <remarks>
         /// Uploads a document for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/documents/{identifier}](#get-/v3/documents/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
         /// </remarks>
-        public Response<Document> CreateDocument(Stream file = null, string url = null, string data = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, string regionBias = null, string lowPriority = null, CancellationToken cancellationToken = default)
+        public Response<Document> CreateDocument(Stream file = null, string url = null, string data = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string customIdentifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, string regionBias = null, string lowPriority = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateDocumentRequest(file, url, data, collection, workspace, wait, identifier, fileName, expiryTime, language, rejectDuplicates, regionBias, lowPriority);
+            using var message = CreateCreateDocumentRequest(file, url, data, collection, workspace, wait, identifier, customIdentifier, fileName, expiryTime, language, rejectDuplicates, regionBias, lowPriority);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {

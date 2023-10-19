@@ -16,7 +16,7 @@ namespace Affinda.API.Models
     public partial class DocumentMeta
     {
         /// <summary> Initializes a new instance of DocumentMeta. </summary>
-        /// <param name="identifier"> Uniquely identify a document. </param>
+        /// <param name="identifier"> Unique identifier for the document. </param>
         /// <param name="pages"> The document&apos;s pages. </param>
         /// <param name="workspace"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/>, <paramref name="pages"/> or <paramref name="workspace"/> is null. </exception>
@@ -43,7 +43,8 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of DocumentMeta. </summary>
-        /// <param name="identifier"> Uniquely identify a document. </param>
+        /// <param name="identifier"> Unique identifier for the document. </param>
+        /// <param name="customIdentifier"> Optional identifier for the document that you can set to track the document in the Affinda system.  Is not required to be unique. </param>
         /// <param name="fileName"> Optional filename of the file. </param>
         /// <param name="ready"> If true, the document has finished processing. Particularly useful if an endpoint request specified wait=False, when polling use this variable to determine when to stop polling. </param>
         /// <param name="readyDt"> The datetime when the document was ready. </param>
@@ -74,9 +75,10 @@ namespace Affinda.API.Models
         /// <param name="createdBy"></param>
         /// <param name="sourceEmail"> If the document is created via email ingestion, this field stores the email file&apos;s URL. </param>
         /// <param name="regionBias"></param>
-        internal DocumentMeta(string identifier, string fileName, bool? ready, DateTimeOffset? readyDt, bool? failed, string expiryTime, string language, string pdf, DocumentMetaParentDocument parentDocument, IList<DocumentMetaChildDocumentsItem> childDocuments, IList<PageMeta> pages, bool? isOcrd, float? ocrConfidence, string reviewUrl, DocumentMetaCollection collection, DocumentMetaWorkspace workspace, DateTimeOffset? archivedDt, bool? isArchived, DateTimeOffset? confirmedDt, bool? isConfirmed, DateTimeOffset? rejectedDt, bool? isRejected, DateTimeOffset? createdDt, string errorCode, string errorDetail, string file, IList<Tag> tags, UserNullable confirmedBy, User createdBy, string sourceEmail, RegionBias regionBias)
+        internal DocumentMeta(string identifier, string customIdentifier, string fileName, bool? ready, DateTimeOffset? readyDt, bool? failed, string expiryTime, string language, string pdf, DocumentMetaParentDocument parentDocument, IList<DocumentMetaChildDocumentsItem> childDocuments, IList<PageMeta> pages, bool? isOcrd, float? ocrConfidence, string reviewUrl, DocumentMetaCollection collection, DocumentMetaWorkspace workspace, DateTimeOffset? archivedDt, bool? isArchived, DateTimeOffset? confirmedDt, bool? isConfirmed, DateTimeOffset? rejectedDt, bool? isRejected, DateTimeOffset? createdDt, string errorCode, string errorDetail, string file, IList<Tag> tags, UserNullable confirmedBy, User createdBy, string sourceEmail, RegionBias regionBias)
         {
             Identifier = identifier;
+            CustomIdentifier = customIdentifier;
             FileName = fileName;
             Ready = ready;
             ReadyDt = readyDt;
@@ -109,8 +111,10 @@ namespace Affinda.API.Models
             RegionBias = regionBias;
         }
 
-        /// <summary> Uniquely identify a document. </summary>
+        /// <summary> Unique identifier for the document. </summary>
         public string Identifier { get; set; }
+        /// <summary> Optional identifier for the document that you can set to track the document in the Affinda system.  Is not required to be unique. </summary>
+        public string CustomIdentifier { get; set; }
         /// <summary> Optional filename of the file. </summary>
         public string FileName { get; set; }
         /// <summary> If true, the document has finished processing. Particularly useful if an endpoint request specified wait=False, when polling use this variable to determine when to stop polling. </summary>

@@ -19,6 +19,18 @@ namespace Affinda.API.Models
             writer.WriteStartObject();
             writer.WritePropertyName("identifier");
             writer.WriteStringValue(Identifier);
+            if (Optional.IsDefined(CustomIdentifier))
+            {
+                if (CustomIdentifier != null)
+                {
+                    writer.WritePropertyName("customIdentifier");
+                    writer.WriteStringValue(CustomIdentifier);
+                }
+                else
+                {
+                    writer.WriteNull("customIdentifier");
+                }
+            }
             if (Optional.IsDefined(FileName))
             {
                 if (FileName != null)
@@ -310,6 +322,7 @@ namespace Affinda.API.Models
         internal static DocumentMeta DeserializeDocumentMeta(JsonElement element)
         {
             string identifier = default;
+            Optional<string> customIdentifier = default;
             Optional<string> fileName = default;
             Optional<bool> ready = default;
             Optional<DateTimeOffset?> readyDt = default;
@@ -345,6 +358,16 @@ namespace Affinda.API.Models
                 if (property.NameEquals("identifier"))
                 {
                     identifier = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("customIdentifier"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        customIdentifier = null;
+                        continue;
+                    }
+                    customIdentifier = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("fileName"))
@@ -653,7 +676,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new DocumentMeta(identifier, fileName.Value, Optional.ToNullable(ready), Optional.ToNullable(readyDt), Optional.ToNullable(failed), expiryTime.Value, language.Value, pdf.Value, parentDocument.Value, Optional.ToList(childDocuments), pages, Optional.ToNullable(isOcrd), Optional.ToNullable(ocrConfidence), reviewUrl.Value, collection.Value, workspace, Optional.ToNullable(archivedDt), Optional.ToNullable(isArchived), Optional.ToNullable(confirmedDt), Optional.ToNullable(isConfirmed), Optional.ToNullable(rejectedDt), Optional.ToNullable(isRejected), Optional.ToNullable(createdDt), errorCode.Value, errorDetail.Value, file.Value, Optional.ToList(tags), confirmedBy.Value, createdBy.Value, sourceEmail.Value, regionBias.Value);
+            return new DocumentMeta(identifier, customIdentifier.Value, fileName.Value, Optional.ToNullable(ready), Optional.ToNullable(readyDt), Optional.ToNullable(failed), expiryTime.Value, language.Value, pdf.Value, parentDocument.Value, Optional.ToList(childDocuments), pages, Optional.ToNullable(isOcrd), Optional.ToNullable(ocrConfidence), reviewUrl.Value, collection.Value, workspace, Optional.ToNullable(archivedDt), Optional.ToNullable(isArchived), Optional.ToNullable(confirmedDt), Optional.ToNullable(isConfirmed), Optional.ToNullable(rejectedDt), Optional.ToNullable(isRejected), Optional.ToNullable(createdDt), errorCode.Value, errorDetail.Value, file.Value, Optional.ToList(tags), confirmedBy.Value, createdBy.Value, sourceEmail.Value, regionBias.Value);
         }
     }
 }

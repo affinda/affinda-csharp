@@ -29,7 +29,9 @@ namespace Affinda.API.Models
         public bool? IsArchived { get; set; }
         /// <summary> Language code in ISO 639-1 format. Must specify zh-cn or zh-tw for Chinese. </summary>
         public string Language { get; set; }
-        /// <summary> Specify a custom identifier for the document. </summary>
+        /// <summary> Deprecated in favor of `customIdentifier`. </summary>
         public string Identifier { get; set; }
+        /// <summary> Specify a custom identifier for the document if you need one, not required to be unique. </summary>
+        public string CustomIdentifier { get; set; }
     }
 }
