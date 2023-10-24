@@ -232,16 +232,17 @@ namespace Affinda.API.Models
         /// <param name="label"></param>
         /// <param name="mandatory"></param>
         /// <param name="showDropdown"></param>
+        /// <param name="displayEnumValue"> If true, both the value and the label for the enums will appear in the dropdown in the validation tool. </param>
         /// <param name="autoValidationThreshold"></param>
         /// <param name="enabledChildFields"></param>
         /// <param name="disabledChildFields"></param>
         /// <returns> A new <see cref="Models.DataFieldField"/> instance for mocking. </returns>
-        public static DataFieldField DataFieldField(string label = null, bool mandatory = default, bool showDropdown = default, float? autoValidationThreshold = null, IEnumerable<Field> enabledChildFields = null, IEnumerable<Field> disabledChildFields = null)
+        public static DataFieldField DataFieldField(string label = null, bool mandatory = default, bool showDropdown = default, bool displayEnumValue = default, float? autoValidationThreshold = null, IEnumerable<Field> enabledChildFields = null, IEnumerable<Field> disabledChildFields = null)
         {
             enabledChildFields ??= new List<Field>();
             disabledChildFields ??= new List<Field>();
 
-            return new DataFieldField(label, mandatory, showDropdown, autoValidationThreshold, enabledChildFields?.ToList(), disabledChildFields?.ToList());
+            return new DataFieldField(label, mandatory, showDropdown, displayEnumValue, autoValidationThreshold, enabledChildFields?.ToList(), disabledChildFields?.ToList());
         }
 
         /// <summary> Initializes a new instance of DataFieldDataPoint. </summary>
@@ -273,16 +274,15 @@ namespace Affinda.API.Models
         /// <param name="extractor"> Uniquely identify an extractor. </param>
         /// <param name="multiple"></param>
         /// <param name="noRect"></param>
-        /// <param name="displayEnumValue"> If true, both the value and the label for the enums will appear in the dropdown in the validation tool. </param>
         /// <param name="parent"> The identifier of the parent data point if applicable. </param>
         /// <param name="children"></param>
         /// <param name="manualEntry"> If true, the model will not be used to predict this data point. Instead, the user will be able to manually enter the value in the validation tool. </param>
         /// <returns> A new <see cref="Models.DataPoint"/> instance for mocking. </returns>
-        public static DataPoint DataPoint(string identifier = null, string name = null, string slug = null, string description = null, AnnotationContentType annotationContentType = default, Organization organization = null, string extractor = null, bool? multiple = null, bool? noRect = null, bool? displayEnumValue = null, string parent = null, IEnumerable<DataPoint> children = null, bool? manualEntry = null)
+        public static DataPoint DataPoint(string identifier = null, string name = null, string slug = null, string description = null, AnnotationContentType annotationContentType = default, Organization organization = null, string extractor = null, bool? multiple = null, bool? noRect = null, string parent = null, IEnumerable<DataPoint> children = null, bool? manualEntry = null)
         {
             children ??= new List<DataPoint>();
 
-            return new DataPoint(identifier, name, slug, description, annotationContentType, organization, extractor, multiple, noRect, displayEnumValue, parent, children?.ToList(), manualEntry);
+            return new DataPoint(identifier, name, slug, description, annotationContentType, organization, extractor, multiple, noRect, parent, children?.ToList(), manualEntry);
         }
 
         /// <summary> Initializes a new instance of UsageByCollection. </summary>

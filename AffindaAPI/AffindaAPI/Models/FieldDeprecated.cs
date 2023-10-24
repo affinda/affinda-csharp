@@ -42,8 +42,9 @@ namespace Affinda.API.Models
         /// <param name="disabled"></param>
         /// <param name="autoValidationThreshold"></param>
         /// <param name="showDropdown"></param>
+        /// <param name="displayEnumValue"></param>
         /// <param name="fields"></param>
-        internal FieldDeprecated(string label, string slug, string dataPoint, bool? mandatory, bool? disabled, float? autoValidationThreshold, bool? showDropdown, IList<FieldDeprecated> fields)
+        internal FieldDeprecated(string label, string slug, string dataPoint, bool? mandatory, bool? disabled, float? autoValidationThreshold, bool? showDropdown, bool? displayEnumValue, IList<FieldDeprecated> fields)
         {
             Label = label;
             Slug = slug;
@@ -52,6 +53,7 @@ namespace Affinda.API.Models
             Disabled = disabled;
             AutoValidationThreshold = autoValidationThreshold;
             ShowDropdown = showDropdown;
+            DisplayEnumValue = displayEnumValue;
             Fields = fields;
         }
 
@@ -69,6 +71,8 @@ namespace Affinda.API.Models
         public float? AutoValidationThreshold { get; set; }
         /// <summary> Gets or sets the show dropdown. </summary>
         public bool? ShowDropdown { get; set; }
+        /// <summary> Gets or sets the display enum value. </summary>
+        public bool? DisplayEnumValue { get; set; }
         /// <summary> Gets the fields. </summary>
         public IList<FieldDeprecated> Fields { get; }
     }

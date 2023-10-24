@@ -42,17 +42,19 @@ namespace Affinda.API.Models
         /// <param name="mandatory"></param>
         /// <param name="autoValidationThreshold"></param>
         /// <param name="showDropdown"></param>
+        /// <param name="displayEnumValue"> If true, both the value and the label for the enums will appear in the dropdown in the validation tool. </param>
         /// <param name="enabledChildFields"></param>
         /// <param name="disabledChildFields"></param>
         /// <param name="slug"></param>
         /// <param name="fields"></param>
-        internal Field(string label, string dataPoint, bool? mandatory, float? autoValidationThreshold, bool? showDropdown, IList<Field> enabledChildFields, IList<Field> disabledChildFields, string slug, IList<object> fields)
+        internal Field(string label, string dataPoint, bool? mandatory, float? autoValidationThreshold, bool? showDropdown, bool? displayEnumValue, IList<Field> enabledChildFields, IList<Field> disabledChildFields, string slug, IList<object> fields)
         {
             Label = label;
             DataPoint = dataPoint;
             Mandatory = mandatory;
             AutoValidationThreshold = autoValidationThreshold;
             ShowDropdown = showDropdown;
+            DisplayEnumValue = displayEnumValue;
             EnabledChildFields = enabledChildFields;
             DisabledChildFields = disabledChildFields;
             Slug = slug;
@@ -69,6 +71,8 @@ namespace Affinda.API.Models
         public float? AutoValidationThreshold { get; set; }
         /// <summary> Gets or sets the show dropdown. </summary>
         public bool? ShowDropdown { get; set; }
+        /// <summary> If true, both the value and the label for the enums will appear in the dropdown in the validation tool. </summary>
+        public bool? DisplayEnumValue { get; set; }
         /// <summary> Gets the enabled child fields. </summary>
         public IList<Field> EnabledChildFields { get; }
         /// <summary> Gets the disabled child fields. </summary>

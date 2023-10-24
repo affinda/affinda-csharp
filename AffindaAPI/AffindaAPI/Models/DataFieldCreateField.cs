@@ -31,6 +31,8 @@ namespace Affinda.API.Models
         public bool? Mandatory { get; set; }
         /// <summary> Gets or sets the show dropdown. </summary>
         public bool? ShowDropdown { get; set; }
+        /// <summary> If true, both the value and the label for the enums will appear in the dropdown in the validation tool. </summary>
+        public bool? DisplayEnumValue { get; set; }
         /// <summary> Gets or sets the auto validation threshold. </summary>
         public float? AutoValidationThreshold { get; set; }
     }

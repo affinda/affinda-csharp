@@ -37,11 +37,6 @@ namespace Affinda.API.Models
                     writer.WriteNull("description");
                 }
             }
-            if (Optional.IsDefined(DisplayEnumValue))
-            {
-                writer.WritePropertyName("displayEnumValue");
-                writer.WriteBooleanValue(DisplayEnumValue.Value);
-            }
             if (Optional.IsDefined(Parent))
             {
                 if (Parent != null)

@@ -18,6 +18,7 @@ namespace Affinda.API.Models
             string label = default;
             bool mandatory = default;
             bool showDropdown = default;
+            bool displayEnumValue = default;
             float? autoValidationThreshold = default;
             IReadOnlyList<Field> enabledChildFields = default;
             IReadOnlyList<Field> disabledChildFields = default;
@@ -36,6 +37,11 @@ namespace Affinda.API.Models
                 if (property.NameEquals("showDropdown"))
                 {
                     showDropdown = property.Value.GetBoolean();
+                    continue;
+                }
+                if (property.NameEquals("displayEnumValue"))
+                {
+                    displayEnumValue = property.Value.GetBoolean();
                     continue;
                 }
                 if (property.NameEquals("autoValidationThreshold"))
@@ -69,7 +75,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new DataFieldField(label, mandatory, showDropdown, autoValidationThreshold, enabledChildFields, disabledChildFields);
+            return new DataFieldField(label, mandatory, showDropdown, displayEnumValue, autoValidationThreshold, enabledChildFields, disabledChildFields);
         }
     }
 }

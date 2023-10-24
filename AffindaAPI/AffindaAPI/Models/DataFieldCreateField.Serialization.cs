@@ -27,6 +27,11 @@ namespace Affinda.API.Models
                 writer.WritePropertyName("showDropdown");
                 writer.WriteBooleanValue(ShowDropdown.Value);
             }
+            if (Optional.IsDefined(DisplayEnumValue))
+            {
+                writer.WritePropertyName("displayEnumValue");
+                writer.WriteBooleanValue(DisplayEnumValue.Value);
+            }
             if (Optional.IsDefined(AutoValidationThreshold))
             {
                 if (AutoValidationThreshold != null)

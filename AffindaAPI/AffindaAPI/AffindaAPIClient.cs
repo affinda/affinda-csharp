@@ -680,6 +680,88 @@ namespace Affinda.API
             }
         }
 
+        /// <summary> Get data field for a collection assosciated with a data point. </summary>
+        /// <param name="identifier"> Collection&apos;s identifier. </param>
+        /// <param name="datapointIdentifier"> Datapoint&apos;s identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Get a data field for a collection assosciated with a data point. </remarks>
+        public virtual async Task<Response<CollectionField>> GetDataFieldForCollectionAsync(string identifier, string datapointIdentifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetDataFieldForCollection");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetDataFieldForCollectionAsync(identifier, datapointIdentifier, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get data field for a collection assosciated with a data point. </summary>
+        /// <param name="identifier"> Collection&apos;s identifier. </param>
+        /// <param name="datapointIdentifier"> Datapoint&apos;s identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Get a data field for a collection assosciated with a data point. </remarks>
+        public virtual Response<CollectionField> GetDataFieldForCollection(string identifier, string datapointIdentifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetDataFieldForCollection");
+            scope.Start();
+            try
+            {
+                return RestClient.GetDataFieldForCollection(identifier, datapointIdentifier, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update data field for a collection assosciated with a data point. </summary>
+        /// <param name="identifier"> Collection&apos;s identifier. </param>
+        /// <param name="datapointIdentifier"> Datapoint&apos;s identifier. </param>
+        /// <param name="body"> Data field properties to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Update data field for a collection assosciated with a data point. </remarks>
+        public virtual async Task<Response<CollectionField>> UpdateDataFieldForCollectionAsync(string identifier, string datapointIdentifier, CollectionField body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateDataFieldForCollection");
+            scope.Start();
+            try
+            {
+                return await RestClient.UpdateDataFieldForCollectionAsync(identifier, datapointIdentifier, body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update data field for a collection assosciated with a data point. </summary>
+        /// <param name="identifier"> Collection&apos;s identifier. </param>
+        /// <param name="datapointIdentifier"> Datapoint&apos;s identifier. </param>
+        /// <param name="body"> Data field properties to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Update data field for a collection assosciated with a data point. </remarks>
+        public virtual Response<CollectionField> UpdateDataFieldForCollection(string identifier, string datapointIdentifier, CollectionField body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateDataFieldForCollection");
+            scope.Start();
+            try
+            {
+                return RestClient.UpdateDataFieldForCollection(identifier, datapointIdentifier, body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
         /// <summary> Get usage by collection. </summary>
         /// <param name="identifier"> Collection&apos;s identifier. </param>
         /// <param name="start"> Start date of the period to retrieve. Format: YYYY-MM. </param>

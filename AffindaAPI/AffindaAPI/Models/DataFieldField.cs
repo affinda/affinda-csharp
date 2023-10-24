@@ -18,11 +18,12 @@ namespace Affinda.API.Models
         /// <param name="label"></param>
         /// <param name="mandatory"></param>
         /// <param name="showDropdown"></param>
+        /// <param name="displayEnumValue"> If true, both the value and the label for the enums will appear in the dropdown in the validation tool. </param>
         /// <param name="autoValidationThreshold"></param>
         /// <param name="enabledChildFields"></param>
         /// <param name="disabledChildFields"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="label"/>, <paramref name="enabledChildFields"/> or <paramref name="disabledChildFields"/> is null. </exception>
-        internal DataFieldField(string label, bool mandatory, bool showDropdown, float? autoValidationThreshold, IEnumerable<Field> enabledChildFields, IEnumerable<Field> disabledChildFields)
+        internal DataFieldField(string label, bool mandatory, bool showDropdown, bool displayEnumValue, float? autoValidationThreshold, IEnumerable<Field> enabledChildFields, IEnumerable<Field> disabledChildFields)
         {
             if (label == null)
             {
@@ -40,6 +41,7 @@ namespace Affinda.API.Models
             Label = label;
             Mandatory = mandatory;
             ShowDropdown = showDropdown;
+            DisplayEnumValue = displayEnumValue;
             AutoValidationThreshold = autoValidationThreshold;
             EnabledChildFields = enabledChildFields.ToList();
             DisabledChildFields = disabledChildFields.ToList();
@@ -49,14 +51,16 @@ namespace Affinda.API.Models
         /// <param name="label"></param>
         /// <param name="mandatory"></param>
         /// <param name="showDropdown"></param>
+        /// <param name="displayEnumValue"> If true, both the value and the label for the enums will appear in the dropdown in the validation tool. </param>
         /// <param name="autoValidationThreshold"></param>
         /// <param name="enabledChildFields"></param>
         /// <param name="disabledChildFields"></param>
-        internal DataFieldField(string label, bool mandatory, bool showDropdown, float? autoValidationThreshold, IReadOnlyList<Field> enabledChildFields, IReadOnlyList<Field> disabledChildFields)
+        internal DataFieldField(string label, bool mandatory, bool showDropdown, bool displayEnumValue, float? autoValidationThreshold, IReadOnlyList<Field> enabledChildFields, IReadOnlyList<Field> disabledChildFields)
         {
             Label = label;
             Mandatory = mandatory;
             ShowDropdown = showDropdown;
+            DisplayEnumValue = displayEnumValue;
             AutoValidationThreshold = autoValidationThreshold;
             EnabledChildFields = enabledChildFields;
             DisabledChildFields = disabledChildFields;
@@ -68,6 +72,8 @@ namespace Affinda.API.Models
         public bool Mandatory { get; }
         /// <summary> Gets the show dropdown. </summary>
         public bool ShowDropdown { get; }
+        /// <summary> If true, both the value and the label for the enums will appear in the dropdown in the validation tool. </summary>
+        public bool DisplayEnumValue { get; }
         /// <summary> Gets the auto validation threshold. </summary>
         public float? AutoValidationThreshold { get; }
         /// <summary> Gets the enabled child fields. </summary>

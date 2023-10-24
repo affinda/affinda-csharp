@@ -61,8 +61,6 @@ namespace Affinda.API.Models
         public bool? Multiple { get; set; }
         /// <summary> Gets or sets the no rect. </summary>
         public bool? NoRect { get; set; }
-        /// <summary> If true, both the value and the label for the enums will appear in the dropdown in the validation tool. </summary>
-        public bool? DisplayEnumValue { get; set; }
         /// <summary> The identifier of the parent data point if applicable. </summary>
         public string Parent { get; set; }
         /// <summary> If true, the model will not be used to predict this data point. Instead, the user will be able to manually enter the value in the validation tool. </summary>

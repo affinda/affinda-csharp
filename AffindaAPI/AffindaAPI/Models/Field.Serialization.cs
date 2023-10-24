@@ -42,6 +42,11 @@ namespace Affinda.API.Models
                 writer.WritePropertyName("showDropdown");
                 writer.WriteBooleanValue(ShowDropdown.Value);
             }
+            if (Optional.IsDefined(DisplayEnumValue))
+            {
+                writer.WritePropertyName("displayEnumValue");
+                writer.WriteBooleanValue(DisplayEnumValue.Value);
+            }
             if (Optional.IsCollectionDefined(EnabledChildFields))
             {
                 writer.WritePropertyName("enabledChildFields");
@@ -101,6 +106,7 @@ namespace Affinda.API.Models
             Optional<bool> mandatory = default;
             Optional<float?> autoValidationThreshold = default;
             Optional<bool> showDropdown = default;
+            Optional<bool> displayEnumValue = default;
             Optional<IList<Field>> enabledChildFields = default;
             Optional<IList<Field>> disabledChildFields = default;
             Optional<string> slug = default;
@@ -145,6 +151,16 @@ namespace Affinda.API.Models
                         continue;
                     }
                     showDropdown = property.Value.GetBoolean();
+                    continue;
+                }
+                if (property.NameEquals("displayEnumValue"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    displayEnumValue = property.Value.GetBoolean();
                     continue;
                 }
                 if (property.NameEquals("enabledChildFields"))
@@ -203,7 +219,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new Field(label, dataPoint, Optional.ToNullable(mandatory), Optional.ToNullable(autoValidationThreshold), Optional.ToNullable(showDropdown), Optional.ToList(enabledChildFields), Optional.ToList(disabledChildFields), slug.Value, Optional.ToList(fields));
+            return new Field(label, dataPoint, Optional.ToNullable(mandatory), Optional.ToNullable(autoValidationThreshold), Optional.ToNullable(showDropdown), Optional.ToNullable(displayEnumValue), Optional.ToList(enabledChildFields), Optional.ToList(disabledChildFields), slug.Value, Optional.ToList(fields));
         }
     }
 }

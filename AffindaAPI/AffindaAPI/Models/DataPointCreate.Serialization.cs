@@ -47,11 +47,6 @@ namespace Affinda.API.Models
                 writer.WritePropertyName("noRect");
                 writer.WriteBooleanValue(NoRect.Value);
             }
-            if (Optional.IsDefined(DisplayEnumValue))
-            {
-                writer.WritePropertyName("displayEnumValue");
-                writer.WriteBooleanValue(DisplayEnumValue.Value);
-            }
             if (Optional.IsDefined(Parent))
             {
                 if (Parent != null)
