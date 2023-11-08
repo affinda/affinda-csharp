@@ -40,25 +40,15 @@ namespace Affinda.API.Models
             {
                 writer.WriteNull("rectangle");
             }
-            if (Rectangles != null)
+            writer.WritePropertyName("rectangles");
+            writer.WriteStartArray();
+            foreach (var item in Rectangles)
             {
-                writer.WritePropertyName("rectangles");
-                writer.WriteStartArray();
-                foreach (var item in Rectangles)
-                {
-                    writer.WriteObjectValue(item);
-                }
-                writer.WriteEndArray();
+                writer.WriteObjectValue(item);
             }
-            else
-            {
-                writer.WriteNull("rectangles");
-            }
-            if (Optional.IsDefined(Document))
-            {
-                writer.WritePropertyName("document");
-                writer.WriteStringValue(Document);
-            }
+            writer.WriteEndArray();
+            writer.WritePropertyName("document");
+            writer.WriteStringValue(Document);
             if (PageIndex != null)
             {
                 writer.WritePropertyName("pageIndex");
@@ -114,6 +104,18 @@ namespace Affinda.API.Models
             writer.WriteStringValue(DataPoint);
             writer.WritePropertyName("contentType");
             writer.WriteStringValue(ContentType.ToString());
+            if (Optional.IsDefined(Parent))
+            {
+                if (Parent != null)
+                {
+                    writer.WritePropertyName("parent");
+                    writer.WriteNumberValue(Parent.Value);
+                }
+                else
+                {
+                    writer.WriteNull("parent");
+                }
+            }
             foreach (var item in AdditionalProperties)
             {
                 writer.WritePropertyName(item.Key);
@@ -128,7 +130,7 @@ namespace Affinda.API.Models
             int id = default;
             Rectangle rectangle = default;
             IList<Rectangle> rectangles = default;
-            Optional<string> document = default;
+            string document = default;
             int? pageIndex = default;
             string raw = default;
             float? confidence = default;
@@ -139,6 +141,7 @@ namespace Affinda.API.Models
             bool isAutoVerified = default;
             string dataPoint = default;
             AnnotationContentType contentType = default;
+            Optional<int?> parent = default;
             IDictionary<string, object> additionalProperties = default;
             Dictionary<string, object> additionalPropertiesDictionary = new Dictionary<string, object>();
             foreach (var property in element.EnumerateObject())
@@ -170,11 +173,6 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("rectangles"))
                 {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        rectangles = null;
-                        continue;
-                    }
                     List<Rectangle> array = new List<Rectangle>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
@@ -263,10 +261,20 @@ namespace Affinda.API.Models
                     contentType = new AnnotationContentType(property.Value.GetString());
                     continue;
                 }
+                if (property.NameEquals("parent"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        parent = null;
+                        continue;
+                    }
+                    parent = property.Value.GetInt32();
+                    continue;
+                }
                 additionalPropertiesDictionary.Add(property.Name, property.Value.GetObject());
             }
             additionalProperties = additionalPropertiesDictionary;
-            return new DateAnnotation(id, rectangle, rectangles, document.Value, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties, Optional.ToNullable(parsed));
+            return new DateAnnotation(id, rectangle, rectangles, document, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, Optional.ToNullable(parent), additionalProperties, Optional.ToNullable(parsed));
         }
     }
 }

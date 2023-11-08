@@ -17,6 +17,7 @@ namespace Affinda.API.Models
         /// <param name="id"> Annotation&apos;s ID. </param>
         /// <param name="rectangle"> x/y coordinates for the rectangular bounding box containing the data. </param>
         /// <param name="rectangles"> x/y coordinates for the rectangles containing the data. An annotation can be contained within multiple rectangles. </param>
+        /// <param name="document"> Unique identifier for the document. </param>
         /// <param name="pageIndex"> The page number within the document, starting from 0. </param>
         /// <param name="raw"> Raw data extracted from the before any post-processing. </param>
         /// <param name="confidence"> The overall confidence that the model&apos;s prediction is correct. </param>
@@ -27,9 +28,17 @@ namespace Affinda.API.Models
         /// <param name="isAutoVerified"> Indicates whether the data has been auto-validated. </param>
         /// <param name="dataPoint"> Data point&apos;s identifier. </param>
         /// <param name="contentType"> The different data types of annotations. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="dataPoint"/> is null. </exception>
-        public TableAnnotation(int id, Rectangle rectangle, IEnumerable<Rectangle> rectangles, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool isClientVerified, bool isAutoVerified, string dataPoint, AnnotationContentType contentType) : base(id, rectangle, rectangles, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType)
+        /// <exception cref="ArgumentNullException"> <paramref name="rectangles"/>, <paramref name="document"/> or <paramref name="dataPoint"/> is null. </exception>
+        public TableAnnotation(int id, Rectangle rectangle, IEnumerable<Rectangle> rectangles, string document, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool isClientVerified, bool isAutoVerified, string dataPoint, AnnotationContentType contentType) : base(id, rectangle, rectangles, document, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType)
         {
+            if (rectangles == null)
+            {
+                throw new ArgumentNullException(nameof(rectangles));
+            }
+            if (document == null)
+            {
+                throw new ArgumentNullException(nameof(document));
+            }
             if (dataPoint == null)
             {
                 throw new ArgumentNullException(nameof(dataPoint));
@@ -51,9 +60,10 @@ namespace Affinda.API.Models
         /// <param name="isAutoVerified"> Indicates whether the data has been auto-validated. </param>
         /// <param name="dataPoint"> Data point&apos;s identifier. </param>
         /// <param name="contentType"> The different data types of annotations. </param>
+        /// <param name="parent"> The parent annotation&apos;s ID. </param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
-        internal TableAnnotation(int id, Rectangle rectangle, IList<Rectangle> rectangles, string document, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool isClientVerified, bool isAutoVerified, string dataPoint, AnnotationContentType contentType, IDictionary<string, object> additionalProperties, TableAnnotationParsed parsed) : base(id, rectangle, rectangles, document, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties)
+        internal TableAnnotation(int id, Rectangle rectangle, IList<Rectangle> rectangles, string document, int? pageIndex, string raw, float? confidence, float? classificationConfidence, float? textExtractionConfidence, bool isVerified, bool isClientVerified, bool isAutoVerified, string dataPoint, AnnotationContentType contentType, int? parent, IDictionary<string, object> additionalProperties, TableAnnotationParsed parsed) : base(id, rectangle, rectangles, document, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, parent, additionalProperties)
         {
             Parsed = parsed;
         }

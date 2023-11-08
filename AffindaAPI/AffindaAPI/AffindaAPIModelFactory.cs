@@ -1262,7 +1262,7 @@ namespace Affinda.API.Models
         /// <param name="name"></param>
         /// <param name="documentType"></param>
         /// <returns> A new <see cref="Models.Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema"/> instance for mocking. </returns>
-        public static Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema(string name = null, Enum21? documentType = null)
+        public static Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema(string name = null, Enum20? documentType = null)
         {
             return new Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema(name, documentType);
         }
@@ -1635,15 +1635,16 @@ namespace Affinda.API.Models
         /// <param name="isAutoVerified"> Indicates whether the data has been auto-validated. </param>
         /// <param name="dataPoint"> Data point&apos;s identifier. </param>
         /// <param name="contentType"> The different data types of annotations. </param>
+        /// <param name="parent"> The parent annotation&apos;s ID. </param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.LanguageAnnotation"/> instance for mocking. </returns>
-        public static LanguageAnnotation LanguageAnnotation(int id = default, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, string document = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool isClientVerified = default, bool isAutoVerified = default, string dataPoint = null, AnnotationContentType contentType = default, IDictionary<string, object> additionalProperties = null, string parsed = null)
+        public static LanguageAnnotation LanguageAnnotation(int id = default, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, string document = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool isClientVerified = default, bool isAutoVerified = default, string dataPoint = null, AnnotationContentType contentType = default, int? parent = null, IDictionary<string, object> additionalProperties = null, string parsed = null)
         {
             rectangles ??= new List<Rectangle>();
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new LanguageAnnotation(id, rectangle, rectangles?.ToList(), document, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties, parsed);
+            return new LanguageAnnotation(id, rectangle, rectangles?.ToList(), document, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, parent, additionalProperties, parsed);
         }
 
         /// <summary> Initializes a new instance of SkillAnnotation. </summary>
@@ -1661,15 +1662,16 @@ namespace Affinda.API.Models
         /// <param name="isAutoVerified"> Indicates whether the data has been auto-validated. </param>
         /// <param name="dataPoint"> Data point&apos;s identifier. </param>
         /// <param name="contentType"> The different data types of annotations. </param>
+        /// <param name="parent"> The parent annotation&apos;s ID. </param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <param name="parsed"></param>
         /// <returns> A new <see cref="Models.SkillAnnotation"/> instance for mocking. </returns>
-        public static SkillAnnotation SkillAnnotation(int id = default, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, string document = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool isClientVerified = default, bool isAutoVerified = default, string dataPoint = null, AnnotationContentType contentType = default, IDictionary<string, object> additionalProperties = null, string parsed = null)
+        public static SkillAnnotation SkillAnnotation(int id = default, Rectangle rectangle = null, IEnumerable<Rectangle> rectangles = null, string document = null, int? pageIndex = null, string raw = null, float? confidence = null, float? classificationConfidence = null, float? textExtractionConfidence = null, bool isVerified = default, bool isClientVerified = default, bool isAutoVerified = default, string dataPoint = null, AnnotationContentType contentType = default, int? parent = null, IDictionary<string, object> additionalProperties = null, string parsed = null)
         {
             rectangles ??= new List<Rectangle>();
             additionalProperties ??= new Dictionary<string, object>();
 
-            return new SkillAnnotation(id, rectangle, rectangles?.ToList(), document, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, additionalProperties, parsed);
+            return new SkillAnnotation(id, rectangle, rectangles?.ToList(), document, pageIndex, raw, confidence, classificationConfidence, textExtractionConfidence, isVerified, isClientVerified, isAutoVerified, dataPoint, contentType, parent, additionalProperties, parsed);
         }
     }
 }

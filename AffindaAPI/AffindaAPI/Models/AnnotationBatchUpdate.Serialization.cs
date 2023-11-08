@@ -19,20 +19,13 @@ namespace Affinda.API.Models
             writer.WriteNumberValue(Id);
             if (Optional.IsCollectionDefined(Rectangles))
             {
-                if (Rectangles != null)
+                writer.WritePropertyName("rectangles");
+                writer.WriteStartArray();
+                foreach (var item in Rectangles)
                 {
-                    writer.WritePropertyName("rectangles");
-                    writer.WriteStartArray();
-                    foreach (var item in Rectangles)
-                    {
-                        writer.WriteObjectValue(item);
-                    }
-                    writer.WriteEndArray();
+                    writer.WriteObjectValue(item);
                 }
-                else
-                {
-                    writer.WriteNull("rectangles");
-                }
+                writer.WriteEndArray();
             }
             if (Optional.IsDefined(Document))
             {
