@@ -1541,7 +1541,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllDocumentsRequest(int? offset, int? limit, string workspace, string collection, DocumentState? state, IEnumerable<int> tags, DateRange? createdDt, string search, IEnumerable<string> ordering, bool? includeData, IEnumerable<string> exclude, bool? inReview, bool? failed, bool? ready, bool? validatable, bool? hasChallenges, string customIdentifier)
+        internal HttpMessage CreateGetAllDocumentsRequest(int? offset, int? limit, string workspace, string collection, DocumentState? state, IEnumerable<int> tags, DateRange? createdDt, string search, IEnumerable<string> ordering, bool? includeData, IEnumerable<string> exclude, bool? inReview, bool? failed, bool? ready, bool? validatable, bool? hasChallenges, string customIdentifier, bool? compact)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1619,6 +1619,10 @@ namespace Affinda.API
             {
                 uri.AppendQuery("custom_identifier", customIdentifier, true);
             }
+            if (compact != null)
+            {
+                uri.AppendQuery("compact", compact.Value, true);
+            }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -1642,11 +1646,12 @@ namespace Affinda.API
         /// <param name="validatable"> Filter for validatable documents. </param>
         /// <param name="hasChallenges"> Filter for documents with challenges. </param>
         /// <param name="customIdentifier"> Filter for documents with this custom identifier. </param>
+        /// <param name="compact"> If &quot;true&quot;, the response is compacted to annotations&apos; parsed data. Annotations&apos; meta data are excluded. Default is &quot;false&quot;. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the document summaries for that user, limited to 300 per page. </remarks>
-        public async Task<Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema>> GetAllDocumentsAsync(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<string> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, bool? failed = null, bool? ready = null, bool? validatable = null, bool? hasChallenges = null, string customIdentifier = null, CancellationToken cancellationToken = default)
+        public async Task<Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema>> GetAllDocumentsAsync(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<string> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, bool? failed = null, bool? ready = null, bool? validatable = null, bool? hasChallenges = null, string customIdentifier = null, bool? compact = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllDocumentsRequest(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview, failed, ready, validatable, hasChallenges, customIdentifier);
+            using var message = CreateGetAllDocumentsRequest(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview, failed, ready, validatable, hasChallenges, customIdentifier, compact);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1680,11 +1685,12 @@ namespace Affinda.API
         /// <param name="validatable"> Filter for validatable documents. </param>
         /// <param name="hasChallenges"> Filter for documents with challenges. </param>
         /// <param name="customIdentifier"> Filter for documents with this custom identifier. </param>
+        /// <param name="compact"> If &quot;true&quot;, the response is compacted to annotations&apos; parsed data. Annotations&apos; meta data are excluded. Default is &quot;false&quot;. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the document summaries for that user, limited to 300 per page. </remarks>
-        public Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema> GetAllDocuments(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<string> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, bool? failed = null, bool? ready = null, bool? validatable = null, bool? hasChallenges = null, string customIdentifier = null, CancellationToken cancellationToken = default)
+        public Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema> GetAllDocuments(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<string> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, bool? failed = null, bool? ready = null, bool? validatable = null, bool? hasChallenges = null, string customIdentifier = null, bool? compact = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllDocumentsRequest(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview, failed, ready, validatable, hasChallenges, customIdentifier);
+            using var message = CreateGetAllDocumentsRequest(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview, failed, ready, validatable, hasChallenges, customIdentifier, compact);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -1850,7 +1856,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetDocumentRequest(string identifier, DocumentFormat? format)
+        internal HttpMessage CreateGetDocumentRequest(string identifier, DocumentFormat? format, bool? compact)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1865,6 +1871,10 @@ namespace Affinda.API
             {
                 uri.AppendQuery("format", format.Value.ToString(), true);
             }
+            if (compact != null)
+            {
+                uri.AppendQuery("compact", compact.Value, true);
+            }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -1873,17 +1883,18 @@ namespace Affinda.API
         /// <summary> Get specific document. </summary>
         /// <param name="identifier"> Document&apos;s identifier. </param>
         /// <param name="format"> Specify which format you want the response to be. Default is &quot;json&quot;. </param>
+        /// <param name="compact"> If &quot;true&quot;, the response is compacted to annotations&apos; parsed data. Annotations&apos; meta data are excluded. Default is &quot;false&quot;. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
         /// <remarks> Return a specific document. </remarks>
-        public async Task<Response<Document>> GetDocumentAsync(string identifier, DocumentFormat? format = null, CancellationToken cancellationToken = default)
+        public async Task<Response<Document>> GetDocumentAsync(string identifier, DocumentFormat? format = null, bool? compact = null, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
             {
                 throw new ArgumentNullException(nameof(identifier));
             }
 
-            using var message = CreateGetDocumentRequest(identifier, format);
+            using var message = CreateGetDocumentRequest(identifier, format, compact);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1902,17 +1913,18 @@ namespace Affinda.API
         /// <summary> Get specific document. </summary>
         /// <param name="identifier"> Document&apos;s identifier. </param>
         /// <param name="format"> Specify which format you want the response to be. Default is &quot;json&quot;. </param>
+        /// <param name="compact"> If &quot;true&quot;, the response is compacted to annotations&apos; parsed data. Annotations&apos; meta data are excluded. Default is &quot;false&quot;. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
         /// <remarks> Return a specific document. </remarks>
-        public Response<Document> GetDocument(string identifier, DocumentFormat? format = null, CancellationToken cancellationToken = default)
+        public Response<Document> GetDocument(string identifier, DocumentFormat? format = null, bool? compact = null, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
             {
                 throw new ArgumentNullException(nameof(identifier));
             }
 
-            using var message = CreateGetDocumentRequest(identifier, format);
+            using var message = CreateGetDocumentRequest(identifier, format, compact);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -7175,7 +7187,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateCreateIndexRequest(string name, string documentType)
+        internal HttpMessage CreateCreateIndexRequest(IndexCreate body)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -7187,36 +7199,34 @@ namespace Affinda.API
             uri.AppendPath("/v3/index", false);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
-            request.Headers.Add("Content-Type", "multipart/form-data");
-            var content = new MultipartFormDataContent();
-            if (name != null)
-            {
-                content.Add(new StringRequestContent(name), "name", null);
-            }
-            if (documentType != null)
-            {
-                content.Add(new StringRequestContent(documentType), "documentType", null);
-            }
-            content.ApplyToRequest(request);
+            request.Headers.Add("Content-Type", "application/json");
+            var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(body);
+            request.Content = content;
             return message;
         }
 
         /// <summary> Create a new index. </summary>
-        /// <param name="name"> The String to use. </param>
-        /// <param name="documentType"> The String to use. </param>
+        /// <param name="body"> Index to create. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
         /// <remarks> Create an index for the search tool. </remarks>
-        public async Task<Response<Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema>> CreateIndexAsync(string name = null, string documentType = null, CancellationToken cancellationToken = default)
+        public async Task<Response<Models.Index>> CreateIndexAsync(IndexCreate body, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateIndexRequest(name, documentType);
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateCreateIndexRequest(body);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
                 case 201:
                     {
-                        Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema value = default;
+                        Models.Index value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema.DeserializePaths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema(document.RootElement);
+                        value = Models.Index.DeserializeIndex(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -7225,21 +7235,112 @@ namespace Affinda.API
         }
 
         /// <summary> Create a new index. </summary>
-        /// <param name="name"> The String to use. </param>
-        /// <param name="documentType"> The String to use. </param>
+        /// <param name="body"> Index to create. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
         /// <remarks> Create an index for the search tool. </remarks>
-        public Response<Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema> CreateIndex(string name = null, string documentType = null, CancellationToken cancellationToken = default)
+        public Response<Models.Index> CreateIndex(IndexCreate body, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateIndexRequest(name, documentType);
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateCreateIndexRequest(body);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
                 case 201:
                     {
-                        Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema value = default;
+                        Models.Index value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema.DeserializePaths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema(document.RootElement);
+                        value = Models.Index.DeserializeIndex(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateUpdateIndexRequest(string name, IndexUpdate body)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Patch;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/index/", false);
+            uri.AppendPath(name, true);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Content-Type", "application/json");
+            var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(body);
+            request.Content = content;
+            return message;
+        }
+
+        /// <summary> Update an index. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="body"> Index data to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/> or <paramref name="body"/> is null. </exception>
+        /// <remarks> Updates the specified index. </remarks>
+        public async Task<Response<Models.Index>> UpdateIndexAsync(string name, IndexUpdate body, CancellationToken cancellationToken = default)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateUpdateIndexRequest(name, body);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        Models.Index value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = Models.Index.DeserializeIndex(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Update an index. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="body"> Index data to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/> or <paramref name="body"/> is null. </exception>
+        /// <remarks> Updates the specified index. </remarks>
+        public Response<Models.Index> UpdateIndex(string name, IndexUpdate body, CancellationToken cancellationToken = default)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateUpdateIndexRequest(name, body);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        Models.Index value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = Models.Index.DeserializeIndex(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:

@@ -1237,34 +1237,67 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema. </summary>
-        /// <param name="count"> Number of indexes in result. </param>
+        /// <param name="count"> Number of items in results. </param>
         /// <param name="next"> URL to request next page of results. </param>
         /// <param name="previous"> URL to request previous page of results. </param>
         /// <param name="results"></param>
         /// <returns> A new <see cref="Models.PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema"/> instance for mocking. </returns>
-        public static PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema(int? count = null, string next = null, string previous = null, IEnumerable<Get200ApplicationJsonPropertiesItemsItem> results = null)
+        public static PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema(int count = default, string next = null, string previous = null, IEnumerable<Index> results = null)
         {
-            results ??= new List<Get200ApplicationJsonPropertiesItemsItem>();
+            results ??= new List<Index>();
 
             return new PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema(count, next, previous, results?.ToList());
         }
 
-        /// <summary> Initializes a new instance of Get200ApplicationJsonPropertiesItemsItem. </summary>
-        /// <param name="name"></param>
-        /// <param name="documentType"></param>
-        /// <returns> A new <see cref="Models.Get200ApplicationJsonPropertiesItemsItem"/> instance for mocking. </returns>
-        public static Get200ApplicationJsonPropertiesItemsItem Get200ApplicationJsonPropertiesItemsItem(string name = null, GetResponses200ContentApplicationJsonSchemaResultsItemDocumentType? documentType = null)
+        /// <summary> Initializes a new instance of Paths4T5Cm5V3IndexGetResponses200ContentApplicationJsonSchemaAllof1. </summary>
+        /// <param name="results"></param>
+        /// <returns> A new <see cref="Models.Paths4T5Cm5V3IndexGetResponses200ContentApplicationJsonSchemaAllof1"/> instance for mocking. </returns>
+        public static Paths4T5Cm5V3IndexGetResponses200ContentApplicationJsonSchemaAllof1 Paths4T5Cm5V3IndexGetResponses200ContentApplicationJsonSchemaAllof1(IEnumerable<Index> results = null)
         {
-            return new Get200ApplicationJsonPropertiesItemsItem(name, documentType);
+            results ??= new List<Index>();
+
+            return new Paths4T5Cm5V3IndexGetResponses200ContentApplicationJsonSchemaAllof1(results?.ToList());
         }
 
-        /// <summary> Initializes a new instance of Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema. </summary>
-        /// <param name="name"></param>
+        /// <summary> Initializes a new instance of Index. </summary>
+        /// <param name="name"> Unique index name. </param>
         /// <param name="documentType"></param>
-        /// <returns> A new <see cref="Models.Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema"/> instance for mocking. </returns>
-        public static Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema(string name = null, Enum20? documentType = null)
+        /// <param name="user"> The user who created this index. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/> or <paramref name="user"/> is null. </exception>
+        /// <returns> A new <see cref="Models.Index"/> instance for mocking. </returns>
+        public static Index Index(string name = null, IndexDocumentType documentType = default, IndexUser user = null)
         {
-            return new Paths1TvfqeiV3IndexPostResponses201ContentApplicationJsonSchema(name, documentType);
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+
+            return new Index(name, documentType, user);
+        }
+
+        /// <summary> Initializes a new instance of IndexUser. </summary>
+        /// <param name="id"> Uniquely identify a user. </param>
+        /// <param name="name"></param>
+        /// <param name="email"></param>
+        /// <param name="avatar"> URL of the user&apos;s avatar. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/> or <paramref name="email"/> is null. </exception>
+        /// <returns> A new <see cref="Models.IndexUser"/> instance for mocking. </returns>
+        public static IndexUser IndexUser(int id = default, string name = null, string email = null, string avatar = null)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+            if (email == null)
+            {
+                throw new ArgumentNullException(nameof(email));
+            }
+
+            return new IndexUser(id, name, email, avatar);
         }
 
         /// <summary> Initializes a new instance of PathsO7SnenV3IndexNameDocumentsGetResponses200ContentApplicationJsonSchema. </summary>
@@ -1273,19 +1306,19 @@ namespace Affinda.API.Models
         /// <param name="previous"> URL to request previous page of results. </param>
         /// <param name="results"></param>
         /// <returns> A new <see cref="Models.PathsO7SnenV3IndexNameDocumentsGetResponses200ContentApplicationJsonSchema"/> instance for mocking. </returns>
-        public static PathsO7SnenV3IndexNameDocumentsGetResponses200ContentApplicationJsonSchema PathsO7SnenV3IndexNameDocumentsGetResponses200ContentApplicationJsonSchema(int? count = null, string next = null, string previous = null, IEnumerable<Paths1Kdm1ZxV3IndexNameDocumentsGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems> results = null)
+        public static PathsO7SnenV3IndexNameDocumentsGetResponses200ContentApplicationJsonSchema PathsO7SnenV3IndexNameDocumentsGetResponses200ContentApplicationJsonSchema(int? count = null, string next = null, string previous = null, IEnumerable<Get200ApplicationJsonPropertiesItemsItem> results = null)
         {
-            results ??= new List<Paths1Kdm1ZxV3IndexNameDocumentsGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems>();
+            results ??= new List<Get200ApplicationJsonPropertiesItemsItem>();
 
             return new PathsO7SnenV3IndexNameDocumentsGetResponses200ContentApplicationJsonSchema(count, next, previous, results?.ToList());
         }
 
-        /// <summary> Initializes a new instance of Paths1Kdm1ZxV3IndexNameDocumentsGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems. </summary>
+        /// <summary> Initializes a new instance of Get200ApplicationJsonPropertiesItemsItem. </summary>
         /// <param name="document"></param>
-        /// <returns> A new <see cref="Models.Paths1Kdm1ZxV3IndexNameDocumentsGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems"/> instance for mocking. </returns>
-        public static Paths1Kdm1ZxV3IndexNameDocumentsGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems Paths1Kdm1ZxV3IndexNameDocumentsGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems(string document = null)
+        /// <returns> A new <see cref="Models.Get200ApplicationJsonPropertiesItemsItem"/> instance for mocking. </returns>
+        public static Get200ApplicationJsonPropertiesItemsItem Get200ApplicationJsonPropertiesItemsItem(string document = null)
         {
-            return new Paths1Kdm1ZxV3IndexNameDocumentsGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems(document);
+            return new Get200ApplicationJsonPropertiesItemsItem(document);
         }
 
         /// <summary> Initializes a new instance of PathsFte27NV3IndexNameDocumentsPostResponses201ContentApplicationJsonSchema. </summary>

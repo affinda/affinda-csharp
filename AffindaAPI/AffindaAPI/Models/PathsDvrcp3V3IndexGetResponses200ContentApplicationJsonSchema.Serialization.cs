@@ -15,19 +15,29 @@ namespace Affinda.API.Models
     {
         internal static PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema DeserializePathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema(JsonElement element)
         {
-            Optional<int> count = default;
+            Optional<IReadOnlyList<Index>> results = default;
+            int count = default;
             Optional<string> next = default;
             Optional<string> previous = default;
-            Optional<IReadOnlyList<Get200ApplicationJsonPropertiesItemsItem>> results = default;
             foreach (var property in element.EnumerateObject())
             {
-                if (property.NameEquals("count"))
+                if (property.NameEquals("results"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
                         property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
+                    List<Index> array = new List<Index>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(Index.DeserializeIndex(item));
+                    }
+                    results = array;
+                    continue;
+                }
+                if (property.NameEquals("count"))
+                {
                     count = property.Value.GetInt32();
                     continue;
                 }
@@ -51,23 +61,8 @@ namespace Affinda.API.Models
                     previous = property.Value.GetString();
                     continue;
                 }
-                if (property.NameEquals("results"))
-                {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        property.ThrowNonNullablePropertyIsNull();
-                        continue;
-                    }
-                    List<Get200ApplicationJsonPropertiesItemsItem> array = new List<Get200ApplicationJsonPropertiesItemsItem>();
-                    foreach (var item in property.Value.EnumerateArray())
-                    {
-                        array.Add(Get200ApplicationJsonPropertiesItemsItem.DeserializeGet200ApplicationJsonPropertiesItemsItem(item));
-                    }
-                    results = array;
-                    continue;
-                }
             }
-            return new PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema(Optional.ToNullable(count), next.Value, previous.Value, Optional.ToList(results));
+            return new PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema(count, next.Value, previous.Value, Optional.ToList(results));
         }
     }
 }
