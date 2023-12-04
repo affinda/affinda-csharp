@@ -25,6 +25,7 @@ namespace Affinda.API.Models
             string parent = default;
             IReadOnlyList<DataPoint> children = default;
             Optional<bool> manualEntry = default;
+            Optional<IReadOnlyList<MappingDataSource>> availableDataSources = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("identifier"))
@@ -97,8 +98,23 @@ namespace Affinda.API.Models
                     manualEntry = property.Value.GetBoolean();
                     continue;
                 }
+                if (property.NameEquals("availableDataSources"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    List<MappingDataSource> array = new List<MappingDataSource>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(MappingDataSource.DeserializeMappingDataSource(item));
+                    }
+                    availableDataSources = array;
+                    continue;
+                }
             }
-            return new DataFieldDataPoint(identifier, name, slug, description, type, multiple, noRect, parent, children, Optional.ToNullable(manualEntry));
+            return new DataFieldDataPoint(identifier, name, slug, description, type, multiple, noRect, parent, children, Optional.ToNullable(manualEntry), Optional.ToList(availableDataSources));
         }
     }
 }

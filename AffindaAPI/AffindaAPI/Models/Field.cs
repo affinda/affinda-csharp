@@ -17,8 +17,9 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of Field. </summary>
         /// <param name="label"></param>
         /// <param name="dataPoint"> Data point identifier. </param>
+        /// <param name="fieldType"> The different data types of annotations. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="label"/> or <paramref name="dataPoint"/> is null. </exception>
-        public Field(string label, string dataPoint)
+        public Field(string label, string dataPoint, AnnotationContentType fieldType)
         {
             if (label == null)
             {
@@ -31,6 +32,7 @@ namespace Affinda.API.Models
 
             Label = label;
             DataPoint = dataPoint;
+            FieldType = fieldType;
             EnabledChildFields = new ChangeTrackingList<Field>();
             DisabledChildFields = new ChangeTrackingList<Field>();
             Fields = new ChangeTrackingList<object>();
@@ -39,22 +41,30 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of Field. </summary>
         /// <param name="label"></param>
         /// <param name="dataPoint"> Data point identifier. </param>
+        /// <param name="fieldType"> The different data types of annotations. </param>
+        /// <param name="dataSource"> Data source mapping identifier. </param>
+        /// <param name="mapping"> Defines how the data point is mapped to the data source. </param>
         /// <param name="mandatory"></param>
         /// <param name="autoValidationThreshold"></param>
         /// <param name="showDropdown"></param>
         /// <param name="displayEnumValue"> If true, both the value and the label for the enums will appear in the dropdown in the validation tool. </param>
+        /// <param name="dropNullEnums"> If True, any dropdown annotations that fail to be mapped will be discarded. </param>
         /// <param name="enabledChildFields"></param>
         /// <param name="disabledChildFields"></param>
         /// <param name="slug"></param>
         /// <param name="fields"></param>
-        internal Field(string label, string dataPoint, bool? mandatory, float? autoValidationThreshold, bool? showDropdown, bool? displayEnumValue, IList<Field> enabledChildFields, IList<Field> disabledChildFields, string slug, IList<object> fields)
+        internal Field(string label, string dataPoint, AnnotationContentType fieldType, string dataSource, string mapping, bool? mandatory, float? autoValidationThreshold, bool? showDropdown, bool? displayEnumValue, bool? dropNullEnums, IList<Field> enabledChildFields, IList<Field> disabledChildFields, string slug, IList<object> fields)
         {
             Label = label;
             DataPoint = dataPoint;
+            FieldType = fieldType;
+            DataSource = dataSource;
+            Mapping = mapping;
             Mandatory = mandatory;
             AutoValidationThreshold = autoValidationThreshold;
             ShowDropdown = showDropdown;
             DisplayEnumValue = displayEnumValue;
+            DropNullEnums = dropNullEnums;
             EnabledChildFields = enabledChildFields;
             DisabledChildFields = disabledChildFields;
             Slug = slug;
@@ -65,6 +75,12 @@ namespace Affinda.API.Models
         public string Label { get; set; }
         /// <summary> Data point identifier. </summary>
         public string DataPoint { get; set; }
+        /// <summary> The different data types of annotations. </summary>
+        public AnnotationContentType FieldType { get; set; }
+        /// <summary> Data source mapping identifier. </summary>
+        public string DataSource { get; set; }
+        /// <summary> Defines how the data point is mapped to the data source. </summary>
+        public string Mapping { get; set; }
         /// <summary> Gets or sets the mandatory. </summary>
         public bool? Mandatory { get; set; }
         /// <summary> Gets or sets the auto validation threshold. </summary>
@@ -73,6 +89,8 @@ namespace Affinda.API.Models
         public bool? ShowDropdown { get; set; }
         /// <summary> If true, both the value and the label for the enums will appear in the dropdown in the validation tool. </summary>
         public bool? DisplayEnumValue { get; set; }
+        /// <summary> If True, any dropdown annotations that fail to be mapped will be discarded. </summary>
+        public bool? DropNullEnums { get; set; }
         /// <summary> Gets the enabled child fields. </summary>
         public IList<Field> EnabledChildFields { get; }
         /// <summary> Gets the disabled child fields. </summary>

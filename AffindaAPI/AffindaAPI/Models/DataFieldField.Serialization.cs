@@ -16,17 +16,29 @@ namespace Affinda.API.Models
         internal static DataFieldField DeserializeDataFieldField(JsonElement element)
         {
             string label = default;
+            Optional<AnnotationContentType> fieldType = default;
             bool mandatory = default;
             bool showDropdown = default;
             bool displayEnumValue = default;
             float? autoValidationThreshold = default;
             IReadOnlyList<Field> enabledChildFields = default;
             IReadOnlyList<Field> disabledChildFields = default;
+            Optional<string> dataSource = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("label"))
                 {
                     label = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("fieldType"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    fieldType = new AnnotationContentType(property.Value.GetString());
                     continue;
                 }
                 if (property.NameEquals("mandatory"))
@@ -74,8 +86,18 @@ namespace Affinda.API.Models
                     disabledChildFields = array;
                     continue;
                 }
+                if (property.NameEquals("dataSource"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        dataSource = null;
+                        continue;
+                    }
+                    dataSource = property.Value.GetString();
+                    continue;
+                }
             }
-            return new DataFieldField(label, mandatory, showDropdown, displayEnumValue, autoValidationThreshold, enabledChildFields, disabledChildFields);
+            return new DataFieldField(label, Optional.ToNullable(fieldType), mandatory, showDropdown, displayEnumValue, autoValidationThreshold, enabledChildFields, disabledChildFields, dataSource.Value);
         }
     }
 }

@@ -17,6 +17,11 @@ namespace Affinda.API.Models
             writer.WriteStartObject();
             writer.WritePropertyName("label");
             writer.WriteStringValue(Label);
+            if (Optional.IsDefined(FieldType))
+            {
+                writer.WritePropertyName("fieldType");
+                writer.WriteStringValue(FieldType.Value.ToString());
+            }
             if (Optional.IsDefined(Mandatory))
             {
                 writer.WritePropertyName("mandatory");
@@ -42,6 +47,18 @@ namespace Affinda.API.Models
                 else
                 {
                     writer.WriteNull("autoValidationThreshold");
+                }
+            }
+            if (Optional.IsDefined(DataSource))
+            {
+                if (DataSource != null)
+                {
+                    writer.WritePropertyName("dataSource");
+                    writer.WriteStringValue(DataSource);
+                }
+                else
+                {
+                    writer.WriteNull("dataSource");
                 }
             }
             writer.WriteEndObject();

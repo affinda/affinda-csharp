@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [5.17.0] - 2023-12-04
+### Fixed
+- Fixed pkg dependencies
+
+### Added
+- Added AnnotationContentType
+- Added show_custom_field_creation to Organization
+- Add data mapping
+- Add dropNullEnums to Field
+
 ## [5.16.0] - 2023-11-14
 ### Added
 - Add PATCH /index/<name> endpoint

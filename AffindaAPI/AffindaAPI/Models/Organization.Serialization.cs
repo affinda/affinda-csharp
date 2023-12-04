@@ -20,6 +20,7 @@ namespace Affinda.API.Models
             Optional<string> avatar = default;
             Optional<string> resthookSignatureKey = default;
             Optional<bool> isTrial = default;
+            Optional<bool> showCustomFieldCreation = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("identifier"))
@@ -72,8 +73,18 @@ namespace Affinda.API.Models
                     isTrial = property.Value.GetBoolean();
                     continue;
                 }
+                if (property.NameEquals("showCustomFieldCreation"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    showCustomFieldCreation = property.Value.GetBoolean();
+                    continue;
+                }
             }
-            return new Organization(identifier.Value, name.Value, Optional.ToNullable(userRole), avatar.Value, resthookSignatureKey.Value, Optional.ToNullable(isTrial));
+            return new Organization(identifier.Value, name.Value, Optional.ToNullable(userRole), avatar.Value, resthookSignatureKey.Value, Optional.ToNullable(isTrial), Optional.ToNullable(showCustomFieldCreation));
         }
     }
 }

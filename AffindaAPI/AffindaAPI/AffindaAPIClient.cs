@@ -2188,6 +2188,324 @@ namespace Affinda.API
             }
         }
 
+        /// <summary> Create a mapping data source. </summary>
+        /// <param name="body"> The MappingDataSourceCreate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create a custom mapping data source. </remarks>
+        public virtual async Task<Response<MappingDataSource>> CreateMappingDataSourceAsync(MappingDataSourceCreate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateMappingDataSource");
+            scope.Start();
+            try
+            {
+                return await RestClient.CreateMappingDataSourceAsync(body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create a mapping data source. </summary>
+        /// <param name="body"> The MappingDataSourceCreate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create a custom mapping data source. </remarks>
+        public virtual Response<MappingDataSource> CreateMappingDataSource(MappingDataSourceCreate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateMappingDataSource");
+            scope.Start();
+            try
+            {
+                return RestClient.CreateMappingDataSource(body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get specific mapping data source. </summary>
+        /// <param name="identifier"> Mapping data source&apos;s identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return a specific mapping data source. </remarks>
+        public virtual async Task<Response<MappingDataSource>> GetMappingDataSourceAsync(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetMappingDataSource");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetMappingDataSourceAsync(identifier, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get specific mapping data source. </summary>
+        /// <param name="identifier"> Mapping data source&apos;s identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return a specific mapping data source. </remarks>
+        public virtual Response<MappingDataSource> GetMappingDataSource(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetMappingDataSource");
+            scope.Start();
+            try
+            {
+                return RestClient.GetMappingDataSource(identifier, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete specific mapping data source. </summary>
+        /// <param name="identifier"> Mapping data source&apos;s identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Delete the specified mapping data source from the database. </remarks>
+        public virtual async Task<Response> DeleteMappingDataSourceAsync(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteMappingDataSource");
+            scope.Start();
+            try
+            {
+                return await RestClient.DeleteMappingDataSourceAsync(identifier, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete specific mapping data source. </summary>
+        /// <param name="identifier"> Mapping data source&apos;s identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Delete the specified mapping data source from the database. </remarks>
+        public virtual Response DeleteMappingDataSource(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteMappingDataSource");
+            scope.Start();
+            try
+            {
+                return RestClient.DeleteMappingDataSource(identifier, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> List values for a mapping data source. </summary>
+        /// <param name="identifier"> Mapping data source&apos;s identifier. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="search"> Search for specific values. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns the list of all values in a mapping data source. </remarks>
+        public virtual async Task<Response<Paths1Qr7BnyV3MappingDataSourcesIdentifierValuesGetResponses200ContentApplicationJsonSchema>> ListMappingDataSourceValuesAsync(string identifier, int? limit = null, int? offset = null, string search = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.ListMappingDataSourceValues");
+            scope.Start();
+            try
+            {
+                return await RestClient.ListMappingDataSourceValuesAsync(identifier, limit, offset, search, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> List values for a mapping data source. </summary>
+        /// <param name="identifier"> Mapping data source&apos;s identifier. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="search"> Search for specific values. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns the list of all values in a mapping data source. </remarks>
+        public virtual Response<Paths1Qr7BnyV3MappingDataSourcesIdentifierValuesGetResponses200ContentApplicationJsonSchema> ListMappingDataSourceValues(string identifier, int? limit = null, int? offset = null, string search = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.ListMappingDataSourceValues");
+            scope.Start();
+            try
+            {
+                return RestClient.ListMappingDataSourceValues(identifier, limit, offset, search, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Replace values for a mapping data source. </summary>
+        /// <param name="identifier"> Mapping data source&apos;s identifier. </param>
+        /// <param name="body"> The ArrayOfAnyObject to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Replaces the list of all values in a mapping data source. </remarks>
+        public virtual async Task<Response<IReadOnlyList<object>>> ReplaceMappingDataSourceValuesAsync(string identifier, IEnumerable<object> body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.ReplaceMappingDataSourceValues");
+            scope.Start();
+            try
+            {
+                return await RestClient.ReplaceMappingDataSourceValuesAsync(identifier, body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Replace values for a mapping data source. </summary>
+        /// <param name="identifier"> Mapping data source&apos;s identifier. </param>
+        /// <param name="body"> The ArrayOfAnyObject to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Replaces the list of all values in a mapping data source. </remarks>
+        public virtual Response<IReadOnlyList<object>> ReplaceMappingDataSourceValues(string identifier, IEnumerable<object> body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.ReplaceMappingDataSourceValues");
+            scope.Start();
+            try
+            {
+                return RestClient.ReplaceMappingDataSourceValues(identifier, body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Add value for a mapping data source. </summary>
+        /// <param name="identifier"> Mapping data source&apos;s identifier. </param>
+        /// <param name="body"> The AnyObject to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Adds a value to a mapping data source. </remarks>
+        public virtual async Task<Response<object>> AddMappingDataSourceValueAsync(string identifier, object body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.AddMappingDataSourceValue");
+            scope.Start();
+            try
+            {
+                return await RestClient.AddMappingDataSourceValueAsync(identifier, body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Add value for a mapping data source. </summary>
+        /// <param name="identifier"> Mapping data source&apos;s identifier. </param>
+        /// <param name="body"> The AnyObject to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Adds a value to a mapping data source. </remarks>
+        public virtual Response<object> AddMappingDataSourceValue(string identifier, object body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.AddMappingDataSourceValue");
+            scope.Start();
+            try
+            {
+                return RestClient.AddMappingDataSourceValue(identifier, body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get specific mapping data source value. </summary>
+        /// <param name="identifier"> Mapping data source&apos;s identifier. </param>
+        /// <param name="value"> Mapping Data Source Value&apos;s value. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return a specific mapping dta source value. </remarks>
+        public virtual async Task<Response<object>> GetMappingDataSourceValueAsync(string identifier, string value, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetMappingDataSourceValue");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetMappingDataSourceValueAsync(identifier, value, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get specific mapping data source value. </summary>
+        /// <param name="identifier"> Mapping data source&apos;s identifier. </param>
+        /// <param name="value"> Mapping Data Source Value&apos;s value. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return a specific mapping dta source value. </remarks>
+        public virtual Response<object> GetMappingDataSourceValue(string identifier, string value, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetMappingDataSourceValue");
+            scope.Start();
+            try
+            {
+                return RestClient.GetMappingDataSourceValue(identifier, value, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete specific mapping data source value. </summary>
+        /// <param name="identifier"> Mapping data source&apos;s identifier. </param>
+        /// <param name="value"> Mapping Data Source Value&apos;s value. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Delete the specified mapping data source value from the database. </remarks>
+        public virtual async Task<Response> DeleteMappingDataSourceValueAsync(string identifier, string value, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteMappingDataSourceValue");
+            scope.Start();
+            try
+            {
+                return await RestClient.DeleteMappingDataSourceValueAsync(identifier, value, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete specific mapping data source value. </summary>
+        /// <param name="identifier"> Mapping data source&apos;s identifier. </param>
+        /// <param name="value"> Mapping Data Source Value&apos;s value. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Delete the specified mapping data source value from the database. </remarks>
+        public virtual Response DeleteMappingDataSourceValue(string identifier, string value, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteMappingDataSourceValue");
+            scope.Start();
+            try
+            {
+                return RestClient.DeleteMappingDataSourceValue(identifier, value, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
         /// <summary> Get list of all tags. </summary>
         /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>

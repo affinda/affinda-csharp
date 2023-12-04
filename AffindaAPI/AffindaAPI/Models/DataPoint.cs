@@ -44,6 +44,7 @@ namespace Affinda.API.Models
             Organization = organization;
             Extractor = extractor;
             Children = new ChangeTrackingList<DataPoint>();
+            AvailableDataSources = new ChangeTrackingList<MappingDataSource>();
         }
 
         /// <summary> Initializes a new instance of DataPoint. </summary>
@@ -58,8 +59,9 @@ namespace Affinda.API.Models
         /// <param name="noRect"></param>
         /// <param name="parent"> The identifier of the parent data point if applicable. </param>
         /// <param name="children"></param>
+        /// <param name="availableDataSources"></param>
         /// <param name="manualEntry"> If true, the model will not be used to predict this data point. Instead, the user will be able to manually enter the value in the validation tool. </param>
-        internal DataPoint(string identifier, string name, string slug, string description, AnnotationContentType annotationContentType, Organization organization, string extractor, bool? multiple, bool? noRect, string parent, IReadOnlyList<DataPoint> children, bool? manualEntry)
+        internal DataPoint(string identifier, string name, string slug, string description, AnnotationContentType annotationContentType, Organization organization, string extractor, bool? multiple, bool? noRect, string parent, IReadOnlyList<DataPoint> children, IReadOnlyList<MappingDataSource> availableDataSources, bool? manualEntry)
         {
             Identifier = identifier;
             Name = name;
@@ -72,6 +74,7 @@ namespace Affinda.API.Models
             NoRect = noRect;
             Parent = parent;
             Children = children;
+            AvailableDataSources = availableDataSources;
             ManualEntry = manualEntry;
         }
 
@@ -97,6 +100,8 @@ namespace Affinda.API.Models
         public string Parent { get; }
         /// <summary> Gets the children. </summary>
         public IReadOnlyList<DataPoint> Children { get; }
+        /// <summary> Gets the available data sources. </summary>
+        public IReadOnlyList<MappingDataSource> AvailableDataSources { get; }
         /// <summary> If true, the model will not be used to predict this data point. Instead, the user will be able to manually enter the value in the validation tool. </summary>
         public bool? ManualEntry { get; }
     }

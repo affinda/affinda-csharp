@@ -28,9 +28,11 @@ namespace Affinda.API.Models
         private const string DecimalValue = "decimal";
         private const string DateValue = "date";
         private const string DatetimeValue = "datetime";
+        private const string DaterangeValue = "daterange";
         private const string BooleanValue = "boolean";
         private const string EnumValue = "enum";
         private const string LocationValue = "location";
+        private const string PhonenumberValue = "phonenumber";
         private const string JsonValue = "json";
         private const string TableValue = "table";
         private const string CellValue = "cell";
@@ -54,12 +56,16 @@ namespace Affinda.API.Models
         public static AnnotationContentType Date { get; } = new AnnotationContentType(DateValue);
         /// <summary> datetime. </summary>
         public static AnnotationContentType Datetime { get; } = new AnnotationContentType(DatetimeValue);
+        /// <summary> daterange. </summary>
+        public static AnnotationContentType Daterange { get; } = new AnnotationContentType(DaterangeValue);
         /// <summary> boolean. </summary>
         public static AnnotationContentType Boolean { get; } = new AnnotationContentType(BooleanValue);
         /// <summary> enum. </summary>
         public static AnnotationContentType Enum { get; } = new AnnotationContentType(EnumValue);
         /// <summary> location. </summary>
         public static AnnotationContentType Location { get; } = new AnnotationContentType(LocationValue);
+        /// <summary> phonenumber. </summary>
+        public static AnnotationContentType Phonenumber { get; } = new AnnotationContentType(PhonenumberValue);
         /// <summary> json. </summary>
         public static AnnotationContentType Json { get; } = new AnnotationContentType(JsonValue);
         /// <summary> table. </summary>

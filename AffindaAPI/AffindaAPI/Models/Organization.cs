@@ -22,7 +22,8 @@ namespace Affinda.API.Models
         /// <param name="avatar"> URL of the organization&apos;s avatar. </param>
         /// <param name="resthookSignatureKey"> Used to sign webhook payloads so you can verify their integrity. </param>
         /// <param name="isTrial"></param>
-        internal Organization(string identifier, string name, OrganizationUserRole? userRole, string avatar, string resthookSignatureKey, bool? isTrial)
+        /// <param name="showCustomFieldCreation"> Whether to show the custom field creation in the UI. </param>
+        internal Organization(string identifier, string name, OrganizationUserRole? userRole, string avatar, string resthookSignatureKey, bool? isTrial, bool? showCustomFieldCreation)
         {
             Identifier = identifier;
             Name = name;
@@ -30,6 +31,7 @@ namespace Affinda.API.Models
             Avatar = avatar;
             ResthookSignatureKey = resthookSignatureKey;
             IsTrial = isTrial;
+            ShowCustomFieldCreation = showCustomFieldCreation;
         }
 
         /// <summary> Uniquely identify an organization. </summary>
@@ -44,5 +46,7 @@ namespace Affinda.API.Models
         public string ResthookSignatureKey { get; }
         /// <summary> Gets the is trial. </summary>
         public bool? IsTrial { get; }
+        /// <summary> Whether to show the custom field creation in the UI. </summary>
+        public bool? ShowCustomFieldCreation { get; }
     }
 }

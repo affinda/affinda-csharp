@@ -30,6 +30,32 @@ namespace Affinda.API.Models
                     writer.WriteNull("slug");
                 }
             }
+            writer.WritePropertyName("fieldType");
+            writer.WriteStringValue(FieldType.ToString());
+            if (Optional.IsDefined(DataSource))
+            {
+                if (DataSource != null)
+                {
+                    writer.WritePropertyName("dataSource");
+                    writer.WriteStringValue(DataSource);
+                }
+                else
+                {
+                    writer.WriteNull("dataSource");
+                }
+            }
+            if (Optional.IsDefined(Mapping))
+            {
+                if (Mapping != null)
+                {
+                    writer.WritePropertyName("mapping");
+                    writer.WriteStringValue(Mapping);
+                }
+                else
+                {
+                    writer.WriteNull("mapping");
+                }
+            }
             writer.WritePropertyName("dataPoint");
             writer.WriteStringValue(DataPoint);
             if (Optional.IsDefined(Mandatory))
@@ -59,6 +85,11 @@ namespace Affinda.API.Models
                 writer.WritePropertyName("showDropdown");
                 writer.WriteBooleanValue(ShowDropdown.Value);
             }
+            if (Optional.IsDefined(DropNullEnums))
+            {
+                writer.WritePropertyName("dropNullEnums");
+                writer.WriteBooleanValue(DropNullEnums.Value);
+            }
             if (Optional.IsDefined(DisplayEnumValue))
             {
                 writer.WritePropertyName("displayEnumValue");
@@ -81,11 +112,15 @@ namespace Affinda.API.Models
         {
             string label = default;
             Optional<string> slug = default;
+            AnnotationContentType fieldType = default;
+            Optional<string> dataSource = default;
+            Optional<string> mapping = default;
             string dataPoint = default;
             Optional<bool> mandatory = default;
             Optional<bool> disabled = default;
             Optional<float?> autoValidationThreshold = default;
             Optional<bool> showDropdown = default;
+            Optional<bool> dropNullEnums = default;
             Optional<bool> displayEnumValue = default;
             Optional<IList<FieldDeprecated>> fields = default;
             foreach (var property in element.EnumerateObject())
@@ -103,6 +138,31 @@ namespace Affinda.API.Models
                         continue;
                     }
                     slug = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("fieldType"))
+                {
+                    fieldType = new AnnotationContentType(property.Value.GetString());
+                    continue;
+                }
+                if (property.NameEquals("dataSource"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        dataSource = null;
+                        continue;
+                    }
+                    dataSource = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("mapping"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        mapping = null;
+                        continue;
+                    }
+                    mapping = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("dataPoint"))
@@ -150,6 +210,16 @@ namespace Affinda.API.Models
                     showDropdown = property.Value.GetBoolean();
                     continue;
                 }
+                if (property.NameEquals("dropNullEnums"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    dropNullEnums = property.Value.GetBoolean();
+                    continue;
+                }
                 if (property.NameEquals("displayEnumValue"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
@@ -176,7 +246,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new FieldDeprecated(label, slug.Value, dataPoint, Optional.ToNullable(mandatory), Optional.ToNullable(disabled), Optional.ToNullable(autoValidationThreshold), Optional.ToNullable(showDropdown), Optional.ToNullable(displayEnumValue), Optional.ToList(fields));
+            return new FieldDeprecated(label, slug.Value, fieldType, dataSource.Value, mapping.Value, dataPoint, Optional.ToNullable(mandatory), Optional.ToNullable(disabled), Optional.ToNullable(autoValidationThreshold), Optional.ToNullable(showDropdown), Optional.ToNullable(dropNullEnums), Optional.ToNullable(displayEnumValue), Optional.ToList(fields));
         }
     }
 }

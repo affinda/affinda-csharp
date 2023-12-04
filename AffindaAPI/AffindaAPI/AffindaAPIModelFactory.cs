@@ -45,10 +45,11 @@ namespace Affinda.API.Models
         /// <param name="avatar"> URL of the organization&apos;s avatar. </param>
         /// <param name="resthookSignatureKey"> Used to sign webhook payloads so you can verify their integrity. </param>
         /// <param name="isTrial"></param>
+        /// <param name="showCustomFieldCreation"> Whether to show the custom field creation in the UI. </param>
         /// <returns> A new <see cref="Models.Organization"/> instance for mocking. </returns>
-        public static Organization Organization(string identifier = null, string name = null, OrganizationUserRole? userRole = null, string avatar = null, string resthookSignatureKey = null, bool? isTrial = null)
+        public static Organization Organization(string identifier = null, string name = null, OrganizationUserRole? userRole = null, string avatar = null, string resthookSignatureKey = null, bool? isTrial = null, bool? showCustomFieldCreation = null)
         {
-            return new Organization(identifier, name, userRole, avatar, resthookSignatureKey, isTrial);
+            return new Organization(identifier, name, userRole, avatar, resthookSignatureKey, isTrial, showCustomFieldCreation);
         }
 
         /// <summary> Initializes a new instance of WorkspaceCollectionsItem. </summary>
@@ -230,19 +231,21 @@ namespace Affinda.API.Models
 
         /// <summary> Initializes a new instance of DataFieldField. </summary>
         /// <param name="label"></param>
+        /// <param name="fieldType"> The different data types of annotations. </param>
         /// <param name="mandatory"></param>
         /// <param name="showDropdown"></param>
         /// <param name="displayEnumValue"> If true, both the value and the label for the enums will appear in the dropdown in the validation tool. </param>
         /// <param name="autoValidationThreshold"></param>
         /// <param name="enabledChildFields"></param>
         /// <param name="disabledChildFields"></param>
+        /// <param name="dataSource"> Data source mapping identifier. </param>
         /// <returns> A new <see cref="Models.DataFieldField"/> instance for mocking. </returns>
-        public static DataFieldField DataFieldField(string label = null, bool mandatory = default, bool showDropdown = default, bool displayEnumValue = default, float? autoValidationThreshold = null, IEnumerable<Field> enabledChildFields = null, IEnumerable<Field> disabledChildFields = null)
+        public static DataFieldField DataFieldField(string label = null, AnnotationContentType? fieldType = null, bool mandatory = default, bool showDropdown = default, bool displayEnumValue = default, float? autoValidationThreshold = null, IEnumerable<Field> enabledChildFields = null, IEnumerable<Field> disabledChildFields = null, string dataSource = null)
         {
             enabledChildFields ??= new List<Field>();
             disabledChildFields ??= new List<Field>();
 
-            return new DataFieldField(label, mandatory, showDropdown, displayEnumValue, autoValidationThreshold, enabledChildFields?.ToList(), disabledChildFields?.ToList());
+            return new DataFieldField(label, fieldType, mandatory, showDropdown, displayEnumValue, autoValidationThreshold, enabledChildFields?.ToList(), disabledChildFields?.ToList(), dataSource);
         }
 
         /// <summary> Initializes a new instance of DataFieldDataPoint. </summary>
@@ -256,12 +259,14 @@ namespace Affinda.API.Models
         /// <param name="parent"> The identifier of the parent data point if applicable. </param>
         /// <param name="children"></param>
         /// <param name="manualEntry"> If true, the model will not be used to predict this data point. Instead, the user will be able to manually enter the value in the validation tool. </param>
+        /// <param name="availableDataSources"></param>
         /// <returns> A new <see cref="Models.DataFieldDataPoint"/> instance for mocking. </returns>
-        public static DataFieldDataPoint DataFieldDataPoint(string identifier = null, string name = null, string slug = null, string description = null, AnnotationContentType type = default, bool multiple = default, bool noRect = default, string parent = null, IEnumerable<DataPoint> children = null, bool? manualEntry = null)
+        public static DataFieldDataPoint DataFieldDataPoint(string identifier = null, string name = null, string slug = null, string description = null, AnnotationContentType type = default, bool multiple = default, bool noRect = default, string parent = null, IEnumerable<DataPoint> children = null, bool? manualEntry = null, IEnumerable<MappingDataSource> availableDataSources = null)
         {
             children ??= new List<DataPoint>();
+            availableDataSources ??= new List<MappingDataSource>();
 
-            return new DataFieldDataPoint(identifier, name, slug, description, type, multiple, noRect, parent, children?.ToList(), manualEntry);
+            return new DataFieldDataPoint(identifier, name, slug, description, type, multiple, noRect, parent, children?.ToList(), manualEntry, availableDataSources?.ToList());
         }
 
         /// <summary> Initializes a new instance of DataPoint. </summary>
@@ -276,13 +281,28 @@ namespace Affinda.API.Models
         /// <param name="noRect"></param>
         /// <param name="parent"> The identifier of the parent data point if applicable. </param>
         /// <param name="children"></param>
+        /// <param name="availableDataSources"></param>
         /// <param name="manualEntry"> If true, the model will not be used to predict this data point. Instead, the user will be able to manually enter the value in the validation tool. </param>
         /// <returns> A new <see cref="Models.DataPoint"/> instance for mocking. </returns>
-        public static DataPoint DataPoint(string identifier = null, string name = null, string slug = null, string description = null, AnnotationContentType annotationContentType = default, Organization organization = null, string extractor = null, bool? multiple = null, bool? noRect = null, string parent = null, IEnumerable<DataPoint> children = null, bool? manualEntry = null)
+        public static DataPoint DataPoint(string identifier = null, string name = null, string slug = null, string description = null, AnnotationContentType annotationContentType = default, Organization organization = null, string extractor = null, bool? multiple = null, bool? noRect = null, string parent = null, IEnumerable<DataPoint> children = null, IEnumerable<MappingDataSource> availableDataSources = null, bool? manualEntry = null)
         {
             children ??= new List<DataPoint>();
+            availableDataSources ??= new List<MappingDataSource>();
 
-            return new DataPoint(identifier, name, slug, description, annotationContentType, organization, extractor, multiple, noRect, parent, children?.ToList(), manualEntry);
+            return new DataPoint(identifier, name, slug, description, annotationContentType, organization, extractor, multiple, noRect, parent, children?.ToList(), availableDataSources?.ToList(), manualEntry);
+        }
+
+        /// <summary> Initializes a new instance of MappingDataSource. </summary>
+        /// <param name="identifier"> Uniquely identify a mapping data source. </param>
+        /// <param name="name"></param>
+        /// <param name="keyProperty"> Attribute in the schema which uniquely identifiers the value. </param>
+        /// <param name="displayProperty"> Attribute in the schema which is used to display the value. </param>
+        /// <param name="organization"> The organization that this mapping data source belongs to. </param>
+        /// <param name="schema"> The schema of the mapping data source. </param>
+        /// <returns> A new <see cref="Models.MappingDataSource"/> instance for mocking. </returns>
+        public static MappingDataSource MappingDataSource(string identifier = null, string name = null, string keyProperty = null, string displayProperty = null, string organization = null, object schema = null)
+        {
+            return new MappingDataSource(identifier, name, keyProperty, displayProperty, organization, schema);
         }
 
         /// <summary> Initializes a new instance of UsageByCollection. </summary>
@@ -601,6 +621,29 @@ namespace Affinda.API.Models
             results ??= new List<Annotation>();
 
             return new Paths1Dgz0V9V3AnnotationsGetResponses200ContentApplicationJsonSchemaAllof1(results?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of Paths1Qr7BnyV3MappingDataSourcesIdentifierValuesGetResponses200ContentApplicationJsonSchema. </summary>
+        /// <param name="count"> Number of items in results. </param>
+        /// <param name="next"> URL to request next page of results. </param>
+        /// <param name="previous"> URL to request previous page of results. </param>
+        /// <param name="results"></param>
+        /// <returns> A new <see cref="Models.Paths1Qr7BnyV3MappingDataSourcesIdentifierValuesGetResponses200ContentApplicationJsonSchema"/> instance for mocking. </returns>
+        public static Paths1Qr7BnyV3MappingDataSourcesIdentifierValuesGetResponses200ContentApplicationJsonSchema Paths1Qr7BnyV3MappingDataSourcesIdentifierValuesGetResponses200ContentApplicationJsonSchema(int count = default, string next = null, string previous = null, IEnumerable<object> results = null)
+        {
+            results ??= new List<object>();
+
+            return new Paths1Qr7BnyV3MappingDataSourcesIdentifierValuesGetResponses200ContentApplicationJsonSchema(count, next, previous, results?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of Paths1O6IvdaV3MappingDataSourcesIdentifierValuesGetResponses200ContentApplicationJsonSchemaAllof1. </summary>
+        /// <param name="results"></param>
+        /// <returns> A new <see cref="Models.Paths1O6IvdaV3MappingDataSourcesIdentifierValuesGetResponses200ContentApplicationJsonSchemaAllof1"/> instance for mocking. </returns>
+        public static Paths1O6IvdaV3MappingDataSourcesIdentifierValuesGetResponses200ContentApplicationJsonSchemaAllof1 Paths1O6IvdaV3MappingDataSourcesIdentifierValuesGetResponses200ContentApplicationJsonSchemaAllof1(IEnumerable<object> results = null)
+        {
+            results ??= new List<object>();
+
+            return new Paths1O6IvdaV3MappingDataSourcesIdentifierValuesGetResponses200ContentApplicationJsonSchemaAllof1(results?.ToList());
         }
 
         /// <summary> Initializes a new instance of PathsQ5Os5RV3OrganizationMembershipsGetResponses200ContentApplicationJsonSchema. </summary>

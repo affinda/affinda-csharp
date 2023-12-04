@@ -27,6 +27,8 @@ namespace Affinda.API.Models
 
         /// <summary> Gets the label. </summary>
         public string Label { get; }
+        /// <summary> The different data types of annotations. </summary>
+        public AnnotationContentType? FieldType { get; set; }
         /// <summary> Gets or sets the mandatory. </summary>
         public bool? Mandatory { get; set; }
         /// <summary> Gets or sets the show dropdown. </summary>
@@ -35,5 +37,7 @@ namespace Affinda.API.Models
         public bool? DisplayEnumValue { get; set; }
         /// <summary> Gets or sets the auto validation threshold. </summary>
         public float? AutoValidationThreshold { get; set; }
+        /// <summary> Data source mapping identifier. </summary>
+        public string DataSource { get; set; }
     }
 }

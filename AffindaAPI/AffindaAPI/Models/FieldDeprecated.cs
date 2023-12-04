@@ -16,9 +16,10 @@ namespace Affinda.API.Models
     {
         /// <summary> Initializes a new instance of FieldDeprecated. </summary>
         /// <param name="label"></param>
+        /// <param name="fieldType"> The different data types of annotations. </param>
         /// <param name="dataPoint"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="label"/> or <paramref name="dataPoint"/> is null. </exception>
-        public FieldDeprecated(string label, string dataPoint)
+        public FieldDeprecated(string label, AnnotationContentType fieldType, string dataPoint)
         {
             if (label == null)
             {
@@ -30,6 +31,7 @@ namespace Affinda.API.Models
             }
 
             Label = label;
+            FieldType = fieldType;
             DataPoint = dataPoint;
             Fields = new ChangeTrackingList<FieldDeprecated>();
         }
@@ -37,22 +39,30 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of FieldDeprecated. </summary>
         /// <param name="label"></param>
         /// <param name="slug"></param>
+        /// <param name="fieldType"> The different data types of annotations. </param>
+        /// <param name="dataSource"> Data source mapping identifier. </param>
+        /// <param name="mapping"> Defines how the data point is mapped to the data source. </param>
         /// <param name="dataPoint"></param>
         /// <param name="mandatory"></param>
         /// <param name="disabled"></param>
         /// <param name="autoValidationThreshold"></param>
         /// <param name="showDropdown"></param>
+        /// <param name="dropNullEnums"> If True, any dropdown annotations that fail to be mapped will be discarded. </param>
         /// <param name="displayEnumValue"></param>
         /// <param name="fields"></param>
-        internal FieldDeprecated(string label, string slug, string dataPoint, bool? mandatory, bool? disabled, float? autoValidationThreshold, bool? showDropdown, bool? displayEnumValue, IList<FieldDeprecated> fields)
+        internal FieldDeprecated(string label, string slug, AnnotationContentType fieldType, string dataSource, string mapping, string dataPoint, bool? mandatory, bool? disabled, float? autoValidationThreshold, bool? showDropdown, bool? dropNullEnums, bool? displayEnumValue, IList<FieldDeprecated> fields)
         {
             Label = label;
             Slug = slug;
+            FieldType = fieldType;
+            DataSource = dataSource;
+            Mapping = mapping;
             DataPoint = dataPoint;
             Mandatory = mandatory;
             Disabled = disabled;
             AutoValidationThreshold = autoValidationThreshold;
             ShowDropdown = showDropdown;
+            DropNullEnums = dropNullEnums;
             DisplayEnumValue = displayEnumValue;
             Fields = fields;
         }
@@ -61,6 +71,12 @@ namespace Affinda.API.Models
         public string Label { get; set; }
         /// <summary> Gets or sets the slug. </summary>
         public string Slug { get; set; }
+        /// <summary> The different data types of annotations. </summary>
+        public AnnotationContentType FieldType { get; set; }
+        /// <summary> Data source mapping identifier. </summary>
+        public string DataSource { get; set; }
+        /// <summary> Defines how the data point is mapped to the data source. </summary>
+        public string Mapping { get; set; }
         /// <summary> Gets or sets the data point. </summary>
         public string DataPoint { get; set; }
         /// <summary> Gets or sets the mandatory. </summary>
@@ -71,6 +87,8 @@ namespace Affinda.API.Models
         public float? AutoValidationThreshold { get; set; }
         /// <summary> Gets or sets the show dropdown. </summary>
         public bool? ShowDropdown { get; set; }
+        /// <summary> If True, any dropdown annotations that fail to be mapped will be discarded. </summary>
+        public bool? DropNullEnums { get; set; }
         /// <summary> Gets or sets the display enum value. </summary>
         public bool? DisplayEnumValue { get; set; }
         /// <summary> Gets the fields. </summary>

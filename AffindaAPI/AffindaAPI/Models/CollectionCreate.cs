@@ -38,9 +38,9 @@ namespace Affinda.API.Models
         public string Name { get; }
         /// <summary> Uniquely identify a workspace. </summary>
         public string Workspace { get; }
-        /// <summary> Uniquely identify an extractor. </summary>
+        /// <summary> Uniquely identify an extractor. Required if you are not a super user. </summary>
         public string Extractor { get; set; }
-        /// <summary> Not applicable, please leave empty. </summary>
+        /// <summary> Not applicable, please leave empty. This feature is reserved for super user. </summary>
         public string BaseExtractor { get; set; }
         /// <summary> Gets or sets the auto validation threshold. </summary>
         public float? AutoValidationThreshold { get; set; }

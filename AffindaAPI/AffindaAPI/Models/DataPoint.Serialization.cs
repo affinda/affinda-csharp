@@ -26,6 +26,7 @@ namespace Affinda.API.Models
             Optional<bool> noRect = default;
             Optional<string> parent = default;
             Optional<IReadOnlyList<DataPoint>> children = default;
+            Optional<IReadOnlyList<MappingDataSource>> availableDataSources = default;
             Optional<bool> manualEntry = default;
             foreach (var property in element.EnumerateObject())
             {
@@ -124,6 +125,21 @@ namespace Affinda.API.Models
                     children = array;
                     continue;
                 }
+                if (property.NameEquals("availableDataSources"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    List<MappingDataSource> array = new List<MappingDataSource>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(MappingDataSource.DeserializeMappingDataSource(item));
+                    }
+                    availableDataSources = array;
+                    continue;
+                }
                 if (property.NameEquals("manualEntry"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
@@ -135,7 +151,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new DataPoint(identifier, name, slug, description.Value, annotationContentType, organization, extractor, Optional.ToNullable(multiple), Optional.ToNullable(noRect), parent.Value, Optional.ToList(children), Optional.ToNullable(manualEntry));
+            return new DataPoint(identifier, name, slug, description.Value, annotationContentType, organization, extractor, Optional.ToNullable(multiple), Optional.ToNullable(noRect), parent.Value, Optional.ToList(children), Optional.ToList(availableDataSources), Optional.ToNullable(manualEntry));
         }
     }
 }

@@ -8,6 +8,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Azure.Core;
 
 namespace Affinda.API.Models
 {
@@ -53,6 +54,7 @@ namespace Affinda.API.Models
             NoRect = noRect;
             Parent = parent;
             Children = children.ToList();
+            AvailableDataSources = new ChangeTrackingList<MappingDataSource>();
         }
 
         /// <summary> Initializes a new instance of DataFieldDataPoint. </summary>
@@ -66,7 +68,8 @@ namespace Affinda.API.Models
         /// <param name="parent"> The identifier of the parent data point if applicable. </param>
         /// <param name="children"></param>
         /// <param name="manualEntry"> If true, the model will not be used to predict this data point. Instead, the user will be able to manually enter the value in the validation tool. </param>
-        internal DataFieldDataPoint(string identifier, string name, string slug, string description, AnnotationContentType type, bool multiple, bool noRect, string parent, IReadOnlyList<DataPoint> children, bool? manualEntry)
+        /// <param name="availableDataSources"></param>
+        internal DataFieldDataPoint(string identifier, string name, string slug, string description, AnnotationContentType type, bool multiple, bool noRect, string parent, IReadOnlyList<DataPoint> children, bool? manualEntry, IReadOnlyList<MappingDataSource> availableDataSources)
         {
             Identifier = identifier;
             Name = name;
@@ -78,6 +81,7 @@ namespace Affinda.API.Models
             Parent = parent;
             Children = children;
             ManualEntry = manualEntry;
+            AvailableDataSources = availableDataSources;
         }
 
         /// <summary> Uniquely identify a data point. </summary>
@@ -100,5 +104,7 @@ namespace Affinda.API.Models
         public IReadOnlyList<DataPoint> Children { get; }
         /// <summary> If true, the model will not be used to predict this data point. Instead, the user will be able to manually enter the value in the validation tool. </summary>
         public bool? ManualEntry { get; }
+        /// <summary> Gets the available data sources. </summary>
+        public IReadOnlyList<MappingDataSource> AvailableDataSources { get; }
     }
 }
