@@ -19,7 +19,7 @@ namespace Affinda.API.Models
             Languages = new ChangeTrackingList<LanguageAnnotationUpdate>();
             Skills = new ChangeTrackingList<SkillAnnotationUpdate>();
             Certifications = new ChangeTrackingList<TextAnnotationUpdate>();
-            AdditionalProperties = new ChangeTrackingDictionary<string, Components1Rpp8I6SchemasJobdescriptiondataupdateAdditionalproperties>();
+            AdditionalProperties = new ChangeTrackingDictionary<string, object>();
         }
 
         /// <summary> Initializes a new instance of JobDescriptionDataUpdate. </summary>
@@ -41,7 +41,7 @@ namespace Affinda.API.Models
         /// <param name="certifications"></param>
         /// <param name="yearsExperience"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
-        internal JobDescriptionDataUpdate(JobTitleAnnotationUpdate jobTitle, TextAnnotationUpdate contactEmail, TextAnnotationUpdate contactName, TextAnnotationUpdate contactPhone, DateAnnotationUpdate startDate, DateAnnotationUpdate endDate, TextAnnotationUpdate jobType, IReadOnlyList<LanguageAnnotationUpdate> languages, IReadOnlyList<SkillAnnotationUpdate> skills, TextAnnotationUpdate organizationName, TextAnnotationUpdate organizationWebsite, TextAnnotationUpdate educationLevel, TextAnnotationUpdate educationAccreditation, ExpectedRemunerationAnnotationUpdate expectedRemuneration, LocationAnnotationUpdate location, IReadOnlyList<TextAnnotationUpdate> certifications, YearsExperienceAnnotationUpdate yearsExperience, IReadOnlyDictionary<string, Components1Rpp8I6SchemasJobdescriptiondataupdateAdditionalproperties> additionalProperties)
+        internal JobDescriptionDataUpdate(JobTitleAnnotationUpdate jobTitle, TextAnnotationUpdate contactEmail, TextAnnotationUpdate contactName, TextAnnotationUpdate contactPhone, DateAnnotationUpdate startDate, DateAnnotationUpdate endDate, TextAnnotationUpdate jobType, IReadOnlyList<LanguageAnnotationUpdate> languages, IReadOnlyList<SkillAnnotationUpdate> skills, TextAnnotationUpdate organizationName, TextAnnotationUpdate organizationWebsite, TextAnnotationUpdate educationLevel, TextAnnotationUpdate educationAccreditation, ExpectedRemunerationAnnotationUpdate expectedRemuneration, LocationAnnotationUpdate location, IReadOnlyList<TextAnnotationUpdate> certifications, YearsExperienceAnnotationUpdate yearsExperience, IReadOnlyDictionary<string, object> additionalProperties)
         {
             JobTitle = jobTitle;
             ContactEmail = contactEmail;
@@ -98,6 +98,6 @@ namespace Affinda.API.Models
         /// <summary> Gets the years experience. </summary>
         public YearsExperienceAnnotationUpdate YearsExperience { get; }
         /// <summary> Additional Properties. </summary>
-        public IReadOnlyDictionary<string, Components1Rpp8I6SchemasJobdescriptiondataupdateAdditionalproperties> AdditionalProperties { get; }
+        public IReadOnlyDictionary<string, object> AdditionalProperties { get; }
     }
 }

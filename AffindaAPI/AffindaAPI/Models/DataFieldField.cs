@@ -57,7 +57,8 @@ namespace Affinda.API.Models
         /// <param name="enabledChildFields"></param>
         /// <param name="disabledChildFields"></param>
         /// <param name="dataSource"> Data source mapping identifier. </param>
-        internal DataFieldField(string label, AnnotationContentType? fieldType, bool mandatory, bool showDropdown, bool displayEnumValue, float? autoValidationThreshold, IReadOnlyList<Field> enabledChildFields, IReadOnlyList<Field> disabledChildFields, string dataSource)
+        /// <param name="mapping"> Defines how the data point is mapped to the data source. </param>
+        internal DataFieldField(string label, AnnotationContentType? fieldType, bool mandatory, bool showDropdown, bool displayEnumValue, float? autoValidationThreshold, IReadOnlyList<Field> enabledChildFields, IReadOnlyList<Field> disabledChildFields, string dataSource, string mapping)
         {
             Label = label;
             FieldType = fieldType;
@@ -68,6 +69,7 @@ namespace Affinda.API.Models
             EnabledChildFields = enabledChildFields;
             DisabledChildFields = disabledChildFields;
             DataSource = dataSource;
+            Mapping = mapping;
         }
 
         /// <summary> Gets the label. </summary>
@@ -88,5 +90,7 @@ namespace Affinda.API.Models
         public IReadOnlyList<Field> DisabledChildFields { get; }
         /// <summary> Data source mapping identifier. </summary>
         public string DataSource { get; }
+        /// <summary> Defines how the data point is mapped to the data source. </summary>
+        public string Mapping { get; }
     }
 }

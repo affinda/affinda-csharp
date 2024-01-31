@@ -74,8 +74,9 @@ namespace Affinda.API.Models
         /// <param name="confirmedBy"></param>
         /// <param name="createdBy"></param>
         /// <param name="sourceEmail"> If the document is created via email ingestion, this field stores the email file&apos;s URL. </param>
+        /// <param name="sourceEmailAddress"> If the document is created via email ingestion, this field stores the email&apos;s From address. </param>
         /// <param name="regionBias"></param>
-        internal DocumentMeta(string identifier, string customIdentifier, string fileName, bool? ready, DateTimeOffset? readyDt, bool? failed, string expiryTime, string language, string pdf, DocumentMetaParentDocument parentDocument, IList<DocumentMetaChildDocumentsItem> childDocuments, IList<PageMeta> pages, bool? isOcrd, float? ocrConfidence, string reviewUrl, DocumentMetaCollection collection, DocumentMetaWorkspace workspace, DateTimeOffset? archivedDt, bool? isArchived, DateTimeOffset? confirmedDt, bool? isConfirmed, DateTimeOffset? rejectedDt, bool? isRejected, DateTimeOffset? createdDt, string errorCode, string errorDetail, string file, IList<Tag> tags, UserNullable confirmedBy, User createdBy, string sourceEmail, RegionBias regionBias)
+        internal DocumentMeta(string identifier, string customIdentifier, string fileName, bool? ready, DateTimeOffset? readyDt, bool? failed, string expiryTime, string language, string pdf, DocumentMetaParentDocument parentDocument, IList<DocumentMetaChildDocumentsItem> childDocuments, IList<PageMeta> pages, bool? isOcrd, float? ocrConfidence, string reviewUrl, DocumentMetaCollection collection, DocumentMetaWorkspace workspace, DateTimeOffset? archivedDt, bool? isArchived, DateTimeOffset? confirmedDt, bool? isConfirmed, DateTimeOffset? rejectedDt, bool? isRejected, DateTimeOffset? createdDt, string errorCode, string errorDetail, string file, IList<Tag> tags, UserNullable confirmedBy, User createdBy, string sourceEmail, string sourceEmailAddress, RegionBias regionBias)
         {
             Identifier = identifier;
             CustomIdentifier = customIdentifier;
@@ -108,6 +109,7 @@ namespace Affinda.API.Models
             ConfirmedBy = confirmedBy;
             CreatedBy = createdBy;
             SourceEmail = sourceEmail;
+            SourceEmailAddress = sourceEmailAddress;
             RegionBias = regionBias;
         }
 
@@ -173,6 +175,8 @@ namespace Affinda.API.Models
         public User CreatedBy { get; set; }
         /// <summary> If the document is created via email ingestion, this field stores the email file&apos;s URL. </summary>
         public string SourceEmail { get; set; }
+        /// <summary> If the document is created via email ingestion, this field stores the email&apos;s From address. </summary>
+        public string SourceEmailAddress { get; set; }
         /// <summary> Gets or sets the region bias. </summary>
         public RegionBias RegionBias { get; set; }
     }

@@ -47,6 +47,30 @@ namespace Affinda.API.Models
                     writer.WriteNull("autoValidationThreshold");
                 }
             }
+            if (Optional.IsDefined(DataSource))
+            {
+                if (DataSource != null)
+                {
+                    writer.WritePropertyName("dataSource");
+                    writer.WriteStringValue(DataSource);
+                }
+                else
+                {
+                    writer.WriteNull("dataSource");
+                }
+            }
+            if (Optional.IsDefined(Mapping))
+            {
+                if (Mapping != null)
+                {
+                    writer.WritePropertyName("mapping");
+                    writer.WriteStringValue(Mapping);
+                }
+                else
+                {
+                    writer.WriteNull("mapping");
+                }
+            }
             writer.WriteEndObject();
         }
 
@@ -57,6 +81,8 @@ namespace Affinda.API.Models
             Optional<bool> showDropdown = default;
             Optional<bool> displayEnumValue = default;
             Optional<float?> autoValidationThreshold = default;
+            Optional<string> dataSource = default;
+            Optional<string> mapping = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("label"))
@@ -104,8 +130,28 @@ namespace Affinda.API.Models
                     autoValidationThreshold = property.Value.GetSingle();
                     continue;
                 }
+                if (property.NameEquals("dataSource"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        dataSource = null;
+                        continue;
+                    }
+                    dataSource = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("mapping"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        mapping = null;
+                        continue;
+                    }
+                    mapping = property.Value.GetString();
+                    continue;
+                }
             }
-            return new CollectionField(label.Value, Optional.ToNullable(mandatory), Optional.ToNullable(showDropdown), Optional.ToNullable(displayEnumValue), Optional.ToNullable(autoValidationThreshold));
+            return new CollectionField(label.Value, Optional.ToNullable(mandatory), Optional.ToNullable(showDropdown), Optional.ToNullable(displayEnumValue), Optional.ToNullable(autoValidationThreshold), dataSource.Value, mapping.Value);
         }
     }
 }

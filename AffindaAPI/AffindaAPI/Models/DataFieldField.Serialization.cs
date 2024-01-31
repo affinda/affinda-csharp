@@ -24,6 +24,7 @@ namespace Affinda.API.Models
             IReadOnlyList<Field> enabledChildFields = default;
             IReadOnlyList<Field> disabledChildFields = default;
             Optional<string> dataSource = default;
+            Optional<string> mapping = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("label"))
@@ -96,8 +97,18 @@ namespace Affinda.API.Models
                     dataSource = property.Value.GetString();
                     continue;
                 }
+                if (property.NameEquals("mapping"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        mapping = null;
+                        continue;
+                    }
+                    mapping = property.Value.GetString();
+                    continue;
+                }
             }
-            return new DataFieldField(label, Optional.ToNullable(fieldType), mandatory, showDropdown, displayEnumValue, autoValidationThreshold, enabledChildFields, disabledChildFields, dataSource.Value);
+            return new DataFieldField(label, Optional.ToNullable(fieldType), mandatory, showDropdown, displayEnumValue, autoValidationThreshold, enabledChildFields, disabledChildFields, dataSource.Value, mapping.Value);
         }
     }
 }

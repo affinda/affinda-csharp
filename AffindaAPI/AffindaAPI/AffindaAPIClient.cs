@@ -823,15 +823,16 @@ namespace Affinda.API
         /// <param name="hasChallenges"> Filter for documents with challenges. </param>
         /// <param name="customIdentifier"> Filter for documents with this custom identifier. </param>
         /// <param name="compact"> If &quot;true&quot;, the response is compacted to annotations&apos; parsed data. Annotations&apos; meta data are excluded. Default is &quot;false&quot;. </param>
+        /// <param name="count"> If &quot;false&quot;, the documents count is not computed, thus saving time for large collections. Default is &quot;true&quot;. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the document summaries for that user, limited to 300 per page. </remarks>
-        public virtual async Task<Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema>> GetAllDocumentsAsync(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<string> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, bool? failed = null, bool? ready = null, bool? validatable = null, bool? hasChallenges = null, string customIdentifier = null, bool? compact = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema>> GetAllDocumentsAsync(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<string> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, bool? failed = null, bool? ready = null, bool? validatable = null, bool? hasChallenges = null, string customIdentifier = null, bool? compact = null, bool? count = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllDocuments");
             scope.Start();
             try
             {
-                return await RestClient.GetAllDocumentsAsync(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview, failed, ready, validatable, hasChallenges, customIdentifier, compact, cancellationToken).ConfigureAwait(false);
+                return await RestClient.GetAllDocumentsAsync(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview, failed, ready, validatable, hasChallenges, customIdentifier, compact, count, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -859,15 +860,16 @@ namespace Affinda.API
         /// <param name="hasChallenges"> Filter for documents with challenges. </param>
         /// <param name="customIdentifier"> Filter for documents with this custom identifier. </param>
         /// <param name="compact"> If &quot;true&quot;, the response is compacted to annotations&apos; parsed data. Annotations&apos; meta data are excluded. Default is &quot;false&quot;. </param>
+        /// <param name="count"> If &quot;false&quot;, the documents count is not computed, thus saving time for large collections. Default is &quot;true&quot;. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the document summaries for that user, limited to 300 per page. </remarks>
-        public virtual Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema> GetAllDocuments(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<string> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, bool? failed = null, bool? ready = null, bool? validatable = null, bool? hasChallenges = null, string customIdentifier = null, bool? compact = null, CancellationToken cancellationToken = default)
+        public virtual Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema> GetAllDocuments(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<string> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, bool? failed = null, bool? ready = null, bool? validatable = null, bool? hasChallenges = null, string customIdentifier = null, bool? compact = null, bool? count = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllDocuments");
             scope.Start();
             try
             {
-                return RestClient.GetAllDocuments(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview, failed, ready, validatable, hasChallenges, customIdentifier, compact, cancellationToken);
+                return RestClient.GetAllDocuments(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview, failed, ready, validatable, hasChallenges, customIdentifier, compact, count, cancellationToken);
             }
             catch (Exception e)
             {
@@ -2226,6 +2228,46 @@ namespace Affinda.API
             }
         }
 
+        /// <summary> List mapping data sources. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns the list of all custom mapping data sources. </remarks>
+        public virtual async Task<Response<Paths11QdcofV3MappingDataSourcesGetResponses200ContentApplicationJsonSchema>> ListMappingDataSourcesAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.ListMappingDataSources");
+            scope.Start();
+            try
+            {
+                return await RestClient.ListMappingDataSourcesAsync(offset, limit, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> List mapping data sources. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns the list of all custom mapping data sources. </remarks>
+        public virtual Response<Paths11QdcofV3MappingDataSourcesGetResponses200ContentApplicationJsonSchema> ListMappingDataSources(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.ListMappingDataSources");
+            scope.Start();
+            try
+            {
+                return RestClient.ListMappingDataSources(offset, limit, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
         /// <summary> Get specific mapping data source. </summary>
         /// <param name="identifier"> Mapping data source&apos;s identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
@@ -2498,6 +2540,202 @@ namespace Affinda.API
             try
             {
                 return RestClient.DeleteMappingDataSourceValue(identifier, value, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create a mapping. </summary>
+        /// <param name="body"> The MappingCreate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create a custom mapping. </remarks>
+        public virtual async Task<Response<Mapping>> CreateMappingAsync(MappingCreate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateMapping");
+            scope.Start();
+            try
+            {
+                return await RestClient.CreateMappingAsync(body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create a mapping. </summary>
+        /// <param name="body"> The MappingCreate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create a custom mapping. </remarks>
+        public virtual Response<Mapping> CreateMapping(MappingCreate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateMapping");
+            scope.Start();
+            try
+            {
+                return RestClient.CreateMapping(body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> List mappings. </summary>
+        /// <param name="mappingDataSource"> Mapping data source&apos;s identifier. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns the list of all custom data mappings. </remarks>
+        public virtual async Task<Response<Paths1Dpvb2PV3MappingsGetResponses200ContentApplicationJsonSchema>> ListMappingsAsync(string mappingDataSource, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.ListMappings");
+            scope.Start();
+            try
+            {
+                return await RestClient.ListMappingsAsync(mappingDataSource, offset, limit, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> List mappings. </summary>
+        /// <param name="mappingDataSource"> Mapping data source&apos;s identifier. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns the list of all custom data mappings. </remarks>
+        public virtual Response<Paths1Dpvb2PV3MappingsGetResponses200ContentApplicationJsonSchema> ListMappings(string mappingDataSource, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.ListMappings");
+            scope.Start();
+            try
+            {
+                return RestClient.ListMappings(mappingDataSource, offset, limit, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get specific mapping. </summary>
+        /// <param name="identifier"> Mapping&apos;s identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return a specific mapping. </remarks>
+        public virtual async Task<Response<Mapping>> GetMappingAsync(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetMapping");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetMappingAsync(identifier, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get specific mapping. </summary>
+        /// <param name="identifier"> Mapping&apos;s identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return a specific mapping. </remarks>
+        public virtual Response<Mapping> GetMapping(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetMapping");
+            scope.Start();
+            try
+            {
+                return RestClient.GetMapping(identifier, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete specific mapping. </summary>
+        /// <param name="identifier"> Mapping&apos;s identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Delete the specified mapping from the database. </remarks>
+        public virtual async Task<Response> DeleteMappingAsync(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteMapping");
+            scope.Start();
+            try
+            {
+                return await RestClient.DeleteMappingAsync(identifier, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete specific mapping. </summary>
+        /// <param name="identifier"> Mapping&apos;s identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Delete the specified mapping from the database. </remarks>
+        public virtual Response DeleteMapping(string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteMapping");
+            scope.Start();
+            try
+            {
+                return RestClient.DeleteMapping(identifier, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update specific mapping. </summary>
+        /// <param name="identifier"> Mapping&apos;s identifier. </param>
+        /// <param name="body"> The MappingUpdate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Updates a specific mapping. </remarks>
+        public virtual async Task<Response<Mapping>> UpdateMappingAsync(string identifier, MappingUpdate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateMapping");
+            scope.Start();
+            try
+            {
+                return await RestClient.UpdateMappingAsync(identifier, body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update specific mapping. </summary>
+        /// <param name="identifier"> Mapping&apos;s identifier. </param>
+        /// <param name="body"> The MappingUpdate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Updates a specific mapping. </remarks>
+        public virtual Response<Mapping> UpdateMapping(string identifier, MappingUpdate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateMapping");
+            scope.Start();
+            try
+            {
+                return RestClient.UpdateMapping(identifier, body, cancellationToken);
             }
             catch (Exception e)
             {

@@ -27,7 +27,7 @@ namespace Affinda.API.Models
             Pages = pages.ToList();
         }
 
-        /// <summary> Any object. </summary>
+        /// <summary> Anything. </summary>
         public object Identifier { get; set; }
         /// <summary> Gets the pages. </summary>
         public IList<DocumentSplitPage> Pages { get; }

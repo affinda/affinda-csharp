@@ -19,7 +19,7 @@ namespace Affinda.API.Models
             Languages = new ChangeTrackingList<LanguageAnnotation>();
             Skills = new ChangeTrackingList<SkillAnnotation>();
             Certifications = new ChangeTrackingList<TextAnnotation>();
-            AdditionalProperties = new ChangeTrackingDictionary<string, ComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties>();
+            AdditionalProperties = new ChangeTrackingDictionary<string, object>();
         }
 
         /// <summary> Initializes a new instance of JobDescriptionData. </summary>
@@ -42,7 +42,7 @@ namespace Affinda.API.Models
         /// <param name="yearsExperience"></param>
         /// <param name="rawText"> All of the raw text of the parsed job description, example is shortened for readability. </param>
         /// <param name="additionalProperties"> Additional Properties. </param>
-        internal JobDescriptionData(JobTitleAnnotation jobTitle, TextAnnotation contactEmail, TextAnnotation contactName, TextAnnotation contactPhone, DateAnnotation startDate, DateAnnotation endDate, TextAnnotation jobType, IList<LanguageAnnotation> languages, IList<SkillAnnotation> skills, TextAnnotation organizationName, TextAnnotation organizationWebsite, TextAnnotation educationLevel, TextAnnotation educationAccreditation, ExpectedRemunerationAnnotation expectedRemuneration, LocationAnnotation location, IList<TextAnnotation> certifications, YearsExperienceAnnotation yearsExperience, string rawText, IDictionary<string, ComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties> additionalProperties)
+        internal JobDescriptionData(JobTitleAnnotation jobTitle, TextAnnotation contactEmail, TextAnnotation contactName, TextAnnotation contactPhone, DateAnnotation startDate, DateAnnotation endDate, TextAnnotation jobType, IList<LanguageAnnotation> languages, IList<SkillAnnotation> skills, TextAnnotation organizationName, TextAnnotation organizationWebsite, TextAnnotation educationLevel, TextAnnotation educationAccreditation, ExpectedRemunerationAnnotation expectedRemuneration, LocationAnnotation location, IList<TextAnnotation> certifications, YearsExperienceAnnotation yearsExperience, string rawText, IDictionary<string, object> additionalProperties)
         {
             JobTitle = jobTitle;
             ContactEmail = contactEmail;
@@ -102,6 +102,6 @@ namespace Affinda.API.Models
         /// <summary> All of the raw text of the parsed job description, example is shortened for readability. </summary>
         public string RawText { get; set; }
         /// <summary> Additional Properties. </summary>
-        public IDictionary<string, ComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties> AdditionalProperties { get; }
+        public IDictionary<string, object> AdditionalProperties { get; }
     }
 }

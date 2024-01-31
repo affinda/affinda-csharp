@@ -34,6 +34,7 @@ namespace Affinda.API.Models
             FieldType = fieldType;
             DataPoint = dataPoint;
             Fields = new ChangeTrackingList<FieldDeprecated>();
+            AdditionalProperties = new ChangeTrackingDictionary<string, object>();
         }
 
         /// <summary> Initializes a new instance of FieldDeprecated. </summary>
@@ -47,10 +48,11 @@ namespace Affinda.API.Models
         /// <param name="disabled"></param>
         /// <param name="autoValidationThreshold"></param>
         /// <param name="showDropdown"></param>
-        /// <param name="dropNullEnums"> If True, any dropdown annotations that fail to be mapped will be discarded. </param>
+        /// <param name="dropNull"> If True, any dropdown annotations that fail to parse to a value will be discarded. </param>
         /// <param name="displayEnumValue"></param>
         /// <param name="fields"></param>
-        internal FieldDeprecated(string label, string slug, AnnotationContentType fieldType, string dataSource, string mapping, string dataPoint, bool? mandatory, bool? disabled, float? autoValidationThreshold, bool? showDropdown, bool? dropNullEnums, bool? displayEnumValue, IList<FieldDeprecated> fields)
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        internal FieldDeprecated(string label, string slug, AnnotationContentType fieldType, string dataSource, string mapping, string dataPoint, bool? mandatory, bool? disabled, float? autoValidationThreshold, bool? showDropdown, bool? dropNull, bool? displayEnumValue, IList<FieldDeprecated> fields, IDictionary<string, object> additionalProperties)
         {
             Label = label;
             Slug = slug;
@@ -62,9 +64,10 @@ namespace Affinda.API.Models
             Disabled = disabled;
             AutoValidationThreshold = autoValidationThreshold;
             ShowDropdown = showDropdown;
-            DropNullEnums = dropNullEnums;
+            DropNull = dropNull;
             DisplayEnumValue = displayEnumValue;
             Fields = fields;
+            AdditionalProperties = additionalProperties;
         }
 
         /// <summary> Gets or sets the label. </summary>
@@ -87,11 +90,13 @@ namespace Affinda.API.Models
         public float? AutoValidationThreshold { get; set; }
         /// <summary> Gets or sets the show dropdown. </summary>
         public bool? ShowDropdown { get; set; }
-        /// <summary> If True, any dropdown annotations that fail to be mapped will be discarded. </summary>
-        public bool? DropNullEnums { get; set; }
+        /// <summary> If True, any dropdown annotations that fail to parse to a value will be discarded. </summary>
+        public bool? DropNull { get; set; }
         /// <summary> Gets or sets the display enum value. </summary>
         public bool? DisplayEnumValue { get; set; }
         /// <summary> Gets the fields. </summary>
         public IList<FieldDeprecated> Fields { get; }
+        /// <summary> Additional Properties. </summary>
+        public IDictionary<string, object> AdditionalProperties { get; }
     }
 }

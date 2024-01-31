@@ -39,5 +39,7 @@ namespace Affinda.API.Models
         public float? AutoValidationThreshold { get; set; }
         /// <summary> Data source mapping identifier. </summary>
         public string DataSource { get; set; }
+        /// <summary> Defines how the data point is mapped to the data source. </summary>
+        public string Mapping { get; set; }
     }
 }

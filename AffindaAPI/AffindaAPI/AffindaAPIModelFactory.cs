@@ -239,13 +239,14 @@ namespace Affinda.API.Models
         /// <param name="enabledChildFields"></param>
         /// <param name="disabledChildFields"></param>
         /// <param name="dataSource"> Data source mapping identifier. </param>
+        /// <param name="mapping"> Defines how the data point is mapped to the data source. </param>
         /// <returns> A new <see cref="Models.DataFieldField"/> instance for mocking. </returns>
-        public static DataFieldField DataFieldField(string label = null, AnnotationContentType? fieldType = null, bool mandatory = default, bool showDropdown = default, bool displayEnumValue = default, float? autoValidationThreshold = null, IEnumerable<Field> enabledChildFields = null, IEnumerable<Field> disabledChildFields = null, string dataSource = null)
+        public static DataFieldField DataFieldField(string label = null, AnnotationContentType? fieldType = null, bool mandatory = default, bool showDropdown = default, bool displayEnumValue = default, float? autoValidationThreshold = null, IEnumerable<Field> enabledChildFields = null, IEnumerable<Field> disabledChildFields = null, string dataSource = null, string mapping = null)
         {
             enabledChildFields ??= new List<Field>();
             disabledChildFields ??= new List<Field>();
 
-            return new DataFieldField(label, fieldType, mandatory, showDropdown, displayEnumValue, autoValidationThreshold, enabledChildFields?.ToList(), disabledChildFields?.ToList(), dataSource);
+            return new DataFieldField(label, fieldType, mandatory, showDropdown, displayEnumValue, autoValidationThreshold, enabledChildFields?.ToList(), disabledChildFields?.ToList(), dataSource, mapping);
         }
 
         /// <summary> Initializes a new instance of DataFieldDataPoint. </summary>
@@ -371,7 +372,7 @@ namespace Affinda.API.Models
         /// <param name="redactedText"> Redacted version of the text in the resume, removing PII. </param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <returns> A new <see cref="Models.ResumeData"/> instance for mocking. </returns>
-        public static ResumeData ResumeData(ResumeDataName name = null, IEnumerable<string> phoneNumbers = null, IEnumerable<ResumeDataPhoneNumberDetailsItem> phoneNumberDetails = null, IEnumerable<string> websites = null, IEnumerable<string> emails = null, string dateOfBirth = null, Location location = null, string objective = null, IEnumerable<ResumeDataLanguagesItem> languages = null, IEnumerable<string> languageCodes = null, string summary = null, int? totalYearsExperience = null, byte[] headShot = null, IEnumerable<Education> education = null, string profession = null, string linkedin = null, IEnumerable<ResumeDataWorkExperienceItem> workExperience = null, IEnumerable<ResumeDataSkillsItem> skills = null, IEnumerable<string> certifications = null, IEnumerable<string> publications = null, IEnumerable<ResumeDataRefereesItem> referees = null, IEnumerable<ResumeDataSectionsItem> sections = null, int? isResumeProbability = null, string rawText = null, string redactedText = null, IDictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties> additionalProperties = null)
+        public static ResumeData ResumeData(ResumeDataName name = null, IEnumerable<string> phoneNumbers = null, IEnumerable<ResumeDataPhoneNumberDetailsItem> phoneNumberDetails = null, IEnumerable<string> websites = null, IEnumerable<string> emails = null, string dateOfBirth = null, Location location = null, string objective = null, IEnumerable<ResumeDataLanguagesItem> languages = null, IEnumerable<string> languageCodes = null, string summary = null, int? totalYearsExperience = null, byte[] headShot = null, IEnumerable<Education> education = null, string profession = null, string linkedin = null, IEnumerable<ResumeDataWorkExperienceItem> workExperience = null, IEnumerable<ResumeDataSkillsItem> skills = null, IEnumerable<string> certifications = null, IEnumerable<string> publications = null, IEnumerable<ResumeDataRefereesItem> referees = null, IEnumerable<ResumeDataSectionsItem> sections = null, int? isResumeProbability = null, string rawText = null, string redactedText = null, IDictionary<string, object> additionalProperties = null)
         {
             phoneNumbers ??= new List<string>();
             phoneNumberDetails ??= new List<ResumeDataPhoneNumberDetailsItem>();
@@ -386,7 +387,7 @@ namespace Affinda.API.Models
             publications ??= new List<string>();
             referees ??= new List<ResumeDataRefereesItem>();
             sections ??= new List<ResumeDataSectionsItem>();
-            additionalProperties ??= new Dictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties>();
+            additionalProperties ??= new Dictionary<string, object>();
 
             return new ResumeData(name, phoneNumbers?.ToList(), phoneNumberDetails?.ToList(), websites?.ToList(), emails?.ToList(), dateOfBirth, location, objective, languages?.ToList(), languageCodes?.ToList(), summary, totalYearsExperience, headShot, education?.ToList(), profession, linkedin, workExperience?.ToList(), skills?.ToList(), certifications?.ToList(), publications?.ToList(), referees?.ToList(), sections?.ToList(), isResumeProbability, rawText, redactedText, additionalProperties);
         }
@@ -623,6 +624,29 @@ namespace Affinda.API.Models
             return new Paths1Dgz0V9V3AnnotationsGetResponses200ContentApplicationJsonSchemaAllof1(results?.ToList());
         }
 
+        /// <summary> Initializes a new instance of Paths11QdcofV3MappingDataSourcesGetResponses200ContentApplicationJsonSchema. </summary>
+        /// <param name="count"> Number of items in results. </param>
+        /// <param name="next"> URL to request next page of results. </param>
+        /// <param name="previous"> URL to request previous page of results. </param>
+        /// <param name="results"></param>
+        /// <returns> A new <see cref="Models.Paths11QdcofV3MappingDataSourcesGetResponses200ContentApplicationJsonSchema"/> instance for mocking. </returns>
+        public static Paths11QdcofV3MappingDataSourcesGetResponses200ContentApplicationJsonSchema Paths11QdcofV3MappingDataSourcesGetResponses200ContentApplicationJsonSchema(int count = default, string next = null, string previous = null, IEnumerable<MappingDataSource> results = null)
+        {
+            results ??= new List<MappingDataSource>();
+
+            return new Paths11QdcofV3MappingDataSourcesGetResponses200ContentApplicationJsonSchema(count, next, previous, results?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of Paths1UmoszuV3MappingDataSourcesGetResponses200ContentApplicationJsonSchemaAllof1. </summary>
+        /// <param name="results"></param>
+        /// <returns> A new <see cref="Models.Paths1UmoszuV3MappingDataSourcesGetResponses200ContentApplicationJsonSchemaAllof1"/> instance for mocking. </returns>
+        public static Paths1UmoszuV3MappingDataSourcesGetResponses200ContentApplicationJsonSchemaAllof1 Paths1UmoszuV3MappingDataSourcesGetResponses200ContentApplicationJsonSchemaAllof1(IEnumerable<MappingDataSource> results = null)
+        {
+            results ??= new List<MappingDataSource>();
+
+            return new Paths1UmoszuV3MappingDataSourcesGetResponses200ContentApplicationJsonSchemaAllof1(results?.ToList());
+        }
+
         /// <summary> Initializes a new instance of Paths1Qr7BnyV3MappingDataSourcesIdentifierValuesGetResponses200ContentApplicationJsonSchema. </summary>
         /// <param name="count"> Number of items in results. </param>
         /// <param name="next"> URL to request next page of results. </param>
@@ -644,6 +668,40 @@ namespace Affinda.API.Models
             results ??= new List<object>();
 
             return new Paths1O6IvdaV3MappingDataSourcesIdentifierValuesGetResponses200ContentApplicationJsonSchemaAllof1(results?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of Mapping. </summary>
+        /// <param name="identifier"> Uniquely identify a mapping. </param>
+        /// <param name="organization"> The organization that this mapping belongs to. </param>
+        /// <param name="dataSource"> The mapping data source this mapping applies to. </param>
+        /// <param name="scoreCutoff"> Higher values will result in more strict matching. </param>
+        /// <returns> A new <see cref="Models.Mapping"/> instance for mocking. </returns>
+        public static Mapping Mapping(string identifier = null, string organization = null, string dataSource = null, float? scoreCutoff = null)
+        {
+            return new Mapping(identifier, organization, dataSource, scoreCutoff);
+        }
+
+        /// <summary> Initializes a new instance of Paths1Dpvb2PV3MappingsGetResponses200ContentApplicationJsonSchema. </summary>
+        /// <param name="count"> Number of items in results. </param>
+        /// <param name="next"> URL to request next page of results. </param>
+        /// <param name="previous"> URL to request previous page of results. </param>
+        /// <param name="results"></param>
+        /// <returns> A new <see cref="Models.Paths1Dpvb2PV3MappingsGetResponses200ContentApplicationJsonSchema"/> instance for mocking. </returns>
+        public static Paths1Dpvb2PV3MappingsGetResponses200ContentApplicationJsonSchema Paths1Dpvb2PV3MappingsGetResponses200ContentApplicationJsonSchema(int count = default, string next = null, string previous = null, IEnumerable<Mapping> results = null)
+        {
+            results ??= new List<Mapping>();
+
+            return new Paths1Dpvb2PV3MappingsGetResponses200ContentApplicationJsonSchema(count, next, previous, results?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of PathsWvcyp9V3MappingsGetResponses200ContentApplicationJsonSchemaAllof1. </summary>
+        /// <param name="results"></param>
+        /// <returns> A new <see cref="Models.PathsWvcyp9V3MappingsGetResponses200ContentApplicationJsonSchemaAllof1"/> instance for mocking. </returns>
+        public static PathsWvcyp9V3MappingsGetResponses200ContentApplicationJsonSchemaAllof1 PathsWvcyp9V3MappingsGetResponses200ContentApplicationJsonSchemaAllof1(IEnumerable<Mapping> results = null)
+        {
+            results ??= new List<Mapping>();
+
+            return new PathsWvcyp9V3MappingsGetResponses200ContentApplicationJsonSchemaAllof1(results?.ToList());
         }
 
         /// <summary> Initializes a new instance of PathsQ5Os5RV3OrganizationMembershipsGetResponses200ContentApplicationJsonSchema. </summary>

@@ -304,6 +304,18 @@ namespace Affinda.API.Models
                     writer.WriteNull("sourceEmail");
                 }
             }
+            if (Optional.IsDefined(SourceEmailAddress))
+            {
+                if (SourceEmailAddress != null)
+                {
+                    writer.WritePropertyName("sourceEmailAddress");
+                    writer.WriteStringValue(SourceEmailAddress);
+                }
+                else
+                {
+                    writer.WriteNull("sourceEmailAddress");
+                }
+            }
             if (Optional.IsDefined(RegionBias))
             {
                 if (RegionBias != null)
@@ -352,6 +364,7 @@ namespace Affinda.API.Models
             Optional<UserNullable> confirmedBy = default;
             Optional<User> createdBy = default;
             Optional<string> sourceEmail = default;
+            Optional<string> sourceEmailAddress = default;
             Optional<RegionBias> regionBias = default;
             foreach (var property in element.EnumerateObject())
             {
@@ -665,6 +678,16 @@ namespace Affinda.API.Models
                     sourceEmail = property.Value.GetString();
                     continue;
                 }
+                if (property.NameEquals("sourceEmailAddress"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        sourceEmailAddress = null;
+                        continue;
+                    }
+                    sourceEmailAddress = property.Value.GetString();
+                    continue;
+                }
                 if (property.NameEquals("regionBias"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
@@ -676,7 +699,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new DocumentMeta(identifier, customIdentifier.Value, fileName.Value, Optional.ToNullable(ready), Optional.ToNullable(readyDt), Optional.ToNullable(failed), expiryTime.Value, language.Value, pdf.Value, parentDocument.Value, Optional.ToList(childDocuments), pages, Optional.ToNullable(isOcrd), Optional.ToNullable(ocrConfidence), reviewUrl.Value, collection.Value, workspace, Optional.ToNullable(archivedDt), Optional.ToNullable(isArchived), Optional.ToNullable(confirmedDt), Optional.ToNullable(isConfirmed), Optional.ToNullable(rejectedDt), Optional.ToNullable(isRejected), Optional.ToNullable(createdDt), errorCode.Value, errorDetail.Value, file.Value, Optional.ToList(tags), confirmedBy.Value, createdBy.Value, sourceEmail.Value, regionBias.Value);
+            return new DocumentMeta(identifier, customIdentifier.Value, fileName.Value, Optional.ToNullable(ready), Optional.ToNullable(readyDt), Optional.ToNullable(failed), expiryTime.Value, language.Value, pdf.Value, parentDocument.Value, Optional.ToList(childDocuments), pages, Optional.ToNullable(isOcrd), Optional.ToNullable(ocrConfidence), reviewUrl.Value, collection.Value, workspace, Optional.ToNullable(archivedDt), Optional.ToNullable(isArchived), Optional.ToNullable(confirmedDt), Optional.ToNullable(isConfirmed), Optional.ToNullable(rejectedDt), Optional.ToNullable(isRejected), Optional.ToNullable(createdDt), errorCode.Value, errorDetail.Value, file.Value, Optional.ToList(tags), confirmedBy.Value, createdBy.Value, sourceEmail.Value, sourceEmailAddress.Value, regionBias.Value);
         }
     }
 }

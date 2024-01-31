@@ -17,11 +17,13 @@ namespace Affinda.API.Models
         public InvoiceData()
         {
             Tables = new ChangeTrackingList<TableAnnotation>();
+            TablesBeta = new ChangeTrackingList<TableBetaAnnotation>();
             CustomFields = new ChangeTrackingDictionary<string, object>();
         }
 
         /// <summary> Initializes a new instance of InvoiceData. </summary>
         /// <param name="tables"></param>
+        /// <param name="tablesBeta"></param>
         /// <param name="invoiceDate"></param>
         /// <param name="invoiceOrderDate"></param>
         /// <param name="paymentDateDue"></param>
@@ -60,9 +62,10 @@ namespace Affinda.API.Models
         /// <param name="currencyCode"></param>
         /// <param name="customFields"> Dictionary of &lt;any&gt;. </param>
         /// <param name="rawText"> All of the raw text of the parsed invoice. </param>
-        internal InvoiceData(IList<TableAnnotation> tables, DateAnnotation invoiceDate, DateAnnotation invoiceOrderDate, DateAnnotation paymentDateDue, InvoiceDataPaymentAmountBase paymentAmountBase, InvoiceDataPaymentAmountTax paymentAmountTax, InvoiceDataPaymentAmountTotal paymentAmountTotal, InvoiceDataPaymentAmountPaid paymentAmountPaid, InvoiceDataPaymentAmountDue paymentAmountDue, InvoiceDataInvoiceNumber invoiceNumber, InvoiceDataInvoicePurchaseOrderNumber invoicePurchaseOrderNumber, InvoiceDataSupplierBusinessNumber supplierBusinessNumber, InvoiceDataCustomerNumber customerNumber, InvoiceDataCustomerBusinessNumber customerBusinessNumber, InvoiceDataPaymentReference paymentReference, InvoiceDataBankAccountNumber bankAccountNumber, InvoiceDataSupplierVat supplierVat, InvoiceDataCustomerVat customerVat, InvoiceDataBpayBillerCode bpayBillerCode, InvoiceDataBpayReference bpayReference, InvoiceDataBankSortCode bankSortCode, InvoiceDataBankIban bankIban, InvoiceDataBankSwift bankSwift, InvoiceDataBankBsb bankBsb, InvoiceDataCustomerContactName customerContactName, InvoiceDataCustomerCompanyName customerCompanyName, InvoiceDataSupplierCompanyName supplierCompanyName, LocationAnnotation customerBillingAddress, LocationAnnotation customerDeliveryAddress, LocationAnnotation supplierAddress, InvoiceDataCustomerPhoneNumber customerPhoneNumber, InvoiceDataSupplierPhoneNumber supplierPhoneNumber, InvoiceDataSupplierFax supplierFax, InvoiceDataCustomerEmail customerEmail, InvoiceDataSupplierEmail supplierEmail, InvoiceDataSupplierWebsite supplierWebsite, CurrencyCodeAnnotation currencyCode, IDictionary<string, object> customFields, string rawText)
+        internal InvoiceData(IList<TableAnnotation> tables, IList<TableBetaAnnotation> tablesBeta, DateAnnotation invoiceDate, DateAnnotation invoiceOrderDate, DateAnnotation paymentDateDue, InvoiceDataPaymentAmountBase paymentAmountBase, InvoiceDataPaymentAmountTax paymentAmountTax, InvoiceDataPaymentAmountTotal paymentAmountTotal, InvoiceDataPaymentAmountPaid paymentAmountPaid, InvoiceDataPaymentAmountDue paymentAmountDue, InvoiceDataInvoiceNumber invoiceNumber, InvoiceDataInvoicePurchaseOrderNumber invoicePurchaseOrderNumber, InvoiceDataSupplierBusinessNumber supplierBusinessNumber, InvoiceDataCustomerNumber customerNumber, InvoiceDataCustomerBusinessNumber customerBusinessNumber, InvoiceDataPaymentReference paymentReference, InvoiceDataBankAccountNumber bankAccountNumber, InvoiceDataSupplierVat supplierVat, InvoiceDataCustomerVat customerVat, InvoiceDataBpayBillerCode bpayBillerCode, InvoiceDataBpayReference bpayReference, InvoiceDataBankSortCode bankSortCode, InvoiceDataBankIban bankIban, InvoiceDataBankSwift bankSwift, InvoiceDataBankBsb bankBsb, InvoiceDataCustomerContactName customerContactName, InvoiceDataCustomerCompanyName customerCompanyName, InvoiceDataSupplierCompanyName supplierCompanyName, LocationAnnotation customerBillingAddress, LocationAnnotation customerDeliveryAddress, LocationAnnotation supplierAddress, InvoiceDataCustomerPhoneNumber customerPhoneNumber, InvoiceDataSupplierPhoneNumber supplierPhoneNumber, InvoiceDataSupplierFax supplierFax, InvoiceDataCustomerEmail customerEmail, InvoiceDataSupplierEmail supplierEmail, InvoiceDataSupplierWebsite supplierWebsite, CurrencyCodeAnnotation currencyCode, IDictionary<string, object> customFields, string rawText)
         {
             Tables = tables;
+            TablesBeta = tablesBeta;
             InvoiceDate = invoiceDate;
             InvoiceOrderDate = invoiceOrderDate;
             PaymentDateDue = paymentDateDue;
@@ -105,6 +108,8 @@ namespace Affinda.API.Models
 
         /// <summary> Gets the tables. </summary>
         public IList<TableAnnotation> Tables { get; }
+        /// <summary> Gets the tables beta. </summary>
+        public IList<TableBetaAnnotation> TablesBeta { get; }
         /// <summary> Gets or sets the invoice date. </summary>
         public DateAnnotation InvoiceDate { get; set; }
         /// <summary> Gets or sets the invoice order date. </summary>

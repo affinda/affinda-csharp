@@ -21,13 +21,17 @@ namespace Affinda.API.Models
         /// <param name="showDropdown"></param>
         /// <param name="displayEnumValue"> If true, both the value and the label for the enums will appear in the dropdown in the validation tool. </param>
         /// <param name="autoValidationThreshold"></param>
-        internal CollectionField(string label, bool? mandatory, bool? showDropdown, bool? displayEnumValue, float? autoValidationThreshold)
+        /// <param name="dataSource"> Data source mapping identifier. </param>
+        /// <param name="mapping"> Defines how the data point is mapped to the data source. </param>
+        internal CollectionField(string label, bool? mandatory, bool? showDropdown, bool? displayEnumValue, float? autoValidationThreshold, string dataSource, string mapping)
         {
             Label = label;
             Mandatory = mandatory;
             ShowDropdown = showDropdown;
             DisplayEnumValue = displayEnumValue;
             AutoValidationThreshold = autoValidationThreshold;
+            DataSource = dataSource;
+            Mapping = mapping;
         }
 
         /// <summary> Gets or sets the label. </summary>
@@ -40,5 +44,9 @@ namespace Affinda.API.Models
         public bool? DisplayEnumValue { get; set; }
         /// <summary> Gets or sets the auto validation threshold. </summary>
         public float? AutoValidationThreshold { get; set; }
+        /// <summary> Data source mapping identifier. </summary>
+        public string DataSource { get; set; }
+        /// <summary> Defines how the data point is mapped to the data source. </summary>
+        public string Mapping { get; set; }
     }
 }

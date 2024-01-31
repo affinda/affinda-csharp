@@ -35,7 +35,6 @@ namespace Affinda.API.Models
         private const string PhonenumberValue = "phonenumber";
         private const string JsonValue = "json";
         private const string TableValue = "table";
-        private const string CellValue = "cell";
         private const string ExpectedremunerationValue = "expectedremuneration";
         private const string JobtitleValue = "jobtitle";
         private const string LanguageValue = "language";
@@ -43,6 +42,8 @@ namespace Affinda.API.Models
         private const string YearsexperienceValue = "yearsexperience";
         private const string GroupValue = "group";
         private const string TableDeprecatedValue = "table_deprecated";
+        private const string UrlValue = "url";
+        private const string ImageValue = "image";
 
         /// <summary> text. </summary>
         public static AnnotationContentType Text { get; } = new AnnotationContentType(TextValue);
@@ -70,8 +71,6 @@ namespace Affinda.API.Models
         public static AnnotationContentType Json { get; } = new AnnotationContentType(JsonValue);
         /// <summary> table. </summary>
         public static AnnotationContentType Table { get; } = new AnnotationContentType(TableValue);
-        /// <summary> cell. </summary>
-        public static AnnotationContentType Cell { get; } = new AnnotationContentType(CellValue);
         /// <summary> expectedremuneration. </summary>
         public static AnnotationContentType Expectedremuneration { get; } = new AnnotationContentType(ExpectedremunerationValue);
         /// <summary> jobtitle. </summary>
@@ -86,6 +85,10 @@ namespace Affinda.API.Models
         public static AnnotationContentType Group { get; } = new AnnotationContentType(GroupValue);
         /// <summary> table_deprecated. </summary>
         public static AnnotationContentType TableDeprecated { get; } = new AnnotationContentType(TableDeprecatedValue);
+        /// <summary> url. </summary>
+        public static AnnotationContentType Url { get; } = new AnnotationContentType(UrlValue);
+        /// <summary> image. </summary>
+        public static AnnotationContentType Image { get; } = new AnnotationContentType(ImageValue);
         /// <summary> Determines if two <see cref="AnnotationContentType"/> values are the same. </summary>
         public static bool operator ==(AnnotationContentType left, AnnotationContentType right) => left.Equals(right);
         /// <summary> Determines if two <see cref="AnnotationContentType"/> values are not the same. </summary>

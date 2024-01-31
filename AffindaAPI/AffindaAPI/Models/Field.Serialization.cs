@@ -73,10 +73,10 @@ namespace Affinda.API.Models
                 writer.WritePropertyName("displayEnumValue");
                 writer.WriteBooleanValue(DisplayEnumValue.Value);
             }
-            if (Optional.IsDefined(DropNullEnums))
+            if (Optional.IsDefined(DropNull))
             {
-                writer.WritePropertyName("dropNullEnums");
-                writer.WriteBooleanValue(DropNullEnums.Value);
+                writer.WritePropertyName("dropNull");
+                writer.WriteBooleanValue(DropNull.Value);
             }
             if (Optional.IsCollectionDefined(EnabledChildFields))
             {
@@ -127,6 +127,11 @@ namespace Affinda.API.Models
                     writer.WriteNull("fields");
                 }
             }
+            foreach (var item in AdditionalProperties)
+            {
+                writer.WritePropertyName(item.Key);
+                writer.WriteObjectValue(item.Value);
+            }
             writer.WriteEndObject();
         }
 
@@ -141,11 +146,13 @@ namespace Affinda.API.Models
             Optional<float?> autoValidationThreshold = default;
             Optional<bool> showDropdown = default;
             Optional<bool> displayEnumValue = default;
-            Optional<bool> dropNullEnums = default;
+            Optional<bool> dropNull = default;
             Optional<IList<Field>> enabledChildFields = default;
             Optional<IList<Field>> disabledChildFields = default;
             Optional<string> slug = default;
             Optional<IList<object>> fields = default;
+            IDictionary<string, object> additionalProperties = default;
+            Dictionary<string, object> additionalPropertiesDictionary = new Dictionary<string, object>();
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("label"))
@@ -223,14 +230,14 @@ namespace Affinda.API.Models
                     displayEnumValue = property.Value.GetBoolean();
                     continue;
                 }
-                if (property.NameEquals("dropNullEnums"))
+                if (property.NameEquals("dropNull"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
                     {
                         property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    dropNullEnums = property.Value.GetBoolean();
+                    dropNull = property.Value.GetBoolean();
                     continue;
                 }
                 if (property.NameEquals("enabledChildFields"))
@@ -288,8 +295,10 @@ namespace Affinda.API.Models
                     fields = array;
                     continue;
                 }
+                additionalPropertiesDictionary.Add(property.Name, property.Value.GetObject());
             }
-            return new Field(label, dataPoint, fieldType, dataSource.Value, mapping.Value, Optional.ToNullable(mandatory), Optional.ToNullable(autoValidationThreshold), Optional.ToNullable(showDropdown), Optional.ToNullable(displayEnumValue), Optional.ToNullable(dropNullEnums), Optional.ToList(enabledChildFields), Optional.ToList(disabledChildFields), slug.Value, Optional.ToList(fields));
+            additionalProperties = additionalPropertiesDictionary;
+            return new Field(label, dataPoint, fieldType, dataSource.Value, mapping.Value, Optional.ToNullable(mandatory), Optional.ToNullable(autoValidationThreshold), Optional.ToNullable(showDropdown), Optional.ToNullable(displayEnumValue), Optional.ToNullable(dropNull), Optional.ToList(enabledChildFields), Optional.ToList(disabledChildFields), slug.Value, Optional.ToList(fields), additionalProperties);
         }
     }
 }

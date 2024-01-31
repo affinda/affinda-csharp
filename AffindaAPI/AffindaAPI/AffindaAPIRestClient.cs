@@ -1541,7 +1541,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllDocumentsRequest(int? offset, int? limit, string workspace, string collection, DocumentState? state, IEnumerable<int> tags, DateRange? createdDt, string search, IEnumerable<string> ordering, bool? includeData, IEnumerable<string> exclude, bool? inReview, bool? failed, bool? ready, bool? validatable, bool? hasChallenges, string customIdentifier, bool? compact)
+        internal HttpMessage CreateGetAllDocumentsRequest(int? offset, int? limit, string workspace, string collection, DocumentState? state, IEnumerable<int> tags, DateRange? createdDt, string search, IEnumerable<string> ordering, bool? includeData, IEnumerable<string> exclude, bool? inReview, bool? failed, bool? ready, bool? validatable, bool? hasChallenges, string customIdentifier, bool? compact, bool? count)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1623,6 +1623,10 @@ namespace Affinda.API
             {
                 uri.AppendQuery("compact", compact.Value, true);
             }
+            if (count != null)
+            {
+                uri.AppendQuery("count", count.Value, true);
+            }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -1647,11 +1651,12 @@ namespace Affinda.API
         /// <param name="hasChallenges"> Filter for documents with challenges. </param>
         /// <param name="customIdentifier"> Filter for documents with this custom identifier. </param>
         /// <param name="compact"> If &quot;true&quot;, the response is compacted to annotations&apos; parsed data. Annotations&apos; meta data are excluded. Default is &quot;false&quot;. </param>
+        /// <param name="count"> If &quot;false&quot;, the documents count is not computed, thus saving time for large collections. Default is &quot;true&quot;. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the document summaries for that user, limited to 300 per page. </remarks>
-        public async Task<Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema>> GetAllDocumentsAsync(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<string> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, bool? failed = null, bool? ready = null, bool? validatable = null, bool? hasChallenges = null, string customIdentifier = null, bool? compact = null, CancellationToken cancellationToken = default)
+        public async Task<Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema>> GetAllDocumentsAsync(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<string> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, bool? failed = null, bool? ready = null, bool? validatable = null, bool? hasChallenges = null, string customIdentifier = null, bool? compact = null, bool? count = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllDocumentsRequest(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview, failed, ready, validatable, hasChallenges, customIdentifier, compact);
+            using var message = CreateGetAllDocumentsRequest(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview, failed, ready, validatable, hasChallenges, customIdentifier, compact, count);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1686,11 +1691,12 @@ namespace Affinda.API
         /// <param name="hasChallenges"> Filter for documents with challenges. </param>
         /// <param name="customIdentifier"> Filter for documents with this custom identifier. </param>
         /// <param name="compact"> If &quot;true&quot;, the response is compacted to annotations&apos; parsed data. Annotations&apos; meta data are excluded. Default is &quot;false&quot;. </param>
+        /// <param name="count"> If &quot;false&quot;, the documents count is not computed, thus saving time for large collections. Default is &quot;true&quot;. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the document summaries for that user, limited to 300 per page. </remarks>
-        public Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema> GetAllDocuments(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<string> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, bool? failed = null, bool? ready = null, bool? validatable = null, bool? hasChallenges = null, string customIdentifier = null, bool? compact = null, CancellationToken cancellationToken = default)
+        public Response<PathsOxm5M7V3DocumentsGetResponses200ContentApplicationJsonSchema> GetAllDocuments(int? offset = null, int? limit = null, string workspace = null, string collection = null, DocumentState? state = null, IEnumerable<int> tags = null, DateRange? createdDt = null, string search = null, IEnumerable<string> ordering = null, bool? includeData = null, IEnumerable<string> exclude = null, bool? inReview = null, bool? failed = null, bool? ready = null, bool? validatable = null, bool? hasChallenges = null, string customIdentifier = null, bool? compact = null, bool? count = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllDocumentsRequest(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview, failed, ready, validatable, hasChallenges, customIdentifier, compact);
+            using var message = CreateGetAllDocumentsRequest(offset, limit, workspace, collection, state, tags, createdDt, search, ordering, includeData, exclude, inReview, failed, ready, validatable, hasChallenges, customIdentifier, compact, count);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -4364,6 +4370,75 @@ namespace Affinda.API
             }
         }
 
+        internal HttpMessage CreateListMappingDataSourcesRequest(int? offset, int? limit)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Get;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/mapping_data_sources", false);
+            if (offset != null)
+            {
+                uri.AppendQuery("offset", offset.Value, true);
+            }
+            if (limit != null)
+            {
+                uri.AppendQuery("limit", limit.Value, true);
+            }
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> List mapping data sources. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns the list of all custom mapping data sources. </remarks>
+        public async Task<Response<Paths11QdcofV3MappingDataSourcesGetResponses200ContentApplicationJsonSchema>> ListMappingDataSourcesAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateListMappingDataSourcesRequest(offset, limit);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        Paths11QdcofV3MappingDataSourcesGetResponses200ContentApplicationJsonSchema value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = Paths11QdcofV3MappingDataSourcesGetResponses200ContentApplicationJsonSchema.DeserializePaths11QdcofV3MappingDataSourcesGetResponses200ContentApplicationJsonSchema(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> List mapping data sources. </summary>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns the list of all custom mapping data sources. </remarks>
+        public Response<Paths11QdcofV3MappingDataSourcesGetResponses200ContentApplicationJsonSchema> ListMappingDataSources(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateListMappingDataSourcesRequest(offset, limit);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        Paths11QdcofV3MappingDataSourcesGetResponses200ContentApplicationJsonSchema value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = Paths11QdcofV3MappingDataSourcesGetResponses200ContentApplicationJsonSchema.DeserializePaths11QdcofV3MappingDataSourcesGetResponses200ContentApplicationJsonSchema(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
         internal HttpMessage CreateGetMappingDataSourceRequest(string identifier)
         {
             var message = _pipeline.CreateMessage();
@@ -4931,6 +5006,385 @@ namespace Affinda.API
             {
                 case 204:
                     return message.Response;
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateCreateMappingRequest(MappingCreate body)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/mappings", false);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Content-Type", "application/json");
+            var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(body);
+            request.Content = content;
+            return message;
+        }
+
+        /// <summary> Create a mapping. </summary>
+        /// <param name="body"> The MappingCreate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        /// <remarks> Create a custom mapping. </remarks>
+        public async Task<Response<Mapping>> CreateMappingAsync(MappingCreate body, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateCreateMappingRequest(body);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 201:
+                    {
+                        Mapping value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = Mapping.DeserializeMapping(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Create a mapping. </summary>
+        /// <param name="body"> The MappingCreate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        /// <remarks> Create a custom mapping. </remarks>
+        public Response<Mapping> CreateMapping(MappingCreate body, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateCreateMappingRequest(body);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 201:
+                    {
+                        Mapping value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = Mapping.DeserializeMapping(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateListMappingsRequest(string mappingDataSource, int? offset, int? limit)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Get;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/mappings", false);
+            if (offset != null)
+            {
+                uri.AppendQuery("offset", offset.Value, true);
+            }
+            if (limit != null)
+            {
+                uri.AppendQuery("limit", limit.Value, true);
+            }
+            uri.AppendQuery("mapping_data_source", mappingDataSource, true);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> List mappings. </summary>
+        /// <param name="mappingDataSource"> Mapping data source&apos;s identifier. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="mappingDataSource"/> is null. </exception>
+        /// <remarks> Returns the list of all custom data mappings. </remarks>
+        public async Task<Response<Paths1Dpvb2PV3MappingsGetResponses200ContentApplicationJsonSchema>> ListMappingsAsync(string mappingDataSource, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            if (mappingDataSource == null)
+            {
+                throw new ArgumentNullException(nameof(mappingDataSource));
+            }
+
+            using var message = CreateListMappingsRequest(mappingDataSource, offset, limit);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        Paths1Dpvb2PV3MappingsGetResponses200ContentApplicationJsonSchema value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = Paths1Dpvb2PV3MappingsGetResponses200ContentApplicationJsonSchema.DeserializePaths1Dpvb2PV3MappingsGetResponses200ContentApplicationJsonSchema(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> List mappings. </summary>
+        /// <param name="mappingDataSource"> Mapping data source&apos;s identifier. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="mappingDataSource"/> is null. </exception>
+        /// <remarks> Returns the list of all custom data mappings. </remarks>
+        public Response<Paths1Dpvb2PV3MappingsGetResponses200ContentApplicationJsonSchema> ListMappings(string mappingDataSource, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            if (mappingDataSource == null)
+            {
+                throw new ArgumentNullException(nameof(mappingDataSource));
+            }
+
+            using var message = CreateListMappingsRequest(mappingDataSource, offset, limit);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        Paths1Dpvb2PV3MappingsGetResponses200ContentApplicationJsonSchema value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = Paths1Dpvb2PV3MappingsGetResponses200ContentApplicationJsonSchema.DeserializePaths1Dpvb2PV3MappingsGetResponses200ContentApplicationJsonSchema(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateGetMappingRequest(string identifier)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Get;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/mappings/", false);
+            uri.AppendPath(identifier, true);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Get specific mapping. </summary>
+        /// <param name="identifier"> Mapping&apos;s identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
+        /// <remarks> Return a specific mapping. </remarks>
+        public async Task<Response<Mapping>> GetMappingAsync(string identifier, CancellationToken cancellationToken = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            using var message = CreateGetMappingRequest(identifier);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        Mapping value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = Mapping.DeserializeMapping(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Get specific mapping. </summary>
+        /// <param name="identifier"> Mapping&apos;s identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
+        /// <remarks> Return a specific mapping. </remarks>
+        public Response<Mapping> GetMapping(string identifier, CancellationToken cancellationToken = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            using var message = CreateGetMappingRequest(identifier);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        Mapping value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = Mapping.DeserializeMapping(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateDeleteMappingRequest(string identifier)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Delete;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/mappings/", false);
+            uri.AppendPath(identifier, true);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Delete specific mapping. </summary>
+        /// <param name="identifier"> Mapping&apos;s identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
+        /// <remarks> Delete the specified mapping from the database. </remarks>
+        public async Task<Response> DeleteMappingAsync(string identifier, CancellationToken cancellationToken = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            using var message = CreateDeleteMappingRequest(identifier);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 204:
+                    return message.Response;
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Delete specific mapping. </summary>
+        /// <param name="identifier"> Mapping&apos;s identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
+        /// <remarks> Delete the specified mapping from the database. </remarks>
+        public Response DeleteMapping(string identifier, CancellationToken cancellationToken = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            using var message = CreateDeleteMappingRequest(identifier);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 204:
+                    return message.Response;
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateUpdateMappingRequest(string identifier, MappingUpdate body)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Patch;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/mappings/", false);
+            uri.AppendPath(identifier, true);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Content-Type", "application/json");
+            var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(body);
+            request.Content = content;
+            return message;
+        }
+
+        /// <summary> Update specific mapping. </summary>
+        /// <param name="identifier"> Mapping&apos;s identifier. </param>
+        /// <param name="body"> The MappingUpdate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
+        /// <remarks> Updates a specific mapping. </remarks>
+        public async Task<Response<Mapping>> UpdateMappingAsync(string identifier, MappingUpdate body, CancellationToken cancellationToken = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateUpdateMappingRequest(identifier, body);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        Mapping value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = Mapping.DeserializeMapping(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Update specific mapping. </summary>
+        /// <param name="identifier"> Mapping&apos;s identifier. </param>
+        /// <param name="body"> The MappingUpdate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> or <paramref name="body"/> is null. </exception>
+        /// <remarks> Updates a specific mapping. </remarks>
+        public Response<Mapping> UpdateMapping(string identifier, MappingUpdate body, CancellationToken cancellationToken = default)
+        {
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateUpdateMappingRequest(identifier, body);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        Mapping value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = Mapping.DeserializeMapping(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
                 default:
                     throw ClientDiagnostics.CreateRequestFailedException(message.Response);
             }

@@ -27,8 +27,8 @@ namespace Affinda.API.Models
         public int? PageIndex { get; set; }
         /// <summary> Raw data extracted from the before any post-processing. </summary>
         public string Raw { get; set; }
-        /// <summary> Gets or sets the parsed. </summary>
-        public AnnotationUpdateParsed Parsed { get; set; }
+        /// <summary> Anything. </summary>
+        public object Parsed { get; set; }
         /// <summary> Indicates whether the data has been validated by a human. </summary>
         public bool? IsClientVerified { get; set; }
         /// <summary> Data point&apos;s identifier. </summary>

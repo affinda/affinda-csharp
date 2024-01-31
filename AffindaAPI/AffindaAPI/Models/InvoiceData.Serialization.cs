@@ -26,6 +26,16 @@ namespace Affinda.API.Models
                 }
                 writer.WriteEndArray();
             }
+            if (Optional.IsCollectionDefined(TablesBeta))
+            {
+                writer.WritePropertyName("tablesBeta");
+                writer.WriteStartArray();
+                foreach (var item in TablesBeta)
+                {
+                    writer.WriteObjectValue(item);
+                }
+                writer.WriteEndArray();
+            }
             if (Optional.IsDefined(InvoiceDate))
             {
                 if (InvoiceDate != null)
@@ -487,6 +497,7 @@ namespace Affinda.API.Models
         internal static InvoiceData DeserializeInvoiceData(JsonElement element)
         {
             Optional<IList<TableAnnotation>> tables = default;
+            Optional<IList<TableBetaAnnotation>> tablesBeta = default;
             Optional<DateAnnotation> invoiceDate = default;
             Optional<DateAnnotation> invoiceOrderDate = default;
             Optional<DateAnnotation> paymentDateDue = default;
@@ -547,6 +558,28 @@ namespace Affinda.API.Models
                         }
                     }
                     tables = array;
+                    continue;
+                }
+                if (property.NameEquals("tablesBeta"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    List<TableBetaAnnotation> array = new List<TableBetaAnnotation>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        if (item.ValueKind == JsonValueKind.Null)
+                        {
+                            array.Add(null);
+                        }
+                        else
+                        {
+                            array.Add(TableBetaAnnotation.DeserializeTableBetaAnnotation(item));
+                        }
+                    }
+                    tablesBeta = array;
                     continue;
                 }
                 if (property.NameEquals("invoiceDate"))
@@ -930,7 +963,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new InvoiceData(Optional.ToList(tables), invoiceDate.Value, invoiceOrderDate.Value, paymentDateDue.Value, paymentAmountBase.Value, paymentAmountTax.Value, paymentAmountTotal.Value, paymentAmountPaid.Value, paymentAmountDue.Value, invoiceNumber.Value, invoicePurchaseOrderNumber.Value, supplierBusinessNumber.Value, customerNumber.Value, customerBusinessNumber.Value, paymentReference.Value, bankAccountNumber.Value, supplierVat.Value, customerVat.Value, bpayBillerCode.Value, bpayReference.Value, bankSortCode.Value, bankIban.Value, bankSwift.Value, bankBsb.Value, customerContactName.Value, customerCompanyName.Value, supplierCompanyName.Value, customerBillingAddress.Value, customerDeliveryAddress.Value, supplierAddress.Value, customerPhoneNumber.Value, supplierPhoneNumber.Value, supplierFax.Value, customerEmail.Value, supplierEmail.Value, supplierWebsite.Value, currencyCode.Value, Optional.ToDictionary(customFields), rawText.Value);
+            return new InvoiceData(Optional.ToList(tables), Optional.ToList(tablesBeta), invoiceDate.Value, invoiceOrderDate.Value, paymentDateDue.Value, paymentAmountBase.Value, paymentAmountTax.Value, paymentAmountTotal.Value, paymentAmountPaid.Value, paymentAmountDue.Value, invoiceNumber.Value, invoicePurchaseOrderNumber.Value, supplierBusinessNumber.Value, customerNumber.Value, customerBusinessNumber.Value, paymentReference.Value, bankAccountNumber.Value, supplierVat.Value, customerVat.Value, bpayBillerCode.Value, bpayReference.Value, bankSortCode.Value, bankIban.Value, bankSwift.Value, bankBsb.Value, customerContactName.Value, customerCompanyName.Value, supplierCompanyName.Value, customerBillingAddress.Value, customerDeliveryAddress.Value, supplierAddress.Value, customerPhoneNumber.Value, supplierPhoneNumber.Value, supplierFax.Value, customerEmail.Value, supplierEmail.Value, supplierWebsite.Value, currencyCode.Value, Optional.ToDictionary(customFields), rawText.Value);
         }
     }
 }

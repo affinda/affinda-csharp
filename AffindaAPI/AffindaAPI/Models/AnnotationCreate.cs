@@ -46,8 +46,8 @@ namespace Affinda.API.Models
         public string DataPoint { get; }
         /// <summary> Raw data extracted from the before any post-processing. </summary>
         public string Raw { get; set; }
-        /// <summary> Gets or sets the parsed. </summary>
-        public AnnotationCreateParsed Parsed { get; set; }
+        /// <summary> Anything. </summary>
+        public object Parsed { get; set; }
         /// <summary> Indicates whether the data has been validated by a human. </summary>
         public bool? IsClientVerified { get; set; }
         /// <summary> The parent annotation&apos;s ID. </summary>

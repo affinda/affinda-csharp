@@ -36,6 +36,7 @@ namespace Affinda.API.Models
             EnabledChildFields = new ChangeTrackingList<Field>();
             DisabledChildFields = new ChangeTrackingList<Field>();
             Fields = new ChangeTrackingList<object>();
+            AdditionalProperties = new ChangeTrackingDictionary<string, object>();
         }
 
         /// <summary> Initializes a new instance of Field. </summary>
@@ -48,12 +49,13 @@ namespace Affinda.API.Models
         /// <param name="autoValidationThreshold"></param>
         /// <param name="showDropdown"></param>
         /// <param name="displayEnumValue"> If true, both the value and the label for the enums will appear in the dropdown in the validation tool. </param>
-        /// <param name="dropNullEnums"> If True, any dropdown annotations that fail to be mapped will be discarded. </param>
+        /// <param name="dropNull"> If True, any dropdown annotations that fail to parse to a value will be discarded. </param>
         /// <param name="enabledChildFields"></param>
         /// <param name="disabledChildFields"></param>
         /// <param name="slug"></param>
         /// <param name="fields"></param>
-        internal Field(string label, string dataPoint, AnnotationContentType fieldType, string dataSource, string mapping, bool? mandatory, float? autoValidationThreshold, bool? showDropdown, bool? displayEnumValue, bool? dropNullEnums, IList<Field> enabledChildFields, IList<Field> disabledChildFields, string slug, IList<object> fields)
+        /// <param name="additionalProperties"> Additional Properties. </param>
+        internal Field(string label, string dataPoint, AnnotationContentType fieldType, string dataSource, string mapping, bool? mandatory, float? autoValidationThreshold, bool? showDropdown, bool? displayEnumValue, bool? dropNull, IList<Field> enabledChildFields, IList<Field> disabledChildFields, string slug, IList<object> fields, IDictionary<string, object> additionalProperties)
         {
             Label = label;
             DataPoint = dataPoint;
@@ -64,11 +66,12 @@ namespace Affinda.API.Models
             AutoValidationThreshold = autoValidationThreshold;
             ShowDropdown = showDropdown;
             DisplayEnumValue = displayEnumValue;
-            DropNullEnums = dropNullEnums;
+            DropNull = dropNull;
             EnabledChildFields = enabledChildFields;
             DisabledChildFields = disabledChildFields;
             Slug = slug;
             Fields = fields;
+            AdditionalProperties = additionalProperties;
         }
 
         /// <summary> Gets or sets the label. </summary>
@@ -89,8 +92,8 @@ namespace Affinda.API.Models
         public bool? ShowDropdown { get; set; }
         /// <summary> If true, both the value and the label for the enums will appear in the dropdown in the validation tool. </summary>
         public bool? DisplayEnumValue { get; set; }
-        /// <summary> If True, any dropdown annotations that fail to be mapped will be discarded. </summary>
-        public bool? DropNullEnums { get; set; }
+        /// <summary> If True, any dropdown annotations that fail to parse to a value will be discarded. </summary>
+        public bool? DropNull { get; set; }
         /// <summary> Gets the enabled child fields. </summary>
         public IList<Field> EnabledChildFields { get; }
         /// <summary> Gets the disabled child fields. </summary>
@@ -99,5 +102,7 @@ namespace Affinda.API.Models
         public string Slug { get; set; }
         /// <summary> Gets or sets the fields. </summary>
         public IList<object> Fields { get; set; }
+        /// <summary> Additional Properties. </summary>
+        public IDictionary<string, object> AdditionalProperties { get; }
     }
 }
