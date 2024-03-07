@@ -102,6 +102,11 @@ namespace Affinda.API.Models
                 writer.WritePropertyName("trainsExtractor");
                 writer.WriteBooleanValue(TrainsExtractor.Value);
             }
+            if (Optional.IsDefined(DisableConfirmationIfValidationRulesFail))
+            {
+                writer.WritePropertyName("disableConfirmationIfValidationRulesFail");
+                writer.WriteBooleanValue(DisableConfirmationIfValidationRulesFail.Value);
+            }
             writer.WriteEndObject();
         }
     }

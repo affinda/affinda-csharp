@@ -73,6 +73,11 @@ namespace Affinda.API.Models
                     writer.WriteNull("mapping");
                 }
             }
+            if (Optional.IsDefined(DisplayRawText))
+            {
+                writer.WritePropertyName("displayRawText");
+                writer.WriteBooleanValue(DisplayRawText.Value);
+            }
             writer.WriteEndObject();
         }
     }

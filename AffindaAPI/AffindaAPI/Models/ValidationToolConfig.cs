@@ -21,10 +21,18 @@ namespace Affinda.API.Models
         public bool? HideActions { get; }
         /// <summary> Hide the collection selector. </summary>
         public bool? HideCollection { get; }
+        /// <summary> Hide the edit pages button. </summary>
+        public bool? HideEditPages { get; }
         /// <summary> Hide the export menu. </summary>
         public bool? HideExport { get; }
         /// <summary> Hide the filename input. </summary>
         public bool? HideFilename { get; }
+        /// <summary> Hide the reject document button. </summary>
+        public bool? HideReject { get; }
+        /// <summary> Hide the reparse button. </summary>
+        public bool? HideReparse { get; }
+        /// <summary> Hide the run OCR button. </summary>
+        public bool? HideRunOcr { get; }
         /// <summary> Hide the tags editor. </summary>
         public bool? HideTags { get; }
         /// <summary> Hide the warnings panel. </summary>

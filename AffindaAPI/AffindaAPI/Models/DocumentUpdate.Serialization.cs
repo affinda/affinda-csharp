@@ -59,6 +59,11 @@ namespace Affinda.API.Models
                 writer.WritePropertyName("isArchived");
                 writer.WriteBooleanValue(IsArchived.Value);
             }
+            if (Optional.IsDefined(SkipParse))
+            {
+                writer.WritePropertyName("skipParse");
+                writer.WriteBooleanValue(SkipParse.Value);
+            }
             if (Optional.IsDefined(Language))
             {
                 if (Language != null)

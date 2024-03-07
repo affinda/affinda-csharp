@@ -17,7 +17,6 @@ namespace Affinda.API.Models
         public ResumeSearchConfig()
         {
             Indices = new ChangeTrackingList<string>();
-            SearchToolTheme = new ChangeTrackingDictionary<string, object>();
             Actions = new ChangeTrackingList<SearchConfigAction>();
             CustomFieldsConfig = new ChangeTrackingList<CustomFieldConfig>();
         }
@@ -52,7 +51,8 @@ namespace Affinda.API.Models
         /// <param name="hideToolbar"> Hide the reset/import toolbar. </param>
         /// <param name="hideSidePanel"> Hide the entire side panel. </param>
         /// <param name="customFieldsConfig"></param>
-        internal ResumeSearchConfig(bool? allowPdfDownload, int? maxResults, bool? displayJobTitle, bool? displayLocation, bool? displayYearsExperience, bool? displayOccupationGroup, bool? displayEducation, bool? displaySkills, bool? displayLanguages, bool? displayManagementLevel, bool? displayKeywords, float? weightJobTitle, float? weightLocation, float? weightYearsExperience, float? weightOccupationGroup, float? weightEducation, float? weightSkills, float? weightLanguages, float? weightManagementLevel, float? weightKeywords, IList<string> indices, bool? showIndexDropdown, IDictionary<string, object> searchToolTheme, int? userId, string username, IList<SearchConfigAction> actions, bool? hideToolbar, bool? hideSidePanel, IList<CustomFieldConfig> customFieldsConfig)
+        /// <param name="distanceUnit"> The unit of distance to use for location based searches. </param>
+        internal ResumeSearchConfig(bool? allowPdfDownload, int? maxResults, bool? displayJobTitle, bool? displayLocation, bool? displayYearsExperience, bool? displayOccupationGroup, bool? displayEducation, bool? displaySkills, bool? displayLanguages, bool? displayManagementLevel, bool? displayKeywords, float? weightJobTitle, float? weightLocation, float? weightYearsExperience, float? weightOccupationGroup, float? weightEducation, float? weightSkills, float? weightLanguages, float? weightManagementLevel, float? weightKeywords, IList<string> indices, bool? showIndexDropdown, ResumeSearchConfigSearchToolTheme searchToolTheme, int? userId, string username, IList<SearchConfigAction> actions, bool? hideToolbar, bool? hideSidePanel, IList<CustomFieldConfig> customFieldsConfig, ResumeSearchConfigDistanceUnit? distanceUnit)
         {
             AllowPdfDownload = allowPdfDownload;
             MaxResults = maxResults;
@@ -83,6 +83,7 @@ namespace Affinda.API.Models
             HideToolbar = hideToolbar;
             HideSidePanel = hideSidePanel;
             CustomFieldsConfig = customFieldsConfig;
+            DistanceUnit = distanceUnit;
         }
 
         /// <summary> Gets or sets the allow pdf download. </summary>
@@ -130,7 +131,7 @@ namespace Affinda.API.Models
         /// <summary> Controls whether or not the index dropdown is displayed to the user. </summary>
         public bool? ShowIndexDropdown { get; set; }
         /// <summary> Customize the theme of the embeded search tool. </summary>
-        public IDictionary<string, object> SearchToolTheme { get; set; }
+        public ResumeSearchConfigSearchToolTheme SearchToolTheme { get; set; }
         /// <summary> ID of the logged in user. </summary>
         public int? UserId { get; }
         /// <summary> Username of the logged in user. </summary>
@@ -143,5 +144,7 @@ namespace Affinda.API.Models
         public bool? HideSidePanel { get; set; }
         /// <summary> Gets or sets the custom fields config. </summary>
         public IList<CustomFieldConfig> CustomFieldsConfig { get; set; }
+        /// <summary> The unit of distance to use for location based searches. </summary>
+        public ResumeSearchConfigDistanceUnit? DistanceUnit { get; set; }
     }
 }

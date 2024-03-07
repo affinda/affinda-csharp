@@ -110,6 +110,11 @@ namespace Affinda.API.Models
                     writer.WriteNull("slug");
                 }
             }
+            if (Optional.IsDefined(DisplayRawText))
+            {
+                writer.WritePropertyName("displayRawText");
+                writer.WriteBooleanValue(DisplayRawText.Value);
+            }
             if (Optional.IsCollectionDefined(Fields))
             {
                 if (Fields != null)
@@ -150,6 +155,7 @@ namespace Affinda.API.Models
             Optional<IList<Field>> enabledChildFields = default;
             Optional<IList<Field>> disabledChildFields = default;
             Optional<string> slug = default;
+            Optional<bool> displayRawText = default;
             Optional<IList<object>> fields = default;
             IDictionary<string, object> additionalProperties = default;
             Dictionary<string, object> additionalPropertiesDictionary = new Dictionary<string, object>();
@@ -280,6 +286,16 @@ namespace Affinda.API.Models
                     slug = property.Value.GetString();
                     continue;
                 }
+                if (property.NameEquals("displayRawText"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    displayRawText = property.Value.GetBoolean();
+                    continue;
+                }
                 if (property.NameEquals("fields"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
@@ -298,7 +314,7 @@ namespace Affinda.API.Models
                 additionalPropertiesDictionary.Add(property.Name, property.Value.GetObject());
             }
             additionalProperties = additionalPropertiesDictionary;
-            return new Field(label, dataPoint, fieldType, dataSource.Value, mapping.Value, Optional.ToNullable(mandatory), Optional.ToNullable(autoValidationThreshold), Optional.ToNullable(showDropdown), Optional.ToNullable(displayEnumValue), Optional.ToNullable(dropNull), Optional.ToList(enabledChildFields), Optional.ToList(disabledChildFields), slug.Value, Optional.ToList(fields), additionalProperties);
+            return new Field(label, dataPoint, fieldType, dataSource.Value, mapping.Value, Optional.ToNullable(mandatory), Optional.ToNullable(autoValidationThreshold), Optional.ToNullable(showDropdown), Optional.ToNullable(displayEnumValue), Optional.ToNullable(dropNull), Optional.ToList(enabledChildFields), Optional.ToList(disabledChildFields), slug.Value, Optional.ToNullable(displayRawText), Optional.ToList(fields), additionalProperties);
         }
     }
 }

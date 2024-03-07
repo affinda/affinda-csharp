@@ -24,11 +24,14 @@ namespace Affinda.API.Models
 
         private const string ApiValue = "api";
         private const string ApiEu1Value = "api.eu1";
+        private const string ApiUs1Value = "api.us1";
 
         /// <summary> api. </summary>
         public static Region Api { get; } = new Region(ApiValue);
         /// <summary> api.eu1. </summary>
         public static Region ApiEu1 { get; } = new Region(ApiEu1Value);
+        /// <summary> api.us1. </summary>
+        public static Region ApiUs1 { get; } = new Region(ApiUs1Value);
         /// <summary> Determines if two <see cref="Region"/> values are the same. </summary>
         public static bool operator ==(Region left, Region right) => left.Equals(right);
         /// <summary> Determines if two <see cref="Region"/> values are not the same. </summary>

@@ -81,6 +81,16 @@ namespace Affinda.API.Models
                     writer.WriteNull("parent");
                 }
             }
+            if (Optional.IsCollectionDefined(ValidationResults))
+            {
+                writer.WritePropertyName("validationResults");
+                writer.WriteStartArray();
+                foreach (var item in ValidationResults)
+                {
+                    writer.WriteObjectValue(item);
+                }
+                writer.WriteEndArray();
+            }
             writer.WriteEndObject();
         }
     }

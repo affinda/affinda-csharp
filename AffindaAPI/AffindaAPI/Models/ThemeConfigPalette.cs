@@ -8,34 +8,61 @@
 namespace Affinda.API.Models
 {
     /// <summary> The ThemeConfigPalette. </summary>
-    internal partial class ThemeConfigPalette
+    public partial class ThemeConfigPalette
     {
         /// <summary> Initializes a new instance of ThemeConfigPalette. </summary>
-        internal ThemeConfigPalette()
+        public ThemeConfigPalette()
         {
         }
 
-        /// <summary> Gets the mode. </summary>
-        public ThemeConfigPaletteMode? Mode { get; }
-        /// <summary> Gets the background. </summary>
-        public ThemeConfigPaletteBackground Background { get; }
-        /// <summary> Gets the text. </summary>
-        public ThemeConfigPaletteText Text { get; }
-        /// <summary> Gets the divider. </summary>
-        public string Divider { get; }
-        /// <summary> Gets the primary. </summary>
-        public PaletteColorOptions Primary { get; }
-        /// <summary> Gets the secondary. </summary>
-        public PaletteColorOptions Secondary { get; }
-        /// <summary> Gets the success. </summary>
-        public PaletteColorOptions Success { get; }
-        /// <summary> Gets the annotation. </summary>
-        public PaletteColorOptions Annotation { get; }
-        /// <summary> Gets the error. </summary>
-        public PaletteColorOptions Error { get; }
-        /// <summary> Gets the info. </summary>
-        public PaletteColorOptions Info { get; }
-        /// <summary> Gets the warning. </summary>
-        public PaletteColorOptions Warning { get; }
+        /// <summary> Initializes a new instance of ThemeConfigPalette. </summary>
+        /// <param name="mode"></param>
+        /// <param name="background"> Anything. </param>
+        /// <param name="text"></param>
+        /// <param name="divider"></param>
+        /// <param name="primary"></param>
+        /// <param name="secondary"></param>
+        /// <param name="success"></param>
+        /// <param name="annotation"></param>
+        /// <param name="error"></param>
+        /// <param name="info"></param>
+        /// <param name="warning"></param>
+        internal ThemeConfigPalette(ThemeConfigPaletteMode? mode, object background, ThemeConfigPaletteText text, string divider, PaletteColorOptions primary, PaletteColorOptions secondary, PaletteColorOptions success, PaletteColorOptions annotation, PaletteColorOptions error, PaletteColorOptions info, PaletteColorOptions warning)
+        {
+            Mode = mode;
+            Background = background;
+            Text = text;
+            Divider = divider;
+            Primary = primary;
+            Secondary = secondary;
+            Success = success;
+            Annotation = annotation;
+            Error = error;
+            Info = info;
+            Warning = warning;
+        }
+
+        /// <summary> Gets or sets the mode. </summary>
+        public ThemeConfigPaletteMode? Mode { get; set; }
+        /// <summary> Anything. </summary>
+        public object Background { get; set; }
+        /// <summary> Gets or sets the text. </summary>
+        public ThemeConfigPaletteText Text { get; set; }
+        /// <summary> Gets or sets the divider. </summary>
+        public string Divider { get; set; }
+        /// <summary> Gets or sets the primary. </summary>
+        public PaletteColorOptions Primary { get; set; }
+        /// <summary> Gets or sets the secondary. </summary>
+        public PaletteColorOptions Secondary { get; set; }
+        /// <summary> Gets or sets the success. </summary>
+        public PaletteColorOptions Success { get; set; }
+        /// <summary> Gets or sets the annotation. </summary>
+        public PaletteColorOptions Annotation { get; set; }
+        /// <summary> Gets or sets the error. </summary>
+        public PaletteColorOptions Error { get; set; }
+        /// <summary> Gets or sets the info. </summary>
+        public PaletteColorOptions Info { get; set; }
+        /// <summary> Gets or sets the warning. </summary>
+        public PaletteColorOptions Warning { get; set; }
     }
 }

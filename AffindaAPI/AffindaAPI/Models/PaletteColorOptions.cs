@@ -10,12 +10,12 @@ using System;
 namespace Affinda.API.Models
 {
     /// <summary> The PaletteColorOptions. </summary>
-    internal partial class PaletteColorOptions
+    public partial class PaletteColorOptions
     {
         /// <summary> Initializes a new instance of PaletteColorOptions. </summary>
         /// <param name="main"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="main"/> is null. </exception>
-        internal PaletteColorOptions(string main)
+        public PaletteColorOptions(string main)
         {
             if (main == null)
             {
@@ -25,13 +25,26 @@ namespace Affinda.API.Models
             Main = main;
         }
 
-        /// <summary> Gets the main. </summary>
-        public string Main { get; }
-        /// <summary> Gets the light. </summary>
-        public string Light { get; }
-        /// <summary> Gets the dark. </summary>
-        public string Dark { get; }
-        /// <summary> Gets the contrast text. </summary>
-        public string ContrastText { get; }
+        /// <summary> Initializes a new instance of PaletteColorOptions. </summary>
+        /// <param name="main"></param>
+        /// <param name="light"></param>
+        /// <param name="dark"></param>
+        /// <param name="contrastText"></param>
+        internal PaletteColorOptions(string main, string light, string dark, string contrastText)
+        {
+            Main = main;
+            Light = light;
+            Dark = dark;
+            ContrastText = contrastText;
+        }
+
+        /// <summary> Gets or sets the main. </summary>
+        public string Main { get; set; }
+        /// <summary> Gets or sets the light. </summary>
+        public string Light { get; set; }
+        /// <summary> Gets or sets the dark. </summary>
+        public string Dark { get; set; }
+        /// <summary> Gets or sets the contrast text. </summary>
+        public string ContrastText { get; set; }
     }
 }

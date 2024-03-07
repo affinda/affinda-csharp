@@ -893,17 +893,19 @@ namespace Affinda.API
         /// <param name="rejectDuplicates"> The String to use. </param>
         /// <param name="regionBias"> A JSON representation of the RegionBias object. </param>
         /// <param name="lowPriority"> Explicitly mark this document as low priority. </param>
+        /// <param name="compact"> If true, the returned parse result (assuming `wait` is also true) will be a compact version of the full result. </param>
+        /// <param name="deleteAfterParse"> If true, no data will be stored after parsing. Only compatible with requests where wait: True. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
         /// Uploads a document for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/documents/{identifier}](#get-/v3/documents/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
         /// </remarks>
-        public virtual async Task<Response<Document>> CreateDocumentAsync(Stream file = null, string url = null, string data = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string customIdentifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, string regionBias = null, string lowPriority = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<Document>> CreateDocumentAsync(Stream file = null, string url = null, string data = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string customIdentifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, string regionBias = null, string lowPriority = null, string compact = null, string deleteAfterParse = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateDocument");
             scope.Start();
             try
             {
-                return await RestClient.CreateDocumentAsync(file, url, data, collection, workspace, wait, identifier, customIdentifier, fileName, expiryTime, language, rejectDuplicates, regionBias, lowPriority, cancellationToken).ConfigureAwait(false);
+                return await RestClient.CreateDocumentAsync(file, url, data, collection, workspace, wait, identifier, customIdentifier, fileName, expiryTime, language, rejectDuplicates, regionBias, lowPriority, compact, deleteAfterParse, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -927,17 +929,19 @@ namespace Affinda.API
         /// <param name="rejectDuplicates"> The String to use. </param>
         /// <param name="regionBias"> A JSON representation of the RegionBias object. </param>
         /// <param name="lowPriority"> Explicitly mark this document as low priority. </param>
+        /// <param name="compact"> If true, the returned parse result (assuming `wait` is also true) will be a compact version of the full result. </param>
+        /// <param name="deleteAfterParse"> If true, no data will be stored after parsing. Only compatible with requests where wait: True. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
         /// Uploads a document for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/documents/{identifier}](#get-/v3/documents/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
         /// </remarks>
-        public virtual Response<Document> CreateDocument(Stream file = null, string url = null, string data = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string customIdentifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, string regionBias = null, string lowPriority = null, CancellationToken cancellationToken = default)
+        public virtual Response<Document> CreateDocument(Stream file = null, string url = null, string data = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string customIdentifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, string regionBias = null, string lowPriority = null, string compact = null, string deleteAfterParse = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateDocument");
             scope.Start();
             try
             {
-                return RestClient.CreateDocument(file, url, data, collection, workspace, wait, identifier, customIdentifier, fileName, expiryTime, language, rejectDuplicates, regionBias, lowPriority, cancellationToken);
+                return RestClient.CreateDocument(file, url, data, collection, workspace, wait, identifier, customIdentifier, fileName, expiryTime, language, rejectDuplicates, regionBias, lowPriority, compact, deleteAfterParse, cancellationToken);
             }
             catch (Exception e)
             {
@@ -1240,6 +1244,202 @@ namespace Affinda.API
             try
             {
                 return RestClient.EditDocumentPages(identifier, body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get list of all validation results. </summary>
+        /// <param name="document"> Filter by document. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns the validation results of a document. </remarks>
+        public virtual async Task<Response<IReadOnlyList<ValidationResult>>> GetAllValidationResultsAsync(string document, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllValidationResults");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetAllValidationResultsAsync(document, offset, limit, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get list of all validation results. </summary>
+        /// <param name="document"> Filter by document. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Returns the validation results of a document. </remarks>
+        public virtual Response<IReadOnlyList<ValidationResult>> GetAllValidationResults(string document, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllValidationResults");
+            scope.Start();
+            try
+            {
+                return RestClient.GetAllValidationResults(document, offset, limit, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create a validation result. </summary>
+        /// <param name="body"> The ValidationResultCreate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create a validation result. </remarks>
+        public virtual async Task<Response<ValidationResult>> CreateValidationResultAsync(ValidationResultCreate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateValidationResult");
+            scope.Start();
+            try
+            {
+                return await RestClient.CreateValidationResultAsync(body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Create a validation result. </summary>
+        /// <param name="body"> The ValidationResultCreate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Create a validation result. </remarks>
+        public virtual Response<ValidationResult> CreateValidationResult(ValidationResultCreate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateValidationResult");
+            scope.Start();
+            try
+            {
+                return RestClient.CreateValidationResult(body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get specific validation result. </summary>
+        /// <param name="id"> Validation result&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return a specific validation result. </remarks>
+        public virtual async Task<Response<ValidationResult>> GetValidationResultAsync(int id, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetValidationResult");
+            scope.Start();
+            try
+            {
+                return await RestClient.GetValidationResultAsync(id, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Get specific validation result. </summary>
+        /// <param name="id"> Validation result&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return a specific validation result. </remarks>
+        public virtual Response<ValidationResult> GetValidationResult(int id, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetValidationResult");
+            scope.Start();
+            try
+            {
+                return RestClient.GetValidationResult(id, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update a validation result. </summary>
+        /// <param name="id"> Validation result&apos;s ID. </param>
+        /// <param name="body"> Validation result data to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Update a validation result. </remarks>
+        public virtual async Task<Response<ValidationResult>> UpdateValidationResultAsync(int id, ValidationResultUpdate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateValidationResult");
+            scope.Start();
+            try
+            {
+                return await RestClient.UpdateValidationResultAsync(id, body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update a validation result. </summary>
+        /// <param name="id"> Validation result&apos;s ID. </param>
+        /// <param name="body"> Validation result data to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Update a validation result. </remarks>
+        public virtual Response<ValidationResult> UpdateValidationResult(int id, ValidationResultUpdate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateValidationResult");
+            scope.Start();
+            try
+            {
+                return RestClient.UpdateValidationResult(id, body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete a validation result. </summary>
+        /// <param name="id"> Validation result&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Remove validation result. </remarks>
+        public virtual async Task<Response> DeleteValidationResultAsync(int id, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteValidationResult");
+            scope.Start();
+            try
+            {
+                return await RestClient.DeleteValidationResultAsync(id, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Delete a validation result. </summary>
+        /// <param name="id"> Validation result&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Remove validation result. </remarks>
+        public virtual Response DeleteValidationResult(int id, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteValidationResult");
+            scope.Start();
+            try
+            {
+                return RestClient.DeleteValidationResult(id, cancellationToken);
             }
             catch (Exception e)
             {
@@ -1933,7 +2133,7 @@ namespace Affinda.API
         /// <summary> Create a annotation. </summary>
         /// <param name="body"> The AnnotationCreate to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response<Annotation>> CreateAnnotationAsync(AnnotationCreate body, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<AnnotationWithValidationResults>> CreateAnnotationAsync(AnnotationCreate body, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateAnnotation");
             scope.Start();
@@ -1951,7 +2151,7 @@ namespace Affinda.API
         /// <summary> Create a annotation. </summary>
         /// <param name="body"> The AnnotationCreate to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response<Annotation> CreateAnnotation(AnnotationCreate body, CancellationToken cancellationToken = default)
+        public virtual Response<AnnotationWithValidationResults> CreateAnnotation(AnnotationCreate body, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateAnnotation");
             scope.Start();
@@ -2048,7 +2248,7 @@ namespace Affinda.API
         /// <param name="id"> Annotation&apos;s ID. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Deletes the specified annotation from the database. </remarks>
-        public virtual async Task<Response> DeleteAnnotationAsync(int id, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<AnotationDelete>> DeleteAnnotationAsync(int id, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteAnnotation");
             scope.Start();
@@ -2067,7 +2267,7 @@ namespace Affinda.API
         /// <param name="id"> Annotation&apos;s ID. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Deletes the specified annotation from the database. </remarks>
-        public virtual Response DeleteAnnotation(int id, CancellationToken cancellationToken = default)
+        public virtual Response<AnotationDelete> DeleteAnnotation(int id, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.DeleteAnnotation");
             scope.Start();
@@ -2157,7 +2357,7 @@ namespace Affinda.API
         /// <summary> Batch delete annotations. </summary>
         /// <param name="body"> The BatchDeleteAnnotationsRequest to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response> BatchDeleteAnnotationsAsync(IEnumerable<int> body, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<BatchDeleteAnnotationsResponse>> BatchDeleteAnnotationsAsync(IEnumerable<int> body, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.BatchDeleteAnnotations");
             scope.Start();
@@ -2175,7 +2375,7 @@ namespace Affinda.API
         /// <summary> Batch delete annotations. </summary>
         /// <param name="body"> The BatchDeleteAnnotationsRequest to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response BatchDeleteAnnotations(IEnumerable<int> body, CancellationToken cancellationToken = default)
+        public virtual Response<BatchDeleteAnnotationsResponse> BatchDeleteAnnotations(IEnumerable<int> body, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.BatchDeleteAnnotations");
             scope.Start();
@@ -4292,7 +4492,7 @@ namespace Affinda.API
         /// <param name="documentType"> Filter indices by a document type. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public virtual async Task<Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum18? documentType = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum20? documentType = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexes");
             scope.Start();
@@ -4313,7 +4513,7 @@ namespace Affinda.API
         /// <param name="documentType"> Filter indices by a document type. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public virtual Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema> GetAllIndexes(int? offset = null, int? limit = null, Enum18? documentType = null, CancellationToken cancellationToken = default)
+        public virtual Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema> GetAllIndexes(int? offset = null, int? limit = null, Enum20? documentType = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexes");
             scope.Start();
@@ -4446,15 +4646,17 @@ namespace Affinda.API
 
         /// <summary> Get indexed documents for a specific index. </summary>
         /// <param name="name"> Index name. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexed documents for that index. </remarks>
-        public virtual async Task<Response<PathsO7SnenV3IndexNameDocumentsGetResponses200ContentApplicationJsonSchema>> GetAllIndexDocumentsAsync(string name, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<PathsO7SnenV3IndexNameDocumentsGetResponses200ContentApplicationJsonSchema>> GetAllIndexDocumentsAsync(string name, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexDocuments");
             scope.Start();
             try
             {
-                return await RestClient.GetAllIndexDocumentsAsync(name, cancellationToken).ConfigureAwait(false);
+                return await RestClient.GetAllIndexDocumentsAsync(name, offset, limit, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -4465,15 +4667,17 @@ namespace Affinda.API
 
         /// <summary> Get indexed documents for a specific index. </summary>
         /// <param name="name"> Index name. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexed documents for that index. </remarks>
-        public virtual Response<PathsO7SnenV3IndexNameDocumentsGetResponses200ContentApplicationJsonSchema> GetAllIndexDocuments(string name, CancellationToken cancellationToken = default)
+        public virtual Response<PathsO7SnenV3IndexNameDocumentsGetResponses200ContentApplicationJsonSchema> GetAllIndexDocuments(string name, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexDocuments");
             scope.Start();
             try
             {
-                return RestClient.GetAllIndexDocuments(name, cancellationToken);
+                return RestClient.GetAllIndexDocuments(name, offset, limit, cancellationToken);
             }
             catch (Exception e)
             {

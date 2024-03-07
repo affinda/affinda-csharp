@@ -190,6 +190,11 @@ namespace Affinda.API.Models
                 writer.WritePropertyName("isArchived");
                 writer.WriteBooleanValue(IsArchived.Value);
             }
+            if (Optional.IsDefined(SkipParse))
+            {
+                writer.WritePropertyName("skipParse");
+                writer.WriteBooleanValue(SkipParse.Value);
+            }
             if (Optional.IsDefined(ConfirmedDt))
             {
                 if (ConfirmedDt != null)
@@ -200,6 +205,18 @@ namespace Affinda.API.Models
                 else
                 {
                     writer.WriteNull("confirmedDt");
+                }
+            }
+            if (Optional.IsDefined(ConfirmedBy))
+            {
+                if (ConfirmedBy != null)
+                {
+                    writer.WritePropertyName("confirmedBy");
+                    writer.WriteObjectValue(ConfirmedBy);
+                }
+                else
+                {
+                    writer.WriteNull("confirmedBy");
                 }
             }
             if (Optional.IsDefined(IsConfirmed))
@@ -217,6 +234,18 @@ namespace Affinda.API.Models
                 else
                 {
                     writer.WriteNull("rejectedDt");
+                }
+            }
+            if (Optional.IsDefined(RejectedBy))
+            {
+                if (RejectedBy != null)
+                {
+                    writer.WritePropertyName("rejectedBy");
+                    writer.WriteObjectValue(RejectedBy);
+                }
+                else
+                {
+                    writer.WriteNull("rejectedBy");
                 }
             }
             if (Optional.IsDefined(IsRejected))
@@ -274,18 +303,6 @@ namespace Affinda.API.Models
                     writer.WriteObjectValue(item);
                 }
                 writer.WriteEndArray();
-            }
-            if (Optional.IsDefined(ConfirmedBy))
-            {
-                if (ConfirmedBy != null)
-                {
-                    writer.WritePropertyName("confirmedBy");
-                    writer.WriteObjectValue(ConfirmedBy);
-                }
-                else
-                {
-                    writer.WriteNull("confirmedBy");
-                }
             }
             if (Optional.IsDefined(CreatedBy))
             {
@@ -352,16 +369,18 @@ namespace Affinda.API.Models
             DocumentMetaWorkspace workspace = default;
             Optional<DateTimeOffset?> archivedDt = default;
             Optional<bool> isArchived = default;
+            Optional<bool> skipParse = default;
             Optional<DateTimeOffset?> confirmedDt = default;
+            Optional<UserNullable> confirmedBy = default;
             Optional<bool> isConfirmed = default;
             Optional<DateTimeOffset?> rejectedDt = default;
+            Optional<UserNullable> rejectedBy = default;
             Optional<bool> isRejected = default;
             Optional<DateTimeOffset> createdDt = default;
             Optional<string> errorCode = default;
             Optional<string> errorDetail = default;
             Optional<string> file = default;
             Optional<IList<Tag>> tags = default;
-            Optional<UserNullable> confirmedBy = default;
             Optional<User> createdBy = default;
             Optional<string> sourceEmail = default;
             Optional<string> sourceEmailAddress = default;
@@ -553,6 +572,16 @@ namespace Affinda.API.Models
                     isArchived = property.Value.GetBoolean();
                     continue;
                 }
+                if (property.NameEquals("skipParse"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    skipParse = property.Value.GetBoolean();
+                    continue;
+                }
                 if (property.NameEquals("confirmedDt"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
@@ -561,6 +590,16 @@ namespace Affinda.API.Models
                         continue;
                     }
                     confirmedDt = property.Value.GetDateTimeOffset("O");
+                    continue;
+                }
+                if (property.NameEquals("confirmedBy"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        confirmedBy = null;
+                        continue;
+                    }
+                    confirmedBy = UserNullable.DeserializeUserNullable(property.Value);
                     continue;
                 }
                 if (property.NameEquals("isConfirmed"))
@@ -581,6 +620,16 @@ namespace Affinda.API.Models
                         continue;
                     }
                     rejectedDt = property.Value.GetDateTimeOffset("O");
+                    continue;
+                }
+                if (property.NameEquals("rejectedBy"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        rejectedBy = null;
+                        continue;
+                    }
+                    rejectedBy = UserNullable.DeserializeUserNullable(property.Value);
                     continue;
                 }
                 if (property.NameEquals("isRejected"))
@@ -648,16 +697,6 @@ namespace Affinda.API.Models
                     tags = array;
                     continue;
                 }
-                if (property.NameEquals("confirmedBy"))
-                {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        confirmedBy = null;
-                        continue;
-                    }
-                    confirmedBy = UserNullable.DeserializeUserNullable(property.Value);
-                    continue;
-                }
                 if (property.NameEquals("createdBy"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
@@ -699,7 +738,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new DocumentMeta(identifier, customIdentifier.Value, fileName.Value, Optional.ToNullable(ready), Optional.ToNullable(readyDt), Optional.ToNullable(failed), expiryTime.Value, language.Value, pdf.Value, parentDocument.Value, Optional.ToList(childDocuments), pages, Optional.ToNullable(isOcrd), Optional.ToNullable(ocrConfidence), reviewUrl.Value, collection.Value, workspace, Optional.ToNullable(archivedDt), Optional.ToNullable(isArchived), Optional.ToNullable(confirmedDt), Optional.ToNullable(isConfirmed), Optional.ToNullable(rejectedDt), Optional.ToNullable(isRejected), Optional.ToNullable(createdDt), errorCode.Value, errorDetail.Value, file.Value, Optional.ToList(tags), confirmedBy.Value, createdBy.Value, sourceEmail.Value, sourceEmailAddress.Value, regionBias.Value);
+            return new DocumentMeta(identifier, customIdentifier.Value, fileName.Value, Optional.ToNullable(ready), Optional.ToNullable(readyDt), Optional.ToNullable(failed), expiryTime.Value, language.Value, pdf.Value, parentDocument.Value, Optional.ToList(childDocuments), pages, Optional.ToNullable(isOcrd), Optional.ToNullable(ocrConfidence), reviewUrl.Value, collection.Value, workspace, Optional.ToNullable(archivedDt), Optional.ToNullable(isArchived), Optional.ToNullable(skipParse), Optional.ToNullable(confirmedDt), confirmedBy.Value, Optional.ToNullable(isConfirmed), Optional.ToNullable(rejectedDt), rejectedBy.Value, Optional.ToNullable(isRejected), Optional.ToNullable(createdDt), errorCode.Value, errorDetail.Value, file.Value, Optional.ToList(tags), createdBy.Value, sourceEmail.Value, sourceEmailAddress.Value, regionBias.Value);
         }
     }
 }

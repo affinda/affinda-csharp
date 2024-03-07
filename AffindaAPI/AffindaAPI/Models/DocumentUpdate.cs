@@ -27,6 +27,8 @@ namespace Affinda.API.Models
         public bool? IsRejected { get; set; }
         /// <summary> Gets or sets the is archived. </summary>
         public bool? IsArchived { get; set; }
+        /// <summary> Gets or sets the skip parse. </summary>
+        public bool? SkipParse { get; set; }
         /// <summary> Language code in ISO 639-1 format. Must specify zh-cn or zh-tw for Chinese. </summary>
         public string Language { get; set; }
         /// <summary> Deprecated in favor of `customIdentifier`. </summary>

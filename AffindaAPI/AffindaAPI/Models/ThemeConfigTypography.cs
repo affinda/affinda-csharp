@@ -8,22 +8,37 @@
 namespace Affinda.API.Models
 {
     /// <summary> The ThemeConfigTypography. </summary>
-    internal partial class ThemeConfigTypography
+    public partial class ThemeConfigTypography
     {
         /// <summary> Initializes a new instance of ThemeConfigTypography. </summary>
-        internal ThemeConfigTypography()
+        public ThemeConfigTypography()
         {
         }
 
-        /// <summary> Gets the font family. </summary>
-        public string FontFamily { get; }
-        /// <summary> Gets the font size. </summary>
-        public string FontSize { get; }
-        /// <summary> Gets the font weight regular. </summary>
-        public string FontWeightRegular { get; }
-        /// <summary> Gets the font weight medium. </summary>
-        public string FontWeightMedium { get; }
-        /// <summary> Gets the font weight bold. </summary>
-        public string FontWeightBold { get; }
+        /// <summary> Initializes a new instance of ThemeConfigTypography. </summary>
+        /// <param name="fontFamily"></param>
+        /// <param name="fontSize"> Anything. </param>
+        /// <param name="fontWeightRegular"></param>
+        /// <param name="fontWeightMedium"></param>
+        /// <param name="fontWeightBold"></param>
+        internal ThemeConfigTypography(string fontFamily, object fontSize, string fontWeightRegular, string fontWeightMedium, string fontWeightBold)
+        {
+            FontFamily = fontFamily;
+            FontSize = fontSize;
+            FontWeightRegular = fontWeightRegular;
+            FontWeightMedium = fontWeightMedium;
+            FontWeightBold = fontWeightBold;
+        }
+
+        /// <summary> Gets or sets the font family. </summary>
+        public string FontFamily { get; set; }
+        /// <summary> Anything. </summary>
+        public object FontSize { get; set; }
+        /// <summary> Gets or sets the font weight regular. </summary>
+        public string FontWeightRegular { get; set; }
+        /// <summary> Gets or sets the font weight medium. </summary>
+        public string FontWeightMedium { get; set; }
+        /// <summary> Gets or sets the font weight bold. </summary>
+        public string FontWeightBold { get; set; }
     }
 }

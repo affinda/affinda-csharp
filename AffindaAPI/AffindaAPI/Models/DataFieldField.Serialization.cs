@@ -18,13 +18,14 @@ namespace Affinda.API.Models
             string label = default;
             Optional<AnnotationContentType> fieldType = default;
             bool mandatory = default;
-            bool showDropdown = default;
+            Optional<bool> showDropdown = default;
             bool displayEnumValue = default;
             float? autoValidationThreshold = default;
             IReadOnlyList<Field> enabledChildFields = default;
             IReadOnlyList<Field> disabledChildFields = default;
             Optional<string> dataSource = default;
             Optional<string> mapping = default;
+            Optional<bool> displayRawText = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("label"))
@@ -49,6 +50,11 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("showDropdown"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
                     showDropdown = property.Value.GetBoolean();
                     continue;
                 }
@@ -107,8 +113,18 @@ namespace Affinda.API.Models
                     mapping = property.Value.GetString();
                     continue;
                 }
+                if (property.NameEquals("displayRawText"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    displayRawText = property.Value.GetBoolean();
+                    continue;
+                }
             }
-            return new DataFieldField(label, Optional.ToNullable(fieldType), mandatory, showDropdown, displayEnumValue, autoValidationThreshold, enabledChildFields, disabledChildFields, dataSource.Value, mapping.Value);
+            return new DataFieldField(label, Optional.ToNullable(fieldType), mandatory, Optional.ToNullable(showDropdown), displayEnumValue, autoValidationThreshold, enabledChildFields, disabledChildFields, dataSource.Value, mapping.Value, Optional.ToNullable(displayRawText));
         }
     }
 }

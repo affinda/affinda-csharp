@@ -71,6 +71,18 @@ namespace Affinda.API.Models
                     writer.WriteNull("mapping");
                 }
             }
+            if (Optional.IsDefined(DisplayRawText))
+            {
+                if (DisplayRawText != null)
+                {
+                    writer.WritePropertyName("displayRawText");
+                    writer.WriteStringValue(DisplayRawText);
+                }
+                else
+                {
+                    writer.WriteNull("displayRawText");
+                }
+            }
             writer.WriteEndObject();
         }
 
@@ -83,6 +95,7 @@ namespace Affinda.API.Models
             Optional<float?> autoValidationThreshold = default;
             Optional<string> dataSource = default;
             Optional<string> mapping = default;
+            Optional<string> displayRawText = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("label"))
@@ -150,8 +163,18 @@ namespace Affinda.API.Models
                     mapping = property.Value.GetString();
                     continue;
                 }
+                if (property.NameEquals("displayRawText"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        displayRawText = null;
+                        continue;
+                    }
+                    displayRawText = property.Value.GetString();
+                    continue;
+                }
             }
-            return new CollectionField(label.Value, Optional.ToNullable(mandatory), Optional.ToNullable(showDropdown), Optional.ToNullable(displayEnumValue), Optional.ToNullable(autoValidationThreshold), dataSource.Value, mapping.Value);
+            return new CollectionField(label.Value, Optional.ToNullable(mandatory), Optional.ToNullable(showDropdown), Optional.ToNullable(displayEnumValue), Optional.ToNullable(autoValidationThreshold), dataSource.Value, mapping.Value, displayRawText.Value);
         }
     }
 }

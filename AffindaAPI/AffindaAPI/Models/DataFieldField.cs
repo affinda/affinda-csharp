@@ -17,13 +17,12 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of DataFieldField. </summary>
         /// <param name="label"></param>
         /// <param name="mandatory"></param>
-        /// <param name="showDropdown"></param>
         /// <param name="displayEnumValue"> If true, both the value and the label for the enums will appear in the dropdown in the validation tool. </param>
         /// <param name="autoValidationThreshold"></param>
         /// <param name="enabledChildFields"></param>
         /// <param name="disabledChildFields"></param>
         /// <exception cref="ArgumentNullException"> <paramref name="label"/>, <paramref name="enabledChildFields"/> or <paramref name="disabledChildFields"/> is null. </exception>
-        internal DataFieldField(string label, bool mandatory, bool showDropdown, bool displayEnumValue, float? autoValidationThreshold, IEnumerable<Field> enabledChildFields, IEnumerable<Field> disabledChildFields)
+        internal DataFieldField(string label, bool mandatory, bool displayEnumValue, float? autoValidationThreshold, IEnumerable<Field> enabledChildFields, IEnumerable<Field> disabledChildFields)
         {
             if (label == null)
             {
@@ -40,7 +39,6 @@ namespace Affinda.API.Models
 
             Label = label;
             Mandatory = mandatory;
-            ShowDropdown = showDropdown;
             DisplayEnumValue = displayEnumValue;
             AutoValidationThreshold = autoValidationThreshold;
             EnabledChildFields = enabledChildFields.ToList();
@@ -58,7 +56,8 @@ namespace Affinda.API.Models
         /// <param name="disabledChildFields"></param>
         /// <param name="dataSource"> Data source mapping identifier. </param>
         /// <param name="mapping"> Defines how the data point is mapped to the data source. </param>
-        internal DataFieldField(string label, AnnotationContentType? fieldType, bool mandatory, bool showDropdown, bool displayEnumValue, float? autoValidationThreshold, IReadOnlyList<Field> enabledChildFields, IReadOnlyList<Field> disabledChildFields, string dataSource, string mapping)
+        /// <param name="displayRawText"> If true, then the validation tool will show the user the raw text found on the page, not the value that has been parsed to a specific type. </param>
+        internal DataFieldField(string label, AnnotationContentType? fieldType, bool mandatory, bool? showDropdown, bool displayEnumValue, float? autoValidationThreshold, IReadOnlyList<Field> enabledChildFields, IReadOnlyList<Field> disabledChildFields, string dataSource, string mapping, bool? displayRawText)
         {
             Label = label;
             FieldType = fieldType;
@@ -70,6 +69,7 @@ namespace Affinda.API.Models
             DisabledChildFields = disabledChildFields;
             DataSource = dataSource;
             Mapping = mapping;
+            DisplayRawText = displayRawText;
         }
 
         /// <summary> Gets the label. </summary>
@@ -79,7 +79,7 @@ namespace Affinda.API.Models
         /// <summary> Gets the mandatory. </summary>
         public bool Mandatory { get; }
         /// <summary> Gets the show dropdown. </summary>
-        public bool ShowDropdown { get; }
+        public bool? ShowDropdown { get; }
         /// <summary> If true, both the value and the label for the enums will appear in the dropdown in the validation tool. </summary>
         public bool DisplayEnumValue { get; }
         /// <summary> Gets the auto validation threshold. </summary>
@@ -92,5 +92,7 @@ namespace Affinda.API.Models
         public string DataSource { get; }
         /// <summary> Defines how the data point is mapped to the data source. </summary>
         public string Mapping { get; }
+        /// <summary> If true, then the validation tool will show the user the raw text found on the page, not the value that has been parsed to a specific type. </summary>
+        public bool? DisplayRawText { get; }
     }
 }

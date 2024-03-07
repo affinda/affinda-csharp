@@ -34,6 +34,7 @@ namespace Affinda.API.Models
             Document = document;
             PageIndex = pageIndex;
             DataPoint = dataPoint;
+            ValidationResults = new ChangeTrackingList<ChangedValidationResults>();
         }
 
         /// <summary> x/y coordinates for the rectangles containing the data. An annotation can be contained within multiple rectangles. </summary>
@@ -52,5 +53,7 @@ namespace Affinda.API.Models
         public bool? IsClientVerified { get; set; }
         /// <summary> The parent annotation&apos;s ID. </summary>
         public int? Parent { get; set; }
+        /// <summary> The validation results created, changed or deleted as a result of creating the annotation. </summary>
+        public IList<ChangedValidationResults> ValidationResults { get; }
     }
 }

@@ -53,9 +53,10 @@ namespace Affinda.API.Models
         /// <param name="enabledChildFields"></param>
         /// <param name="disabledChildFields"></param>
         /// <param name="slug"></param>
+        /// <param name="displayRawText"> If true, then the validation tool will show the user the raw text found on the page, not the value that has been parsed to a specific type. </param>
         /// <param name="fields"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
-        internal Field(string label, string dataPoint, AnnotationContentType fieldType, string dataSource, string mapping, bool? mandatory, float? autoValidationThreshold, bool? showDropdown, bool? displayEnumValue, bool? dropNull, IList<Field> enabledChildFields, IList<Field> disabledChildFields, string slug, IList<object> fields, IDictionary<string, object> additionalProperties)
+        internal Field(string label, string dataPoint, AnnotationContentType fieldType, string dataSource, string mapping, bool? mandatory, float? autoValidationThreshold, bool? showDropdown, bool? displayEnumValue, bool? dropNull, IList<Field> enabledChildFields, IList<Field> disabledChildFields, string slug, bool? displayRawText, IList<object> fields, IDictionary<string, object> additionalProperties)
         {
             Label = label;
             DataPoint = dataPoint;
@@ -70,6 +71,7 @@ namespace Affinda.API.Models
             EnabledChildFields = enabledChildFields;
             DisabledChildFields = disabledChildFields;
             Slug = slug;
+            DisplayRawText = displayRawText;
             Fields = fields;
             AdditionalProperties = additionalProperties;
         }
@@ -100,6 +102,8 @@ namespace Affinda.API.Models
         public IList<Field> DisabledChildFields { get; }
         /// <summary> Gets or sets the slug. </summary>
         public string Slug { get; set; }
+        /// <summary> If true, then the validation tool will show the user the raw text found on the page, not the value that has been parsed to a specific type. </summary>
+        public bool? DisplayRawText { get; set; }
         /// <summary> Gets or sets the fields. </summary>
         public IList<object> Fields { get; set; }
         /// <summary> Additional Properties. </summary>

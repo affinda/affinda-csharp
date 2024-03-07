@@ -23,7 +23,8 @@ namespace Affinda.API.Models
         /// <param name="autoValidationThreshold"></param>
         /// <param name="dataSource"> Data source mapping identifier. </param>
         /// <param name="mapping"> Defines how the data point is mapped to the data source. </param>
-        internal CollectionField(string label, bool? mandatory, bool? showDropdown, bool? displayEnumValue, float? autoValidationThreshold, string dataSource, string mapping)
+        /// <param name="displayRawText"> Defines how the data point is mapped to the data source. </param>
+        internal CollectionField(string label, bool? mandatory, bool? showDropdown, bool? displayEnumValue, float? autoValidationThreshold, string dataSource, string mapping, string displayRawText)
         {
             Label = label;
             Mandatory = mandatory;
@@ -32,6 +33,7 @@ namespace Affinda.API.Models
             AutoValidationThreshold = autoValidationThreshold;
             DataSource = dataSource;
             Mapping = mapping;
+            DisplayRawText = displayRawText;
         }
 
         /// <summary> Gets or sets the label. </summary>
@@ -48,5 +50,7 @@ namespace Affinda.API.Models
         public string DataSource { get; set; }
         /// <summary> Defines how the data point is mapped to the data source. </summary>
         public string Mapping { get; set; }
+        /// <summary> Defines how the data point is mapped to the data source. </summary>
+        public string DisplayRawText { get; set; }
     }
 }

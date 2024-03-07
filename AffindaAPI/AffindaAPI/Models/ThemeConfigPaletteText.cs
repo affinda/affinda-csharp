@@ -8,18 +8,29 @@
 namespace Affinda.API.Models
 {
     /// <summary> The ThemeConfigPaletteText. </summary>
-    internal partial class ThemeConfigPaletteText
+    public partial class ThemeConfigPaletteText
     {
         /// <summary> Initializes a new instance of ThemeConfigPaletteText. </summary>
-        internal ThemeConfigPaletteText()
+        public ThemeConfigPaletteText()
         {
         }
 
-        /// <summary> Gets the primary. </summary>
-        public string Primary { get; }
-        /// <summary> Gets the secondary. </summary>
-        public string Secondary { get; }
-        /// <summary> Gets the disabled. </summary>
-        public string Disabled { get; }
+        /// <summary> Initializes a new instance of ThemeConfigPaletteText. </summary>
+        /// <param name="primary"></param>
+        /// <param name="secondary"></param>
+        /// <param name="disabled"></param>
+        internal ThemeConfigPaletteText(string primary, string secondary, string disabled)
+        {
+            Primary = primary;
+            Secondary = secondary;
+            Disabled = disabled;
+        }
+
+        /// <summary> Gets or sets the primary. </summary>
+        public string Primary { get; set; }
+        /// <summary> Gets or sets the secondary. </summary>
+        public string Secondary { get; set; }
+        /// <summary> Gets or sets the disabled. </summary>
+        public string Disabled { get; set; }
     }
 }

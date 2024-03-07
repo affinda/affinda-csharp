@@ -1712,7 +1712,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateCreateDocumentRequest(Stream file, string url, string data, string collection, string workspace, string wait, string identifier, string customIdentifier, string fileName, string expiryTime, string language, string rejectDuplicates, string regionBias, string lowPriority)
+        internal HttpMessage CreateCreateDocumentRequest(Stream file, string url, string data, string collection, string workspace, string wait, string identifier, string customIdentifier, string fileName, string expiryTime, string language, string rejectDuplicates, string regionBias, string lowPriority, string compact, string deleteAfterParse)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1782,6 +1782,14 @@ namespace Affinda.API
             {
                 content.Add(new StringRequestContent(lowPriority), "lowPriority", null);
             }
+            if (compact != null)
+            {
+                content.Add(new StringRequestContent(compact), "compact", null);
+            }
+            if (deleteAfterParse != null)
+            {
+                content.Add(new StringRequestContent(deleteAfterParse), "deleteAfterParse", null);
+            }
             content.ApplyToRequest(request);
             return message;
         }
@@ -1801,13 +1809,15 @@ namespace Affinda.API
         /// <param name="rejectDuplicates"> The String to use. </param>
         /// <param name="regionBias"> A JSON representation of the RegionBias object. </param>
         /// <param name="lowPriority"> Explicitly mark this document as low priority. </param>
+        /// <param name="compact"> If true, the returned parse result (assuming `wait` is also true) will be a compact version of the full result. </param>
+        /// <param name="deleteAfterParse"> If true, no data will be stored after parsing. Only compatible with requests where wait: True. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
         /// Uploads a document for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/documents/{identifier}](#get-/v3/documents/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
         /// </remarks>
-        public async Task<Response<Document>> CreateDocumentAsync(Stream file = null, string url = null, string data = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string customIdentifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, string regionBias = null, string lowPriority = null, CancellationToken cancellationToken = default)
+        public async Task<Response<Document>> CreateDocumentAsync(Stream file = null, string url = null, string data = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string customIdentifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, string regionBias = null, string lowPriority = null, string compact = null, string deleteAfterParse = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateDocumentRequest(file, url, data, collection, workspace, wait, identifier, customIdentifier, fileName, expiryTime, language, rejectDuplicates, regionBias, lowPriority);
+            using var message = CreateCreateDocumentRequest(file, url, data, collection, workspace, wait, identifier, customIdentifier, fileName, expiryTime, language, rejectDuplicates, regionBias, lowPriority, compact, deleteAfterParse);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1839,13 +1849,15 @@ namespace Affinda.API
         /// <param name="rejectDuplicates"> The String to use. </param>
         /// <param name="regionBias"> A JSON representation of the RegionBias object. </param>
         /// <param name="lowPriority"> Explicitly mark this document as low priority. </param>
+        /// <param name="compact"> If true, the returned parse result (assuming `wait` is also true) will be a compact version of the full result. </param>
+        /// <param name="deleteAfterParse"> If true, no data will be stored after parsing. Only compatible with requests where wait: True. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
         /// Uploads a document for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/documents/{identifier}](#get-/v3/documents/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
         /// </remarks>
-        public Response<Document> CreateDocument(Stream file = null, string url = null, string data = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string customIdentifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, string regionBias = null, string lowPriority = null, CancellationToken cancellationToken = default)
+        public Response<Document> CreateDocument(Stream file = null, string url = null, string data = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string customIdentifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, string regionBias = null, string lowPriority = null, string compact = null, string deleteAfterParse = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateDocumentRequest(file, url, data, collection, workspace, wait, identifier, customIdentifier, fileName, expiryTime, language, rejectDuplicates, regionBias, lowPriority);
+            using var message = CreateCreateDocumentRequest(file, url, data, collection, workspace, wait, identifier, customIdentifier, fileName, expiryTime, language, rejectDuplicates, regionBias, lowPriority, compact, deleteAfterParse);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -2429,6 +2441,363 @@ namespace Affinda.API
                         value = array;
                         return Response.FromValue(value, message.Response);
                     }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateGetAllValidationResultsRequest(string document, int? offset, int? limit)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Get;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/validation_results", false);
+            if (offset != null)
+            {
+                uri.AppendQuery("offset", offset.Value, true);
+            }
+            if (limit != null)
+            {
+                uri.AppendQuery("limit", limit.Value, true);
+            }
+            uri.AppendQuery("document", document, true);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Get list of all validation results. </summary>
+        /// <param name="document"> Filter by document. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="document"/> is null. </exception>
+        /// <remarks> Returns the validation results of a document. </remarks>
+        public async Task<Response<IReadOnlyList<ValidationResult>>> GetAllValidationResultsAsync(string document, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            if (document == null)
+            {
+                throw new ArgumentNullException(nameof(document));
+            }
+
+            using var message = CreateGetAllValidationResultsRequest(document, offset, limit);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        IReadOnlyList<ValidationResult> value = default;
+                        using var document0 = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        List<ValidationResult> array = new List<ValidationResult>();
+                        foreach (var item in document0.RootElement.EnumerateArray())
+                        {
+                            array.Add(ValidationResult.DeserializeValidationResult(item));
+                        }
+                        value = array;
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Get list of all validation results. </summary>
+        /// <param name="document"> Filter by document. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="document"/> is null. </exception>
+        /// <remarks> Returns the validation results of a document. </remarks>
+        public Response<IReadOnlyList<ValidationResult>> GetAllValidationResults(string document, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            if (document == null)
+            {
+                throw new ArgumentNullException(nameof(document));
+            }
+
+            using var message = CreateGetAllValidationResultsRequest(document, offset, limit);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        IReadOnlyList<ValidationResult> value = default;
+                        using var document0 = JsonDocument.Parse(message.Response.ContentStream);
+                        List<ValidationResult> array = new List<ValidationResult>();
+                        foreach (var item in document0.RootElement.EnumerateArray())
+                        {
+                            array.Add(ValidationResult.DeserializeValidationResult(item));
+                        }
+                        value = array;
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateCreateValidationResultRequest(ValidationResultCreate body)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/validation_results", false);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Content-Type", "application/json");
+            var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(body);
+            request.Content = content;
+            return message;
+        }
+
+        /// <summary> Create a validation result. </summary>
+        /// <param name="body"> The ValidationResultCreate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        /// <remarks> Create a validation result. </remarks>
+        public async Task<Response<ValidationResult>> CreateValidationResultAsync(ValidationResultCreate body, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateCreateValidationResultRequest(body);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 201:
+                    {
+                        ValidationResult value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = ValidationResult.DeserializeValidationResult(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Create a validation result. </summary>
+        /// <param name="body"> The ValidationResultCreate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        /// <remarks> Create a validation result. </remarks>
+        public Response<ValidationResult> CreateValidationResult(ValidationResultCreate body, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateCreateValidationResultRequest(body);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 201:
+                    {
+                        ValidationResult value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = ValidationResult.DeserializeValidationResult(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateGetValidationResultRequest(int id)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Get;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/validation_results/", false);
+            uri.AppendPath(id, true);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Get specific validation result. </summary>
+        /// <param name="id"> Validation result&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return a specific validation result. </remarks>
+        public async Task<Response<ValidationResult>> GetValidationResultAsync(int id, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateGetValidationResultRequest(id);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ValidationResult value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = ValidationResult.DeserializeValidationResult(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Get specific validation result. </summary>
+        /// <param name="id"> Validation result&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Return a specific validation result. </remarks>
+        public Response<ValidationResult> GetValidationResult(int id, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateGetValidationResultRequest(id);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ValidationResult value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = ValidationResult.DeserializeValidationResult(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateUpdateValidationResultRequest(int id, ValidationResultUpdate body)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Patch;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/validation_results/", false);
+            uri.AppendPath(id, true);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Content-Type", "application/json");
+            var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(body);
+            request.Content = content;
+            return message;
+        }
+
+        /// <summary> Update a validation result. </summary>
+        /// <param name="id"> Validation result&apos;s ID. </param>
+        /// <param name="body"> Validation result data to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        /// <remarks> Update a validation result. </remarks>
+        public async Task<Response<ValidationResult>> UpdateValidationResultAsync(int id, ValidationResultUpdate body, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateUpdateValidationResultRequest(id, body);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ValidationResult value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = ValidationResult.DeserializeValidationResult(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Update a validation result. </summary>
+        /// <param name="id"> Validation result&apos;s ID. </param>
+        /// <param name="body"> Validation result data to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        /// <remarks> Update a validation result. </remarks>
+        public Response<ValidationResult> UpdateValidationResult(int id, ValidationResultUpdate body, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateUpdateValidationResultRequest(id, body);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        ValidationResult value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = ValidationResult.DeserializeValidationResult(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateDeleteValidationResultRequest(int id)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Delete;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/validation_results/", false);
+            uri.AppendPath(id, true);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Delete a validation result. </summary>
+        /// <param name="id"> Validation result&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Remove validation result. </remarks>
+        public async Task<Response> DeleteValidationResultAsync(int id, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateDeleteValidationResultRequest(id);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 204:
+                    return message.Response;
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Delete a validation result. </summary>
+        /// <param name="id"> Validation result&apos;s ID. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Remove validation result. </remarks>
+        public Response DeleteValidationResult(int id, CancellationToken cancellationToken = default)
+        {
+            using var message = CreateDeleteValidationResultRequest(id);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 204:
+                    return message.Response;
                 default:
                     throw ClientDiagnostics.CreateRequestFailedException(message.Response);
             }
@@ -3743,7 +4112,7 @@ namespace Affinda.API
         /// <param name="body"> The AnnotationCreate to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
-        public async Task<Response<Annotation>> CreateAnnotationAsync(AnnotationCreate body, CancellationToken cancellationToken = default)
+        public async Task<Response<AnnotationWithValidationResults>> CreateAnnotationAsync(AnnotationCreate body, CancellationToken cancellationToken = default)
         {
             if (body == null)
             {
@@ -3756,7 +4125,7 @@ namespace Affinda.API
             {
                 case 201:
                     {
-                        Annotation value = default;
+                        AnnotationWithValidationResults value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
                         if (document.RootElement.ValueKind == JsonValueKind.Null)
                         {
@@ -3764,7 +4133,7 @@ namespace Affinda.API
                         }
                         else
                         {
-                            value = Annotation.DeserializeAnnotation(document.RootElement);
+                            value = AnnotationWithValidationResults.DeserializeAnnotationWithValidationResults(document.RootElement);
                         }
                         return Response.FromValue(value, message.Response);
                     }
@@ -3777,7 +4146,7 @@ namespace Affinda.API
         /// <param name="body"> The AnnotationCreate to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
-        public Response<Annotation> CreateAnnotation(AnnotationCreate body, CancellationToken cancellationToken = default)
+        public Response<AnnotationWithValidationResults> CreateAnnotation(AnnotationCreate body, CancellationToken cancellationToken = default)
         {
             if (body == null)
             {
@@ -3790,7 +4159,7 @@ namespace Affinda.API
             {
                 case 201:
                     {
-                        Annotation value = default;
+                        AnnotationWithValidationResults value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
                         if (document.RootElement.ValueKind == JsonValueKind.Null)
                         {
@@ -3798,7 +4167,7 @@ namespace Affinda.API
                         }
                         else
                         {
-                            value = Annotation.DeserializeAnnotation(document.RootElement);
+                            value = AnnotationWithValidationResults.DeserializeAnnotationWithValidationResults(document.RootElement);
                         }
                         return Response.FromValue(value, message.Response);
                     }
@@ -3993,14 +4362,19 @@ namespace Affinda.API
         /// <param name="id"> Annotation&apos;s ID. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Deletes the specified annotation from the database. </remarks>
-        public async Task<Response> DeleteAnnotationAsync(int id, CancellationToken cancellationToken = default)
+        public async Task<Response<AnotationDelete>> DeleteAnnotationAsync(int id, CancellationToken cancellationToken = default)
         {
             using var message = CreateDeleteAnnotationRequest(id);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
-                case 204:
-                    return message.Response;
+                case 200:
+                    {
+                        AnotationDelete value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = AnotationDelete.DeserializeAnotationDelete(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
                 default:
                     throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
             }
@@ -4010,14 +4384,19 @@ namespace Affinda.API
         /// <param name="id"> Annotation&apos;s ID. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Deletes the specified annotation from the database. </remarks>
-        public Response DeleteAnnotation(int id, CancellationToken cancellationToken = default)
+        public Response<AnotationDelete> DeleteAnnotation(int id, CancellationToken cancellationToken = default)
         {
             using var message = CreateDeleteAnnotationRequest(id);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
-                case 204:
-                    return message.Response;
+                case 200:
+                    {
+                        AnotationDelete value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = AnotationDelete.DeserializeAnotationDelete(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
                 default:
                     throw ClientDiagnostics.CreateRequestFailedException(message.Response);
             }
@@ -4255,7 +4634,7 @@ namespace Affinda.API
         /// <param name="body"> The BatchDeleteAnnotationsRequest to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
-        public async Task<Response> BatchDeleteAnnotationsAsync(IEnumerable<int> body, CancellationToken cancellationToken = default)
+        public async Task<Response<BatchDeleteAnnotationsResponse>> BatchDeleteAnnotationsAsync(IEnumerable<int> body, CancellationToken cancellationToken = default)
         {
             if (body == null)
             {
@@ -4266,8 +4645,13 @@ namespace Affinda.API
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
-                case 204:
-                    return message.Response;
+                case 200:
+                    {
+                        BatchDeleteAnnotationsResponse value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = BatchDeleteAnnotationsResponse.DeserializeBatchDeleteAnnotationsResponse(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
                 default:
                     throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
             }
@@ -4277,7 +4661,7 @@ namespace Affinda.API
         /// <param name="body"> The BatchDeleteAnnotationsRequest to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
-        public Response BatchDeleteAnnotations(IEnumerable<int> body, CancellationToken cancellationToken = default)
+        public Response<BatchDeleteAnnotationsResponse> BatchDeleteAnnotations(IEnumerable<int> body, CancellationToken cancellationToken = default)
         {
             if (body == null)
             {
@@ -4288,8 +4672,13 @@ namespace Affinda.API
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
-                case 204:
-                    return message.Response;
+                case 200:
+                    {
+                        BatchDeleteAnnotationsResponse value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = BatchDeleteAnnotationsResponse.DeserializeBatchDeleteAnnotationsResponse(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
                 default:
                     throw ClientDiagnostics.CreateRequestFailedException(message.Response);
             }
@@ -8213,7 +8602,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllIndexesRequest(int? offset, int? limit, Enum18? documentType)
+        internal HttpMessage CreateGetAllIndexesRequest(int? offset, int? limit, Enum20? documentType)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -8246,7 +8635,7 @@ namespace Affinda.API
         /// <param name="documentType"> Filter indices by a document type. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public async Task<Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum18? documentType = null, CancellationToken cancellationToken = default)
+        public async Task<Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum20? documentType = null, CancellationToken cancellationToken = default)
         {
             using var message = CreateGetAllIndexesRequest(offset, limit, documentType);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
@@ -8270,7 +8659,7 @@ namespace Affinda.API
         /// <param name="documentType"> Filter indices by a document type. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema> GetAllIndexes(int? offset = null, int? limit = null, Enum18? documentType = null, CancellationToken cancellationToken = default)
+        public Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema> GetAllIndexes(int? offset = null, int? limit = null, Enum20? documentType = null, CancellationToken cancellationToken = default)
         {
             using var message = CreateGetAllIndexesRequest(offset, limit, documentType);
             _pipeline.Send(message, cancellationToken);
@@ -8511,7 +8900,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllIndexDocumentsRequest(string name)
+        internal HttpMessage CreateGetAllIndexDocumentsRequest(string name, int? offset, int? limit)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -8523,6 +8912,14 @@ namespace Affinda.API
             uri.AppendPath("/v3/index/", false);
             uri.AppendPath(name, true);
             uri.AppendPath("/documents", false);
+            if (offset != null)
+            {
+                uri.AppendQuery("offset", offset.Value, true);
+            }
+            if (limit != null)
+            {
+                uri.AppendQuery("limit", limit.Value, true);
+            }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -8530,17 +8927,19 @@ namespace Affinda.API
 
         /// <summary> Get indexed documents for a specific index. </summary>
         /// <param name="name"> Index name. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="name"/> is null. </exception>
         /// <remarks> Returns all the indexed documents for that index. </remarks>
-        public async Task<Response<PathsO7SnenV3IndexNameDocumentsGetResponses200ContentApplicationJsonSchema>> GetAllIndexDocumentsAsync(string name, CancellationToken cancellationToken = default)
+        public async Task<Response<PathsO7SnenV3IndexNameDocumentsGetResponses200ContentApplicationJsonSchema>> GetAllIndexDocumentsAsync(string name, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
             if (name == null)
             {
                 throw new ArgumentNullException(nameof(name));
             }
 
-            using var message = CreateGetAllIndexDocumentsRequest(name);
+            using var message = CreateGetAllIndexDocumentsRequest(name, offset, limit);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -8558,17 +8957,19 @@ namespace Affinda.API
 
         /// <summary> Get indexed documents for a specific index. </summary>
         /// <param name="name"> Index name. </param>
+        /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
+        /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="name"/> is null. </exception>
         /// <remarks> Returns all the indexed documents for that index. </remarks>
-        public Response<PathsO7SnenV3IndexNameDocumentsGetResponses200ContentApplicationJsonSchema> GetAllIndexDocuments(string name, CancellationToken cancellationToken = default)
+        public Response<PathsO7SnenV3IndexNameDocumentsGetResponses200ContentApplicationJsonSchema> GetAllIndexDocuments(string name, int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
         {
             if (name == null)
             {
                 throw new ArgumentNullException(nameof(name));
             }
 
-            using var message = CreateGetAllIndexDocumentsRequest(name);
+            using var message = CreateGetAllIndexDocumentsRequest(name, offset, limit);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {

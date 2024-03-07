@@ -156,6 +156,7 @@ namespace Affinda.API.Models
         /// <param name="workspace"></param>
         /// <param name="extractor"></param>
         /// <param name="autoValidationThreshold"></param>
+        /// <param name="autoValidateIfValidationRulesPass"></param>
         /// <param name="fields"></param>
         /// <param name="fieldsLayout"></param>
         /// <param name="fieldsConfigured"></param>
@@ -168,12 +169,13 @@ namespace Affinda.API.Models
         /// <param name="tailoredExtractorRequested"> Whether a tailored extractor has been requested for this collection. </param>
         /// <param name="allowOpenai"> Whether to allow OpenAI API to be used to assist in creating a model for this collection. </param>
         /// <param name="trainsExtractor"> Whether this collection feeds documents into the extractor&apos;s training queue. This setting can only be toggled for custom extractors. </param>
+        /// <param name="disableConfirmationIfValidationRulesFail"> If True, users cannot validate documents with missing mandatory fields, or failing validation rules. </param>
         /// <returns> A new <see cref="Models.Collection"/> instance for mocking. </returns>
-        public static Collection Collection(string identifier = null, string name = null, CollectionWorkspace workspace = null, Extractor extractor = null, float? autoValidationThreshold = null, IEnumerable<FieldGroup> fields = null, FieldsLayout fieldsLayout = null, bool? fieldsConfigured = null, CollectionDateFormatPreference? dateFormatPreference = null, bool? dateFormatFromDocument = null, ExtractorConfig extractorConfig = null, int? unvalidatedDocsCount = null, int? confirmedDocsCount = null, string ingestEmail = null, bool? tailoredExtractorRequested = null, bool? allowOpenai = null, bool? trainsExtractor = null)
+        public static Collection Collection(string identifier = null, string name = null, CollectionWorkspace workspace = null, Extractor extractor = null, float? autoValidationThreshold = null, bool? autoValidateIfValidationRulesPass = null, IEnumerable<FieldGroup> fields = null, FieldsLayout fieldsLayout = null, bool? fieldsConfigured = null, CollectionDateFormatPreference? dateFormatPreference = null, bool? dateFormatFromDocument = null, ExtractorConfig extractorConfig = null, int? unvalidatedDocsCount = null, int? confirmedDocsCount = null, string ingestEmail = null, bool? tailoredExtractorRequested = null, bool? allowOpenai = null, bool? trainsExtractor = null, bool? disableConfirmationIfValidationRulesFail = null)
         {
             fields ??= new List<FieldGroup>();
 
-            return new Collection(identifier, name, workspace, extractor, autoValidationThreshold, fields?.ToList(), fieldsLayout, fieldsConfigured, dateFormatPreference, dateFormatFromDocument, extractorConfig, unvalidatedDocsCount, confirmedDocsCount, ingestEmail, tailoredExtractorRequested, allowOpenai, trainsExtractor);
+            return new Collection(identifier, name, workspace, extractor, autoValidationThreshold, autoValidateIfValidationRulesPass, fields?.ToList(), fieldsLayout, fieldsConfigured, dateFormatPreference, dateFormatFromDocument, extractorConfig, unvalidatedDocsCount, confirmedDocsCount, ingestEmail, tailoredExtractorRequested, allowOpenai, trainsExtractor, disableConfirmationIfValidationRulesFail);
         }
 
         /// <summary> Initializes a new instance of CollectionWorkspace. </summary>
@@ -240,13 +242,14 @@ namespace Affinda.API.Models
         /// <param name="disabledChildFields"></param>
         /// <param name="dataSource"> Data source mapping identifier. </param>
         /// <param name="mapping"> Defines how the data point is mapped to the data source. </param>
+        /// <param name="displayRawText"> If true, then the validation tool will show the user the raw text found on the page, not the value that has been parsed to a specific type. </param>
         /// <returns> A new <see cref="Models.DataFieldField"/> instance for mocking. </returns>
-        public static DataFieldField DataFieldField(string label = null, AnnotationContentType? fieldType = null, bool mandatory = default, bool showDropdown = default, bool displayEnumValue = default, float? autoValidationThreshold = null, IEnumerable<Field> enabledChildFields = null, IEnumerable<Field> disabledChildFields = null, string dataSource = null, string mapping = null)
+        public static DataFieldField DataFieldField(string label = null, AnnotationContentType? fieldType = null, bool mandatory = default, bool? showDropdown = null, bool displayEnumValue = default, float? autoValidationThreshold = null, IEnumerable<Field> enabledChildFields = null, IEnumerable<Field> disabledChildFields = null, string dataSource = null, string mapping = null, bool? displayRawText = null)
         {
             enabledChildFields ??= new List<Field>();
             disabledChildFields ??= new List<Field>();
 
-            return new DataFieldField(label, fieldType, mandatory, showDropdown, displayEnumValue, autoValidationThreshold, enabledChildFields?.ToList(), disabledChildFields?.ToList(), dataSource, mapping);
+            return new DataFieldField(label, fieldType, mandatory, showDropdown, displayEnumValue, autoValidationThreshold, enabledChildFields?.ToList(), disabledChildFields?.ToList(), dataSource, mapping, displayRawText);
         }
 
         /// <summary> Initializes a new instance of DataFieldDataPoint. </summary>
@@ -396,6 +399,7 @@ namespace Affinda.API.Models
         /// <param name="formatted"></param>
         /// <param name="postalCode"></param>
         /// <param name="state"></param>
+        /// <param name="stateCode"></param>
         /// <param name="country"></param>
         /// <param name="countryCode"> Two letter country code (ISO 3166-1 alpha-2). </param>
         /// <param name="rawInput"></param>
@@ -405,10 +409,11 @@ namespace Affinda.API.Models
         /// <param name="city"></param>
         /// <param name="latitude"></param>
         /// <param name="longitude"></param>
+        /// <param name="poBox"></param>
         /// <returns> A new <see cref="Models.Location"/> instance for mocking. </returns>
-        public static Location Location(string formatted = null, string postalCode = null, string state = null, string country = null, string countryCode = null, string rawInput = null, string streetNumber = null, string street = null, string apartmentNumber = null, string city = null, float? latitude = null, float? longitude = null)
+        public static Location Location(string formatted = null, string postalCode = null, string state = null, string stateCode = null, string country = null, string countryCode = null, string rawInput = null, string streetNumber = null, string street = null, string apartmentNumber = null, string city = null, float? latitude = null, float? longitude = null, string poBox = null)
         {
-            return new Location(formatted, postalCode, state, country, countryCode, rawInput, streetNumber, street, apartmentNumber, city, latitude, longitude);
+            return new Location(formatted, postalCode, state, stateCode, country, countryCode, rawInput, streetNumber, street, apartmentNumber, city, latitude, longitude, poBox);
         }
 
         /// <summary> Initializes a new instance of Accreditation. </summary>
@@ -622,6 +627,22 @@ namespace Affinda.API.Models
             results ??= new List<Annotation>();
 
             return new Paths1Dgz0V9V3AnnotationsGetResponses200ContentApplicationJsonSchemaAllof1(results?.ToList());
+        }
+
+        /// <summary> Initializes a new instance of AnotationDelete. </summary>
+        /// <param name="validationResults"> The validation results created, changed or deleted as a result of deleting the annotation. </param>
+        /// <returns> A new <see cref="Models.AnotationDelete"/> instance for mocking. </returns>
+        public static AnotationDelete AnotationDelete(object validationResults = null)
+        {
+            return new AnotationDelete(validationResults);
+        }
+
+        /// <summary> Initializes a new instance of BatchDeleteAnnotationsResponse. </summary>
+        /// <param name="validationResults"> The validation results created, changed or deleted as a result of deleting the annotations. </param>
+        /// <returns> A new <see cref="Models.BatchDeleteAnnotationsResponse"/> instance for mocking. </returns>
+        public static BatchDeleteAnnotationsResponse BatchDeleteAnnotationsResponse(object validationResults = null)
+        {
+            return new BatchDeleteAnnotationsResponse(validationResults);
         }
 
         /// <summary> Initializes a new instance of Paths11QdcofV3MappingDataSourcesGetResponses200ContentApplicationJsonSchema. </summary>
@@ -1318,15 +1339,15 @@ namespace Affinda.API.Models
         /// <param name="hideToolbar"> Hide the reset/import toolbar. </param>
         /// <param name="hideSidePanel"> Hide the entire side panel. </param>
         /// <param name="customFieldsConfig"></param>
+        /// <param name="distanceUnit"> The unit of distance to use for location based searches. </param>
         /// <returns> A new <see cref="Models.JobDescriptionSearchConfig"/> instance for mocking. </returns>
-        public static JobDescriptionSearchConfig JobDescriptionSearchConfig(bool? allowPdfDownload = null, int? maxResults = null, bool? displayJobTitle = null, bool? displayLocation = null, bool? displayYearsExperience = null, bool? displayOccupationGroup = null, bool? displayEducation = null, bool? displaySkills = null, bool? displayLanguages = null, bool? displayManagementLevel = null, bool? displayKeywords = null, float? weightJobTitle = null, float? weightLocation = null, float? weightYearsExperience = null, float? weightOccupationGroup = null, float? weightEducation = null, float? weightSkills = null, float? weightLanguages = null, float? weightManagementLevel = null, float? weightKeywords = null, IEnumerable<string> indices = null, bool? showIndexDropdown = null, IDictionary<string, object> searchToolTheme = null, int? userId = null, string username = null, IEnumerable<SearchConfigAction> actions = null, bool? hideToolbar = null, bool? hideSidePanel = null, IEnumerable<CustomFieldConfig> customFieldsConfig = null)
+        public static JobDescriptionSearchConfig JobDescriptionSearchConfig(bool? allowPdfDownload = null, int? maxResults = null, bool? displayJobTitle = null, bool? displayLocation = null, bool? displayYearsExperience = null, bool? displayOccupationGroup = null, bool? displayEducation = null, bool? displaySkills = null, bool? displayLanguages = null, bool? displayManagementLevel = null, bool? displayKeywords = null, float? weightJobTitle = null, float? weightLocation = null, float? weightYearsExperience = null, float? weightOccupationGroup = null, float? weightEducation = null, float? weightSkills = null, float? weightLanguages = null, float? weightManagementLevel = null, float? weightKeywords = null, IEnumerable<string> indices = null, bool? showIndexDropdown = null, JobDescriptionSearchConfigSearchToolTheme searchToolTheme = null, int? userId = null, string username = null, IEnumerable<SearchConfigAction> actions = null, bool? hideToolbar = null, bool? hideSidePanel = null, IEnumerable<CustomFieldConfig> customFieldsConfig = null, JobDescriptionSearchConfigDistanceUnit? distanceUnit = null)
         {
             indices ??= new List<string>();
-            searchToolTheme ??= new Dictionary<string, object>();
             actions ??= new List<SearchConfigAction>();
             customFieldsConfig ??= new List<CustomFieldConfig>();
 
-            return new JobDescriptionSearchConfig(allowPdfDownload, maxResults, displayJobTitle, displayLocation, displayYearsExperience, displayOccupationGroup, displayEducation, displaySkills, displayLanguages, displayManagementLevel, displayKeywords, weightJobTitle, weightLocation, weightYearsExperience, weightOccupationGroup, weightEducation, weightSkills, weightLanguages, weightManagementLevel, weightKeywords, indices?.ToList(), showIndexDropdown, searchToolTheme, userId, username, actions?.ToList(), hideToolbar, hideSidePanel, customFieldsConfig?.ToList());
+            return new JobDescriptionSearchConfig(allowPdfDownload, maxResults, displayJobTitle, displayLocation, displayYearsExperience, displayOccupationGroup, displayEducation, displaySkills, displayLanguages, displayManagementLevel, displayKeywords, weightJobTitle, weightLocation, weightYearsExperience, weightOccupationGroup, weightEducation, weightSkills, weightLanguages, weightManagementLevel, weightKeywords, indices?.ToList(), showIndexDropdown, searchToolTheme, userId, username, actions?.ToList(), hideToolbar, hideSidePanel, customFieldsConfig?.ToList(), distanceUnit);
         }
 
         /// <summary> Initializes a new instance of JobDescriptionSearchEmbed. </summary>
@@ -1735,15 +1756,15 @@ namespace Affinda.API.Models
         /// <param name="hideToolbar"> Hide the reset/import toolbar. </param>
         /// <param name="hideSidePanel"> Hide the entire side panel. </param>
         /// <param name="customFieldsConfig"></param>
+        /// <param name="distanceUnit"> The unit of distance to use for location based searches. </param>
         /// <returns> A new <see cref="Models.ResumeSearchConfig"/> instance for mocking. </returns>
-        public static ResumeSearchConfig ResumeSearchConfig(bool? allowPdfDownload = null, int? maxResults = null, bool? displayJobTitle = null, bool? displayLocation = null, bool? displayYearsExperience = null, bool? displayOccupationGroup = null, bool? displayEducation = null, bool? displaySkills = null, bool? displayLanguages = null, bool? displayManagementLevel = null, bool? displayKeywords = null, float? weightJobTitle = null, float? weightLocation = null, float? weightYearsExperience = null, float? weightOccupationGroup = null, float? weightEducation = null, float? weightSkills = null, float? weightLanguages = null, float? weightManagementLevel = null, float? weightKeywords = null, IEnumerable<string> indices = null, bool? showIndexDropdown = null, IDictionary<string, object> searchToolTheme = null, int? userId = null, string username = null, IEnumerable<SearchConfigAction> actions = null, bool? hideToolbar = null, bool? hideSidePanel = null, IEnumerable<CustomFieldConfig> customFieldsConfig = null)
+        public static ResumeSearchConfig ResumeSearchConfig(bool? allowPdfDownload = null, int? maxResults = null, bool? displayJobTitle = null, bool? displayLocation = null, bool? displayYearsExperience = null, bool? displayOccupationGroup = null, bool? displayEducation = null, bool? displaySkills = null, bool? displayLanguages = null, bool? displayManagementLevel = null, bool? displayKeywords = null, float? weightJobTitle = null, float? weightLocation = null, float? weightYearsExperience = null, float? weightOccupationGroup = null, float? weightEducation = null, float? weightSkills = null, float? weightLanguages = null, float? weightManagementLevel = null, float? weightKeywords = null, IEnumerable<string> indices = null, bool? showIndexDropdown = null, ResumeSearchConfigSearchToolTheme searchToolTheme = null, int? userId = null, string username = null, IEnumerable<SearchConfigAction> actions = null, bool? hideToolbar = null, bool? hideSidePanel = null, IEnumerable<CustomFieldConfig> customFieldsConfig = null, ResumeSearchConfigDistanceUnit? distanceUnit = null)
         {
             indices ??= new List<string>();
-            searchToolTheme ??= new Dictionary<string, object>();
             actions ??= new List<SearchConfigAction>();
             customFieldsConfig ??= new List<CustomFieldConfig>();
 
-            return new ResumeSearchConfig(allowPdfDownload, maxResults, displayJobTitle, displayLocation, displayYearsExperience, displayOccupationGroup, displayEducation, displaySkills, displayLanguages, displayManagementLevel, displayKeywords, weightJobTitle, weightLocation, weightYearsExperience, weightOccupationGroup, weightEducation, weightSkills, weightLanguages, weightManagementLevel, weightKeywords, indices?.ToList(), showIndexDropdown, searchToolTheme, userId, username, actions?.ToList(), hideToolbar, hideSidePanel, customFieldsConfig?.ToList());
+            return new ResumeSearchConfig(allowPdfDownload, maxResults, displayJobTitle, displayLocation, displayYearsExperience, displayOccupationGroup, displayEducation, displaySkills, displayLanguages, displayManagementLevel, displayKeywords, weightJobTitle, weightLocation, weightYearsExperience, weightOccupationGroup, weightEducation, weightSkills, weightLanguages, weightManagementLevel, weightKeywords, indices?.ToList(), showIndexDropdown, searchToolTheme, userId, username, actions?.ToList(), hideToolbar, hideSidePanel, customFieldsConfig?.ToList(), distanceUnit);
         }
 
         /// <summary> Initializes a new instance of ResumeSearchEmbed. </summary>

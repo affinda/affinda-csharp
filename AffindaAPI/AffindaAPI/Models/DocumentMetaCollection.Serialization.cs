@@ -5,6 +5,7 @@
 
 #nullable disable
 
+using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
 
@@ -27,6 +28,16 @@ namespace Affinda.API.Models
                 writer.WritePropertyName("extractor");
                 writer.WriteObjectValue(Extractor);
             }
+            if (Optional.IsCollectionDefined(ValidationRules))
+            {
+                writer.WritePropertyName("validationRules");
+                writer.WriteStartArray();
+                foreach (var item in ValidationRules)
+                {
+                    writer.WriteObjectValue(item);
+                }
+                writer.WriteEndArray();
+            }
             writer.WriteEndObject();
         }
 
@@ -35,6 +46,7 @@ namespace Affinda.API.Models
             string identifier = default;
             Optional<string> name = default;
             Optional<DocumentMetaCollectionExtractor> extractor = default;
+            Optional<IList<ValidationRule>> validationRules = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("identifier"))
@@ -57,8 +69,23 @@ namespace Affinda.API.Models
                     extractor = DocumentMetaCollectionExtractor.DeserializeDocumentMetaCollectionExtractor(property.Value);
                     continue;
                 }
+                if (property.NameEquals("validationRules"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    List<ValidationRule> array = new List<ValidationRule>();
+                    foreach (var item in property.Value.EnumerateArray())
+                    {
+                        array.Add(ValidationRule.DeserializeValidationRule(item));
+                    }
+                    validationRules = array;
+                    continue;
+                }
             }
-            return new DocumentMetaCollection(identifier, name.Value, extractor.Value);
+            return new DocumentMetaCollection(identifier, name.Value, extractor.Value, Optional.ToList(validationRules));
         }
     }
 }

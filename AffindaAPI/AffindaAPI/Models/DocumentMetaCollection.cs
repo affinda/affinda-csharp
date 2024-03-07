@@ -6,6 +6,8 @@
 #nullable disable
 
 using System;
+using System.Collections.Generic;
+using Azure.Core;
 
 namespace Affinda.API.Models
 {
@@ -23,17 +25,20 @@ namespace Affinda.API.Models
             }
 
             Identifier = identifier;
+            ValidationRules = new ChangeTrackingList<ValidationRule>();
         }
 
         /// <summary> Initializes a new instance of DocumentMetaCollection. </summary>
         /// <param name="identifier"> Uniquely identify a collection. </param>
         /// <param name="name"></param>
         /// <param name="extractor"></param>
-        internal DocumentMetaCollection(string identifier, string name, DocumentMetaCollectionExtractor extractor)
+        /// <param name="validationRules"></param>
+        internal DocumentMetaCollection(string identifier, string name, DocumentMetaCollectionExtractor extractor, IList<ValidationRule> validationRules)
         {
             Identifier = identifier;
             Name = name;
             Extractor = extractor;
+            ValidationRules = validationRules;
         }
 
         /// <summary> Uniquely identify a collection. </summary>
@@ -42,5 +47,7 @@ namespace Affinda.API.Models
         public string Name { get; set; }
         /// <summary> Gets or sets the extractor. </summary>
         public DocumentMetaCollectionExtractor Extractor { get; set; }
+        /// <summary> Gets the validation rules. </summary>
+        public IList<ValidationRule> ValidationRules { get; }
     }
 }

@@ -20,6 +20,7 @@ namespace Affinda.API.Models
             Optional<CollectionWorkspace> workspace = default;
             Optional<Extractor> extractor = default;
             Optional<float> autoValidationThreshold = default;
+            Optional<bool> autoValidateIfValidationRulesPass = default;
             Optional<IReadOnlyList<FieldGroup>> fields = default;
             Optional<FieldsLayout> fieldsLayout = default;
             Optional<bool> fieldsConfigured = default;
@@ -32,6 +33,7 @@ namespace Affinda.API.Models
             Optional<bool> tailoredExtractorRequested = default;
             Optional<bool> allowOpenai = default;
             Optional<bool> trainsExtractor = default;
+            Optional<bool> disableConfirmationIfValidationRulesFail = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("identifier"))
@@ -72,6 +74,16 @@ namespace Affinda.API.Models
                         continue;
                     }
                     autoValidationThreshold = property.Value.GetSingle();
+                    continue;
+                }
+                if (property.NameEquals("autoValidateIfValidationRulesPass"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    autoValidateIfValidationRulesPass = property.Value.GetBoolean();
                     continue;
                 }
                 if (property.NameEquals("fields"))
@@ -194,8 +206,18 @@ namespace Affinda.API.Models
                     trainsExtractor = property.Value.GetBoolean();
                     continue;
                 }
+                if (property.NameEquals("disableConfirmationIfValidationRulesFail"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    disableConfirmationIfValidationRulesFail = property.Value.GetBoolean();
+                    continue;
+                }
             }
-            return new Collection(identifier, name.Value, workspace.Value, extractor.Value, Optional.ToNullable(autoValidationThreshold), Optional.ToList(fields), fieldsLayout.Value, Optional.ToNullable(fieldsConfigured), Optional.ToNullable(dateFormatPreference), Optional.ToNullable(dateFormatFromDocument), extractorConfig.Value, Optional.ToNullable(unvalidatedDocsCount), Optional.ToNullable(confirmedDocsCount), ingestEmail.Value, Optional.ToNullable(tailoredExtractorRequested), Optional.ToNullable(allowOpenai), Optional.ToNullable(trainsExtractor));
+            return new Collection(identifier, name.Value, workspace.Value, extractor.Value, Optional.ToNullable(autoValidationThreshold), Optional.ToNullable(autoValidateIfValidationRulesPass), Optional.ToList(fields), fieldsLayout.Value, Optional.ToNullable(fieldsConfigured), Optional.ToNullable(dateFormatPreference), Optional.ToNullable(dateFormatFromDocument), extractorConfig.Value, Optional.ToNullable(unvalidatedDocsCount), Optional.ToNullable(confirmedDocsCount), ingestEmail.Value, Optional.ToNullable(tailoredExtractorRequested), Optional.ToNullable(allowOpenai), Optional.ToNullable(trainsExtractor), Optional.ToNullable(disableConfirmationIfValidationRulesFail));
         }
     }
 }

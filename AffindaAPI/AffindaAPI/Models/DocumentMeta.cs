@@ -62,21 +62,23 @@ namespace Affinda.API.Models
         /// <param name="workspace"></param>
         /// <param name="archivedDt"></param>
         /// <param name="isArchived"></param>
+        /// <param name="skipParse"></param>
         /// <param name="confirmedDt"></param>
+        /// <param name="confirmedBy"></param>
         /// <param name="isConfirmed"></param>
         /// <param name="rejectedDt"></param>
+        /// <param name="rejectedBy"></param>
         /// <param name="isRejected"></param>
         /// <param name="createdDt"></param>
         /// <param name="errorCode"></param>
         /// <param name="errorDetail"></param>
         /// <param name="file"> URL to view the file. </param>
         /// <param name="tags"></param>
-        /// <param name="confirmedBy"></param>
         /// <param name="createdBy"></param>
         /// <param name="sourceEmail"> If the document is created via email ingestion, this field stores the email file&apos;s URL. </param>
         /// <param name="sourceEmailAddress"> If the document is created via email ingestion, this field stores the email&apos;s From address. </param>
         /// <param name="regionBias"></param>
-        internal DocumentMeta(string identifier, string customIdentifier, string fileName, bool? ready, DateTimeOffset? readyDt, bool? failed, string expiryTime, string language, string pdf, DocumentMetaParentDocument parentDocument, IList<DocumentMetaChildDocumentsItem> childDocuments, IList<PageMeta> pages, bool? isOcrd, float? ocrConfidence, string reviewUrl, DocumentMetaCollection collection, DocumentMetaWorkspace workspace, DateTimeOffset? archivedDt, bool? isArchived, DateTimeOffset? confirmedDt, bool? isConfirmed, DateTimeOffset? rejectedDt, bool? isRejected, DateTimeOffset? createdDt, string errorCode, string errorDetail, string file, IList<Tag> tags, UserNullable confirmedBy, User createdBy, string sourceEmail, string sourceEmailAddress, RegionBias regionBias)
+        internal DocumentMeta(string identifier, string customIdentifier, string fileName, bool? ready, DateTimeOffset? readyDt, bool? failed, string expiryTime, string language, string pdf, DocumentMetaParentDocument parentDocument, IList<DocumentMetaChildDocumentsItem> childDocuments, IList<PageMeta> pages, bool? isOcrd, float? ocrConfidence, string reviewUrl, DocumentMetaCollection collection, DocumentMetaWorkspace workspace, DateTimeOffset? archivedDt, bool? isArchived, bool? skipParse, DateTimeOffset? confirmedDt, UserNullable confirmedBy, bool? isConfirmed, DateTimeOffset? rejectedDt, UserNullable rejectedBy, bool? isRejected, DateTimeOffset? createdDt, string errorCode, string errorDetail, string file, IList<Tag> tags, User createdBy, string sourceEmail, string sourceEmailAddress, RegionBias regionBias)
         {
             Identifier = identifier;
             CustomIdentifier = customIdentifier;
@@ -97,16 +99,18 @@ namespace Affinda.API.Models
             Workspace = workspace;
             ArchivedDt = archivedDt;
             IsArchived = isArchived;
+            SkipParse = skipParse;
             ConfirmedDt = confirmedDt;
+            ConfirmedBy = confirmedBy;
             IsConfirmed = isConfirmed;
             RejectedDt = rejectedDt;
+            RejectedBy = rejectedBy;
             IsRejected = isRejected;
             CreatedDt = createdDt;
             ErrorCode = errorCode;
             ErrorDetail = errorDetail;
             File = file;
             Tags = tags;
-            ConfirmedBy = confirmedBy;
             CreatedBy = createdBy;
             SourceEmail = sourceEmail;
             SourceEmailAddress = sourceEmailAddress;
@@ -151,12 +155,18 @@ namespace Affinda.API.Models
         public DateTimeOffset? ArchivedDt { get; set; }
         /// <summary> Gets or sets the is archived. </summary>
         public bool? IsArchived { get; set; }
+        /// <summary> Gets or sets the skip parse. </summary>
+        public bool? SkipParse { get; set; }
         /// <summary> Gets or sets the confirmed dt. </summary>
         public DateTimeOffset? ConfirmedDt { get; set; }
+        /// <summary> Gets or sets the confirmed by. </summary>
+        public UserNullable ConfirmedBy { get; set; }
         /// <summary> Gets or sets the is confirmed. </summary>
         public bool? IsConfirmed { get; set; }
         /// <summary> Gets or sets the rejected dt. </summary>
         public DateTimeOffset? RejectedDt { get; set; }
+        /// <summary> Gets or sets the rejected by. </summary>
+        public UserNullable RejectedBy { get; set; }
         /// <summary> Gets or sets the is rejected. </summary>
         public bool? IsRejected { get; set; }
         /// <summary> Gets or sets the created dt. </summary>
@@ -169,8 +179,6 @@ namespace Affinda.API.Models
         public string File { get; set; }
         /// <summary> Gets the tags. </summary>
         public IList<Tag> Tags { get; }
-        /// <summary> Gets or sets the confirmed by. </summary>
-        public UserNullable ConfirmedBy { get; set; }
         /// <summary> Gets or sets the created by. </summary>
         public User CreatedBy { get; set; }
         /// <summary> If the document is created via email ingestion, this field stores the email file&apos;s URL. </summary>

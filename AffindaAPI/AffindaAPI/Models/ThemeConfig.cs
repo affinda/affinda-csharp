@@ -8,20 +8,33 @@
 namespace Affinda.API.Models
 {
     /// <summary> The ThemeConfig. </summary>
-    internal partial class ThemeConfig
+    public partial class ThemeConfig
     {
         /// <summary> Initializes a new instance of ThemeConfig. </summary>
-        internal ThemeConfig()
+        public ThemeConfig()
         {
         }
 
-        /// <summary> Gets the palette. </summary>
-        public ThemeConfigPalette Palette { get; }
-        /// <summary> Gets the typography. </summary>
-        public ThemeConfigTypography Typography { get; }
-        /// <summary> Gets the border radius. </summary>
-        public float? BorderRadius { get; }
-        /// <summary> Gets the font url. </summary>
-        public string FontUrl { get; }
+        /// <summary> Initializes a new instance of ThemeConfig. </summary>
+        /// <param name="palette"></param>
+        /// <param name="typography"></param>
+        /// <param name="borderRadius"></param>
+        /// <param name="fontUrl"></param>
+        internal ThemeConfig(ThemeConfigPalette palette, ThemeConfigTypography typography, float? borderRadius, string fontUrl)
+        {
+            Palette = palette;
+            Typography = typography;
+            BorderRadius = borderRadius;
+            FontUrl = fontUrl;
+        }
+
+        /// <summary> Gets or sets the palette. </summary>
+        public ThemeConfigPalette Palette { get; set; }
+        /// <summary> Gets or sets the typography. </summary>
+        public ThemeConfigTypography Typography { get; set; }
+        /// <summary> Gets or sets the border radius. </summary>
+        public float? BorderRadius { get; set; }
+        /// <summary> Gets or sets the font url. </summary>
+        public string FontUrl { get; set; }
     }
 }

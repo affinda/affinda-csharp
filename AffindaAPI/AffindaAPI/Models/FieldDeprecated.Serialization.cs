@@ -85,6 +85,11 @@ namespace Affinda.API.Models
                 writer.WritePropertyName("showDropdown");
                 writer.WriteBooleanValue(ShowDropdown.Value);
             }
+            if (Optional.IsDefined(DisplayRawText))
+            {
+                writer.WritePropertyName("displayRawText");
+                writer.WriteBooleanValue(DisplayRawText.Value);
+            }
             if (Optional.IsDefined(DropNull))
             {
                 writer.WritePropertyName("dropNull");
@@ -125,6 +130,7 @@ namespace Affinda.API.Models
             Optional<bool> disabled = default;
             Optional<float?> autoValidationThreshold = default;
             Optional<bool> showDropdown = default;
+            Optional<bool> displayRawText = default;
             Optional<bool> dropNull = default;
             Optional<bool> displayEnumValue = default;
             Optional<IList<FieldDeprecated>> fields = default;
@@ -217,6 +223,16 @@ namespace Affinda.API.Models
                     showDropdown = property.Value.GetBoolean();
                     continue;
                 }
+                if (property.NameEquals("displayRawText"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    displayRawText = property.Value.GetBoolean();
+                    continue;
+                }
                 if (property.NameEquals("dropNull"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
@@ -255,7 +271,7 @@ namespace Affinda.API.Models
                 additionalPropertiesDictionary.Add(property.Name, property.Value.GetObject());
             }
             additionalProperties = additionalPropertiesDictionary;
-            return new FieldDeprecated(label, slug.Value, fieldType, dataSource.Value, mapping.Value, dataPoint, Optional.ToNullable(mandatory), Optional.ToNullable(disabled), Optional.ToNullable(autoValidationThreshold), Optional.ToNullable(showDropdown), Optional.ToNullable(dropNull), Optional.ToNullable(displayEnumValue), Optional.ToList(fields), additionalProperties);
+            return new FieldDeprecated(label, slug.Value, fieldType, dataSource.Value, mapping.Value, dataPoint, Optional.ToNullable(mandatory), Optional.ToNullable(disabled), Optional.ToNullable(autoValidationThreshold), Optional.ToNullable(showDropdown), Optional.ToNullable(displayRawText), Optional.ToNullable(dropNull), Optional.ToNullable(displayEnumValue), Optional.ToList(fields), additionalProperties);
         }
     }
 }

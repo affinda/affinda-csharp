@@ -41,5 +41,7 @@ namespace Affinda.API.Models
         public string DataSource { get; set; }
         /// <summary> Defines how the data point is mapped to the data source. </summary>
         public string Mapping { get; set; }
+        /// <summary> If true, then the validation tool will show the user the raw text found on the page, not the value that has been parsed to a specific type. </summary>
+        public bool? DisplayRawText { get; set; }
     }
 }

@@ -145,18 +145,12 @@ namespace Affinda.API.Models
                     writer.WriteNull("showIndexDropdown");
                 }
             }
-            if (Optional.IsCollectionDefined(SearchToolTheme))
+            if (Optional.IsDefined(SearchToolTheme))
             {
                 if (SearchToolTheme != null)
                 {
                     writer.WritePropertyName("searchToolTheme");
-                    writer.WriteStartObject();
-                    foreach (var item in SearchToolTheme)
-                    {
-                        writer.WritePropertyName(item.Key);
-                        writer.WriteObjectValue(item.Value);
-                    }
-                    writer.WriteEndObject();
+                    writer.WriteObjectValue(SearchToolTheme);
                 }
                 else
                 {
@@ -207,6 +201,11 @@ namespace Affinda.API.Models
                     writer.WriteNull("customFieldsConfig");
                 }
             }
+            if (Optional.IsDefined(DistanceUnit))
+            {
+                writer.WritePropertyName("distanceUnit");
+                writer.WriteStringValue(DistanceUnit.Value.ToString());
+            }
             writer.WriteEndObject();
         }
 
@@ -234,13 +233,14 @@ namespace Affinda.API.Models
             Optional<float> weightKeywords = default;
             Optional<IList<string>> indices = default;
             Optional<bool?> showIndexDropdown = default;
-            Optional<IDictionary<string, object>> searchToolTheme = default;
+            Optional<JobDescriptionSearchConfigSearchToolTheme> searchToolTheme = default;
             Optional<int> userId = default;
             Optional<string> username = default;
             Optional<IList<SearchConfigAction>> actions = default;
             Optional<bool> hideToolbar = default;
             Optional<bool> hideSidePanel = default;
             Optional<IList<CustomFieldConfig>> customFieldsConfig = default;
+            Optional<JobDescriptionSearchConfigDistanceUnit> distanceUnit = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("allowPdfDownload"))
@@ -475,12 +475,7 @@ namespace Affinda.API.Models
                         searchToolTheme = null;
                         continue;
                     }
-                    Dictionary<string, object> dictionary = new Dictionary<string, object>();
-                    foreach (var property0 in property.Value.EnumerateObject())
-                    {
-                        dictionary.Add(property0.Name, property0.Value.GetObject());
-                    }
-                    searchToolTheme = dictionary;
+                    searchToolTheme = JobDescriptionSearchConfigSearchToolTheme.DeserializeJobDescriptionSearchConfigSearchToolTheme(property.Value);
                     continue;
                 }
                 if (property.NameEquals("userId"))
@@ -548,8 +543,18 @@ namespace Affinda.API.Models
                     customFieldsConfig = array;
                     continue;
                 }
+                if (property.NameEquals("distanceUnit"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    distanceUnit = new JobDescriptionSearchConfigDistanceUnit(property.Value.GetString());
+                    continue;
+                }
             }
-            return new JobDescriptionSearchConfig(Optional.ToNullable(allowPdfDownload), Optional.ToNullable(maxResults), Optional.ToNullable(displayJobTitle), Optional.ToNullable(displayLocation), Optional.ToNullable(displayYearsExperience), Optional.ToNullable(displayOccupationGroup), Optional.ToNullable(displayEducation), Optional.ToNullable(displaySkills), Optional.ToNullable(displayLanguages), Optional.ToNullable(displayManagementLevel), Optional.ToNullable(displayKeywords), Optional.ToNullable(weightJobTitle), Optional.ToNullable(weightLocation), Optional.ToNullable(weightYearsExperience), Optional.ToNullable(weightOccupationGroup), Optional.ToNullable(weightEducation), Optional.ToNullable(weightSkills), Optional.ToNullable(weightLanguages), Optional.ToNullable(weightManagementLevel), Optional.ToNullable(weightKeywords), Optional.ToList(indices), Optional.ToNullable(showIndexDropdown), Optional.ToDictionary(searchToolTheme), Optional.ToNullable(userId), username.Value, Optional.ToList(actions), Optional.ToNullable(hideToolbar), Optional.ToNullable(hideSidePanel), Optional.ToList(customFieldsConfig));
+            return new JobDescriptionSearchConfig(Optional.ToNullable(allowPdfDownload), Optional.ToNullable(maxResults), Optional.ToNullable(displayJobTitle), Optional.ToNullable(displayLocation), Optional.ToNullable(displayYearsExperience), Optional.ToNullable(displayOccupationGroup), Optional.ToNullable(displayEducation), Optional.ToNullable(displaySkills), Optional.ToNullable(displayLanguages), Optional.ToNullable(displayManagementLevel), Optional.ToNullable(displayKeywords), Optional.ToNullable(weightJobTitle), Optional.ToNullable(weightLocation), Optional.ToNullable(weightYearsExperience), Optional.ToNullable(weightOccupationGroup), Optional.ToNullable(weightEducation), Optional.ToNullable(weightSkills), Optional.ToNullable(weightLanguages), Optional.ToNullable(weightManagementLevel), Optional.ToNullable(weightKeywords), Optional.ToList(indices), Optional.ToNullable(showIndexDropdown), searchToolTheme.Value, Optional.ToNullable(userId), username.Value, Optional.ToList(actions), Optional.ToNullable(hideToolbar), Optional.ToNullable(hideSidePanel), Optional.ToList(customFieldsConfig), Optional.ToNullable(distanceUnit));
         }
     }
 }

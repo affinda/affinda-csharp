@@ -34,6 +34,7 @@ namespace Affinda.API.Models
         /// <param name="workspace"></param>
         /// <param name="extractor"></param>
         /// <param name="autoValidationThreshold"></param>
+        /// <param name="autoValidateIfValidationRulesPass"></param>
         /// <param name="fields"></param>
         /// <param name="fieldsLayout"></param>
         /// <param name="fieldsConfigured"></param>
@@ -46,13 +47,15 @@ namespace Affinda.API.Models
         /// <param name="tailoredExtractorRequested"> Whether a tailored extractor has been requested for this collection. </param>
         /// <param name="allowOpenai"> Whether to allow OpenAI API to be used to assist in creating a model for this collection. </param>
         /// <param name="trainsExtractor"> Whether this collection feeds documents into the extractor&apos;s training queue. This setting can only be toggled for custom extractors. </param>
-        internal Collection(string identifier, string name, CollectionWorkspace workspace, Extractor extractor, float? autoValidationThreshold, IReadOnlyList<FieldGroup> fields, FieldsLayout fieldsLayout, bool? fieldsConfigured, CollectionDateFormatPreference? dateFormatPreference, bool? dateFormatFromDocument, ExtractorConfig extractorConfig, int? unvalidatedDocsCount, int? confirmedDocsCount, string ingestEmail, bool? tailoredExtractorRequested, bool? allowOpenai, bool? trainsExtractor)
+        /// <param name="disableConfirmationIfValidationRulesFail"> If True, users cannot validate documents with missing mandatory fields, or failing validation rules. </param>
+        internal Collection(string identifier, string name, CollectionWorkspace workspace, Extractor extractor, float? autoValidationThreshold, bool? autoValidateIfValidationRulesPass, IReadOnlyList<FieldGroup> fields, FieldsLayout fieldsLayout, bool? fieldsConfigured, CollectionDateFormatPreference? dateFormatPreference, bool? dateFormatFromDocument, ExtractorConfig extractorConfig, int? unvalidatedDocsCount, int? confirmedDocsCount, string ingestEmail, bool? tailoredExtractorRequested, bool? allowOpenai, bool? trainsExtractor, bool? disableConfirmationIfValidationRulesFail)
         {
             Identifier = identifier;
             Name = name;
             Workspace = workspace;
             Extractor = extractor;
             AutoValidationThreshold = autoValidationThreshold;
+            AutoValidateIfValidationRulesPass = autoValidateIfValidationRulesPass;
             Fields = fields;
             FieldsLayout = fieldsLayout;
             FieldsConfigured = fieldsConfigured;
@@ -65,6 +68,7 @@ namespace Affinda.API.Models
             TailoredExtractorRequested = tailoredExtractorRequested;
             AllowOpenai = allowOpenai;
             TrainsExtractor = trainsExtractor;
+            DisableConfirmationIfValidationRulesFail = disableConfirmationIfValidationRulesFail;
         }
 
         /// <summary> Uniquely identify a collection. </summary>
@@ -77,6 +81,8 @@ namespace Affinda.API.Models
         public Extractor Extractor { get; }
         /// <summary> Gets the auto validation threshold. </summary>
         public float? AutoValidationThreshold { get; }
+        /// <summary> Gets the auto validate if validation rules pass. </summary>
+        public bool? AutoValidateIfValidationRulesPass { get; }
         /// <summary> Gets the fields. </summary>
         public IReadOnlyList<FieldGroup> Fields { get; }
         /// <summary> Gets the fields layout. </summary>
@@ -101,5 +107,7 @@ namespace Affinda.API.Models
         public bool? AllowOpenai { get; }
         /// <summary> Whether this collection feeds documents into the extractor&apos;s training queue. This setting can only be toggled for custom extractors. </summary>
         public bool? TrainsExtractor { get; }
+        /// <summary> If True, users cannot validate documents with missing mandatory fields, or failing validation rules. </summary>
+        public bool? DisableConfirmationIfValidationRulesFail { get; }
     }
 }

@@ -48,11 +48,12 @@ namespace Affinda.API.Models
         /// <param name="disabled"></param>
         /// <param name="autoValidationThreshold"></param>
         /// <param name="showDropdown"></param>
+        /// <param name="displayRawText"></param>
         /// <param name="dropNull"> If True, any dropdown annotations that fail to parse to a value will be discarded. </param>
         /// <param name="displayEnumValue"></param>
         /// <param name="fields"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
-        internal FieldDeprecated(string label, string slug, AnnotationContentType fieldType, string dataSource, string mapping, string dataPoint, bool? mandatory, bool? disabled, float? autoValidationThreshold, bool? showDropdown, bool? dropNull, bool? displayEnumValue, IList<FieldDeprecated> fields, IDictionary<string, object> additionalProperties)
+        internal FieldDeprecated(string label, string slug, AnnotationContentType fieldType, string dataSource, string mapping, string dataPoint, bool? mandatory, bool? disabled, float? autoValidationThreshold, bool? showDropdown, bool? displayRawText, bool? dropNull, bool? displayEnumValue, IList<FieldDeprecated> fields, IDictionary<string, object> additionalProperties)
         {
             Label = label;
             Slug = slug;
@@ -64,6 +65,7 @@ namespace Affinda.API.Models
             Disabled = disabled;
             AutoValidationThreshold = autoValidationThreshold;
             ShowDropdown = showDropdown;
+            DisplayRawText = displayRawText;
             DropNull = dropNull;
             DisplayEnumValue = displayEnumValue;
             Fields = fields;
@@ -90,6 +92,8 @@ namespace Affinda.API.Models
         public float? AutoValidationThreshold { get; set; }
         /// <summary> Gets or sets the show dropdown. </summary>
         public bool? ShowDropdown { get; set; }
+        /// <summary> Gets or sets the display raw text. </summary>
+        public bool? DisplayRawText { get; set; }
         /// <summary> If True, any dropdown annotations that fail to parse to a value will be discarded. </summary>
         public bool? DropNull { get; set; }
         /// <summary> Gets or sets the display enum value. </summary>

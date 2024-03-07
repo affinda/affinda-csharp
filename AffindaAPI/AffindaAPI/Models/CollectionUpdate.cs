@@ -37,5 +37,7 @@ namespace Affinda.API.Models
         public bool? AllowOpenai { get; set; }
         /// <summary> Whether this collection feeds documents into the extractor&apos;s training queue. This setting can only be toggled for custom extractors. </summary>
         public bool? TrainsExtractor { get; set; }
+        /// <summary> If True, users cannot validate documents with missing mandatory fields, or failing validation rules. </summary>
+        public bool? DisableConfirmationIfValidationRulesFail { get; set; }
     }
 }

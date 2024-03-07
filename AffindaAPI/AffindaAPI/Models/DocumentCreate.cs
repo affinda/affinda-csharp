@@ -45,5 +45,9 @@ namespace Affinda.API.Models
         public string RegionBias { get; }
         /// <summary> Explicitly mark this document as low priority. </summary>
         public string LowPriority { get; }
+        /// <summary> If true, the returned parse result (assuming `wait` is also true) will be a compact version of the full result. </summary>
+        public string Compact { get; }
+        /// <summary> If true, no data will be stored after parsing. Only compatible with requests where wait: True. </summary>
+        public string DeleteAfterParse { get; }
     }
 }

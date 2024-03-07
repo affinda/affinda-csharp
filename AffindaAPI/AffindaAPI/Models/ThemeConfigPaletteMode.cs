@@ -11,7 +11,7 @@ using System.ComponentModel;
 namespace Affinda.API.Models
 {
     /// <summary> The ThemeConfigPaletteMode. </summary>
-    internal readonly partial struct ThemeConfigPaletteMode : IEquatable<ThemeConfigPaletteMode>
+    public readonly partial struct ThemeConfigPaletteMode : IEquatable<ThemeConfigPaletteMode>
     {
         private readonly string _value;
 

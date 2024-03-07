@@ -37,6 +37,7 @@ namespace Affinda.API.Models
         private const string DocumentClassifyFailedValue = "document.classify.failed";
         private const string DocumentClassifyCompletedValue = "document.classify.completed";
         private const string DocumentRejectedValue = "document.rejected";
+        private const string AnnotationValidatedValue = "annotation.validated";
 
         /// <summary> resume.parse.succeeded. </summary>
         public static ResthookEvent ResumeParseSucceeded { get; } = new ResthookEvent(ResumeParseSucceededValue);
@@ -68,6 +69,8 @@ namespace Affinda.API.Models
         public static ResthookEvent DocumentClassifyCompleted { get; } = new ResthookEvent(DocumentClassifyCompletedValue);
         /// <summary> document.rejected. </summary>
         public static ResthookEvent DocumentRejected { get; } = new ResthookEvent(DocumentRejectedValue);
+        /// <summary> annotation.validated. </summary>
+        public static ResthookEvent AnnotationValidated { get; } = new ResthookEvent(AnnotationValidatedValue);
         /// <summary> Determines if two <see cref="ResthookEvent"/> values are the same. </summary>
         public static bool operator ==(ResthookEvent left, ResthookEvent right) => left.Equals(right);
         /// <summary> Determines if two <see cref="ResthookEvent"/> values are not the same. </summary>

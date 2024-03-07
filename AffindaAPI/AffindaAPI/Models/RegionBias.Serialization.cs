@@ -62,6 +62,11 @@ namespace Affinda.API.Models
                     writer.WriteNull("squareCoordinates");
                 }
             }
+            if (Optional.IsDefined(Strict))
+            {
+                writer.WritePropertyName("strict");
+                writer.WriteBooleanValue(Strict.Value);
+            }
             writer.WriteEndObject();
         }
 
@@ -70,6 +75,7 @@ namespace Affinda.API.Models
             Optional<string> country = default;
             Optional<IList<string>> countries = default;
             Optional<IList<float>> squareCoordinates = default;
+            Optional<bool> strict = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("country"))
@@ -112,8 +118,18 @@ namespace Affinda.API.Models
                     squareCoordinates = array;
                     continue;
                 }
+                if (property.NameEquals("strict"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    strict = property.Value.GetBoolean();
+                    continue;
+                }
             }
-            return new RegionBias(country.Value, Optional.ToList(countries), Optional.ToList(squareCoordinates));
+            return new RegionBias(country.Value, Optional.ToList(countries), Optional.ToList(squareCoordinates), Optional.ToNullable(strict));
         }
     }
 }
