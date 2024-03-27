@@ -531,13 +531,14 @@ namespace Affinda.API.Models
         /// <param name="createdDt"></param>
         /// <param name="documentType"></param>
         /// <param name="regionBias"></param>
+        /// <param name="isOcrd"></param>
         /// <returns> A new <see cref="Models.Meta"/> instance for mocking. </returns>
-        public static Meta Meta(string identifier = null, string customIdentifier = null, string fileName = null, bool? ready = null, DateTimeOffset? readyDt = null, bool? failed = null, string expiryTime = null, string language = null, string pdf = null, MetaParentDocument parentDocument = null, IEnumerable<MetaChildDocumentsItem> childDocuments = null, IEnumerable<PageMeta> pages = null, bool? isVerified = null, string reviewUrl = null, float? ocrConfidence = null, DateTimeOffset? createdDt = null, string documentType = null, RegionBias regionBias = null)
+        public static Meta Meta(string identifier = null, string customIdentifier = null, string fileName = null, bool? ready = null, DateTimeOffset? readyDt = null, bool? failed = null, string expiryTime = null, string language = null, string pdf = null, MetaParentDocument parentDocument = null, IEnumerable<MetaChildDocumentsItem> childDocuments = null, IEnumerable<PageMeta> pages = null, bool? isVerified = null, string reviewUrl = null, float? ocrConfidence = null, DateTimeOffset? createdDt = null, string documentType = null, RegionBias regionBias = null, bool? isOcrd = null)
         {
             childDocuments ??= new List<MetaChildDocumentsItem>();
             pages ??= new List<PageMeta>();
 
-            return new Meta(identifier, customIdentifier, fileName, ready, readyDt, failed, expiryTime, language, pdf, parentDocument, childDocuments?.ToList(), pages?.ToList(), isVerified, reviewUrl, ocrConfidence, createdDt, documentType, regionBias);
+            return new Meta(identifier, customIdentifier, fileName, ready, readyDt, failed, expiryTime, language, pdf, parentDocument, childDocuments?.ToList(), pages?.ToList(), isVerified, reviewUrl, ocrConfidence, createdDt, documentType, regionBias, isOcrd);
         }
 
         /// <summary> Initializes a new instance of MetaParentDocument. </summary>

@@ -17,7 +17,7 @@ namespace Affinda.API.Models
         {
         }
 
-        /// <summary> File as binary data blob. Supported formats: PDF, DOC, DOCX, TXT, RTF, HTML, PNG, JPG. </summary>
+        /// <summary> File as binary data blob. Supported formats: PDF, DOC, DOCX, TXT, RTF, HTML, PNG, JPG, TIFF, ODT, XLS, XLSX, ZIP. </summary>
         public Stream File { get; }
         /// <summary> URL to download the document. </summary>
         public string Url { get; }

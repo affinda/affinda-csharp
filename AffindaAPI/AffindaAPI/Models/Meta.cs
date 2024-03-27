@@ -40,7 +40,8 @@ namespace Affinda.API.Models
         /// <param name="createdDt"></param>
         /// <param name="documentType"></param>
         /// <param name="regionBias"></param>
-        internal Meta(string identifier, string customIdentifier, string fileName, bool? ready, DateTimeOffset? readyDt, bool? failed, string expiryTime, string language, string pdf, MetaParentDocument parentDocument, IReadOnlyList<MetaChildDocumentsItem> childDocuments, IReadOnlyList<PageMeta> pages, bool? isVerified, string reviewUrl, float? ocrConfidence, DateTimeOffset? createdDt, string documentType, RegionBias regionBias)
+        /// <param name="isOcrd"></param>
+        internal Meta(string identifier, string customIdentifier, string fileName, bool? ready, DateTimeOffset? readyDt, bool? failed, string expiryTime, string language, string pdf, MetaParentDocument parentDocument, IReadOnlyList<MetaChildDocumentsItem> childDocuments, IReadOnlyList<PageMeta> pages, bool? isVerified, string reviewUrl, float? ocrConfidence, DateTimeOffset? createdDt, string documentType, RegionBias regionBias, bool? isOcrd)
         {
             Identifier = identifier;
             CustomIdentifier = customIdentifier;
@@ -60,6 +61,7 @@ namespace Affinda.API.Models
             CreatedDt = createdDt;
             DocumentType = documentType;
             RegionBias = regionBias;
+            IsOcrd = isOcrd;
         }
 
         /// <summary> Unique identifier for the document. </summary>
@@ -98,5 +100,7 @@ namespace Affinda.API.Models
         public string DocumentType { get; }
         /// <summary> Gets the region bias. </summary>
         public RegionBias RegionBias { get; }
+        /// <summary> Gets the is ocrd. </summary>
+        public bool? IsOcrd { get; }
     }
 }
