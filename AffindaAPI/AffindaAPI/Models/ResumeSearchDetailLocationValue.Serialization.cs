@@ -31,6 +31,7 @@ namespace Affinda.API.Models
             Optional<string> formatted = default;
             Optional<string> postalCode = default;
             Optional<string> state = default;
+            Optional<string> stateCode = default;
             Optional<string> country = default;
             Optional<string> countryCode = default;
             string rawInput = default;
@@ -40,6 +41,7 @@ namespace Affinda.API.Models
             Optional<string> city = default;
             Optional<float?> latitude = default;
             Optional<float?> longitude = default;
+            Optional<string> poBox = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("match"))
@@ -80,6 +82,16 @@ namespace Affinda.API.Models
                         continue;
                     }
                     state = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("stateCode"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        stateCode = null;
+                        continue;
+                    }
+                    stateCode = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("country"))
@@ -167,8 +179,18 @@ namespace Affinda.API.Models
                     longitude = property.Value.GetSingle();
                     continue;
                 }
+                if (property.NameEquals("poBox"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        poBox = null;
+                        continue;
+                    }
+                    poBox = property.Value.GetString();
+                    continue;
+                }
             }
-            return new ResumeSearchDetailLocationValue(formatted.Value, postalCode.Value, state.Value, country.Value, countryCode.Value, rawInput, streetNumber.Value, street.Value, apartmentNumber.Value, city.Value, Optional.ToNullable(latitude), Optional.ToNullable(longitude), Optional.ToNullable(match));
+            return new ResumeSearchDetailLocationValue(formatted.Value, postalCode.Value, state.Value, stateCode.Value, country.Value, countryCode.Value, rawInput, streetNumber.Value, street.Value, apartmentNumber.Value, city.Value, Optional.ToNullable(latitude), Optional.ToNullable(longitude), poBox.Value, Optional.ToNullable(match));
         }
     }
 }

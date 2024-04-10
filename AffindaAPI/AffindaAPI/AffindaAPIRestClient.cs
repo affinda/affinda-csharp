@@ -583,7 +583,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateCreateRedactedResumeRequest(Stream file, string identifier, string customIdentifier, string fileName, string url, string language, string wait, string redactHeadshot, string redactPersonalDetails, string redactWorkDetails, string redactEducationDetails, string redactReferees, string redactLocations, string redactDates, string redactGender, string expiryTime)
+        internal HttpMessage CreateCreateRedactedResumeRequest(Stream file, string identifier, string customIdentifier, string fileName, string url, string language, string wait, string redactHeadshot, string redactPersonalDetails, string redactWorkDetails, string redactEducationDetails, string redactReferees, string redactLocations, string redactDates, string redactGender, string redactPdfMetadata, string expiryTime)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -657,6 +657,10 @@ namespace Affinda.API
             {
                 content.Add(new StringRequestContent(redactGender), "redactGender", null);
             }
+            if (redactPdfMetadata != null)
+            {
+                content.Add(new StringRequestContent(redactPdfMetadata), "redactPdfMetadata", null);
+            }
             if (expiryTime != null)
             {
                 content.Add(new StringRequestContent(expiryTime), "expiryTime", null);
@@ -681,12 +685,13 @@ namespace Affinda.API
         /// <param name="redactLocations"> Whether to redact location names. </param>
         /// <param name="redactDates"> Whether to redact dates. </param>
         /// <param name="redactGender"> Whether to redact gender. </param>
+        /// <param name="redactPdfMetadata"> Whether to redact PDF metadata. </param>
         /// <param name="expiryTime"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Uploads a resume for redacting. </remarks>
-        public async Task<Response<RedactedResume>> CreateRedactedResumeAsync(Stream file = null, string identifier = null, string customIdentifier = null, string fileName = null, string url = null, string language = null, string wait = null, string redactHeadshot = null, string redactPersonalDetails = null, string redactWorkDetails = null, string redactEducationDetails = null, string redactReferees = null, string redactLocations = null, string redactDates = null, string redactGender = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public async Task<Response<RedactedResume>> CreateRedactedResumeAsync(Stream file = null, string identifier = null, string customIdentifier = null, string fileName = null, string url = null, string language = null, string wait = null, string redactHeadshot = null, string redactPersonalDetails = null, string redactWorkDetails = null, string redactEducationDetails = null, string redactReferees = null, string redactLocations = null, string redactDates = null, string redactGender = null, string redactPdfMetadata = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateRedactedResumeRequest(file, identifier, customIdentifier, fileName, url, language, wait, redactHeadshot, redactPersonalDetails, redactWorkDetails, redactEducationDetails, redactReferees, redactLocations, redactDates, redactGender, expiryTime);
+            using var message = CreateCreateRedactedResumeRequest(file, identifier, customIdentifier, fileName, url, language, wait, redactHeadshot, redactPersonalDetails, redactWorkDetails, redactEducationDetails, redactReferees, redactLocations, redactDates, redactGender, redactPdfMetadata, expiryTime);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -719,12 +724,13 @@ namespace Affinda.API
         /// <param name="redactLocations"> Whether to redact location names. </param>
         /// <param name="redactDates"> Whether to redact dates. </param>
         /// <param name="redactGender"> Whether to redact gender. </param>
+        /// <param name="redactPdfMetadata"> Whether to redact PDF metadata. </param>
         /// <param name="expiryTime"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Uploads a resume for redacting. </remarks>
-        public Response<RedactedResume> CreateRedactedResume(Stream file = null, string identifier = null, string customIdentifier = null, string fileName = null, string url = null, string language = null, string wait = null, string redactHeadshot = null, string redactPersonalDetails = null, string redactWorkDetails = null, string redactEducationDetails = null, string redactReferees = null, string redactLocations = null, string redactDates = null, string redactGender = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public Response<RedactedResume> CreateRedactedResume(Stream file = null, string identifier = null, string customIdentifier = null, string fileName = null, string url = null, string language = null, string wait = null, string redactHeadshot = null, string redactPersonalDetails = null, string redactWorkDetails = null, string redactEducationDetails = null, string redactReferees = null, string redactLocations = null, string redactDates = null, string redactGender = null, string redactPdfMetadata = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateRedactedResumeRequest(file, identifier, customIdentifier, fileName, url, language, wait, redactHeadshot, redactPersonalDetails, redactWorkDetails, redactEducationDetails, redactReferees, redactLocations, redactDates, redactGender, expiryTime);
+            using var message = CreateCreateRedactedResumeRequest(file, identifier, customIdentifier, fileName, url, language, wait, redactHeadshot, redactPersonalDetails, redactWorkDetails, redactEducationDetails, redactReferees, redactLocations, redactDates, redactGender, redactPdfMetadata, expiryTime);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -2775,7 +2781,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllIndexesRequest(int? offset, int? limit, Enum5? documentType)
+        internal HttpMessage CreateGetAllIndexesRequest(int? offset, int? limit, Enum7? documentType)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -2808,7 +2814,7 @@ namespace Affinda.API
         /// <param name="documentType"> Filter indices by a document type. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public async Task<Response<Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum5? documentType = null, CancellationToken cancellationToken = default)
+        public async Task<Response<Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum7? documentType = null, CancellationToken cancellationToken = default)
         {
             using var message = CreateGetAllIndexesRequest(offset, limit, documentType);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
@@ -2832,7 +2838,7 @@ namespace Affinda.API
         /// <param name="documentType"> Filter indices by a document type. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public Response<Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema> GetAllIndexes(int? offset = null, int? limit = null, Enum5? documentType = null, CancellationToken cancellationToken = default)
+        public Response<Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema> GetAllIndexes(int? offset = null, int? limit = null, Enum7? documentType = null, CancellationToken cancellationToken = default)
         {
             using var message = CreateGetAllIndexesRequest(offset, limit, documentType);
             _pipeline.Send(message, cancellationToken);
@@ -2850,7 +2856,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateCreateIndexRequest(string name, string documentType)
+        internal HttpMessage CreateCreateIndexRequest(IndexCreate body)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -2862,36 +2868,34 @@ namespace Affinda.API
             uri.AppendPath("/v2/index", false);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
-            request.Headers.Add("Content-Type", "multipart/form-data");
-            var content = new MultipartFormDataContent();
-            if (name != null)
-            {
-                content.Add(new StringRequestContent(name), "name", null);
-            }
-            if (documentType != null)
-            {
-                content.Add(new StringRequestContent(documentType), "documentType", null);
-            }
-            content.ApplyToRequest(request);
+            request.Headers.Add("Content-Type", "application/json");
+            var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(body);
+            request.Content = content;
             return message;
         }
 
         /// <summary> Create a new index. </summary>
-        /// <param name="name"> The String to use. </param>
-        /// <param name="documentType"> The String to use. </param>
+        /// <param name="body"> Index to create. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
         /// <remarks> Create an index for the search tool. </remarks>
-        public async Task<Response<Paths1Sikw07V2IndexPostResponses201ContentApplicationJsonSchema>> CreateIndexAsync(string name = null, string documentType = null, CancellationToken cancellationToken = default)
+        public async Task<Response<Models.Index>> CreateIndexAsync(IndexCreate body, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateIndexRequest(name, documentType);
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateCreateIndexRequest(body);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
                 case 201:
                     {
-                        Paths1Sikw07V2IndexPostResponses201ContentApplicationJsonSchema value = default;
+                        Models.Index value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = Paths1Sikw07V2IndexPostResponses201ContentApplicationJsonSchema.DeserializePaths1Sikw07V2IndexPostResponses201ContentApplicationJsonSchema(document.RootElement);
+                        value = Models.Index.DeserializeIndex(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:
@@ -2900,21 +2904,112 @@ namespace Affinda.API
         }
 
         /// <summary> Create a new index. </summary>
-        /// <param name="name"> The String to use. </param>
-        /// <param name="documentType"> The String to use. </param>
+        /// <param name="body"> Index to create. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
         /// <remarks> Create an index for the search tool. </remarks>
-        public Response<Paths1Sikw07V2IndexPostResponses201ContentApplicationJsonSchema> CreateIndex(string name = null, string documentType = null, CancellationToken cancellationToken = default)
+        public Response<Models.Index> CreateIndex(IndexCreate body, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateIndexRequest(name, documentType);
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateCreateIndexRequest(body);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
                 case 201:
                     {
-                        Paths1Sikw07V2IndexPostResponses201ContentApplicationJsonSchema value = default;
+                        Models.Index value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = Paths1Sikw07V2IndexPostResponses201ContentApplicationJsonSchema.DeserializePaths1Sikw07V2IndexPostResponses201ContentApplicationJsonSchema(document.RootElement);
+                        value = Models.Index.DeserializeIndex(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateUpdateIndexRequest(string name, IndexUpdate body)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Patch;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v2/index/", false);
+            uri.AppendPath(name, true);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Content-Type", "application/json");
+            var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(body);
+            request.Content = content;
+            return message;
+        }
+
+        /// <summary> Update an index. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="body"> Index data to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/> or <paramref name="body"/> is null. </exception>
+        /// <remarks> Updates the specified index. </remarks>
+        public async Task<Response<Models.Index>> UpdateIndexAsync(string name, IndexUpdate body, CancellationToken cancellationToken = default)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateUpdateIndexRequest(name, body);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        Models.Index value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        value = Models.Index.DeserializeIndex(document.RootElement);
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Update an index. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="body"> Index data to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/> or <paramref name="body"/> is null. </exception>
+        /// <remarks> Updates the specified index. </remarks>
+        public Response<Models.Index> UpdateIndex(string name, IndexUpdate body, CancellationToken cancellationToken = default)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateUpdateIndexRequest(name, body);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    {
+                        Models.Index value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        value = Models.Index.DeserializeIndex(document.RootElement);
                         return Response.FromValue(value, message.Response);
                     }
                 default:

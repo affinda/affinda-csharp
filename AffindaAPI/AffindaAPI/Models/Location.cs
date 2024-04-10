@@ -29,6 +29,7 @@ namespace Affinda.API.Models
         /// <param name="formatted"></param>
         /// <param name="postalCode"></param>
         /// <param name="state"></param>
+        /// <param name="stateCode"></param>
         /// <param name="country"></param>
         /// <param name="countryCode"> Two letter country code (ISO 3166-1 alpha-2). </param>
         /// <param name="rawInput"></param>
@@ -38,11 +39,13 @@ namespace Affinda.API.Models
         /// <param name="city"></param>
         /// <param name="latitude"></param>
         /// <param name="longitude"></param>
-        internal Location(string formatted, string postalCode, string state, string country, string countryCode, string rawInput, string streetNumber, string street, string apartmentNumber, string city, float? latitude, float? longitude)
+        /// <param name="poBox"></param>
+        internal Location(string formatted, string postalCode, string state, string stateCode, string country, string countryCode, string rawInput, string streetNumber, string street, string apartmentNumber, string city, float? latitude, float? longitude, string poBox)
         {
             Formatted = formatted;
             PostalCode = postalCode;
             State = state;
+            StateCode = stateCode;
             Country = country;
             CountryCode = countryCode;
             RawInput = rawInput;
@@ -52,6 +55,7 @@ namespace Affinda.API.Models
             City = city;
             Latitude = latitude;
             Longitude = longitude;
+            PoBox = poBox;
         }
 
         /// <summary> Gets the formatted. </summary>
@@ -60,6 +64,8 @@ namespace Affinda.API.Models
         public string PostalCode { get; }
         /// <summary> Gets the state. </summary>
         public string State { get; }
+        /// <summary> Gets the state code. </summary>
+        public string StateCode { get; }
         /// <summary> Gets the country. </summary>
         public string Country { get; }
         /// <summary> Two letter country code (ISO 3166-1 alpha-2). </summary>
@@ -78,5 +84,7 @@ namespace Affinda.API.Models
         public float? Latitude { get; }
         /// <summary> Gets the longitude. </summary>
         public float? Longitude { get; }
+        /// <summary> Gets the po box. </summary>
+        public string PoBox { get; }
     }
 }

@@ -17,7 +17,7 @@ namespace Affinda.API.Models
         {
         }
 
-        /// <summary> File as binary data blob. Supported formats: PDF, DOC, DOCX, TXT, RTF, HTML, PNG, JPG. </summary>
+        /// <summary> File as binary data blob. Supported formats: PDF, DOC, DOCX, TXT, RTF, HTML, PNG, JPG, TIFF, ODT, XLS, XLSX, ZIP. </summary>
         public Stream File { get; }
         /// <summary> Deprecated in favor of `customIdentifier`. </summary>
         public string Identifier { get; }
@@ -47,6 +47,8 @@ namespace Affinda.API.Models
         public string RedactDates { get; }
         /// <summary> Whether to redact gender. </summary>
         public string RedactGender { get; }
+        /// <summary> Whether to redact PDF metadata. </summary>
+        public string RedactPdfMetadata { get; }
         /// <summary> The date/time in ISO-8601 format when the document will be automatically deleted.  Defaults to no expiry. </summary>
         public string ExpiryTime { get; }
     }

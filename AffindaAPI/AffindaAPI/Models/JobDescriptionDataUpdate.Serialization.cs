@@ -241,8 +241,8 @@ namespace Affinda.API.Models
             Optional<LocationAnnotationV2Update> location = default;
             Optional<IList<TextAnnotationV2Update>> certifications = default;
             Optional<YearsExperienceAnnotationV2Update> yearsExperience = default;
-            IDictionary<string, Components1Rpp8I6SchemasJobdescriptiondataupdateAdditionalproperties> additionalProperties = default;
-            Dictionary<string, Components1Rpp8I6SchemasJobdescriptiondataupdateAdditionalproperties> additionalPropertiesDictionary = new Dictionary<string, Components1Rpp8I6SchemasJobdescriptiondataupdateAdditionalproperties>();
+            IDictionary<string, object> additionalProperties = default;
+            Dictionary<string, object> additionalPropertiesDictionary = new Dictionary<string, object>();
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("jobTitle"))
@@ -451,7 +451,7 @@ namespace Affinda.API.Models
                     yearsExperience = YearsExperienceAnnotationV2Update.DeserializeYearsExperienceAnnotationV2Update(property.Value);
                     continue;
                 }
-                additionalPropertiesDictionary.Add(property.Name, Components1Rpp8I6SchemasJobdescriptiondataupdateAdditionalproperties.DeserializeComponents1Rpp8I6SchemasJobdescriptiondataupdateAdditionalproperties(property.Value));
+                additionalPropertiesDictionary.Add(property.Name, property.Value.GetObject());
             }
             additionalProperties = additionalPropertiesDictionary;
             return new JobDescriptionDataUpdate(jobTitle.Value, contactEmail.Value, contactName.Value, contactPhone.Value, startDate.Value, endDate.Value, jobType.Value, Optional.ToList(languages), Optional.ToList(skills), organizationName.Value, organizationWebsite.Value, educationLevel.Value, educationAccreditation.Value, expectedRemuneration.Value, location.Value, Optional.ToList(certifications), yearsExperience.Value, additionalProperties);

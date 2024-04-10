@@ -356,16 +356,17 @@ namespace Affinda.API
         /// <param name="redactLocations"> Whether to redact location names. </param>
         /// <param name="redactDates"> Whether to redact dates. </param>
         /// <param name="redactGender"> Whether to redact gender. </param>
+        /// <param name="redactPdfMetadata"> Whether to redact PDF metadata. </param>
         /// <param name="expiryTime"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Uploads a resume for redacting. </remarks>
-        public virtual async Task<Response<RedactedResume>> CreateRedactedResumeAsync(Stream file = null, string identifier = null, string customIdentifier = null, string fileName = null, string url = null, string language = null, string wait = null, string redactHeadshot = null, string redactPersonalDetails = null, string redactWorkDetails = null, string redactEducationDetails = null, string redactReferees = null, string redactLocations = null, string redactDates = null, string redactGender = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<RedactedResume>> CreateRedactedResumeAsync(Stream file = null, string identifier = null, string customIdentifier = null, string fileName = null, string url = null, string language = null, string wait = null, string redactHeadshot = null, string redactPersonalDetails = null, string redactWorkDetails = null, string redactEducationDetails = null, string redactReferees = null, string redactLocations = null, string redactDates = null, string redactGender = null, string redactPdfMetadata = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateRedactedResume");
             scope.Start();
             try
             {
-                return await RestClient.CreateRedactedResumeAsync(file, identifier, customIdentifier, fileName, url, language, wait, redactHeadshot, redactPersonalDetails, redactWorkDetails, redactEducationDetails, redactReferees, redactLocations, redactDates, redactGender, expiryTime, cancellationToken).ConfigureAwait(false);
+                return await RestClient.CreateRedactedResumeAsync(file, identifier, customIdentifier, fileName, url, language, wait, redactHeadshot, redactPersonalDetails, redactWorkDetails, redactEducationDetails, redactReferees, redactLocations, redactDates, redactGender, redactPdfMetadata, expiryTime, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -390,16 +391,17 @@ namespace Affinda.API
         /// <param name="redactLocations"> Whether to redact location names. </param>
         /// <param name="redactDates"> Whether to redact dates. </param>
         /// <param name="redactGender"> Whether to redact gender. </param>
+        /// <param name="redactPdfMetadata"> Whether to redact PDF metadata. </param>
         /// <param name="expiryTime"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Uploads a resume for redacting. </remarks>
-        public virtual Response<RedactedResume> CreateRedactedResume(Stream file = null, string identifier = null, string customIdentifier = null, string fileName = null, string url = null, string language = null, string wait = null, string redactHeadshot = null, string redactPersonalDetails = null, string redactWorkDetails = null, string redactEducationDetails = null, string redactReferees = null, string redactLocations = null, string redactDates = null, string redactGender = null, string expiryTime = null, CancellationToken cancellationToken = default)
+        public virtual Response<RedactedResume> CreateRedactedResume(Stream file = null, string identifier = null, string customIdentifier = null, string fileName = null, string url = null, string language = null, string wait = null, string redactHeadshot = null, string redactPersonalDetails = null, string redactWorkDetails = null, string redactEducationDetails = null, string redactReferees = null, string redactLocations = null, string redactDates = null, string redactGender = null, string redactPdfMetadata = null, string expiryTime = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateRedactedResume");
             scope.Start();
             try
             {
-                return RestClient.CreateRedactedResume(file, identifier, customIdentifier, fileName, url, language, wait, redactHeadshot, redactPersonalDetails, redactWorkDetails, redactEducationDetails, redactReferees, redactLocations, redactDates, redactGender, expiryTime, cancellationToken);
+                return RestClient.CreateRedactedResume(file, identifier, customIdentifier, fileName, url, language, wait, redactHeadshot, redactPersonalDetails, redactWorkDetails, redactEducationDetails, redactReferees, redactLocations, redactDates, redactGender, redactPdfMetadata, expiryTime, cancellationToken);
             }
             catch (Exception e)
             {
@@ -1460,7 +1462,7 @@ namespace Affinda.API
         /// <param name="documentType"> Filter indices by a document type. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public virtual async Task<Response<Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum5? documentType = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum7? documentType = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexes");
             scope.Start();
@@ -1481,7 +1483,7 @@ namespace Affinda.API
         /// <param name="documentType"> Filter indices by a document type. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public virtual Response<Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema> GetAllIndexes(int? offset = null, int? limit = null, Enum5? documentType = null, CancellationToken cancellationToken = default)
+        public virtual Response<Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema> GetAllIndexes(int? offset = null, int? limit = null, Enum7? documentType = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexes");
             scope.Start();
@@ -1497,17 +1499,16 @@ namespace Affinda.API
         }
 
         /// <summary> Create a new index. </summary>
-        /// <param name="name"> The String to use. </param>
-        /// <param name="documentType"> The String to use. </param>
+        /// <param name="body"> Index to create. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Create an index for the search tool. </remarks>
-        public virtual async Task<Response<Paths1Sikw07V2IndexPostResponses201ContentApplicationJsonSchema>> CreateIndexAsync(string name = null, string documentType = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<Models.Index>> CreateIndexAsync(IndexCreate body, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateIndex");
             scope.Start();
             try
             {
-                return await RestClient.CreateIndexAsync(name, documentType, cancellationToken).ConfigureAwait(false);
+                return await RestClient.CreateIndexAsync(body, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -1517,17 +1518,56 @@ namespace Affinda.API
         }
 
         /// <summary> Create a new index. </summary>
-        /// <param name="name"> The String to use. </param>
-        /// <param name="documentType"> The String to use. </param>
+        /// <param name="body"> Index to create. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Create an index for the search tool. </remarks>
-        public virtual Response<Paths1Sikw07V2IndexPostResponses201ContentApplicationJsonSchema> CreateIndex(string name = null, string documentType = null, CancellationToken cancellationToken = default)
+        public virtual Response<Models.Index> CreateIndex(IndexCreate body, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.CreateIndex");
             scope.Start();
             try
             {
-                return RestClient.CreateIndex(name, documentType, cancellationToken);
+                return RestClient.CreateIndex(body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update an index. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="body"> Index data to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Updates the specified index. </remarks>
+        public virtual async Task<Response<Models.Index>> UpdateIndexAsync(string name, IndexUpdate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateIndex");
+            scope.Start();
+            try
+            {
+                return await RestClient.UpdateIndexAsync(name, body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Update an index. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="body"> Index data to update. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Updates the specified index. </remarks>
+        public virtual Response<Models.Index> UpdateIndex(string name, IndexUpdate body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.UpdateIndex");
+            scope.Start();
+            try
+            {
+                return RestClient.UpdateIndex(name, body, cancellationToken);
             }
             catch (Exception e)
             {

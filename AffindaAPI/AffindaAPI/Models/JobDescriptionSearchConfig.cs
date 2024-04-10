@@ -50,7 +50,8 @@ namespace Affinda.API.Models
         /// <param name="username"> Username of the logged in user. </param>
         /// <param name="actions"> A list of actions to show in the dropdown in the embedded search tool. </param>
         /// <param name="customFieldsConfig"></param>
-        internal JobDescriptionSearchConfig(bool? allowPdfDownload, int? maxResults, bool? displayJobTitle, bool? displayLocation, bool? displayYearsExperience, bool? displayOccupationGroup, bool? displayEducation, bool? displaySkills, bool? displayLanguages, bool? displayManagementLevel, bool? displayKeywords, float? weightJobTitle, float? weightLocation, float? weightYearsExperience, float? weightOccupationGroup, float? weightEducation, float? weightSkills, float? weightLanguages, float? weightManagementLevel, float? weightKeywords, IList<string> indices, bool? showIndexDropdown, IDictionary<string, object> searchToolTheme, int? userId, string username, IList<JobDescriptionSearchConfigActionsItem> actions, IList<CustomFieldConfig> customFieldsConfig)
+        /// <param name="distanceUnit"> The unit of distance to use for location based searches. </param>
+        internal JobDescriptionSearchConfig(bool? allowPdfDownload, int? maxResults, bool? displayJobTitle, bool? displayLocation, bool? displayYearsExperience, bool? displayOccupationGroup, bool? displayEducation, bool? displaySkills, bool? displayLanguages, bool? displayManagementLevel, bool? displayKeywords, float? weightJobTitle, float? weightLocation, float? weightYearsExperience, float? weightOccupationGroup, float? weightEducation, float? weightSkills, float? weightLanguages, float? weightManagementLevel, float? weightKeywords, IList<string> indices, bool? showIndexDropdown, IDictionary<string, object> searchToolTheme, int? userId, string username, IList<JobDescriptionSearchConfigActionsItem> actions, IList<CustomFieldConfig> customFieldsConfig, JobDescriptionSearchConfigDistanceUnit? distanceUnit)
         {
             AllowPdfDownload = allowPdfDownload;
             MaxResults = maxResults;
@@ -79,6 +80,7 @@ namespace Affinda.API.Models
             Username = username;
             Actions = actions;
             CustomFieldsConfig = customFieldsConfig;
+            DistanceUnit = distanceUnit;
         }
 
         /// <summary> Gets or sets the allow pdf download. </summary>
@@ -135,5 +137,7 @@ namespace Affinda.API.Models
         public IList<JobDescriptionSearchConfigActionsItem> Actions { get; set; }
         /// <summary> Gets or sets the custom fields config. </summary>
         public IList<CustomFieldConfig> CustomFieldsConfig { get; set; }
+        /// <summary> The unit of distance to use for location based searches. </summary>
+        public JobDescriptionSearchConfigDistanceUnit? DistanceUnit { get; set; }
     }
 }

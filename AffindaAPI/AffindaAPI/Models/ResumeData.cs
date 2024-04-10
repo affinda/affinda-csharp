@@ -30,7 +30,7 @@ namespace Affinda.API.Models
             Publications = new ChangeTrackingList<string>();
             Referees = new ChangeTrackingList<ResumeDataRefereesItem>();
             Sections = new ChangeTrackingList<ResumeDataSectionsItem>();
-            AdditionalProperties = new ChangeTrackingDictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties>();
+            AdditionalProperties = new ChangeTrackingDictionary<string, object>();
         }
 
         /// <summary> Initializes a new instance of ResumeData. </summary>
@@ -60,7 +60,7 @@ namespace Affinda.API.Models
         /// <param name="rawText"> All of the raw text of the parsed resume, example is shortened for readability. </param>
         /// <param name="redactedText"> Redacted version of the text in the resume, removing PII. </param>
         /// <param name="additionalProperties"> Additional Properties. </param>
-        internal ResumeData(ResumeDataName name, IList<string> phoneNumbers, IList<ResumeDataPhoneNumberDetailsItem> phoneNumberDetails, IList<string> websites, IList<string> emails, string dateOfBirth, Location location, string objective, IList<ResumeDataLanguagesItem> languages, IReadOnlyList<string> languageCodes, string summary, int? totalYearsExperience, byte[] headShot, IList<Education> education, string profession, string linkedin, IList<ResumeDataWorkExperienceItem> workExperience, IList<ResumeDataSkillsItem> skills, IList<string> certifications, IList<string> publications, IList<ResumeDataRefereesItem> referees, IReadOnlyList<ResumeDataSectionsItem> sections, int? isResumeProbability, string rawText, string redactedText, IDictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties> additionalProperties)
+        internal ResumeData(ResumeDataName name, IList<string> phoneNumbers, IList<ResumeDataPhoneNumberDetailsItem> phoneNumberDetails, IList<string> websites, IList<string> emails, string dateOfBirth, Location location, string objective, IList<ResumeDataLanguagesItem> languages, IReadOnlyList<string> languageCodes, string summary, int? totalYearsExperience, byte[] headShot, IList<Education> education, string profession, string linkedin, IList<ResumeDataWorkExperienceItem> workExperience, IList<ResumeDataSkillsItem> skills, IList<string> certifications, IList<string> publications, IList<ResumeDataRefereesItem> referees, IReadOnlyList<ResumeDataSectionsItem> sections, int? isResumeProbability, string rawText, string redactedText, IDictionary<string, object> additionalProperties)
         {
             Name = name;
             PhoneNumbers = phoneNumbers;
@@ -141,6 +141,6 @@ namespace Affinda.API.Models
         /// <summary> Redacted version of the text in the resume, removing PII. </summary>
         public string RedactedText { get; set; }
         /// <summary> Additional Properties. </summary>
-        public IDictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties> AdditionalProperties { get; }
+        public IDictionary<string, object> AdditionalProperties { get; }
     }
 }

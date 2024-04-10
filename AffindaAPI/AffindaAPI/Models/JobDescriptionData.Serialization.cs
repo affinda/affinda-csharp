@@ -33,8 +33,8 @@ namespace Affinda.API.Models
             Optional<IReadOnlyList<TextAnnotation>> certifications = default;
             Optional<YearsExperienceAnnotation> yearsExperience = default;
             Optional<string> rawText = default;
-            IReadOnlyDictionary<string, ComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties> additionalProperties = default;
-            Dictionary<string, ComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties> additionalPropertiesDictionary = new Dictionary<string, ComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties>();
+            IReadOnlyDictionary<string, object> additionalProperties = default;
+            Dictionary<string, object> additionalPropertiesDictionary = new Dictionary<string, object>();
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("jobTitle"))
@@ -248,7 +248,7 @@ namespace Affinda.API.Models
                     rawText = property.Value.GetString();
                     continue;
                 }
-                additionalPropertiesDictionary.Add(property.Name, ComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties.DeserializeComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties(property.Value));
+                additionalPropertiesDictionary.Add(property.Name, property.Value.GetObject());
             }
             additionalProperties = additionalPropertiesDictionary;
             return new JobDescriptionData(jobTitle.Value, contactEmail.Value, contactName.Value, contactPhone.Value, startDate.Value, endDate.Value, jobType.Value, Optional.ToList(languages), Optional.ToList(skills), organizationName.Value, organizationWebsite.Value, educationLevel.Value, educationAccreditation.Value, expectedRemuneration.Value, location.Value, Optional.ToList(certifications), yearsExperience.Value, rawText.Value, additionalProperties);

@@ -15,17 +15,14 @@ namespace Affinda.API.Models
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
         {
             writer.WriteStartObject();
-            if (Optional.IsDefined(Raw))
+            if (Raw != null)
             {
-                if (Raw != null)
-                {
-                    writer.WritePropertyName("raw");
-                    writer.WriteStringValue(Raw);
-                }
-                else
-                {
-                    writer.WriteNull("raw");
-                }
+                writer.WritePropertyName("raw");
+                writer.WriteStringValue(Raw);
+            }
+            else
+            {
+                writer.WriteNull("raw");
             }
             if (Optional.IsDefined(Parsed))
             {
@@ -44,7 +41,7 @@ namespace Affinda.API.Models
 
         internal static ComponentsA69Bd0SchemasInvoicedataPropertiesBpaybillercodeAllof1 DeserializeComponentsA69Bd0SchemasInvoicedataPropertiesBpaybillercodeAllof1(JsonElement element)
         {
-            Optional<string> raw = default;
+            string raw = default;
             Optional<string> parsed = default;
             foreach (var property in element.EnumerateObject())
             {
@@ -69,7 +66,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new ComponentsA69Bd0SchemasInvoicedataPropertiesBpaybillercodeAllof1(raw.Value, parsed.Value);
+            return new ComponentsA69Bd0SchemasInvoicedataPropertiesBpaybillercodeAllof1(raw, parsed.Value);
         }
     }
 }

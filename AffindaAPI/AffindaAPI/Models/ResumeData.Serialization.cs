@@ -244,8 +244,8 @@ namespace Affinda.API.Models
             Optional<int?> isResumeProbability = default;
             Optional<string> rawText = default;
             Optional<string> redactedText = default;
-            IDictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties> additionalProperties = default;
-            Dictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties> additionalPropertiesDictionary = new Dictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties>();
+            IDictionary<string, object> additionalProperties = default;
+            Dictionary<string, object> additionalPropertiesDictionary = new Dictionary<string, object>();
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("name"))
@@ -553,7 +553,7 @@ namespace Affinda.API.Models
                     redactedText = property.Value.GetString();
                     continue;
                 }
-                additionalPropertiesDictionary.Add(property.Name, ComponentsEyyf0ZSchemasResumedataAdditionalproperties.DeserializeComponentsEyyf0ZSchemasResumedataAdditionalproperties(property.Value));
+                additionalPropertiesDictionary.Add(property.Name, property.Value.GetObject());
             }
             additionalProperties = additionalPropertiesDictionary;
             return new ResumeData(name.Value, Optional.ToList(phoneNumbers), Optional.ToList(phoneNumberDetails), Optional.ToList(websites), Optional.ToList(emails), dateOfBirth.Value, location.Value, objective.Value, Optional.ToList(languages), Optional.ToList(languageCodes), summary.Value, Optional.ToNullable(totalYearsExperience), headShot.Value, Optional.ToList(education), profession.Value, linkedin.Value, Optional.ToList(workExperience), Optional.ToList(skills), Optional.ToList(certifications), Optional.ToList(publications), Optional.ToList(referees), Optional.ToList(sections), Optional.ToNullable(isResumeProbability), rawText.Value, redactedText.Value, additionalProperties);

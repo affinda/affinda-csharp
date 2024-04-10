@@ -24,11 +24,17 @@ namespace Affinda.API.Models
         /// <param name="country"> A single alpha-2 country code (e.g. AU) used by google geocoding service. </param>
         /// <param name="countries"> A list of alpha-2 country codes used by Pelias. </param>
         /// <param name="squareCoordinates"> A list of coordinates used by Pelias in the shape of [min_lon, min_lat, max_lon, max_lat]. </param>
-        internal RegionBias(string country, IReadOnlyList<string> countries, IReadOnlyList<float> squareCoordinates)
+        /// <param name="strict">
+        /// If true, the location must be within the region, as opposed to prefering locations within the region.
+        /// Default to false.
+        /// 
+        /// </param>
+        internal RegionBias(string country, IReadOnlyList<string> countries, IReadOnlyList<float> squareCoordinates, bool? strict)
         {
             Country = country;
             Countries = countries;
             SquareCoordinates = squareCoordinates;
+            Strict = strict;
         }
 
         /// <summary> A single alpha-2 country code (e.g. AU) used by google geocoding service. </summary>
@@ -37,5 +43,11 @@ namespace Affinda.API.Models
         public IReadOnlyList<string> Countries { get; }
         /// <summary> A list of coordinates used by Pelias in the shape of [min_lon, min_lat, max_lon, max_lat]. </summary>
         public IReadOnlyList<float> SquareCoordinates { get; }
+        /// <summary>
+        /// If true, the location must be within the region, as opposed to prefering locations within the region.
+        /// Default to false.
+        /// 
+        /// </summary>
+        public bool? Strict { get; }
     }
 }

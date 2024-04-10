@@ -11,34 +11,26 @@ using Azure.Core;
 namespace Affinda.API.Models
 {
     /// <summary> The Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema. </summary>
-    public partial class Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema
+    public partial class Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema : PaginatedResponse
     {
         /// <summary> Initializes a new instance of Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema. </summary>
-        internal Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema()
+        /// <param name="count"> Number of items in results. </param>
+        internal Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema(int count) : base(count)
         {
-            Results = new ChangeTrackingList<Get200ApplicationJsonPropertiesItemsItem>();
+            Results = new ChangeTrackingList<Index>();
         }
 
         /// <summary> Initializes a new instance of Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema. </summary>
-        /// <param name="count"> Number of indexes in result. </param>
+        /// <param name="count"> Number of items in results. </param>
         /// <param name="next"> URL to request next page of results. </param>
         /// <param name="previous"> URL to request previous page of results. </param>
         /// <param name="results"></param>
-        internal Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema(int? count, string next, string previous, IReadOnlyList<Get200ApplicationJsonPropertiesItemsItem> results)
+        internal Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema(int count, string next, string previous, IReadOnlyList<Index> results) : base(count, next, previous)
         {
-            Count = count;
-            Next = next;
-            Previous = previous;
             Results = results;
         }
 
-        /// <summary> Number of indexes in result. </summary>
-        public int? Count { get; }
-        /// <summary> URL to request next page of results. </summary>
-        public string Next { get; }
-        /// <summary> URL to request previous page of results. </summary>
-        public string Previous { get; }
         /// <summary> Gets the results. </summary>
-        public IReadOnlyList<Get200ApplicationJsonPropertiesItemsItem> Results { get; }
+        public IReadOnlyList<Index> Results { get; }
     }
 }

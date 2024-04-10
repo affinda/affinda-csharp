@@ -11,8 +11,10 @@ namespace Affinda.API.Models
     public partial class ComponentsW32SuaSchemasInvoicedataPropertiesBpayreferenceAllof1
     {
         /// <summary> Initializes a new instance of ComponentsW32SuaSchemasInvoicedataPropertiesBpayreferenceAllof1. </summary>
-        public ComponentsW32SuaSchemasInvoicedataPropertiesBpayreferenceAllof1()
+        /// <param name="raw"></param>
+        public ComponentsW32SuaSchemasInvoicedataPropertiesBpayreferenceAllof1(string raw)
         {
+            Raw = raw;
         }
 
         /// <summary> Initializes a new instance of ComponentsW32SuaSchemasInvoicedataPropertiesBpayreferenceAllof1. </summary>

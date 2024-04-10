@@ -66,13 +66,14 @@ namespace Affinda.API.Models
         /// <param name="createdDt"></param>
         /// <param name="documentType"></param>
         /// <param name="regionBias"></param>
+        /// <param name="isOcrd"></param>
         /// <returns> A new <see cref="Models.Meta"/> instance for mocking. </returns>
-        public static Meta Meta(string identifier = null, string customIdentifier = null, string fileName = null, bool? ready = null, DateTimeOffset? readyDt = null, bool? failed = null, string expiryTime = null, string language = null, string pdf = null, MetaParentDocument parentDocument = null, IEnumerable<MetaChildDocumentsItem> childDocuments = null, IEnumerable<PageMeta> pages = null, bool? isVerified = null, string reviewUrl = null, float? ocrConfidence = null, DateTimeOffset? createdDt = null, string documentType = null, RegionBias regionBias = null)
+        public static Meta Meta(string identifier = null, string customIdentifier = null, string fileName = null, bool? ready = null, DateTimeOffset? readyDt = null, bool? failed = null, string expiryTime = null, string language = null, string pdf = null, MetaParentDocument parentDocument = null, IEnumerable<MetaChildDocumentsItem> childDocuments = null, IEnumerable<PageMeta> pages = null, bool? isVerified = null, string reviewUrl = null, float? ocrConfidence = null, DateTimeOffset? createdDt = null, string documentType = null, RegionBias regionBias = null, bool? isOcrd = null)
         {
             childDocuments ??= new List<MetaChildDocumentsItem>();
             pages ??= new List<PageMeta>();
 
-            return new Meta(identifier, customIdentifier, fileName, ready, readyDt, failed, expiryTime, language, pdf, parentDocument, childDocuments?.ToList(), pages?.ToList(), isVerified, reviewUrl, ocrConfidence, createdDt, documentType, regionBias);
+            return new Meta(identifier, customIdentifier, fileName, ready, readyDt, failed, expiryTime, language, pdf, parentDocument, childDocuments?.ToList(), pages?.ToList(), isVerified, reviewUrl, ocrConfidence, createdDt, documentType, regionBias, isOcrd);
         }
 
         /// <summary> Initializes a new instance of MetaParentDocument. </summary>
@@ -109,13 +110,18 @@ namespace Affinda.API.Models
         /// <param name="country"> A single alpha-2 country code (e.g. AU) used by google geocoding service. </param>
         /// <param name="countries"> A list of alpha-2 country codes used by Pelias. </param>
         /// <param name="squareCoordinates"> A list of coordinates used by Pelias in the shape of [min_lon, min_lat, max_lon, max_lat]. </param>
+        /// <param name="strict">
+        /// If true, the location must be within the region, as opposed to prefering locations within the region.
+        /// Default to false.
+        /// 
+        /// </param>
         /// <returns> A new <see cref="Models.RegionBias"/> instance for mocking. </returns>
-        public static RegionBias RegionBias(string country = null, IEnumerable<string> countries = null, IEnumerable<float> squareCoordinates = null)
+        public static RegionBias RegionBias(string country = null, IEnumerable<string> countries = null, IEnumerable<float> squareCoordinates = null, bool? strict = null)
         {
             countries ??= new List<string>();
             squareCoordinates ??= new List<float>();
 
-            return new RegionBias(country, countries?.ToList(), squareCoordinates?.ToList());
+            return new RegionBias(country, countries?.ToList(), squareCoordinates?.ToList(), strict);
         }
 
         /// <summary> Initializes a new instance of Resume. </summary>
@@ -166,7 +172,7 @@ namespace Affinda.API.Models
         /// <param name="redactedText"> Redacted version of the text in the resume, removing PII. </param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <returns> A new <see cref="Models.ResumeData"/> instance for mocking. </returns>
-        public static ResumeData ResumeData(ResumeDataName name = null, IEnumerable<string> phoneNumbers = null, IEnumerable<ResumeDataPhoneNumberDetailsItem> phoneNumberDetails = null, IEnumerable<string> websites = null, IEnumerable<string> emails = null, string dateOfBirth = null, Location location = null, string objective = null, IEnumerable<ResumeDataLanguagesItem> languages = null, IEnumerable<string> languageCodes = null, string summary = null, int? totalYearsExperience = null, byte[] headShot = null, IEnumerable<Education> education = null, string profession = null, string linkedin = null, IEnumerable<ResumeDataWorkExperienceItem> workExperience = null, IEnumerable<ResumeDataSkillsItem> skills = null, IEnumerable<string> certifications = null, IEnumerable<string> publications = null, IEnumerable<ResumeDataRefereesItem> referees = null, IEnumerable<ResumeDataSectionsItem> sections = null, int? isResumeProbability = null, string rawText = null, string redactedText = null, IDictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties> additionalProperties = null)
+        public static ResumeData ResumeData(ResumeDataName name = null, IEnumerable<string> phoneNumbers = null, IEnumerable<ResumeDataPhoneNumberDetailsItem> phoneNumberDetails = null, IEnumerable<string> websites = null, IEnumerable<string> emails = null, string dateOfBirth = null, Location location = null, string objective = null, IEnumerable<ResumeDataLanguagesItem> languages = null, IEnumerable<string> languageCodes = null, string summary = null, int? totalYearsExperience = null, byte[] headShot = null, IEnumerable<Education> education = null, string profession = null, string linkedin = null, IEnumerable<ResumeDataWorkExperienceItem> workExperience = null, IEnumerable<ResumeDataSkillsItem> skills = null, IEnumerable<string> certifications = null, IEnumerable<string> publications = null, IEnumerable<ResumeDataRefereesItem> referees = null, IEnumerable<ResumeDataSectionsItem> sections = null, int? isResumeProbability = null, string rawText = null, string redactedText = null, IDictionary<string, object> additionalProperties = null)
         {
             phoneNumbers ??= new List<string>();
             phoneNumberDetails ??= new List<ResumeDataPhoneNumberDetailsItem>();
@@ -181,7 +187,7 @@ namespace Affinda.API.Models
             publications ??= new List<string>();
             referees ??= new List<ResumeDataRefereesItem>();
             sections ??= new List<ResumeDataSectionsItem>();
-            additionalProperties ??= new Dictionary<string, ComponentsEyyf0ZSchemasResumedataAdditionalproperties>();
+            additionalProperties ??= new Dictionary<string, object>();
 
             return new ResumeData(name, phoneNumbers?.ToList(), phoneNumberDetails?.ToList(), websites?.ToList(), emails?.ToList(), dateOfBirth, location, objective, languages?.ToList(), languageCodes?.ToList(), summary, totalYearsExperience, headShot, education?.ToList(), profession, linkedin, workExperience?.ToList(), skills?.ToList(), certifications?.ToList(), publications?.ToList(), referees?.ToList(), sections?.ToList(), isResumeProbability, rawText, redactedText, additionalProperties);
         }
@@ -190,6 +196,7 @@ namespace Affinda.API.Models
         /// <param name="formatted"></param>
         /// <param name="postalCode"></param>
         /// <param name="state"></param>
+        /// <param name="stateCode"></param>
         /// <param name="country"></param>
         /// <param name="countryCode"> Two letter country code (ISO 3166-1 alpha-2). </param>
         /// <param name="rawInput"></param>
@@ -199,10 +206,11 @@ namespace Affinda.API.Models
         /// <param name="city"></param>
         /// <param name="latitude"></param>
         /// <param name="longitude"></param>
+        /// <param name="poBox"></param>
         /// <returns> A new <see cref="Models.Location"/> instance for mocking. </returns>
-        public static Location Location(string formatted = null, string postalCode = null, string state = null, string country = null, string countryCode = null, string rawInput = null, string streetNumber = null, string street = null, string apartmentNumber = null, string city = null, float? latitude = null, float? longitude = null)
+        public static Location Location(string formatted = null, string postalCode = null, string state = null, string stateCode = null, string country = null, string countryCode = null, string rawInput = null, string streetNumber = null, string street = null, string apartmentNumber = null, string city = null, float? latitude = null, float? longitude = null, string poBox = null)
         {
-            return new Location(formatted, postalCode, state, country, countryCode, rawInput, streetNumber, street, apartmentNumber, city, latitude, longitude);
+            return new Location(formatted, postalCode, state, stateCode, country, countryCode, rawInput, streetNumber, street, apartmentNumber, city, latitude, longitude, poBox);
         }
 
         /// <summary> Initializes a new instance of Accreditation. </summary>
@@ -553,12 +561,12 @@ namespace Affinda.API.Models
         /// <param name="rawText"> All of the raw text of the parsed job description, example is shortened for readability. </param>
         /// <param name="additionalProperties"> Additional Properties. </param>
         /// <returns> A new <see cref="Models.JobDescriptionData"/> instance for mocking. </returns>
-        public static JobDescriptionData JobDescriptionData(JobTitleAnnotation jobTitle = null, TextAnnotation contactEmail = null, TextAnnotation contactName = null, TextAnnotation contactPhone = null, DateAnnotation startDate = null, DateAnnotation endDate = null, TextAnnotation jobType = null, IEnumerable<LanguageAnnotation> languages = null, IEnumerable<SkillAnnotation> skills = null, TextAnnotation organizationName = null, TextAnnotation organizationWebsite = null, TextAnnotation educationLevel = null, TextAnnotation educationAccreditation = null, ExpectedRemunerationAnnotation expectedRemuneration = null, LocationAnnotation location = null, IEnumerable<TextAnnotation> certifications = null, YearsExperienceAnnotation yearsExperience = null, string rawText = null, IReadOnlyDictionary<string, ComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties> additionalProperties = null)
+        public static JobDescriptionData JobDescriptionData(JobTitleAnnotation jobTitle = null, TextAnnotation contactEmail = null, TextAnnotation contactName = null, TextAnnotation contactPhone = null, DateAnnotation startDate = null, DateAnnotation endDate = null, TextAnnotation jobType = null, IEnumerable<LanguageAnnotation> languages = null, IEnumerable<SkillAnnotation> skills = null, TextAnnotation organizationName = null, TextAnnotation organizationWebsite = null, TextAnnotation educationLevel = null, TextAnnotation educationAccreditation = null, ExpectedRemunerationAnnotation expectedRemuneration = null, LocationAnnotation location = null, IEnumerable<TextAnnotation> certifications = null, YearsExperienceAnnotation yearsExperience = null, string rawText = null, IReadOnlyDictionary<string, object> additionalProperties = null)
         {
             languages ??= new List<LanguageAnnotation>();
             skills ??= new List<SkillAnnotation>();
             certifications ??= new List<TextAnnotation>();
-            additionalProperties ??= new Dictionary<string, ComponentsTk0GmxSchemasJobdescriptiondataAdditionalproperties>();
+            additionalProperties ??= new Dictionary<string, object>();
 
             return new JobDescriptionData(jobTitle, contactEmail, contactName, contactPhone, startDate, endDate, jobType, languages?.ToList(), skills?.ToList(), organizationName, organizationWebsite, educationLevel, educationAccreditation, expectedRemuneration, location, certifications?.ToList(), yearsExperience, rawText, additionalProperties);
         }
@@ -1114,15 +1122,16 @@ namespace Affinda.API.Models
         /// <param name="username"> Username of the logged in user. </param>
         /// <param name="actions"> A list of actions to show in the dropdown in the embedded search tool. </param>
         /// <param name="customFieldsConfig"></param>
+        /// <param name="distanceUnit"> The unit of distance to use for location based searches. </param>
         /// <returns> A new <see cref="Models.JobDescriptionSearchConfig"/> instance for mocking. </returns>
-        public static JobDescriptionSearchConfig JobDescriptionSearchConfig(bool? allowPdfDownload = null, int? maxResults = null, bool? displayJobTitle = null, bool? displayLocation = null, bool? displayYearsExperience = null, bool? displayOccupationGroup = null, bool? displayEducation = null, bool? displaySkills = null, bool? displayLanguages = null, bool? displayManagementLevel = null, bool? displayKeywords = null, float? weightJobTitle = null, float? weightLocation = null, float? weightYearsExperience = null, float? weightOccupationGroup = null, float? weightEducation = null, float? weightSkills = null, float? weightLanguages = null, float? weightManagementLevel = null, float? weightKeywords = null, IEnumerable<string> indices = null, bool? showIndexDropdown = null, IDictionary<string, object> searchToolTheme = null, int? userId = null, string username = null, IEnumerable<JobDescriptionSearchConfigActionsItem> actions = null, IEnumerable<CustomFieldConfig> customFieldsConfig = null)
+        public static JobDescriptionSearchConfig JobDescriptionSearchConfig(bool? allowPdfDownload = null, int? maxResults = null, bool? displayJobTitle = null, bool? displayLocation = null, bool? displayYearsExperience = null, bool? displayOccupationGroup = null, bool? displayEducation = null, bool? displaySkills = null, bool? displayLanguages = null, bool? displayManagementLevel = null, bool? displayKeywords = null, float? weightJobTitle = null, float? weightLocation = null, float? weightYearsExperience = null, float? weightOccupationGroup = null, float? weightEducation = null, float? weightSkills = null, float? weightLanguages = null, float? weightManagementLevel = null, float? weightKeywords = null, IEnumerable<string> indices = null, bool? showIndexDropdown = null, IDictionary<string, object> searchToolTheme = null, int? userId = null, string username = null, IEnumerable<JobDescriptionSearchConfigActionsItem> actions = null, IEnumerable<CustomFieldConfig> customFieldsConfig = null, JobDescriptionSearchConfigDistanceUnit? distanceUnit = null)
         {
             indices ??= new List<string>();
             searchToolTheme ??= new Dictionary<string, object>();
             actions ??= new List<JobDescriptionSearchConfigActionsItem>();
             customFieldsConfig ??= new List<CustomFieldConfig>();
 
-            return new JobDescriptionSearchConfig(allowPdfDownload, maxResults, displayJobTitle, displayLocation, displayYearsExperience, displayOccupationGroup, displayEducation, displaySkills, displayLanguages, displayManagementLevel, displayKeywords, weightJobTitle, weightLocation, weightYearsExperience, weightOccupationGroup, weightEducation, weightSkills, weightLanguages, weightManagementLevel, weightKeywords, indices?.ToList(), showIndexDropdown, searchToolTheme, userId, username, actions?.ToList(), customFieldsConfig?.ToList());
+            return new JobDescriptionSearchConfig(allowPdfDownload, maxResults, displayJobTitle, displayLocation, displayYearsExperience, displayOccupationGroup, displayEducation, displaySkills, displayLanguages, displayManagementLevel, displayKeywords, weightJobTitle, weightLocation, weightYearsExperience, weightOccupationGroup, weightEducation, weightSkills, weightLanguages, weightManagementLevel, weightKeywords, indices?.ToList(), showIndexDropdown, searchToolTheme, userId, username, actions?.ToList(), customFieldsConfig?.ToList(), distanceUnit);
         }
 
         /// <summary> Initializes a new instance of JobDescriptionSearchEmbed. </summary>
@@ -1451,15 +1460,16 @@ namespace Affinda.API.Models
         /// <param name="username"> Username of the logged in user. </param>
         /// <param name="actions"> A list of actions to show in the dropdown in the embedded search tool. </param>
         /// <param name="customFieldsConfig"></param>
+        /// <param name="distanceUnit"> The unit of distance to use for location based searches. </param>
         /// <returns> A new <see cref="Models.ResumeSearchConfig"/> instance for mocking. </returns>
-        public static ResumeSearchConfig ResumeSearchConfig(bool? allowPdfDownload = null, int? maxResults = null, bool? displayJobTitle = null, bool? displayLocation = null, bool? displayYearsExperience = null, bool? displayOccupationGroup = null, bool? displayEducation = null, bool? displaySkills = null, bool? displayLanguages = null, bool? displayManagementLevel = null, bool? displayKeywords = null, float? weightJobTitle = null, float? weightLocation = null, float? weightYearsExperience = null, float? weightOccupationGroup = null, float? weightEducation = null, float? weightSkills = null, float? weightLanguages = null, float? weightManagementLevel = null, float? weightKeywords = null, IEnumerable<string> indices = null, bool? showIndexDropdown = null, IDictionary<string, object> searchToolTheme = null, int? userId = null, string username = null, IEnumerable<ResumeSearchConfigActionsItem> actions = null, IEnumerable<CustomFieldConfig> customFieldsConfig = null)
+        public static ResumeSearchConfig ResumeSearchConfig(bool? allowPdfDownload = null, int? maxResults = null, bool? displayJobTitle = null, bool? displayLocation = null, bool? displayYearsExperience = null, bool? displayOccupationGroup = null, bool? displayEducation = null, bool? displaySkills = null, bool? displayLanguages = null, bool? displayManagementLevel = null, bool? displayKeywords = null, float? weightJobTitle = null, float? weightLocation = null, float? weightYearsExperience = null, float? weightOccupationGroup = null, float? weightEducation = null, float? weightSkills = null, float? weightLanguages = null, float? weightManagementLevel = null, float? weightKeywords = null, IEnumerable<string> indices = null, bool? showIndexDropdown = null, IDictionary<string, object> searchToolTheme = null, int? userId = null, string username = null, IEnumerable<ResumeSearchConfigActionsItem> actions = null, IEnumerable<CustomFieldConfig> customFieldsConfig = null, ResumeSearchConfigDistanceUnit? distanceUnit = null)
         {
             indices ??= new List<string>();
             searchToolTheme ??= new Dictionary<string, object>();
             actions ??= new List<ResumeSearchConfigActionsItem>();
             customFieldsConfig ??= new List<CustomFieldConfig>();
 
-            return new ResumeSearchConfig(allowPdfDownload, maxResults, displayJobTitle, displayLocation, displayYearsExperience, displayOccupationGroup, displayEducation, displaySkills, displayLanguages, displayManagementLevel, displayKeywords, weightJobTitle, weightLocation, weightYearsExperience, weightOccupationGroup, weightEducation, weightSkills, weightLanguages, weightManagementLevel, weightKeywords, indices?.ToList(), showIndexDropdown, searchToolTheme, userId, username, actions?.ToList(), customFieldsConfig?.ToList());
+            return new ResumeSearchConfig(allowPdfDownload, maxResults, displayJobTitle, displayLocation, displayYearsExperience, displayOccupationGroup, displayEducation, displaySkills, displayLanguages, displayManagementLevel, displayKeywords, weightJobTitle, weightLocation, weightYearsExperience, weightOccupationGroup, weightEducation, weightSkills, weightLanguages, weightManagementLevel, weightKeywords, indices?.ToList(), showIndexDropdown, searchToolTheme, userId, username, actions?.ToList(), customFieldsConfig?.ToList(), distanceUnit);
         }
 
         /// <summary> Initializes a new instance of ResumeSearchEmbed. </summary>
@@ -1471,34 +1481,67 @@ namespace Affinda.API.Models
         }
 
         /// <summary> Initializes a new instance of Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema. </summary>
-        /// <param name="count"> Number of indexes in result. </param>
+        /// <param name="count"> Number of items in results. </param>
         /// <param name="next"> URL to request next page of results. </param>
         /// <param name="previous"> URL to request previous page of results. </param>
         /// <param name="results"></param>
         /// <returns> A new <see cref="Models.Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema"/> instance for mocking. </returns>
-        public static Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema(int? count = null, string next = null, string previous = null, IEnumerable<Get200ApplicationJsonPropertiesItemsItem> results = null)
+        public static Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema(int count = default, string next = null, string previous = null, IEnumerable<Index> results = null)
         {
-            results ??= new List<Get200ApplicationJsonPropertiesItemsItem>();
+            results ??= new List<Index>();
 
             return new Paths18Iqsr4V2IndexGetResponses200ContentApplicationJsonSchema(count, next, previous, results?.ToList());
         }
 
-        /// <summary> Initializes a new instance of Get200ApplicationJsonPropertiesItemsItem. </summary>
-        /// <param name="name"></param>
-        /// <param name="documentType"></param>
-        /// <returns> A new <see cref="Models.Get200ApplicationJsonPropertiesItemsItem"/> instance for mocking. </returns>
-        public static Get200ApplicationJsonPropertiesItemsItem Get200ApplicationJsonPropertiesItemsItem(string name = null, GetResponses200ContentApplicationJsonSchemaResultsItemDocumentType? documentType = null)
+        /// <summary> Initializes a new instance of Paths1BqdurzV2IndexGetResponses200ContentApplicationJsonSchemaAllof1. </summary>
+        /// <param name="results"></param>
+        /// <returns> A new <see cref="Models.Paths1BqdurzV2IndexGetResponses200ContentApplicationJsonSchemaAllof1"/> instance for mocking. </returns>
+        public static Paths1BqdurzV2IndexGetResponses200ContentApplicationJsonSchemaAllof1 Paths1BqdurzV2IndexGetResponses200ContentApplicationJsonSchemaAllof1(IEnumerable<Index> results = null)
         {
-            return new Get200ApplicationJsonPropertiesItemsItem(name, documentType);
+            results ??= new List<Index>();
+
+            return new Paths1BqdurzV2IndexGetResponses200ContentApplicationJsonSchemaAllof1(results?.ToList());
         }
 
-        /// <summary> Initializes a new instance of Paths1Sikw07V2IndexPostResponses201ContentApplicationJsonSchema. </summary>
-        /// <param name="name"></param>
+        /// <summary> Initializes a new instance of Index. </summary>
+        /// <param name="name"> Unique index name. </param>
         /// <param name="documentType"></param>
-        /// <returns> A new <see cref="Models.Paths1Sikw07V2IndexPostResponses201ContentApplicationJsonSchema"/> instance for mocking. </returns>
-        public static Paths1Sikw07V2IndexPostResponses201ContentApplicationJsonSchema Paths1Sikw07V2IndexPostResponses201ContentApplicationJsonSchema(string name = null, Enum7? documentType = null)
+        /// <param name="user"> The user who created this index. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/> or <paramref name="user"/> is null. </exception>
+        /// <returns> A new <see cref="Models.Index"/> instance for mocking. </returns>
+        public static Index Index(string name = null, IndexDocumentType documentType = default, IndexUser user = null)
         {
-            return new Paths1Sikw07V2IndexPostResponses201ContentApplicationJsonSchema(name, documentType);
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+
+            return new Index(name, documentType, user);
+        }
+
+        /// <summary> Initializes a new instance of IndexUser. </summary>
+        /// <param name="id"> Uniquely identify a user. </param>
+        /// <param name="name"></param>
+        /// <param name="email"></param>
+        /// <param name="avatar"> URL of the user&apos;s avatar. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/> or <paramref name="email"/> is null. </exception>
+        /// <returns> A new <see cref="Models.IndexUser"/> instance for mocking. </returns>
+        public static IndexUser IndexUser(int id = default, string name = null, string email = null, string avatar = null)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+            if (email == null)
+            {
+                throw new ArgumentNullException(nameof(email));
+            }
+
+            return new IndexUser(id, name, email, avatar);
         }
 
         /// <summary> Initializes a new instance of PathsAf7Nd4V2IndexNameDocumentsGetResponses200ContentApplicationJsonSchema. </summary>
@@ -1507,19 +1550,19 @@ namespace Affinda.API.Models
         /// <param name="previous"> URL to request previous page of results. </param>
         /// <param name="results"></param>
         /// <returns> A new <see cref="Models.PathsAf7Nd4V2IndexNameDocumentsGetResponses200ContentApplicationJsonSchema"/> instance for mocking. </returns>
-        public static PathsAf7Nd4V2IndexNameDocumentsGetResponses200ContentApplicationJsonSchema PathsAf7Nd4V2IndexNameDocumentsGetResponses200ContentApplicationJsonSchema(int? count = null, string next = null, string previous = null, IEnumerable<Paths16Tz5M5V2IndexNameDocumentsGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems> results = null)
+        public static PathsAf7Nd4V2IndexNameDocumentsGetResponses200ContentApplicationJsonSchema PathsAf7Nd4V2IndexNameDocumentsGetResponses200ContentApplicationJsonSchema(int? count = null, string next = null, string previous = null, IEnumerable<Get200ApplicationJsonPropertiesItemsItem> results = null)
         {
-            results ??= new List<Paths16Tz5M5V2IndexNameDocumentsGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems>();
+            results ??= new List<Get200ApplicationJsonPropertiesItemsItem>();
 
             return new PathsAf7Nd4V2IndexNameDocumentsGetResponses200ContentApplicationJsonSchema(count, next, previous, results?.ToList());
         }
 
-        /// <summary> Initializes a new instance of Paths16Tz5M5V2IndexNameDocumentsGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems. </summary>
+        /// <summary> Initializes a new instance of Get200ApplicationJsonPropertiesItemsItem. </summary>
         /// <param name="document"></param>
-        /// <returns> A new <see cref="Models.Paths16Tz5M5V2IndexNameDocumentsGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems"/> instance for mocking. </returns>
-        public static Paths16Tz5M5V2IndexNameDocumentsGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems Paths16Tz5M5V2IndexNameDocumentsGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems(string document = null)
+        /// <returns> A new <see cref="Models.Get200ApplicationJsonPropertiesItemsItem"/> instance for mocking. </returns>
+        public static Get200ApplicationJsonPropertiesItemsItem Get200ApplicationJsonPropertiesItemsItem(string document = null)
         {
-            return new Paths16Tz5M5V2IndexNameDocumentsGetResponses200ContentApplicationJsonSchemaPropertiesResultsItems(document);
+            return new Get200ApplicationJsonPropertiesItemsItem(document);
         }
 
         /// <summary> Initializes a new instance of Paths14R8PdgV2IndexNameDocumentsPostResponses201ContentApplicationJsonSchema. </summary>

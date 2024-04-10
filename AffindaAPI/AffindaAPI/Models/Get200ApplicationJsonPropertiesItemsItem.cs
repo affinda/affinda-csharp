@@ -5,38 +5,24 @@
 
 #nullable disable
 
-using System;
-
 namespace Affinda.API.Models
 {
     /// <summary> The Get200ApplicationJsonPropertiesItemsItem. </summary>
     public partial class Get200ApplicationJsonPropertiesItemsItem
     {
         /// <summary> Initializes a new instance of Get200ApplicationJsonPropertiesItemsItem. </summary>
-        /// <param name="name"></param>
-        /// <exception cref="ArgumentNullException"> <paramref name="name"/> is null. </exception>
-        internal Get200ApplicationJsonPropertiesItemsItem(string name)
+        internal Get200ApplicationJsonPropertiesItemsItem()
         {
-            if (name == null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-
-            Name = name;
         }
 
         /// <summary> Initializes a new instance of Get200ApplicationJsonPropertiesItemsItem. </summary>
-        /// <param name="name"></param>
-        /// <param name="documentType"></param>
-        internal Get200ApplicationJsonPropertiesItemsItem(string name, GetResponses200ContentApplicationJsonSchemaResultsItemDocumentType? documentType)
+        /// <param name="document"></param>
+        internal Get200ApplicationJsonPropertiesItemsItem(string document)
         {
-            Name = name;
-            DocumentType = documentType;
+            Document = document;
         }
 
-        /// <summary> Gets the name. </summary>
-        public string Name { get; }
-        /// <summary> Gets the document type. </summary>
-        public GetResponses200ContentApplicationJsonSchemaResultsItemDocumentType? DocumentType { get; }
+        /// <summary> Gets the document. </summary>
+        public string Document { get; }
     }
 }

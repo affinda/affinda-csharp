@@ -27,6 +27,7 @@ namespace Affinda.API.Models
         /// <param name="formatted"></param>
         /// <param name="postalCode"></param>
         /// <param name="state"></param>
+        /// <param name="stateCode"></param>
         /// <param name="country"></param>
         /// <param name="countryCode"> Two letter country code (ISO 3166-1 alpha-2). </param>
         /// <param name="rawInput"></param>
@@ -36,7 +37,8 @@ namespace Affinda.API.Models
         /// <param name="city"></param>
         /// <param name="latitude"></param>
         /// <param name="longitude"></param>
-        internal LocationAnnotationV2UpdateParsed(string formatted, string postalCode, string state, string country, string countryCode, string rawInput, string streetNumber, string street, string apartmentNumber, string city, float? latitude, float? longitude) : base(formatted, postalCode, state, country, countryCode, rawInput, streetNumber, street, apartmentNumber, city, latitude, longitude)
+        /// <param name="poBox"></param>
+        internal LocationAnnotationV2UpdateParsed(string formatted, string postalCode, string state, string stateCode, string country, string countryCode, string rawInput, string streetNumber, string street, string apartmentNumber, string city, float? latitude, float? longitude, string poBox) : base(formatted, postalCode, state, stateCode, country, countryCode, rawInput, streetNumber, street, apartmentNumber, city, latitude, longitude, poBox)
         {
         }
     }

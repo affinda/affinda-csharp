@@ -34,6 +34,7 @@ namespace Affinda.API.Models
             Optional<DateTimeOffset> createdDt = default;
             Optional<string> documentType = default;
             Optional<RegionBias> regionBias = default;
+            Optional<bool> isOcrd = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("identifier"))
@@ -216,8 +217,18 @@ namespace Affinda.API.Models
                     regionBias = RegionBias.DeserializeRegionBias(property.Value);
                     continue;
                 }
+                if (property.NameEquals("isOcrd"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    isOcrd = property.Value.GetBoolean();
+                    continue;
+                }
             }
-            return new Meta(identifier.Value, customIdentifier.Value, fileName.Value, Optional.ToNullable(ready), Optional.ToNullable(readyDt), Optional.ToNullable(failed), expiryTime.Value, language.Value, pdf.Value, parentDocument.Value, Optional.ToList(childDocuments), Optional.ToList(pages), Optional.ToNullable(isVerified), reviewUrl.Value, Optional.ToNullable(ocrConfidence), Optional.ToNullable(createdDt), documentType.Value, regionBias.Value);
+            return new Meta(identifier.Value, customIdentifier.Value, fileName.Value, Optional.ToNullable(ready), Optional.ToNullable(readyDt), Optional.ToNullable(failed), expiryTime.Value, language.Value, pdf.Value, parentDocument.Value, Optional.ToList(childDocuments), Optional.ToList(pages), Optional.ToNullable(isVerified), reviewUrl.Value, Optional.ToNullable(ocrConfidence), Optional.ToNullable(createdDt), documentType.Value, regionBias.Value, Optional.ToNullable(isOcrd));
         }
     }
 }
