@@ -11,8 +11,10 @@ namespace Affinda.API.Models
     public partial class Components2XnshtSchemasInvoicedataPropertiesPaymentreferenceAllof1
     {
         /// <summary> Initializes a new instance of Components2XnshtSchemasInvoicedataPropertiesPaymentreferenceAllof1. </summary>
-        public Components2XnshtSchemasInvoicedataPropertiesPaymentreferenceAllof1()
+        /// <param name="raw"></param>
+        public Components2XnshtSchemasInvoicedataPropertiesPaymentreferenceAllof1(string raw)
         {
+            Raw = raw;
         }
 
         /// <summary> Initializes a new instance of Components2XnshtSchemasInvoicedataPropertiesPaymentreferenceAllof1. </summary>

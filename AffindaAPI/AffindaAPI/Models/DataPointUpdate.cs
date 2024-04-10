@@ -23,5 +23,7 @@ namespace Affinda.API.Models
         public string Description { get; set; }
         /// <summary> The identifier of the parent data point if applicable. </summary>
         public string Parent { get; set; }
+        /// <summary> If populated, the model will learn to predict this field using the data source, rather than relying on fuzzy string matching. </summary>
+        public string MappingDataSource { get; set; }
     }
 }

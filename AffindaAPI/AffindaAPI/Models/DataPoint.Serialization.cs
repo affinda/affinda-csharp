@@ -27,6 +27,7 @@ namespace Affinda.API.Models
             Optional<string> parent = default;
             Optional<IReadOnlyList<DataPoint>> children = default;
             Optional<IReadOnlyList<MappingDataSource>> availableDataSources = default;
+            Optional<string> mappingDataSource = default;
             Optional<bool> manualEntry = default;
             foreach (var property in element.EnumerateObject())
             {
@@ -135,9 +136,19 @@ namespace Affinda.API.Models
                     List<MappingDataSource> array = new List<MappingDataSource>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(MappingDataSource.DeserializeMappingDataSource(item));
+                        array.Add(Models.MappingDataSource.DeserializeMappingDataSource(item));
                     }
                     availableDataSources = array;
+                    continue;
+                }
+                if (property.NameEquals("mappingDataSource"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        mappingDataSource = null;
+                        continue;
+                    }
+                    mappingDataSource = property.Value.GetString();
                     continue;
                 }
                 if (property.NameEquals("manualEntry"))
@@ -151,7 +162,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new DataPoint(identifier, name, slug, description.Value, annotationContentType, organization, extractor, Optional.ToNullable(multiple), Optional.ToNullable(noRect), parent.Value, Optional.ToList(children), Optional.ToList(availableDataSources), Optional.ToNullable(manualEntry));
+            return new DataPoint(identifier, name, slug, description.Value, annotationContentType, organization, extractor, Optional.ToNullable(multiple), Optional.ToNullable(noRect), parent.Value, Optional.ToList(children), Optional.ToList(availableDataSources), mappingDataSource.Value, Optional.ToNullable(manualEntry));
         }
     }
 }

@@ -49,6 +49,18 @@ namespace Affinda.API.Models
                     writer.WriteNull("parent");
                 }
             }
+            if (Optional.IsDefined(MappingDataSource))
+            {
+                if (MappingDataSource != null)
+                {
+                    writer.WritePropertyName("mappingDataSource");
+                    writer.WriteStringValue(MappingDataSource);
+                }
+                else
+                {
+                    writer.WriteNull("mappingDataSource");
+                }
+            }
             writer.WriteEndObject();
         }
     }

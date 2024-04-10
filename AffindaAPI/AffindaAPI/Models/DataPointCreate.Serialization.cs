@@ -64,6 +64,18 @@ namespace Affinda.API.Models
                 writer.WritePropertyName("manualEntry");
                 writer.WriteBooleanValue(ManualEntry.Value);
             }
+            if (Optional.IsDefined(MappingDataSource))
+            {
+                if (MappingDataSource != null)
+                {
+                    writer.WritePropertyName("mappingDataSource");
+                    writer.WriteStringValue(MappingDataSource);
+                }
+                else
+                {
+                    writer.WriteNull("mappingDataSource");
+                }
+            }
             writer.WriteEndObject();
         }
     }

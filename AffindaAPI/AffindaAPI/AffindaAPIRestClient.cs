@@ -1712,7 +1712,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateCreateDocumentRequest(Stream file, string url, string data, string collection, string workspace, string wait, string identifier, string customIdentifier, string fileName, string expiryTime, string language, string rejectDuplicates, string regionBias, string lowPriority, string compact, string deleteAfterParse)
+        internal HttpMessage CreateCreateDocumentRequest(Stream file, string url, string data, string collection, string workspace, string wait, string identifier, string customIdentifier, string fileName, string expiryTime, string language, string rejectDuplicates, string regionBias, string lowPriority, string compact, string deleteAfterParse, string enableValidationTool)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1790,6 +1790,10 @@ namespace Affinda.API
             {
                 content.Add(new StringRequestContent(deleteAfterParse), "deleteAfterParse", null);
             }
+            if (enableValidationTool != null)
+            {
+                content.Add(new StringRequestContent(enableValidationTool), "enableValidationTool", null);
+            }
             content.ApplyToRequest(request);
             return message;
         }
@@ -1811,13 +1815,14 @@ namespace Affinda.API
         /// <param name="lowPriority"> Explicitly mark this document as low priority. </param>
         /// <param name="compact"> If true, the returned parse result (assuming `wait` is also true) will be a compact version of the full result. </param>
         /// <param name="deleteAfterParse"> If true, no data will be stored after parsing. Only compatible with requests where wait: True. </param>
+        /// <param name="enableValidationTool"> If true, the document will be viewable in the Affinda Validation Tool. Set to False to optimize parsing speed. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
         /// Uploads a document for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/documents/{identifier}](#get-/v3/documents/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
         /// </remarks>
-        public async Task<Response<Document>> CreateDocumentAsync(Stream file = null, string url = null, string data = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string customIdentifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, string regionBias = null, string lowPriority = null, string compact = null, string deleteAfterParse = null, CancellationToken cancellationToken = default)
+        public async Task<Response<Document>> CreateDocumentAsync(Stream file = null, string url = null, string data = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string customIdentifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, string regionBias = null, string lowPriority = null, string compact = null, string deleteAfterParse = null, string enableValidationTool = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateDocumentRequest(file, url, data, collection, workspace, wait, identifier, customIdentifier, fileName, expiryTime, language, rejectDuplicates, regionBias, lowPriority, compact, deleteAfterParse);
+            using var message = CreateCreateDocumentRequest(file, url, data, collection, workspace, wait, identifier, customIdentifier, fileName, expiryTime, language, rejectDuplicates, regionBias, lowPriority, compact, deleteAfterParse, enableValidationTool);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1851,13 +1856,14 @@ namespace Affinda.API
         /// <param name="lowPriority"> Explicitly mark this document as low priority. </param>
         /// <param name="compact"> If true, the returned parse result (assuming `wait` is also true) will be a compact version of the full result. </param>
         /// <param name="deleteAfterParse"> If true, no data will be stored after parsing. Only compatible with requests where wait: True. </param>
+        /// <param name="enableValidationTool"> If true, the document will be viewable in the Affinda Validation Tool. Set to False to optimize parsing speed. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks>
         /// Uploads a document for parsing. When successful, returns an `identifier` in the response for subsequent use with the [/documents/{identifier}](#get-/v3/documents/-identifier-) endpoint to check processing status and retrieve results.&lt;br/&gt;
         /// </remarks>
-        public Response<Document> CreateDocument(Stream file = null, string url = null, string data = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string customIdentifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, string regionBias = null, string lowPriority = null, string compact = null, string deleteAfterParse = null, CancellationToken cancellationToken = default)
+        public Response<Document> CreateDocument(Stream file = null, string url = null, string data = null, string collection = null, string workspace = null, string wait = null, string identifier = null, string customIdentifier = null, string fileName = null, string expiryTime = null, string language = null, string rejectDuplicates = null, string regionBias = null, string lowPriority = null, string compact = null, string deleteAfterParse = null, string enableValidationTool = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateCreateDocumentRequest(file, url, data, collection, workspace, wait, identifier, customIdentifier, fileName, expiryTime, language, rejectDuplicates, regionBias, lowPriority, compact, deleteAfterParse);
+            using var message = CreateCreateDocumentRequest(file, url, data, collection, workspace, wait, identifier, customIdentifier, fileName, expiryTime, language, rejectDuplicates, regionBias, lowPriority, compact, deleteAfterParse, enableValidationTool);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -4962,7 +4968,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateListMappingDataSourceValuesRequest(string identifier, int? limit, int? offset, string search)
+        internal HttpMessage CreateListMappingDataSourceValuesRequest(string identifier, int? limit, int? offset, string search, int? annotation)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -4986,6 +4992,10 @@ namespace Affinda.API
             {
                 uri.AppendQuery("search", search, true);
             }
+            if (annotation != null)
+            {
+                uri.AppendQuery("annotation", annotation.Value, true);
+            }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -4996,17 +5006,18 @@ namespace Affinda.API
         /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
         /// <param name="search"> Search for specific values. </param>
+        /// <param name="annotation"> Filter based on annotation ID. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
         /// <remarks> Returns the list of all values in a mapping data source. </remarks>
-        public async Task<Response<Paths1Qr7BnyV3MappingDataSourcesIdentifierValuesGetResponses200ContentApplicationJsonSchema>> ListMappingDataSourceValuesAsync(string identifier, int? limit = null, int? offset = null, string search = null, CancellationToken cancellationToken = default)
+        public async Task<Response<Paths1Qr7BnyV3MappingDataSourcesIdentifierValuesGetResponses200ContentApplicationJsonSchema>> ListMappingDataSourceValuesAsync(string identifier, int? limit = null, int? offset = null, string search = null, int? annotation = null, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
             {
                 throw new ArgumentNullException(nameof(identifier));
             }
 
-            using var message = CreateListMappingDataSourceValuesRequest(identifier, limit, offset, search);
+            using var message = CreateListMappingDataSourceValuesRequest(identifier, limit, offset, search, annotation);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -5027,17 +5038,18 @@ namespace Affinda.API
         /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
         /// <param name="search"> Search for specific values. </param>
+        /// <param name="annotation"> Filter based on annotation ID. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/> is null. </exception>
         /// <remarks> Returns the list of all values in a mapping data source. </remarks>
-        public Response<Paths1Qr7BnyV3MappingDataSourcesIdentifierValuesGetResponses200ContentApplicationJsonSchema> ListMappingDataSourceValues(string identifier, int? limit = null, int? offset = null, string search = null, CancellationToken cancellationToken = default)
+        public Response<Paths1Qr7BnyV3MappingDataSourcesIdentifierValuesGetResponses200ContentApplicationJsonSchema> ListMappingDataSourceValues(string identifier, int? limit = null, int? offset = null, string search = null, int? annotation = null, CancellationToken cancellationToken = default)
         {
             if (identifier == null)
             {
                 throw new ArgumentNullException(nameof(identifier));
             }
 
-            using var message = CreateListMappingDataSourceValuesRequest(identifier, limit, offset, search);
+            using var message = CreateListMappingDataSourceValuesRequest(identifier, limit, offset, search, annotation);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {

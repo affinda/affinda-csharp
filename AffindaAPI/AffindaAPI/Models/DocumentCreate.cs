@@ -49,5 +49,7 @@ namespace Affinda.API.Models
         public string Compact { get; }
         /// <summary> If true, no data will be stored after parsing. Only compatible with requests where wait: True. </summary>
         public string DeleteAfterParse { get; }
+        /// <summary> If true, the document will be viewable in the Affinda Validation Tool. Set to False to optimize parsing speed. </summary>
+        public string EnableValidationTool { get; }
     }
 }

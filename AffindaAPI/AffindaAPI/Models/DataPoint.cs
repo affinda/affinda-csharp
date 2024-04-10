@@ -60,8 +60,9 @@ namespace Affinda.API.Models
         /// <param name="parent"> The identifier of the parent data point if applicable. </param>
         /// <param name="children"></param>
         /// <param name="availableDataSources"></param>
+        /// <param name="mappingDataSource"> If populated, the model will learn to predict this field using the data source, rather than relying on fuzzy string matching. </param>
         /// <param name="manualEntry"> If true, the model will not be used to predict this data point. Instead, the user will be able to manually enter the value in the validation tool. </param>
-        internal DataPoint(string identifier, string name, string slug, string description, AnnotationContentType annotationContentType, Organization organization, string extractor, bool? multiple, bool? noRect, string parent, IReadOnlyList<DataPoint> children, IReadOnlyList<MappingDataSource> availableDataSources, bool? manualEntry)
+        internal DataPoint(string identifier, string name, string slug, string description, AnnotationContentType annotationContentType, Organization organization, string extractor, bool? multiple, bool? noRect, string parent, IReadOnlyList<DataPoint> children, IReadOnlyList<MappingDataSource> availableDataSources, string mappingDataSource, bool? manualEntry)
         {
             Identifier = identifier;
             Name = name;
@@ -75,6 +76,7 @@ namespace Affinda.API.Models
             Parent = parent;
             Children = children;
             AvailableDataSources = availableDataSources;
+            MappingDataSource = mappingDataSource;
             ManualEntry = manualEntry;
         }
 
@@ -102,6 +104,8 @@ namespace Affinda.API.Models
         public IReadOnlyList<DataPoint> Children { get; }
         /// <summary> Gets the available data sources. </summary>
         public IReadOnlyList<MappingDataSource> AvailableDataSources { get; }
+        /// <summary> If populated, the model will learn to predict this field using the data source, rather than relying on fuzzy string matching. </summary>
+        public string MappingDataSource { get; }
         /// <summary> If true, the model will not be used to predict this data point. Instead, the user will be able to manually enter the value in the validation tool. </summary>
         public bool? ManualEntry { get; }
     }

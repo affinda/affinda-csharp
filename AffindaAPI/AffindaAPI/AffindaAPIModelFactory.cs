@@ -286,14 +286,15 @@ namespace Affinda.API.Models
         /// <param name="parent"> The identifier of the parent data point if applicable. </param>
         /// <param name="children"></param>
         /// <param name="availableDataSources"></param>
+        /// <param name="mappingDataSource"> If populated, the model will learn to predict this field using the data source, rather than relying on fuzzy string matching. </param>
         /// <param name="manualEntry"> If true, the model will not be used to predict this data point. Instead, the user will be able to manually enter the value in the validation tool. </param>
         /// <returns> A new <see cref="Models.DataPoint"/> instance for mocking. </returns>
-        public static DataPoint DataPoint(string identifier = null, string name = null, string slug = null, string description = null, AnnotationContentType annotationContentType = default, Organization organization = null, string extractor = null, bool? multiple = null, bool? noRect = null, string parent = null, IEnumerable<DataPoint> children = null, IEnumerable<MappingDataSource> availableDataSources = null, bool? manualEntry = null)
+        public static DataPoint DataPoint(string identifier = null, string name = null, string slug = null, string description = null, AnnotationContentType annotationContentType = default, Organization organization = null, string extractor = null, bool? multiple = null, bool? noRect = null, string parent = null, IEnumerable<DataPoint> children = null, IEnumerable<MappingDataSource> availableDataSources = null, string mappingDataSource = null, bool? manualEntry = null)
         {
             children ??= new List<DataPoint>();
             availableDataSources ??= new List<MappingDataSource>();
 
-            return new DataPoint(identifier, name, slug, description, annotationContentType, organization, extractor, multiple, noRect, parent, children?.ToList(), availableDataSources?.ToList(), manualEntry);
+            return new DataPoint(identifier, name, slug, description, annotationContentType, organization, extractor, multiple, noRect, parent, children?.ToList(), availableDataSources?.ToList(), mappingDataSource, manualEntry);
         }
 
         /// <summary> Initializes a new instance of MappingDataSource. </summary>

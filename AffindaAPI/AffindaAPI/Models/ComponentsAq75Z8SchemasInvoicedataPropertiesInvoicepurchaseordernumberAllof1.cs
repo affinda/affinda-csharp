@@ -11,8 +11,10 @@ namespace Affinda.API.Models
     public partial class ComponentsAq75Z8SchemasInvoicedataPropertiesInvoicepurchaseordernumberAllof1
     {
         /// <summary> Initializes a new instance of ComponentsAq75Z8SchemasInvoicedataPropertiesInvoicepurchaseordernumberAllof1. </summary>
-        public ComponentsAq75Z8SchemasInvoicedataPropertiesInvoicepurchaseordernumberAllof1()
+        /// <param name="raw"></param>
+        public ComponentsAq75Z8SchemasInvoicedataPropertiesInvoicepurchaseordernumberAllof1(string raw)
         {
+            Raw = raw;
         }
 
         /// <summary> Initializes a new instance of ComponentsAq75Z8SchemasInvoicedataPropertiesInvoicepurchaseordernumberAllof1. </summary>

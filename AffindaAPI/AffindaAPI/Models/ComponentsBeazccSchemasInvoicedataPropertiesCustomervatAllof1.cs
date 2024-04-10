@@ -11,8 +11,10 @@ namespace Affinda.API.Models
     public partial class ComponentsBeazccSchemasInvoicedataPropertiesCustomervatAllof1
     {
         /// <summary> Initializes a new instance of ComponentsBeazccSchemasInvoicedataPropertiesCustomervatAllof1. </summary>
-        public ComponentsBeazccSchemasInvoicedataPropertiesCustomervatAllof1()
+        /// <param name="raw"></param>
+        public ComponentsBeazccSchemasInvoicedataPropertiesCustomervatAllof1(string raw)
         {
+            Raw = raw;
         }
 
         /// <summary> Initializes a new instance of ComponentsBeazccSchemasInvoicedataPropertiesCustomervatAllof1. </summary>

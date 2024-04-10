@@ -49,5 +49,7 @@ namespace Affinda.API.Models
         public string Parent { get; set; }
         /// <summary> If true, the model will not be used to predict this data point. Instead, the user will be able to manually enter the value in the validation tool. </summary>
         public bool? ManualEntry { get; set; }
+        /// <summary> If populated, the model will learn to predict this field using the data source, rather than relying on fuzzy string matching. </summary>
+        public string MappingDataSource { get; set; }
     }
 }
