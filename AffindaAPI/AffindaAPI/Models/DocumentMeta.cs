@@ -73,12 +73,13 @@ namespace Affinda.API.Models
         /// <param name="errorCode"></param>
         /// <param name="errorDetail"></param>
         /// <param name="file"> URL to view the file. </param>
+        /// <param name="html"> URL to view the file converted to HTML. </param>
         /// <param name="tags"></param>
         /// <param name="createdBy"></param>
         /// <param name="sourceEmail"> If the document is created via email ingestion, this field stores the email file&apos;s URL. </param>
         /// <param name="sourceEmailAddress"> If the document is created via email ingestion, this field stores the email&apos;s From address. </param>
         /// <param name="regionBias"></param>
-        internal DocumentMeta(string identifier, string customIdentifier, string fileName, bool? ready, DateTimeOffset? readyDt, bool? failed, string expiryTime, string language, string pdf, DocumentMetaParentDocument parentDocument, IList<DocumentMetaChildDocumentsItem> childDocuments, IList<PageMeta> pages, bool? isOcrd, float? ocrConfidence, string reviewUrl, DocumentMetaCollection collection, DocumentMetaWorkspace workspace, DateTimeOffset? archivedDt, bool? isArchived, bool? skipParse, DateTimeOffset? confirmedDt, UserNullable confirmedBy, bool? isConfirmed, DateTimeOffset? rejectedDt, UserNullable rejectedBy, bool? isRejected, DateTimeOffset? createdDt, string errorCode, string errorDetail, string file, IList<Tag> tags, User createdBy, string sourceEmail, string sourceEmailAddress, RegionBias regionBias)
+        internal DocumentMeta(string identifier, string customIdentifier, string fileName, bool? ready, DateTimeOffset? readyDt, bool? failed, string expiryTime, string language, string pdf, DocumentMetaParentDocument parentDocument, IList<DocumentMetaChildDocumentsItem> childDocuments, IList<PageMeta> pages, bool? isOcrd, float? ocrConfidence, string reviewUrl, DocumentMetaCollection collection, DocumentMetaWorkspace workspace, DateTimeOffset? archivedDt, bool? isArchived, bool? skipParse, DateTimeOffset? confirmedDt, UserNullable confirmedBy, bool? isConfirmed, DateTimeOffset? rejectedDt, UserNullable rejectedBy, bool? isRejected, DateTimeOffset? createdDt, string errorCode, string errorDetail, string file, string html, IList<Tag> tags, User createdBy, string sourceEmail, string sourceEmailAddress, RegionBias regionBias)
         {
             Identifier = identifier;
             CustomIdentifier = customIdentifier;
@@ -110,6 +111,7 @@ namespace Affinda.API.Models
             ErrorCode = errorCode;
             ErrorDetail = errorDetail;
             File = file;
+            Html = html;
             Tags = tags;
             CreatedBy = createdBy;
             SourceEmail = sourceEmail;
@@ -177,6 +179,8 @@ namespace Affinda.API.Models
         public string ErrorDetail { get; set; }
         /// <summary> URL to view the file. </summary>
         public string File { get; set; }
+        /// <summary> URL to view the file converted to HTML. </summary>
+        public string Html { get; set; }
         /// <summary> Gets the tags. </summary>
         public IList<Tag> Tags { get; }
         /// <summary> Gets or sets the created by. </summary>

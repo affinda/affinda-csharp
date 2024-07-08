@@ -19,6 +19,7 @@ namespace Affinda.API.Models
             string keyProperty = default;
             string displayProperty = default;
             string organization = default;
+            string workspace = default;
             Optional<object> schema = default;
             foreach (var property in element.EnumerateObject())
             {
@@ -57,6 +58,16 @@ namespace Affinda.API.Models
                     organization = property.Value.GetString();
                     continue;
                 }
+                if (property.NameEquals("workspace"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        workspace = null;
+                        continue;
+                    }
+                    workspace = property.Value.GetString();
+                    continue;
+                }
                 if (property.NameEquals("schema"))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
@@ -68,7 +79,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new MappingDataSource(identifier, name.Value, keyProperty, displayProperty, organization, schema.Value);
+            return new MappingDataSource(identifier, name.Value, keyProperty, displayProperty, organization, workspace, schema.Value);
         }
     }
 }

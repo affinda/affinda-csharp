@@ -17,8 +17,9 @@ namespace Affinda.API.Models
         /// <param name="keyProperty"> Attribute in the schema which uniquely identifiers the value. </param>
         /// <param name="displayProperty"> Attribute in the schema which is used to display the value. </param>
         /// <param name="organization"> The organization that this mapping data source belongs to. </param>
+        /// <param name="workspace"> The workspace that this mapping data source belongs to. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="identifier"/>, <paramref name="keyProperty"/> or <paramref name="displayProperty"/> is null. </exception>
-        internal MappingDataSource(string identifier, string keyProperty, string displayProperty, string organization)
+        internal MappingDataSource(string identifier, string keyProperty, string displayProperty, string organization, string workspace)
         {
             if (identifier == null)
             {
@@ -37,6 +38,7 @@ namespace Affinda.API.Models
             KeyProperty = keyProperty;
             DisplayProperty = displayProperty;
             Organization = organization;
+            Workspace = workspace;
         }
 
         /// <summary> Initializes a new instance of MappingDataSource. </summary>
@@ -45,14 +47,16 @@ namespace Affinda.API.Models
         /// <param name="keyProperty"> Attribute in the schema which uniquely identifiers the value. </param>
         /// <param name="displayProperty"> Attribute in the schema which is used to display the value. </param>
         /// <param name="organization"> The organization that this mapping data source belongs to. </param>
+        /// <param name="workspace"> The workspace that this mapping data source belongs to. </param>
         /// <param name="schema"> The schema of the mapping data source. </param>
-        internal MappingDataSource(string identifier, string name, string keyProperty, string displayProperty, string organization, object schema)
+        internal MappingDataSource(string identifier, string name, string keyProperty, string displayProperty, string organization, string workspace, object schema)
         {
             Identifier = identifier;
             Name = name;
             KeyProperty = keyProperty;
             DisplayProperty = displayProperty;
             Organization = organization;
+            Workspace = workspace;
             Schema = schema;
         }
 
@@ -66,6 +70,8 @@ namespace Affinda.API.Models
         public string DisplayProperty { get; }
         /// <summary> The organization that this mapping data source belongs to. </summary>
         public string Organization { get; }
+        /// <summary> The workspace that this mapping data source belongs to. </summary>
+        public string Workspace { get; }
         /// <summary> The schema of the mapping data source. </summary>
         public object Schema { get; }
     }

@@ -62,7 +62,7 @@ namespace Affinda.API.Models
         /// <param name="currencyCode"></param>
         /// <param name="customFields"> Dictionary of &lt;any&gt;. </param>
         /// <param name="rawText"> All of the raw text of the parsed invoice. </param>
-        internal InvoiceData(IList<TableAnnotation> tables, IList<TableBetaAnnotation> tablesBeta, DateAnnotation invoiceDate, DateAnnotation invoiceOrderDate, DateAnnotation paymentDateDue, InvoiceDataPaymentAmountBase paymentAmountBase, InvoiceDataPaymentAmountTax paymentAmountTax, InvoiceDataPaymentAmountTotal paymentAmountTotal, InvoiceDataPaymentAmountPaid paymentAmountPaid, InvoiceDataPaymentAmountDue paymentAmountDue, InvoiceDataInvoiceNumber invoiceNumber, InvoiceDataInvoicePurchaseOrderNumber invoicePurchaseOrderNumber, InvoiceDataSupplierBusinessNumber supplierBusinessNumber, InvoiceDataCustomerNumber customerNumber, InvoiceDataCustomerBusinessNumber customerBusinessNumber, InvoiceDataPaymentReference paymentReference, InvoiceDataBankAccountNumber bankAccountNumber, InvoiceDataSupplierVat supplierVat, InvoiceDataCustomerVat customerVat, InvoiceDataBpayBillerCode bpayBillerCode, InvoiceDataBpayReference bpayReference, InvoiceDataBankSortCode bankSortCode, InvoiceDataBankIban bankIban, InvoiceDataBankSwift bankSwift, InvoiceDataBankBsb bankBsb, InvoiceDataCustomerContactName customerContactName, InvoiceDataCustomerCompanyName customerCompanyName, InvoiceDataSupplierCompanyName supplierCompanyName, LocationAnnotation customerBillingAddress, LocationAnnotation customerDeliveryAddress, LocationAnnotation supplierAddress, InvoiceDataCustomerPhoneNumber customerPhoneNumber, InvoiceDataSupplierPhoneNumber supplierPhoneNumber, InvoiceDataSupplierFax supplierFax, InvoiceDataCustomerEmail customerEmail, InvoiceDataSupplierEmail supplierEmail, InvoiceDataSupplierWebsite supplierWebsite, CurrencyCodeAnnotation currencyCode, IDictionary<string, object> customFields, string rawText)
+        internal InvoiceData(IList<TableAnnotation> tables, IList<TableBetaAnnotation> tablesBeta, DateAnnotation invoiceDate, DateAnnotation invoiceOrderDate, DateAnnotation paymentDateDue, TextAnnotation paymentAmountBase, TextAnnotation paymentAmountTax, TextAnnotation paymentAmountTotal, TextAnnotation paymentAmountPaid, TextAnnotation paymentAmountDue, TextAnnotation invoiceNumber, TextAnnotation invoicePurchaseOrderNumber, TextAnnotation supplierBusinessNumber, TextAnnotation customerNumber, TextAnnotation customerBusinessNumber, TextAnnotation paymentReference, TextAnnotation bankAccountNumber, TextAnnotation supplierVat, TextAnnotation customerVat, TextAnnotation bpayBillerCode, TextAnnotation bpayReference, TextAnnotation bankSortCode, TextAnnotation bankIban, TextAnnotation bankSwift, TextAnnotation bankBsb, TextAnnotation customerContactName, TextAnnotation customerCompanyName, TextAnnotation supplierCompanyName, LocationAnnotation customerBillingAddress, LocationAnnotation customerDeliveryAddress, LocationAnnotation supplierAddress, TextAnnotation customerPhoneNumber, TextAnnotation supplierPhoneNumber, TextAnnotation supplierFax, TextAnnotation customerEmail, TextAnnotation supplierEmail, TextAnnotation supplierWebsite, CurrencyCodeAnnotation currencyCode, IDictionary<string, object> customFields, string rawText)
         {
             Tables = tables;
             TablesBeta = tablesBeta;
@@ -117,51 +117,51 @@ namespace Affinda.API.Models
         /// <summary> Gets or sets the payment date due. </summary>
         public DateAnnotation PaymentDateDue { get; set; }
         /// <summary> Gets or sets the payment amount base. </summary>
-        public InvoiceDataPaymentAmountBase PaymentAmountBase { get; set; }
+        public TextAnnotation PaymentAmountBase { get; set; }
         /// <summary> Gets or sets the payment amount tax. </summary>
-        public InvoiceDataPaymentAmountTax PaymentAmountTax { get; set; }
+        public TextAnnotation PaymentAmountTax { get; set; }
         /// <summary> Gets or sets the payment amount total. </summary>
-        public InvoiceDataPaymentAmountTotal PaymentAmountTotal { get; set; }
+        public TextAnnotation PaymentAmountTotal { get; set; }
         /// <summary> Gets or sets the payment amount paid. </summary>
-        public InvoiceDataPaymentAmountPaid PaymentAmountPaid { get; set; }
+        public TextAnnotation PaymentAmountPaid { get; set; }
         /// <summary> Gets or sets the payment amount due. </summary>
-        public InvoiceDataPaymentAmountDue PaymentAmountDue { get; set; }
+        public TextAnnotation PaymentAmountDue { get; set; }
         /// <summary> Gets or sets the invoice number. </summary>
-        public InvoiceDataInvoiceNumber InvoiceNumber { get; set; }
+        public TextAnnotation InvoiceNumber { get; set; }
         /// <summary> Gets or sets the invoice purchase order number. </summary>
-        public InvoiceDataInvoicePurchaseOrderNumber InvoicePurchaseOrderNumber { get; set; }
+        public TextAnnotation InvoicePurchaseOrderNumber { get; set; }
         /// <summary> Gets or sets the supplier business number. </summary>
-        public InvoiceDataSupplierBusinessNumber SupplierBusinessNumber { get; set; }
+        public TextAnnotation SupplierBusinessNumber { get; set; }
         /// <summary> Gets or sets the customer number. </summary>
-        public InvoiceDataCustomerNumber CustomerNumber { get; set; }
+        public TextAnnotation CustomerNumber { get; set; }
         /// <summary> Gets or sets the customer business number. </summary>
-        public InvoiceDataCustomerBusinessNumber CustomerBusinessNumber { get; set; }
+        public TextAnnotation CustomerBusinessNumber { get; set; }
         /// <summary> Gets or sets the payment reference. </summary>
-        public InvoiceDataPaymentReference PaymentReference { get; set; }
+        public TextAnnotation PaymentReference { get; set; }
         /// <summary> Gets or sets the bank account number. </summary>
-        public InvoiceDataBankAccountNumber BankAccountNumber { get; set; }
+        public TextAnnotation BankAccountNumber { get; set; }
         /// <summary> Gets or sets the supplier vat. </summary>
-        public InvoiceDataSupplierVat SupplierVat { get; set; }
+        public TextAnnotation SupplierVat { get; set; }
         /// <summary> Gets or sets the customer vat. </summary>
-        public InvoiceDataCustomerVat CustomerVat { get; set; }
+        public TextAnnotation CustomerVat { get; set; }
         /// <summary> Gets or sets the bpay biller code. </summary>
-        public InvoiceDataBpayBillerCode BpayBillerCode { get; set; }
+        public TextAnnotation BpayBillerCode { get; set; }
         /// <summary> Gets or sets the bpay reference. </summary>
-        public InvoiceDataBpayReference BpayReference { get; set; }
+        public TextAnnotation BpayReference { get; set; }
         /// <summary> Gets or sets the bank sort code. </summary>
-        public InvoiceDataBankSortCode BankSortCode { get; set; }
+        public TextAnnotation BankSortCode { get; set; }
         /// <summary> Gets or sets the bank iban. </summary>
-        public InvoiceDataBankIban BankIban { get; set; }
+        public TextAnnotation BankIban { get; set; }
         /// <summary> Gets or sets the bank swift. </summary>
-        public InvoiceDataBankSwift BankSwift { get; set; }
+        public TextAnnotation BankSwift { get; set; }
         /// <summary> Gets or sets the bank bsb. </summary>
-        public InvoiceDataBankBsb BankBsb { get; set; }
+        public TextAnnotation BankBsb { get; set; }
         /// <summary> Gets or sets the customer contact name. </summary>
-        public InvoiceDataCustomerContactName CustomerContactName { get; set; }
+        public TextAnnotation CustomerContactName { get; set; }
         /// <summary> Gets or sets the customer company name. </summary>
-        public InvoiceDataCustomerCompanyName CustomerCompanyName { get; set; }
+        public TextAnnotation CustomerCompanyName { get; set; }
         /// <summary> Gets or sets the supplier company name. </summary>
-        public InvoiceDataSupplierCompanyName SupplierCompanyName { get; set; }
+        public TextAnnotation SupplierCompanyName { get; set; }
         /// <summary> Gets or sets the customer billing address. </summary>
         public LocationAnnotation CustomerBillingAddress { get; set; }
         /// <summary> Gets or sets the customer delivery address. </summary>
@@ -169,17 +169,17 @@ namespace Affinda.API.Models
         /// <summary> Gets or sets the supplier address. </summary>
         public LocationAnnotation SupplierAddress { get; set; }
         /// <summary> Gets or sets the customer phone number. </summary>
-        public InvoiceDataCustomerPhoneNumber CustomerPhoneNumber { get; set; }
+        public TextAnnotation CustomerPhoneNumber { get; set; }
         /// <summary> Gets or sets the supplier phone number. </summary>
-        public InvoiceDataSupplierPhoneNumber SupplierPhoneNumber { get; set; }
+        public TextAnnotation SupplierPhoneNumber { get; set; }
         /// <summary> Gets or sets the supplier fax. </summary>
-        public InvoiceDataSupplierFax SupplierFax { get; set; }
+        public TextAnnotation SupplierFax { get; set; }
         /// <summary> Gets or sets the customer email. </summary>
-        public InvoiceDataCustomerEmail CustomerEmail { get; set; }
+        public TextAnnotation CustomerEmail { get; set; }
         /// <summary> Gets or sets the supplier email. </summary>
-        public InvoiceDataSupplierEmail SupplierEmail { get; set; }
+        public TextAnnotation SupplierEmail { get; set; }
         /// <summary> Gets or sets the supplier website. </summary>
-        public InvoiceDataSupplierWebsite SupplierWebsite { get; set; }
+        public TextAnnotation SupplierWebsite { get; set; }
         /// <summary> Gets or sets the currency code. </summary>
         public CurrencyCodeAnnotation CurrencyCode { get; set; }
         /// <summary> Dictionary of &lt;any&gt;. </summary>

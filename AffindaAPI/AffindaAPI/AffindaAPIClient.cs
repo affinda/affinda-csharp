@@ -1450,6 +1450,80 @@ namespace Affinda.API
             }
         }
 
+        /// <summary> Batch create validation results. </summary>
+        /// <param name="body"> The ArrayOfValidationResultCreate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Batch create validation results. </remarks>
+        public virtual async Task<Response<IReadOnlyList<ValidationResult>>> BatchCreateValidationResultsAsync(IEnumerable<ValidationResultCreate> body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.BatchCreateValidationResults");
+            scope.Start();
+            try
+            {
+                return await RestClient.BatchCreateValidationResultsAsync(body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Batch create validation results. </summary>
+        /// <param name="body"> The ArrayOfValidationResultCreate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks> Batch create validation results. </remarks>
+        public virtual Response<IReadOnlyList<ValidationResult>> BatchCreateValidationResults(IEnumerable<ValidationResultCreate> body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.BatchCreateValidationResults");
+            scope.Start();
+            try
+            {
+                return RestClient.BatchCreateValidationResults(body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Batch delete validation results. </summary>
+        /// <param name="body"> The BatchDeleteValidationResultsRequest to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response> BatchDeleteValidationResultsAsync(BatchDeleteValidationResultsRequest body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.BatchDeleteValidationResults");
+            scope.Start();
+            try
+            {
+                return await RestClient.BatchDeleteValidationResultsAsync(body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Batch delete validation results. </summary>
+        /// <param name="body"> The BatchDeleteValidationResultsRequest to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response BatchDeleteValidationResults(BatchDeleteValidationResultsRequest body, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.BatchDeleteValidationResults");
+            scope.Start();
+            try
+            {
+                return RestClient.BatchDeleteValidationResults(body, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
         /// <summary> Get list of all extractors. </summary>
         /// <param name="organization"> Filter by organization. </param>
         /// <param name="includePublicExtractors"> Whether to include Affinda&apos;s off-the-shelf extractors. </param>
@@ -2433,15 +2507,19 @@ namespace Affinda.API
         /// <summary> List mapping data sources. </summary>
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
         /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="name"> Filter by name. </param>
+        /// <param name="organization"> Filter by organization. </param>
+        /// <param name="workspace"> Filter by workspace. </param>
+        /// <param name="identifier"> Filter by identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns the list of all custom mapping data sources. </remarks>
-        public virtual async Task<Response<Paths11QdcofV3MappingDataSourcesGetResponses200ContentApplicationJsonSchema>> ListMappingDataSourcesAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<Paths11QdcofV3MappingDataSourcesGetResponses200ContentApplicationJsonSchema>> ListMappingDataSourcesAsync(int? offset = null, int? limit = null, string name = null, string organization = null, string workspace = null, string identifier = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.ListMappingDataSources");
             scope.Start();
             try
             {
-                return await RestClient.ListMappingDataSourcesAsync(offset, limit, cancellationToken).ConfigureAwait(false);
+                return await RestClient.ListMappingDataSourcesAsync(offset, limit, name, organization, workspace, identifier, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -2453,15 +2531,19 @@ namespace Affinda.API
         /// <summary> List mapping data sources. </summary>
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
         /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="name"> Filter by name. </param>
+        /// <param name="organization"> Filter by organization. </param>
+        /// <param name="workspace"> Filter by workspace. </param>
+        /// <param name="identifier"> Filter by identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns the list of all custom mapping data sources. </remarks>
-        public virtual Response<Paths11QdcofV3MappingDataSourcesGetResponses200ContentApplicationJsonSchema> ListMappingDataSources(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public virtual Response<Paths11QdcofV3MappingDataSourcesGetResponses200ContentApplicationJsonSchema> ListMappingDataSources(int? offset = null, int? limit = null, string name = null, string organization = null, string workspace = null, string identifier = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.ListMappingDataSources");
             scope.Start();
             try
             {
-                return RestClient.ListMappingDataSources(offset, limit, cancellationToken);
+                return RestClient.ListMappingDataSources(offset, limit, name, organization, workspace, identifier, cancellationToken);
             }
             catch (Exception e)
             {
@@ -4494,15 +4576,16 @@ namespace Affinda.API
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
         /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="documentType"> Filter indices by a document type. </param>
+        /// <param name="name"> Filter indices by name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public virtual async Task<Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum20? documentType = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum20? documentType = null, string name = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexes");
             scope.Start();
             try
             {
-                return await RestClient.GetAllIndexesAsync(offset, limit, documentType, cancellationToken).ConfigureAwait(false);
+                return await RestClient.GetAllIndexesAsync(offset, limit, documentType, name, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -4515,15 +4598,16 @@ namespace Affinda.API
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
         /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="documentType"> Filter indices by a document type. </param>
+        /// <param name="name"> Filter indices by name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public virtual Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema> GetAllIndexes(int? offset = null, int? limit = null, Enum20? documentType = null, CancellationToken cancellationToken = default)
+        public virtual Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema> GetAllIndexes(int? offset = null, int? limit = null, Enum20? documentType = null, string name = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.GetAllIndexes");
             scope.Start();
             try
             {
-                return RestClient.GetAllIndexes(offset, limit, documentType, cancellationToken);
+                return RestClient.GetAllIndexes(offset, limit, documentType, name, cancellationToken);
             }
             catch (Exception e)
             {
@@ -4762,6 +4846,56 @@ namespace Affinda.API
             try
             {
                 return RestClient.DeleteIndexDocument(name, identifier, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Re-index a document. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="identifier"> Document identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks>
+        /// Re-index a document.
+        /// This is relevant if you updated the document&apos;s data via the /annotations endpoint, and want to refresh
+        /// the document&apos;s data in the search index.
+        /// 
+        /// </remarks>
+        public virtual async Task<Response> ReIndexDocumentAsync(string name, string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.ReIndexDocument");
+            scope.Start();
+            try
+            {
+                return await RestClient.ReIndexDocumentAsync(name, identifier, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Re-index a document. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="identifier"> Document identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <remarks>
+        /// Re-index a document.
+        /// This is relevant if you updated the document&apos;s data via the /annotations endpoint, and want to refresh
+        /// the document&apos;s data in the search index.
+        /// 
+        /// </remarks>
+        public virtual Response ReIndexDocument(string name, string identifier, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AffindaAPIClient.ReIndexDocument");
+            scope.Start();
+            try
+            {
+                return RestClient.ReIndexDocument(name, identifier, cancellationToken);
             }
             catch (Exception e)
             {

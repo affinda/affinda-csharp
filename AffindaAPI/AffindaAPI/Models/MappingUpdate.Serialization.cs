@@ -27,6 +27,18 @@ namespace Affinda.API.Models
                     writer.WriteNull("scoreCutoff");
                 }
             }
+            if (Optional.IsDefined(OrderBy))
+            {
+                if (OrderBy != null)
+                {
+                    writer.WritePropertyName("orderBy");
+                    writer.WriteStringValue(OrderBy);
+                }
+                else
+                {
+                    writer.WriteNull("orderBy");
+                }
+            }
             writer.WriteEndObject();
         }
     }

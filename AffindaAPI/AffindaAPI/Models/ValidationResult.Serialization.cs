@@ -25,8 +25,15 @@ namespace Affinda.API.Models
                 writer.WriteNumberValue(item);
             }
             writer.WriteEndArray();
-            writer.WritePropertyName("passed");
-            writer.WriteBooleanValue(Passed);
+            if (Passed != null)
+            {
+                writer.WritePropertyName("passed");
+                writer.WriteBooleanValue(Passed.Value);
+            }
+            else
+            {
+                writer.WriteNull("passed");
+            }
             writer.WritePropertyName("ruleSlug");
             writer.WriteStringValue(RuleSlug);
             writer.WritePropertyName("message");
@@ -40,7 +47,7 @@ namespace Affinda.API.Models
         {
             int id = default;
             IList<int> annotations = default;
-            bool passed = default;
+            bool? passed = default;
             string ruleSlug = default;
             string message = default;
             string document = default;
@@ -63,6 +70,11 @@ namespace Affinda.API.Models
                 }
                 if (property.NameEquals("passed"))
                 {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        passed = null;
+                        continue;
+                    }
                     passed = property.Value.GetBoolean();
                     continue;
                 }

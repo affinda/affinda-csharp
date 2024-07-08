@@ -5,8 +5,13 @@
 
 [![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/affinda/affinda-dotnet)
 
+
 - [Installation](#installation)
+- [API Version Compatibility](#api-version-compatibility)
 - [Quickstart](#quickstart)
+- [Examples](#examples)
+- [Serializing custom request bodies](#serializing-custom-request-bodies)
+
 
 Generated using [autorest](https://github.com/Azure/autorest)
 and [autorest.csharp](https://github.com/Azure/autorest.csharp).
@@ -68,6 +73,41 @@ namespace AffindaAPISample
 }
 ```
 
+## Examples
+
 An example project is provided [here](./SampleProgram/SampleProgram.csproj)
 
 Further examples can be found [here](./docs/samples_csharp.md)
+
+## Serializing custom request bodies
+
+Some endpoints accept a request body that's too flexible for Autorest to type precisely.
+Normally, this is indicated by a body parameter of type `object`.
+Due to limitations of Autorest's JSON serialization, you can't pass arbitrary data classes as body parameters directly.
+Instead, we provide `Utf8JsonAdapter` to integrate `System.Text.Json` into Autorest's serialization.
+To pass a custom data object to the client library, you simply need to wrap it in `Utf8JsonAdapter`.
+For example:
+
+```csharp
+class Data
+{
+    // System.Text.Json annotations will work here
+    public string Label { get; set; }
+    public string Value { get; set; }
+}
+
+void MakeAwesomeApiRequest(AffindaAPIClient client)
+{
+    var data = new Data[]
+    {
+        new Data { Label = "Name", Value = "John Doe" },
+        new Data { Label = "Email", Value = "john@doe.com" },
+    };
+
+    // Can also provide a JsonSerializerOptions instance to customise behaviour
+    var body = new Utf8JsonAdapter<Data[]>(data);
+
+    // void MakeAwesomeRequest(object body);
+    client.MakeAwesomeRequest(body);
+}
+```

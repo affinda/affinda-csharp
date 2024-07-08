@@ -17,6 +17,7 @@ namespace Affinda.API.Models
 
         /// <summary> Initializes a new instance of CollectionField. </summary>
         /// <param name="label"></param>
+        /// <param name="fieldType"> The different data types of annotations. </param>
         /// <param name="mandatory"></param>
         /// <param name="showDropdown"></param>
         /// <param name="displayEnumValue"> If true, both the value and the label for the enums will appear in the dropdown in the validation tool. </param>
@@ -24,9 +25,10 @@ namespace Affinda.API.Models
         /// <param name="dataSource"> Data source mapping identifier. </param>
         /// <param name="mapping"> Defines how the data point is mapped to the data source. </param>
         /// <param name="displayRawText"> Defines how the data point is mapped to the data source. </param>
-        internal CollectionField(string label, bool? mandatory, bool? showDropdown, bool? displayEnumValue, float? autoValidationThreshold, string dataSource, string mapping, string displayRawText)
+        internal CollectionField(string label, AnnotationContentType? fieldType, bool? mandatory, bool? showDropdown, bool? displayEnumValue, float? autoValidationThreshold, string dataSource, string mapping, string displayRawText)
         {
             Label = label;
+            FieldType = fieldType;
             Mandatory = mandatory;
             ShowDropdown = showDropdown;
             DisplayEnumValue = displayEnumValue;
@@ -38,6 +40,8 @@ namespace Affinda.API.Models
 
         /// <summary> Gets or sets the label. </summary>
         public string Label { get; set; }
+        /// <summary> The different data types of annotations. </summary>
+        public AnnotationContentType? FieldType { get; set; }
         /// <summary> Gets or sets the mandatory. </summary>
         public bool? Mandatory { get; set; }
         /// <summary> Gets or sets the show dropdown. </summary>

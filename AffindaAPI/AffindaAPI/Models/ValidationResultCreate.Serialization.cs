@@ -24,8 +24,15 @@ namespace Affinda.API.Models
             writer.WriteEndArray();
             if (Optional.IsDefined(Passed))
             {
-                writer.WritePropertyName("passed");
-                writer.WriteBooleanValue(Passed.Value);
+                if (Passed != null)
+                {
+                    writer.WritePropertyName("passed");
+                    writer.WriteBooleanValue(Passed.Value);
+                }
+                else
+                {
+                    writer.WriteNull("passed");
+                }
             }
             writer.WritePropertyName("ruleSlug");
             writer.WriteStringValue(RuleSlug);

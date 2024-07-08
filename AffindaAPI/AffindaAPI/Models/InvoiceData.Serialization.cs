@@ -501,38 +501,38 @@ namespace Affinda.API.Models
             Optional<DateAnnotation> invoiceDate = default;
             Optional<DateAnnotation> invoiceOrderDate = default;
             Optional<DateAnnotation> paymentDateDue = default;
-            Optional<InvoiceDataPaymentAmountBase> paymentAmountBase = default;
-            Optional<InvoiceDataPaymentAmountTax> paymentAmountTax = default;
-            Optional<InvoiceDataPaymentAmountTotal> paymentAmountTotal = default;
-            Optional<InvoiceDataPaymentAmountPaid> paymentAmountPaid = default;
-            Optional<InvoiceDataPaymentAmountDue> paymentAmountDue = default;
-            Optional<InvoiceDataInvoiceNumber> invoiceNumber = default;
-            Optional<InvoiceDataInvoicePurchaseOrderNumber> invoicePurchaseOrderNumber = default;
-            Optional<InvoiceDataSupplierBusinessNumber> supplierBusinessNumber = default;
-            Optional<InvoiceDataCustomerNumber> customerNumber = default;
-            Optional<InvoiceDataCustomerBusinessNumber> customerBusinessNumber = default;
-            Optional<InvoiceDataPaymentReference> paymentReference = default;
-            Optional<InvoiceDataBankAccountNumber> bankAccountNumber = default;
-            Optional<InvoiceDataSupplierVat> supplierVat = default;
-            Optional<InvoiceDataCustomerVat> customerVat = default;
-            Optional<InvoiceDataBpayBillerCode> bpayBillerCode = default;
-            Optional<InvoiceDataBpayReference> bpayReference = default;
-            Optional<InvoiceDataBankSortCode> bankSortCode = default;
-            Optional<InvoiceDataBankIban> bankIban = default;
-            Optional<InvoiceDataBankSwift> bankSwift = default;
-            Optional<InvoiceDataBankBsb> bankBsb = default;
-            Optional<InvoiceDataCustomerContactName> customerContactName = default;
-            Optional<InvoiceDataCustomerCompanyName> customerCompanyName = default;
-            Optional<InvoiceDataSupplierCompanyName> supplierCompanyName = default;
+            Optional<TextAnnotation> paymentAmountBase = default;
+            Optional<TextAnnotation> paymentAmountTax = default;
+            Optional<TextAnnotation> paymentAmountTotal = default;
+            Optional<TextAnnotation> paymentAmountPaid = default;
+            Optional<TextAnnotation> paymentAmountDue = default;
+            Optional<TextAnnotation> invoiceNumber = default;
+            Optional<TextAnnotation> invoicePurchaseOrderNumber = default;
+            Optional<TextAnnotation> supplierBusinessNumber = default;
+            Optional<TextAnnotation> customerNumber = default;
+            Optional<TextAnnotation> customerBusinessNumber = default;
+            Optional<TextAnnotation> paymentReference = default;
+            Optional<TextAnnotation> bankAccountNumber = default;
+            Optional<TextAnnotation> supplierVat = default;
+            Optional<TextAnnotation> customerVat = default;
+            Optional<TextAnnotation> bpayBillerCode = default;
+            Optional<TextAnnotation> bpayReference = default;
+            Optional<TextAnnotation> bankSortCode = default;
+            Optional<TextAnnotation> bankIban = default;
+            Optional<TextAnnotation> bankSwift = default;
+            Optional<TextAnnotation> bankBsb = default;
+            Optional<TextAnnotation> customerContactName = default;
+            Optional<TextAnnotation> customerCompanyName = default;
+            Optional<TextAnnotation> supplierCompanyName = default;
             Optional<LocationAnnotation> customerBillingAddress = default;
             Optional<LocationAnnotation> customerDeliveryAddress = default;
             Optional<LocationAnnotation> supplierAddress = default;
-            Optional<InvoiceDataCustomerPhoneNumber> customerPhoneNumber = default;
-            Optional<InvoiceDataSupplierPhoneNumber> supplierPhoneNumber = default;
-            Optional<InvoiceDataSupplierFax> supplierFax = default;
-            Optional<InvoiceDataCustomerEmail> customerEmail = default;
-            Optional<InvoiceDataSupplierEmail> supplierEmail = default;
-            Optional<InvoiceDataSupplierWebsite> supplierWebsite = default;
+            Optional<TextAnnotation> customerPhoneNumber = default;
+            Optional<TextAnnotation> supplierPhoneNumber = default;
+            Optional<TextAnnotation> supplierFax = default;
+            Optional<TextAnnotation> customerEmail = default;
+            Optional<TextAnnotation> supplierEmail = default;
+            Optional<TextAnnotation> supplierWebsite = default;
             Optional<CurrencyCodeAnnotation> currencyCode = default;
             Optional<IDictionary<string, object>> customFields = default;
             Optional<string> rawText = default;
@@ -619,7 +619,7 @@ namespace Affinda.API.Models
                         paymentAmountBase = null;
                         continue;
                     }
-                    paymentAmountBase = InvoiceDataPaymentAmountBase.DeserializeInvoiceDataPaymentAmountBase(property.Value);
+                    paymentAmountBase = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("paymentAmountTax"))
@@ -629,7 +629,7 @@ namespace Affinda.API.Models
                         paymentAmountTax = null;
                         continue;
                     }
-                    paymentAmountTax = InvoiceDataPaymentAmountTax.DeserializeInvoiceDataPaymentAmountTax(property.Value);
+                    paymentAmountTax = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("paymentAmountTotal"))
@@ -639,7 +639,7 @@ namespace Affinda.API.Models
                         paymentAmountTotal = null;
                         continue;
                     }
-                    paymentAmountTotal = InvoiceDataPaymentAmountTotal.DeserializeInvoiceDataPaymentAmountTotal(property.Value);
+                    paymentAmountTotal = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("paymentAmountPaid"))
@@ -649,7 +649,7 @@ namespace Affinda.API.Models
                         paymentAmountPaid = null;
                         continue;
                     }
-                    paymentAmountPaid = InvoiceDataPaymentAmountPaid.DeserializeInvoiceDataPaymentAmountPaid(property.Value);
+                    paymentAmountPaid = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("paymentAmountDue"))
@@ -659,7 +659,7 @@ namespace Affinda.API.Models
                         paymentAmountDue = null;
                         continue;
                     }
-                    paymentAmountDue = InvoiceDataPaymentAmountDue.DeserializeInvoiceDataPaymentAmountDue(property.Value);
+                    paymentAmountDue = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("invoiceNumber"))
@@ -669,7 +669,7 @@ namespace Affinda.API.Models
                         invoiceNumber = null;
                         continue;
                     }
-                    invoiceNumber = InvoiceDataInvoiceNumber.DeserializeInvoiceDataInvoiceNumber(property.Value);
+                    invoiceNumber = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("invoicePurchaseOrderNumber"))
@@ -679,7 +679,7 @@ namespace Affinda.API.Models
                         invoicePurchaseOrderNumber = null;
                         continue;
                     }
-                    invoicePurchaseOrderNumber = InvoiceDataInvoicePurchaseOrderNumber.DeserializeInvoiceDataInvoicePurchaseOrderNumber(property.Value);
+                    invoicePurchaseOrderNumber = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("supplierBusinessNumber"))
@@ -689,7 +689,7 @@ namespace Affinda.API.Models
                         supplierBusinessNumber = null;
                         continue;
                     }
-                    supplierBusinessNumber = InvoiceDataSupplierBusinessNumber.DeserializeInvoiceDataSupplierBusinessNumber(property.Value);
+                    supplierBusinessNumber = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("customerNumber"))
@@ -699,7 +699,7 @@ namespace Affinda.API.Models
                         customerNumber = null;
                         continue;
                     }
-                    customerNumber = InvoiceDataCustomerNumber.DeserializeInvoiceDataCustomerNumber(property.Value);
+                    customerNumber = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("customerBusinessNumber"))
@@ -709,7 +709,7 @@ namespace Affinda.API.Models
                         customerBusinessNumber = null;
                         continue;
                     }
-                    customerBusinessNumber = InvoiceDataCustomerBusinessNumber.DeserializeInvoiceDataCustomerBusinessNumber(property.Value);
+                    customerBusinessNumber = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("paymentReference"))
@@ -719,7 +719,7 @@ namespace Affinda.API.Models
                         paymentReference = null;
                         continue;
                     }
-                    paymentReference = InvoiceDataPaymentReference.DeserializeInvoiceDataPaymentReference(property.Value);
+                    paymentReference = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("bankAccountNumber"))
@@ -729,7 +729,7 @@ namespace Affinda.API.Models
                         bankAccountNumber = null;
                         continue;
                     }
-                    bankAccountNumber = InvoiceDataBankAccountNumber.DeserializeInvoiceDataBankAccountNumber(property.Value);
+                    bankAccountNumber = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("supplierVat"))
@@ -739,7 +739,7 @@ namespace Affinda.API.Models
                         supplierVat = null;
                         continue;
                     }
-                    supplierVat = InvoiceDataSupplierVat.DeserializeInvoiceDataSupplierVat(property.Value);
+                    supplierVat = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("customerVat"))
@@ -749,7 +749,7 @@ namespace Affinda.API.Models
                         customerVat = null;
                         continue;
                     }
-                    customerVat = InvoiceDataCustomerVat.DeserializeInvoiceDataCustomerVat(property.Value);
+                    customerVat = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("bpayBillerCode"))
@@ -759,7 +759,7 @@ namespace Affinda.API.Models
                         bpayBillerCode = null;
                         continue;
                     }
-                    bpayBillerCode = InvoiceDataBpayBillerCode.DeserializeInvoiceDataBpayBillerCode(property.Value);
+                    bpayBillerCode = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("bpayReference"))
@@ -769,7 +769,7 @@ namespace Affinda.API.Models
                         bpayReference = null;
                         continue;
                     }
-                    bpayReference = InvoiceDataBpayReference.DeserializeInvoiceDataBpayReference(property.Value);
+                    bpayReference = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("bankSortCode"))
@@ -779,7 +779,7 @@ namespace Affinda.API.Models
                         bankSortCode = null;
                         continue;
                     }
-                    bankSortCode = InvoiceDataBankSortCode.DeserializeInvoiceDataBankSortCode(property.Value);
+                    bankSortCode = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("bankIban"))
@@ -789,7 +789,7 @@ namespace Affinda.API.Models
                         bankIban = null;
                         continue;
                     }
-                    bankIban = InvoiceDataBankIban.DeserializeInvoiceDataBankIban(property.Value);
+                    bankIban = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("bankSwift"))
@@ -799,7 +799,7 @@ namespace Affinda.API.Models
                         bankSwift = null;
                         continue;
                     }
-                    bankSwift = InvoiceDataBankSwift.DeserializeInvoiceDataBankSwift(property.Value);
+                    bankSwift = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("bankBsb"))
@@ -809,7 +809,7 @@ namespace Affinda.API.Models
                         bankBsb = null;
                         continue;
                     }
-                    bankBsb = InvoiceDataBankBsb.DeserializeInvoiceDataBankBsb(property.Value);
+                    bankBsb = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("customerContactName"))
@@ -819,7 +819,7 @@ namespace Affinda.API.Models
                         customerContactName = null;
                         continue;
                     }
-                    customerContactName = InvoiceDataCustomerContactName.DeserializeInvoiceDataCustomerContactName(property.Value);
+                    customerContactName = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("customerCompanyName"))
@@ -829,7 +829,7 @@ namespace Affinda.API.Models
                         customerCompanyName = null;
                         continue;
                     }
-                    customerCompanyName = InvoiceDataCustomerCompanyName.DeserializeInvoiceDataCustomerCompanyName(property.Value);
+                    customerCompanyName = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("supplierCompanyName"))
@@ -839,7 +839,7 @@ namespace Affinda.API.Models
                         supplierCompanyName = null;
                         continue;
                     }
-                    supplierCompanyName = InvoiceDataSupplierCompanyName.DeserializeInvoiceDataSupplierCompanyName(property.Value);
+                    supplierCompanyName = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("customerBillingAddress"))
@@ -879,7 +879,7 @@ namespace Affinda.API.Models
                         customerPhoneNumber = null;
                         continue;
                     }
-                    customerPhoneNumber = InvoiceDataCustomerPhoneNumber.DeserializeInvoiceDataCustomerPhoneNumber(property.Value);
+                    customerPhoneNumber = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("supplierPhoneNumber"))
@@ -889,7 +889,7 @@ namespace Affinda.API.Models
                         supplierPhoneNumber = null;
                         continue;
                     }
-                    supplierPhoneNumber = InvoiceDataSupplierPhoneNumber.DeserializeInvoiceDataSupplierPhoneNumber(property.Value);
+                    supplierPhoneNumber = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("supplierFax"))
@@ -899,7 +899,7 @@ namespace Affinda.API.Models
                         supplierFax = null;
                         continue;
                     }
-                    supplierFax = InvoiceDataSupplierFax.DeserializeInvoiceDataSupplierFax(property.Value);
+                    supplierFax = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("customerEmail"))
@@ -909,7 +909,7 @@ namespace Affinda.API.Models
                         customerEmail = null;
                         continue;
                     }
-                    customerEmail = InvoiceDataCustomerEmail.DeserializeInvoiceDataCustomerEmail(property.Value);
+                    customerEmail = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("supplierEmail"))
@@ -919,7 +919,7 @@ namespace Affinda.API.Models
                         supplierEmail = null;
                         continue;
                     }
-                    supplierEmail = InvoiceDataSupplierEmail.DeserializeInvoiceDataSupplierEmail(property.Value);
+                    supplierEmail = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("supplierWebsite"))
@@ -929,7 +929,7 @@ namespace Affinda.API.Models
                         supplierWebsite = null;
                         continue;
                     }
-                    supplierWebsite = InvoiceDataSupplierWebsite.DeserializeInvoiceDataSupplierWebsite(property.Value);
+                    supplierWebsite = TextAnnotation.DeserializeTextAnnotation(property.Value);
                     continue;
                 }
                 if (property.NameEquals("currencyCode"))

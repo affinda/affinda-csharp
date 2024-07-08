@@ -20,6 +20,11 @@ namespace Affinda.API.Models
                 writer.WritePropertyName("label");
                 writer.WriteStringValue(Label);
             }
+            if (Optional.IsDefined(FieldType))
+            {
+                writer.WritePropertyName("fieldType");
+                writer.WriteStringValue(FieldType.Value.ToString());
+            }
             if (Optional.IsDefined(Mandatory))
             {
                 writer.WritePropertyName("mandatory");
@@ -89,6 +94,7 @@ namespace Affinda.API.Models
         internal static CollectionField DeserializeCollectionField(JsonElement element)
         {
             Optional<string> label = default;
+            Optional<AnnotationContentType> fieldType = default;
             Optional<bool> mandatory = default;
             Optional<bool> showDropdown = default;
             Optional<bool> displayEnumValue = default;
@@ -101,6 +107,16 @@ namespace Affinda.API.Models
                 if (property.NameEquals("label"))
                 {
                     label = property.Value.GetString();
+                    continue;
+                }
+                if (property.NameEquals("fieldType"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    fieldType = new AnnotationContentType(property.Value.GetString());
                     continue;
                 }
                 if (property.NameEquals("mandatory"))
@@ -174,7 +190,7 @@ namespace Affinda.API.Models
                     continue;
                 }
             }
-            return new CollectionField(label.Value, Optional.ToNullable(mandatory), Optional.ToNullable(showDropdown), Optional.ToNullable(displayEnumValue), Optional.ToNullable(autoValidationThreshold), dataSource.Value, mapping.Value, displayRawText.Value);
+            return new CollectionField(label.Value, Optional.ToNullable(fieldType), Optional.ToNullable(mandatory), Optional.ToNullable(showDropdown), Optional.ToNullable(displayEnumValue), Optional.ToNullable(autoValidationThreshold), dataSource.Value, mapping.Value, displayRawText.Value);
         }
     }
 }

@@ -303,11 +303,12 @@ namespace Affinda.API.Models
         /// <param name="keyProperty"> Attribute in the schema which uniquely identifiers the value. </param>
         /// <param name="displayProperty"> Attribute in the schema which is used to display the value. </param>
         /// <param name="organization"> The organization that this mapping data source belongs to. </param>
+        /// <param name="workspace"> The workspace that this mapping data source belongs to. </param>
         /// <param name="schema"> The schema of the mapping data source. </param>
         /// <returns> A new <see cref="Models.MappingDataSource"/> instance for mocking. </returns>
-        public static MappingDataSource MappingDataSource(string identifier = null, string name = null, string keyProperty = null, string displayProperty = null, string organization = null, object schema = null)
+        public static MappingDataSource MappingDataSource(string identifier = null, string name = null, string keyProperty = null, string displayProperty = null, string organization = null, string workspace = null, object schema = null)
         {
-            return new MappingDataSource(identifier, name, keyProperty, displayProperty, organization, schema);
+            return new MappingDataSource(identifier, name, keyProperty, displayProperty, organization, workspace, schema);
         }
 
         /// <summary> Initializes a new instance of UsageByCollection. </summary>
@@ -698,10 +699,11 @@ namespace Affinda.API.Models
         /// <param name="organization"> The organization that this mapping belongs to. </param>
         /// <param name="dataSource"> The mapping data source this mapping applies to. </param>
         /// <param name="scoreCutoff"> Higher values will result in more strict matching. </param>
+        /// <param name="orderBy"> The field to order the results by. Leave blank for ordering by relevance. </param>
         /// <returns> A new <see cref="Models.Mapping"/> instance for mocking. </returns>
-        public static Mapping Mapping(string identifier = null, string organization = null, string dataSource = null, float? scoreCutoff = null)
+        public static Mapping Mapping(string identifier = null, string organization = null, string dataSource = null, float? scoreCutoff = null, string orderBy = null)
         {
-            return new Mapping(identifier, organization, dataSource, scoreCutoff);
+            return new Mapping(identifier, organization, dataSource, scoreCutoff, orderBy);
         }
 
         /// <summary> Initializes a new instance of Paths1Dpvb2PV3MappingsGetResponses200ContentApplicationJsonSchema. </summary>

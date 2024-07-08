@@ -18,6 +18,7 @@ namespace Affinda.API.Models
             Optional<string> organization = default;
             string dataSource = default;
             Optional<float?> scoreCutoff = default;
+            Optional<string> orderBy = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("identifier"))
@@ -55,8 +56,18 @@ namespace Affinda.API.Models
                     scoreCutoff = property.Value.GetSingle();
                     continue;
                 }
+                if (property.NameEquals("orderBy"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        orderBy = null;
+                        continue;
+                    }
+                    orderBy = property.Value.GetString();
+                    continue;
+                }
             }
-            return new Mapping(identifier, organization.Value, dataSource, Optional.ToNullable(scoreCutoff));
+            return new Mapping(identifier, organization.Value, dataSource, Optional.ToNullable(scoreCutoff), orderBy.Value);
         }
     }
 }

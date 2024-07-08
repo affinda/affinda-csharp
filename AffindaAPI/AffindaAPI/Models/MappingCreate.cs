@@ -23,5 +23,7 @@ namespace Affinda.API.Models
         public float? ScoreCutoff { get; set; }
         /// <summary> The organization that this mapping belongs to. </summary>
         public string Organization { get; set; }
+        /// <summary> The field to order the results by. Leave blank for ordering by relevance. </summary>
+        public string OrderBy { get; set; }
     }
 }

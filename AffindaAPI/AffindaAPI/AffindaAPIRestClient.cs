@@ -2809,6 +2809,159 @@ namespace Affinda.API
             }
         }
 
+        internal HttpMessage CreateBatchCreateValidationResultsRequest(IEnumerable<ValidationResultCreate> body)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/validation_results/batch_create", false);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Content-Type", "application/json");
+            var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteStartArray();
+            foreach (var item in body)
+            {
+                content.JsonWriter.WriteObjectValue(item);
+            }
+            content.JsonWriter.WriteEndArray();
+            request.Content = content;
+            return message;
+        }
+
+        /// <summary> Batch create validation results. </summary>
+        /// <param name="body"> The ArrayOfValidationResultCreate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        /// <remarks> Batch create validation results. </remarks>
+        public async Task<Response<IReadOnlyList<ValidationResult>>> BatchCreateValidationResultsAsync(IEnumerable<ValidationResultCreate> body, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateBatchCreateValidationResultsRequest(body);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 201:
+                    {
+                        IReadOnlyList<ValidationResult> value = default;
+                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
+                        List<ValidationResult> array = new List<ValidationResult>();
+                        foreach (var item in document.RootElement.EnumerateArray())
+                        {
+                            array.Add(ValidationResult.DeserializeValidationResult(item));
+                        }
+                        value = array;
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Batch create validation results. </summary>
+        /// <param name="body"> The ArrayOfValidationResultCreate to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        /// <remarks> Batch create validation results. </remarks>
+        public Response<IReadOnlyList<ValidationResult>> BatchCreateValidationResults(IEnumerable<ValidationResultCreate> body, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateBatchCreateValidationResultsRequest(body);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 201:
+                    {
+                        IReadOnlyList<ValidationResult> value = default;
+                        using var document = JsonDocument.Parse(message.Response.ContentStream);
+                        List<ValidationResult> array = new List<ValidationResult>();
+                        foreach (var item in document.RootElement.EnumerateArray())
+                        {
+                            array.Add(ValidationResult.DeserializeValidationResult(item));
+                        }
+                        value = array;
+                        return Response.FromValue(value, message.Response);
+                    }
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateBatchDeleteValidationResultsRequest(BatchDeleteValidationResultsRequest body)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/validation_results/batch_delete", false);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Content-Type", "application/json");
+            var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(body);
+            request.Content = content;
+            return message;
+        }
+
+        /// <summary> Batch delete validation results. </summary>
+        /// <param name="body"> The BatchDeleteValidationResultsRequest to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        public async Task<Response> BatchDeleteValidationResultsAsync(BatchDeleteValidationResultsRequest body, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateBatchDeleteValidationResultsRequest(body);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 204:
+                    return message.Response;
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Batch delete validation results. </summary>
+        /// <param name="body"> The BatchDeleteValidationResultsRequest to use. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
+        public Response BatchDeleteValidationResults(BatchDeleteValidationResultsRequest body, CancellationToken cancellationToken = default)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            using var message = CreateBatchDeleteValidationResultsRequest(body);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 204:
+                    return message.Response;
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
         internal HttpMessage CreateGetAllExtractorsRequest(string organization, bool? includePublicExtractors, string name, bool? validatable)
         {
             var message = _pipeline.CreateMessage();
@@ -4765,7 +4918,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateListMappingDataSourcesRequest(int? offset, int? limit)
+        internal HttpMessage CreateListMappingDataSourcesRequest(int? offset, int? limit, string name, string organization, string workspace, string identifier)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -4783,6 +4936,22 @@ namespace Affinda.API
             {
                 uri.AppendQuery("limit", limit.Value, true);
             }
+            if (name != null)
+            {
+                uri.AppendQuery("name", name, true);
+            }
+            if (organization != null)
+            {
+                uri.AppendQuery("organization", organization, true);
+            }
+            if (workspace != null)
+            {
+                uri.AppendQuery("workspace", workspace, true);
+            }
+            if (identifier != null)
+            {
+                uri.AppendQuery("identifier", identifier, true);
+            }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -4791,11 +4960,15 @@ namespace Affinda.API
         /// <summary> List mapping data sources. </summary>
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
         /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="name"> Filter by name. </param>
+        /// <param name="organization"> Filter by organization. </param>
+        /// <param name="workspace"> Filter by workspace. </param>
+        /// <param name="identifier"> Filter by identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns the list of all custom mapping data sources. </remarks>
-        public async Task<Response<Paths11QdcofV3MappingDataSourcesGetResponses200ContentApplicationJsonSchema>> ListMappingDataSourcesAsync(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public async Task<Response<Paths11QdcofV3MappingDataSourcesGetResponses200ContentApplicationJsonSchema>> ListMappingDataSourcesAsync(int? offset = null, int? limit = null, string name = null, string organization = null, string workspace = null, string identifier = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateListMappingDataSourcesRequest(offset, limit);
+            using var message = CreateListMappingDataSourcesRequest(offset, limit, name, organization, workspace, identifier);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -4814,11 +4987,15 @@ namespace Affinda.API
         /// <summary> List mapping data sources. </summary>
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
         /// <param name="limit"> The numbers of results to return. </param>
+        /// <param name="name"> Filter by name. </param>
+        /// <param name="organization"> Filter by organization. </param>
+        /// <param name="workspace"> Filter by workspace. </param>
+        /// <param name="identifier"> Filter by identifier. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns the list of all custom mapping data sources. </remarks>
-        public Response<Paths11QdcofV3MappingDataSourcesGetResponses200ContentApplicationJsonSchema> ListMappingDataSources(int? offset = null, int? limit = null, CancellationToken cancellationToken = default)
+        public Response<Paths11QdcofV3MappingDataSourcesGetResponses200ContentApplicationJsonSchema> ListMappingDataSources(int? offset = null, int? limit = null, string name = null, string organization = null, string workspace = null, string identifier = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateListMappingDataSourcesRequest(offset, limit);
+            using var message = CreateListMappingDataSourcesRequest(offset, limit, name, organization, workspace, identifier);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -8614,7 +8791,7 @@ namespace Affinda.API
             }
         }
 
-        internal HttpMessage CreateGetAllIndexesRequest(int? offset, int? limit, Enum20? documentType)
+        internal HttpMessage CreateGetAllIndexesRequest(int? offset, int? limit, Enum20? documentType, string name)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -8636,6 +8813,10 @@ namespace Affinda.API
             {
                 uri.AppendQuery("document_type", documentType.Value.ToString(), true);
             }
+            if (name != null)
+            {
+                uri.AppendQuery("name", name, true);
+            }
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -8645,11 +8826,12 @@ namespace Affinda.API
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
         /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="documentType"> Filter indices by a document type. </param>
+        /// <param name="name"> Filter indices by name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public async Task<Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum20? documentType = null, CancellationToken cancellationToken = default)
+        public async Task<Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema>> GetAllIndexesAsync(int? offset = null, int? limit = null, Enum20? documentType = null, string name = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllIndexesRequest(offset, limit, documentType);
+            using var message = CreateGetAllIndexesRequest(offset, limit, documentType, name);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -8669,11 +8851,12 @@ namespace Affinda.API
         /// <param name="offset"> The number of documents to skip before starting to collect the result set. </param>
         /// <param name="limit"> The numbers of results to return. </param>
         /// <param name="documentType"> Filter indices by a document type. </param>
+        /// <param name="name"> Filter indices by name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <remarks> Returns all the indexes. </remarks>
-        public Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema> GetAllIndexes(int? offset = null, int? limit = null, Enum20? documentType = null, CancellationToken cancellationToken = default)
+        public Response<PathsDvrcp3V3IndexGetResponses200ContentApplicationJsonSchema> GetAllIndexes(int? offset = null, int? limit = null, Enum20? documentType = null, string name = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreateGetAllIndexesRequest(offset, limit, documentType);
+            using var message = CreateGetAllIndexesRequest(offset, limit, documentType, name);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -9152,6 +9335,91 @@ namespace Affinda.API
             switch (message.Response.Status)
             {
                 case 204:
+                    return message.Response;
+                default:
+                    throw ClientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
+        internal HttpMessage CreateReIndexDocumentRequest(string name, string identifier)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.AppendRaw("https://", false);
+            uri.AppendRaw(_region.Value.ToString(), true);
+            uri.AppendRaw(".affinda.com", false);
+            uri.AppendPath("/v3/index/", false);
+            uri.AppendPath(name, true);
+            uri.AppendPath("/documents/", false);
+            uri.AppendPath(identifier, true);
+            uri.AppendPath("/re_index", false);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            return message;
+        }
+
+        /// <summary> Re-index a document. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="identifier"> Document identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/> or <paramref name="identifier"/> is null. </exception>
+        /// <remarks>
+        /// Re-index a document.
+        /// This is relevant if you updated the document&apos;s data via the /annotations endpoint, and want to refresh
+        /// the document&apos;s data in the search index.
+        /// 
+        /// </remarks>
+        public async Task<Response> ReIndexDocumentAsync(string name, string identifier, CancellationToken cancellationToken = default)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            using var message = CreateReIndexDocumentRequest(name, identifier);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            switch (message.Response.Status)
+            {
+                case 200:
+                    return message.Response;
+                default:
+                    throw await ClientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Re-index a document. </summary>
+        /// <param name="name"> Index name. </param>
+        /// <param name="identifier"> Document identifier. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/> or <paramref name="identifier"/> is null. </exception>
+        /// <remarks>
+        /// Re-index a document.
+        /// This is relevant if you updated the document&apos;s data via the /annotations endpoint, and want to refresh
+        /// the document&apos;s data in the search index.
+        /// 
+        /// </remarks>
+        public Response ReIndexDocument(string name, string identifier, CancellationToken cancellationToken = default)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+            if (identifier == null)
+            {
+                throw new ArgumentNullException(nameof(identifier));
+            }
+
+            using var message = CreateReIndexDocumentRequest(name, identifier);
+            _pipeline.Send(message, cancellationToken);
+            switch (message.Response.Status)
+            {
+                case 200:
                     return message.Response;
                 default:
                     throw ClientDiagnostics.CreateRequestFailedException(message.Response);

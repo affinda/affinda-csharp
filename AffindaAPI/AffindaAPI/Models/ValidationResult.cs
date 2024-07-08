@@ -17,12 +17,12 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of ValidationResult. </summary>
         /// <param name="id"> Validation Result&apos;s ID. </param>
         /// <param name="annotations"> List of annotation ids that were validated. </param>
-        /// <param name="passed"> Whether the validation passed or not. </param>
+        /// <param name="passed"> Whether the validation passed or not, null if the validation was not applicable. </param>
         /// <param name="ruleSlug"> The hot-dog case slug of the validation rule that was applied. </param>
         /// <param name="message"> Message explaining why the validation failed. </param>
         /// <param name="document"> Unique identifier for the document. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="annotations"/>, <paramref name="ruleSlug"/>, <paramref name="message"/> or <paramref name="document"/> is null. </exception>
-        public ValidationResult(int id, IEnumerable<int> annotations, bool passed, string ruleSlug, string message, string document)
+        public ValidationResult(int id, IEnumerable<int> annotations, bool? passed, string ruleSlug, string message, string document)
         {
             if (annotations == null)
             {
@@ -52,11 +52,11 @@ namespace Affinda.API.Models
         /// <summary> Initializes a new instance of ValidationResult. </summary>
         /// <param name="id"> Validation Result&apos;s ID. </param>
         /// <param name="annotations"> List of annotation ids that were validated. </param>
-        /// <param name="passed"> Whether the validation passed or not. </param>
+        /// <param name="passed"> Whether the validation passed or not, null if the validation was not applicable. </param>
         /// <param name="ruleSlug"> The hot-dog case slug of the validation rule that was applied. </param>
         /// <param name="message"> Message explaining why the validation failed. </param>
         /// <param name="document"> Unique identifier for the document. </param>
-        internal ValidationResult(int id, IList<int> annotations, bool passed, string ruleSlug, string message, string document)
+        internal ValidationResult(int id, IList<int> annotations, bool? passed, string ruleSlug, string message, string document)
         {
             Id = id;
             Annotations = annotations;
@@ -70,8 +70,8 @@ namespace Affinda.API.Models
         public int Id { get; set; }
         /// <summary> List of annotation ids that were validated. </summary>
         public IList<int> Annotations { get; }
-        /// <summary> Whether the validation passed or not. </summary>
-        public bool Passed { get; set; }
+        /// <summary> Whether the validation passed or not, null if the validation was not applicable. </summary>
+        public bool? Passed { get; set; }
         /// <summary> The hot-dog case slug of the validation rule that was applied. </summary>
         public string RuleSlug { get; set; }
         /// <summary> Message explaining why the validation failed. </summary>

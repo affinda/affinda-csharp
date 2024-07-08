@@ -17,5 +17,7 @@ namespace Affinda.API.Models
 
         /// <summary> Higher values will result in more strict matching. </summary>
         public float? ScoreCutoff { get; set; }
+        /// <summary> The field to order the results by. Leave blank for ordering by relevance. </summary>
+        public string OrderBy { get; set; }
     }
 }

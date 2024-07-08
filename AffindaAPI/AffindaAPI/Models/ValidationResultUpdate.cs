@@ -21,7 +21,7 @@ namespace Affinda.API.Models
 
         /// <summary> List of annotation ids that were validated. </summary>
         public IList<int> Annotations { get; }
-        /// <summary> Whether the validation passed or not. </summary>
+        /// <summary> Whether the validation passed or not, null if the validation was not applicable. </summary>
         public bool? Passed { get; set; }
         /// <summary> The hot-dog case slug of the validation rule that was applied. </summary>
         public string RuleSlug { get; set; }

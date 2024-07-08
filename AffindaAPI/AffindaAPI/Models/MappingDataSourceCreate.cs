@@ -5,7 +5,6 @@
 
 #nullable disable
 
-using System;
 using System.Collections.Generic;
 using Azure.Core;
 
@@ -15,23 +14,17 @@ namespace Affinda.API.Models
     public partial class MappingDataSourceCreate
     {
         /// <summary> Initializes a new instance of MappingDataSourceCreate. </summary>
-        /// <param name="organization"> The organization that this mapping data source belongs to. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="organization"/> is null. </exception>
-        public MappingDataSourceCreate(string organization)
+        public MappingDataSourceCreate()
         {
-            if (organization == null)
-            {
-                throw new ArgumentNullException(nameof(organization));
-            }
-
-            Organization = organization;
             Values = new ChangeTrackingList<object>();
         }
 
         /// <summary> Gets or sets the name. </summary>
         public string Name { get; set; }
         /// <summary> The organization that this mapping data source belongs to. </summary>
-        public string Organization { get; }
+        public string Organization { get; set; }
+        /// <summary> The workspace that this mapping data source belongs to. </summary>
+        public string Workspace { get; set; }
         /// <summary> Attribute in the schema which uniquely identifiers the value. </summary>
         public string KeyProperty { get; set; }
         /// <summary> Attribute in the schema which is used to display the value. </summary>

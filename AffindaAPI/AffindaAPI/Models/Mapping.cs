@@ -32,12 +32,14 @@ namespace Affinda.API.Models
         /// <param name="organization"> The organization that this mapping belongs to. </param>
         /// <param name="dataSource"> The mapping data source this mapping applies to. </param>
         /// <param name="scoreCutoff"> Higher values will result in more strict matching. </param>
-        internal Mapping(string identifier, string organization, string dataSource, float? scoreCutoff)
+        /// <param name="orderBy"> The field to order the results by. Leave blank for ordering by relevance. </param>
+        internal Mapping(string identifier, string organization, string dataSource, float? scoreCutoff, string orderBy)
         {
             Identifier = identifier;
             Organization = organization;
             DataSource = dataSource;
             ScoreCutoff = scoreCutoff;
+            OrderBy = orderBy;
         }
 
         /// <summary> Uniquely identify a mapping. </summary>
@@ -48,5 +50,7 @@ namespace Affinda.API.Models
         public string DataSource { get; }
         /// <summary> Higher values will result in more strict matching. </summary>
         public float? ScoreCutoff { get; }
+        /// <summary> The field to order the results by. Leave blank for ordering by relevance. </summary>
+        public string OrderBy { get; }
     }
 }

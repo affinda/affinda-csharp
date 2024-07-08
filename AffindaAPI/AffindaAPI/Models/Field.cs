@@ -49,6 +49,7 @@ namespace Affinda.API.Models
         /// <param name="autoValidationThreshold"></param>
         /// <param name="showDropdown"></param>
         /// <param name="displayEnumValue"> If true, both the value and the label for the enums will appear in the dropdown in the validation tool. </param>
+        /// <param name="hideEnumDetail"> If true, the hoverable enum value detail icon will be hidden. </param>
         /// <param name="dropNull"> If True, any dropdown annotations that fail to parse to a value will be discarded. </param>
         /// <param name="enabledChildFields"></param>
         /// <param name="disabledChildFields"></param>
@@ -56,7 +57,7 @@ namespace Affinda.API.Models
         /// <param name="displayRawText"> If true, then the validation tool will show the user the raw text found on the page, not the value that has been parsed to a specific type. </param>
         /// <param name="fields"></param>
         /// <param name="additionalProperties"> Additional Properties. </param>
-        internal Field(string label, string dataPoint, AnnotationContentType fieldType, string dataSource, string mapping, bool? mandatory, float? autoValidationThreshold, bool? showDropdown, bool? displayEnumValue, bool? dropNull, IList<Field> enabledChildFields, IList<Field> disabledChildFields, string slug, bool? displayRawText, IList<object> fields, IDictionary<string, object> additionalProperties)
+        internal Field(string label, string dataPoint, AnnotationContentType fieldType, string dataSource, string mapping, bool? mandatory, float? autoValidationThreshold, bool? showDropdown, bool? displayEnumValue, bool? hideEnumDetail, bool? dropNull, IList<Field> enabledChildFields, IList<Field> disabledChildFields, string slug, bool? displayRawText, IList<object> fields, IDictionary<string, object> additionalProperties)
         {
             Label = label;
             DataPoint = dataPoint;
@@ -67,6 +68,7 @@ namespace Affinda.API.Models
             AutoValidationThreshold = autoValidationThreshold;
             ShowDropdown = showDropdown;
             DisplayEnumValue = displayEnumValue;
+            HideEnumDetail = hideEnumDetail;
             DropNull = dropNull;
             EnabledChildFields = enabledChildFields;
             DisabledChildFields = disabledChildFields;
@@ -94,6 +96,8 @@ namespace Affinda.API.Models
         public bool? ShowDropdown { get; set; }
         /// <summary> If true, both the value and the label for the enums will appear in the dropdown in the validation tool. </summary>
         public bool? DisplayEnumValue { get; set; }
+        /// <summary> If true, the hoverable enum value detail icon will be hidden. </summary>
+        public bool? HideEnumDetail { get; set; }
         /// <summary> If True, any dropdown annotations that fail to parse to a value will be discarded. </summary>
         public bool? DropNull { get; set; }
         /// <summary> Gets the enabled child fields. </summary>

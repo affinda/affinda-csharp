@@ -27,8 +27,30 @@ namespace Affinda.API.Models
                     writer.WriteNull("name");
                 }
             }
-            writer.WritePropertyName("organization");
-            writer.WriteStringValue(Organization);
+            if (Optional.IsDefined(Organization))
+            {
+                if (Organization != null)
+                {
+                    writer.WritePropertyName("organization");
+                    writer.WriteStringValue(Organization);
+                }
+                else
+                {
+                    writer.WriteNull("organization");
+                }
+            }
+            if (Optional.IsDefined(Workspace))
+            {
+                if (Workspace != null)
+                {
+                    writer.WritePropertyName("workspace");
+                    writer.WriteStringValue(Workspace);
+                }
+                else
+                {
+                    writer.WriteNull("workspace");
+                }
+            }
             if (Optional.IsDefined(KeyProperty))
             {
                 writer.WritePropertyName("keyProperty");
